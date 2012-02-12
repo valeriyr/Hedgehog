@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{CE984A9E-59CB-45B5-9399-12632F1D0F24}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hedgehog", "application\hedgehog\hedgehog.vcxproj", "{0B1DD816-D1B7-4A1A-AB8F-AA4E73F97F35}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B1DD816-D1B7-4A1A-AB8F-AA4E73F97F35}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0B1DD816-D1B7-4A1A-AB8F-AA4E73F97F35}.Debug|Win32.Build.0 = Debug|Win32
+		{0B1DD816-D1B7-4A1A-AB8F-AA4E73F97F35}.Release|Win32.ActiveCfg = Release|Win32
+		{0B1DD816-D1B7-4A1A-AB8F-AA4E73F97F35}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0B1DD816-D1B7-4A1A-AB8F-AA4E73F97F35} = {CE984A9E-59CB-45B5-9399-12632F1D0F24}
+	EndGlobalSection
+EndGlobal
