@@ -4,10 +4,21 @@
     <Filter Include="Main">
       <UniqueIdentifier>{97c72c22-7a19-49e5-95ba-b98b158f15d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main Gui Application">
+      <UniqueIdentifier>{b359c070-a6f6-48a7-ba13-548dda054d6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\main.cpp">
+    <ClCompile Include="sources\main\main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="sources\main_gui_application\main_gui_application.cpp">
+      <Filter>Main Gui Application</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sources\main_gui_application\main_gui_application.hpp">
+      <Filter>Main Gui Application</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

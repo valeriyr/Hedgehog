@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Internal Headers">
+      <UniqueIdentifier>{2f87ea7d-ad31-4b3b-97e4-28e66b728337}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{97f69739-2725-4b61-afa2-79c8d940c3a6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
