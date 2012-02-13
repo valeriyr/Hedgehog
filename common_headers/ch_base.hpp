@@ -1,32 +1,38 @@
-/** Main GUI Application */
+/** Base implementation for all classes witch use intrusive pointer */
 
-#ifndef __HEDGEHOG_MAIN_GUI_APPLICATION_HPP_
-#define __HEDGEHOG_MAIN_GUI_APPLICATION_HPP_
-
-#include <QtGui/QApplication>
+#ifndef __COMMON_HEADERS_BASE_HPP_
+#define __COMMON_HEADERS_BASE_HPP_
 
 /*---------------------------------------------------------------------------*/
 
-namespace Hedgehog {
+namespace Common {
 
 /*---------------------------------------------------------------------------*/
 
-class MainGuiApplication
+template< typename _Base >
+class BaseWrapper
+	:	public _Base
 {
 
 /*---------------------------------------------------------------------------*/
 
-public:
+	BaseWrapper()
+		:	m_counter( 0 )
+
+	~BaseWrapper();
 
 /*---------------------------------------------------------------------------*/
 
-	MainGuiApplication( int argc, char* argv[] );
+	virtual void addRef()
+	{
+		++m_counter;
+	}
 
-	~MainGuiApplication();
-
-/*---------------------------------------------------------------------------*/
-
-	int exec();
+	virtual void releaseRef()
+	{
+		if ( --m_counter == 0 )
+			delete this;
+	}
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,7 +40,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	QApplication m_qtApplicaiton;
+	unsigned int m_counter;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,8 +48,8 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Hedgehog
+} // namespace Common
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __HEDGEHOG_MAIN_GUI_APPLICATION_HPP_
+#endif // __COMMON_HEADERS_IBASE_HPP_

@@ -42,7 +42,7 @@
     <IntDir>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <OutDir>$(SolutionDir)$(Configuration)/bin/</OutDir>
     <ExecutablePath>$(LIBPATH)\qt\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
+    <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;../..;$(IncludePath)</IncludePath>
     <LibraryPath>$(LIBPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -50,7 +50,7 @@
     <OutDir>$(SolutionDir)$(Configuration)/bin/</OutDir>
     <IntDir>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <ExecutablePath>$(LIBPATH)\qt\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
+    <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;../..;$(IncludePath)</IncludePath>
     <LibraryPath>$(LIBPATH)\qt\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -90,6 +90,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="h\cn_iplugin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

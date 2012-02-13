@@ -8,4 +8,9 @@
       <UniqueIdentifier>{97f69739-2725-4b61-afa2-79c8d940c3a6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="h\cn_iplugin.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

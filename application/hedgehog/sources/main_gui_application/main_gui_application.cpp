@@ -1,4 +1,4 @@
-/** Main GUI Application, 2012 */
+/** Main GUI Application */
 
 #include "hedgehog/sources/main_gui_application/main_gui_application.hpp"
 
