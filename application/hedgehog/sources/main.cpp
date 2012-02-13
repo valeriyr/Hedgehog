@@ -1,8 +1,12 @@
-#include <iostream>
+#include <QtGui/QApplication>
+#include <QtGui/QPushButton>
 
 int main  ( int argc, char* argv[] )
 {
-	for ( int i = 0; i < argc; ++i )
-		std::cout << argv[ i ] << std::endl;
-	return 0;
+	QApplication app( argc, argv );
+
+	QPushButton button( "button" );
+	button.show();
+
+	return app.exec();
 }
