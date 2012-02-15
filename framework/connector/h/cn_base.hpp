@@ -1,11 +1,12 @@
 /** Base implementation for all classes witch use intrusive pointer */
 
-#ifndef __COMMON_HEADERS_BASE_HPP_
-#define __COMMON_HEADERS_BASE_HPP_
+#ifndef __CN_IBASE_HPP_
+#define __CN_IBASE_HPP_
 
 /*---------------------------------------------------------------------------*/
 
-namespace Common {
+namespace Framework {
+namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,8 +49,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Common
+} // namespace Connector
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __COMMON_HEADERS_IBASE_HPP_
+#endif // __CN_IBASE_HPP_

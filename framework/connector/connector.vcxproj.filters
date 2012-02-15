@@ -12,5 +12,11 @@
     <ClInclude Include="h\cn_iplugin.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
+    <ClInclude Include="h\cn_base.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="h\cn_ibase.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,11 +1,12 @@
 /** Base interface for all classes witch use intrusive pointer */
 
-#ifndef __COMMON_HEADERS_IBASE_HPP_
-#define __COMMON_HEADERS_IBASE_HPP_
+#ifndef __CN_IBASE_HPP_
+#define __CN_IBASE_HPP_
 
 /*---------------------------------------------------------------------------*/
 
-namespace Common {
+namespace Framework {
+namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,26 +18,25 @@ struct IBase
 	virtual void releaseRef() = 0;
 };
 
+/*---------------------------------------------------------------------------*/
+
+} // namespace Connector
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
 
-void intrusive_ptr_add_ref( IBase* _base )
+void intrusive_ptr_add_ref( Common::IBase* _base )
 { 
     _base->addRef(); 
 } 
 
 
-void intrusive_ptr_release( IBase* _base )
+void intrusive_ptr_release( Common::IBase* _base )
 { 
     _base->releaseRef(); 
 } 
 
-
 /*---------------------------------------------------------------------------*/
 
-} // namespace Common
-
-/*---------------------------------------------------------------------------*/
-
-#endif // __COMMON_HEADERS_IBASE_HPP_
+#endif // __CN_IBASE_HPP_
