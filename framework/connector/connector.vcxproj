@@ -67,6 +67,7 @@
       <OutputFile>$(TargetDir)/$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
+      <NoEntryPoint>true</NoEntryPoint>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,6 +88,7 @@
       <OutputFile>$(TargetDir)/$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
+      <NoEntryPoint>true</NoEntryPoint>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
