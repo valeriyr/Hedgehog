@@ -1,3 +1,4 @@
+
 /** Main Function */
 
 #include "hedgehog/sources/main_gui_application/main_gui_application.hpp"

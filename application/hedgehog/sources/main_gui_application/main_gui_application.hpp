@@ -1,3 +1,4 @@
+
 /** Main GUI Application */
 
 #ifndef __HEDGEHOG_MAIN_GUI_APPLICATION_HPP_
