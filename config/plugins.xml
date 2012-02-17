@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+	Format specification:
+
+	<plugin name="Plugin Name" file="File Name" id="Plugin ID ( Unique )" loadatstartup = "0 or 1" single = "0 or 1" />
+-->
+
+<Plugins>
+</Plugins>
