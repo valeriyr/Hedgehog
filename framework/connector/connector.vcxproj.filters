@@ -7,6 +7,9 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{7f01cd76-1da9-4e4a-b55b-7989a64a0e94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{4921d050-33b6-414f-a3bf-c273a0086e2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\cn_base.hpp">
@@ -21,5 +24,13 @@
     <ClInclude Include="ih\cn_iplugin.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="sources\plugin\cn_plugin_instance.hpp">
+      <Filter>Plugin</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\plugin\cn_plugin_instance.cpp">
+      <Filter>Plugin</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

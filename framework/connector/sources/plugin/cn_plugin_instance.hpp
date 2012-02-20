@@ -1,8 +1,12 @@
 
-/** Base implementation for all classes witch use intrusive pointer */
+/** Connector plugin instance */
 
-#ifndef __CN_BASE_WRAPPER_HPP_
-#define __CN_BASE_WRAPPER_HPP_
+#ifndef __CN_PLUGIN_INSTANCE_HPP__
+#define __CN_PLUGIN_INSTANCE_HPP__
+
+/*---------------------------------------------------------------------------*/
+
+#include "connector/ih/cn_iplugin.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -11,9 +15,8 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-template< typename _Base >
-class BaseWrapper
-	:	public _Base
+class PluginInstance
+	:	public PluginWrapper
 {
 
 /*---------------------------------------------------------------------------*/
@@ -22,32 +25,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	BaseWrapper()
-		:	m_counter( 0 )
-	{}
+	PluginInstance();
 
-	virtual ~BaseWrapper() {}
+	virtual ~PluginInstance();
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void addRef()
-	{
-		++m_counter;
-	}
+	/*virtual*/ void initialize( IBase* _connector );
 
-	virtual void releaseRef()
-	{
-		if ( --m_counter == 0 )
-			delete this;
-	}
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	unsigned int m_counter;
+	/*virtual*/ void close();
 
 /*---------------------------------------------------------------------------*/
 
@@ -60,4 +46,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_BASE_WRAPPER_HPP_
+#endif // __CN_PLUGIN_INSTANCE_HPP__

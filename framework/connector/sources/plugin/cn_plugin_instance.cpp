@@ -1,14 +1,5 @@
 
-/** Common plugin interface */
-
-#ifndef __CN_IPLUGIN_HPP__
-#define __CN_IPLUGIN_HPP__
-
-/*---------------------------------------------------------------------------*/
-
-#include "connector/ih/cn_ibase.hpp"
-
-#include "connector/h/cn_base.hpp"
+#include "connector/sources/plugin/cn_plugin_instance.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,17 +8,37 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPlugin
-	:	public IBase
-{
-	virtual void initialize( IBase* _connector ) = 0;
 
-	virtual void close() = 0;
-};
+PluginInstance::PluginInstance()
+{
+} // PluginInstance::PluginInstance
+
 
 /*---------------------------------------------------------------------------*/
 
-typedef BaseWrapper< IPlugin > PluginWrapper;
+
+PluginInstance::~PluginInstance()
+{
+} // PluginInstance::~PluginInstance
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::initialize( IBase* _connector )
+{
+} // PluginInstance::initialize
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::close()
+{
+} // PluginInstance::close
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,5 +46,3 @@ typedef BaseWrapper< IPlugin > PluginWrapper;
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __CN_IPLUGIN_HPP__

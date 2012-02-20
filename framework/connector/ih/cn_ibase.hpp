@@ -27,13 +27,13 @@ struct IBase
 /*---------------------------------------------------------------------------*/
 
 
-void intrusive_ptr_add_ref( Common::IBase* _base )
+void intrusive_ptr_add_ref( Framework::Connector::IBase* _base )
 { 
     _base->addRef(); 
 } 
 
 
-void intrusive_ptr_release( Common::IBase* _base )
+void intrusive_ptr_release( Framework::Connector::IBase* _base )
 { 
     _base->releaseRef(); 
 } 
