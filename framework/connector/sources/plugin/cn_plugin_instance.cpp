@@ -1,4 +1,8 @@
 
+/** Connector plugin instance implementation */
+
+#include "connector/sources/ph/cn_ph.hpp"
+
 #include "connector/sources/plugin/cn_plugin_instance.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -28,6 +32,8 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize( IBase* _connector )
 {
+	std::cout << "> Connector loaded" << std::cout;
+
 } // PluginInstance::initialize
 
 
@@ -37,6 +43,8 @@ PluginInstance::initialize( IBase* _connector )
 void
 PluginInstance::close()
 {
+	std::cout << "> Connector closed" << std::cout;
+
 } // PluginInstance::close
 
 

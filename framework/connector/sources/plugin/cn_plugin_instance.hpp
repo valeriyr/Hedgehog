@@ -1,5 +1,5 @@
 
-/** Connector plugin instance */
+/** Connector plugin instance declaration */
 
 #ifndef __CN_PLUGIN_INSTANCE_HPP__
 #define __CN_PLUGIN_INSTANCE_HPP__

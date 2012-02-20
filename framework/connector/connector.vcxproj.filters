@@ -10,6 +10,9 @@
     <Filter Include="Plugin">
       <UniqueIdentifier>{4921d050-33b6-414f-a3bf-c273a0086e2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{c6c97039-e3b3-4689-b11f-ffdf1a7e7e7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\cn_base.hpp">
@@ -27,10 +30,16 @@
     <ClInclude Include="sources\plugin\cn_plugin_instance.hpp">
       <Filter>Plugin</Filter>
     </ClInclude>
+    <ClInclude Include="sources\ph\cn_ph.hpp">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\plugin\cn_plugin_instance.cpp">
       <Filter>Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ph\cn_ph.cpp">
+      <Filter>Precompiled Header</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
