@@ -6,10 +6,10 @@
 
 /*----------------------------------------------------------------------------*/
 
-#ifndef WINDOWS_PLATFORM
+#ifndef _WINDOWS
 	#define PM_EXPORT
 
-#elif defined( CN_EXPORT )
+#elif defined( CONNECTOR_EXPORTS )
 	#define PM_EXPORT __declspec( dllexport )
 #else
 	#define PM_EXPORT __declspec( dllimport )
