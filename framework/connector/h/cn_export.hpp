@@ -7,12 +7,12 @@
 /*----------------------------------------------------------------------------*/
 
 #ifndef _WINDOWS
-	#define PM_EXPORT
+	#define CONNECTOR_EXPORT
 
 #elif defined( CONNECTOR_EXPORTS )
-	#define PM_EXPORT __declspec( dllexport )
+	#define CONNECTOR_EXPORT __declspec( dllexport )
 #else
-	#define PM_EXPORT __declspec( dllimport )
+	#define CONNECTOR_EXPORT __declspec( dllimport )
 #endif
 
 

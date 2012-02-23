@@ -1,7 +1,12 @@
 
 /** Main GUI Application */
 
+#include "hedgehog/sources/ph/hh_ph.hpp"
+
 #include "hedgehog/sources/main_gui_application/main_gui_application.hpp"
+
+#include "connector/h/cn_initializer_factory.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -30,6 +35,8 @@ MainGuiApplication::~MainGuiApplication()
 int
 MainGuiApplication::exec()
 {
+	Framework::Connector::createInitializer()->initialize();
+
 	return m_qtApplicaiton.exec();
 
 } // MainGuiApplication::exec

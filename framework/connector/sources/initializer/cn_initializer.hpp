@@ -1,16 +1,19 @@
 
-/** Main GUI Application */
+/** Connector initializer declaration part */
 
-#ifndef __HEDGEHOG_MAIN_GUI_APPLICATION_HPP_
-#define __HEDGEHOG_MAIN_GUI_APPLICATION_HPP_
+#include "connector/ih/cn_iinitializer.hpp"
 
-/*---------------------------------------------------------------------------*/
-
-namespace Hedgehog {
+#include "connector/h/cn_base.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-class MainGuiApplication
+namespace Framework {
+namespace Connector {
+
+/*---------------------------------------------------------------------------*/
+
+class Initializer
+	:	public BaseWrapper< IInitializer >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -19,21 +22,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	MainGuiApplication( int argc, char* argv[] );
+	Initializer();
 
-	~MainGuiApplication();
-
-/*---------------------------------------------------------------------------*/
-
-	int exec();
+	virtual ~Initializer();
 
 /*---------------------------------------------------------------------------*/
 
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	QApplication m_qtApplicaiton;
+	/*virtual*/ void initialize();
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,8 +36,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Hedgehog
+} // namespace Connector
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __HEDGEHOG_MAIN_GUI_APPLICATION_HPP_

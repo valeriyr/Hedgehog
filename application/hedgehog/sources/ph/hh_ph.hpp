@@ -1,6 +1,6 @@
 
 /** Precompiled header */
 
-#include <iostream>
+#include <QtGui/QApplication>
 
 #include <boost/intrusive_ptr.hpp>
