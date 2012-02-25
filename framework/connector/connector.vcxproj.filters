@@ -45,6 +45,9 @@
     <ClInclude Include="sources\initializer\cn_initializer.hpp">
       <Filter>Connector Initializer</Filter>
     </ClInclude>
+    <ClInclude Include="h\cn_plugin_factory.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\plugin\cn_plugin_instance.cpp">

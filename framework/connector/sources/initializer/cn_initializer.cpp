@@ -7,6 +7,8 @@
 
 #include "connector/h/cn_initializer_factory.hpp"
 
+#include "connector/sources/plugin/cn_plugin_instance.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,6 +19,7 @@ namespace Connector {
 
 
 Initializer::Initializer()
+	:	m_connector( createPlugin() )
 {
 } // Initializer::Initializer
 
@@ -35,6 +38,8 @@ Initializer::~Initializer()
 void
 Initializer::initialize()
 {
+	m_connector->initialize( NULL );
+
 } // Initializer::initialize
 
 

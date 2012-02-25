@@ -35,7 +35,10 @@ MainGuiApplication::~MainGuiApplication()
 int
 MainGuiApplication::exec()
 {
-	Framework::Connector::createInitializer()->initialize();
+	boost::intrusive_ptr< Framework::Connector::IInitializer > initializer
+		= Framework::Connector::createInitializer();
+
+	initializer->initialize();
 
 	return m_qtApplicaiton.exec();
 
