@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{5a56f301-7b6e-4df6-93cc-66768d2ea929}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\ph\wm_ph.cpp">
+      <Filter>Precompiled Header</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sources\ph\wm_ph.hpp">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

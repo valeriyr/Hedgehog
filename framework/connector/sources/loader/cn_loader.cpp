@@ -8,6 +8,7 @@
 #include "connector/h/cn_plugin_factory.hpp"
 
 #include "connector/sources/plugin/cn_plugin_instance.hpp"
+#include "connector/sources/resources/cn_internal_resources.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -42,7 +43,10 @@ Loader::load()
 		return;
 
 	PluginFactoryPtr connectorFactory
-		= ( PluginFactoryPtr ) QLibrary::resolve( "connector", PluginFactoryName );
+		= ( PluginFactoryPtr ) QLibrary::resolve(
+				Resources::Internal::ConnectorLibraryName
+			,	PluginFactoryName
+			);
 	assert( connectorFactory );
 
 	m_connector.reset( connectorFactory() );

@@ -16,6 +16,9 @@
     <Filter Include="Connector Loader">
       <UniqueIdentifier>{be14b347-f02b-483f-8d07-8baeb5cd1300}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Internal Resources">
+      <UniqueIdentifier>{d1f7e787-a551-4d8d-ac89-2f640fab46c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\cn_base.hpp">
@@ -45,6 +48,9 @@
     <ClInclude Include="sources\loader\cn_loader.hpp">
       <Filter>Connector Loader</Filter>
     </ClInclude>
+    <ClInclude Include="sources\resources\cn_internal_resources.hpp">
+      <Filter>Internal Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\plugin\cn_plugin_instance.cpp">
@@ -55,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="sources\loader\cn_loader.cpp">
       <Filter>Connector Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\resources\cn_internal_resources.cpp">
+      <Filter>Internal Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

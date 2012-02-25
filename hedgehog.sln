@@ -21,6 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{ED1821C3
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xml_library", "tools\xml_library\xml_library.vcxproj", "{EB038621-670A-403C-BC68-18746DECFD48}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "window_manager", "framework\window_manager\window_manager.vcxproj", "{6300074B-CAD4-4554-A8E9-129D99CDD6A0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3905CE91-9CF1-43D6-B833-FD2DE1D94F9E} = {3905CE91-9CF1-43D6-B833-FD2DE1D94F9E}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -39,6 +44,10 @@ Global
 		{EB038621-670A-403C-BC68-18746DECFD48}.Debug|Win32.Build.0 = Debug|Win32
 		{EB038621-670A-403C-BC68-18746DECFD48}.Release|Win32.ActiveCfg = Release|Win32
 		{EB038621-670A-403C-BC68-18746DECFD48}.Release|Win32.Build.0 = Release|Win32
+		{6300074B-CAD4-4554-A8E9-129D99CDD6A0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6300074B-CAD4-4554-A8E9-129D99CDD6A0}.Debug|Win32.Build.0 = Debug|Win32
+		{6300074B-CAD4-4554-A8E9-129D99CDD6A0}.Release|Win32.ActiveCfg = Release|Win32
+		{6300074B-CAD4-4554-A8E9-129D99CDD6A0}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +55,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0B1DD816-D1B7-4A1A-AB8F-AA4E73F97F35} = {CE984A9E-59CB-45B5-9399-12632F1D0F24}
 		{3905CE91-9CF1-43D6-B833-FD2DE1D94F9E} = {3A027929-9257-49A3-8119-6610A9D73D95}
+		{6300074B-CAD4-4554-A8E9-129D99CDD6A0} = {3A027929-9257-49A3-8119-6610A9D73D95}
 		{EB038621-670A-403C-BC68-18746DECFD48} = {ED1821C3-9A46-4154-A90B-C69BD748EA8E}
 	EndGlobalSection
 EndGlobal

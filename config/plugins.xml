@@ -7,4 +7,10 @@
 -->
 
 <Plugins>
+
+	<!-- Framework -->
+	<plugin name="window_manager" file="window_manager" id="00001" loadatstartup = "1" single = "1" />
+
+	<!-- Plugins -->
+
 </Plugins>

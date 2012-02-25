@@ -10,31 +10,10 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="h\cn_base.hpp" />
-    <ClInclude Include="h\cn_export.hpp" />
-    <ClInclude Include="h\cn_plugin_factory.hpp" />
-    <ClInclude Include="ih\cn_ibase.hpp" />
-    <ClInclude Include="ih\cn_iloader.hpp" />
-    <ClInclude Include="ih\cn_iplugin.hpp" />
-    <ClInclude Include="sources\loader\cn_loader.hpp" />
-    <ClInclude Include="sources\ph\cn_ph.hpp" />
-    <ClInclude Include="sources\plugin\cn_plugin_instance.hpp" />
-    <ClInclude Include="sources\resources\cn_internal_resources.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="sources\loader\cn_loader.cpp" />
-    <ClCompile Include="sources\ph\cn_ph.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="sources\plugin\cn_plugin_instance.cpp" />
-    <ClCompile Include="sources\resources\cn_internal_resources.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3905CE91-9CF1-43D6-B833-FD2DE1D94F9E}</ProjectGuid>
+    <ProjectGuid>{6300074B-CAD4-4554-A8E9-129D99CDD6A0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>connector</RootNamespace>
+    <RootNamespace>window_manager</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -60,11 +39,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <OutDir>$(SolutionDir)$(Configuration)/bin/</OutDir>
+    <IntDir>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <ExecutablePath>$(LIBPATH)\qt\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(LIBPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LIBPATH)\qt\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -79,8 +58,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CONNECTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>connector/sources/ph/cn_ph.hpp</PrecompiledHeaderFile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;WINDOW_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
     </ClCompile>
@@ -90,9 +69,7 @@
       <OutputFile>$(TargetDir)/$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
-      <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>QtCored4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -102,8 +79,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;CONNECTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>connector/sources/ph/cn_ph.hpp</PrecompiledHeaderFile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;WINDOW_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
     </ClCompile>
@@ -115,11 +92,20 @@
       <OutputFile>$(TargetDir)/$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
-      <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\ph\wm_ph.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sources\ph\wm_ph.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
