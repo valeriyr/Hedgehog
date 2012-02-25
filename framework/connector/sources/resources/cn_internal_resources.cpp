@@ -15,7 +15,7 @@ namespace Internal {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ConnectorLibraryName = "connector";
+	const char* const LibraryName = "connector";
 
 /*---------------------------------------------------------------------------*/
 

@@ -44,7 +44,7 @@ Loader::load()
 
 	PluginFactoryPtr connectorFactory
 		= ( PluginFactoryPtr ) QLibrary::resolve(
-				Resources::Internal::ConnectorLibraryName
+				Resources::Internal::LibraryName
 			,	PluginFactoryName
 			);
 	assert( connectorFactory );

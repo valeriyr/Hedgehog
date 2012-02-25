@@ -13,7 +13,7 @@ namespace Internal {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const ConnectorLibraryName;
+	extern const char* const LibraryName;
 
 /*---------------------------------------------------------------------------*/
 
