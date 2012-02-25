@@ -1,11 +1,12 @@
 
-/** Conector initializer interface */
+/** Conector loader interface */
 
-#ifndef __CN_INITIALIZER_HPP_
-#define __CN_INITIALIZER_HPP_
+#ifndef __CN_ILOADER_HPP_
+#define __CN_ILOADER_HPP_
 
 /*---------------------------------------------------------------------------*/
 
+#include "connector/h/cn_export.hpp"
 #include "connector/ih/cn_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -16,12 +17,20 @@ namespace Connector {
 /*---------------------------------------------------------------------------*/
 
 
-struct IInitializer
+struct ILoader
 	:	public IBase
 {
-	virtual void initialize() = 0;
+	virtual void load() = 0;
+
+	virtual void unload() = 0;
 };
 
+
+/*---------------------------------------------------------------------------*/
+
+CONNECTOR_EXPORT
+		boost::intrusive_ptr< ILoader >
+		createLoader();
 
 /*---------------------------------------------------------------------------*/
 
@@ -30,4 +39,4 @@ struct IInitializer
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_INITIALIZER_HPP_
+#endif // __CN_IAUTO_LOADER_HPP_

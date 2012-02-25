@@ -13,17 +13,16 @@
   <ItemGroup>
     <ClInclude Include="h\cn_base.hpp" />
     <ClInclude Include="h\cn_export.hpp" />
-    <ClInclude Include="h\cn_initializer_factory.hpp" />
     <ClInclude Include="h\cn_plugin_factory.hpp" />
     <ClInclude Include="ih\cn_ibase.hpp" />
-    <ClInclude Include="ih\cn_iinitializer.hpp" />
+    <ClInclude Include="ih\cn_iloader.hpp" />
     <ClInclude Include="ih\cn_iplugin.hpp" />
-    <ClInclude Include="sources\initializer\cn_initializer.hpp" />
+    <ClInclude Include="sources\loader\cn_loader.hpp" />
     <ClInclude Include="sources\ph\cn_ph.hpp" />
     <ClInclude Include="sources\plugin\cn_plugin_instance.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\initializer\cn_initializer.cpp" />
+    <ClCompile Include="sources\loader\cn_loader.cpp" />
     <ClCompile Include="sources\ph\cn_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -91,6 +90,7 @@
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
+      <AdditionalDependencies>QtCored4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -115,6 +115,7 @@
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
+      <AdditionalDependencies>QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

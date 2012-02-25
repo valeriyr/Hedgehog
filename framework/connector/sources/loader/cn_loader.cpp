@@ -1,11 +1,11 @@
 
-/** Connector initializer implementation part */
+/** Connector loader implementation part */
 
 #include "connector/sources/ph/cn_ph.hpp"
 
-#include "connector/sources/initializer/cn_initializer.hpp"
+#include "connector/sources/loader/cn_loader.hpp"
 
-#include "connector/h/cn_initializer_factory.hpp"
+#include "connector/h/cn_plugin_factory.hpp"
 
 #include "connector/sources/plugin/cn_plugin_instance.hpp"
 
@@ -18,41 +18,63 @@ namespace Connector {
 /*---------------------------------------------------------------------------*/
 
 
-Initializer::Initializer()
-	:	m_connector( createPlugin() )
+Loader::Loader()
+	:	m_connector()
 {
-} // Initializer::Initializer
+} // Loader::Loader
 
 
 /*---------------------------------------------------------------------------*/
 
 
-Initializer::~Initializer()
+Loader::~Loader()
 {
-} // Initializer::~Initializer
+} // Loader::~Loader
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Initializer::initialize()
+Loader::load()
 {
+	if ( m_connector )
+		return;
+
+	PluginFactoryPtr connectorFactory
+		= ( PluginFactoryPtr ) QLibrary::resolve( "connector", PluginFactoryName );
+	assert( connectorFactory );
+
+	m_connector.reset( connectorFactory() );
+	assert( m_connector );
+
 	m_connector->initialize( NULL );
 
-} // Initializer::initialize
+} // Loader::load
 
 
 /*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IInitializer >
-createInitializer()
+void
+Loader::unload()
 {
-	return boost::intrusive_ptr< IInitializer >( new Initializer() );
+	m_connector->close();
+	m_connector.reset();
 
-} // createInitializer
+} // Loader::unload
+
+
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ILoader >
+createLoader()
+{
+	return boost::intrusive_ptr< ILoader >( new Loader() );
+
+} // createLoader
 
 
 /*---------------------------------------------------------------------------*/

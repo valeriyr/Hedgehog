@@ -5,6 +5,9 @@
 
 #include "connector/sources/plugin/cn_plugin_instance.hpp"
 
+#include "connector/h/cn_plugin_factory.hpp"
+
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -15,6 +18,8 @@ namespace Connector {
 
 PluginInstance::PluginInstance()
 {
+	std::cout << "> Connector plugin instance created" << std::endl;
+
 } // PluginInstance::PluginInstance
 
 
@@ -23,6 +28,8 @@ PluginInstance::PluginInstance()
 
 PluginInstance::~PluginInstance()
 {
+	std::cout << "> Connector plugin instance deleted" << std::endl;
+
 } // PluginInstance::~PluginInstance
 
 
@@ -32,7 +39,7 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize( IBase* _connector )
 {
-	std::cout << "> Connector loaded" << std::cout;
+	std::cout << "> Connector loaded" << std::endl;
 
 } // PluginInstance::initialize
 
@@ -43,7 +50,7 @@ PluginInstance::initialize( IBase* _connector )
 void
 PluginInstance::close()
 {
-	std::cout << "> Connector closed" << std::cout;
+	std::cout << "> Connector closed" << std::endl;
 
 } // PluginInstance::close
 
@@ -51,7 +58,7 @@ PluginInstance::close()
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
-PLUGIN_FACTORY_DEFINITION()
+PLUGIN_FACTORY_DECLARATION( PluginInstance )
 
 /*---------------------------------------------------------------------------*/
 

@@ -1,8 +1,7 @@
 
-/** Connector initializer declaration part */
+/** Connector loader declaration part */
 
-#include "connector/ih/cn_iinitializer.hpp"
-
+#include "connector/ih/cn_iloader.hpp"
 #include "connector/h/cn_base.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -16,8 +15,8 @@ struct IPlugin;
 
 /*---------------------------------------------------------------------------*/
 
-class Initializer
-	:	public BaseWrapper< IInitializer >
+class Loader
+	:	public BaseWrapper< ILoader >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -26,13 +25,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Initializer();
+	Loader();
 
-	virtual ~Initializer();
+	virtual ~Loader();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize();
+	/*virtual*/ void load();
+
+	/*virtual*/ void unload();
 
 /*---------------------------------------------------------------------------*/
 

@@ -13,7 +13,7 @@
     <Filter Include="Precompiled Header">
       <UniqueIdentifier>{c6c97039-e3b3-4689-b11f-ffdf1a7e7e7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Connector Initializer">
+    <Filter Include="Connector Loader">
       <UniqueIdentifier>{be14b347-f02b-483f-8d07-8baeb5cd1300}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -36,17 +36,14 @@
     <ClInclude Include="sources\ph\cn_ph.hpp">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
-    <ClInclude Include="ih\cn_iinitializer.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="h\cn_initializer_factory.hpp">
-      <Filter>External Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\initializer\cn_initializer.hpp">
-      <Filter>Connector Initializer</Filter>
-    </ClInclude>
     <ClInclude Include="h\cn_plugin_factory.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\cn_iloader.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\loader\cn_loader.hpp">
+      <Filter>Connector Loader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,8 +53,8 @@
     <ClCompile Include="sources\ph\cn_ph.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
-    <ClCompile Include="sources\initializer\cn_initializer.cpp">
-      <Filter>Connector Initializer</Filter>
+    <ClCompile Include="sources\loader\cn_loader.cpp">
+      <Filter>Connector Loader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

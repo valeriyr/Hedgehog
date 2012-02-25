@@ -15,26 +15,24 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
+typedef
+	Framework::Connector::IPlugin*
+	(*PluginFactoryPtr) ();
 
-const char* const PluginFactoryName = "createPlugin";
+/*---------------------------------------------------------------------------*/
 
+const char* const PluginFactoryName = "getPlugin";
 
-#define PLUGIN_FACTORY_DECLARATION()								\
-																	\
-__declspec( dllexport )												\
-boost::intrusive_ptr< Framework::Connector::IPlugin >				\
-createPlugin();														\
+/*---------------------------------------------------------------------------*/
 
-#define PLUGIN_FACTORY_DEFINITION()									\
-																	\
-boost::intrusive_ptr< Framework::Connector::IPlugin >				\
-createPlugin()														\
-{																	\
-	return															\
-		boost::intrusive_ptr< Framework::Connector::IPlugin >(		\
-			new PluginInstance()									\
-			);														\
-}																	\
+#define PLUGIN_FACTORY_DECLARATION( PLUGIN_INSTANCE )						\
+																			\
+extern "C" __declspec( dllexport )											\
+Framework::Connector::IPlugin*												\
+getPlugin()																	\
+{																			\
+	return new PLUGIN_INSTANCE();											\
+}																			\
 
 /*---------------------------------------------------------------------------*/
 

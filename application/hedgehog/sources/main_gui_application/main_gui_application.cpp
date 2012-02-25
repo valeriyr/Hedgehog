@@ -5,7 +5,7 @@
 
 #include "hedgehog/sources/main_gui_application/main_gui_application.hpp"
 
-#include "connector/h/cn_initializer_factory.hpp"
+#include "connector/ih/cn_iloader.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -35,12 +35,16 @@ MainGuiApplication::~MainGuiApplication()
 int
 MainGuiApplication::exec()
 {
-	boost::intrusive_ptr< Framework::Connector::IInitializer > initializer
-		= Framework::Connector::createInitializer();
+	boost::intrusive_ptr< Framework::Connector::ILoader >
+		connectorLoader = Framework::Connector::createLoader();
 
-	initializer->initialize();
+	connectorLoader->load();
 
-	return m_qtApplicaiton.exec();
+	int result = m_qtApplicaiton.exec();
+
+	connectorLoader->unload();
+
+	return result;
 
 } // MainGuiApplication::exec
 
