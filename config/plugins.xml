@@ -9,8 +9,9 @@
 <Plugins>
 
 	<!-- Framework -->
-	<plugin name="window_manager" file="window_manager" id="00001" loadatstartup = "1" single = "1" />
+	<plugin name="window_manager"	file="window_manager"	id="00001" loadatstartup = "1" single = "1" />
 
 	<!-- Plugins -->
+	<plugin name="console"			file="console"			id="00100" loadatstartup = "1" single = "1" />
 
 </Plugins>
