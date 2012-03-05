@@ -7,7 +7,7 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{602acd78-1ba8-4530-a280-2e0c69affb66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Elements">
+    <Filter Include="Xml Elements">
       <UniqueIdentifier>{72890654-107d-4a2f-90ee-c0f06b0e1a6e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -21,16 +21,28 @@
     <ClInclude Include="sources\ph\xl_ph.hpp">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
+    <ClInclude Include="sources\elements\xl_attribute.hpp">
+      <Filter>Xml Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\elements\xl_element_base.hpp">
+      <Filter>Xml Elements</Filter>
+    </ClInclude>
     <ClInclude Include="sources\elements\xl_tag.hpp">
-      <Filter>Elements</Filter>
+      <Filter>Xml Elements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
+    <ClCompile Include="sources\elements\xl_attribute.cpp">
+      <Filter>Xml Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\elements\xl_element_base.cpp">
+      <Filter>Xml Elements</Filter>
+    </ClCompile>
     <ClCompile Include="sources\elements\xl_tag.cpp">
-      <Filter>Elements</Filter>
+      <Filter>Xml Elements</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

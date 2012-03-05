@@ -1,10 +1,8 @@
 
-/** XML tag declaration */
+/** XML element base implementation */
 
-#ifndef __XL_TAG_HPP__
-#define __XL_TAG_HPP__
-
-#include "xml_library/sources/elements/xl_element_base.hpp"
+#ifndef __XL_ELEMENT_BASE_HPP__
+#define __XL_ELEMENT_BASE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,8 +11,7 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-class Tag
-	:	public BaseElement
+class BaseElement
 {
 
 /*---------------------------------------------------------------------------*/
@@ -23,7 +20,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Tag( const QString& _tagName );
+	BaseElement( const QString& _attributeName );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const QString m_attributeName;
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,4 +41,4 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_TAG_HPP__
+#endif // __XL_ELEMENT_BASE_HPP__

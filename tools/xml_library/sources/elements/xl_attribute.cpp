@@ -1,8 +1,10 @@
 
-/** XML rule interface */
+/** XML attribute implementation */
 
-#ifndef __XL_IRULE_HPP__
-#define __XL_IRULE_HPP__
+#include "xml_library/sources/ph/xl_ph.hpp"
+
+#include "xml_library/sources/elements/xl_attribute.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -11,9 +13,12 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-struct IRule
+
+Attribute::Attribute( const QString& _attributeName )
+	:	BaseElement( _attributeName )
 {
-};
+} // Attribute::Attribute
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -21,5 +26,3 @@ struct IRule
 } // namespace Tools
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __XL_IRULE_HPP__

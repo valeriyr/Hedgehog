@@ -1,8 +1,8 @@
 
-/** XML tag declaration */
+/** XML attribute declaration */
 
-#ifndef __XL_TAG_HPP__
-#define __XL_TAG_HPP__
+#ifndef __XL_ATTRIBUTE_HPP__
+#define __XL_ATTRIBUTE_HPP__
 
 #include "xml_library/sources/elements/xl_element_base.hpp"
 
@@ -13,7 +13,7 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-class Tag
+class Attribute
 	:	public BaseElement
 {
 
@@ -23,7 +23,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Tag( const QString& _tagName );
+	Attribute( const QString& _attributeName );
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,4 +36,4 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_TAG_HPP__
+#endif // __XL_ATTRIBUTE_HPP__
