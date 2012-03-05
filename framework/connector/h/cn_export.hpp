@@ -1,8 +1,8 @@
 
 /** Connector export macroses */
 
-#ifndef __CN_EXPORT_HPP_
-#define __CN_EXPORT_HPP_
+#ifndef __CN_EXPORT_HPP__
+#define __CN_EXPORT_HPP__
 
 /*----------------------------------------------------------------------------*/
 
@@ -18,4 +18,4 @@
 
 /*----------------------------------------------------------------------------*/
 
-#endif // __CN_EXPORT_HPP_
+#endif // __CN_EXPORT_HPP__

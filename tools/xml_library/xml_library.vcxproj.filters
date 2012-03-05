@@ -1,2 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" />
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{facf7c09-f4dc-443b-9db1-02f31ac5cfcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{602acd78-1ba8-4530-a280-2e0c69affb66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Elements">
+      <UniqueIdentifier>{72890654-107d-4a2f-90ee-c0f06b0e1a6e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ih\xl_ielement.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\xl_irule.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ph\xl_ph.hpp">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\elements\xl_tag.hpp">
+      <Filter>Elements</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\ph\xl_ph.cpp">
+      <Filter>Precompiled Header</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\elements\xl_tag.cpp">
+      <Filter>Elements</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

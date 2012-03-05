@@ -1,8 +1,8 @@
 
 /** Base implementation for all classes witch use intrusive pointer */
 
-#ifndef __CN_BASE_WRAPPER_HPP_
-#define __CN_BASE_WRAPPER_HPP_
+#ifndef __CN_BASE_WRAPPER_HPP__
+#define __CN_BASE_WRAPPER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -60,4 +60,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_BASE_WRAPPER_HPP_
+#endif // __CN_BASE_WRAPPER_HPP__

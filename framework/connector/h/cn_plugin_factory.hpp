@@ -1,8 +1,8 @@
 
 /** Plugin factory macroses */
 
-#ifndef __CN_PLUGIN_FACTORY_HPP_
-#define __CN_PLUGIN_FACTORY_HPP_
+#ifndef __CN_PLUGIN_FACTORY_HPP__
+#define __CN_PLUGIN_FACTORY_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,4 +41,4 @@ getPlugin()																	\
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_PLUGIN_FACTORY_HPP_
+#endif // __CN_PLUGIN_FACTORY_HPP__

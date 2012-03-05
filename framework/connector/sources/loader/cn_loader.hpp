@@ -1,6 +1,11 @@
 
 /** Connector loader declaration part */
 
+#ifndef __CN_LOADER_HPP__
+#define __CN_LOADER_HPP__
+
+/*---------------------------------------------------------------------------*/
+
 #include "connector/ih/cn_iloader.hpp"
 #include "connector/h/cn_base.hpp"
 
@@ -53,3 +58,5 @@ private:
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
+
+#endif // __CN_LOADER_HPP__

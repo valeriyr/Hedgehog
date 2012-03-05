@@ -1,8 +1,8 @@
 
 /** Conector loader interface */
 
-#ifndef __CN_ILOADER_HPP_
-#define __CN_ILOADER_HPP_
+#ifndef __CN_ILOADER_HPP__
+#define __CN_ILOADER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,4 +39,4 @@ CONNECTOR_EXPORT
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_IAUTO_LOADER_HPP_
+#endif // __CN_ILOADER_HPP__

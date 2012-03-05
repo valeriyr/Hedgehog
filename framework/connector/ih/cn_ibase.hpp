@@ -1,8 +1,8 @@
 
 /** Base interface for all classes witch use intrusive pointer */
 
-#ifndef __CN_IBASE_HPP_
-#define __CN_IBASE_HPP_
+#ifndef __CN_IBASE_HPP__
+#define __CN_IBASE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,4 +42,4 @@ void intrusive_ptr_release( Framework::Connector::IBase* _base )
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_IBASE_HPP_
+#endif // __CN_IBASE_HPP__
