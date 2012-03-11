@@ -1,8 +1,8 @@
 
-/** XML element interface */
+/** XML attribute interface */
 
-#ifndef __XL_IELEMENT_HPP__
-#define __XL_IELEMENT_HPP__
+#ifndef __XL_IATTRIBUTE_HPP__
+#define __XL_IATTRIBUTE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -11,9 +11,13 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-struct IElement
+struct IAttribute
 {
 };
+
+/*---------------------------------------------------------------------------*/
+
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -22,4 +26,4 @@ struct IElement
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_IELEMENT_HPP__
+#endif // __XL_IATTRIBUTE_HPP__
