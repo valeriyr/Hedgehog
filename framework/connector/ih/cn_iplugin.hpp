@@ -23,6 +23,8 @@ struct IPlugin
 	virtual void initialize( IBase* _connector ) = 0;
 
 	virtual void close() = 0;
+
+	virtual IBase* getInterface( const unsigned int _interfaceId ) = 0;
 };
 
 /*---------------------------------------------------------------------------*/

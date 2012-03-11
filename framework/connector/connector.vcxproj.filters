@@ -51,6 +51,9 @@
     <ClInclude Include="sources\resources\cn_internal_resources.hpp">
       <Filter>Internal Resources</Filter>
     </ClInclude>
+    <ClInclude Include="h\cn_interface_map.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\plugin\cn_plugin_instance.cpp">

@@ -16,6 +16,13 @@ namespace Connector {
 /*---------------------------------------------------------------------------*/
 
 
+BEGIN_INTERFACE_MAP( PluginInstance )
+END_INTERFACE_MAP()
+
+
+/*---------------------------------------------------------------------------*/
+
+
 PluginInstance::PluginInstance()
 {
 } // PluginInstance::PluginInstance
