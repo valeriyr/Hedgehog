@@ -18,9 +18,6 @@
     <ClInclude Include="sources\elements\xl_attribute.hpp">
       <Filter>Xml Elements</Filter>
     </ClInclude>
-    <ClInclude Include="sources\elements\xl_element_base.hpp">
-      <Filter>Xml Elements</Filter>
-    </ClInclude>
     <ClInclude Include="sources\elements\xl_tag.hpp">
       <Filter>Xml Elements</Filter>
     </ClInclude>
@@ -33,6 +30,12 @@
     <ClInclude Include="ih\xl_itag.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="ih\xl_iattribute_rule.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\elements\xl_base_rule.hpp">
+      <Filter>Xml Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">
@@ -41,10 +44,10 @@
     <ClCompile Include="sources\elements\xl_attribute.cpp">
       <Filter>Xml Elements</Filter>
     </ClCompile>
-    <ClCompile Include="sources\elements\xl_element_base.cpp">
+    <ClCompile Include="sources\elements\xl_tag.cpp">
       <Filter>Xml Elements</Filter>
     </ClCompile>
-    <ClCompile Include="sources\elements\xl_tag.cpp">
+    <ClCompile Include="sources\elements\xl_base_rule.cpp">
       <Filter>Xml Elements</Filter>
     </ClCompile>
   </ItemGroup>

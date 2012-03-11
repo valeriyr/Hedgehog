@@ -15,7 +15,7 @@ namespace XmlLibrary {
 
 
 Tag::Tag( const QString& _tagName )
-	:	BaseElement( _tagName )
+	:	BaseRule( _tagName )
 {
 } // Tag::Tag
 

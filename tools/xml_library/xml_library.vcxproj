@@ -12,16 +12,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ih\xl_iattribute.hpp" />
+    <ClInclude Include="ih\xl_iattribute_rule.hpp" />
     <ClInclude Include="ih\xl_irule.hpp" />
     <ClInclude Include="ih\xl_itag.hpp" />
     <ClInclude Include="sources\elements\xl_attribute.hpp" />
-    <ClInclude Include="sources\elements\xl_element_base.hpp" />
+    <ClInclude Include="sources\elements\xl_base_rule.hpp" />
     <ClInclude Include="sources\elements\xl_tag.hpp" />
     <ClInclude Include="sources\ph\xl_ph.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\elements\xl_attribute.cpp" />
-    <ClCompile Include="sources\elements\xl_element_base.cpp" />
+    <ClCompile Include="sources\elements\xl_base_rule.cpp" />
     <ClCompile Include="sources\elements\xl_tag.cpp" />
     <ClCompile Include="sources\ph\xl_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

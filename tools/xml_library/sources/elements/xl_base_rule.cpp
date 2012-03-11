@@ -3,7 +3,7 @@
 
 #include "xml_library/sources/ph/xl_ph.hpp"
 
-#include "xml_library/sources/elements/xl_element_base.hpp"
+#include "xml_library/sources/elements/xl_base_rule.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -14,10 +14,10 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-BaseElement::BaseElement( const QString& _attributeName )
+BaseRule::BaseRule( const QString& _attributeName )
 	:	m_attributeName( _attributeName )
 {
-} // Attribute::Attribute
+} // BaseRule::BaseRule
 
 
 /*---------------------------------------------------------------------------*/

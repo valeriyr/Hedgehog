@@ -15,7 +15,7 @@ namespace XmlLibrary {
 
 
 Attribute::Attribute( const QString& _attributeName )
-	:	BaseElement( _attributeName )
+	:	BaseRule( _attributeName )
 {
 } // Attribute::Attribute
 

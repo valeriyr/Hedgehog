@@ -1,8 +1,8 @@
 
-/** XML element base implementation */
+/** XML base rule implementation */
 
-#ifndef __XL_ELEMENT_BASE_HPP__
-#define __XL_ELEMENT_BASE_HPP__
+#ifndef __XL_BASE_RULE_HPP__
+#define __XL_BASE_RULE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -11,7 +11,7 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-class BaseElement
+class BaseRule
 {
 
 /*---------------------------------------------------------------------------*/
@@ -20,7 +20,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	BaseElement( const QString& _attributeName );
+	BaseRule( const QString& _attributeName );
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,4 +41,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_ELEMENT_BASE_HPP__
+#endif // __XL_BASE_RULE_HPP__

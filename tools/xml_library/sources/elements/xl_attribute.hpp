@@ -4,7 +4,7 @@
 #ifndef __XL_ATTRIBUTE_HPP__
 #define __XL_ATTRIBUTE_HPP__
 
-#include "xml_library/sources/elements/xl_element_base.hpp"
+#include "xml_library/sources/elements/xl_base_rule.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,7 +14,7 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 class Attribute
-	:	public BaseElement
+	:	public BaseRule
 {
 
 /*---------------------------------------------------------------------------*/

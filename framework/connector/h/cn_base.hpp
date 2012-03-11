@@ -11,9 +11,9 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-template< typename _Base >
+template< typename _TBase >
 class BaseWrapper
-	:	public _Base
+	:	public _TBase
 {
 
 /*---------------------------------------------------------------------------*/
