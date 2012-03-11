@@ -18,8 +18,6 @@ namespace Connector {
 
 PluginInstance::PluginInstance()
 {
-	std::cout << "> Connector plugin instance created" << std::endl;
-
 } // PluginInstance::PluginInstance
 
 
@@ -28,8 +26,6 @@ PluginInstance::PluginInstance()
 
 PluginInstance::~PluginInstance()
 {
-	std::cout << "> Connector plugin instance deleted" << std::endl;
-
 } // PluginInstance::~PluginInstance
 
 
@@ -39,8 +35,6 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize( IBase* _connector )
 {
-	std::cout << "> Connector loaded" << std::endl;
-
 } // PluginInstance::initialize
 
 
@@ -50,8 +44,6 @@ PluginInstance::initialize( IBase* _connector )
 void
 PluginInstance::close()
 {
-	std::cout << "> Connector closed" << std::endl;
-
 } // PluginInstance::close
 
 

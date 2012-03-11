@@ -36,6 +36,9 @@
     <ClInclude Include="sources\elements\xl_base_rule.hpp">
       <Filter>Xml Elements</Filter>
     </ClInclude>
+    <ClInclude Include="ih\xl_ivisitor.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">

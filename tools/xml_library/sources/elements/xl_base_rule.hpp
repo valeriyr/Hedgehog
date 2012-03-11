@@ -11,7 +11,9 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
+template < typename _TBaseInterface >
 class BaseRule
+	:	public _TBaseInterface
 {
 
 /*---------------------------------------------------------------------------*/

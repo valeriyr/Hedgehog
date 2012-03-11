@@ -1,11 +1,8 @@
 
-/** XML attribute implementation */
+/** XML visitor interface */
 
-#include "xml_library/sources/ph/xl_ph.hpp"
-
-#include "xml_library/sources/elements/xl_attribute.hpp"
-
-#include "xml_library/ih/xl_ivisitor.hpp"
+#ifndef __XL_IVISITOR_HPP__
+#define __XL_IVISITOR_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,23 +11,16 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-
-Attribute::Attribute( const QString& _attributeName )
-	:	BaseType( _attributeName )
-{
-} // Attribute::Attribute
-
+class Tag;
+class Attribute;
 
 /*---------------------------------------------------------------------------*/
 
-
-void
-Attribute::accept ( IVisitor& _visitor ) const
+struct IVisitor
 {
-	_visitor.visit( *this );
-
-} // Attribute::accept
-
+	virtual void visit ( const Tag& _tag ) = 0;
+	virtual void visit ( const Attribute& _attribute ) = 0;
+};
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,3 +28,5 @@ Attribute::accept ( IVisitor& _visitor ) const
 } // namespace Tools
 
 /*---------------------------------------------------------------------------*/
+
+#endif // __XL_IVISITOR_HPP__

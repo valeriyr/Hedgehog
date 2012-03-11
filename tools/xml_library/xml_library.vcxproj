@@ -15,6 +15,7 @@
     <ClInclude Include="ih\xl_iattribute_rule.hpp" />
     <ClInclude Include="ih\xl_irule.hpp" />
     <ClInclude Include="ih\xl_itag.hpp" />
+    <ClInclude Include="ih\xl_ivisitor.hpp" />
     <ClInclude Include="sources\elements\xl_attribute.hpp" />
     <ClInclude Include="sources\elements\xl_base_rule.hpp" />
     <ClInclude Include="sources\elements\xl_tag.hpp" />

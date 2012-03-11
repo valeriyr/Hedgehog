@@ -5,6 +5,8 @@
 
 #include "xml_library/sources/elements/xl_base_rule.hpp"
 
+#include "xml_library/ih/xl_itag.hpp"
+#include "xml_library/ih/xl_iattribute.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,11 +16,17 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-BaseRule::BaseRule( const QString& _attributeName )
+template < typename _TBaseInterface >
+BaseRule< _TBaseInterface >::BaseRule( const QString& _attributeName )
 	:	m_attributeName( _attributeName )
 {
-} // BaseRule::BaseRule
+} // BaseRule< _TBaseInterface >::BaseRule
 
+
+/*---------------------------------------------------------------------------*/
+
+template class BaseRule< ITag >;
+template class BaseRule< IAttribute >;
 
 /*---------------------------------------------------------------------------*/
 
