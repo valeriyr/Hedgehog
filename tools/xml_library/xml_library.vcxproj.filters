@@ -12,12 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ih\xl_ielement.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\xl_irule.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="sources\ph\xl_ph.hpp">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
@@ -29,6 +23,15 @@
     </ClInclude>
     <ClInclude Include="sources\elements\xl_tag.hpp">
       <Filter>Xml Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\xl_iattribute.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\xl_irule.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\xl_itag.hpp">
+      <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

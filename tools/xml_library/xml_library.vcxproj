@@ -11,8 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ih\xl_ielement.hpp" />
+    <ClInclude Include="ih\xl_iattribute.hpp" />
     <ClInclude Include="ih\xl_irule.hpp" />
+    <ClInclude Include="ih\xl_itag.hpp" />
     <ClInclude Include="sources\elements\xl_attribute.hpp" />
     <ClInclude Include="sources\elements\xl_element_base.hpp" />
     <ClInclude Include="sources\elements\xl_tag.hpp" />
