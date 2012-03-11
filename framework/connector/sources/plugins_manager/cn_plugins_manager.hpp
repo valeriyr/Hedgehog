@@ -1,13 +1,13 @@
 
-/** Connector plugin instance declaration */
+/** Connector plugin manager declaration part */
 
-#ifndef __CN_PLUGIN_INSTANCE_HPP__
-#define __CN_PLUGIN_INSTANCE_HPP__
+#ifndef __CN_PLUGINS_MANAGER_HPP__
+#define __CN_PLUGINS_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "connector/ih/cn_iplugin.hpp"
-#include "connector/h/cn_interface_map.hpp"
+#include "connector/h/cn_base.hpp"
+#include "connector/ih/cn_iplugins_manager.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,12 +16,8 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPluginsManager;
-
-/*---------------------------------------------------------------------------*/
-
-class PluginInstance
-	:	public PluginWrapper
+class PluginsManager
+	:	public BaseWrapper< IPluginsManager >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -30,31 +26,11 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
-
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void initialize( IBase* _connector );
-
-	/*virtual*/ void close();
-
-/*---------------------------------------------------------------------------*/
-
-	boost::intrusive_ptr< IPluginsManager > getPluginsManager() const;
-
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
-
-	boost::intrusive_ptr< IPluginsManager > m_pluginsManager;
 
 /*---------------------------------------------------------------------------*/
 
@@ -67,4 +43,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_PLUGIN_INSTANCE_HPP__
+#endif // __CN_PLUGINS_MANAGER_HPP__

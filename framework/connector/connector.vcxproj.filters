@@ -19,6 +19,9 @@
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{d1f7e787-a551-4d8d-ac89-2f640fab46c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plugins Manager">
+      <UniqueIdentifier>{fe828847-f2ab-4466-9b50-277c3d5de445}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\cn_base.hpp">
@@ -54,6 +57,12 @@
     <ClInclude Include="h\cn_interface_map.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
+    <ClInclude Include="sources\plugins_manager\cn_plugins_manager.hpp">
+      <Filter>Plugins Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\cn_iplugins_manager.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\plugin\cn_plugin_instance.cpp">
@@ -67,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="sources\resources\cn_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\plugins_manager\cn_plugins_manager.cpp">
+      <Filter>Plugins Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

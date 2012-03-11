@@ -7,6 +7,7 @@
 
 #include "connector/h/cn_plugin_factory.hpp"
 
+#include "connector/sources/plugins_manager/cn_plugins_manager.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,6 +18,9 @@ namespace Connector {
 
 
 BEGIN_INTERFACE_MAP( PluginInstance )
+
+	INTERFACE( PM_INTERFACE_ID, getPluginsManager().get() );
+
 END_INTERFACE_MAP()
 
 
@@ -42,6 +46,8 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize( IBase* _connector )
 {
+	m_pluginsManager.reset( new PluginsManager() );
+
 } // PluginInstance::initialize
 
 
@@ -51,7 +57,20 @@ PluginInstance::initialize( IBase* _connector )
 void
 PluginInstance::close()
 {
+	m_pluginsManager.reset();
+
 } // PluginInstance::close
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IPluginsManager >
+PluginInstance::getPluginsManager() const
+{
+	return m_pluginsManager;
+
+} // PluginInstance::getPluginsManager
 
 
 /*---------------------------------------------------------------------------*/

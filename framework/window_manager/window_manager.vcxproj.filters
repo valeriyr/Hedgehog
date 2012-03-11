@@ -4,6 +4,9 @@
     <Filter Include="Precompiled Header">
       <UniqueIdentifier>{5a56f301-7b6e-4df6-93cc-66768d2ea929}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{1f49a1a9-dc19-4537-a949-b59ce89cb3d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\wm_ph.cpp">
@@ -13,6 +16,9 @@
   <ItemGroup>
     <ClInclude Include="sources\ph\wm_ph.hpp">
       <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="h\wm_plugin_id.hpp">
+      <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
