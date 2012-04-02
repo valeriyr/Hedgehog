@@ -91,32 +91,32 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</IntDir>
-    <OutDir>$(SolutionDir)$(Configuration)/bin/</OutDir>
+    <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>$(SolutionDir)x86/$(Configuration)/bin/</OutDir>
     <ExecutablePath>$(LIBPATH)\qt\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
     <LibraryPath>$(LIBPATH)\qt\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>$(SolutionDir)temp/obj64/$(Configuration)/$(ProjectName)/</IntDir>
-    <OutDir>$(SolutionDir)$(Configuration)/bin64/</OutDir>
+    <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>$(SolutionDir)x64/$(Configuration)/bin/</OutDir>
     <ExecutablePath>$(LIBPATH)\qt\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
     <LibraryPath>$(LIBPATH)\qt\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)/bin/</OutDir>
-    <IntDir>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>$(SolutionDir)x86/$(Configuration)/bin/</OutDir>
+    <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <ExecutablePath>$(LIBPATH)\qt\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
     <LibraryPath>$(LIBPATH)\qt\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)/bin64/</OutDir>
-    <IntDir>$(SolutionDir)temp/obj64/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>$(SolutionDir)x64/$(Configuration)/bin/</OutDir>
+    <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <ExecutablePath>$(LIBPATH)\qt\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
     <LibraryPath>$(LIBPATH)\qt\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
@@ -128,17 +128,17 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CONNECTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>connector/sources/ph/cn_ph.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(TargetDir)/$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
-      <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
+      <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
-      <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
       <AdditionalDependencies>QtCored4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -149,17 +149,17 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CONNECTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>connector/sources/ph/cn_ph.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/obj64/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(TargetDir)/$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(OutputPath)/lib64</AdditionalLibraryDirectories>
-      <ProgramDatabaseFile>$(OutputPath)/pdb64/$(ProjectName).pdb</ProgramDatabaseFile>
+      <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
+      <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
-      <ImportLibrary>$(OutputPath)/lib64/$(ProjectName).lib</ImportLibrary>
+      <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
       <AdditionalDependencies>QtCored4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -172,7 +172,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;CONNECTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>connector/sources/ph/cn_ph.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -181,10 +181,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(TargetDir)/$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
-      <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
+      <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
-      <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
       <AdditionalDependencies>QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -197,7 +197,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;CONNECTOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>connector/sources/ph/cn_ph.hpp</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/obj64/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -206,10 +206,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(TargetDir)/$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(OutputPath)/lib64</AdditionalLibraryDirectories>
-      <ProgramDatabaseFile>$(OutputPath)/pdb64/$(ProjectName).pdb</ProgramDatabaseFile>
+      <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
+      <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
-      <ImportLibrary>$(OutputPath)/lib64/$(ProjectName).lib</ImportLibrary>
+      <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
       <AdditionalDependencies>QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

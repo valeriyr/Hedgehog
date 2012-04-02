@@ -98,13 +98,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(LIBPATH)\qt\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Configuration)/lib/</OutDir>
-    <IntDir>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>$(SolutionDir)x86/$(Configuration)/bin/</OutDir>
+    <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LibraryPath>$(LIBPATH)\qt\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Configuration)/lib64/</OutDir>
-    <IntDir>$(SolutionDir)temp/obj64/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>$(SolutionDir)x64/$(Configuration)/bin/</OutDir>
+    <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ExecutablePath>$(LIBPATH)\qt\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
@@ -120,13 +120,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(LIBPATH)\qt\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Configuration)/lib/</OutDir>
-    <IntDir>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>$(SolutionDir)x86/$(Configuration)/bin/</OutDir>
+    <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(LIBPATH)\qt\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Configuration)/lib64/</OutDir>
-    <IntDir>$(SolutionDir)temp/obj64/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>$(SolutionDir)x64/$(Configuration)/bin/</OutDir>
+    <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -134,7 +134,26 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderFile>xml_library/sources/ph/xl_ph.hpp</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <OutputFile>$(TargetDir)/$(ProjectName).lib</OutputFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>xml_library/sources/ph/xl_ph.hpp</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
     </ClCompile>
@@ -145,25 +164,6 @@
     <Lib>
       <OutputFile>$(TargetDir)/$(ProjectName).lib</OutputFile>
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
-    </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/obj64/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile>xml_library/sources/ph/xl_ph.hpp</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-    <Lib>
-      <OutputFile>$(TargetDir)/$(ProjectName).lib</OutputFile>
-      <AdditionalLibraryDirectories>$(OutputPath)/lib64</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -174,7 +174,30 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderFile>xml_library/sources/ph/xl_ph.hpp</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <OutputFile>$(TargetDir)/$(ProjectName).lib</OutputFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>xml_library/sources/ph/xl_ph.hpp</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
     </ClCompile>
@@ -187,29 +210,6 @@
     <Lib>
       <OutputFile>$(TargetDir)/$(ProjectName).lib</OutputFile>
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
-    </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)temp/obj64/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile>xml_library/sources/ph/xl_ph.hpp</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-    <Lib>
-      <OutputFile>$(TargetDir)/$(ProjectName).lib</OutputFile>
-      <AdditionalLibraryDirectories>$(OutputPath)/lib64</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
