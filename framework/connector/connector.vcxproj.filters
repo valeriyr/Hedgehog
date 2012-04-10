@@ -22,6 +22,9 @@
     <Filter Include="Plugins Manager">
       <UniqueIdentifier>{fe828847-f2ab-4466-9b50-277c3d5de445}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plugins Serializer">
+      <UniqueIdentifier>{8fada831-15f0-4a45-b07d-7737c8d3e425}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\cn_base.hpp">
@@ -63,6 +66,12 @@
     <ClInclude Include="ih\cn_iplugins_manager.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="sources\plugins_serializer\cn_plugins_serializer.hpp">
+      <Filter>Plugins Serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\plugins_serializer\cn_iplugins_serializer.hpp">
+      <Filter>Plugins Serializer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\plugin\cn_plugin_instance.cpp">
@@ -79,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="sources\plugins_manager\cn_plugins_manager.cpp">
       <Filter>Plugins Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\plugins_serializer\cn_plugins_serializer.cpp">
+      <Filter>Plugins Serializer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -17,6 +17,7 @@ namespace Connector {
 /*---------------------------------------------------------------------------*/
 
 struct IPluginsManager;
+class PluginsManager;
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,7 +55,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< IPluginsManager > m_pluginsManager;
+	boost::intrusive_ptr< PluginsManager > m_pluginsManager;
 
 /*---------------------------------------------------------------------------*/
 

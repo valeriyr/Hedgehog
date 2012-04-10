@@ -8,6 +8,7 @@
 #include "connector/h/cn_plugin_factory.hpp"
 
 #include "connector/sources/plugins_manager/cn_plugins_manager.hpp"
+#include "connector/sources/plugins_serializer/cn_plugins_serializer.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,7 +47,11 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize( IBase* _connector )
 {
-	m_pluginsManager.reset( new PluginsManager() );
+	boost::intrusive_ptr< IPluginsSerializer > pluginsSerializer( new PluginsSerializer() );
+
+	m_pluginsManager.reset( new PluginsManager( pluginsSerializer ) );
+
+	m_pluginsManager->loadStartupPlugins();
 
 } // PluginInstance::initialize
 

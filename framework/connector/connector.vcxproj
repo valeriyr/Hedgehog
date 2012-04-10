@@ -30,6 +30,8 @@
     <ClInclude Include="sources\loader\cn_loader.hpp" />
     <ClInclude Include="sources\ph\cn_ph.hpp" />
     <ClInclude Include="sources\plugins_manager\cn_plugins_manager.hpp" />
+    <ClInclude Include="sources\plugins_serializer\cn_iplugins_serializer.hpp" />
+    <ClInclude Include="sources\plugins_serializer\cn_plugins_serializer.hpp" />
     <ClInclude Include="sources\plugin\cn_plugin_instance.hpp" />
     <ClInclude Include="sources\resources\cn_internal_resources.hpp" />
   </ItemGroup>
@@ -42,6 +44,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sources\plugins_manager\cn_plugins_manager.cpp" />
+    <ClCompile Include="sources\plugins_serializer\cn_plugins_serializer.cpp" />
     <ClCompile Include="sources\plugin\cn_plugin_instance.cpp" />
     <ClCompile Include="sources\resources\cn_internal_resources.cpp" />
   </ItemGroup>

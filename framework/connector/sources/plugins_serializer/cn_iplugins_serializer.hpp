@@ -1,8 +1,8 @@
 
-/** Connector plugin manager interface */
+/** Connector plugins serializer interface */
 
-#ifndef __CN_IPLUGINS_MANAGER_HPP__
-#define __CN_IPLUGINS_MANAGER_HPP__
+#ifndef __CN_IPLUGINS_SERIALIZER_HPP__
+#define __CN_IPLUGINS_SERIALIZER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,17 +15,9 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int PM_INTERFACE_ID = 1;
-
-/*---------------------------------------------------------------------------*/
-
-struct IPluginsManager
+struct IPluginsSerializer
 	:	public IBase
 {
-	virtual boost::intrusive_ptr< IBase >
-		getPluginInterface( const int _pluginId, const int _interfaceId ) = 0;
-
-	virtual bool isPluginLoaded( const int _pluginId ) const = 0;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -35,4 +27,4 @@ struct IPluginsManager
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_IPLUGIN_MANAGER_HPP__
+#endif // __CN_IPLUGINS_SERIALIZER_HPP__

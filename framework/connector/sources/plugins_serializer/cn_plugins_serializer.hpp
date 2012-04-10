@@ -1,12 +1,12 @@
 
-/** Connector loader declaration part */
+/** Connector plugins serializer declaration part */
 
-#ifndef __CN_LOADER_HPP__
-#define __CN_LOADER_HPP__
+#ifndef __CN_PLUGINS_SERIALIZER_HPP__
+#define __CN_PLUGINS_SERIALIZER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "connector/ih/cn_iloader.hpp"
+#include "connector/sources/plugins_serializer/cn_iplugins_serializer.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,12 +15,8 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPlugin;
-
-/*---------------------------------------------------------------------------*/
-
-class Loader
-	:	public BaseWrapper< ILoader >
+class PluginsSerializer
+	:	public BaseWrapper< IPluginsSerializer >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -29,23 +25,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Loader();
+	PluginsSerializer();
 
-	virtual ~Loader();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void load();
-
-	/*virtual*/ void unload();
+	virtual ~PluginsSerializer();
 
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
-
-	boost::intrusive_ptr< IPlugin > m_connector;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,4 +46,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_LOADER_HPP__
+#endif // __CN_PLUGINS_SERIALIZER_HPP__

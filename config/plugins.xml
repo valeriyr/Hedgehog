@@ -3,15 +3,15 @@
 <!--
 	Format specification:
 
-	<plugin name="Plugin Name" file="File Name" id="Plugin ID ( Unique )" loadatstartup = "0 or 1" single = "0 or 1" />
+	<plugin name="Plugin Name" file="File Name" id="Plugin ID ( Unique )" loadatstartup = "0 or 1" />
 -->
 
 <Plugins>
 
 	<!-- Framework -->
-	<plugin name="window_manager"	file="window_manager"	id="00001" loadatstartup = "1" single = "1" />
+	<plugin name="window_manager"	file="window_manager"	id="00001" loadatstartup = "1" />
 
 	<!-- Plugins -->
-	<plugin name="console"			file="console"			id="00100" loadatstartup = "1" single = "1" />
+	<plugin name="console"			file="console"			id="00100" loadatstartup = "1" />
 
 </Plugins>

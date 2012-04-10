@@ -1,13 +1,9 @@
 
-/** Common plugin interface */
+/** Connector plugins serializer implementation part */
 
-#ifndef __CN_IPLUGIN_HPP__
-#define __CN_IPLUGIN_HPP__
+#include "connector/sources/ph/cn_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
-
-#include "connector/ih/cn_ibase.hpp"
-#include "connector/h/cn_base.hpp"
+#include "connector/sources/plugins_serializer/cn_plugins_serializer.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,19 +12,19 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPlugin
-	:	public IBase
+
+PluginsSerializer::PluginsSerializer()
 {
-	virtual void initialize( IBase* _connector ) = 0;
+} // PluginsSerializer::PluginsSerializer
 
-	virtual void close() = 0;
-
-	virtual IBase* getInterface( const unsigned int _interfaceId ) = 0;
-};
 
 /*---------------------------------------------------------------------------*/
 
-typedef BaseWrapper< IPlugin > PluginWrapper;
+
+PluginsSerializer::~PluginsSerializer()
+{
+} // PluginsSerializer::~PluginsSerializer
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,5 +32,3 @@ typedef BaseWrapper< IPlugin > PluginWrapper;
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __CN_IPLUGIN_HPP__
