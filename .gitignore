@@ -1,8 +1,8 @@
 
-/Debug
 /ipch
-/Release
 /temp
+/x64
+/x86
 *.opensdf
 *.sdf
 *.suo
