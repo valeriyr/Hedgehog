@@ -95,6 +95,25 @@ PluginsManager::registerPlugin( boost::shared_ptr< PluignData > _pluginData )
 
 
 void
+PluginsManager::loadStartupPlugins()
+{
+	PluginsCollectionTypeIterator
+			begin = m_pluginsCollection.begin()
+		,	end = m_pluginsCollection.end();
+
+	for( ; begin != end; ++begin )
+	{
+		if ( begin->second->m_loadAtStartup )
+			loadPlugin( begin->second );
+	}
+
+} // PluginsManager::loadStartupPlugins
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 PluginsManager::loadPlugin( boost::shared_ptr< PluignData > _pluginData )
 {
 	PluginFactoryPtr connectorFactory

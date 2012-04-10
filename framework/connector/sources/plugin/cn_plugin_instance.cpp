@@ -47,9 +47,13 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize( IBase* _connector )
 {
-	boost::intrusive_ptr< IPluginsSerializer > pluginsSerializer( new PluginsSerializer() );
-
 	m_pluginsManager.reset( new PluginsManager() );
+
+	boost::intrusive_ptr< IPluginsSerializer >
+		pluginsSerializer( new PluginsSerializer( *m_pluginsManager ) );
+	pluginsSerializer->loadPluginsData();
+
+	m_pluginsManager->loadStartupPlugins();
 
 } // PluginInstance::initialize
 

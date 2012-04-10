@@ -13,7 +13,8 @@ namespace Connector {
 /*---------------------------------------------------------------------------*/
 
 
-PluginsSerializer::PluginsSerializer()
+PluginsSerializer::PluginsSerializer( IPluginsManager& _pluginsManager )
+	:	m_pluginsManager( _pluginsManager )
 {
 } // PluginsSerializer::PluginsSerializer
 
@@ -24,6 +25,15 @@ PluginsSerializer::PluginsSerializer()
 PluginsSerializer::~PluginsSerializer()
 {
 } // PluginsSerializer::~PluginsSerializer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginsSerializer::loadPluginsData()
+{
+} // PluginsSerializer::loadPluginsData
 
 
 /*---------------------------------------------------------------------------*/

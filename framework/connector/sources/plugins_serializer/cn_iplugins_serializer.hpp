@@ -18,6 +18,7 @@ namespace Connector {
 struct IPluginsSerializer
 	:	public IBase
 {
+	virtual void loadPluginsData() = 0;
 };
 
 /*---------------------------------------------------------------------------*/

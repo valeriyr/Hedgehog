@@ -15,10 +15,6 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-struct PluignData;
-
-/*---------------------------------------------------------------------------*/
-
 class PluginsManager
 	:	public BaseWrapper< IPluginsManager >
 {
@@ -40,9 +36,11 @@ public:
 
 	/*virtual*/ bool isPluginLoaded( const unsigned int _pluginId ) const;
 
+	/*virtual*/ void registerPlugin( boost::shared_ptr< PluignData > _pluginData );
+
 /*---------------------------------------------------------------------------*/
 
-	void registerPlugin( boost::shared_ptr< PluignData > _pluginData );
+	void loadStartupPlugins();
 
 /*---------------------------------------------------------------------------*/
 
