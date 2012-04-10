@@ -72,6 +72,9 @@
     <ClInclude Include="sources\plugins_serializer\cn_iplugins_serializer.hpp">
       <Filter>Plugins Serializer</Filter>
     </ClInclude>
+    <ClInclude Include="sources\plugins_manager\cn_plugin_data.hpp">
+      <Filter>Plugins Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\plugin\cn_plugin_instance.cpp">

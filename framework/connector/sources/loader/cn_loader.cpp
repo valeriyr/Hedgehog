@@ -7,7 +7,6 @@
 
 #include "connector/h/cn_plugin_factory.hpp"
 
-#include "connector/sources/plugin/cn_plugin_instance.hpp"
 #include "connector/sources/resources/cn_internal_resources.hpp"
 
 

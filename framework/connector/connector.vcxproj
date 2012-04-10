@@ -30,6 +30,7 @@
     <ClInclude Include="sources\loader\cn_loader.hpp" />
     <ClInclude Include="sources\ph\cn_ph.hpp" />
     <ClInclude Include="sources\plugins_manager\cn_plugins_manager.hpp" />
+    <ClInclude Include="sources\plugins_manager\cn_plugin_data.hpp" />
     <ClInclude Include="sources\plugins_serializer\cn_iplugins_serializer.hpp" />
     <ClInclude Include="sources\plugins_serializer\cn_plugins_serializer.hpp" />
     <ClInclude Include="sources\plugin\cn_plugin_instance.hpp" />

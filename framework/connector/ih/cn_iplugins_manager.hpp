@@ -23,9 +23,9 @@ struct IPluginsManager
 	:	public IBase
 {
 	virtual boost::intrusive_ptr< IBase >
-		getPluginInterface( const int _pluginId, const int _interfaceId ) = 0;
+		getPluginInterface( const unsigned int _pluginId, const unsigned int _interfaceId ) = 0;
 
-	virtual bool isPluginLoaded( const int _pluginId ) const = 0;
+	virtual bool isPluginLoaded( const unsigned int _pluginId ) const = 0;
 };
 
 /*---------------------------------------------------------------------------*/

@@ -15,7 +15,7 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPluginsSerializer;
+struct PluignData;
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,20 +29,20 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginsManager( boost::intrusive_ptr< IPluginsSerializer > _pluginsSerializer );
+	PluginsManager();
 
 	virtual ~PluginsManager();
 
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< IBase >
-		getPluginInterface( const int _pluginId, const int _interfaceId );
+		getPluginInterface( const unsigned int _pluginId, const unsigned int _interfaceId );
 
-	/*virtual*/ bool isPluginLoaded( const int _pluginId ) const;
+	/*virtual*/ bool isPluginLoaded( const unsigned int _pluginId ) const;
 
 /*---------------------------------------------------------------------------*/
 
-	void loadStartupPlugins();
+	void registerPlugin( boost::shared_ptr< PluignData > _pluginData );
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,12 +50,12 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void readPluginsDatabase();
+	void loadPlugin( boost::shared_ptr< PluignData > _pluginData );
 
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::hash_map< const int, boost::intrusive_ptr< IBase > >
+		std::hash_map< unsigned int, boost::shared_ptr< PluignData > >
 		PluginsCollectionType;
 	typedef
 		PluginsCollectionType::const_iterator
@@ -64,8 +64,6 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	PluginsCollectionType m_pluginsCollection;
-
-	boost::intrusive_ptr< IPluginsSerializer > m_pluginsSerializer;
 
 /*---------------------------------------------------------------------------*/
 
