@@ -75,6 +75,9 @@
     <ClInclude Include="sources\plugins_manager\cn_plugin_data.hpp">
       <Filter>Plugins Manager</Filter>
     </ClInclude>
+    <ClInclude Include="sources\plugins_manager\cn_iplugins_manager_internal.hpp">
+      <Filter>Plugins Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\plugin\cn_plugin_instance.cpp">

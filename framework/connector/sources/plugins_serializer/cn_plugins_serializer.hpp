@@ -15,7 +15,7 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPluginsManager;
+struct IPluginsManagerInternal;
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,7 +29,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginsSerializer( IPluginsManager& _pluginsManager );
+	PluginsSerializer( IPluginsManagerInternal& _pluginsManager );
 
 	virtual ~PluginsSerializer();
 
@@ -43,7 +43,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	IPluginsManager& m_pluginsManager;
+	IPluginsManagerInternal& m_pluginsManager;
 
 /*---------------------------------------------------------------------------*/
 

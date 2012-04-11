@@ -6,7 +6,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "connector/ih/cn_iplugins_manager.hpp"
+#include "connector/sources/plugins_manager/cn_iplugins_manager_internal.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,7 +16,7 @@ namespace Connector {
 /*---------------------------------------------------------------------------*/
 
 class PluginsManager
-	:	public BaseWrapper< IPluginsManager >
+	:	public BaseWrapper< IPluginsManagerInternal >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -36,11 +36,11 @@ public:
 
 	/*virtual*/ bool isPluginLoaded( const unsigned int _pluginId ) const;
 
-	/*virtual*/ void registerPlugin( boost::shared_ptr< PluignData > _pluginData );
-
 /*---------------------------------------------------------------------------*/
 
-	void loadStartupPlugins();
+	/*virtual*/ void registerPlugin( boost::shared_ptr< PluignData > _pluginData );
+
+	/*virtual*/ void loadStartupPlugins();
 
 /*---------------------------------------------------------------------------*/
 

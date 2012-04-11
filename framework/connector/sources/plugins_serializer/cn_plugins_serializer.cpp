@@ -13,7 +13,7 @@ namespace Connector {
 /*---------------------------------------------------------------------------*/
 
 
-PluginsSerializer::PluginsSerializer( IPluginsManager& _pluginsManager )
+PluginsSerializer::PluginsSerializer( IPluginsManagerInternal& _pluginsManager )
 	:	m_pluginsManager( _pluginsManager )
 {
 } // PluginsSerializer::PluginsSerializer

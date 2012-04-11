@@ -30,8 +30,6 @@ struct IPluginsManager
 		getPluginInterface( const unsigned int _pluginId, const unsigned int _interfaceId ) = 0;
 
 	virtual bool isPluginLoaded( const unsigned int _pluginId ) const = 0;
-
-	virtual void registerPlugin( boost::shared_ptr< PluignData > _pluginData ) = 0;
 };
 
 /*---------------------------------------------------------------------------*/
