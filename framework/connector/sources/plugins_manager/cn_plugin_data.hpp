@@ -15,12 +15,24 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-struct PluignData
+struct PluginData
 {
 
 /*---------------------------------------------------------------------------*/
 
-	PluignData(
+	struct State
+	{
+		enum Enum
+		{
+				NotLoaded = 0
+			,	Loaded
+			,	Loading
+		};
+	};
+
+/*---------------------------------------------------------------------------*/
+
+	PluginData(
 			const unsigned int _pluginId
 		,	const bool _loadAtStartup
 		,	const std::string& _pluginName
@@ -30,12 +42,9 @@ struct PluignData
 		,	m_loadAtStartup( _loadAtStartup )
 		,	m_pluginName( _pluginName )
 		,	m_filePath( _filePath )
+		,	m_pluginStatus( State::NotLoaded )
 		,	m_pluginPointer()
 	{}
-
-/*---------------------------------------------------------------------------*/
-
-	bool isPluginLoaded() { return m_pluginPointer; }
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,6 +55,8 @@ struct PluignData
 	const std::string m_pluginName;
 
 	const std::string m_filePath;
+
+	State::Enum m_pluginStatus;
 
 	boost::intrusive_ptr< IPlugin > m_pluginPointer;
 

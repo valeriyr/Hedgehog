@@ -36,8 +36,12 @@ PluginsManager::~PluginsManager()
 
 	for( ; begin != end; ++begin )
 	{
-		if ( begin->second->isPluginLoaded() )
+		if ( begin->second->m_pluginStatus == PluginData::State::Loaded )
+		{
 			begin->second->m_pluginPointer->close();
+			begin->second->m_pluginStatus = PluginData::State::NotLoaded;
+			begin->second->m_pluginPointer.reset();
+		}
 	}
 
 } // PluginsManager::~PluginsManager
@@ -54,8 +58,20 @@ PluginsManager::getPluginInterface( const unsigned int _pluginId, const unsigned
 	if ( iterator == m_pluginsCollection.end() )
 		return boost::intrusive_ptr< IBase >();
 
-	if ( !iterator->second->isPluginLoaded() )
+	switch ( iterator->second->m_pluginStatus )
+	{
+	case PluginData::State::Loaded:
+		break;
+	case PluginData::State::NotLoaded:
 		loadPlugin( iterator->second );
+		break;
+	case PluginData::State::Loading:
+		throw std::exception();				// Unsolvable situation
+		break;
+	default:
+		assert( !"unsupported plugins status type!" );
+		break;
+	}
 
 	return iterator->second->m_pluginPointer->getInterface( _interfaceId );
 
@@ -72,7 +88,7 @@ PluginsManager::isPluginLoaded( const unsigned int _pluginId ) const
 
 	return
 			( iterator != m_pluginsCollection.end() )
-		&&	iterator->second->isPluginLoaded();
+		&&	iterator->second->m_pluginStatus == PluginData::State::Loaded;
 
 } // PluginsManager::isPluginLoaded
 
@@ -81,7 +97,7 @@ PluginsManager::isPluginLoaded( const unsigned int _pluginId ) const
 
 
 void
-PluginsManager::registerPlugin( boost::shared_ptr< PluignData > _pluginData )
+PluginsManager::registerPlugin( boost::shared_ptr< PluginData > _pluginData )
 {
 	assert( _pluginData );
 	assert( m_pluginsCollection.find( _pluginData->m_pluginId ) == m_pluginsCollection.end() );
@@ -114,8 +130,10 @@ PluginsManager::loadStartupPlugins()
 
 
 void
-PluginsManager::loadPlugin( boost::shared_ptr< PluignData > _pluginData )
+PluginsManager::loadPlugin( boost::shared_ptr< PluginData > _pluginData )
 {
+	_pluginData->m_pluginStatus = PluginData::State::Loading;
+
 	PluginFactoryPtr connectorFactory
 		= ( PluginFactoryPtr ) QLibrary::resolve(
 				_pluginData->m_filePath.c_str()
@@ -127,6 +145,8 @@ PluginsManager::loadPlugin( boost::shared_ptr< PluignData > _pluginData )
 	assert( _pluginData->m_pluginPointer );
 
 	_pluginData->m_pluginPointer->initialize( this );
+
+	_pluginData->m_pluginStatus = PluginData::State::Loaded;
 
 } // PluginsManager::loadPlugin
 

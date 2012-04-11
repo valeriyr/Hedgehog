@@ -38,7 +38,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void registerPlugin( boost::shared_ptr< PluignData > _pluginData );
+	/*virtual*/ void registerPlugin( boost::shared_ptr< PluginData > _pluginData );
 
 	/*virtual*/ void loadStartupPlugins();
 
@@ -48,12 +48,12 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void loadPlugin( boost::shared_ptr< PluignData > _pluginData );
+	void loadPlugin( boost::shared_ptr< PluginData > _pluginData );
 
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::hash_map< unsigned int, boost::shared_ptr< PluignData > >
+		std::hash_map< unsigned int, boost::shared_ptr< PluginData > >
 		PluginsCollectionType;
 	typedef
 		PluginsCollectionType::const_iterator
