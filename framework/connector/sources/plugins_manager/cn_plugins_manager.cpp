@@ -121,7 +121,7 @@ PluginsManager::closeAllPlugins()
 			begin->second->m_pluginPointer->close();
 			begin->second->m_pluginPointer.reset();
 
-			switchPluginDataState( *begin->second );
+			begin->second->m_pluginState = PluginData::State::NotLoaded;
 		}
 	}
 
@@ -139,7 +139,7 @@ PluginsManager::loadPluginIfNeeded( PluginData& _pluginData )
 	if ( _pluginData.m_pluginState == PluginData::State::Loaded )
 		return;
 
-	switchPluginDataState( _pluginData );
+	_pluginData.m_pluginState = PluginData::State::Loading;
 
 	PluginFactoryPtr connectorFactory
 		= ( PluginFactoryPtr ) QLibrary::resolve(
@@ -153,33 +153,9 @@ PluginsManager::loadPluginIfNeeded( PluginData& _pluginData )
 
 	_pluginData.m_pluginPointer->initialize( this );
 
-	switchPluginDataState( _pluginData );
+	_pluginData.m_pluginState = PluginData::State::Loaded;
 
 } // PluginsManager::loadPluginIfNeeded
-
-
-/*---------------------------------------------------------------------------*/
-
-void
-PluginsManager::switchPluginDataState( PluginData& _pluginData )
-{
-	switch ( _pluginData.m_pluginState )
-	{
-	case PluginData::State::Loaded:
-		_pluginData.m_pluginState = PluginData::State::NotLoaded;
-		break;
-	case PluginData::State::NotLoaded:
-		_pluginData.m_pluginState = PluginData::State::Loading;
-		break;
-	case PluginData::State::Loading:
-		_pluginData.m_pluginState = PluginData::State::Loaded;
-		break;
-	default:
-		assert( !"unsupported plugins status type!" );
-		break;
-	}
-
-} // PluginsManager::switchPluginDataState
 
 
 /*---------------------------------------------------------------------------*/

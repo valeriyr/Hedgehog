@@ -52,8 +52,6 @@ private:
 
 	void loadPluginIfNeeded( PluginData& _pluginData );
 
-	void switchPluginDataState( PluginData& _pluginData );
-
 /*---------------------------------------------------------------------------*/
 
 	typedef
