@@ -30,20 +30,6 @@ PluginsManager::PluginsManager()
 
 PluginsManager::~PluginsManager()
 {
-	PluginsCollectionTypeIterator
-			begin = m_pluginsCollection.begin()
-		,	end = m_pluginsCollection.end();
-
-	for( ; begin != end; ++begin )
-	{
-		if ( begin->second->m_pluginStatus == PluginData::State::Loaded )
-		{
-			begin->second->m_pluginPointer->close();
-			begin->second->m_pluginStatus = PluginData::State::NotLoaded;
-			begin->second->m_pluginPointer.reset();
-		}
-	}
-
 } // PluginsManager::~PluginsManager
 
 
@@ -58,20 +44,10 @@ PluginsManager::getPluginInterface( const unsigned int _pluginId, const unsigned
 	if ( iterator == m_pluginsCollection.end() )
 		return boost::intrusive_ptr< IBase >();
 
-	switch ( iterator->second->m_pluginStatus )
-	{
-	case PluginData::State::Loaded:
-		break;
-	case PluginData::State::NotLoaded:
-		loadPlugin( iterator->second );
-		break;
-	case PluginData::State::Loading:
-		throw std::exception();				// Unsolvable situation
-		break;
-	default:
-		assert( !"unsupported plugins status type!" );
-		break;
-	}
+	if ( iterator->second->m_pluginState == PluginData::State::Loading )	// We can't get interface from plugin
+		throw std::exception();												// witch is loading!
+
+	loadPluginIfNeeded( *iterator->second );
 
 	return iterator->second->m_pluginPointer->getInterface( _interfaceId );
 
@@ -88,7 +64,7 @@ PluginsManager::isPluginLoaded( const unsigned int _pluginId ) const
 
 	return
 			( iterator != m_pluginsCollection.end() )
-		&&	iterator->second->m_pluginStatus == PluginData::State::Loaded;
+		&&	iterator->second->m_pluginState == PluginData::State::Loaded;
 
 } // PluginsManager::isPluginLoaded
 
@@ -120,7 +96,7 @@ PluginsManager::loadStartupPlugins()
 	for( ; begin != end; ++begin )
 	{
 		if ( begin->second->m_loadAtStartup )
-			loadPlugin( begin->second );
+			loadPluginIfNeeded( *begin->second );
 	}
 
 } // PluginsManager::loadStartupPlugins
@@ -130,25 +106,80 @@ PluginsManager::loadStartupPlugins()
 
 
 void
-PluginsManager::loadPlugin( boost::shared_ptr< PluginData > _pluginData )
+PluginsManager::closeAllPlugins()
 {
-	_pluginData->m_pluginStatus = PluginData::State::Loading;
+	PluginsCollectionTypeIterator
+			begin = m_pluginsCollection.begin()
+		,	end = m_pluginsCollection.end();
+
+	for( ; begin != end; ++begin )
+	{
+		if ( begin->second->m_pluginState == PluginData::State::Loaded )
+		{
+			assert( begin->second->m_pluginState != PluginData::State::Loading );
+
+			begin->second->m_pluginPointer->close();
+			begin->second->m_pluginPointer.reset();
+
+			switchPluginDataState( *begin->second );
+		}
+	}
+
+} // PluginsManager::closeAllPlugins
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginsManager::loadPluginIfNeeded( PluginData& _pluginData )
+{
+	assert( _pluginData.m_pluginState != PluginData::State::Loading );
+
+	if ( _pluginData.m_pluginState == PluginData::State::Loaded )
+		return;
+
+	switchPluginDataState( _pluginData );
 
 	PluginFactoryPtr connectorFactory
 		= ( PluginFactoryPtr ) QLibrary::resolve(
-				_pluginData->m_filePath.c_str()
+				_pluginData.m_filePath.c_str()
 			,	PluginFactoryName
 			);
 	assert( connectorFactory );
 		
-	_pluginData->m_pluginPointer.reset( connectorFactory() );
-	assert( _pluginData->m_pluginPointer );
+	_pluginData.m_pluginPointer.reset( connectorFactory() );
+	assert( _pluginData.m_pluginPointer );
 
-	_pluginData->m_pluginPointer->initialize( this );
+	_pluginData.m_pluginPointer->initialize( this );
 
-	_pluginData->m_pluginStatus = PluginData::State::Loaded;
+	switchPluginDataState( _pluginData );
 
-} // PluginsManager::loadPlugin
+} // PluginsManager::loadPluginIfNeeded
+
+
+/*---------------------------------------------------------------------------*/
+
+void
+PluginsManager::switchPluginDataState( PluginData& _pluginData )
+{
+	switch ( _pluginData.m_pluginState )
+	{
+	case PluginData::State::Loaded:
+		_pluginData.m_pluginState = PluginData::State::NotLoaded;
+		break;
+	case PluginData::State::NotLoaded:
+		_pluginData.m_pluginState = PluginData::State::Loading;
+		break;
+	case PluginData::State::Loading:
+		_pluginData.m_pluginState = PluginData::State::Loaded;
+		break;
+	default:
+		assert( !"unsupported plugins status type!" );
+		break;
+	}
+
+} // PluginsManager::switchPluginDataState
 
 
 /*---------------------------------------------------------------------------*/

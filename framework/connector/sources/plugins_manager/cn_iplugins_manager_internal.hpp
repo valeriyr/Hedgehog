@@ -21,6 +21,8 @@ struct IPluginsManagerInternal
 	virtual void registerPlugin( boost::shared_ptr< PluginData > _pluginData ) = 0;
 
 	virtual void loadStartupPlugins() = 0;
+
+	virtual void closeAllPlugins() = 0;
 };
 
 /*---------------------------------------------------------------------------*/

@@ -42,7 +42,7 @@ struct PluginData
 		,	m_loadAtStartup( _loadAtStartup )
 		,	m_pluginName( _pluginName )
 		,	m_filePath( _filePath )
-		,	m_pluginStatus( State::NotLoaded )
+		,	m_pluginState( State::NotLoaded )
 		,	m_pluginPointer()
 	{}
 
@@ -56,7 +56,7 @@ struct PluginData
 
 	const std::string m_filePath;
 
-	State::Enum m_pluginStatus;
+	State::Enum m_pluginState;
 
 	boost::intrusive_ptr< IPlugin > m_pluginPointer;
 

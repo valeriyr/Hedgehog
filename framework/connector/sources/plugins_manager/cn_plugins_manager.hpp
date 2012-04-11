@@ -42,13 +42,17 @@ public:
 
 	/*virtual*/ void loadStartupPlugins();
 
+	/*virtual*/ void closeAllPlugins();
+
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
 
-	void loadPlugin( boost::shared_ptr< PluginData > _pluginData );
+	void loadPluginIfNeeded( PluginData& _pluginData );
+
+	void switchPluginDataState( PluginData& _pluginData );
 
 /*---------------------------------------------------------------------------*/
 

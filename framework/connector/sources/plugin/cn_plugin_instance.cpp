@@ -64,6 +64,7 @@ PluginInstance::initialize( IBase* _connector )
 void
 PluginInstance::close()
 {
+	m_pluginsManager->closeAllPlugins();
 	m_pluginsManager.reset();
 
 } // PluginInstance::close
