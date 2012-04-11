@@ -17,8 +17,8 @@ namespace XmlLibrary {
 
 
 template < typename _TBaseInterface >
-BaseRule< _TBaseInterface >::BaseRule( const QString& _attributeName )
-	:	m_attributeName( _attributeName )
+BaseRule< _TBaseInterface >::BaseRule( const QString& _name )
+	:	m_name( _name )
 {
 } // BaseRule< _TBaseInterface >::BaseRule
 

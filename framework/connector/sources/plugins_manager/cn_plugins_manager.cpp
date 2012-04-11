@@ -147,7 +147,7 @@ PluginsManager::loadPluginIfNeeded( PluginData& _pluginData )
 			,	PluginFactoryName
 			);
 	assert( connectorFactory );
-		
+
 	_pluginData.m_pluginPointer.reset( connectorFactory() );
 	assert( _pluginData.m_pluginPointer );
 
