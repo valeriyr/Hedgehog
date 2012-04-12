@@ -3,7 +3,7 @@
 
 #include "xml_library/sources/ph/xl_ph.hpp"
 
-#include "xml_library/sources/elements/xl_attribute.hpp"
+#include "xml_library/sources/rules/xl_and_attribute_rule.hpp"
 
 #include "xml_library/ih/xl_ivisitor.hpp"
 
@@ -15,21 +15,32 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-Attribute::Attribute( const QString& _attributeName )
-	:	BaseType( _attributeName )
+AndAttributeRule::AndAttributeRule( const IAttributeRule& _first, const IAttributeRule& _second )
+	:	m_first( _first )
+	,	m_second( _second )
 {
-} // Attribute::Attribute
+} // AndAttributeRule::AndAttributeRule
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Attribute::accept ( IVisitor& _visitor ) const
+AndAttributeRule::accept ( IVisitor& _visitor ) const
 {
 	_visitor.visit( *this );
 
-} // Attribute::accept
+} // AndAttributeRule::accept
+
+
+/*---------------------------------------------------------------------------*/
+
+
+IAttributeRule& operator && ( const IAttributeRule& _first, const IAttributeRule& _second )
+{
+	return AndAttributeRule( _first, _second );
+
+} // operator &&
 
 
 /*---------------------------------------------------------------------------*/

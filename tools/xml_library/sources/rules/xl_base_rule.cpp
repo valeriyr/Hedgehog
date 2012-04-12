@@ -1,8 +1,12 @@
 
-/** XML visitor interface */
+/** XML element base implementation */
 
-#ifndef __XL_IVISITOR_HPP__
-#define __XL_IVISITOR_HPP__
+#include "xml_library/sources/ph/xl_ph.hpp"
+
+#include "xml_library/sources/rules/xl_base_rule.hpp"
+
+#include "xml_library/ih/xl_itag.hpp"
+#include "xml_library/ih/xl_iattribute.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -11,19 +15,18 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-class Tag;
-class Attribute;
 
-class AndAttributeRule;
+template < typename _TBaseInterface >
+BaseRule< _TBaseInterface >::BaseRule( const QString& _name )
+	:	m_name( _name )
+{
+} // BaseRule< _TBaseInterface >::BaseRule
+
 
 /*---------------------------------------------------------------------------*/
 
-struct IVisitor
-{
-	virtual void visit ( const Tag& _tag ) = 0;
-	virtual void visit ( const Attribute& _attribute ) = 0;
-	virtual void visit ( const AndAttributeRule& _andAttributeRule ) = 0;
-};
+template class BaseRule< ITag >;
+template class BaseRule< IAttribute >;
 
 /*---------------------------------------------------------------------------*/
 
@@ -31,5 +34,3 @@ struct IVisitor
 } // namespace Tools
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __XL_IVISITOR_HPP__

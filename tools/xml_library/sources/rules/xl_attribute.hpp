@@ -5,7 +5,7 @@
 #define __XL_ATTRIBUTE_HPP__
 
 #include "xml_library/ih/xl_iattribute.hpp"
-#include "xml_library/sources/elements/xl_base_rule.hpp"
+#include "xml_library/sources/rules/xl_base_rule.hpp"
 
 /*---------------------------------------------------------------------------*/
 

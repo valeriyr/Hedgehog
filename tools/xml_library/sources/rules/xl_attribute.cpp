@@ -1,12 +1,11 @@
 
-/** XML element base implementation */
+/** XML attribute implementation */
 
 #include "xml_library/sources/ph/xl_ph.hpp"
 
-#include "xml_library/sources/elements/xl_base_rule.hpp"
+#include "xml_library/sources/rules/xl_attribute.hpp"
 
-#include "xml_library/ih/xl_itag.hpp"
-#include "xml_library/ih/xl_iattribute.hpp"
+#include "xml_library/ih/xl_ivisitor.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,17 +15,22 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-template < typename _TBaseInterface >
-BaseRule< _TBaseInterface >::BaseRule( const QString& _name )
-	:	m_name( _name )
+Attribute::Attribute( const QString& _attributeName )
+	:	BaseType( _attributeName )
 {
-} // BaseRule< _TBaseInterface >::BaseRule
+} // Attribute::Attribute
 
 
 /*---------------------------------------------------------------------------*/
 
-template class BaseRule< ITag >;
-template class BaseRule< IAttribute >;
+
+void
+Attribute::accept ( IVisitor& _visitor ) const
+{
+	_visitor.visit( *this );
+
+} // Attribute::accept
+
 
 /*---------------------------------------------------------------------------*/
 

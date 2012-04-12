@@ -24,21 +24,23 @@
     <ClInclude Include="ih\xl_irule.hpp" />
     <ClInclude Include="ih\xl_itag.hpp" />
     <ClInclude Include="ih\xl_ivisitor.hpp" />
-    <ClInclude Include="sources\elements\xl_attribute.hpp" />
-    <ClInclude Include="sources\elements\xl_base_rule.hpp" />
-    <ClInclude Include="sources\elements\xl_tag.hpp" />
     <ClInclude Include="sources\ph\xl_ph.hpp" />
+    <ClInclude Include="sources\rules\xl_and_attribute_rule.hpp" />
+    <ClInclude Include="sources\rules\xl_attribute.hpp" />
+    <ClInclude Include="sources\rules\xl_base_rule.hpp" />
+    <ClInclude Include="sources\rules\xl_tag.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\elements\xl_attribute.cpp" />
-    <ClCompile Include="sources\elements\xl_base_rule.cpp" />
-    <ClCompile Include="sources\elements\xl_tag.cpp" />
     <ClCompile Include="sources\ph\xl_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="sources\rules\xl_and_attribute_rule.cpp" />
+    <ClCompile Include="sources\rules\xl_attribute.cpp" />
+    <ClCompile Include="sources\rules\xl_base_rule.cpp" />
+    <ClCompile Include="sources\rules\xl_tag.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EB038621-670A-403C-BC68-18746DECFD48}</ProjectGuid>

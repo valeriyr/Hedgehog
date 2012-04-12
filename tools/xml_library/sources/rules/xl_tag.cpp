@@ -3,7 +3,7 @@
 
 #include "xml_library/sources/ph/xl_ph.hpp"
 
-#include "xml_library/sources/elements/xl_tag.hpp"
+#include "xml_library/sources/rules/xl_tag.hpp"
 
 #include "xml_library/ih/xl_ivisitor.hpp"
 

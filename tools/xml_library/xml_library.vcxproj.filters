@@ -7,19 +7,13 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{602acd78-1ba8-4530-a280-2e0c69affb66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Xml Elements">
+    <Filter Include="Rules">
       <UniqueIdentifier>{72890654-107d-4a2f-90ee-c0f06b0e1a6e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\xl_ph.hpp">
       <Filter>Precompiled Header</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\elements\xl_attribute.hpp">
-      <Filter>Xml Elements</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\elements\xl_tag.hpp">
-      <Filter>Xml Elements</Filter>
     </ClInclude>
     <ClInclude Include="ih\xl_iattribute.hpp">
       <Filter>Interfaces</Filter>
@@ -33,25 +27,37 @@
     <ClInclude Include="ih\xl_iattribute_rule.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="sources\elements\xl_base_rule.hpp">
-      <Filter>Xml Elements</Filter>
-    </ClInclude>
     <ClInclude Include="ih\xl_ivisitor.hpp">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\rules\xl_base_rule.hpp">
+      <Filter>Rules</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\rules\xl_attribute.hpp">
+      <Filter>Rules</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\rules\xl_tag.hpp">
+      <Filter>Rules</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\rules\xl_and_attribute_rule.hpp">
+      <Filter>Rules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
-    <ClCompile Include="sources\elements\xl_attribute.cpp">
-      <Filter>Xml Elements</Filter>
+    <ClCompile Include="sources\rules\xl_base_rule.cpp">
+      <Filter>Rules</Filter>
     </ClCompile>
-    <ClCompile Include="sources\elements\xl_tag.cpp">
-      <Filter>Xml Elements</Filter>
+    <ClCompile Include="sources\rules\xl_attribute.cpp">
+      <Filter>Rules</Filter>
     </ClCompile>
-    <ClCompile Include="sources\elements\xl_base_rule.cpp">
-      <Filter>Xml Elements</Filter>
+    <ClCompile Include="sources\rules\xl_tag.cpp">
+      <Filter>Rules</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\rules\xl_and_attribute_rule.cpp">
+      <Filter>Rules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

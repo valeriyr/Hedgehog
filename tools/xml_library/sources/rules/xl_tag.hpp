@@ -5,7 +5,7 @@
 #define __XL_TAG_HPP__
 
 #include "xml_library/ih/xl_itag.hpp"
-#include "xml_library/sources/elements/xl_base_rule.hpp"
+#include "xml_library/sources/rules/xl_base_rule.hpp"
 
 /*---------------------------------------------------------------------------*/
 
