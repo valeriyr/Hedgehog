@@ -15,6 +15,10 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
+class AndAttributeRule;
+
+/*---------------------------------------------------------------------------*/
+
 struct IAttributeRule
 	:	public IRule
 {
@@ -22,7 +26,7 @@ struct IAttributeRule
 
 /*---------------------------------------------------------------------------*/
 
-IAttributeRule& operator && ( const IAttributeRule& _first, const IAttributeRule& _second );
+AndAttributeRule operator && ( const IAttributeRule& _first, const IAttributeRule& _second );
 
 /*---------------------------------------------------------------------------*/
 

@@ -5,7 +5,8 @@
 
 #include "xml_library/sources/rules/xl_and_attribute_rule.hpp"
 
-#include "xml_library/ih/xl_ivisitor.hpp"
+#include "xml_library/sources/visitors/xl_copy_visitor.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,8 +17,8 @@ namespace XmlLibrary {
 
 
 AndAttributeRule::AndAttributeRule( const IAttributeRule& _first, const IAttributeRule& _second )
-	:	m_first( _first )
-	,	m_second( _second )
+	:	m_first( CopyVisitor< IAttributeRule >::copy( _first ).release() )
+	,	m_second( CopyVisitor< IAttributeRule >::copy( _second ).release() )
 {
 } // AndAttributeRule::AndAttributeRule
 
@@ -36,7 +37,29 @@ AndAttributeRule::accept ( IVisitor& _visitor ) const
 /*---------------------------------------------------------------------------*/
 
 
-IAttributeRule& operator && ( const IAttributeRule& _first, const IAttributeRule& _second )
+const IAttributeRule&
+AndAttributeRule::getFirstArgument() const
+{
+	return *m_first;
+
+} // AndAttributeRule::getFirstArgument
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const IAttributeRule&
+AndAttributeRule::getSecondArgument() const
+{
+	return *m_second;
+
+} // AndAttributeRule::getSecondArgument
+
+
+/*---------------------------------------------------------------------------*/
+
+
+AndAttributeRule operator && ( const IAttributeRule& _first, const IAttributeRule& _second )
 {
 	return AndAttributeRule( _first, _second );
 

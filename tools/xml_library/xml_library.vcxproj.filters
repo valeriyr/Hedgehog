@@ -10,6 +10,9 @@
     <Filter Include="Rules">
       <UniqueIdentifier>{72890654-107d-4a2f-90ee-c0f06b0e1a6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Visitors">
+      <UniqueIdentifier>{e895d3d2-ac0d-4b75-8c64-c8711b481c9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\xl_ph.hpp">
@@ -42,6 +45,9 @@
     <ClInclude Include="sources\rules\xl_and_attribute_rule.hpp">
       <Filter>Rules</Filter>
     </ClInclude>
+    <ClInclude Include="sources\visitors\xl_copy_visitor.hpp">
+      <Filter>Visitors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">
@@ -58,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="sources\rules\xl_and_attribute_rule.cpp">
       <Filter>Rules</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\visitors\xl_copy_visitor.cpp">
+      <Filter>Visitors</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

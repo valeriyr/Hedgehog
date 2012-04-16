@@ -29,6 +29,7 @@
     <ClInclude Include="sources\rules\xl_attribute.hpp" />
     <ClInclude Include="sources\rules\xl_base_rule.hpp" />
     <ClInclude Include="sources\rules\xl_tag.hpp" />
+    <ClInclude Include="sources\visitors\xl_copy_visitor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">
@@ -41,6 +42,7 @@
     <ClCompile Include="sources\rules\xl_attribute.cpp" />
     <ClCompile Include="sources\rules\xl_base_rule.cpp" />
     <ClCompile Include="sources\rules\xl_tag.cpp" />
+    <ClCompile Include="sources\visitors\xl_copy_visitor.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EB038621-670A-403C-BC68-18746DECFD48}</ProjectGuid>

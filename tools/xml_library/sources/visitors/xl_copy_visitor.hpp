@@ -1,10 +1,10 @@
 
-/** And attribute rule declaration */
+/** Copy visitor declaration */
 
-#ifndef __XL_AND_ATTRIBUTE_RULE_HPP__
-#define __XL_AND_ATTRIBUTE_RULE_HPP__
+#ifndef __XL_COPY_VISITOR_HPP__
+#define __XL_COPY_VISITOR_HPP__
 
-#include "xml_library/ih/xl_iattribute_rule.hpp"
+#include "xml_library/ih/xl_ivisitor.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -14,27 +14,15 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-class AndAttributeRule
-	:	public IAttributeRule
+struct IRule;
+
+/*---------------------------------------------------------------------------*/
+
+
+template < typename _TRuleType >
+class CopyVisitor
+	:	public IVisitor
 {
-
-/*---------------------------------------------------------------------------*/
-
-public:
-
-/*---------------------------------------------------------------------------*/
-
-	AndAttributeRule( const IAttributeRule& _first, const IAttributeRule& _second );
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void accept ( IVisitor& _visitor ) const;
-
-/*---------------------------------------------------------------------------*/
-
-	const IAttributeRule& getFirstArgument() const;
-
-	const IAttributeRule& getSecondArgument() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,9 +30,35 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::scoped_ptr< IAttributeRule > m_first;
+	CopyVisitor();
 
-	boost::scoped_ptr< IAttributeRule > m_second;
+	virtual ~CopyVisitor();
+
+	std::auto_ptr< _TRuleType > getResult();
+
+/*---------------------------------------------------------------------------*/
+
+public:
+
+/*---------------------------------------------------------------------------*/
+
+	static std::auto_ptr< _TRuleType > copy ( const _TRuleType& _rule );
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void visit ( const Tag& _tag );
+
+	/*virtual*/ void visit ( const Attribute& _attribute );
+
+	/*virtual*/ void visit ( const AndAttributeRule& _andAttributeRule );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	std::auto_ptr< _TRuleType > m_result;
 
 /*---------------------------------------------------------------------------*/
 
@@ -57,4 +71,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_AND_ATTRIBUTE_RULE_HPP__
+#endif // __XL_COPY_VISITOR_HPP__
