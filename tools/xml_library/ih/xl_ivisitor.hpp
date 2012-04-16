@@ -1,6 +1,4 @@
 
-/** XML visitor interface */
-
 #ifndef __XL_IVISITOR_HPP__
 #define __XL_IVISITOR_HPP__
 
@@ -14,15 +12,12 @@ namespace XmlLibrary {
 class Tag;
 class Attribute;
 
-class AndAttributeRule;
-
 /*---------------------------------------------------------------------------*/
 
 struct IVisitor
 {
 	virtual void visit ( const Tag& _tag ) = 0;
 	virtual void visit ( const Attribute& _attribute ) = 0;
-	virtual void visit ( const AndAttributeRule& _andAttributeRule ) = 0;
 };
 
 /*---------------------------------------------------------------------------*/

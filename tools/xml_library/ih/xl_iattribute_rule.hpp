@@ -1,6 +1,4 @@
 
-/** XML attribute rule interface */
-
 #ifndef __XL_IATTRIBUTE_RULE_HPP__
 #define __XL_IATTRIBUTE_RULE_HPP__
 

@@ -1,6 +1,4 @@
 
-/** Copy visitor declaration */
-
 #ifndef __XL_COPY_VISITOR_HPP__
 #define __XL_COPY_VISITOR_HPP__
 
@@ -49,8 +47,6 @@ public:
 	/*virtual*/ void visit ( const Tag& _tag );
 
 	/*virtual*/ void visit ( const Attribute& _attribute );
-
-	/*virtual*/ void visit ( const AndAttributeRule& _andAttributeRule );
 
 /*---------------------------------------------------------------------------*/
 

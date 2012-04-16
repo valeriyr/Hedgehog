@@ -1,11 +1,8 @@
 
-/** Copy visitor definition part */
-
 #include "xml_library/sources/ph/xl_ph.hpp"
 
 #include "xml_library/sources/visitors/xl_copy_visitor.hpp"
 
-#include "xml_library/sources/rules/xl_and_attribute_rule.hpp"
 #include "xml_library/sources/rules/xl_attribute.hpp"
 #include "xml_library/sources/rules/xl_tag.hpp"
 
@@ -79,23 +76,6 @@ template < typename _TRuleType >
 void
 CopyVisitor< _TRuleType >::visit ( const Attribute& _attribute )
 {
-} // CopyVisitor< _TRuleType >::visit
-
-
-/*---------------------------------------------------------------------------*/
-
-
-template < typename _TRuleType >
-void
-CopyVisitor< _TRuleType >::visit ( const AndAttributeRule& _andAttributeRule )
-{
-	m_result.reset(
-		new AndAttributeRule(
-				_andAttributeRule.getFirstArgument()
-			,	_andAttributeRule.getSecondArgument()
-			)
-		);
-
 } // CopyVisitor< _TRuleType >::visit
 
 

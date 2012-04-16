@@ -1,6 +1,4 @@
 
-/** Precompiled header */
-
 #include <QtCore/QString>
 
 #include <memory>

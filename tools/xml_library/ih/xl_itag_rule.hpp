@@ -1,6 +1,4 @@
 
-/** XML tag interface */
-
 #ifndef __XL_ITAG_HPP__
 #define __XL_ITAG_HPP__
 
@@ -20,20 +18,20 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-struct ITag
+struct ITagRule
 	:	public IRule
 {
 
 /*---------------------------------------------------------------------------*/
 
 	// Set child elements rule
-	virtual ITag& operator[] ( const IRule& _rule ) = 0;
+	virtual ITagRule& operator[] ( const IRule& _rule ) = 0;
 
 	// Set attributes rule
-	virtual ITag& operator[] ( const IAttributeRule& _attributeRule ) = 0;
+	virtual ITagRule& operator[] ( const IAttributeRule& _attributeRule ) = 0;
 
 	// Rule can be omitted or repeat any times
-	virtual ITag& operator* () = 0;
+	virtual ITagRule& operator* () = 0;
 
 /*---------------------------------------------------------------------------*/
 

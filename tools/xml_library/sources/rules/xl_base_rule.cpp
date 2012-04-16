@@ -1,12 +1,10 @@
 
-/** XML element base implementation */
-
 #include "xml_library/sources/ph/xl_ph.hpp"
 
 #include "xml_library/sources/rules/xl_base_rule.hpp"
 
-#include "xml_library/ih/xl_itag.hpp"
-#include "xml_library/ih/xl_iattribute.hpp"
+#include "xml_library/ih/xl_itag_rule.hpp"
+#include "xml_library/ih/xl_iattribute_rule.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -25,8 +23,8 @@ BaseRule< _TBaseInterface >::BaseRule( const QString& _name )
 
 /*---------------------------------------------------------------------------*/
 
-template class BaseRule< ITag >;
-template class BaseRule< IAttribute >;
+template class BaseRule< ITagRule >;
+template class BaseRule< IAttributeRule >;
 
 /*---------------------------------------------------------------------------*/
 

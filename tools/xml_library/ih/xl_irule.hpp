@@ -1,6 +1,4 @@
 
-/** XML rule interface */
-
 #ifndef __XL_IRULE_HPP__
 #define __XL_IRULE_HPP__
 

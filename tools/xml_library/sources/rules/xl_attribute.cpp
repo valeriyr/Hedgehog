@@ -1,6 +1,4 @@
 
-/** XML attribute implementation */
-
 #include "xml_library/sources/ph/xl_ph.hpp"
 
 #include "xml_library/sources/rules/xl_attribute.hpp"

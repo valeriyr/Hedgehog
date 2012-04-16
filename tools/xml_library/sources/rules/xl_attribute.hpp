@@ -1,10 +1,8 @@
 
-/** XML attribute declaration */
-
 #ifndef __XL_ATTRIBUTE_HPP__
 #define __XL_ATTRIBUTE_HPP__
 
-#include "xml_library/ih/xl_iattribute.hpp"
+#include "xml_library/ih/xl_iattribute_rule.hpp"
 #include "xml_library/sources/rules/xl_base_rule.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -15,12 +13,12 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 class Attribute
-	:	public BaseRule< IAttribute >
+	:	public BaseRule< IAttributeRule >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	typedef BaseRule< IAttribute > BaseType;
+	typedef BaseRule< IAttributeRule > BaseType;
 
 /*---------------------------------------------------------------------------*/
 

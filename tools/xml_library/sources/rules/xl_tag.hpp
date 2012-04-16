@@ -1,10 +1,8 @@
 
-/** XML tag declaration */
-
 #ifndef __XL_TAG_HPP__
 #define __XL_TAG_HPP__
 
-#include "xml_library/ih/xl_itag.hpp"
+#include "xml_library/ih/xl_itag_rule.hpp"
 #include "xml_library/sources/rules/xl_base_rule.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -15,12 +13,12 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 class Tag
-	:	public BaseRule< ITag >
+	:	public BaseRule< ITagRule >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	typedef BaseRule< ITag > BaseType;
+	typedef BaseRule< ITagRule > BaseType;
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,13 +35,13 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	// Set child elements rule
-	/*virtual*/ ITag& operator[] ( const IRule& _rule );
+	/*virtual*/ ITagRule& operator[] ( const IRule& _rule );
 
 	// Set attributes rule
-	/*virtual*/ ITag& operator[] ( const IAttributeRule& _attributeRule );
+	/*virtual*/ ITagRule& operator[] ( const IAttributeRule& _attributeRule );
 
 	// Rule can be omitted or repeat any times
-	/*virtual*/ ITag& operator* ();
+	/*virtual*/ ITagRule& operator* ();
 
 /*---------------------------------------------------------------------------*/
 

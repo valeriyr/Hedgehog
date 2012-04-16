@@ -19,13 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ih\xl_iattribute.hpp" />
     <ClInclude Include="ih\xl_iattribute_rule.hpp" />
     <ClInclude Include="ih\xl_irule.hpp" />
-    <ClInclude Include="ih\xl_itag.hpp" />
+    <ClInclude Include="ih\xl_itag_rule.hpp" />
     <ClInclude Include="ih\xl_ivisitor.hpp" />
     <ClInclude Include="sources\ph\xl_ph.hpp" />
-    <ClInclude Include="sources\rules\xl_and_attribute_rule.hpp" />
     <ClInclude Include="sources\rules\xl_attribute.hpp" />
     <ClInclude Include="sources\rules\xl_base_rule.hpp" />
     <ClInclude Include="sources\rules\xl_tag.hpp" />
@@ -38,7 +36,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="sources\rules\xl_and_attribute_rule.cpp" />
     <ClCompile Include="sources\rules\xl_attribute.cpp" />
     <ClCompile Include="sources\rules\xl_base_rule.cpp" />
     <ClCompile Include="sources\rules\xl_tag.cpp" />

@@ -1,6 +1,4 @@
 
-/** XML base rule implementation */
-
 #ifndef __XL_BASE_RULE_HPP__
 #define __XL_BASE_RULE_HPP__
 

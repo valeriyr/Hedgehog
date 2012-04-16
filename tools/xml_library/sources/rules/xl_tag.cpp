@@ -1,6 +1,4 @@
 
-/** XML tag implementation */
-
 #include "xml_library/sources/ph/xl_ph.hpp"
 
 #include "xml_library/sources/rules/xl_tag.hpp"
@@ -35,7 +33,7 @@ Tag::accept ( IVisitor& _visitor ) const
 /*---------------------------------------------------------------------------*/
 
 
-ITag&
+ITagRule&
 Tag::operator[] ( const IRule& _rule )
 {
 	return *this;
@@ -46,7 +44,7 @@ Tag::operator[] ( const IRule& _rule )
 /*---------------------------------------------------------------------------*/
 
 
-ITag&
+ITagRule&
 Tag::operator[] ( const IAttributeRule& _attributeRule )
 {
 	return *this;
@@ -57,7 +55,7 @@ Tag::operator[] ( const IAttributeRule& _attributeRule )
 /*---------------------------------------------------------------------------*/
 
 
-ITag&
+ITagRule&
 Tag::operator* ()
 {
 	return *this;

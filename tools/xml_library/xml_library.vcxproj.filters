@@ -18,13 +18,7 @@
     <ClInclude Include="sources\ph\xl_ph.hpp">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
-    <ClInclude Include="ih\xl_iattribute.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="ih\xl_irule.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\xl_itag.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="ih\xl_iattribute_rule.hpp">
@@ -42,11 +36,11 @@
     <ClInclude Include="sources\rules\xl_tag.hpp">
       <Filter>Rules</Filter>
     </ClInclude>
-    <ClInclude Include="sources\rules\xl_and_attribute_rule.hpp">
-      <Filter>Rules</Filter>
-    </ClInclude>
     <ClInclude Include="sources\visitors\xl_copy_visitor.hpp">
       <Filter>Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\xl_itag_rule.hpp">
+      <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -60,9 +54,6 @@
       <Filter>Rules</Filter>
     </ClCompile>
     <ClCompile Include="sources\rules\xl_tag.cpp">
-      <Filter>Rules</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\rules\xl_and_attribute_rule.cpp">
       <Filter>Rules</Filter>
     </ClCompile>
     <ClCompile Include="sources\visitors\xl_copy_visitor.cpp">
