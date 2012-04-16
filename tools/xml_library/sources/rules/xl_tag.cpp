@@ -52,7 +52,7 @@ Tag::operator[] ( const IRule& _rule )
 Tag&
 Tag::operator[] ( const IAttributeRule& _attributeRule )
 {
-	m_childrenRule.reset( CopyVisitor< IAttributeRule >::copy( _attributeRule ).release() );
+	m_attributeRule.reset( CopyVisitor< IAttributeRule >::copy( _attributeRule ).release() );
 	return *this;
 
 } // Tag::operator[ const IAttributeRule& ]
