@@ -83,6 +83,7 @@ CopyVisitor< _TRuleType >::visit ( const Attribute& _attribute )
 /*---------------------------------------------------------------------------*/
 
 template class CopyVisitor< IAttributeRule >;
+//template class CopyVisitor< ITagRule >;
 
 /*---------------------------------------------------------------------------*/
 

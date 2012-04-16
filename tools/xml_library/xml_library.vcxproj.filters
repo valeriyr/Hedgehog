@@ -42,6 +42,9 @@
     <ClInclude Include="ih\xl_itag_rule.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="sources\rules\xl_repeat_mode.hpp">
+      <Filter>Rules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">

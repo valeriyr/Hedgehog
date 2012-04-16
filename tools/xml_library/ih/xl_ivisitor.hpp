@@ -17,6 +17,7 @@ class Attribute;
 struct IVisitor
 {
 	virtual void visit ( const Tag& _tag ) = 0;
+
 	virtual void visit ( const Attribute& _attribute ) = 0;
 };
 

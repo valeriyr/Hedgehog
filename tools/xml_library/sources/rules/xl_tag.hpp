@@ -3,6 +3,10 @@
 #define __XL_TAG_HPP__
 
 #include "xml_library/ih/xl_itag_rule.hpp"
+#include "xml_library/ih/xl_iattribute_rule.hpp"
+
+#include "xml_library/sources/rules/xl_repeat_mode.hpp"
+
 #include "xml_library/sources/rules/xl_base_rule.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -42,6 +46,18 @@ public:
 
 	// Rule can be omitted or repeat any times
 	Tag& operator* ();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	boost::scoped_ptr< IRule > m_childrenRule;
+
+	boost::scoped_ptr< IAttributeRule > m_attributeRule;
+
+	RepeatMode::Enum m_repetMode;
 
 /*---------------------------------------------------------------------------*/
 

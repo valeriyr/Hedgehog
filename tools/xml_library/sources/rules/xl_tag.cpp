@@ -15,6 +15,9 @@ namespace XmlLibrary {
 
 Tag::Tag( const QString& _tagName )
 	:	BaseType( _tagName )
+	,	m_childrenRule()
+	,	m_attributeRule()
+	,	m_repetMode( RepeatMode::Once )
 {
 } // Tag::Tag
 
@@ -58,6 +61,7 @@ Tag::operator[] ( const IAttributeRule& _attributeRule )
 Tag&
 Tag::operator* ()
 {
+	m_repetMode = RepeatMode::ZeroOrAny;
 	return *this;
 
 } // Tag::operator*

@@ -26,6 +26,7 @@
     <ClInclude Include="sources\ph\xl_ph.hpp" />
     <ClInclude Include="sources\rules\xl_attribute.hpp" />
     <ClInclude Include="sources\rules\xl_base_rule.hpp" />
+    <ClInclude Include="sources\rules\xl_repeat_mode.hpp" />
     <ClInclude Include="sources\rules\xl_tag.hpp" />
     <ClInclude Include="sources\visitors\xl_copy_visitor.hpp" />
   </ItemGroup>
