@@ -45,6 +45,12 @@
     <ClInclude Include="sources\rules\xl_repeat_mode.hpp">
       <Filter>Rules</Filter>
     </ClInclude>
+    <ClInclude Include="sources\rules\xl_and_rule.hpp">
+      <Filter>Rules</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\rules\xl_and_attribute.hpp">
+      <Filter>Rules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">
@@ -61,6 +67,12 @@
     </ClCompile>
     <ClCompile Include="sources\visitors\xl_copy_visitor.cpp">
       <Filter>Visitors</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\rules\xl_and_attribute.cpp">
+      <Filter>Rules</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\rules\xl_and_rule.cpp">
+      <Filter>Rules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

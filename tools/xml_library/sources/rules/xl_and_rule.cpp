@@ -1,8 +1,9 @@
 
 #include "xml_library/sources/ph/xl_ph.hpp"
 
-#include "xml_library/sources/rules/xl_tag.hpp"
+#include "xml_library/sources/rules/xl_and_rule.hpp"
 
+#include "xml_library/ih/xl_iattribute_rule.hpp"
 #include "xml_library/sources/visitors/xl_copy_visitor.hpp"
 
 
@@ -14,61 +15,52 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-Tag::Tag( const QString& _tagName )
-	:	BaseType( _tagName )
-	,	m_childrenRule()
-	,	m_attributeRule()
-	,	m_repetMode( RepeatMode::Once )
+template< typename _TBase >
+AndRule< _TBase >::AndRule( const _TBase& _left, const _TBase& _right )
+	:	m_left( CopyVisitor< _TBase >::copy( _left ).release() )
+	,	m_right( CopyVisitor< _TBase >::copy( _right ).release() )
 {
-} // Tag::Tag
+} // AndRule< _TBase >::AndRule
 
 
 /*---------------------------------------------------------------------------*/
 
 
+template< typename _TBase >
 void
-Tag::accept ( IVisitor& _visitor ) const
+AndRule< _TBase >::accept ( IVisitor& _visitor ) const
 {
 	_visitor.visit( *this );
 
-} // Tag::accept
+} // AndRule< _TBase >::accept
 
 
 /*---------------------------------------------------------------------------*/
 
 
-Tag&
-Tag::operator[] ( const IRule& _rule )
+template< typename _TBase >
+const _TBase&
+AndRule< _TBase >::getLeft() const
 {
-	m_childrenRule.reset( CopyVisitor< IRule >::copy( _rule ).release() );
-	return *this;
+	return *m_left;
 
-} // Tag::operator[ const IRule& ]
+} // AndRule< _TBase >::getLeft
 
 
 /*---------------------------------------------------------------------------*/
 
 
-Tag&
-Tag::operator[] ( const IAttributeRule& _attributeRule )
+template< typename _TBase >
+const _TBase&
+AndRule< _TBase >::getRight() const
 {
-	m_childrenRule.reset( CopyVisitor< IAttributeRule >::copy( _attributeRule ).release() );
-	return *this;
+	return *m_right;
 
-} // Tag::operator[ const IAttributeRule& ]
-
+} // AndRule< _TBase >::getRight
 
 /*---------------------------------------------------------------------------*/
 
-
-Tag&
-Tag::operator* ()
-{
-	m_repetMode = RepeatMode::ZeroOrAny;
-	return *this;
-
-} // Tag::operator*
-
+template class AndRule< IAttributeRule >;
 
 /*---------------------------------------------------------------------------*/
 

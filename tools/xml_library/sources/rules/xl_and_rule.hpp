@@ -1,9 +1,6 @@
 
-#ifndef __XL_COPY_VISITOR_HPP__
-#define __XL_COPY_VISITOR_HPP__
-
-#include "xml_library/ih/xl_ivisitor.hpp"
-
+#ifndef __XL_AND_RULE_HPP__
+#define __XL_AND_RULE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -12,29 +9,14 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-struct IRule;
+	struct IVisitor;
 
 /*---------------------------------------------------------------------------*/
 
-
-template < typename _TRuleType >
-class CopyVisitor
-	:	public IVisitor
+template< typename _TBase >
+class AndRule
+	:	public _TBase
 {
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	CopyVisitor();
-
-	virtual ~CopyVisitor();
-
-/*---------------------------------------------------------------------------*/
-
-	std::auto_ptr< IRule > getResult();
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,15 +24,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	static std::auto_ptr< _TRuleType > copy ( const _TRuleType& _rule );
+	AndRule( const _TBase& _left, const _TBase& _right );
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void visit ( const Tag& _tag );
+	/*virtual*/ void accept ( IVisitor& _visitor ) const;
 
-	/*virtual*/ void visit ( const Attribute& _attribute );
+/*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void visit ( const AndAttribute& _andAttribute );
+	const _TBase& getLeft() const;
+
+	const _TBase& getRight() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,7 +42,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	std::auto_ptr< IRule > m_result;
+	boost::scoped_ptr< _TBase > m_left;
+
+	boost::scoped_ptr< _TBase > m_right;
 
 /*---------------------------------------------------------------------------*/
 
@@ -71,4 +57,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_COPY_VISITOR_HPP__
+#endif // __XL_AND_RULE_HPP__

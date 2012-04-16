@@ -35,7 +35,7 @@ CopyVisitor< _TRuleType >::~CopyVisitor()
 
 
 template < typename _TRuleType >
-std::auto_ptr< _TRuleType >
+std::auto_ptr< IRule >
 CopyVisitor< _TRuleType >::getResult()
 {
 	return m_result;
@@ -50,11 +50,14 @@ template < typename _TRuleType >
 std::auto_ptr< _TRuleType >
 CopyVisitor< _TRuleType >::copy ( const _TRuleType& _rule )
 {
-	CopyVisitor visitor;
+	CopyVisitor< _TRuleType > visitor;
 
 	_rule.accept( visitor );
 
-	return visitor.getResult();
+	return
+		std::auto_ptr< _TRuleType >(
+			static_cast< _TRuleType* >( visitor.getResult().release() )
+			);
 
 } // CopyVisitor< _TRuleType >::copy
 
@@ -66,6 +69,8 @@ template < typename _TRuleType >
 void
 CopyVisitor< _TRuleType >::visit ( const Tag& _tag )
 {
+	m_result.reset( new Tag( _tag.getName() ) );
+
 } // CopyVisitor< _TRuleType >::visit
 
 
@@ -76,6 +81,25 @@ template < typename _TRuleType >
 void
 CopyVisitor< _TRuleType >::visit ( const Attribute& _attribute )
 {
+	m_result.reset( new Attribute( _attribute.getName() ) );
+
+} // CopyVisitor< _TRuleType >::visit
+
+
+/*---------------------------------------------------------------------------*/
+
+
+template < typename _TRuleType >
+void
+CopyVisitor< _TRuleType >::visit ( const AndAttribute& _andAttribute )
+{
+	m_result.reset(
+		new AndAttribute(
+				_andAttribute.getLeft()
+			,	_andAttribute.getRight()
+			)
+		);
+
 } // CopyVisitor< _TRuleType >::visit
 
 
@@ -83,7 +107,7 @@ CopyVisitor< _TRuleType >::visit ( const Attribute& _attribute )
 /*---------------------------------------------------------------------------*/
 
 template class CopyVisitor< IAttributeRule >;
-//template class CopyVisitor< ITagRule >;
+template class CopyVisitor< IRule >;
 
 /*---------------------------------------------------------------------------*/
 

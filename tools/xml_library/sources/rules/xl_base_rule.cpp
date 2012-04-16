@@ -23,6 +23,18 @@ BaseRule< _TBaseInterface >::BaseRule( const QString& _name )
 
 /*---------------------------------------------------------------------------*/
 
+
+template < typename _TBaseInterface >
+const QString&
+BaseRule< _TBaseInterface >::getName() const
+{
+	return m_name;
+
+} // BaseRule< _TBaseInterface >::getName
+
+
+/*---------------------------------------------------------------------------*/
+
 template class BaseRule< ITagRule >;
 template class BaseRule< IAttributeRule >;
 

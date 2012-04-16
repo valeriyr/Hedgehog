@@ -1,10 +1,8 @@
 
-#ifndef __XL_IVISITOR_HPP__
-#define __XL_IVISITOR_HPP__
-
-/*---------------------------------------------------------------------------*/
+#include "xml_library/sources/ph/xl_ph.hpp"
 
 #include "xml_library/sources/rules/xl_and_attribute.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,19 +11,14 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-class Tag;
-class Attribute;
 
-/*---------------------------------------------------------------------------*/
-
-struct IVisitor
+AndAttribute
+operator && ( const IAttributeRule& _left, const IAttributeRule& _right )
 {
-	virtual void visit ( const Tag& _tag ) = 0;
+	return AndAttribute( _left, _right );
 
-	virtual void visit ( const Attribute& _attribute ) = 0;
+} // operator &&
 
-	virtual void visit ( const AndAttribute& _andAttribute ) = 0;
-};
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,5 +26,3 @@ struct IVisitor
 } // namespace Tools
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __XL_IVISITOR_HPP__
