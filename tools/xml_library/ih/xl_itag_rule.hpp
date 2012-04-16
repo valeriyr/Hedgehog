@@ -21,20 +21,6 @@ namespace XmlLibrary {
 struct ITagRule
 	:	public IRule
 {
-
-/*---------------------------------------------------------------------------*/
-
-	// Set child elements rule
-	virtual ITagRule& operator[] ( const IRule& _rule ) = 0;
-
-	// Set attributes rule
-	virtual ITagRule& operator[] ( const IAttributeRule& _attributeRule ) = 0;
-
-	// Rule can be omitted or repeat any times
-	virtual ITagRule& operator* () = 0;
-
-/*---------------------------------------------------------------------------*/
-
 };
 
 /*---------------------------------------------------------------------------*/

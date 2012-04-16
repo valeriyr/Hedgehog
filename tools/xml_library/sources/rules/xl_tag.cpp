@@ -33,7 +33,7 @@ Tag::accept ( IVisitor& _visitor ) const
 /*---------------------------------------------------------------------------*/
 
 
-ITagRule&
+Tag&
 Tag::operator[] ( const IRule& _rule )
 {
 	return *this;
@@ -44,7 +44,7 @@ Tag::operator[] ( const IRule& _rule )
 /*---------------------------------------------------------------------------*/
 
 
-ITagRule&
+Tag&
 Tag::operator[] ( const IAttributeRule& _attributeRule )
 {
 	return *this;
@@ -55,7 +55,7 @@ Tag::operator[] ( const IAttributeRule& _attributeRule )
 /*---------------------------------------------------------------------------*/
 
 
-ITagRule&
+Tag&
 Tag::operator* ()
 {
 	return *this;

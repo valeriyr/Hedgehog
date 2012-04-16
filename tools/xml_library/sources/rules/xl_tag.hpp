@@ -35,13 +35,13 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	// Set child elements rule
-	/*virtual*/ ITagRule& operator[] ( const IRule& _rule );
+	Tag& operator[] ( const IRule& _rule );
 
 	// Set attributes rule
-	/*virtual*/ ITagRule& operator[] ( const IAttributeRule& _attributeRule );
+	Tag& operator[] ( const IAttributeRule& _attributeRule );
 
 	// Rule can be omitted or repeat any times
-	/*virtual*/ ITagRule& operator* ();
+	Tag& operator* ();
 
 /*---------------------------------------------------------------------------*/
 
