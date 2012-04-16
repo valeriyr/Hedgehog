@@ -1,6 +1,4 @@
 
-/** Precompiled header */
-
 #include <assert.h>
 #include <hash_map>
 #include <string>

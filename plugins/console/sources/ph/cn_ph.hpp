@@ -1,4 +1,2 @@
 
-/** Precompiled header */
-
 #include <iostream>

@@ -1,6 +1,4 @@
 
-/** Connector's internal resources declaration */
-
 #ifndef __CN_INTERNAL_RESOURCES_HPP__
 #define __CN_INTERNAL_RESOURCES_HPP__
 

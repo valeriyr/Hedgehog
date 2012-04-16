@@ -1,6 +1,4 @@
 
-/** Connector's internal resources definition */
-
 #include "connector/sources/ph/cn_ph.hpp"
 
 #include "connector/sources/resources/cn_internal_resources.hpp"

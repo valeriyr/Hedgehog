@@ -1,6 +1,4 @@
 
-/** Interface map macroses */
-
 #ifndef __CN_INTERFACE_MAP_HPP__
 #define __CN_INTERFACE_MAP_HPP__
 

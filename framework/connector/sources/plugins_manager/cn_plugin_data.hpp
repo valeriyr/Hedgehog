@@ -1,6 +1,4 @@
 
-/** Connector plugin manager declaration part */
-
 #ifndef __CN_PLUGIN_DATA_HPP__
 #define __CN_PLUGIN_DATA_HPP__
 

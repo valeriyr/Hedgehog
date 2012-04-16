@@ -1,6 +1,4 @@
 
-/** Connector plugins serializer interface */
-
 #ifndef __CN_IPLUGINS_SERIALIZER_HPP__
 #define __CN_IPLUGINS_SERIALIZER_HPP__
 

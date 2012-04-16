@@ -1,6 +1,4 @@
 
-/** Plugin factory macroses */
-
 #ifndef __CN_PLUGIN_FACTORY_HPP__
 #define __CN_PLUGIN_FACTORY_HPP__
 

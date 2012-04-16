@@ -1,6 +1,4 @@
 
-/** Connector export macroses */
-
 #ifndef __CN_EXPORT_HPP__
 #define __CN_EXPORT_HPP__
 

@@ -1,6 +1,4 @@
 
-/** Connector plugin instance implementation */
-
 #include "connector/sources/ph/cn_ph.hpp"
 
 #include "connector/sources/plugin/cn_plugin_instance.hpp"

@@ -1,6 +1,4 @@
 
-/** Connector loader declaration part */
-
 #ifndef __CN_LOADER_HPP__
 #define __CN_LOADER_HPP__
 

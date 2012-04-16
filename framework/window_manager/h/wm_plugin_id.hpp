@@ -1,6 +1,4 @@
 
-/** Window manager plugin ID */
-
 #ifndef __WM_PLUGIN_ID_HPP__
 #define __WM_PLUGIN_ID_HPP__
 

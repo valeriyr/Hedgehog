@@ -1,6 +1,4 @@
 
-/** Common plugin interface */
-
 #ifndef __CN_IPLUGIN_HPP__
 #define __CN_IPLUGIN_HPP__
 

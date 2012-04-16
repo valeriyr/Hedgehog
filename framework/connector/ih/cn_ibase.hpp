@@ -1,6 +1,4 @@
 
-/** Base interface for all classes witch use intrusive pointer */
-
 #ifndef __CN_IBASE_HPP__
 #define __CN_IBASE_HPP__
 

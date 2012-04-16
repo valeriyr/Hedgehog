@@ -1,6 +1,4 @@
 
-/** Connector loader implementation part */
-
 #include "connector/sources/ph/cn_ph.hpp"
 
 #include "connector/sources/loader/cn_loader.hpp"

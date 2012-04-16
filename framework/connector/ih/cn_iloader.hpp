@@ -1,6 +1,4 @@
 
-/** Conector loader interface */
-
 #ifndef __CN_ILOADER_HPP__
 #define __CN_ILOADER_HPP__
 
