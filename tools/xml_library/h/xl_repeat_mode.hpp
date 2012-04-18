@@ -1,10 +1,6 @@
 
-#ifndef __XL_IATTRIBUTE_RULE_HPP__
-#define __XL_IATTRIBUTE_RULE_HPP__
-
-/*---------------------------------------------------------------------------*/
-
-#include "xml_library/ih/xl_irule.hpp"
+#ifndef __XL_REPEAT_MODE_HPP__
+#define __XL_REPEAT_MODE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,9 +9,13 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-struct IAttributeRule
-	:	public IRule
+struct RepeatMode
 {
+	enum Enum
+	{
+			Once = 0
+		,	ZeroAndMore
+	};
 };
 
 /*---------------------------------------------------------------------------*/
@@ -25,4 +25,4 @@ struct IAttributeRule
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_IATTRIBUTE_RULE_HPP__
+#endif // __XL_REPEAT_MODE_HPP__

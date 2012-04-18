@@ -19,32 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ih\xl_iattribute_rule.hpp" />
-    <ClInclude Include="ih\xl_irule.hpp" />
-    <ClInclude Include="ih\xl_itag_rule.hpp" />
+    <ClInclude Include="h\xl_repeat_mode.hpp" />
+    <ClInclude Include="ih\xl_iattribute_element.hpp" />
+    <ClInclude Include="ih\xl_ielement.hpp" />
+    <ClInclude Include="ih\xl_itag_element.hpp" />
     <ClInclude Include="ih\xl_ivisitor.hpp" />
+    <ClInclude Include="sources\elements\xl_and_element.hpp" />
+    <ClInclude Include="sources\elements\xl_attribute_element.hpp" />
+    <ClInclude Include="sources\elements\xl_base_element.hpp" />
+    <ClInclude Include="sources\elements\xl_tag_element.hpp" />
     <ClInclude Include="sources\ph\xl_ph.hpp" />
-    <ClInclude Include="sources\rules\xl_and_attribute.hpp" />
-    <ClInclude Include="sources\rules\xl_and_rule.hpp" />
-    <ClInclude Include="sources\rules\xl_attribute.hpp" />
-    <ClInclude Include="sources\rules\xl_base_rule.hpp" />
-    <ClInclude Include="sources\rules\xl_repeat_mode.hpp" />
-    <ClInclude Include="sources\rules\xl_tag.hpp" />
-    <ClInclude Include="sources\visitors\xl_copy_visitor.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\elements\xl_and_element.cpp" />
+    <ClCompile Include="sources\elements\xl_attribute_element.cpp" />
+    <ClCompile Include="sources\elements\xl_base_element.cpp" />
+    <ClCompile Include="sources\elements\xl_tag_element.cpp" />
     <ClCompile Include="sources\ph\xl_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="sources\rules\xl_and_attribute.cpp" />
-    <ClCompile Include="sources\rules\xl_and_rule.cpp" />
-    <ClCompile Include="sources\rules\xl_attribute.cpp" />
-    <ClCompile Include="sources\rules\xl_base_rule.cpp" />
-    <ClCompile Include="sources\rules\xl_tag.cpp" />
-    <ClCompile Include="sources\visitors\xl_copy_visitor.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EB038621-670A-403C-BC68-18746DECFD48}</ProjectGuid>

@@ -1,10 +1,11 @@
 
 #include "xml_library/sources/ph/xl_ph.hpp"
 
-#include "xml_library/sources/rules/xl_base_rule.hpp"
+#include "xml_library/sources/elements/xl_base_element.hpp"
 
-#include "xml_library/ih/xl_itag_rule.hpp"
-#include "xml_library/ih/xl_iattribute_rule.hpp"
+#include "xml_library/ih/xl_itag_element.hpp"
+#include "xml_library/ih/xl_iattribute_element.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,28 +16,28 @@ namespace XmlLibrary {
 
 
 template < typename _TBaseInterface >
-BaseRule< _TBaseInterface >::BaseRule( const QString& _name )
+BaseElement< _TBaseInterface >::BaseElement( const std::string& _name )
 	:	m_name( _name )
 {
-} // BaseRule< _TBaseInterface >::BaseRule
+} // BaseElement< _TBaseInterface >::BaseElement
 
 
 /*---------------------------------------------------------------------------*/
 
 
 template < typename _TBaseInterface >
-const QString&
-BaseRule< _TBaseInterface >::getName() const
+const std::string&
+BaseElement< _TBaseInterface >::getName() const
 {
 	return m_name;
 
-} // BaseRule< _TBaseInterface >::getName
+} // BaseElement< _TBaseInterface >::getName
 
 
 /*---------------------------------------------------------------------------*/
 
-template class BaseRule< ITagRule >;
-template class BaseRule< IAttributeRule >;
+template class BaseElement< ITagElement >;
+template class BaseElement< IAttributeElement >;
 
 /*---------------------------------------------------------------------------*/
 

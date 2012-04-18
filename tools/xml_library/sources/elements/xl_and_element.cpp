@@ -1,9 +1,10 @@
 
-#ifndef __XL_ATTRIBUTE_HPP__
-#define __XL_ATTRIBUTE_HPP__
+#include "xml_library/sources/ph/xl_ph.hpp"
 
-#include "xml_library/ih/xl_iattribute_rule.hpp"
-#include "xml_library/sources/rules/xl_base_rule.hpp"
+#include "xml_library/sources/elements/xl_and_element.hpp"
+
+#include "xml_library/ih/xl_ivisitor.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -12,29 +13,52 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-class Attribute
-	:	public BaseRule< IAttributeRule >
+
+AndElement::AndElement(
+		boost::shared_ptr< IElement > _left
+	,	boost::shared_ptr< IElement > _right
+	)
+	:	m_left( _left )
+	,	m_right( _right )
 {
+	assert( _left );
+	assert( _right );
+
+} // AndElement::AndElement
+
 
 /*---------------------------------------------------------------------------*/
 
-	typedef BaseRule< IAttributeRule > BaseType;
+
+void
+AndElement::accept ( IVisitor& _visitor ) const
+{
+	_visitor.visit( *this );
+
+} // AndElement::accept
+
 
 /*---------------------------------------------------------------------------*/
 
-public:
+
+const IElement&
+AndElement::getLeft() const
+{
+	return *m_left;
+
+} // AndElement::getLeft
+
 
 /*---------------------------------------------------------------------------*/
 
-	Attribute( const QString& _attributeName );
 
-/*---------------------------------------------------------------------------*/
+const IElement&
+AndElement::getRight() const
+{
+	return *m_right;
 
-	/*virtual*/ void accept ( IVisitor& _visitor ) const;
+} // AndElement::getRight
 
-/*---------------------------------------------------------------------------*/
-
-};
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,5 +66,3 @@ public:
 } // namespace Tools
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __XL_ATTRIBUTE_HPP__

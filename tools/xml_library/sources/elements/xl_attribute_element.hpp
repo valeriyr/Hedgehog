@@ -1,6 +1,9 @@
 
-#ifndef __XL_BASE_RULE_HPP__
-#define __XL_BASE_RULE_HPP__
+#ifndef __XL_ATTRIBUTE_ELEMENT_HPP__
+#define __XL_ATTRIBUTE_ELEMENT_HPP__
+
+#include "xml_library/ih/xl_iattribute_element.hpp"
+#include "xml_library/sources/elements/xl_base_element.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -9,10 +12,13 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-template < typename _TBaseInterface >
-class BaseRule
-	:	public _TBaseInterface
+class AttributeElement
+	:	public BaseElement< IAttributeElement >
 {
+
+/*---------------------------------------------------------------------------*/
+
+	typedef BaseElement< IAttributeElement > BaseType;
 
 /*---------------------------------------------------------------------------*/
 
@@ -20,19 +26,11 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	BaseRule( const QString& _name );
+	AttributeElement( const std::string& _attributeName );
 
 /*---------------------------------------------------------------------------*/
 
-	const QString& getName() const;
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	const QString m_name;
+	/*virtual*/ void accept ( IVisitor& _visitor ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,4 +43,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_BASE_RULE_HPP__
+#endif // __XL_ATTRIBUTE_ELEMENT_HPP__

@@ -1,9 +1,10 @@
 
 #include "xml_library/sources/ph/xl_ph.hpp"
 
-#include "xml_library/sources/rules/xl_attribute.hpp"
+#include "xml_library/sources/elements/xl_attribute_element.hpp"
 
 #include "xml_library/ih/xl_ivisitor.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,21 +14,21 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-Attribute::Attribute( const QString& _attributeName )
+AttributeElement::AttributeElement( const std::string& _attributeName )
 	:	BaseType( _attributeName )
 {
-} // Attribute::Attribute
+} // AttributeElement::AttributeElement
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Attribute::accept ( IVisitor& _visitor ) const
+AttributeElement::accept ( IVisitor& _visitor ) const
 {
 	_visitor.visit( *this );
 
-} // Attribute::accept
+} // AttributeElement::accept
 
 
 /*---------------------------------------------------------------------------*/

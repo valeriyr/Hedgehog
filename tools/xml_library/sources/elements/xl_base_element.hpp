@@ -1,6 +1,6 @@
 
-#ifndef __XL_AND_RULE_HPP__
-#define __XL_AND_RULE_HPP__
+#ifndef __XL_BASE_ELEMENT_HPP__
+#define __XL_BASE_ELEMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -9,13 +9,9 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-	struct IVisitor;
-
-/*---------------------------------------------------------------------------*/
-
-template< typename _TBase >
-class AndRule
-	:	public _TBase
+template < typename _TBaseInterface >
+class BaseElement
+	:	public _TBaseInterface
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,17 +20,11 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	AndRule( const _TBase& _left, const _TBase& _right );
+	BaseElement( const std::string& _name );
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void accept ( IVisitor& _visitor ) const;
-
-/*---------------------------------------------------------------------------*/
-
-	const _TBase& getLeft() const;
-
-	const _TBase& getRight() const;
+	/*virtual*/ const std::string& getName() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,9 +32,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::scoped_ptr< _TBase > m_left;
-
-	boost::scoped_ptr< _TBase > m_right;
+	const std::string m_name;
 
 /*---------------------------------------------------------------------------*/
 
@@ -57,4 +45,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_AND_RULE_HPP__
+#endif // __XL_BASE_ELEMENT_HPP__

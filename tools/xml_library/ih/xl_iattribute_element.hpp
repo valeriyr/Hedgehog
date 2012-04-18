@@ -1,10 +1,10 @@
 
-#ifndef __XL_ITAG_HPP__
-#define __XL_ITAG_HPP__
+#ifndef __XL_IATTRIBUTE_ELEMENT_HPP__
+#define __XL_IATTRIBUTE_ELEMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "xml_library/ih/xl_irule.hpp"
+#include "xml_library/ih/xl_ielement.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,14 +13,10 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-	struct IAttribute;
-	struct IAttributeRule;
-
-/*---------------------------------------------------------------------------*/
-
-struct ITagRule
-	:	public IRule
+struct IAttributeElement
+	:	public IElement
 {
+	virtual const std::string& getName() const = 0;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -30,4 +26,4 @@ struct ITagRule
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_ITAG_HPP__
+#endif // __XL_IATTRIBUTE_ELEMENT_HPP__

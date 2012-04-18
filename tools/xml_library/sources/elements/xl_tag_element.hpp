@@ -1,13 +1,9 @@
 
-#ifndef __XL_TAG_HPP__
-#define __XL_TAG_HPP__
+#ifndef __XL_TAG_ELEMENT_HPP__
+#define __XL_TAG_ELEMENT_HPP__
 
-#include "xml_library/ih/xl_itag_rule.hpp"
-#include "xml_library/ih/xl_iattribute_rule.hpp"
-
-#include "xml_library/sources/rules/xl_repeat_mode.hpp"
-
-#include "xml_library/sources/rules/xl_base_rule.hpp"
+#include "xml_library/ih/xl_itag_element.hpp"
+#include "xml_library/sources/elements/xl_base_element.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,13 +12,13 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-class Tag
-	:	public BaseRule< ITagRule >
+class TagElement
+	:	public BaseElement< ITagElement >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	typedef BaseRule< ITagRule > BaseType;
+	typedef BaseElement< ITagElement > BaseType;
 
 /*---------------------------------------------------------------------------*/
 
@@ -30,7 +26,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Tag( const QString& _tagName );
+	TagElement( const std::string& _tagName );
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,14 +34,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	// Set child elements rule
-	Tag& operator[] ( const IRule& _rule );
+	/*virtual*/ boost::shared_ptr< IElement > getChildrenRule() const;
 
-	// Set attributes rule
-	Tag& operator[] ( const IAttributeRule& _attributeRule );
+	/*virtual*/ boost::shared_ptr< IElement > getAttributesRule() const;
 
-	// Rule can be omitted or repeat any times
-	Tag& operator* ();
+	/*virtual*/ RepeatMode::Enum getRepeatMode() const;
+
+/*---------------------------------------------------------------------------*/
+
+	void setChildrenRule( boost::shared_ptr< IElement > _rule );
+
+	void setAttributesRule( boost::shared_ptr< IElement > _rule  );
+
+	void setRepeatMode( RepeatMode::Enum _repeatMode  );
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,9 +54,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::scoped_ptr< IRule > m_childrenRule;
+	boost::shared_ptr< IElement > m_childrenRule;
 
-	boost::scoped_ptr< IAttributeRule > m_attributeRule;
+	boost::shared_ptr< IElement > m_attributesRule;
 
 	RepeatMode::Enum m_repetMode;
 
@@ -70,4 +71,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_TAG_HPP__
+#endif // __XL_TAG_ELEMENT_HPP__

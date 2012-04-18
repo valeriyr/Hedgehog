@@ -1,6 +1,8 @@
 
-#include <QtCore/QString>
+#include <string>
 
-#include <memory>
+//#include <memory>
 
-#include <boost/scoped_ptr.hpp>
+//#include <QtCore/QString>
+
+#include <boost/shared_ptr.hpp>

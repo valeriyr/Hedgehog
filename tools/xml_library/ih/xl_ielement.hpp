@@ -1,6 +1,6 @@
 
-#ifndef __XL_IRULE_HPP__
-#define __XL_IRULE_HPP__
+#ifndef __XL_IELEMENT_HPP__
+#define __XL_IELEMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,7 +13,7 @@ struct IVisitor;
 
 /*---------------------------------------------------------------------------*/
 
-struct IRule
+struct IElement
 {
 	virtual void accept ( IVisitor& _visitor ) const = 0;
 };
@@ -25,4 +25,4 @@ struct IRule
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_IRULE_HPP__
+#endif // __XL_IELEMENT_HPP__

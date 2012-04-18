@@ -4,27 +4,24 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "xml_library/sources/rules/xl_and_attribute.hpp"
-
-/*---------------------------------------------------------------------------*/
-
 namespace Tools {
 namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-class Tag;
-class Attribute;
+class TagElement;
+class AttributeElement;
+class AndElement;
 
 /*---------------------------------------------------------------------------*/
 
 struct IVisitor
 {
-	virtual void visit ( const Tag& _tag ) = 0;
+	virtual void visit ( const TagElement& _tag ) = 0;
 
-	virtual void visit ( const Attribute& _attribute ) = 0;
+	virtual void visit ( const AttributeElement& _attribute ) = 0;
 
-	virtual void visit ( const AndAttribute& _andAttribute ) = 0;
+	virtual void visit ( const AndElement& _andElement ) = 0;
 };
 
 /*---------------------------------------------------------------------------*/
