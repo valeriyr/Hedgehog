@@ -41,6 +41,17 @@ Attribute::getElement() const
 
 /*---------------------------------------------------------------------------*/
 
+
+Attribute&
+Attribute::operator && ( const Attribute& _attribute )
+{
+	return *this;
+
+} // Attribute::operator &&
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace XmlLibrary
 } // namespace Tools
 

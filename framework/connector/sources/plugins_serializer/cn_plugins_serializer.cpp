@@ -3,6 +3,10 @@
 
 #include "connector/sources/plugins_serializer/cn_plugins_serializer.hpp"
 
+#include "xml_library/sources/rules/xl_tag_rule.hpp"
+#include "xml_library/sources/rules/xl_attribute_rule.hpp"
+
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -31,7 +35,7 @@ PluginsSerializer::~PluginsSerializer()
 void
 PluginsSerializer::loadPluginsData()
 {
-	/*Tools::XmlLibrary::IRule& rule
+	Tools::XmlLibrary::Rule& rule
 		=
 			Tools::XmlLibrary::Tag( "plugins" )
 			[
@@ -41,7 +45,7 @@ PluginsSerializer::loadPluginsData()
 					&&
 						Tools::XmlLibrary::Attribute( "name" )
 				]
-			];*/
+			];
 
 } // PluginsSerializer::loadPluginsData
 
