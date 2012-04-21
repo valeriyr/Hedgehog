@@ -16,6 +16,9 @@
     <Filter Include="External Headers">
       <UniqueIdentifier>{58f6f245-514c-4625-bf00-2f9d0a553bae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="rules">
+      <UniqueIdentifier>{cc1c1255-075a-4c79-8efa-5f64cc64f7f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\xl_ph.hpp">
@@ -48,6 +51,15 @@
     <ClInclude Include="sources\elements\xl_and_element.hpp">
       <Filter>Elements</Filter>
     </ClInclude>
+    <ClInclude Include="sources\rules\xl_rule.hpp">
+      <Filter>rules</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\rules\xl_attribute_rule.hpp">
+      <Filter>rules</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\rules\xl_tag_rule.hpp">
+      <Filter>rules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">
@@ -64,6 +76,15 @@
     </ClCompile>
     <ClCompile Include="sources\elements\xl_and_element.cpp">
       <Filter>Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\rules\xl_rule.cpp">
+      <Filter>rules</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\rules\xl_attribute_rule.cpp">
+      <Filter>rules</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\rules\xl_tag_rule.cpp">
+      <Filter>rules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
