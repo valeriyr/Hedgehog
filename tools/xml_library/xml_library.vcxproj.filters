@@ -60,6 +60,9 @@
     <ClInclude Include="sources\rules\xl_tag_rule.hpp">
       <Filter>rules</Filter>
     </ClInclude>
+    <ClInclude Include="sources\elements\xl_binary_element.hpp">
+      <Filter>Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">
@@ -85,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="sources\rules\xl_tag_rule.cpp">
       <Filter>rules</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\elements\xl_binary_element.cpp">
+      <Filter>Elements</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,9 +1,7 @@
 
 #include "xml_library/sources/ph/xl_ph.hpp"
 
-#include "xml_library/sources/elements/xl_and_element.hpp"
-
-#include "xml_library/ih/xl_ivisitor.hpp"
+#include "xml_library/sources/elements/xl_binary_element.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -14,24 +12,39 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-AndElement::AndElement(
+BinaryElement::BinaryElement(
 		boost::shared_ptr< IElement > _left
 	,	boost::shared_ptr< IElement > _right
 	)
-	:	BinaryElement( _left, _right )
+	:	m_left( _left )
+	,	m_right( _right )
 {
+	assert( _left );
+	assert( _right );
+
 } // AndElement::AndElement
 
 
 /*---------------------------------------------------------------------------*/
 
 
-void
-AndElement::accept ( IVisitor& _visitor ) const
+const IElement&
+BinaryElement::getLeft() const
 {
-	_visitor.visit( *this );
+	return *m_left;
 
-} // AndElement::accept
+} // BinaryElement::getLeft
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const IElement&
+BinaryElement::getRight() const
+{
+	return *m_right;
+
+} // BinaryElement::getRight
 
 
 /*---------------------------------------------------------------------------*/

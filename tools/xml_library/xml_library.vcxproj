@@ -27,6 +27,7 @@
     <ClInclude Include="sources\elements\xl_and_element.hpp" />
     <ClInclude Include="sources\elements\xl_attribute_element.hpp" />
     <ClInclude Include="sources\elements\xl_base_element.hpp" />
+    <ClInclude Include="sources\elements\xl_binary_element.hpp" />
     <ClInclude Include="sources\elements\xl_tag_element.hpp" />
     <ClInclude Include="sources\ph\xl_ph.hpp" />
     <ClInclude Include="sources\rules\xl_attribute_rule.hpp" />
@@ -37,6 +38,7 @@
     <ClCompile Include="sources\elements\xl_and_element.cpp" />
     <ClCompile Include="sources\elements\xl_attribute_element.cpp" />
     <ClCompile Include="sources\elements\xl_base_element.cpp" />
+    <ClCompile Include="sources\elements\xl_binary_element.cpp" />
     <ClCompile Include="sources\elements\xl_tag_element.cpp" />
     <ClCompile Include="sources\ph\xl_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

@@ -1,10 +1,10 @@
 
-#ifndef __XL_AND_ELEMENT_HPP__
-#define __XL_AND_ELEMENT_HPP__
+#ifndef __XL_BINARY_ELEMENT_HPP__
+#define __XL_BINARY_ELEMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "xml_library/sources/elements/xl_binary_element.hpp"
+#include "xml_library/ih/xl_iattribute_element.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,8 +14,8 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-class AndElement
-	:	public BinaryElement
+class BinaryElement
+	:	public IElement
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,14 +24,26 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	AndElement(
+	BinaryElement(
 			boost::shared_ptr< IElement > _left
 		,	boost::shared_ptr< IElement > _right
 		);
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void accept ( IVisitor& _visitor ) const;
+	const IElement& getLeft() const;
+
+	const IElement& getRight() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	boost::shared_ptr< IElement > m_left;
+
+	boost::shared_ptr< IElement > m_right;
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,4 +56,4 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_AND_ELEMENT_HPP__
+#endif // __XL_BINARY_ELEMENT_HPP__
