@@ -3,6 +3,7 @@
 
 //#include <memory>
 
-//#include <QtCore/QString>
+#include <QtCore/QIODevice>
+#include <QtXml/QDomDocument>
 
 #include <boost/shared_ptr.hpp>

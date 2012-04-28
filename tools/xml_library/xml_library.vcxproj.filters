@@ -66,6 +66,12 @@
     <ClInclude Include="sources\rules\xl_base_attribute_rule.hpp">
       <Filter>rules</Filter>
     </ClInclude>
+    <ClInclude Include="sources\visitors\xl_xml_format_checker.hpp">
+      <Filter>Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\visitors\xl_xml_parser.hpp">
+      <Filter>Visitors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">
@@ -97,6 +103,12 @@
     </ClCompile>
     <ClCompile Include="sources\rules\xl_base_attribute_rule.cpp">
       <Filter>rules</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\visitors\xl_xml_format_checker.cpp">
+      <Filter>Visitors</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\visitors\xl_xml_parser.cpp">
+      <Filter>Visitors</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

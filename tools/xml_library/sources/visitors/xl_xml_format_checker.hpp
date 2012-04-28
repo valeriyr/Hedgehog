@@ -1,6 +1,6 @@
 
-#ifndef __XL_COPY_VISITOR_HPP__
-#define __XL_COPY_VISITOR_HPP__
+#ifndef __XL_XML_FORMAT_CHECKER_HPP__
+#define __XL_XML_FORMAT_CHECKER_HPP__
 
 #include "xml_library/ih/xl_ivisitor.hpp"
 
@@ -12,13 +12,11 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-struct IRule;
+struct IElement;
 
 /*---------------------------------------------------------------------------*/
 
-
-template < typename _TRuleType >
-class CopyVisitor
+class FormatChecker
 	:	public IVisitor
 {
 
@@ -28,13 +26,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	CopyVisitor();
+	FormatChecker();
 
-	virtual ~CopyVisitor();
-
-/*---------------------------------------------------------------------------*/
-
-	std::auto_ptr< IRule > getResult();
+	virtual ~FormatChecker();
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,23 +36,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	static std::auto_ptr< _TRuleType > copy ( const _TRuleType& _rule );
+	static bool check ( const IElement& _element );
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void visit ( const Tag& _tag );
+	/*virtual*/ void visit ( const TagElement& _tag );
 
-	/*virtual*/ void visit ( const Attribute& _attribute );
+	/*virtual*/ void visit ( const AttributeElement& _attribute );
 
-	/*virtual*/ void visit ( const AndAttribute& _andAttribute );
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	std::auto_ptr< IRule > m_result;
+	/*virtual*/ void visit ( const AndElement& _andElement );
 
 /*---------------------------------------------------------------------------*/
 
@@ -71,4 +57,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_COPY_VISITOR_HPP__
+#endif // __XL_XML_FORMAT_CHECKER_HPP__
