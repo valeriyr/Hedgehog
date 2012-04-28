@@ -38,13 +38,12 @@ Parser::~Parser()
 void
 Parser::parse ( const IElement& _element, QIODevice& _ioDevise )
 {
-	QDomDocument document;
-
-	if ( !document.setContent( &_ioDevise, false ) )
-		return;
-
 	FormatChecker checker;
 	if ( !checker.check( _element, _ioDevise ) )
+		return;
+
+	QDomDocument document;
+	if ( !document.setContent( &_ioDevise, false ) )
 		return;
 
 	Parser parser( document.documentElement() );

@@ -36,13 +36,13 @@ PluginsSerializer::~PluginsSerializer()
 void
 PluginsSerializer::loadPluginsData()
 {
-	QFile file( "./config/plugins.xml" );
+	QFile file( "e:/Hedgehog/x64/Debug/bin/config/plugins.xml" );
 	assert( file.exists() );
 
 	if ( !file.open( QIODevice::ReadOnly ) )
 		return;
 
-	Tools::XmlLibrary::Rule& rule
+	Tools::XmlLibrary::Tag rule
 		=
 			Tools::XmlLibrary::Tag( "plugins" )
 			[
