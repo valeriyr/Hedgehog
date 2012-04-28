@@ -48,9 +48,13 @@ PluginsSerializer::loadPluginsData()
 			[
 				*Tools::XmlLibrary::Tag( "plugin" )
 				[
-						Tools::XmlLibrary::Attribute( "id" )
+						Tools::XmlLibrary::Attribute( "name", Tools::XmlLibrary::AttributeType::String )
 					&&
-						Tools::XmlLibrary::Attribute( "name" )
+						Tools::XmlLibrary::Attribute( "file", Tools::XmlLibrary::AttributeType::String )
+					&&
+						Tools::XmlLibrary::Attribute( "id", Tools::XmlLibrary::AttributeType::Integer )
+					&&
+						Tools::XmlLibrary::Attribute( "loadatstartup", Tools::XmlLibrary::AttributeType::Integer )
 				]
 			];
 

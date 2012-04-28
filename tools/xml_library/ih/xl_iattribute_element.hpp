@@ -6,6 +6,9 @@
 
 #include "xml_library/ih/xl_ielement.hpp"
 
+#include "xml_library/h/xl_attribute_type.hpp"
+
+
 /*---------------------------------------------------------------------------*/
 
 namespace Tools {
@@ -17,6 +20,8 @@ struct IAttributeElement
 	:	public IElement
 {
 	virtual const std::string& getName() const = 0;
+
+	virtual const AttributeType::Enum getType() const = 0;
 };
 
 /*---------------------------------------------------------------------------*/

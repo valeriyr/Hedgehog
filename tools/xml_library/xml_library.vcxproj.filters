@@ -78,6 +78,9 @@
     <ClInclude Include="sources\resources\xl_resources.hpp">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="h\xl_attribute_type.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">

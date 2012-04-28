@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="h\xl_attribute_type.hpp" />
     <ClInclude Include="h\xl_repeat_mode.hpp" />
     <ClInclude Include="ih\xl_iattribute_element.hpp" />
     <ClInclude Include="ih\xl_ielement.hpp" />

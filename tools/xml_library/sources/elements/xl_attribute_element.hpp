@@ -5,6 +5,7 @@
 #include "xml_library/ih/xl_iattribute_element.hpp"
 #include "xml_library/sources/elements/xl_base_element.hpp"
 
+
 /*---------------------------------------------------------------------------*/
 
 namespace Tools {
@@ -26,11 +27,23 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	AttributeElement( const std::string& _attributeName );
+	AttributeElement( const std::string& _attributeName, AttributeType::Enum _attributeType );
 
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void accept ( IVisitor& _visitor ) const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ const AttributeType::Enum getType() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	AttributeType::Enum m_attributeType;
 
 /*---------------------------------------------------------------------------*/
 

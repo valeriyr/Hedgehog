@@ -38,11 +38,6 @@ FormatChecker::~FormatChecker()
 bool
 FormatChecker::check ( const IElement& _element, QIODevice& _ioDevise )
 {
-	QDomDocument document;
-
-	if ( !document.setContent( &_ioDevise, false ) )
-		return false;
-
 	_element.accept( *this );
 
 	m_xmlSchemaDocument
