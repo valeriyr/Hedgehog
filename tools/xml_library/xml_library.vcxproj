@@ -30,6 +30,7 @@
     <ClInclude Include="sources\elements\xl_binary_element.hpp" />
     <ClInclude Include="sources\elements\xl_tag_element.hpp" />
     <ClInclude Include="sources\ph\xl_ph.hpp" />
+    <ClInclude Include="sources\resources\xl_resources.hpp" />
     <ClInclude Include="sources\rules\xl_attribute_rule.hpp" />
     <ClInclude Include="sources\rules\xl_base_attribute_rule.hpp" />
     <ClInclude Include="sources\rules\xl_rule.hpp" />
@@ -49,6 +50,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="sources\resources\xl_resources.cpp" />
     <ClCompile Include="sources\rules\xl_attribute_rule.cpp" />
     <ClCompile Include="sources\rules\xl_base_attribute_rule.cpp" />
     <ClCompile Include="sources\rules\xl_rule.cpp" />
@@ -161,6 +163,7 @@
     <Lib>
       <OutputFile>$(TargetDir)/$(ProjectName).lib</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>QtXmld4.lib;QtXmlPatternsd4.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -180,6 +183,7 @@
     <Lib>
       <OutputFile>$(TargetDir)/$(ProjectName).lib</OutputFile>
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>QtXmld4.lib;QtXmlPatternsd4.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -203,6 +207,7 @@
     <Lib>
       <OutputFile>$(TargetDir)/$(ProjectName).lib</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>QtXml4.lib;QtXmlPatterns4.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -226,6 +231,7 @@
     <Lib>
       <OutputFile>$(TargetDir)/$(ProjectName).lib</OutputFile>
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>QtXml4.lib;QtXmlPatterns4.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

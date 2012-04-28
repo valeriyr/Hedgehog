@@ -18,7 +18,8 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-Parser::Parser()
+Parser::Parser( QDomElement& _domElement )
+	:	m_domElement( _domElement )
 {
 } // Parser::Parser
 
@@ -42,10 +43,11 @@ Parser::parse ( const IElement& _element, QIODevice& _ioDevise )
 	if ( !document.setContent( &_ioDevise, false ) )
 		return;
 
-	if ( !FormatChecker::check( _element ) )
+	FormatChecker checker;
+	if ( !checker.check( _element, _ioDevise ) )
 		return;
 
-	Parser parser;
+	Parser parser( document.documentElement() );
 	_element.accept( parser );
 
 } // Parser::parse

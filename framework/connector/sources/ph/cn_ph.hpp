@@ -8,5 +8,6 @@
 #include <boost/scoped_ptr.hpp>
 
 #include <QtCore/QLibrary>
+#include <QtCore/QFile>
 
 #include "connector/h/cn_base.hpp"

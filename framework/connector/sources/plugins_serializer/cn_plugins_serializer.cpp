@@ -6,6 +6,7 @@
 #include "xml_library/sources/rules/xl_tag_rule.hpp"
 #include "xml_library/sources/rules/xl_attribute_rule.hpp"
 
+#include "xml_library/sources/visitors/xl_xml_parser.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,6 +36,12 @@ PluginsSerializer::~PluginsSerializer()
 void
 PluginsSerializer::loadPluginsData()
 {
+	QFile file( "./config/plugins.xml" );
+	assert( file.exists() );
+
+	if ( !file.open( QIODevice::ReadOnly ) )
+		return;
+
 	Tools::XmlLibrary::Rule& rule
 		=
 			Tools::XmlLibrary::Tag( "plugins" )
@@ -46,6 +53,8 @@ PluginsSerializer::loadPluginsData()
 						Tools::XmlLibrary::Attribute( "name" )
 				]
 			];
+
+	Tools::XmlLibrary::Parser::parse( *rule.getElement(), file );
 
 } // PluginsSerializer::loadPluginsData
 

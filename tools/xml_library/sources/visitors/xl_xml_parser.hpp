@@ -4,6 +4,8 @@
 
 #include "xml_library/ih/xl_ivisitor.hpp"
 
+#include <QtXml/QDomElement>
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -26,7 +28,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	Parser();
+	Parser( QDomElement& _domElement );
 
 	virtual ~Parser();
 
@@ -45,6 +47,14 @@ public:
 	/*virtual*/ void visit ( const AttributeElement& _attribute );
 
 	/*virtual*/ void visit ( const AndElement& _andElement );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	QDomElement m_domElement;
 
 /*---------------------------------------------------------------------------*/
 

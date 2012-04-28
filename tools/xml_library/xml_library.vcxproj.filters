@@ -16,7 +16,10 @@
     <Filter Include="External Headers">
       <UniqueIdentifier>{58f6f245-514c-4625-bf00-2f9d0a553bae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="rules">
+    <Filter Include="Resources">
+      <UniqueIdentifier>{7dcc3632-7c48-45a0-8ed4-acdfd781e9b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rules">
       <UniqueIdentifier>{cc1c1255-075a-4c79-8efa-5f64cc64f7f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -52,25 +55,28 @@
       <Filter>Elements</Filter>
     </ClInclude>
     <ClInclude Include="sources\rules\xl_rule.hpp">
-      <Filter>rules</Filter>
+      <Filter>Rules</Filter>
     </ClInclude>
     <ClInclude Include="sources\rules\xl_attribute_rule.hpp">
-      <Filter>rules</Filter>
+      <Filter>Rules</Filter>
     </ClInclude>
     <ClInclude Include="sources\rules\xl_tag_rule.hpp">
-      <Filter>rules</Filter>
+      <Filter>Rules</Filter>
     </ClInclude>
     <ClInclude Include="sources\elements\xl_binary_element.hpp">
       <Filter>Elements</Filter>
     </ClInclude>
     <ClInclude Include="sources\rules\xl_base_attribute_rule.hpp">
-      <Filter>rules</Filter>
+      <Filter>Rules</Filter>
     </ClInclude>
     <ClInclude Include="sources\visitors\xl_xml_format_checker.hpp">
       <Filter>Visitors</Filter>
     </ClInclude>
     <ClInclude Include="sources\visitors\xl_xml_parser.hpp">
       <Filter>Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\resources\xl_resources.hpp">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -90,25 +96,28 @@
       <Filter>Elements</Filter>
     </ClCompile>
     <ClCompile Include="sources\rules\xl_rule.cpp">
-      <Filter>rules</Filter>
+      <Filter>Rules</Filter>
     </ClCompile>
     <ClCompile Include="sources\rules\xl_attribute_rule.cpp">
-      <Filter>rules</Filter>
+      <Filter>Rules</Filter>
     </ClCompile>
     <ClCompile Include="sources\rules\xl_tag_rule.cpp">
-      <Filter>rules</Filter>
+      <Filter>Rules</Filter>
     </ClCompile>
     <ClCompile Include="sources\elements\xl_binary_element.cpp">
       <Filter>Elements</Filter>
     </ClCompile>
     <ClCompile Include="sources\rules\xl_base_attribute_rule.cpp">
-      <Filter>rules</Filter>
+      <Filter>Rules</Filter>
     </ClCompile>
     <ClCompile Include="sources\visitors\xl_xml_format_checker.cpp">
       <Filter>Visitors</Filter>
     </ClCompile>
     <ClCompile Include="sources\visitors\xl_xml_parser.cpp">
       <Filter>Visitors</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\resources\xl_resources.cpp">
+      <Filter>Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

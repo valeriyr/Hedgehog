@@ -7,6 +7,8 @@
 #include "xml_library/sources/elements/xl_tag_element.hpp"
 #include "xml_library/sources/elements/xl_and_element.hpp"
 
+#include "xml_library/sources/resources/xl_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,6 +19,7 @@ namespace XmlLibrary {
 
 
 FormatChecker::FormatChecker()
+	:	m_xmlSchemaDocument()
 {
 } // FormatChecker::FormatChecker
 
@@ -33,9 +36,25 @@ FormatChecker::~FormatChecker()
 
 
 bool
-FormatChecker::check ( const IElement& _element )
+FormatChecker::check ( const IElement& _element, QIODevice& _ioDevise )
 {
-	return true;
+	QDomDocument document;
+
+	if ( !document.setContent( &_ioDevise, false ) )
+		return false;
+
+	m_xmlSchemaDocument += Resources::Strings::StartXmlSchemaDocument;
+
+	_element.accept( *this );
+
+	m_xmlSchemaDocument += Resources::Strings::EndXmlSchemaDocument;
+
+	QXmlSchema schema;
+	schema.load( m_xmlSchemaDocument );
+	assert( schema.isValid() );
+
+	QXmlSchemaValidator validator( schema );
+	return validator.validate( &_ioDevise );
 
 } // FormatChecker::parse
 
@@ -65,6 +84,17 @@ void
 FormatChecker::visit ( const AndElement& _andElement )
 {
 } // FormatChecker::visit
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QString&
+FormatChecker::getXmlSchemaDocument() const
+{
+	return m_xmlSchemaDocument;
+
+} // FormatChecker::getXmlSchemaDocument
 
 
 /*---------------------------------------------------------------------------*/
