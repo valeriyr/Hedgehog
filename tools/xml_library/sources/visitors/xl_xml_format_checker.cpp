@@ -43,11 +43,11 @@ FormatChecker::check ( const IElement& _element, QIODevice& _ioDevise )
 	if ( !document.setContent( &_ioDevise, false ) )
 		return false;
 
-	m_xmlSchemaDocument += Resources::Strings::StartXmlSchemaDocument;
-
 	_element.accept( *this );
 
-	m_xmlSchemaDocument += Resources::Strings::EndXmlSchemaDocument;
+	m_xmlSchemaDocument
+		= QString( Resources::Strings::XmlSchemaDocumentFormat )
+			.arg( m_xmlSchemaDocument );
 
 	QXmlSchema schema;
 	schema.load( m_xmlSchemaDocument );
@@ -65,6 +65,7 @@ FormatChecker::check ( const IElement& _element, QIODevice& _ioDevise )
 void
 FormatChecker::visit ( const TagElement& _tag )
 {
+
 } // FormatChecker::visit
 
 

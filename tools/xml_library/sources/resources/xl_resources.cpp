@@ -16,10 +16,11 @@ namespace Strings {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const StartXmlSchemaDocument = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><xsd:schema>";
+	const char* const XmlSchemaDocumentFormat = "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">%1</xsd:schema>";
 
-	const char* const EndXmlSchemaDocument = "</xsd:schema>";
+	const char* const ComplexTypeFormat = "<xsd::complexType name=\"%1Type\">%2</xsd::complexType>";
 
+	const char* const ElementFormat = "<xsd::element name=\"%1\" type=\"%2Type\"/>";
 
 /*---------------------------------------------------------------------------*/
 
