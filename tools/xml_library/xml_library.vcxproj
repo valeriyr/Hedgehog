@@ -31,6 +31,7 @@
     <ClInclude Include="sources\elements\xl_tag_element.hpp" />
     <ClInclude Include="sources\ph\xl_ph.hpp" />
     <ClInclude Include="sources\rules\xl_attribute_rule.hpp" />
+    <ClInclude Include="sources\rules\xl_base_attribute_rule.hpp" />
     <ClInclude Include="sources\rules\xl_rule.hpp" />
     <ClInclude Include="sources\rules\xl_tag_rule.hpp" />
   </ItemGroup>
@@ -47,6 +48,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sources\rules\xl_attribute_rule.cpp" />
+    <ClCompile Include="sources\rules\xl_base_attribute_rule.cpp" />
     <ClCompile Include="sources\rules\xl_rule.cpp" />
     <ClCompile Include="sources\rules\xl_tag_rule.cpp" />
   </ItemGroup>

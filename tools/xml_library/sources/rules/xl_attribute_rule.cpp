@@ -15,7 +15,7 @@ namespace XmlLibrary {
 
 
 Attribute::Attribute( const std::string& _name )
-	:	m_attributeElement( new AttributeElement( _name ) )
+	:	BaseAttribute( boost::shared_ptr< IElement >( new AttributeElement( _name ) ) )
 {
 } // Attribute::Attribute
 
@@ -26,28 +26,6 @@ Attribute::Attribute( const std::string& _name )
 Attribute::~Attribute()
 {
 } // Attribute::~Attribute
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::shared_ptr< IElement >
-Attribute::getElement() const
-{
-	return m_attributeElement;
-
-} // Attribute::getElement
-
-
-/*---------------------------------------------------------------------------*/
-
-
-Attribute&
-Attribute::operator && ( const Attribute& _attribute )
-{
-	return *this;
-
-} // Attribute::operator &&
 
 
 /*---------------------------------------------------------------------------*/

@@ -1,10 +1,9 @@
 
-#ifndef __XL_ATTRIBUTE_RULE_HPP__
-#define __XL_ATTRIBUTE_RULE_HPP__
-
-#include "xml_library/sources/rules/xl_rule.hpp"
+#include "xml_library/sources/ph/xl_ph.hpp"
 
 #include "xml_library/sources/rules/xl_base_attribute_rule.hpp"
+
+#include "xml_library/sources/elements/xl_and_element.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -14,27 +13,43 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-class AttributeElement;
 
-/*---------------------------------------------------------------------------*/
-
-class Attribute
-	:	public BaseAttribute
+BaseAttribute::BaseAttribute( boost::shared_ptr< IElement > _element )
+	:	m_element( _element )
 {
+} // BaseAttribute::BaseAttribute
+
 
 /*---------------------------------------------------------------------------*/
 
-public:
+
+BaseAttribute::~BaseAttribute()
+{
+} // BaseAttribute::~BaseAttribute
+
 
 /*---------------------------------------------------------------------------*/
 
-	Attribute( const std::string& _name );
 
-	virtual ~Attribute();
+boost::shared_ptr< IElement >
+BaseAttribute::getElement() const
+{
+	return m_element;
+
+} // Attribute::getElement
+
 
 /*---------------------------------------------------------------------------*/
 
-};
+
+BaseAttribute&
+BaseAttribute::operator && ( const BaseAttribute& _attribute )
+{
+	m_element.reset( new AndElement( m_element, _attribute.getElement() ) );
+	return *this;
+
+} // BaseAttribute::operator &&
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,5 +57,3 @@ public:
 } // namespace Tools
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __XL_ATTRIBUTE_RULE_HPP__

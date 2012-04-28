@@ -63,6 +63,9 @@
     <ClInclude Include="sources\elements\xl_binary_element.hpp">
       <Filter>Elements</Filter>
     </ClInclude>
+    <ClInclude Include="sources\rules\xl_base_attribute_rule.hpp">
+      <Filter>rules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">
@@ -91,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="sources\elements\xl_binary_element.cpp">
       <Filter>Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\rules\xl_base_attribute_rule.cpp">
+      <Filter>rules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
