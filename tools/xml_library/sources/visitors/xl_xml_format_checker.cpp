@@ -60,6 +60,21 @@ FormatChecker::check ( const IElement& _element, QIODevice& _ioDevise )
 void
 FormatChecker::visit ( const TagElement& _tag )
 {
+	if ( _tag.getChildrenRule() )
+		_tag.getChildrenRule()->accept( *this );
+
+	if ( _tag.getAttributesRule() )
+		_tag.getAttributesRule()->accept( *this );
+
+	m_xmlSchemaDocument
+		= QString( Resources::Strings::ElementFormat )
+			.arg(
+						_tag.getName().c_str()
+					,		( _tag.getRepeatMode() == RepeatMode::ZeroAndMore )
+						?	Resources::Strings::ZeroOrMoreRepeatElement
+						:	""
+					,	m_xmlSchemaDocument
+					);
 
 } // FormatChecker::visit
 
@@ -70,6 +85,10 @@ FormatChecker::visit ( const TagElement& _tag )
 void
 FormatChecker::visit ( const AttributeElement& _attribute )
 {
+	m_xmlSchemaDocument
+		+= QString( Resources::Strings::AttributeFormat )
+			.arg( _attribute.getName().c_str() );
+
 } // FormatChecker::visit
 
 
@@ -79,6 +98,9 @@ FormatChecker::visit ( const AttributeElement& _attribute )
 void
 FormatChecker::visit ( const AndElement& _andElement )
 {
+	_andElement.getLeft().accept( *this );
+	_andElement.getRight().accept( *this );
+
 } // FormatChecker::visit
 
 

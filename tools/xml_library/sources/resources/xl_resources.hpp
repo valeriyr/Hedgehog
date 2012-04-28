@@ -17,9 +17,11 @@ namespace Strings {
 
 	extern const char* const XmlSchemaDocumentFormat;
 
-	extern const char* const ComplexTypeFormat;
-
 	extern const char* const ElementFormat;
+
+	extern const char* const ZeroOrMoreRepeatElement;
+
+	extern const char* const AttributeFormat;
 
 /*---------------------------------------------------------------------------*/
 
