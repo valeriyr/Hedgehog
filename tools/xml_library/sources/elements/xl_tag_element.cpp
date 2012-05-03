@@ -16,6 +16,8 @@ namespace XmlLibrary {
 
 TagElement::TagElement( const std::string& _tagName )
 	:	BaseType( _tagName )
+	,	m_handlesCollectionType()
+	,	m_postHandlesCollectionType()
 	,	m_childrenRule()
 	,	m_attributesRule()
 	,	m_repetMode( RepeatMode::Once )
@@ -65,6 +67,56 @@ TagElement::getRepeatMode() const
 	return m_repetMode;
 
 } // TagElement::getRepeatMode
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+TagElement::addHandle( const Handle& _handle )
+{
+	m_handlesCollectionType.push_back( _handle );
+
+} // TagElement::addHandle
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+TagElement::addPostHandle( const Handle& _handle )
+{
+	m_postHandlesCollectionType.push_back( _handle );
+
+} // TagElement::addPostHandle
+
+
+/*---------------------------------------------------------------------------*/
+
+
+TagElement::HandlesCollectionIteratorTypePtr
+TagElement::getHandles() const
+{
+	return
+		HandlesCollectionIteratorTypePtr(
+			new HandlesCollectionIteratorType( m_handlesCollectionType )
+			);
+
+} // TagElement::getHandles
+
+
+/*---------------------------------------------------------------------------*/
+
+
+TagElement::HandlesCollectionIteratorTypePtr
+TagElement::getPostHandles() const
+{
+	return
+		HandlesCollectionIteratorTypePtr(
+			new HandlesCollectionIteratorType( m_postHandlesCollectionType )
+			);
+
+} // TagElement::getPostHandles
 
 
 /*---------------------------------------------------------------------------*/

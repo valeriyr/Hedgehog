@@ -1,27 +1,35 @@
 
-#ifndef __XL_TAG_RULE_HPP__
-#define __XL_TAG_RULE_HPP__
+#ifndef __IT_SIMPLE_ITERATOR_HPP__
+#define __IT_SIMPLE_ITERATOR_HPP__
 
-#include "xml_library/sources/rules/xl_rule.hpp"
+/*---------------------------------------------------------------------------*/
 
+#include "iterators/it_iiterator.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Tools {
-namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-class Attribute;
-class TagElement;
-
-class Handle;
-
-/*---------------------------------------------------------------------------*/
-
-class Tag
-	:	public Rule
+template< typename _TReturnType, typename _TCollectionType >
+class SimpleIterator
+	:	public IIterator< _TReturnType >
 {
+
+/*---------------------------------------------------------------------------*/
+
+	typedef
+		_TCollectionType
+		CollectionType;
+
+	typedef
+		typename CollectionType::const_iterator
+		CollectionIteratorType;
+
+	typedef
+		IIterator< _TReturnType >
+		BaseClass;
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,35 +37,26 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Tag( const std::string& _name );
+	SimpleIterator( const CollectionType& _collection )
+		:	m_begin( _collection.begin() )
+		,	m_end( _collection.end() )
+	{}
 
-	virtual ~Tag();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::shared_ptr< IElement > getElement() const;
-
-/*---------------------------------------------------------------------------*/
-
-	Tag& operator [] ( const Rule& _rule );
-
-	Tag& operator [] ( const Attribute& _attribute );
-
-	Tag& operator * ();
+	virtual ~SimpleIterator() {}
 
 /*---------------------------------------------------------------------------*/
 
-	Tag& handle( const Handle& _handle );
+	/*virtual*/ bool isValid() const { return m_begin != m_end; }
 
-	Tag& postHandle( const Handle& _handle );
+	/*virtual*/ typename BaseClass::ReturnType current() const { return *m_begin; }
 
-/*---------------------------------------------------------------------------*/
-
-private:
+	/*virtual*/ void next() { ++m_begin; }
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< TagElement > m_tagElement;
+	CollectionIteratorType m_begin;
+
+	CollectionIteratorType m_end;
 
 /*---------------------------------------------------------------------------*/
 
@@ -65,9 +64,8 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace XmlLibrary
 } // namespace Tools
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_TAG_RULE_HPP__
+#endif // __IT_SIMPLE_ITERATOR_HPP__

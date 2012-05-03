@@ -5,6 +5,10 @@
 #include "xml_library/ih/xl_itag_element.hpp"
 #include "xml_library/sources/elements/xl_base_element.hpp"
 
+#include "xml_library/sources/handle/xl_handle.hpp"
+#include "iterators/it_simple_iterator.hpp"
+
+
 /*---------------------------------------------------------------------------*/
 
 namespace Tools {
@@ -19,6 +23,24 @@ class TagElement
 /*---------------------------------------------------------------------------*/
 
 	typedef BaseElement< ITagElement > BaseType;
+
+	typedef
+		std::vector< Handle >
+		HandlesCollectionType;
+
+/*---------------------------------------------------------------------------*/
+
+public:
+
+/*---------------------------------------------------------------------------*/
+
+	typedef
+		SimpleIterator< Handle, HandlesCollectionType >
+		HandlesCollectionIteratorType;
+
+	typedef
+		boost::shared_ptr< HandlesCollectionIteratorType >
+		HandlesCollectionIteratorTypePtr;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,6 +64,16 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	void addHandle( const Handle& _handle );
+
+	void addPostHandle( const Handle& _handle );
+
+	HandlesCollectionIteratorTypePtr getHandles() const;
+
+	HandlesCollectionIteratorTypePtr getPostHandles() const;
+
+/*---------------------------------------------------------------------------*/
+
 	void setChildrenRule( boost::shared_ptr< IElement > _rule );
 
 	void setAttributesRule( boost::shared_ptr< IElement > _rule  );
@@ -53,6 +85,10 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	HandlesCollectionType m_handlesCollectionType;
+
+	HandlesCollectionType m_postHandlesCollectionType;
 
 	boost::shared_ptr< IElement > m_childrenRule;
 

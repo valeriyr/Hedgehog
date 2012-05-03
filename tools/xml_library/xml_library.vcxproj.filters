@@ -22,6 +22,9 @@
     <Filter Include="Rules">
       <UniqueIdentifier>{cc1c1255-075a-4c79-8efa-5f64cc64f7f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Handle">
+      <UniqueIdentifier>{8712fbbb-128c-49a5-bd86-6e2018b0c34c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\xl_ph.hpp">
@@ -81,6 +84,9 @@
     <ClInclude Include="h\xl_attribute_type.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
+    <ClInclude Include="sources\handle\xl_handle.hpp">
+      <Filter>Handle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">
@@ -121,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="sources\resources\xl_resources.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\handle\xl_handle.cpp">
+      <Filter>Handle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
