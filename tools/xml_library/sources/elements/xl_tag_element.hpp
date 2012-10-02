@@ -35,7 +35,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		SimpleIterator< Handle, HandlesCollectionType >
+		SimpleIterator< HandlesCollectionType >
 		HandlesCollectionIteratorType;
 
 	typedef

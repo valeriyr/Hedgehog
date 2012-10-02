@@ -12,9 +12,9 @@ namespace Tools {
 
 /*---------------------------------------------------------------------------*/
 
-template< typename _TReturnType, typename _TCollectionType >
+template< typename _TCollectionType >
 class SimpleIterator
-	:	public IIterator< _TReturnType >
+	:	public IIterator< typename _TCollectionType::value_type >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,7 +28,7 @@ class SimpleIterator
 		CollectionIteratorType;
 
 	typedef
-		IIterator< _TReturnType >
+		IIterator< typename _TCollectionType::value_type >
 		BaseClass;
 
 /*---------------------------------------------------------------------------*/
@@ -51,6 +51,10 @@ public:
 	/*virtual*/ typename BaseClass::ReturnType current() const { return *m_begin; }
 
 	/*virtual*/ void next() { ++m_begin; }
+
+/*---------------------------------------------------------------------------*/
+
+private:
 
 /*---------------------------------------------------------------------------*/
 
