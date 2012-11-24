@@ -26,7 +26,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "window_manager", "framework
 		{3905CE91-9CF1-43D6-B833-FD2DE1D94F9E} = {3905CE91-9CF1-43D6-B833-FD2DE1D94F9E}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "console", "plugins\console\console.vcxproj", "{6F884B2F-BEBC-4224-9FE2-7925E2DD8595}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "console", "plugins\gui\console\console.vcxproj", "{6F884B2F-BEBC-4224-9FE2-7925E2DD8595}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3905CE91-9CF1-43D6-B833-FD2DE1D94F9E} = {3905CE91-9CF1-43D6-B833-FD2DE1D94F9E}
 	EndProjectSection
