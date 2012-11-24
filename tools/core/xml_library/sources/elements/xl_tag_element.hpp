@@ -5,7 +5,8 @@
 #include "xml_library/ih/xl_itag_element.hpp"
 #include "xml_library/sources/elements/xl_base_element.hpp"
 
-#include "xml_library/sources/handle/xl_handle.hpp"
+#include "xml_library/sources/handle/xl_ihandle.hpp"
+
 #include "iterators/it_simple_iterator.hpp"
 
 
@@ -25,7 +26,7 @@ class TagElement
 	typedef BaseElement< ITagElement > BaseType;
 
 	typedef
-		std::vector< Handle >
+		std::vector< boost::shared_ptr< IHandle > >
 		HandlesCollectionType;
 
 /*---------------------------------------------------------------------------*/
@@ -64,9 +65,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void addHandle( const Handle& _handle );
+	void addHandle( boost::shared_ptr< IHandle > _handle );
 
-	void addPostHandle( const Handle& _handle );
+	void addPostHandle( boost::shared_ptr< IHandle > _handle );
 
 	HandlesCollectionIteratorTypePtr getHandles() const;
 

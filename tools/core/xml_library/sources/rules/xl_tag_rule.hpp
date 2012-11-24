@@ -4,6 +4,9 @@
 
 #include "xml_library/sources/rules/xl_rule.hpp"
 
+#include "xml_library/sources/handle/xl_handle.hpp"
+#include "xml_library/sources/elements/xl_tag_element.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,9 +16,6 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 class Attribute;
-class TagElement;
-
-class Handle;
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,9 +47,50 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Tag& handle( const Handle& _handle );
+	template < typename _TCallbackFunction >
+	Tag& handle( _TCallbackFunction _callBack )
+	{
+		m_tagElement->addHandle(
+			boost::shared_ptr< Handle< _TCallbackFunction > >(
+				new Handle< _TCallbackFunction >( _callBack ) ) );
+		return *this;
+	}
 
-	Tag& postHandle( const Handle& _handle );
+	template <
+			typename _TCallbackFunction
+		,	typename _TExtructor1
+		,	typename _TExtructor2
+		,	typename _TExtructor3
+		,	typename _TExtructor4
+		>
+	Tag& postHandle(
+			_TCallbackFunction _callBack
+		,	_TExtructor1& _extructor1
+		,	_TExtructor2& _extructor2
+		,	_TExtructor3& _extructor3
+		,	_TExtructor4& _extructor4
+		)
+	{
+		typedef
+			 Handle<
+					_TCallbackFunction
+				,	_TExtructor1
+				,	_TExtructor2
+				,	_TExtructor3
+				,	_TExtructor4
+				>
+				HandleType;
+
+		m_tagElement->addPostHandle(
+			boost::shared_ptr< HandleType >(
+				new HandleType(
+						_callBack
+					,	_extructor1
+					,	_extructor2
+					,	_extructor3
+					,	_extructor4 ) ) );
+		return *this;
+	}
 
 /*---------------------------------------------------------------------------*/
 

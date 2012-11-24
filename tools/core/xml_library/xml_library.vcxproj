@@ -31,6 +31,7 @@
     <ClInclude Include="sources\elements\xl_binary_element.hpp" />
     <ClInclude Include="sources\elements\xl_tag_element.hpp" />
     <ClInclude Include="sources\handle\xl_handle.hpp" />
+    <ClInclude Include="sources\handle\xl_ihandle.hpp" />
     <ClInclude Include="sources\ph\xl_ph.hpp" />
     <ClInclude Include="sources\resources\xl_resources.hpp" />
     <ClInclude Include="sources\rules\xl_attribute_rule.hpp" />

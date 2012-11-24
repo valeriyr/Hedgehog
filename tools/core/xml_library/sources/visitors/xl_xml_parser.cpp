@@ -58,6 +58,28 @@ Parser::parse ( const IElement& _element, QIODevice& _ioDevise )
 void
 Parser::visit ( const TagElement& _tag )
 {
+	TagElement::HandlesCollectionIteratorTypePtr handlesIterator( _tag.getHandles() );
+
+	while ( handlesIterator->isValid() )
+	{
+		( *handlesIterator->current() )( m_domElement );
+		handlesIterator->next();
+	}
+
+	if ( _tag.getChildrenRule() )
+	{
+		Parser parser( m_domElement.nextSiblingElement() );
+		_tag.getChildrenRule()->accept( parser );
+	}
+
+	TagElement::HandlesCollectionIteratorTypePtr postHandlesIterator( _tag.getPostHandles() );
+
+	while ( postHandlesIterator->isValid() )
+	{
+		( *postHandlesIterator->current() )( m_domElement );
+		postHandlesIterator->next();
+	}
+
 } // Parser::visit
 
 
@@ -76,6 +98,12 @@ Parser::visit ( const AttributeElement& _attribute )
 void
 Parser::visit ( const AndElement& _andElement )
 {
+	/*Parser parserForLeftElement( m_domElement.nextElement() );
+	_andElement.getLeft().accept( parserForLeftElement );
+
+	Parser parserForRightElement( m_domElement.nextElement() );
+	_andElement.getRight().accept( parserForRightElement );*/
+
 } // Parser::visit
 
 

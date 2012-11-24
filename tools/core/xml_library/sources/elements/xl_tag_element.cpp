@@ -73,7 +73,7 @@ TagElement::getRepeatMode() const
 
 
 void
-TagElement::addHandle( const Handle& _handle )
+TagElement::addHandle( boost::shared_ptr< IHandle > _handle )
 {
 	m_handlesCollectionType.push_back( _handle );
 
@@ -84,7 +84,7 @@ TagElement::addHandle( const Handle& _handle )
 
 
 void
-TagElement::addPostHandle( const Handle& _handle )
+TagElement::addPostHandle( boost::shared_ptr< IHandle > _handle )
 {
 	m_postHandlesCollectionType.push_back( _handle );
 

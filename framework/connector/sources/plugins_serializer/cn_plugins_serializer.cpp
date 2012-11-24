@@ -6,6 +6,8 @@
 #include "xml_library/sources/rules/xl_tag_rule.hpp"
 #include "xml_library/sources/rules/xl_attribute_rule.hpp"
 
+#include "xml_library/sources/handle/xl_handle.hpp"
+
 #include "xml_library/sources/visitors/xl_xml_parser.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -56,11 +58,32 @@ PluginsSerializer::loadPluginsData()
 					&&
 						Tools::XmlLibrary::Attribute( "loadatstartup", Tools::XmlLibrary::AttributeType::Integer )
 				]
+				.postHandle(
+						boost::bind( &PluginsSerializer::onPluginElement, this, _1, _2, _3, _4 )
+					,	Tools::XmlLibrary::UIntAttributeExtructor( "id" )
+					,	Tools::XmlLibrary::BoolAttributeExtructor( "loadatstartup" )
+					,	Tools::XmlLibrary::StringAttributeExtructor( "name" )
+					,	Tools::XmlLibrary::StringAttributeExtructor( "file" )
+					)
 			];
 
 	Tools::XmlLibrary::Parser::parse( *rule.getElement(), file );
 
 } // PluginsSerializer::loadPluginsData
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginsSerializer::onPluginElement(
+		const unsigned int _pluginId
+	,	const bool _loadAtStartup
+	,	const std::string& _pluginName
+	,	const std::string& _filePath
+	)
+{
+} // PluginsSerializer::onPluginElement
 
 
 /*---------------------------------------------------------------------------*/

@@ -79,30 +79,6 @@ Tag::operator * ()
 
 /*---------------------------------------------------------------------------*/
 
-
-Tag&
-Tag::handle( const Handle& _handle )
-{
-	m_tagElement->addHandle( _handle );
-	return *this;
-
-} // Tag::handle
-
-
-/*---------------------------------------------------------------------------*/
-
-
-Tag&
-Tag::postHandle( const Handle& _handle )
-{
-	m_tagElement->addPostHandle( _handle );
-	return *this;
-
-} // Tag::postHandle
-
-
-/*---------------------------------------------------------------------------*/
-
 } // namespace XmlLibrary
 } // namespace Tools
 
