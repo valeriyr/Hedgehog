@@ -2,6 +2,7 @@
 #include "hedgehog/sources/ph/hh_ph.hpp"
 
 #include "hedgehog/sources/main_gui_application/main_gui_application.hpp"
+#include "hedgehog/sources/resources/hh_resources.hpp"
 
 #include "connector/ih/cn_iloader.hpp"
 
@@ -33,10 +34,14 @@ MainGuiApplication::~MainGuiApplication()
 int
 MainGuiApplication::exec()
 {
-	boost::intrusive_ptr< Framework::Connector::ILoader >
-		connectorLoader = Framework::Connector::createLoader();
+	boost::intrusive_ptr< Framework::Core::Connector::ILoader >
+		connectorLoader = Framework::Core::Connector::createLoader();
 
-	connectorLoader->load();
+	std::string pluginsDirectory( m_qtApplicaiton.applicationDirPath().toLocal8Bit().data() );
+	pluginsDirectory += "/";
+	pluginsDirectory += Resources::PluginsDirectoryName;
+
+	connectorLoader->load( Framework::Core::Connector::InitData( pluginsDirectory ) );
 
 	int result = m_qtApplicaiton.exec();
 

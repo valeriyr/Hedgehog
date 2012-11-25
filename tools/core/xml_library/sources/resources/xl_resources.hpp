@@ -6,6 +6,7 @@
 /*---------------------------------------------------------------------------*/
 
 namespace Tools {
+namespace Core {
 namespace XmlLibrary {
 namespace Resources {
 
@@ -31,6 +32,7 @@ namespace Strings {
 
 } // namespace Resources
 } // namespace XmlLibrary
+} // namespace Core
 } // namespace Tools
 
 /*---------------------------------------------------------------------------*/

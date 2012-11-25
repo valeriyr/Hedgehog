@@ -1,28 +1,21 @@
 
-#ifndef __XL_IHANDLE_HPP__
-#define __XL_IHANDLE_HPP__
+#include "hedgehog/sources/ph/hh_ph.hpp"
 
-#include <QtXml/QDomElement>
+#include "hedgehog/sources/resources/hh_resources.hpp"
 
-/*---------------------------------------------------------------------------*/
-
-namespace Tools {
-namespace Core {
-namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-struct IHandle
-{
-	virtual void operator () ( const QDomElement& _element ) = 0;
-};
+namespace Hedgehog {
+namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace XmlLibrary
-} // namespace Core
-} // namespace Tools
+	const char* const PluginsDirectoryName = "plugins";
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_IHANDLE_HPP__
+} // namespace Resources
+} // namespace Hedgehog
+
+/*---------------------------------------------------------------------------*/

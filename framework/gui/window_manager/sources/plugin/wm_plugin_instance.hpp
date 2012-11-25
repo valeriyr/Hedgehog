@@ -16,7 +16,7 @@ namespace WindowManager {
 /*---------------------------------------------------------------------------*/
 
 class PluginInstance
-	:	public Framework::Connector::PluginWrapper
+	:	public Framework::Core::Connector::PluginWrapper
 {
 
 /*---------------------------------------------------------------------------*/

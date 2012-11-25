@@ -10,6 +10,9 @@
     <Filter Include="Precompiled Header">
       <UniqueIdentifier>{278abb36-b753-4d53-809b-86f9c8582fbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{f8bc5d39-71c3-4adf-8a1a-8fbf6e5132fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\main\main.cpp">
@@ -21,6 +24,9 @@
     <ClCompile Include="sources\ph\hh_ph.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
+    <ClCompile Include="sources\resources\hh_resources.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\main_gui_application\main_gui_application.hpp">
@@ -28,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="sources\ph\hh_ph.hpp">
       <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\resources\hh_resources.hpp">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

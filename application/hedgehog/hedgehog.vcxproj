@@ -174,10 +174,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="sources\resources\hh_resources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\main_gui_application\main_gui_application.hpp" />
     <ClInclude Include="sources\ph\hh_ph.hpp" />
+    <ClInclude Include="sources\resources\hh_resources.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

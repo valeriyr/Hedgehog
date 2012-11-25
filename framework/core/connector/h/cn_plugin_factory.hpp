@@ -9,12 +9,13 @@
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
+namespace Core {
 namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
 typedef
-	Framework::Connector::IPlugin*
+	Framework::Core::Connector::IPlugin*
 	(*PluginFactoryPtr) ();
 
 /*---------------------------------------------------------------------------*/
@@ -26,7 +27,7 @@ const char* const PluginFactoryName = "getPlugin";
 #define PLUGIN_FACTORY_DECLARATION( PLUGIN_INSTANCE )						\
 																			\
 extern "C" __declspec( dllexport )											\
-Framework::Connector::IPlugin*												\
+Framework::Core::Connector::IPlugin*										\
 getPlugin()																	\
 {																			\
 	return new PLUGIN_INSTANCE();											\
@@ -35,6 +36,7 @@ getPlugin()																	\
 /*---------------------------------------------------------------------------*/
 
 } // namespace Connector
+} // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/

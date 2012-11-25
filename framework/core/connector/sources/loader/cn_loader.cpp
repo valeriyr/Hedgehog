@@ -11,6 +11,7 @@
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
+namespace Core {
 namespace Connector {
 
 /*---------------------------------------------------------------------------*/
@@ -34,16 +35,13 @@ Loader::~Loader()
 
 
 void
-Loader::load()
+Loader::load( const InitData& _initData )
 {
 	if ( m_connector )
 		return;
 
 	PluginFactoryPtr connectorFactory
-		= ( PluginFactoryPtr ) QLibrary::resolve(
-				Resources::Internal::LibraryName
-			,	PluginFactoryName
-			);
+		= ( PluginFactoryPtr ) QLibrary::resolve( Resources::LibraryName, PluginFactoryName );
 	assert( connectorFactory );
 
 	m_connector.reset( connectorFactory() );
@@ -81,6 +79,7 @@ createLoader()
 /*---------------------------------------------------------------------------*/
 
 } // namespace Connector
+} // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/

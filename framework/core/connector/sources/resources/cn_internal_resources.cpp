@@ -7,9 +7,9 @@
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
+namespace Core {
 namespace Connector {
 namespace Resources {
-namespace Internal {
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,9 +17,9 @@ namespace Internal {
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Internal
 } // namespace Resources
 } // namespace Connector
+} // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
