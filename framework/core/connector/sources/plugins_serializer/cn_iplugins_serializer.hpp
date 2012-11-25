@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "connector/ih/cn_ibase.hpp"
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,9 +15,9 @@ namespace Connector {
 /*---------------------------------------------------------------------------*/
 
 struct IPluginsSerializer
-	:	public IBase
+	:	public Tools::Core::IBase
 {
-	virtual void loadPluginsData() = 0;
+	virtual void loadPluginsList() = 0;
 };
 
 /*---------------------------------------------------------------------------*/

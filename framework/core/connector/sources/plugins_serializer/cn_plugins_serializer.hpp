@@ -19,7 +19,7 @@ struct IPluginsManagerInternal;
 /*---------------------------------------------------------------------------*/
 
 class PluginsSerializer
-	:	public BaseWrapper< IPluginsSerializer >
+	:	public Tools::Core::BaseWrapper< IPluginsSerializer >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -34,7 +34,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void loadPluginsData();
+	/*virtual*/ void loadPluginsList();
 
 /*---------------------------------------------------------------------------*/
 

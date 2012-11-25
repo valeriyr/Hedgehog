@@ -19,7 +19,7 @@ struct IPlugin;
 /*---------------------------------------------------------------------------*/
 
 class Loader
-	:	public BaseWrapper< ILoader >
+	:	public Tools::Core::BaseWrapper< ILoader >
 {
 
 /*---------------------------------------------------------------------------*/

@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "connector/ih/cn_ibase.hpp"
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,9 +19,9 @@ namespace Connector {
 /*---------------------------------------------------------------------------*/
 
 struct IPluginsManager
-	:	public IBase
+	:	public Tools::Core::IBase
 {
-	virtual boost::intrusive_ptr< IBase >
+	virtual boost::intrusive_ptr< Tools::Core::IBase >
 		getPluginInterface( const unsigned int _pluginId, const unsigned int _interfaceId ) = 0;
 
 	virtual bool isPluginLoaded( const unsigned int _pluginId ) const = 0;

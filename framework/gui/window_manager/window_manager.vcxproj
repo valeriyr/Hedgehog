@@ -102,7 +102,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;WINDOW_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..;../../../framework/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -121,7 +121,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;WINDOW_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..;../../../framework/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -142,7 +142,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;WINDOW_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..;../../../framework/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -165,7 +165,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;WINDOW_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..;../../../framework/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

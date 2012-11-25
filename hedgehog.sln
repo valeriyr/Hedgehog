@@ -48,6 +48,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{92356538-5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GUI", "GUI", "{067F413D-45A2-4498-BA71-16232CB3F0D5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Intrusive Base", "Intrusive Base", "{0024392F-6CAE-475F-B230-99E46BDA2264}"
+	ProjectSection(SolutionItems) = preProject
+		tools\core\intrusive_base\ib_base.hpp = tools\core\intrusive_base\ib_base.hpp
+		tools\core\intrusive_base\ib_ibase.hpp = tools\core\intrusive_base\ib_ibase.hpp
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -110,6 +116,7 @@ Global
 		{D0FD3133-DD97-47F0-9DC7-C2EDA54C7262} = {08C11D7D-743D-4963-B7C1-E02B7EF1E730}
 		{960A8F26-9281-42CF-9B30-09B2B0F046CB} = {08C11D7D-743D-4963-B7C1-E02B7EF1E730}
 		{EB038621-670A-403C-BC68-18746DECFD48} = {08C11D7D-743D-4963-B7C1-E02B7EF1E730}
+		{0024392F-6CAE-475F-B230-99E46BDA2264} = {08C11D7D-743D-4963-B7C1-E02B7EF1E730}
 		{6300074B-CAD4-4554-A8E9-129D99CDD6A0} = {067F413D-45A2-4498-BA71-16232CB3F0D5}
 		{6F884B2F-BEBC-4224-9FE2-7925E2DD8595} = {8C6CB3D8-082B-446E-80D9-8E8D0257E41B}
 	EndGlobalSection

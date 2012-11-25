@@ -27,14 +27,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="h\cn_base.hpp">
-      <Filter>External Headers</Filter>
-    </ClInclude>
     <ClInclude Include="h\cn_export.hpp">
       <Filter>External Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\cn_ibase.hpp">
-      <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="ih\cn_iplugin.hpp">
       <Filter>Interfaces</Filter>

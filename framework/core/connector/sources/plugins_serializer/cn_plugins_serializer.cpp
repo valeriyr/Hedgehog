@@ -40,11 +40,9 @@ PluginsSerializer::~PluginsSerializer()
 
 
 void
-PluginsSerializer::loadPluginsData()
+PluginsSerializer::loadPluginsList()
 {
-
-
-} // PluginsSerializer::loadPluginsData
+} // PluginsSerializer::loadPluginsList
 
 
 /*---------------------------------------------------------------------------*/

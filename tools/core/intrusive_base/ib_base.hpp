@@ -1,12 +1,11 @@
 
-#ifndef __CN_BASE_WRAPPER_HPP__
-#define __CN_BASE_WRAPPER_HPP__
+#ifndef __IB_BASE_WRAPPER_HPP__
+#define __IB_BASE_WRAPPER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Tools {
 namespace Core {
-namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,10 +53,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Connector
 } // namespace Core
-} // namespace Framework
+} // namespace Tools
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_BASE_WRAPPER_HPP__
+#endif // __IB_BASE_WRAPPER_HPP__

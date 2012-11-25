@@ -15,7 +15,7 @@ namespace Connector {
 /*---------------------------------------------------------------------------*/
 
 class PluginsManager
-	:	public BaseWrapper< IPluginsManagerInternal >
+	:	public Tools::Core::BaseWrapper< IPluginsManagerInternal >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -39,9 +39,9 @@ public:
 
 	/*virtual*/ void registerPlugin( boost::shared_ptr< PluginData > _pluginData );
 
-	/*virtual*/ void loadStartupPlugins();
+	/*virtual*/ void loadPlugins();
 
-	/*virtual*/ void closeAllPlugins();
+	/*virtual*/ void closePlugins();
 
 /*---------------------------------------------------------------------------*/
 

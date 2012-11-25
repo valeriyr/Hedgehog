@@ -11,4 +11,4 @@
 #include <QtCore/QLibrary>
 #include <QtCore/QFile>
 
-#include "connector/h/cn_base.hpp"
+#include "intrusive_base/ib_ibase.hpp"

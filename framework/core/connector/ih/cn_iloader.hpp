@@ -5,7 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "connector/h/cn_export.hpp"
-#include "connector/ih/cn_ibase.hpp"
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -30,7 +30,7 @@ struct InitData
 
 
 struct ILoader
-	:	public IBase
+	:	public Tools::Core::IBase
 {
 	virtual void load( const InitData& _initData ) = 0;
 

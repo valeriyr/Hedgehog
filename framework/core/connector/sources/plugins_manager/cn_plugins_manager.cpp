@@ -35,7 +35,7 @@ PluginsManager::~PluginsManager()
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IBase >
+boost::intrusive_ptr< Tools::Core::IBase >
 PluginsManager::getPluginInterface( const unsigned int _pluginId, const unsigned int _interfaceId )
 {
 	PluginsCollectionTypeIterator iterator( m_pluginsCollection.find( _pluginId ) );
@@ -86,7 +86,7 @@ PluginsManager::registerPlugin( boost::shared_ptr< PluginData > _pluginData )
 
 
 void
-PluginsManager::loadStartupPlugins()
+PluginsManager::loadPlugins()
 {
 	PluginsCollectionTypeIterator
 			begin = m_pluginsCollection.begin()
@@ -105,7 +105,7 @@ PluginsManager::loadStartupPlugins()
 
 
 void
-PluginsManager::closeAllPlugins()
+PluginsManager::closePlugins()
 {
 	PluginsCollectionTypeIterator
 			begin = m_pluginsCollection.begin()

@@ -1,39 +1,44 @@
 
-#ifndef __CN_IPLUGIN_HPP__
-#define __CN_IPLUGIN_HPP__
+#ifndef __IB_IBASE_HPP__
+#define __IB_IBASE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "intrusive_base/ib_base.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Tools {
 namespace Core {
-namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPlugin
-	:	public Tools::Core::IBase
+struct IBase
 {
-	virtual void initialize( Tools::Core::IBase* _connector ) = 0;
+	virtual void addRef() = 0;
 
-	virtual void close() = 0;
-
-	virtual Tools::Core::IBase* getInterface( const unsigned int _interfaceId ) = 0;
+	virtual void releaseRef() = 0;
 };
 
 /*---------------------------------------------------------------------------*/
 
-typedef Tools::Core::BaseWrapper< IPlugin > PluginWrapper;
-
-/*---------------------------------------------------------------------------*/
-
-} // namespace Connector
 } // namespace Core
-} // namespace Framework
+} // namespace Tools
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_IPLUGIN_HPP__
+inline
+void intrusive_ptr_add_ref( Tools::Core::IBase* _base )
+{ 
+    _base->addRef(); 
+} 
+
+inline
+void intrusive_ptr_release( Tools::Core::IBase* _base )
+{ 
+    _base->releaseRef(); 
+} 
+
+/*---------------------------------------------------------------------------*/
+
+#endif // __IB_IBASE_HPP__
