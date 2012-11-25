@@ -53,7 +53,8 @@ PluginsSerializer::loadPluginsList()
 	for (int i = 0; i < filesList.size(); ++i)
 	{
          QFileInfo fileInfo = filesList.at( i );
-		 m_pluginsManager.registerPlugin( boost::shared_ptr< PluginData >( new PluginData( fileInfo.baseName().toLocal8Bit().data() ) ) );
+		 m_pluginsManager.registerPlugin(
+			 boost::shared_ptr< PluginData >( new PluginData( fileInfo.baseName().toLocal8Bit().data() ) ) );
 	}
 
 } // PluginsSerializer::loadPluginsList
