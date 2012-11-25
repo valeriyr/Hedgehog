@@ -4,15 +4,24 @@
     <Filter Include="Precompiled Header">
       <UniqueIdentifier>{22ab33d3-e8a5-43c6-8d8d-57a014a7a4e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{c2203fd0-badd-4e24-a77e-68b147ae7f68}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\ph\cn_ph.cpp">
+    <ClCompile Include="sources\ph\con_ph.cpp">
       <Filter>Precompiled Header</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\plugin\con_plugin_instance.cpp">
+      <Filter>Plugin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sources\ph\cn_ph.hpp">
+    <ClInclude Include="sources\ph\con_ph.hpp">
       <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\plugin\con_plugin_instance.hpp">
+      <Filter>Plugin</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

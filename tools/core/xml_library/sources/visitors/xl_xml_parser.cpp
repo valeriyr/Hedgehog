@@ -68,7 +68,7 @@ Parser::visit ( const TagElement& _tag )
 
 	if ( _tag.getChildrenRule() )
 	{
-		Parser parser( m_domElement.nextSiblingElement() );
+		Parser parser( m_domElement.firstChildElement() );
 		_tag.getChildrenRule()->accept( parser );
 	}
 

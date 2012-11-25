@@ -13,6 +13,10 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
+struct PluginData;
+
+/*---------------------------------------------------------------------------*/
+
 struct IPluginsManagerInternal
 	:	public IPluginsManager
 {

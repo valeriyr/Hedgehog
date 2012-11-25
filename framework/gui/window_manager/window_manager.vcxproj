@@ -102,7 +102,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;WINDOW_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../framework/core</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -121,7 +121,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;WINDOW_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../framework/core</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -142,7 +142,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;WINDOW_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../framework/core</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -165,7 +165,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;WINDOW_MANAGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../framework/core</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -189,10 +189,12 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="sources\plugin\wm_plugin_instance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\wm_plugin_id.hpp" />
     <ClInclude Include="sources\ph\wm_ph.hpp" />
+    <ClInclude Include="sources\plugin\wm_plugin_instance.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

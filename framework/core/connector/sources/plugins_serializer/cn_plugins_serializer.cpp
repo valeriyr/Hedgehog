@@ -3,6 +3,9 @@
 
 #include "connector/sources/plugins_serializer/cn_plugins_serializer.hpp"
 
+#include "connector/sources/plugins_manager/cn_iplugins_manager_internal.hpp"
+#include "connector/sources/plugins_manager/cn_plugin_data.hpp"
+
 #include "xml_library/sources/rules/xl_tag_rule.hpp"
 #include "xml_library/sources/rules/xl_attribute_rule.hpp"
 
@@ -83,6 +86,9 @@ PluginsSerializer::onPluginElement(
 	,	const std::string& _filePath
 	)
 {
+	m_pluginsManager.registerPlugin(
+		boost::shared_ptr< PluginData >( new PluginData( _pluginId, _loadAtStartup, _pluginName, _filePath ) ) );
+
 } // PluginsSerializer::onPluginElement
 
 

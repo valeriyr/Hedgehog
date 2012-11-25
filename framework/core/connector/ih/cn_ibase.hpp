@@ -4,11 +4,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
-namespace Connector {
-
-/*---------------------------------------------------------------------------*/
-
 
 struct IBase
 {
@@ -17,22 +12,18 @@ struct IBase
 	virtual void releaseRef() = 0;
 };
 
-/*---------------------------------------------------------------------------*/
-
-} // namespace Connector
-} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
 
 inline
-void intrusive_ptr_add_ref( Framework::Connector::IBase* _base )
+void intrusive_ptr_add_ref( IBase* _base )
 { 
     _base->addRef(); 
 } 
 
 inline
-void intrusive_ptr_release( Framework::Connector::IBase* _base )
+void intrusive_ptr_release( IBase* _base )
 { 
     _base->releaseRef(); 
 } 

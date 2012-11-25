@@ -7,10 +7,16 @@
     <Filter Include="External Headers">
       <UniqueIdentifier>{1f49a1a9-dc19-4537-a949-b59ce89cb3d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{e519e264-64e4-427e-bca4-9ae4cf04727f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\wm_ph.cpp">
       <Filter>Precompiled Header</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\plugin\wm_plugin_instance.cpp">
+      <Filter>Plugin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -19,6 +25,9 @@
     </ClInclude>
     <ClInclude Include="h\wm_plugin_id.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\plugin\wm_plugin_instance.hpp">
+      <Filter>Plugin</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
