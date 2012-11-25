@@ -41,7 +41,7 @@ MainGuiApplication::exec()
 	pluginsDirectory += "/";
 	pluginsDirectory += Resources::PluginsDirectoryName;
 
-	connectorLoader->load( Framework::Core::Connector::InitData( pluginsDirectory ) );
+	connectorLoader->load( pluginsDirectory );
 
 	int result = m_qtApplicaiton.exec();
 

@@ -24,16 +24,16 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginsManager();
+	PluginsManager( const std::string& _pluginsDirectory );
 
 	virtual ~PluginsManager();
 
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< IBase >
-		getPluginInterface( const unsigned int _pluginId, const unsigned int _interfaceId );
+		getPluginInterface( const std::string& _pluginName, const unsigned int _interfaceId );
 
-	/*virtual*/ bool isPluginLoaded( const unsigned int _pluginId ) const;
+	/*virtual*/ bool isPluginLoaded( const std::string& _pluginName ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,6 +42,8 @@ public:
 	/*virtual*/ void loadPlugins();
 
 	/*virtual*/ void closePlugins();
+
+	/*virtual*/ const std::string& getPluginsDirectory() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,7 +56,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::hash_map< unsigned int, boost::shared_ptr< PluginData > >
+		std::hash_map< std::string, boost::shared_ptr< PluginData > >
 		PluginsCollectionType;
 	typedef
 		PluginsCollectionType::const_iterator
@@ -63,6 +65,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	PluginsCollectionType m_pluginsCollection;
+
+	const std::string m_pluginsDirectory;
 
 /*---------------------------------------------------------------------------*/
 

@@ -32,29 +32,15 @@ struct PluginData
 
 /*---------------------------------------------------------------------------*/
 
-	PluginData(
-			const unsigned int _pluginId
-		,	const bool _loadAtStartup
-		,	const std::string& _pluginName
-		,	const std::string& _filePath
-		)
-		:	m_pluginId( m_pluginId )
-		,	m_loadAtStartup( _loadAtStartup )
-		,	m_pluginName( _pluginName )
-		,	m_filePath( _filePath )
+	PluginData( const std::string& _pluginName )
+		:	m_pluginName( _pluginName )
 		,	m_pluginState( State::NotLoaded )
 		,	m_pluginPointer()
 	{}
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int m_pluginId;
-
-	const bool m_loadAtStartup;
-
 	const std::string m_pluginName;
-
-	const std::string m_filePath;
 
 	State::Enum m_pluginState;
 

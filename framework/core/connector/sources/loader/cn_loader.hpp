@@ -14,7 +14,7 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPlugin;
+struct IConnector;
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,7 +34,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void load( const InitData& _initData );
+	/*virtual*/ void load( const std::string& _pluginsDirectory );
 
 	/*virtual*/ void unload();
 
@@ -44,7 +44,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< IPlugin > m_connector;
+	boost::intrusive_ptr< IConnector > m_connector;
 
 /*---------------------------------------------------------------------------*/
 

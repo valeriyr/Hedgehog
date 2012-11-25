@@ -4,8 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "connector/ih/cn_iplugin.hpp"
-#include "connector/h/cn_interface_map.hpp"
+#include "connector/sources/connector/cn_iconnector.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,13 +14,12 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPluginsManager;
 struct IPluginsManagerInternal;
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public PluginWrapper
+class Connector
+	:	public Tools::Core::BaseWrapper< IConnector >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -30,23 +28,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	Connector();
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	virtual ~Connector();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize( IBase* _connector );
+	/*virtual*/ void initialize( const std::string& _pluginsDirectory );
 
 	/*virtual*/ void close();
-
-/*---------------------------------------------------------------------------*/
-
-	boost::intrusive_ptr< IPluginsManager > getPluginsManager() const;
 
 /*---------------------------------------------------------------------------*/
 

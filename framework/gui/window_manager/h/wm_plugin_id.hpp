@@ -6,15 +6,15 @@
 
 namespace Framework {
 namespace GUI {
-namespace Connector {
+namespace WindowManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int PluginId = 1;
+	const char* const PluginName = "window_manager";
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Connector
+} // namespace WindowManager
 } // namespace GUI
 } // namespace Framework
 

@@ -18,8 +18,9 @@ namespace Connector {
 /*---------------------------------------------------------------------------*/
 
 
-PluginsManager::PluginsManager()
+PluginsManager::PluginsManager( const std::string& _pluginsDirectory )
 	:	m_pluginsCollection()
+	,	m_pluginsDirectory( _pluginsDirectory )
 {
 } // PluginsManager::PluginsManager
 
@@ -36,9 +37,9 @@ PluginsManager::~PluginsManager()
 
 
 boost::intrusive_ptr< Tools::Core::IBase >
-PluginsManager::getPluginInterface( const unsigned int _pluginId, const unsigned int _interfaceId )
+PluginsManager::getPluginInterface( const std::string& _pluginName, const unsigned int _interfaceId )
 {
-	PluginsCollectionTypeIterator iterator( m_pluginsCollection.find( _pluginId ) );
+	PluginsCollectionTypeIterator iterator( m_pluginsCollection.find( _pluginName ) );
 
 	if ( iterator == m_pluginsCollection.end() )
 		return boost::intrusive_ptr< IBase >();
@@ -57,9 +58,9 @@ PluginsManager::getPluginInterface( const unsigned int _pluginId, const unsigned
 
 
 bool
-PluginsManager::isPluginLoaded( const unsigned int _pluginId ) const
+PluginsManager::isPluginLoaded( const std::string& _pluginName ) const
 {
-	PluginsCollectionTypeIterator iterator( m_pluginsCollection.find( _pluginId ) );
+	PluginsCollectionTypeIterator iterator( m_pluginsCollection.find( _pluginName ) );
 
 	return
 			( iterator != m_pluginsCollection.end() )
@@ -75,9 +76,9 @@ void
 PluginsManager::registerPlugin( boost::shared_ptr< PluginData > _pluginData )
 {
 	assert( _pluginData );
-	assert( m_pluginsCollection.find( _pluginData->m_pluginId ) == m_pluginsCollection.end() );
+	assert( m_pluginsCollection.find( _pluginData->m_pluginName ) == m_pluginsCollection.end() );
 
-	m_pluginsCollection.insert( std::make_pair( _pluginData->m_pluginId, _pluginData ) );
+	m_pluginsCollection.insert( std::make_pair( _pluginData->m_pluginName, _pluginData ) );
 
 } // PluginsManager::registerPlugin
 
@@ -93,10 +94,7 @@ PluginsManager::loadPlugins()
 		,	end = m_pluginsCollection.end();
 
 	for( ; begin != end; ++begin )
-	{
-		if ( begin->second->m_loadAtStartup )
-			loadPluginIfNeeded( *begin->second );
-	}
+		loadPluginIfNeeded( *begin->second );
 
 } // PluginsManager::loadStartupPlugins
 
@@ -113,18 +111,29 @@ PluginsManager::closePlugins()
 
 	for( ; begin != end; ++begin )
 	{
-		if ( begin->second->m_pluginState == PluginData::State::Loaded )
-		{
-			assert( begin->second->m_pluginState != PluginData::State::Loading );
+		if ( begin->second->m_pluginState != PluginData::State::Loaded )
+			continue;
 
-			begin->second->m_pluginPointer->close();
-			begin->second->m_pluginPointer.reset();
+		assert( begin->second->m_pluginState != PluginData::State::Loading );
 
-			begin->second->m_pluginState = PluginData::State::NotLoaded;
-		}
+		begin->second->m_pluginPointer->close();
+		begin->second->m_pluginPointer.reset();
+
+		begin->second->m_pluginState = PluginData::State::NotLoaded;
 	}
 
-} // PluginsManager::closeAllPlugins
+} // PluginsManager::closePlugins
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const std::string&
+PluginsManager::getPluginsDirectory() const
+{
+	return m_pluginsDirectory;
+
+} // PluginsManager::getPluginsDirectory
 
 
 /*---------------------------------------------------------------------------*/
@@ -140,11 +149,10 @@ PluginsManager::loadPluginIfNeeded( PluginData& _pluginData )
 
 	_pluginData.m_pluginState = PluginData::State::Loading;
 
+	std::string pluginPath( getPluginsDirectory() + "/" + _pluginData.m_pluginName );
+
 	PluginFactoryPtr connectorFactory
-		= ( PluginFactoryPtr ) QLibrary::resolve(
-				_pluginData.m_filePath.c_str()
-			,	PluginFactoryName
-			);
+		= ( PluginFactoryPtr ) QLibrary::resolve( pluginPath.c_str(), PluginFactoryName );
 	assert( connectorFactory );
 
 	_pluginData.m_pluginPointer.reset( connectorFactory() );

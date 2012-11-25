@@ -10,5 +10,6 @@
 
 #include <QtCore/QLibrary>
 #include <QtCore/QFile>
+#include <QtCore/QDir>
 
 #include "intrusive_base/ib_ibase.hpp"

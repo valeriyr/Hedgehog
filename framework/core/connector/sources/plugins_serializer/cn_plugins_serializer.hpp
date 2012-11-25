@@ -42,19 +42,6 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void onPluginElement(
-			const unsigned int _pluginId
-		,	const bool _loadAtStartup
-		,	const std::string& _pluginName
-		,	const std::string& _filePath
-		);
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
 	IPluginsManagerInternal& m_pluginsManager;
 
 /*---------------------------------------------------------------------------*/

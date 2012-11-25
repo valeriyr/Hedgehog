@@ -15,6 +15,8 @@ namespace Resources {
 
 	const char* const LibraryName = "connector";
 
+	const char* const ConnectorFactoryName = "getConnector";
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Resources

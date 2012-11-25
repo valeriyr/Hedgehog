@@ -14,17 +14,13 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int PM_INTERFACE_ID = 1;
-
-/*---------------------------------------------------------------------------*/
-
 struct IPluginsManager
 	:	public Tools::Core::IBase
 {
 	virtual boost::intrusive_ptr< Tools::Core::IBase >
-		getPluginInterface( const unsigned int _pluginId, const unsigned int _interfaceId ) = 0;
+		getPluginInterface( const std::string& _pluginName, const unsigned int _interfaceId ) = 0;
 
-	virtual bool isPluginLoaded( const unsigned int _pluginId ) const = 0;
+	virtual bool isPluginLoaded( const std::string& _pluginName ) const = 0;
 };
 
 /*---------------------------------------------------------------------------*/

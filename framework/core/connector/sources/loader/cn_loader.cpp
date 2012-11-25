@@ -3,9 +3,8 @@
 
 #include "connector/sources/loader/cn_loader.hpp"
 
-#include "connector/h/cn_plugin_factory.hpp"
-
 #include "connector/sources/resources/cn_internal_resources.hpp"
+#include "connector/sources/connector/cn_iconnector.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -35,19 +34,21 @@ Loader::~Loader()
 
 
 void
-Loader::load( const InitData& _initData )
+Loader::load( const std::string& _pluginsDirectory )
 {
 	if ( m_connector )
 		return;
 
-	PluginFactoryPtr connectorFactory
-		= ( PluginFactoryPtr ) QLibrary::resolve( Resources::LibraryName, PluginFactoryName );
+	typedef IConnector* (*ConnectorFactoryPtr) ();
+
+	ConnectorFactoryPtr connectorFactory
+		= ( ConnectorFactoryPtr ) QLibrary::resolve( Resources::LibraryName, Resources::ConnectorFactoryName );
 	assert( connectorFactory );
 
 	m_connector.reset( connectorFactory() );
 	assert( m_connector );
 
-	m_connector->initialize( NULL );
+	m_connector->initialize( _pluginsDirectory );
 
 } // Loader::load
 

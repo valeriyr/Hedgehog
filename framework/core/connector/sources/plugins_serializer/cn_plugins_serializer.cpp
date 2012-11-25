@@ -42,24 +42,21 @@ PluginsSerializer::~PluginsSerializer()
 void
 PluginsSerializer::loadPluginsList()
 {
+	QDir pluginsDirectory = QDir( m_pluginsManager.getPluginsDirectory().c_str() );
+	assert( pluginsDirectory.exists() );
+
+	QStringList filesFilter;
+	filesFilter.push_back( "*.dll" );
+
+	QFileInfoList filesList = pluginsDirectory.entryInfoList( filesFilter );
+
+	for (int i = 0; i < filesList.size(); ++i)
+	{
+         QFileInfo fileInfo = filesList.at( i );
+		 m_pluginsManager.registerPlugin( boost::shared_ptr< PluginData >( new PluginData( fileInfo.baseName().toLocal8Bit().data() ) ) );
+	}
+
 } // PluginsSerializer::loadPluginsList
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-PluginsSerializer::onPluginElement(
-		const unsigned int _pluginId
-	,	const bool _loadAtStartup
-	,	const std::string& _pluginName
-	,	const std::string& _filePath
-	)
-{
-	m_pluginsManager.registerPlugin(
-		boost::shared_ptr< PluginData >( new PluginData( _pluginId, _loadAtStartup, _pluginName, _filePath ) ) );
-
-} // PluginsSerializer::onPluginElement
 
 
 /*---------------------------------------------------------------------------*/

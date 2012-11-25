@@ -1,7 +1,7 @@
 
 #include "connector/sources/ph/cn_ph.hpp"
 
-#include "connector/sources/plugin/cn_plugin_instance.hpp"
+#include "connector/sources/connector/cn_connector.hpp"
 
 #include "connector/h/cn_plugin_factory.hpp"
 
@@ -17,36 +17,26 @@ namespace Connector {
 /*---------------------------------------------------------------------------*/
 
 
-BEGIN_INTERFACE_MAP( PluginInstance )
-
-	INTERFACE( PM_INTERFACE_ID, getPluginsManager().get() );
-
-END_INTERFACE_MAP()
+Connector::Connector()
+{
+} // Connector::Connector
 
 
 /*---------------------------------------------------------------------------*/
 
 
-PluginInstance::PluginInstance()
+Connector::~Connector()
 {
-} // PluginInstance::PluginInstance
-
-
-/*---------------------------------------------------------------------------*/
-
-
-PluginInstance::~PluginInstance()
-{
-} // PluginInstance::~PluginInstance
+} // Connector::~Connector
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-PluginInstance::initialize( IBase* _connector )
+Connector::initialize( const std::string& _pluginsDirectory )
 {
-	m_pluginsManager.reset( new PluginsManager() );
+	m_pluginsManager.reset( new PluginsManager( _pluginsDirectory ) );
 
 	boost::intrusive_ptr< IPluginsSerializer >
 		pluginsSerializer( new PluginsSerializer( *m_pluginsManager ) );
@@ -54,36 +44,30 @@ PluginInstance::initialize( IBase* _connector )
 
 	m_pluginsManager->loadPlugins();
 
-} // PluginInstance::initialize
+} // Connector::initialize
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-PluginInstance::close()
+Connector::close()
 {
 	m_pluginsManager->closePlugins();
 	m_pluginsManager.reset();
 
-} // PluginInstance::close
+} // Connector::close
 
 
 /*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
-
-boost::intrusive_ptr< IPluginsManager >
-PluginInstance::getPluginsManager() const
+extern "C" __declspec( dllexport )
+IConnector*
+getConnector()
 {
-	return m_pluginsManager;
-
-} // PluginInstance::getPluginsManager
-
-
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-
-PLUGIN_FACTORY_DECLARATION( PluginInstance )
+	return new Connector();
+}
 
 /*---------------------------------------------------------------------------*/
 

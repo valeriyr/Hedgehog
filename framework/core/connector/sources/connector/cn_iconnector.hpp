@@ -1,10 +1,9 @@
 
-#ifndef __CN_ILOADER_HPP__
-#define __CN_ILOADER_HPP__
+#ifndef __CN_ICONNECTOR_HPP__
+#define __CN_ICONNECTOR_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "connector/h/cn_export.hpp"
 #include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -15,21 +14,19 @@ namespace Connector {
 
 /*---------------------------------------------------------------------------*/
 
-
-struct ILoader
+struct IConnector
 	:	public Tools::Core::IBase
 {
-	virtual void load( const std::string& _pluginsDirectory ) = 0;
-
-	virtual void unload() = 0;
-};
-
 
 /*---------------------------------------------------------------------------*/
 
-CONNECTOR_EXPORT
-		boost::intrusive_ptr< ILoader >
-		createLoader();
+	virtual void initialize( const std::string& _pluginsDirectory ) = 0;
+
+	virtual void close() = 0;
+
+/*---------------------------------------------------------------------------*/
+
+};
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,4 +36,4 @@ CONNECTOR_EXPORT
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_ILOADER_HPP__
+#endif // __CN_ICONNECTOR_HPP__
