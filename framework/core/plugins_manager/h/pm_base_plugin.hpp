@@ -1,6 +1,6 @@
 
-#ifndef __PM_BASE_PALUGIN_HPP__
-#define __PM_BASE_PALUGIN_HPP__
+#ifndef __PM_BASE_PLUGIN_HPP__
+#define __PM_BASE_PLUGIN_HPP__
 
 #include "plugins_manager/ih/pm_iplugin.hpp"
 #include "plugins_manager/ih/pm_iplugins_manager.hpp"
@@ -82,4 +82,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __PM_BASE_PALUGIN_HPP__
+#endif // __PM_BASE_PLUGIN_HPP__
