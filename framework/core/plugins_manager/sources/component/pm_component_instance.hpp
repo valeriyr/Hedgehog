@@ -1,10 +1,10 @@
 
-#ifndef __PM_PLUGIN_INSTANCE_HPP__
-#define __PM_PLUGIN_INSTANCE_HPP__
+#ifndef __PM_COMPONENT_INSTANCE_HPP__
+#define __PM_COMPONENT_INSTANCE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/sources/plugin/pm_iplugin_instance.hpp"
+#include "plugins_manager/sources/component/pm_icomponent_instance.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,8 +19,8 @@ struct ISystemInformation;
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public Tools::Core::BaseWrapper< IPluginInstance >
+class ComponentInstance
+	:	public Tools::Core::BaseWrapper< IComponentInstance >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -29,9 +29,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	ComponentInstance();
 
-	virtual ~PluginInstance();
+	virtual ~ComponentInstance();
 
 /*---------------------------------------------------------------------------*/
 
@@ -61,4 +61,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __PM_PLUGIN_INSTANCE_HPP__
+#endif // __PM_COMPONENT_INSTANCE_HPP__

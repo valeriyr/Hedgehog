@@ -13,7 +13,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PluginsManagerFactoryName = "getPluginsManager";
+	const char* const ComponentFactoryName = "getComponentInstance";
 
 /*---------------------------------------------------------------------------*/
 

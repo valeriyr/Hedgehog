@@ -28,8 +28,8 @@
     <ClInclude Include="ih\pm_iplugin.hpp" />
     <ClInclude Include="ih\pm_iplugins_manager.hpp" />
     <ClInclude Include="ih\pm_isystem_information.hpp" />
-    <ClInclude Include="sources\plugin\pm_plugin_instance.hpp" />
-    <ClInclude Include="sources\plugin\pm_iplugin_instance.hpp" />
+    <ClInclude Include="sources\component\pm_component_instance.hpp" />
+    <ClInclude Include="sources\component\pm_icomponent_instance.hpp" />
     <ClInclude Include="sources\loader\pm_loader.hpp" />
     <ClInclude Include="sources\ph\pm_ph.hpp" />
     <ClInclude Include="sources\plugins_manager\pm_iplugins_manager_internal.hpp" />
@@ -40,7 +40,7 @@
     <ClInclude Include="sources\system_information\pm_system_information.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\plugin\pm_plugin_instance.cpp" />
+    <ClCompile Include="sources\component\pm_component_instance.cpp" />
     <ClCompile Include="sources\loader\pm_loader.cpp" />
     <ClCompile Include="sources\ph\pm_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

@@ -14,7 +14,7 @@ namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPluginInstance;
+struct IComponentInstance;
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,7 +44,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< IPluginInstance > m_pluginsManagerComponent;
+	boost::intrusive_ptr< IComponentInstance > m_pluginsManagerComponent;
 
 /*---------------------------------------------------------------------------*/
 

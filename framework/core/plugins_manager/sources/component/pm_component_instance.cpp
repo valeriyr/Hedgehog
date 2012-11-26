@@ -1,7 +1,7 @@
 
 #include "plugins_manager/sources/ph/pm_ph.hpp"
 
-#include "plugins_manager/sources/plugin/pm_plugin_instance.hpp"
+#include "plugins_manager/sources/component/pm_component_instance.hpp"
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
@@ -19,24 +19,24 @@ namespace PluginsManager {
 /*---------------------------------------------------------------------------*/
 
 
-PluginInstance::PluginInstance()
+ComponentInstance::ComponentInstance()
 {
-} // PluginInstance::PluginInstance
+} // ComponentInstance::ComponentInstance
 
 
 /*---------------------------------------------------------------------------*/
 
 
-PluginInstance::~PluginInstance()
+ComponentInstance::~ComponentInstance()
 {
-} // PluginInstance::~PluginInstance
+} // ComponentInstance::~ComponentInstance
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-PluginInstance::initialize( const SystemData& _systemData )
+ComponentInstance::initialize( const SystemData& _systemData )
 {
 	m_systemInformation.reset( new SystemInformation( _systemData ) );
 
@@ -47,31 +47,31 @@ PluginInstance::initialize( const SystemData& _systemData )
 
 	m_pluginsManager->loadPlugins();
 
-} // PluginInstance::initialize
+} // ComponentInstance::initialize
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-PluginInstance::close()
+ComponentInstance::close()
 {
 	m_pluginsManager->closePlugins();
 	m_pluginsManager.reset();
 
 	m_systemInformation.reset();
 
-} // PluginInstance::close
+} // ComponentInstance::close
 
 
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
 extern "C" __declspec( dllexport )
-IPluginInstance*
-getPluginsManager()
+IComponentInstance*
+getComponentInstance()
 {
-	return new PluginInstance();
+	return new ComponentInstance();
 }
 
 /*---------------------------------------------------------------------------*/

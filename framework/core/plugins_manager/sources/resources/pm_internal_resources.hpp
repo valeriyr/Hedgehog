@@ -11,7 +11,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const PluginsManagerFactoryName;
+	extern const char* const ComponentFactoryName;
 
 /*---------------------------------------------------------------------------*/
 

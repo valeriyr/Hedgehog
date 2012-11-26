@@ -1,6 +1,6 @@
 
-#ifndef __PM_IPLUGIN_INSTANCE_HPP__
-#define __PM_IPLUGIN_INSTANCE_HPP__
+#ifndef __PM_ICOMPONENT_INSTANCE_HPP__
+#define __PM_ICOMPONENT_INSTANCE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -18,7 +18,7 @@ struct SystemData;
 
 /*---------------------------------------------------------------------------*/
 
-struct IPluginInstance
+struct IComponentInstance
 	:	public Tools::Core::IBase
 {
 
@@ -40,4 +40,4 @@ struct IPluginInstance
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __PM_IPLUGIN_INSTANCE_HPP__
+#endif // __PM_ICOMPONENT_INSTANCE_HPP__

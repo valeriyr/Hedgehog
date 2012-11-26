@@ -22,11 +22,11 @@
     <Filter Include="Plugins Serializer">
       <UniqueIdentifier>{8fada831-15f0-4a45-b07d-7737c8d3e425}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Plugin Instance">
-      <UniqueIdentifier>{4921d050-33b6-414f-a3bf-c273a0086e2e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System Information">
       <UniqueIdentifier>{686937ec-28b1-4834-bdc9-d913505b31b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component Instance">
+      <UniqueIdentifier>{4921d050-33b6-414f-a3bf-c273a0086e2e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -69,12 +69,6 @@
     <ClInclude Include="sources\plugins_manager\pm_iplugins_manager_internal.hpp">
       <Filter>Plugins Manager</Filter>
     </ClInclude>
-    <ClInclude Include="sources\plugin\pm_plugin_instance.hpp">
-      <Filter>Plugin Instance</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\plugin\pm_iplugin_instance.hpp">
-      <Filter>Plugin Instance</Filter>
-    </ClInclude>
     <ClInclude Include="ih\pm_isystem_information.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -86,6 +80,12 @@
     </ClInclude>
     <ClInclude Include="sources\system_information\pm_system_information.hpp">
       <Filter>System Information</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\component\pm_component_instance.hpp">
+      <Filter>Component Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\component\pm_icomponent_instance.hpp">
+      <Filter>Component Instance</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -104,11 +104,11 @@
     <ClCompile Include="sources\plugins_serializer\pm_plugins_serializer.cpp">
       <Filter>Plugins Serializer</Filter>
     </ClCompile>
-    <ClCompile Include="sources\plugin\pm_plugin_instance.cpp">
-      <Filter>Plugin Instance</Filter>
-    </ClCompile>
     <ClCompile Include="sources\system_information\pm_system_information.cpp">
       <Filter>System Information</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\component\pm_component_instance.cpp">
+      <Filter>Component Instance</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
