@@ -13,6 +13,12 @@ namespace Resources {
 
 	const char* const PluginsDirectoryName = "plugins";
 
+	const char* const ResourcesDirectoryName = "resources";
+
+	const char* const ConfigsDirectoryName = "configs";
+
+	const char* const ApplicationName = "Hedgehog Game";
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Resources

@@ -15,11 +15,15 @@ namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
+struct SystemData;
+
+/*---------------------------------------------------------------------------*/
+
 
 struct ILoader
 	:	public Tools::Core::IBase
 {
-	virtual void load( const std::string& _pluginsDirectory ) = 0;
+	virtual void load( const SystemData& _systemData ) = 0;
 
 	virtual void unload() = 0;
 };

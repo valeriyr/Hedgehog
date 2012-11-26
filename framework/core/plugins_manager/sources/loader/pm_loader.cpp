@@ -3,6 +3,8 @@
 
 #include "plugins_manager/sources/loader/pm_loader.hpp"
 
+#include "plugins_manager/h/pm_plugin_id.hpp"
+
 #include "plugins_manager/sources/resources/pm_internal_resources.hpp"
 #include "plugins_manager/sources/plugin/pm_iplugin_instance.hpp"
 
@@ -17,7 +19,7 @@ namespace PluginsManager {
 
 
 Loader::Loader()
-	:	m_connector()
+	:	m_pluginsManagerComponent()
 {
 } // Loader::Loader
 
@@ -34,21 +36,21 @@ Loader::~Loader()
 
 
 void
-Loader::load( const std::string& _pluginsDirectory )
+Loader::load( const SystemData& _systemData )
 {
-	if ( m_connector )
+	if ( m_pluginsManagerComponent )
 		return;
 
 	typedef IPluginInstance* (*PluginsManagerFactoryPtr) ();
 
-	PluginsManagerFactoryPtr connectorFactory
-		= ( PluginsManagerFactoryPtr ) QLibrary::resolve( Resources::LibraryName, Resources::PluginsManagerFactoryName );
-	assert( connectorFactory );
+	PluginsManagerFactoryPtr pluginsManagerFactory
+		= ( PluginsManagerFactoryPtr ) QLibrary::resolve( PID_PLUGINS_MANAGER, Resources::PluginsManagerFactoryName );
+	assert( pluginsManagerFactory );
 
-	m_connector.reset( connectorFactory() );
-	assert( m_connector );
+	m_pluginsManagerComponent.reset( pluginsManagerFactory() );
+	assert( m_pluginsManagerComponent );
 
-	m_connector->initialize( _pluginsDirectory );
+	m_pluginsManagerComponent->initialize( _systemData );
 
 } // Loader::load
 
@@ -59,8 +61,8 @@ Loader::load( const std::string& _pluginsDirectory )
 void
 Loader::unload()
 {
-	m_connector->close();
-	m_connector.reset();
+	m_pluginsManagerComponent->close();
+	m_pluginsManagerComponent.reset();
 
 } // Loader::unload
 

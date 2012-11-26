@@ -40,7 +40,7 @@ PluginInstance::~PluginInstance()
 
 
 void
-PluginInstance::initialize( IBase* _connector )
+PluginInstance::initialize( IBase* _pluginsManager )
 {
 } // PluginInstance::initialize
 

@@ -34,7 +34,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void load( const std::string& _pluginsDirectory );
+	/*virtual*/ void load( const SystemData& _systemData );
 
 	/*virtual*/ void unload();
 
@@ -44,7 +44,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< IPluginInstance > m_connector;
+	boost::intrusive_ptr< IPluginInstance > m_pluginsManagerComponent;
 
 /*---------------------------------------------------------------------------*/
 

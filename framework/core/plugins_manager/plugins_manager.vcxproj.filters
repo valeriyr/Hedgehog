@@ -25,6 +25,9 @@
     <Filter Include="Plugin Instance">
       <UniqueIdentifier>{4921d050-33b6-414f-a3bf-c273a0086e2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System Information">
+      <UniqueIdentifier>{686937ec-28b1-4834-bdc9-d913505b31b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\pm_export.hpp">
@@ -72,6 +75,18 @@
     <ClInclude Include="sources\plugin\pm_iplugin_instance.hpp">
       <Filter>Plugin Instance</Filter>
     </ClInclude>
+    <ClInclude Include="ih\pm_isystem_information.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="h\pm_plugin_id.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="h\pm_system_data.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\system_information\pm_system_information.hpp">
+      <Filter>System Information</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\pm_ph.cpp">
@@ -91,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="sources\plugin\pm_plugin_instance.cpp">
       <Filter>Plugin Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\system_information\pm_system_information.cpp">
+      <Filter>System Information</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

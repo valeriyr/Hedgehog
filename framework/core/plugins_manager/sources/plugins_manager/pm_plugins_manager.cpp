@@ -3,7 +3,10 @@
 
 #include "plugins_manager/sources/plugins_manager/pm_plugins_manager.hpp"
 
+#include "plugins_manager/h/pm_plugin_id.hpp"
 #include "plugins_manager/h/pm_plugin_factory.hpp"
+
+#include "plugins_manager/ih/pm_isystem_information.hpp"
 
 #include "plugins_manager/sources/plugins_manager/pm_plugin_data.hpp"
 #include "plugins_manager/sources/resources/pm_internal_resources.hpp"
@@ -18,9 +21,9 @@ namespace PluginsManager {
 /*---------------------------------------------------------------------------*/
 
 
-PluginsManager::PluginsManager( const std::string& _pluginsDirectory )
+PluginsManager::PluginsManager( boost::intrusive_ptr< ISystemInformation > _systemInformation )
 	:	m_pluginsCollection()
-	,	m_pluginsDirectory( _pluginsDirectory )
+	,	m_systemInformation( _systemInformation )
 {
 } // PluginsManager::PluginsManager
 
@@ -39,6 +42,17 @@ PluginsManager::~PluginsManager()
 boost::intrusive_ptr< Tools::Core::IBase >
 PluginsManager::getPluginInterface( const std::string& _pluginName, const unsigned int _interfaceId )
 {
+	if ( _pluginName == PID_PLUGINS_MANAGER )
+	{
+		switch( _interfaceId )
+		{
+		case IID_SYSTEM_INFORMATION:
+			return m_systemInformation;
+		default:
+			return boost::intrusive_ptr< Tools::Core::IBase >();
+		}
+	}
+
 	PluginsCollectionTypeIterator iterator( m_pluginsCollection.find( _pluginName ) );
 
 	if ( iterator == m_pluginsCollection.end() )
@@ -60,6 +74,9 @@ PluginsManager::getPluginInterface( const std::string& _pluginName, const unsign
 bool
 PluginsManager::isPluginLoaded( const std::string& _pluginName ) const
 {
+	if ( _pluginName == PID_PLUGINS_MANAGER )
+		return true;
+
 	PluginsCollectionTypeIterator iterator( m_pluginsCollection.find( _pluginName ) );
 
 	return
@@ -128,17 +145,6 @@ PluginsManager::closePlugins()
 /*---------------------------------------------------------------------------*/
 
 
-const std::string&
-PluginsManager::getPluginsDirectory() const
-{
-	return m_pluginsDirectory;
-
-} // PluginsManager::getPluginsDirectory
-
-
-/*---------------------------------------------------------------------------*/
-
-
 void
 PluginsManager::loadPluginIfNeeded( PluginData& _pluginData )
 {
@@ -149,13 +155,13 @@ PluginsManager::loadPluginIfNeeded( PluginData& _pluginData )
 
 	_pluginData.m_pluginState = PluginData::State::Loading;
 
-	std::string pluginPath( getPluginsDirectory() + "/" + _pluginData.m_pluginName );
+	std::string pluginPath( m_systemInformation->getPluginsDirectory() + "/" + _pluginData.m_pluginName );
 
-	PluginFactoryPtr connectorFactory
+	PluginFactoryPtr pluginFactory
 		= ( PluginFactoryPtr ) QLibrary::resolve( pluginPath.c_str(), PluginFactoryName );
-	assert( connectorFactory );
+	assert( pluginFactory );
 
-	_pluginData.m_pluginPointer.reset( connectorFactory() );
+	_pluginData.m_pluginPointer.reset( pluginFactory() );
 	assert( _pluginData.m_pluginPointer );
 
 	_pluginData.m_pluginPointer->initialize( this );

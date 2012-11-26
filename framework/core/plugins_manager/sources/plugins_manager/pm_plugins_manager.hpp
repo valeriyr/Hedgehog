@@ -14,6 +14,10 @@ namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
+struct ISystemInformation;
+
+/*---------------------------------------------------------------------------*/
+
 class PluginsManager
 	:	public Tools::Core::BaseWrapper< IPluginsManagerInternal >
 {
@@ -24,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginsManager( const std::string& _pluginsDirectory );
+	PluginsManager( boost::intrusive_ptr< ISystemInformation > _systemInformation );
 
 	virtual ~PluginsManager();
 
@@ -42,8 +46,6 @@ public:
 	/*virtual*/ void loadPlugins();
 
 	/*virtual*/ void closePlugins();
-
-	/*virtual*/ const std::string& getPluginsDirectory() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -66,7 +68,7 @@ private:
 
 	PluginsCollectionType m_pluginsCollection;
 
-	const std::string m_pluginsDirectory;
+	boost::intrusive_ptr< ISystemInformation > m_systemInformation;
 
 /*---------------------------------------------------------------------------*/
 

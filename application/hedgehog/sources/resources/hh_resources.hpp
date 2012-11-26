@@ -11,6 +11,12 @@ namespace Resources {
 
 	extern const char* const PluginsDirectoryName;
 
+	extern const char* const ResourcesDirectoryName;
+
+	extern const char* const ConfigsDirectoryName;
+
+	extern const char* const ApplicationName;
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Resources

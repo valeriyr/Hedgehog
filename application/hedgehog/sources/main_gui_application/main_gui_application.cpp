@@ -5,7 +5,7 @@
 #include "hedgehog/sources/resources/hh_resources.hpp"
 
 #include "plugins_manager/ih/pm_iloader.hpp"
-
+#include "plugins_manager/h/pm_system_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,17 +35,24 @@ int
 MainGuiApplication::exec()
 {
 	boost::intrusive_ptr< Framework::Core::PluginsManager::ILoader >
-		connectorLoader = Framework::Core::PluginsManager::createLoader();
+		pluginsManagerLoader = Framework::Core::PluginsManager::createLoader();
 
 	std::string pluginsDirectory( m_qtApplicaiton.applicationDirPath().toLocal8Bit().data() );
 	pluginsDirectory += "/";
 	pluginsDirectory += Resources::PluginsDirectoryName;
 
-	connectorLoader->load( pluginsDirectory );
+	Framework::Core::PluginsManager::SystemData systemData(
+			pluginsDirectory + "/" + Resources::PluginsDirectoryName
+		,	pluginsDirectory + "/" + Resources::ResourcesDirectoryName
+		,	pluginsDirectory + "/" + Resources::ConfigsDirectoryName
+		,	Resources::ApplicationName
+		);
+
+	pluginsManagerLoader->load( systemData );
 
 	int result = m_qtApplicaiton.exec();
 
-	connectorLoader->unload();
+	pluginsManagerLoader->unload();
 
 	return result;
 

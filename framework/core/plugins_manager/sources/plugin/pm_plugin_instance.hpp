@@ -15,6 +15,7 @@ namespace PluginsManager {
 /*---------------------------------------------------------------------------*/
 
 struct IPluginsManagerInternal;
+struct ISystemInformation;
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,7 +35,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize( const std::string& _pluginsDirectory );
+	/*virtual*/ void initialize( const SystemData& _systemData );
 
 	/*virtual*/ void close();
 
@@ -43,6 +44,8 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< ISystemInformation > m_systemInformation;
 
 	boost::intrusive_ptr< IPluginsManagerInternal > m_pluginsManager;
 

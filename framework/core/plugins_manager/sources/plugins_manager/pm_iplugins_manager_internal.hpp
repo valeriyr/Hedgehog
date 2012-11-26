@@ -26,8 +26,6 @@ struct IPluginsManagerInternal
 	virtual void loadPlugins() = 0;
 
 	virtual void closePlugins() = 0;
-
-	virtual const std::string& getPluginsDirectory() const = 0;
 };
 
 /*---------------------------------------------------------------------------*/

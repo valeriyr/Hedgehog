@@ -10,7 +10,7 @@ namespace WindowManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PluginName = "window_manager";
+	const char* const PID_WINDOW_MANAGER = "window_manager";
 
 /*---------------------------------------------------------------------------*/
 

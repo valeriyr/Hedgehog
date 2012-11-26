@@ -35,7 +35,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize( IBase* _connector );
+	/*virtual*/ void initialize( IBase* _pluginsManager );
 
 	/*virtual*/ void close();
 

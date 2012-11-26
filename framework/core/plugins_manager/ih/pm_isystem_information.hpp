@@ -1,6 +1,6 @@
 
-#ifndef __CN_ISYSTEM_INFORMATION_HPP__
-#define __CN_ISYSTEM_INFORMATION_HPP__
+#ifndef __PM_ISYSTEM_INFORMATION_HPP__
+#define __PM_ISYSTEM_INFORMATION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -10,7 +10,11 @@
 
 namespace Framework {
 namespace Core {
-namespace Connector {
+namespace PluginsManager {
+
+/*---------------------------------------------------------------------------*/
+
+	const unsigned int IID_SYSTEM_INFORMATION = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -22,14 +26,16 @@ struct ISystemInformation
 	virtual const std::string& getConfigDirectory() const = 0;
 
 	virtual const std::string& getResourcesDirectory() const = 0;
+
+	virtual const std::string& getApplicationName() const = 0;
 };
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Connector
+} // namespace PluginsManager
 } // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_ISYSTEM_INFORMATION_HPP__
+#endif // __PM_ISYSTEM_INFORMATION_HPP__

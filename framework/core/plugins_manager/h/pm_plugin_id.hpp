@@ -1,26 +1,24 @@
 
-/** Connector plugin ID */
-
-#ifndef __CN_PLUGIN_ID_HPP__
-#define __CN_PLUGIN_ID_HPP__
+#ifndef __PM_PLUGIN_ID_HPP__
+#define __PM_PLUGIN_ID_HPP__
 
 
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
 namespace Core {
-namespace Connector {
+namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PluginId = "connector";
+	const char* const PID_PLUGINS_MANAGER = "plugins_manager";
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Connector
+} // namespace PluginsManager
 } // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CN_PLUGIN_ID_HPP__
+#endif // __PM_PLUGIN_ID_HPP__

@@ -17,7 +17,7 @@ namespace PluginsManager {
 struct IPlugin
 	:	public Tools::Core::IBase
 {
-	virtual void initialize( Tools::Core::IBase* _connector ) = 0;
+	virtual void initialize( Tools::Core::IBase* _pluginsManager ) = 0;
 
 	virtual void close() = 0;
 

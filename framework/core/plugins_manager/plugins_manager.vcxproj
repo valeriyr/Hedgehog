@@ -22,9 +22,12 @@
     <ClInclude Include="h\pm_export.hpp" />
     <ClInclude Include="h\pm_interface_map.hpp" />
     <ClInclude Include="h\pm_plugin_factory.hpp" />
+    <ClInclude Include="h\pm_plugin_id.hpp" />
+    <ClInclude Include="h\pm_system_data.hpp" />
     <ClInclude Include="ih\pm_iloader.hpp" />
     <ClInclude Include="ih\pm_iplugin.hpp" />
     <ClInclude Include="ih\pm_iplugins_manager.hpp" />
+    <ClInclude Include="ih\pm_isystem_information.hpp" />
     <ClInclude Include="sources\plugin\pm_plugin_instance.hpp" />
     <ClInclude Include="sources\plugin\pm_iplugin_instance.hpp" />
     <ClInclude Include="sources\loader\pm_loader.hpp" />
@@ -34,6 +37,7 @@
     <ClInclude Include="sources\plugins_manager\pm_plugin_data.hpp" />
     <ClInclude Include="sources\plugins_serializer\pm_plugins_serializer.hpp" />
     <ClInclude Include="sources\resources\pm_internal_resources.hpp" />
+    <ClInclude Include="sources\system_information\pm_system_information.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\plugin\pm_plugin_instance.cpp" />
@@ -47,6 +51,7 @@
     <ClCompile Include="sources\plugins_manager\pm_plugins_manager.cpp" />
     <ClCompile Include="sources\plugins_serializer\pm_plugins_serializer.cpp" />
     <ClCompile Include="sources\resources\pm_internal_resources.cpp" />
+    <ClCompile Include="sources\system_information\pm_system_information.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3905CE91-9CF1-43D6-B833-FD2DE1D94F9E}</ProjectGuid>

@@ -3,15 +3,11 @@
 
 #include "plugins_manager/sources/plugins_serializer/pm_plugins_serializer.hpp"
 
+#include "plugins_manager/ih/pm_isystem_information.hpp"
+
 #include "plugins_manager/sources/plugins_manager/pm_iplugins_manager_internal.hpp"
 #include "plugins_manager/sources/plugins_manager/pm_plugin_data.hpp"
 
-#include "xml_library/sources/rules/xl_tag_rule.hpp"
-#include "xml_library/sources/rules/xl_attribute_rule.hpp"
-
-#include "xml_library/sources/handle/xl_handle.hpp"
-
-#include "xml_library/sources/visitors/xl_xml_parser.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -22,8 +18,12 @@ namespace PluginsManager {
 /*---------------------------------------------------------------------------*/
 
 
-PluginsSerializer::PluginsSerializer( IPluginsManagerInternal& _pluginsManager )
+PluginsSerializer::PluginsSerializer(
+		IPluginsManagerInternal& _pluginsManager
+	,	const ISystemInformation& _systemInformation
+	)
 	:	m_pluginsManager( _pluginsManager )
+	,	m_systemInformation( _systemInformation )
 {
 } // PluginsSerializer::PluginsSerializer
 
@@ -42,7 +42,7 @@ PluginsSerializer::~PluginsSerializer()
 void
 PluginsSerializer::loadPluginsList()
 {
-	QDir pluginsDirectory = QDir( m_pluginsManager.getPluginsDirectory().c_str() );
+	QDir pluginsDirectory = QDir( m_systemInformation.getPluginsDirectory().c_str() );
 	assert( pluginsDirectory.exists() );
 
 	QStringList filesFilter;

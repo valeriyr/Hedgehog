@@ -11,6 +11,7 @@ namespace PluginsManager {
 /*---------------------------------------------------------------------------*/
 
 struct IPluginsManagerInternal;
+struct ISystemInformation;
 
 /*---------------------------------------------------------------------------*/
 
@@ -23,7 +24,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginsSerializer( IPluginsManagerInternal& _pluginsManager );
+	PluginsSerializer(
+			IPluginsManagerInternal& _pluginsManager
+		,	const ISystemInformation& _systemInformation );
 
 	~PluginsSerializer();
 
@@ -38,6 +41,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	IPluginsManagerInternal& m_pluginsManager;
+
+	const ISystemInformation& m_systemInformation;
 
 /*---------------------------------------------------------------------------*/
 

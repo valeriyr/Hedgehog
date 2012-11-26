@@ -7,6 +7,8 @@
 
 #include "plugins_manager/sources/plugins_manager/pm_plugins_manager.hpp"
 #include "plugins_manager/sources/plugins_serializer/pm_plugins_serializer.hpp"
+#include "plugins_manager/sources/system_information/pm_system_information.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,11 +36,13 @@ PluginInstance::~PluginInstance()
 
 
 void
-PluginInstance::initialize( const std::string& _pluginsDirectory )
+PluginInstance::initialize( const SystemData& _systemData )
 {
-	m_pluginsManager.reset( new PluginsManager( _pluginsDirectory ) );
+	m_systemInformation.reset( new SystemInformation( _systemData ) );
 
-	PluginsSerializer pluginsSerializer( *m_pluginsManager );
+	m_pluginsManager.reset( new PluginsManager( m_systemInformation ) );
+
+	PluginsSerializer pluginsSerializer( *m_pluginsManager, *m_systemInformation );
 	pluginsSerializer.loadPluginsList();
 
 	m_pluginsManager->loadPlugins();
@@ -54,6 +58,8 @@ PluginInstance::close()
 {
 	m_pluginsManager->closePlugins();
 	m_pluginsManager.reset();
+
+	m_systemInformation.reset();
 
 } // PluginInstance::close
 

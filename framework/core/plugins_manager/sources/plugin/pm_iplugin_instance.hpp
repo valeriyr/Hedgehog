@@ -14,13 +14,17 @@ namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
+struct SystemData;
+
+/*---------------------------------------------------------------------------*/
+
 struct IPluginInstance
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initialize( const std::string& _pluginsDirectory ) = 0;
+	virtual void initialize( const SystemData& _systemData ) = 0;
 
 	virtual void close() = 0;
 
