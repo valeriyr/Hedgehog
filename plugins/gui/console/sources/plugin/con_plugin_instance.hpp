@@ -16,7 +16,7 @@ namespace Console {
 /*---------------------------------------------------------------------------*/
 
 class PluginInstance
-	:	public Framework::Core::PluginsManager::PluginWrapper
+	:	public Framework::Core::PluginsManager::BasePlugin
 {
 
 /*---------------------------------------------------------------------------*/
@@ -35,7 +35,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize( IBase* _pluginsManager );
+	/*virtual*/ void initialize( Framework::Core::PluginsManager::IPluginsManager& _pluginsManager );
 
 	/*virtual*/ void close();
 

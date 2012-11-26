@@ -5,6 +5,9 @@
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
+#include "plugins_manager/h/pm_plugin_id.hpp"
+#include "plugins_manager/ih/pm_isystem_information.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,8 +43,22 @@ PluginInstance::~PluginInstance()
 
 
 void
-PluginInstance::initialize( IBase* _pluginsManager )
+PluginInstance::initialize( Framework::Core::PluginsManager::IPluginsManager& _pluginsManager )
 {
+	m_mainWindow.reset( new QMainWindow() );
+
+	boost::intrusive_ptr< Core::PluginsManager::ISystemInformation > systemInformation
+		= getPluginInterface< Core::PluginsManager::ISystemInformation >(
+				_pluginsManager
+			,	Core::PluginsManager::PID_PLUGINS_MANAGER
+			,	Core::PluginsManager::IID_SYSTEM_INFORMATION );
+
+	m_mainWindow->setWindowTitle( systemInformation->getApplicationName().c_str() );
+
+	m_mainWindow->setCentralWidget( new QTextEdit( "This is a most cool game!!!" ) );
+
+	m_mainWindow->showMaximized();
+
 } // PluginInstance::initialize
 
 
@@ -51,6 +68,8 @@ PluginInstance::initialize( IBase* _pluginsManager )
 void
 PluginInstance::close()
 {
+	m_mainWindow.reset();
+
 } // PluginInstance::close
 
 

@@ -5,6 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+#include "plugins_manager/ih/pm_iplugins_manager.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,10 +15,11 @@ namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
+
 struct IPlugin
 	:	public Tools::Core::IBase
 {
-	virtual void initialize( Tools::Core::IBase* _pluginsManager ) = 0;
+	virtual void initialize( IPluginsManager& _pluginsManager ) = 0;
 
 	virtual void close() = 0;
 
@@ -26,7 +28,27 @@ struct IPlugin
 
 /*---------------------------------------------------------------------------*/
 
-typedef Tools::Core::BaseWrapper< IPlugin > PluginWrapper;
+
+class BasePlugin
+	:	public Tools::Core::BaseWrapper< IPlugin >
+{
+
+public:
+
+	template< typename _TInterfaceType >
+	boost::intrusive_ptr< _TInterfaceType >
+	getPluginInterface(
+			IPluginsManager& _pluginsManager
+		,	const std::string& _pluginName
+		,	const unsigned int _interfaceId ) const
+	{
+		return
+			boost::intrusive_ptr< _TInterfaceType >(
+				static_cast< _TInterfaceType* >(
+					_pluginsManager.getPluginInterface( _pluginName, _interfaceId ).get() ) );
+	}
+};
+
 
 /*---------------------------------------------------------------------------*/
 

@@ -39,7 +39,7 @@ PluginInstance::~PluginInstance()
 
 
 void
-PluginInstance::initialize( IBase* _pluginsManager )
+PluginInstance::initialize( Framework::Core::PluginsManager::IPluginsManager& _pluginsManager )
 {
 } // PluginInstance::initialize
 

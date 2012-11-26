@@ -6,9 +6,10 @@
 /*---------------------------------------------------------------------------*/
 
 
-int main  ( int argc, char* argv[] )
+int WINAPI
+WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpcmdline, int ncmdshow )
 {
-	Hedgehog::MainGuiApplication app( argc, argv );
+	Hedgehog::MainGuiApplication app( ncmdshow, (char **)lpcmdline );
 	return app.exec();
 }
 
