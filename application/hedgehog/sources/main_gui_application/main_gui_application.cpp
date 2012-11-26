@@ -37,14 +37,12 @@ MainGuiApplication::exec()
 	boost::intrusive_ptr< Framework::Core::PluginsManager::ILoader >
 		pluginsManagerLoader = Framework::Core::PluginsManager::createLoader();
 
-	std::string pluginsDirectory( m_qtApplicaiton.applicationDirPath().toLocal8Bit().data() );
-	pluginsDirectory += "/";
-	pluginsDirectory += Resources::PluginsDirectoryName;
+	std::string applicationDirectory( m_qtApplicaiton.applicationDirPath().toLocal8Bit().data() );
 
 	Framework::Core::PluginsManager::SystemData systemData(
-			pluginsDirectory + "/" + Resources::PluginsDirectoryName
-		,	pluginsDirectory + "/" + Resources::ResourcesDirectoryName
-		,	pluginsDirectory + "/" + Resources::ConfigsDirectoryName
+			applicationDirectory + "/" + Resources::PluginsDirectoryName
+		,	applicationDirectory + "/" + Resources::ResourcesDirectoryName
+		,	applicationDirectory + "/" + Resources::ConfigsDirectoryName
 		,	Resources::ApplicationName
 		);
 
