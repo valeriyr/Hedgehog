@@ -164,7 +164,7 @@ PluginsManager::loadPluginIfNeeded( PluginData& _pluginData )
 	_pluginData.m_pluginPointer.reset( pluginFactory() );
 	assert( _pluginData.m_pluginPointer );
 
-	_pluginData.m_pluginPointer->initialize( *this );
+	_pluginData.m_pluginPointer->initialize( this );
 
 	_pluginData.m_pluginState = PluginData::State::Loaded;
 

@@ -43,17 +43,11 @@ PluginInstance::~PluginInstance()
 
 
 void
-PluginInstance::initialize( Framework::Core::PluginsManager::IPluginsManager& _pluginsManager )
+PluginInstance::initialize()
 {
 	m_mainWindow.reset( new QMainWindow() );
 
-	boost::intrusive_ptr< Core::PluginsManager::ISystemInformation > systemInformation
-		= getPluginInterface< Core::PluginsManager::ISystemInformation >(
-				_pluginsManager
-			,	Core::PluginsManager::PID_PLUGINS_MANAGER
-			,	Core::PluginsManager::IID_SYSTEM_INFORMATION );
-
-	m_mainWindow->setWindowTitle( systemInformation->getApplicationName().c_str() );
+	m_mainWindow->setWindowTitle( getSystemInformation()->getApplicationName().c_str() );
 
 	m_mainWindow->setCentralWidget( new QTextEdit( "This is a most cool game!!!" ) );
 
@@ -71,6 +65,20 @@ PluginInstance::close()
 	m_mainWindow.reset();
 
 } // PluginInstance::close
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Core::PluginsManager::ISystemInformation >
+PluginInstance::getSystemInformation() const
+{
+	return
+		getPluginInterface< Core::PluginsManager::ISystemInformation >(
+				Core::PluginsManager::PID_PLUGINS_MANAGER
+			,	Core::PluginsManager::IID_SYSTEM_INFORMATION );
+
+} // PluginInstance::getSystemInformation
 
 
 /*---------------------------------------------------------------------------*/

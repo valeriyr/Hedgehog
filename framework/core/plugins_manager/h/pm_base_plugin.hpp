@@ -1,35 +1,20 @@
 
-#ifndef __WM_PLUGIN_INSTANCE_HPP__
-#define __WM_PLUGIN_INSTANCE_HPP__
+#ifndef __PM_BASE_PALUGIN_HPP__
+#define __PM_BASE_PALUGIN_HPP__
 
-/*---------------------------------------------------------------------------*/
-
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
-
-/*---------------------------------------------------------------------------*/
-
-namespace Framework
-{
-	namespace Core
-	{
-		namespace PluginsManager
-		{
-			struct ISystemInformation;
-		}
-	}
-}
+#include "plugins_manager/ih/pm_iplugin.hpp"
+#include "plugins_manager/ih/pm_iplugins_manager.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
-namespace GUI {
-namespace WindowManager {
+namespace Core {
+namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+class BasePlugin
+	:	public Tools::Core::BaseWrapper< IPlugin >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -38,19 +23,44 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
-
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	BasePlugin()
+		:	m_pluginsManager( NULL )
+	{}
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize();
+	/*virtual*/ void initialize( IPluginsManager* _pluginsManager )
+	{
+		m_pluginsManager = _pluginsManager;
+		initialize();
+	}
 
-	/*virtual*/ void close();
+/*---------------------------------------------------------------------------*/
+
+	virtual void initialize() = 0;
+
+/*---------------------------------------------------------------------------*/
+
+protected:
+
+/*---------------------------------------------------------------------------*/
+
+	template< typename _TInterfaceType >
+	boost::intrusive_ptr< _TInterfaceType >
+	getPluginInterface(
+			const std::string& _pluginName
+		,	const unsigned int _interfaceId ) const
+	{
+		return
+			boost::intrusive_ptr< _TInterfaceType >(
+				static_cast< _TInterfaceType* >(
+					getPluginsManager()->getPluginInterface( _pluginName, _interfaceId ).get() ) );
+	}
+
+	IPluginsManager* getPluginsManager() const
+	{
+		return m_pluginsManager;
+	}
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,16 +68,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Core::PluginsManager::ISystemInformation >
-		getSystemInformation() const;
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	boost::shared_ptr< QMainWindow > m_mainWindow;
+	IPluginsManager* m_pluginsManager;
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,10 +76,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace WindowManager
-} // namespace GUI
+} // namespace PluginsManager
+} // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __WM_PLUGIN_INSTANCE_HPP__
+#endif // __PM_BASE_PALUGIN_HPP__

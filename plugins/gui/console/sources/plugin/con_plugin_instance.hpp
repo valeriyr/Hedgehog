@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/ih/pm_iplugin.hpp"
+#include "plugins_manager/h/pm_base_plugin.hpp"
 #include "plugins_manager/h/pm_interface_map.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -35,7 +35,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize( Framework::Core::PluginsManager::IPluginsManager& _pluginsManager );
+	/*virtual*/ void initialize();
 
 	/*virtual*/ void close();
 

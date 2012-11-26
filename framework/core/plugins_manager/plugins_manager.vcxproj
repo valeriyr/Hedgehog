@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="h\pm_base_plugin.hpp" />
     <ClInclude Include="h\pm_export.hpp" />
     <ClInclude Include="h\pm_interface_map.hpp" />
     <ClInclude Include="h\pm_plugin_factory.hpp" />
