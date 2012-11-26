@@ -1,24 +1,18 @@
 
-#include "window_manager/sources/ph/wm_ph.hpp"
+#include "plugins_manager/sources/ph/pm_ph.hpp"
 
-#include "window_manager/sources/plugin/wm_plugin_instance.hpp"
+#include "plugins_manager/sources/plugin/pm_plugin_instance.hpp"
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
+#include "plugins_manager/sources/plugins_manager/pm_plugins_manager.hpp"
+#include "plugins_manager/sources/plugins_serializer/pm_plugins_serializer.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
-namespace GUI {
-namespace WindowManager {
-
-/*---------------------------------------------------------------------------*/
-
-
-BEGIN_INTERFACE_MAP( PluginInstance )
-
-END_INTERFACE_MAP()
-
+namespace Core {
+namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,8 +34,15 @@ PluginInstance::~PluginInstance()
 
 
 void
-PluginInstance::initialize( IBase* _connector )
+PluginInstance::initialize( const std::string& _pluginsDirectory )
 {
+	m_pluginsManager.reset( new PluginsManager( _pluginsDirectory ) );
+
+	PluginsSerializer pluginsSerializer( *m_pluginsManager );
+	pluginsSerializer.loadPluginsList();
+
+	m_pluginsManager->loadPlugins();
+
 } // PluginInstance::initialize
 
 
@@ -51,18 +52,26 @@ PluginInstance::initialize( IBase* _connector )
 void
 PluginInstance::close()
 {
+	m_pluginsManager->closePlugins();
+	m_pluginsManager.reset();
+
 } // PluginInstance::close
 
 
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
-PLUGIN_FACTORY_DECLARATION( PluginInstance )
+extern "C" __declspec( dllexport )
+IPluginInstance*
+getPluginsManager()
+{
+	return new PluginInstance();
+}
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace WindowManager
-} // namespace GUI
+} // namespace PluginsManager
+} // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/

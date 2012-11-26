@@ -1,22 +1,25 @@
 
-#ifndef __CON_PLUGIN_INSTANCE_HPP__
-#define __CON_PLUGIN_INSTANCE_HPP__
+#ifndef __PM_LOADER_HPP__
+#define __PM_LOADER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/ih/pm_iplugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
+#include "plugins_manager/ih/pm_iloader.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
-namespace GUI {
-namespace Console {
+namespace Framework {
+namespace Core {
+namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public Framework::Core::PluginsManager::PluginWrapper
+struct IPluginInstance;
+
+/*---------------------------------------------------------------------------*/
+
+class Loader
+	:	public Tools::Core::BaseWrapper< ILoader >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -25,19 +28,23 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	Loader();
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	virtual ~Loader();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize( IBase* _connector );
+	/*virtual*/ void load( const std::string& _pluginsDirectory );
 
-	/*virtual*/ void close();
+	/*virtual*/ void unload();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< IPluginInstance > m_connector;
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,10 +52,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Console
-} // namespace GUI
-} // namespace Plugins
+} // namespace PluginsManager
+} // namespace Core
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CON_PLUGIN_INSTANCE_HPP__
+#endif // __PM_LOADER_HPP__

@@ -1,68 +1,54 @@
 
-#include "window_manager/sources/ph/wm_ph.hpp"
-
-#include "window_manager/sources/plugin/wm_plugin_instance.hpp"
-
-#include "plugins_manager/h/pm_plugin_factory.hpp"
-
+#ifndef __PM_PLUGINS_SERIALIZER_HPP__
+#define __PM_PLUGINS_SERIALIZER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
-namespace GUI {
-namespace WindowManager {
+namespace Core {
+namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
-
-BEGIN_INTERFACE_MAP( PluginInstance )
-
-END_INTERFACE_MAP()
-
+struct IPluginsManagerInternal;
 
 /*---------------------------------------------------------------------------*/
 
-
-PluginInstance::PluginInstance()
+class PluginsSerializer
 {
-} // PluginInstance::PluginInstance
-
 
 /*---------------------------------------------------------------------------*/
 
-
-PluginInstance::~PluginInstance()
-{
-} // PluginInstance::~PluginInstance
-
+public:
 
 /*---------------------------------------------------------------------------*/
 
+	PluginsSerializer( IPluginsManagerInternal& _pluginsManager );
 
-void
-PluginInstance::initialize( IBase* _connector )
-{
-} // PluginInstance::initialize
-
+	~PluginsSerializer();
 
 /*---------------------------------------------------------------------------*/
 
-
-void
-PluginInstance::close()
-{
-} // PluginInstance::close
-
-
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-
-PLUGIN_FACTORY_DECLARATION( PluginInstance )
+	void loadPluginsList();
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace WindowManager
-} // namespace GUI
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	IPluginsManagerInternal& m_pluginsManager;
+
+/*---------------------------------------------------------------------------*/
+
+};
+
+/*---------------------------------------------------------------------------*/
+
+} // namespace PluginsManager
+} // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
+
+#endif // __PM_PLUGINS_SERIALIZER_HPP__

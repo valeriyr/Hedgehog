@@ -1,68 +1,61 @@
 
-#include "window_manager/sources/ph/wm_ph.hpp"
+#ifndef __PM_PLUGIN_DATA_HPP__
+#define __PM_PLUGIN_DATA_HPP__
 
-#include "window_manager/sources/plugin/wm_plugin_instance.hpp"
+/*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_plugin_factory.hpp"
-
+#include "plugins_manager/ih/pm_iplugins_manager.hpp"
+#include "plugins_manager/ih/pm_iplugin.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
-namespace GUI {
-namespace WindowManager {
+namespace Core {
+namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
-
-BEGIN_INTERFACE_MAP( PluginInstance )
-
-END_INTERFACE_MAP()
-
-
-/*---------------------------------------------------------------------------*/
-
-
-PluginInstance::PluginInstance()
+struct PluginData
 {
-} // PluginInstance::PluginInstance
-
 
 /*---------------------------------------------------------------------------*/
 
-
-PluginInstance::~PluginInstance()
-{
-} // PluginInstance::~PluginInstance
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-PluginInstance::initialize( IBase* _connector )
-{
-} // PluginInstance::initialize
-
+	struct State
+	{
+		enum Enum
+		{
+				NotLoaded = 0
+			,	Loaded
+			,	Loading
+		};
+	};
 
 /*---------------------------------------------------------------------------*/
 
-
-void
-PluginInstance::close()
-{
-} // PluginInstance::close
-
-
-/*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
-
-PLUGIN_FACTORY_DECLARATION( PluginInstance )
+	PluginData( const std::string& _pluginName )
+		:	m_pluginName( _pluginName )
+		,	m_pluginState( State::NotLoaded )
+		,	m_pluginPointer()
+	{}
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace WindowManager
-} // namespace GUI
+	const std::string m_pluginName;
+
+	State::Enum m_pluginState;
+
+	boost::intrusive_ptr< IPlugin > m_pluginPointer;
+
+/*---------------------------------------------------------------------------*/
+
+};
+
+/*---------------------------------------------------------------------------*/
+
+} // namespace PluginsManager
+} // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
+
+#endif // __PM_PLUGIN_DATA_HPP__

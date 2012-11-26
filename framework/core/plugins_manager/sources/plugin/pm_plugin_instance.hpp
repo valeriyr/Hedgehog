@@ -1,22 +1,25 @@
 
-#ifndef __CON_PLUGIN_INSTANCE_HPP__
-#define __CON_PLUGIN_INSTANCE_HPP__
+#ifndef __PM_PLUGIN_INSTANCE_HPP__
+#define __PM_PLUGIN_INSTANCE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/ih/pm_iplugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
+#include "plugins_manager/sources/plugin/pm_iplugin_instance.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
-namespace GUI {
-namespace Console {
+namespace Framework {
+namespace Core {
+namespace PluginsManager {
+
+/*---------------------------------------------------------------------------*/
+
+struct IPluginsManagerInternal;
 
 /*---------------------------------------------------------------------------*/
 
 class PluginInstance
-	:	public Framework::Core::PluginsManager::PluginWrapper
+	:	public Tools::Core::BaseWrapper< IPluginInstance >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -31,13 +34,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	INTERFACE_MAP_DECLARATION()
+	/*virtual*/ void initialize( const std::string& _pluginsDirectory );
+
+	/*virtual*/ void close();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize( IBase* _connector );
+private:
 
-	/*virtual*/ void close();
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< IPluginsManagerInternal > m_pluginsManager;
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,10 +52,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Console
-} // namespace GUI
-} // namespace Plugins
+} // namespace PluginsManager
+} // namespace Core
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CON_PLUGIN_INSTANCE_HPP__
+#endif // __PM_PLUGIN_INSTANCE_HPP__

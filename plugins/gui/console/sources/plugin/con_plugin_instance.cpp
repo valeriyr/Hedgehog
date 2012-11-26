@@ -3,7 +3,7 @@
 
 #include "console/sources/plugin/con_plugin_instance.hpp"
 
-#include "connector/h/cn_plugin_factory.hpp"
+#include "plugins_manager/h/pm_plugin_factory.hpp"
 
 /*---------------------------------------------------------------------------*/
 

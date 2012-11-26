@@ -4,8 +4,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "connector/ih/cn_iplugin.hpp"
-#include "connector/h/cn_interface_map.hpp"
+#include "plugins_manager/ih/pm_iplugin.hpp"
+#include "plugins_manager/h/pm_interface_map.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,7 +16,7 @@ namespace WindowManager {
 /*---------------------------------------------------------------------------*/
 
 class PluginInstance
-	:	public Framework::Core::Connector::PluginWrapper
+	:	public Framework::Core::PluginsManager::PluginWrapper
 {
 
 /*---------------------------------------------------------------------------*/
