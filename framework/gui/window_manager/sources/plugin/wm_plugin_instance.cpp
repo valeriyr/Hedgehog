@@ -51,6 +51,11 @@ PluginInstance::initialize()
 
 	m_mainWindow->setCentralWidget( new QTextEdit( "This is a most cool game!!!" ) );
 
+	QDockWidget* bottomDocWidget( new QDockWidget() );
+	bottomDocWidget->setWidget( new QTextEdit( "Console should be here." ) );
+
+	m_mainWindow->addDockWidget( Qt::BottomDockWidgetArea, bottomDocWidget );
+
 	m_mainWindow->showMaximized();
 
 } // PluginInstance::initialize
