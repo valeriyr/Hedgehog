@@ -155,7 +155,11 @@ PluginsManager::loadPluginIfNeeded( PluginData& _pluginData )
 
 	_pluginData.m_pluginState = PluginData::State::Loading;
 
-	std::string pluginPath( m_systemInformation->getPluginsDirectory() + "/" + _pluginData.m_pluginName );
+	std::string pluginPath(
+			m_systemInformation->getPluginsDirectory()
+		+	"/"
+		+	_pluginData.m_pluginName
+		+	Resources::PluginFileExtension );
 
 	PluginFactoryPtr pluginFactory
 		= ( PluginFactoryPtr ) QLibrary::resolve( pluginPath.c_str(), PluginFactoryName );

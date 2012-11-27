@@ -8,6 +8,8 @@
 #include "plugins_manager/sources/plugins_manager/pm_iplugins_manager_internal.hpp"
 #include "plugins_manager/sources/plugins_manager/pm_plugin_data.hpp"
 
+#include "plugins_manager/sources/resources/pm_internal_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,7 +48,7 @@ PluginsSerializer::loadPluginsList()
 	assert( pluginsDirectory.exists() );
 
 	QStringList filesFilter;
-	filesFilter.push_back( "*.dll" );
+	filesFilter.push_back( QString( "*" ) + Resources::PluginFileExtension );
 
 	QFileInfoList filesList = pluginsDirectory.entryInfoList( filesFilter );
 

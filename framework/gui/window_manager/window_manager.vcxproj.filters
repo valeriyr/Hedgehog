@@ -10,6 +10,9 @@
     <Filter Include="Plugin">
       <UniqueIdentifier>{e519e264-64e4-427e-bca4-9ae4cf04727f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Window Manager">
+      <UniqueIdentifier>{cf0b3a76-f098-4b25-8a4a-c51220724598}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\wm_ph.cpp">
