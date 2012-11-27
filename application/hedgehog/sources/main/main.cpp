@@ -5,6 +5,11 @@
 
 /*---------------------------------------------------------------------------*/
 
+#ifdef _WINDOWS
+
+/*---------------------------------------------------------------------------*/
+
+#include <windows.h>
 
 int WINAPI
 WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpcmdline, int ncmdshow )
@@ -13,5 +18,20 @@ WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpcmdline, int ncmd
 	return app.exec();
 }
 
+/*---------------------------------------------------------------------------*/
+
+#else
+
+/*---------------------------------------------------------------------------*/
+
+int main( int argc, char* argv[] )
+{
+	Hedgehog::MainGuiApplication app( argc, argv );
+	return app.exec();
+}
+
+/*---------------------------------------------------------------------------*/
+
+#endif
 
 /*---------------------------------------------------------------------------*/
