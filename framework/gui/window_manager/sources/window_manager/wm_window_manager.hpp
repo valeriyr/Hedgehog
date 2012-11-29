@@ -1,32 +1,12 @@
 
-#ifndef __WM_PLUGIN_INSTANCE_HPP__
-#define __WM_PLUGIN_INSTANCE_HPP__
+#ifndef __WM_WINDOW_MANAGER_HPP__
+#define __WM_WINDOW_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
+#include "window_manager/ih/wm_iwindow_manager.hpp"
 
-/*---------------------------------------------------------------------------*/
-
-namespace Framework
-{
-	namespace Core
-	{
-		namespace PluginsManager
-		{
-			struct ISystemInformation;
-		}
-	}
-
-	namespace GUI
-	{
-		namespace WindowManager
-		{
-			struct IWindowManager;
-		}
-	}
-}
+#include "window_manager/h/wm_view_position.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,8 +16,8 @@ namespace WindowManager {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+class WindowManager
+	:	public Tools::Core::BaseWrapper< IWindowManager >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -46,19 +26,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	WindowManager( const std::string& _applicationName );
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	virtual ~WindowManager();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize();
+	/*virtual*/ void addView( boost::intrusive_ptr< IView > _view );
 
-	/*virtual*/ void close();
+	/*virtual*/ void removeView( boost::intrusive_ptr< IView > _view );
 
 /*---------------------------------------------------------------------------*/
 
@@ -66,8 +42,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Core::PluginsManager::ISystemInformation >
-		getSystemInformation() const;
+	static Qt::DockWidgetArea getQtViewPossition( const ViewPosition::Enum _viewPossition );
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,7 +50,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< IWindowManager > m_windowManager;
+	boost::shared_ptr< QMainWindow > m_mainWindow;
 
 /*---------------------------------------------------------------------------*/
 
@@ -89,4 +64,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __WM_PLUGIN_INSTANCE_HPP__
+#endif // __WM_WINDOW_MANAGER_HPP__

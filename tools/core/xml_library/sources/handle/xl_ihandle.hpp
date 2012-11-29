@@ -15,6 +15,8 @@ namespace XmlLibrary {
 struct IHandle
 {
 	virtual void operator () ( const QDomElement& _element ) = 0;
+
+	virtual ~IHandle() {}
 };
 
 /*---------------------------------------------------------------------------*/

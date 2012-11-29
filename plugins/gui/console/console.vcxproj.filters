@@ -7,6 +7,12 @@
     <Filter Include="Plugin">
       <UniqueIdentifier>{c2203fd0-badd-4e24-a77e-68b147ae7f68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main View">
+      <UniqueIdentifier>{c1512a3c-cf7e-4398-95f2-b7b4bab2ff17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal Resources">
+      <UniqueIdentifier>{dbad4c5a-0abb-4aae-892b-8cf3a7f7cfcd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\con_ph.cpp">
@@ -15,6 +21,12 @@
     <ClCompile Include="sources\plugin\con_plugin_instance.cpp">
       <Filter>Plugin</Filter>
     </ClCompile>
+    <ClCompile Include="sources\main_view\con_main_view.cpp">
+      <Filter>Main View</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\resources\con_internal_resources.cpp">
+      <Filter>Internal Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\con_ph.hpp">
@@ -22,6 +34,12 @@
     </ClInclude>
     <ClInclude Include="sources\plugin\con_plugin_instance.hpp">
       <Filter>Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\main_view\con_main_view.hpp">
+      <Filter>Main View</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\resources\con_internal_resources.hpp">
+      <Filter>Internal Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

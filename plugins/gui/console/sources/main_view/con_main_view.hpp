@@ -1,25 +1,10 @@
 
-#ifndef __CON_PLUGIN_INSTANCE_HPP__
-#define __CON_PLUGIN_INSTANCE_HPP__
+#ifndef __CON_MAIN_VIEW_HPP__
+#define __CON_MAIN_VIEW_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
-
-/*---------------------------------------------------------------------------*/
-
-namespace Framework
-{
-	namespace GUI
-	{
-		namespace WindowManager
-		{
-			 struct IView;
-			 struct IWindowManager;
-		}
-	}
-}
+#include "window_manager/ih/wm_iview.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,8 +14,8 @@ namespace Console {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+class MainView
+	:	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -39,28 +24,21 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	MainView();
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	virtual ~MainView();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize();
+	/*virtual*/ const Framework::GUI::WindowManager::ViewPosition::Enum getViewPossition() const;
 
-	/*virtual*/ void close();
+	/*virtual*/ const std::string& getViewTitle() const;
 
-/*---------------------------------------------------------------------------*/
-
-private:
+	/*virtual*/ QWidget* getViewWidget() const;
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
-		getWindowManager() const;
+	/*virtual*/ void viewWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
@@ -68,7 +46,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IView > m_consoleView;
+	/*boost::shared_ptr< QTextEdit >*/ QTextEdit* m_consoleView;
 
 /*---------------------------------------------------------------------------*/
 
@@ -82,4 +60,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CON_PLUGIN_INSTANCE_HPP__
+#endif // __CON_MAIN_VIEW_HPP__

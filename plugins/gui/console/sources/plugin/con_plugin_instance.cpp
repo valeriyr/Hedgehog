@@ -3,7 +3,13 @@
 
 #include "console/sources/plugin/con_plugin_instance.hpp"
 
+#include "console/sources/main_view/con_main_view.hpp"
+
 #include "plugins_manager/h/pm_plugin_factory.hpp"
+
+#include "window_manager/ih/wm_iwindow_manager.hpp"
+#include "window_manager/h/wm_plugin_id.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,6 +47,10 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	m_consoleView.reset( new MainView() );
+
+	getWindowManager()->addView( m_consoleView );
+
 } // PluginInstance::initialize
 
 
@@ -50,7 +60,23 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	getWindowManager()->removeView( m_consoleView );
+
 } // PluginInstance::close
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
+PluginInstance::getWindowManager() const
+{
+	return
+		getPluginInterface< Framework::GUI::WindowManager::IWindowManager >(
+				Framework::GUI::WindowManager::PID_WINDOW_MANAGER
+			,	Framework::GUI::WindowManager::IID_WINDOW_MANAGER );
+
+} // PluginInstance::getWindowManager
 
 
 /*---------------------------------------------------------------------------*/

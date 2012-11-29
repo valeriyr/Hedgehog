@@ -8,6 +8,8 @@
 #include "plugins_manager/h/pm_plugin_id.hpp"
 #include "plugins_manager/ih/pm_isystem_information.hpp"
 
+#include "window_manager/sources/window_manager/wm_window_manager.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,6 +21,8 @@ namespace WindowManager {
 
 
 BEGIN_INTERFACE_MAP( PluginInstance )
+
+	INTERFACE( IID_WINDOW_MANAGER, m_windowManager.get() )
 
 END_INTERFACE_MAP()
 
@@ -45,18 +49,7 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
-	m_mainWindow.reset( new QMainWindow() );
-
-	m_mainWindow->setWindowTitle( getSystemInformation()->getApplicationName().c_str() );
-
-	m_mainWindow->setCentralWidget( new QTextEdit( "This is a most cool game!!!" ) );
-
-	QDockWidget* bottomDocWidget( new QDockWidget() );
-	bottomDocWidget->setWidget( new QTextEdit( "Console should be here." ) );
-
-	m_mainWindow->addDockWidget( Qt::BottomDockWidgetArea, bottomDocWidget );
-
-	m_mainWindow->showMaximized();
+	m_windowManager.reset( new WindowManager( getSystemInformation()->getApplicationName() ) );
 
 } // PluginInstance::initialize
 
@@ -67,7 +60,7 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
-	m_mainWindow.reset();
+	m_windowManager.reset();
 
 } // PluginInstance::close
 

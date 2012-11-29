@@ -194,11 +194,16 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">window_manager/sources/ph/wm_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="sources\plugin\wm_plugin_instance.cpp" />
+    <ClCompile Include="sources\window_manager\wm_window_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\wm_plugin_id.hpp" />
+    <ClInclude Include="h\wm_view_position.hpp" />
+    <ClInclude Include="ih\wm_iview.hpp" />
+    <ClInclude Include="ih\wm_iwindow_manager.hpp" />
     <ClInclude Include="sources\ph\wm_ph.hpp" />
     <ClInclude Include="sources\plugin\wm_plugin_instance.hpp" />
+    <ClInclude Include="sources\window_manager\wm_window_manager.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
