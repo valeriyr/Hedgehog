@@ -30,8 +30,6 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const Framework::GUI::WindowManager::ViewPosition::Enum getViewPossition() const;
-
 	/*virtual*/ const std::string& getViewTitle() const;
 
 	/*virtual*/ QWidget* getViewWidget() const;
@@ -46,7 +44,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	/*boost::shared_ptr< QTextEdit >*/ QTextEdit* m_consoleView;
+	boost::shared_ptr< QTextEdit > m_consoleView;
+
+	std::string m_viewTitle;
 
 /*---------------------------------------------------------------------------*/
 

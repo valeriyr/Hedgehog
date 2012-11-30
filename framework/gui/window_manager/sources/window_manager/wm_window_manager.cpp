@@ -5,6 +5,8 @@
 
 #include "window_manager/ih/wm_iview.hpp"
 
+#include "wm_window_manager.moc"
+
 #include <QtGui/QTextEdit>
 
 
@@ -19,6 +21,7 @@ namespace WindowManager {
 
 WindowManager::WindowManager( const std::string& _applicationName )
 	:	m_mainWindow( new QMainWindow() )
+	,	m_dockWidgetByViewCollection()
 {
 	m_mainWindow->setWindowTitle( _applicationName.c_str() );
 	m_mainWindow->showMaximized();
@@ -33,6 +36,18 @@ WindowManager::WindowManager( const std::string& _applicationName )
 
 WindowManager::~WindowManager()
 {
+	DockWidgetByViewCollectionIterator
+			begin = m_dockWidgetByViewCollection.begin()
+		,	end = m_dockWidgetByViewCollection.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		removeView( begin->first );
+		begin->first->viewWasClosed();
+	}
+
+	m_dockWidgetByViewCollection.clear();
+
 	m_mainWindow.reset();
 
 } // WindowManager::~WindowManager
@@ -42,23 +57,22 @@ WindowManager::~WindowManager()
 
 
 void
-WindowManager::addView( boost::intrusive_ptr< IView > _view )
+WindowManager::addView(
+		boost::intrusive_ptr< IView > _view
+	,	const ViewPosition::Enum _position )
 {
-	Qt::DockWidgetArea viewPossition( getQtViewPossition( _view->getViewPossition() ) );
+	assert( m_dockWidgetByViewCollection.find( _view ) == m_dockWidgetByViewCollection.end() );
 
-	if ( viewPossition == Qt::NoDockWidgetArea )
-	{
-		m_mainWindow->setCentralWidget( _view->getViewWidget() );
-	}
-	else
-	{
-		QDockWidget* docWidget( new QDockWidget() );
+	Qt::DockWidgetArea viewPossition( getQtViewPossition( _position ) );
 
-		docWidget->setWindowTitle( _view->getViewTitle().c_str() );
-		docWidget->setWidget( _view->getViewWidget() );
+	QDockWidget* docWidget( new QDockWidget() );
 
-		m_mainWindow->addDockWidget( viewPossition, docWidget );
-	}
+	docWidget->setWindowTitle( _view->getViewTitle().c_str() );
+	docWidget->setWidget( _view->getViewWidget() );
+
+	m_mainWindow->addDockWidget( viewPossition, docWidget );
+
+	m_dockWidgetByViewCollection.insert( std::make_pair( _view, docWidget ) );
 
 } // WindowManager::addView
 
@@ -69,6 +83,16 @@ WindowManager::addView( boost::intrusive_ptr< IView > _view )
 void
 WindowManager::removeView( boost::intrusive_ptr< IView > _view )
 {
+	DockWidgetByViewCollectionIterator iterator = m_dockWidgetByViewCollection.find( _view );
+
+	if ( iterator == m_dockWidgetByViewCollection.end() )
+		return;
+
+	_view->getViewWidget()->setParent( NULL );
+	m_mainWindow->removeDockWidget( iterator->second );
+
+	m_dockWidgetByViewCollection.erase( _view );
+
 } // WindowManager::removeView
 
 
@@ -88,9 +112,10 @@ WindowManager::getQtViewPossition( const ViewPosition::Enum _viewPossition )
 		return Qt::TopDockWidgetArea;
 	case ViewPosition::Bottom:
 		return Qt::BottomDockWidgetArea;
+	default:
+		assert( !"Unsupported view possition!" );
+		return Qt::NoDockWidgetArea;
 	};
-
-	return Qt::NoDockWidgetArea;
 
 } // WindowManager::getQtViewPossition
 

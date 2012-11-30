@@ -5,6 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+#include "window_manager/h/wm_view_position.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +29,9 @@ struct IWindowManager
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void addView( boost::intrusive_ptr< IView > _view ) = 0;
+	virtual void addView(
+			boost::intrusive_ptr< IView > _view
+		,	const ViewPosition::Enum _position ) = 0;
 
 	virtual void removeView( boost::intrusive_ptr< IView > _view ) = 0;
 

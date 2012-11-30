@@ -5,7 +5,6 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
-#include "window_manager/h/wm_view_position.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -20,8 +19,6 @@ struct IView
 {
 
 /*---------------------------------------------------------------------------*/
-
-	virtual const ViewPosition::Enum getViewPossition() const = 0;
 
 	virtual const std::string& getViewTitle() const = 0;
 

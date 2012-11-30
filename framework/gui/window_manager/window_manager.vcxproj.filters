@@ -41,14 +41,16 @@
     <ClInclude Include="ih\wm_iwindow_manager.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="sources\window_manager\wm_window_manager.hpp">
-      <Filter>Window Manager</Filter>
-    </ClInclude>
     <ClInclude Include="ih\wm_iview.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="h\wm_view_position.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="sources\window_manager\wm_window_manager.hpp">
+      <Filter>Window Manager</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

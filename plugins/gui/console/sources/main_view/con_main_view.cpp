@@ -17,6 +17,7 @@ namespace Console {
 
 MainView::MainView()
 	:	m_consoleView( new QTextEdit() )
+	,	m_viewTitle( Resources::ConsoleViewTitle )
 {
 	m_consoleView->setText( ">" );
 
@@ -34,21 +35,10 @@ MainView::~MainView()
 /*---------------------------------------------------------------------------*/
 
 
-const Framework::GUI::WindowManager::ViewPosition::Enum
-MainView::getViewPossition() const
-{
-	return Framework::GUI::WindowManager::ViewPosition::Bottom;
-
-} // MainView::MainView
-
-
-/*---------------------------------------------------------------------------*/
-
-
 const std::string&
 MainView::getViewTitle() const
 {
-	return Resources::ConsoleViewTitle;
+	return m_viewTitle;
 
 } // MainView::getViewTitle
 
@@ -59,7 +49,7 @@ MainView::getViewTitle() const
 QWidget*
 MainView::getViewWidget() const
 {
-	return m_consoleView;
+	return m_consoleView.get();
 
 } // MainView::MainView
 
@@ -70,6 +60,8 @@ MainView::getViewWidget() const
 void
 MainView::viewWasClosed()
 {
+	m_consoleView.reset();
+
 } // MainView::MainView
 
 

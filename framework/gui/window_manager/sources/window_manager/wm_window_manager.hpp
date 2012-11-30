@@ -6,8 +6,6 @@
 
 #include "window_manager/ih/wm_iwindow_manager.hpp"
 
-#include "window_manager/h/wm_view_position.hpp"
-
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -17,8 +15,13 @@ namespace WindowManager {
 /*---------------------------------------------------------------------------*/
 
 class WindowManager
-	:	public Tools::Core::BaseWrapper< IWindowManager >
+	:	public QObject
+	,	public Tools::Core::BaseWrapper< IWindowManager >
 {
+
+/*---------------------------------------------------------------------------*/
+
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -32,7 +35,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void addView( boost::intrusive_ptr< IView > _view );
+	/*virtual*/ void addView(
+			boost::intrusive_ptr< IView > _view
+		,	const ViewPosition::Enum _position );
 
 	/*virtual*/ void removeView( boost::intrusive_ptr< IView > _view );
 
@@ -51,6 +56,15 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	boost::shared_ptr< QMainWindow > m_mainWindow;
+
+	typedef
+		std::map< boost::intrusive_ptr< IView >, QDockWidget* >
+		DockWidgetByViewCollection;
+	typedef
+		DockWidgetByViewCollection::const_iterator
+		DockWidgetByViewCollectionIterator;
+
+	DockWidgetByViewCollection m_dockWidgetByViewCollection;
 
 /*---------------------------------------------------------------------------*/
 

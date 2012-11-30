@@ -49,7 +49,9 @@ PluginInstance::initialize()
 {
 	m_consoleView.reset( new MainView() );
 
-	getWindowManager()->addView( m_consoleView );
+	getWindowManager()->addView(
+			m_consoleView
+		,	Framework::GUI::WindowManager::ViewPosition::Bottom );
 
 } // PluginInstance::initialize
 
@@ -60,7 +62,9 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
-	getWindowManager()->removeView( m_consoleView );
+	if ( getWindowManager() )
+		getWindowManager()->removeView( m_consoleView );
+	m_consoleView.reset();
 
 } // PluginInstance::close
 

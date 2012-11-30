@@ -20,8 +20,6 @@ struct ViewPosition
 
 		,	Top
 		,	Bottom
-
-		,	Center
 	};
 };
 
