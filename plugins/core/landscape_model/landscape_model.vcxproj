@@ -18,32 +18,46 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\ph\lm_ph.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="sources\plugin\lm_plugin_instance.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sources\ph\lm_ph.hpp" />
+    <ClInclude Include="sources\plugin\lm_plugin_instance.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0B1DD816-D1B7-4A1A-AB8F-AA4E73F97F35}</ProjectGuid>
-    <RootNamespace>hedgehog</RootNamespace>
+    <ProjectGuid>{4AA8342B-324C-4FE2-97AB-34F55A2D45F5}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>console</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -62,129 +76,129 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)x86/$(Configuration)/bin/</OutDir>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/</OutDir>
     <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <ExecutablePath>$(LIBPATH)\qt\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
     <LibraryPath>$(LIBPATH)\qt\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
+    <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)x64/$(Configuration)/bin/</OutDir>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/</OutDir>
     <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <ExecutablePath>$(LIBPATH)\qt\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
     <LibraryPath>$(LIBPATH)\qt\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
+    <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)x86/$(Configuration)/bin/</OutDir>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/</OutDir>
     <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <ExecutablePath>$(LIBPATH)\qt\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
     <LibraryPath>$(LIBPATH)\qt\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
+    <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)x64/$(Configuration)/bin/</OutDir>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/</OutDir>
     <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <ExecutablePath>$(LIBPATH)\qt\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
     <LibraryPath>$(LIBPATH)\qt\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
+    <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>./..;../../tools/core;../../framework/core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CONSOLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile>hedgehog/sources/ph/hh_ph.hpp</PrecompiledHeaderFile>
-      <PreprocessorDefinitions>_MBCS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>landscape_model/sources/ph/lm_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <OutputFile>$(TargetDir)/$(ProjectName).exe</OutputFile>
+      <OutputFile>$(TargetDir)/$(ProjectName).hplugin</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>QtCored4.lib;QtGuid4.lib;plugins_manager.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
+      <AdditionalDependencies>QtCored4.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>./..;../../tools/core;../../framework/core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CONSOLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile>hedgehog/sources/ph/hh_ph.hpp</PrecompiledHeaderFile>
-      <PreprocessorDefinitions>_MBCS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>landscape_model/sources/ph/lm_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <OutputFile>$(TargetDir)/$(ProjectName).exe</OutputFile>
+      <OutputFile>$(TargetDir)/$(ProjectName).hplugin</OutputFile>
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>QtCored4.lib;QtGuid4.lib;plugins_manager.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
+      <AdditionalDependencies>QtCored4.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>./..;../../tools/core;../../framework/core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CONSOLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile>hedgehog/sources/ph/hh_ph.hpp</PrecompiledHeaderFile>
-      <PreprocessorDefinitions>_MBCS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>landscape_model/sources/ph/lm_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <OutputFile>$(TargetDir)/$(ProjectName).exe</OutputFile>
+      <OutputFile>$(TargetDir)/$(ProjectName).hplugin</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>QtCore4.lib;QtGui4.lib;plugins_manager.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
+      <AdditionalDependencies>QtCore4.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>./..;../../tools/core;../../framework/core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CONSOLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile>hedgehog/sources/ph/hh_ph.hpp</PrecompiledHeaderFile>
-      <PreprocessorDefinitions>_MBCS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>landscape_model/sources/ph/lm_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <OutputFile>$(TargetDir)/$(ProjectName).exe</OutputFile>
+      <OutputFile>$(TargetDir)/$(ProjectName).hplugin</OutputFile>
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>QtCore4.lib;QtGui4.lib;plugins_manager.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
+      <AdditionalDependencies>QtCore4.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="sources\main\main.cpp" />
-    <ClCompile Include="sources\main_gui_application\main_gui_application.cpp" />
-    <ClCompile Include="sources\ph\hh_ph.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="sources\resources\hh_resources.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="sources\main_gui_application\main_gui_application.hpp" />
-    <ClInclude Include="sources\ph\hh_ph.hpp" />
-    <ClInclude Include="sources\resources\hh_resources.hpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

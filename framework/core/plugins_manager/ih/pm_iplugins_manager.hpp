@@ -6,6 +6,8 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
+#include <string>
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
