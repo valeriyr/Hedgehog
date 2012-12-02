@@ -27,6 +27,7 @@ struct PluginData
 				NotLoaded = 0
 			,	Loaded
 			,	Loading
+			,	Closed
 		};
 	};
 

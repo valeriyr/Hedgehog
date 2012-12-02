@@ -55,8 +55,12 @@ PluginsManager::getPluginInterface( const std::string& _pluginName, const unsign
 
 	PluginsCollectionTypeIterator iterator( m_pluginsCollection.find( _pluginName ) );
 
-	if ( iterator == m_pluginsCollection.end() )
+	if (	iterator == m_pluginsCollection.end()
+		||	( iterator->second->m_pluginState == PluginData::State::Closed )
+		)
+	{
 		return boost::intrusive_ptr< IBase >();
+	}
 
 	if ( iterator->second->m_pluginState == PluginData::State::Loading )	// We can't get interface from plugin
 		throw std::exception();												// witch is loading!
@@ -128,15 +132,12 @@ PluginsManager::closePlugins()
 
 	for( ; begin != end; ++begin )
 	{
-		if ( begin->second->m_pluginState != PluginData::State::Loaded )
-			continue;
-
-		assert( begin->second->m_pluginState != PluginData::State::Loading );
+		assert( begin->second->m_pluginState == PluginData::State::Loaded );
 
 		begin->second->m_pluginPointer->close();
 		begin->second->m_pluginPointer.reset();
 
-		begin->second->m_pluginState = PluginData::State::NotLoaded;
+		begin->second->m_pluginState = PluginData::State::Closed;
 	}
 
 } // PluginsManager::closePlugins
@@ -148,29 +149,27 @@ PluginsManager::closePlugins()
 void
 PluginsManager::loadPluginIfNeeded( PluginData& _pluginData )
 {
-	assert( _pluginData.m_pluginState != PluginData::State::Loading );
+	if ( _pluginData.m_pluginState == PluginData::State::NotLoaded )
+	{
+		_pluginData.m_pluginState = PluginData::State::Loading;
 
-	if ( _pluginData.m_pluginState == PluginData::State::Loaded )
-		return;
+		std::string pluginPath(
+				m_systemInformation->getPluginsDirectory()
+			+	"/"
+			+	_pluginData.m_pluginName
+			+	Resources::PluginFileExtension );
 
-	_pluginData.m_pluginState = PluginData::State::Loading;
+		PluginFactoryPtr pluginFactory
+			= ( PluginFactoryPtr ) QLibrary::resolve( pluginPath.c_str(), PluginFactoryName );
+		assert( pluginFactory );
 
-	std::string pluginPath(
-			m_systemInformation->getPluginsDirectory()
-		+	"/"
-		+	_pluginData.m_pluginName
-		+	Resources::PluginFileExtension );
+		_pluginData.m_pluginPointer.reset( pluginFactory() );
+		assert( _pluginData.m_pluginPointer );
 
-	PluginFactoryPtr pluginFactory
-		= ( PluginFactoryPtr ) QLibrary::resolve( pluginPath.c_str(), PluginFactoryName );
-	assert( pluginFactory );
+		_pluginData.m_pluginPointer->initialize( this );
 
-	_pluginData.m_pluginPointer.reset( pluginFactory() );
-	assert( _pluginData.m_pluginPointer );
-
-	_pluginData.m_pluginPointer->initialize( this );
-
-	_pluginData.m_pluginState = PluginData::State::Loaded;
+		_pluginData.m_pluginState = PluginData::State::Loaded;
+	}
 
 } // PluginsManager::loadPluginIfNeeded
 
