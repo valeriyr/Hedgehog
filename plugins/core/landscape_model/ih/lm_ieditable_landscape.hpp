@@ -21,9 +21,8 @@ struct IEditableLandscape
 /*---------------------------------------------------------------------------*/
 
 	virtual void setLadscapeItem(
-			const unsigned int _widht
-		,	const unsigned int _height
-		,	const LandscapeItems::Enum _Item ) = 0;
+			const ILandscape::Point& _point
+		,	const LandscapeItems::Enum _item ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

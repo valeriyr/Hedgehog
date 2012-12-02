@@ -16,6 +16,7 @@ namespace LandscapeModel {
 Landscape::Landscape( const unsigned int _width, const unsigned int _height )
 	:	m_width( _width )
 	,	m_height( _height )
+	,	m_LandscapeItems()
 {
 } // Landscape::Landscape
 
@@ -54,11 +55,15 @@ Landscape::getHeight() const
 
 
 LandscapeItems::Enum
-Landscape::getLadscapeItem(
-		const unsigned int _widht
-	,	const unsigned int _height ) const
+Landscape::getLadscapeItem( const ILandscape::Point& _point ) const
 {
-	return LandscapeItems::Grass;
+	LandscapeItemsCollectionConstIterator iterator
+		= m_LandscapeItems.find( _point );
+
+	return
+			( iterator != m_LandscapeItems.end() )
+		?	iterator->second
+		:	LandscapeItems::Grass;
 
 } // Landscape::getLadscapeItem
 
@@ -68,10 +73,17 @@ Landscape::getLadscapeItem(
 
 void
 Landscape::setLadscapeItem(
-		const unsigned int _widht
-	,	const unsigned int _height
-	,	const LandscapeItems::Enum _Item )
+		const ILandscape::Point& _point
+	,	const LandscapeItems::Enum _item )
 {
+	LandscapeItemsCollectionIterator iterator
+		= m_LandscapeItems.find( _point );
+
+	if ( iterator != m_LandscapeItems.end() )
+		iterator->second = _item;
+	else
+		m_LandscapeItems.insert( std::make_pair( _point, _item ) );
+
 } // Landscape::setLadscapeItem
 
 

@@ -36,16 +36,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ LandscapeItems::Enum getLadscapeItem(
-			const unsigned int _widht
-		,	const unsigned int _height ) const;
+	/*virtual*/ LandscapeItems::Enum getLadscapeItem( const ILandscape::Point& _point ) const;
 
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void setLadscapeItem(
-			const unsigned int _widht
-		,	const unsigned int _height
-		,	const LandscapeItems::Enum _Item );
+			const ILandscape::Point& _point
+		,	const LandscapeItems::Enum _item );
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,6 +53,17 @@ private:
 	const unsigned int m_width;
 
 	const unsigned int m_height;
+
+	typedef
+		std::map< Point, LandscapeItems::Enum >
+		LandscapeItemsCollection;
+	typedef
+		LandscapeItemsCollection::iterator
+		LandscapeItemsCollectionIterator;
+	typedef
+		LandscapeItemsCollection::const_iterator
+		LandscapeItemsCollectionConstIterator;
+	LandscapeItemsCollection m_LandscapeItems;
 
 /*---------------------------------------------------------------------------*/
 
