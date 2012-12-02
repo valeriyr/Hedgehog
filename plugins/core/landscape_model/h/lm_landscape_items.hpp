@@ -16,6 +16,7 @@ struct LandscapeItems
 	{
 			Grass = 0
 		,	Water
+		,	Tree
 	};
 };
 

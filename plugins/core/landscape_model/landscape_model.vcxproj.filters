@@ -16,6 +16,9 @@
     <Filter Include="Landscape">
       <UniqueIdentifier>{117e5df4-0575-4022-a792-e83bbef58fe8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Landscape Editor">
+      <UniqueIdentifier>{506f2bef-9630-49a0-b050-eaffd268f76e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -26,6 +29,9 @@
     </ClCompile>
     <ClCompile Include="sources\landscape\lm_landscape.cpp">
       <Filter>Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_editor\lm_landscape_editor.cpp">
+      <Filter>Landscape Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="sources\landscape\lm_landscape.hpp">
       <Filter>Landscape</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp">
+      <Filter>Landscape Editor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\landscape\lm_landscape.cpp" />
+    <ClCompile Include="sources\landscape_editor\lm_landscape_editor.cpp" />
     <ClCompile Include="sources\ph\lm_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -35,6 +36,7 @@
     <ClInclude Include="ih\lm_ilandscape_editor.hpp" />
     <ClInclude Include="ih\lm_ilandscape_manager.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
+    <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp" />
     <ClInclude Include="sources\ph\lm_ph.hpp" />
     <ClInclude Include="sources\plugin\lm_plugin_instance.hpp" />
   </ItemGroup>
