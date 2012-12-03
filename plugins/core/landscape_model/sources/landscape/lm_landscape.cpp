@@ -69,7 +69,7 @@ Landscape::getLadscapeItem( const ILandscape::Point& _point ) const
 
 
 void
-Landscape::greateGrassItem( const ILandscape::Point& _point )
+Landscape::createWaterItem( const ILandscape::Point& _point )
 {
 	/*LandscapeItemsCollectionIterator iterator
 		= m_LandscapeItems.find( _point );
@@ -79,7 +79,7 @@ Landscape::greateGrassItem( const ILandscape::Point& _point )
 	else
 		m_LandscapeItems.insert( std::make_pair( _point, _item ) );*/
 
-} // Landscape::greateGrassItem
+} // Landscape::createWaterItem
 
 
 /*---------------------------------------------------------------------------*/

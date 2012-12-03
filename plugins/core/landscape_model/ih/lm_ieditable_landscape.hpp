@@ -26,7 +26,7 @@ struct IEditableLandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void greateGrassItem( const ILandscape::Point& _point ) = 0;
+	virtual void createWaterItem( const ILandscape::Point& _point ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

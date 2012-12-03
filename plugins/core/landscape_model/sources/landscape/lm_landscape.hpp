@@ -40,7 +40,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void greateGrassItem( const ILandscape::Point& _point );
+	/*virtual*/ void createWaterItem( const ILandscape::Point& _point );
 
 /*---------------------------------------------------------------------------*/
 
