@@ -58,7 +58,7 @@ WindowManager::~WindowManager()
 
 void
 WindowManager::addView(
-		boost::intrusive_ptr< IView > _view
+		IView::Ptr _view
 	,	const ViewPosition::Enum _position )
 {
 	assert( m_dockWidgetByViewCollection.find( _view ) == m_dockWidgetByViewCollection.end() );
@@ -81,7 +81,7 @@ WindowManager::addView(
 
 
 void
-WindowManager::removeView( boost::intrusive_ptr< IView > _view )
+WindowManager::removeView( IView::Ptr _view )
 {
 	DockWidgetByViewCollectionIterator iterator = m_dockWidgetByViewCollection.find( _view );
 

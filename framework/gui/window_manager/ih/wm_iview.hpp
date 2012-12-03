@@ -20,6 +20,12 @@ struct IView
 
 /*---------------------------------------------------------------------------*/
 
+	typedef
+		boost::intrusive_ptr< IView >
+		Ptr;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual const std::string& getViewTitle() const = 0;
 
 	virtual QWidget* getViewWidget() const = 0;

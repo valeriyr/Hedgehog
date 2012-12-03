@@ -7,6 +7,8 @@
 #include "plugins_manager/h/pm_base_plugin.hpp"
 #include "plugins_manager/h/pm_interface_map.hpp"
 
+#include "window_manager/ih/wm_iview.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework
@@ -15,7 +17,6 @@ namespace Framework
 	{
 		namespace WindowManager
 		{
-			 struct IView;
 			 struct IWindowManager;
 		}
 	}
@@ -68,7 +69,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IView > m_consoleView;
+	Framework::GUI::WindowManager::IView::Ptr m_consoleView;
 
 /*---------------------------------------------------------------------------*/
 
