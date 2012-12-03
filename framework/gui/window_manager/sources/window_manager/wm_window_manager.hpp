@@ -36,10 +36,10 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void addView(
-			IView::Ptr _view
+			boost::intrusive_ptr< IView > _view
 		,	const ViewPosition::Enum _position );
 
-	/*virtual*/ void removeView( IView::Ptr _view );
+	/*virtual*/ void removeView( boost::intrusive_ptr< IView > _view );
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,7 +58,7 @@ private:
 	boost::shared_ptr< QMainWindow > m_mainWindow;
 
 	typedef
-		std::map< IView::Ptr, QDockWidget* >
+		std::map< boost::intrusive_ptr< IView >, QDockWidget* >
 		DockWidgetByViewCollection;
 	typedef
 		DockWidgetByViewCollection::const_iterator
