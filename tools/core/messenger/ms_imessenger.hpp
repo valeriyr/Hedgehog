@@ -15,9 +15,11 @@ struct IMessenger
 
 /*---------------------------------------------------------------------------*/
 
-	struct MessegeLevel {
-		enum Enum {
-				Info = 0
+	struct MessegeLevel
+	{
+		enum Enum
+		{
+				Info	= 0
 			,	Warning
 			,	Error
 		};
@@ -25,7 +27,9 @@ struct IMessenger
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void print(MessegeLevel::Enum _messegeLevel, std::string* _str) const = 0;
+	virtual void printMessage(
+			const MessegeLevel::Enum _messageLevel
+		,	const std::string& _message ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
