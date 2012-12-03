@@ -8,7 +8,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
 
@@ -56,7 +56,7 @@ LandscapeEditor::loadLandscape( const std::string& _filePath ) const
 void
 LandscapeEditor::saveLandscape(
 		const std::string& _filePath 
-	,	boost::intrusive_ptr< IEditableLandscape > _landscape ) const
+	,	boost::intrusive_ptr< ILandscape > _landscape ) const
 {
 } // LandscapeEditor::saveLandscape
 
@@ -65,6 +65,6 @@ LandscapeEditor::saveLandscape(
 
 } // namespace LandscapeModel
 } // namespace Core
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/

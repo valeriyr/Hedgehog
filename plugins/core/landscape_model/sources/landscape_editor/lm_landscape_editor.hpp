@@ -8,7 +8,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
 
@@ -38,7 +38,7 @@ public:
 
 	/*virtual*/ void saveLandscape(
 			const std::string& _filePath 
-		,	boost::intrusive_ptr< IEditableLandscape > _landscape ) const;
+		,	boost::intrusive_ptr< ILandscape > _landscape ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,7 +54,7 @@ private:
 
 } // namespace LandscapeModel
 } // namespace Core
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 

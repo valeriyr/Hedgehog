@@ -8,7 +8,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
 
@@ -42,7 +42,7 @@ struct ILandscapeEditor
 
 } // namespace LandscapeModel
 } // namespace Core
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
