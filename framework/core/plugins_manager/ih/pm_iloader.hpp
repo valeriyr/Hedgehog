@@ -23,17 +23,26 @@ struct SystemData;
 struct ILoader
 	:	public Tools::Core::IBase
 {
-	virtual void load( const SystemData& _systemData ) = 0;
-
-	virtual void unload() = 0;
-};
-
 
 /*---------------------------------------------------------------------------*/
 
-PLUGINS_MANAGER_EXPORT
+	typedef
 		boost::intrusive_ptr< ILoader >
-		createLoader();
+		Ptr;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void load( const SystemData& _systemData ) = 0;
+
+	virtual void unload() = 0;
+
+/*---------------------------------------------------------------------------*/
+
+};
+
+/*---------------------------------------------------------------------------*/
+
+PLUGINS_MANAGER_EXPORT ILoader::Ptr createLoader();
 
 /*---------------------------------------------------------------------------*/
 

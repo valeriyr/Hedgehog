@@ -71,10 +71,10 @@ Loader::unload()
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILoader >
+ILoader::Ptr
 createLoader()
 {
-	return boost::intrusive_ptr< ILoader >( new Loader() );
+	return ILoader::Ptr( new Loader() );
 
 } // createLoader
 

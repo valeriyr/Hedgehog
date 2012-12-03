@@ -34,7 +34,7 @@ MainGuiApplication::~MainGuiApplication()
 int
 MainGuiApplication::exec()
 {
-	boost::intrusive_ptr< Framework::Core::PluginsManager::ILoader >
+	Framework::Core::PluginsManager::ILoader::Ptr
 		pluginsManagerLoader = Framework::Core::PluginsManager::createLoader();
 
 	std::string applicationDirectory( m_qtApplicaiton.applicationDirPath().toLocal8Bit().data() );
