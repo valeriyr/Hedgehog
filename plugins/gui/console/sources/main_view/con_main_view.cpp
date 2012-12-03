@@ -19,7 +19,7 @@ MainView::MainView()
 	:	m_consoleView( new QTextEdit() )
 	,	m_viewTitle( Resources::ConsoleViewTitle )
 {
-	m_consoleView->setText( ">" );
+	m_consoleView->setReadOnly( true );
 
 } // MainView::MainView
 
