@@ -10,9 +10,6 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{0da3fcb7-cb52-455c-83c8-47c0dbb4c5da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="External Headers">
-      <UniqueIdentifier>{f43072ce-99db-4515-a56a-4dfb6c3ce318}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Landscape">
       <UniqueIdentifier>{117e5df4-0575-4022-a792-e83bbef58fe8}</UniqueIdentifier>
     </Filter>
@@ -41,9 +38,6 @@
     <ClInclude Include="sources\plugin\lm_plugin_instance.hpp">
       <Filter>Plugin</Filter>
     </ClInclude>
-    <ClInclude Include="h\lm_landscape_items.hpp">
-      <Filter>External Headers</Filter>
-    </ClInclude>
     <ClInclude Include="ih\lm_ieditable_landscape.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -61,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp">
       <Filter>Landscape Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_ilandscape_item.hpp">
+      <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

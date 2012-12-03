@@ -5,7 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
-#include "landscape_model/h/lm_landscape_items.hpp"
+#include "landscape_model/ih/lm_ilandscape_item.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -18,6 +18,12 @@ namespace LandscapeModel {
 struct ILandscape
 	:	public Tools::Core::IBase
 {
+
+/*---------------------------------------------------------------------------*/
+
+	typedef
+		boost::intrusive_ptr< ILandscape >
+		Ptr;
 
 /*---------------------------------------------------------------------------*/
 
@@ -63,7 +69,7 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual LandscapeItems::Enum getLadscapeItem( const Point& _point ) const = 0;
+	virtual ILandscapeItem::Ptr getLadscapeItem( const Point& _point ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

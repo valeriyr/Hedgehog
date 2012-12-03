@@ -28,7 +28,7 @@ struct ILandscapeEditor
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< ILandscape > getCurrentLandscape() const = 0;
+	virtual ILandscape& getCurrentLandscape() const = 0;
 
 	virtual void initCurrentLandscape ( const std::string& _filePath ) const = 0
 

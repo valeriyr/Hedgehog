@@ -30,15 +30,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IEditableLandscape >
-		createLandscape( const unsigned int _width, const unsigned int _height ) const;
+	/*virtual*/ IEditableLandscape::Ptr
+		createLandscape(
+				const unsigned int _width
+			,	const unsigned int _height ) const;
 
-	/*virtual*/ boost::intrusive_ptr< IEditableLandscape >
+	/*virtual*/ IEditableLandscape::Ptr
 		loadLandscape( const std::string& _filePath ) const;
 
 	/*virtual*/ void saveLandscape(
 			const std::string& _filePath 
-		,	boost::intrusive_ptr< ILandscape > _landscape ) const;
+		,	ILandscape::Ptr _landscape ) const;
 
 /*---------------------------------------------------------------------------*/
 

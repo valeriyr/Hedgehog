@@ -5,6 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/ih/lm_ieditable_landscape.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -18,26 +19,22 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscape;
-struct IEditableLandscape;
-
-/*---------------------------------------------------------------------------*/
-
 struct ILandscapeEditor
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< IEditableLandscape >
-		createLandscape( const unsigned int _width, const unsigned int _height ) const = 0;
+	virtual IEditableLandscape::Ptr
+		createLandscape(
+			const unsigned int _width
+		,	const unsigned int _height ) const = 0;
 
-	virtual boost::intrusive_ptr< IEditableLandscape >
-		loadLandscape( const std::string& _filePath ) const = 0;
+	virtual IEditableLandscape::Ptr loadLandscape( const std::string& _filePath ) const = 0;
 
 	virtual void saveLandscape(
 			const std::string& _filePath 
-		,	boost::intrusive_ptr< ILandscape > _landscape ) const = 0;
+		,	ILandscape::Ptr _landscape ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

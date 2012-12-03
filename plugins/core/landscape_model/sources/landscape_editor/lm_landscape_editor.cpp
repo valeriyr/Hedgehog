@@ -31,10 +31,12 @@ LandscapeEditor::~LandscapeEditor()
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IEditableLandscape >
-LandscapeEditor::createLandscape( const unsigned int _width, const unsigned int _height ) const
+IEditableLandscape::Ptr
+LandscapeEditor::createLandscape(
+		const unsigned int _width
+	,	const unsigned int _height ) const
 {
-	return boost::intrusive_ptr< IEditableLandscape >( new Landscape( _width, _height ) );
+	return IEditableLandscape::Ptr( new Landscape( _width, _height ) );
 
 } // LandscapeEditor::createLandscape
 
@@ -42,10 +44,10 @@ LandscapeEditor::createLandscape( const unsigned int _width, const unsigned int 
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IEditableLandscape >
+IEditableLandscape::Ptr
 LandscapeEditor::loadLandscape( const std::string& _filePath ) const
 {
-	return boost::intrusive_ptr< IEditableLandscape >();
+	return IEditableLandscape::Ptr();
 
 } // LandscapeEditor::loadLandscape
 
@@ -56,7 +58,7 @@ LandscapeEditor::loadLandscape( const std::string& _filePath ) const
 void
 LandscapeEditor::saveLandscape(
 		const std::string& _filePath 
-	,	boost::intrusive_ptr< ILandscape > _landscape ) const
+	,	ILandscape::Ptr _landscape ) const
 {
 } // LandscapeEditor::saveLandscape
 

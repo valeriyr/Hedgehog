@@ -1,10 +1,10 @@
 
-#ifndef __LM_IEDITABLE_LANDSCAPE_HPP__
-#define __LM_IEDITABLE_LANDSCAPE_HPP__
+#ifndef __LM_ILANDSCAPE_ITEM_HPP__
+#define __LM_ILANDSCAPE_ITEM_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape.hpp"
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,19 +14,21 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEditableLandscape
-	:	public ILandscape
+struct ILandscapeItem
+	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		boost::intrusive_ptr< IEditableLandscape >
+		boost::intrusive_ptr< ILandscapeItem >
 		Ptr;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void greateGrassItem( const ILandscape::Point& _point ) = 0;
+	virtual unsigned int getWidth() const = 0;
+
+	virtual unsigned int getHeight() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,4 +42,4 @@ struct IEditableLandscape
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IEDITABLE_LANDSCAPE_HPP__
+#endif // __LM_ILANDSCAPE_ITEM_HPP__

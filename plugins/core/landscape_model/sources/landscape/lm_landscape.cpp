@@ -54,16 +54,13 @@ Landscape::getHeight() const
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeItems::Enum
+ILandscapeItem::Ptr
 Landscape::getLadscapeItem( const ILandscape::Point& _point ) const
 {
 	LandscapeItemsCollectionConstIterator iterator
 		= m_LandscapeItems.find( _point );
 
-	return
-			( iterator != m_LandscapeItems.end() )
-		?	iterator->second
-		:	LandscapeItems::Grass;
+	return iterator->second;
 
 } // Landscape::getLadscapeItem
 
@@ -72,19 +69,17 @@ Landscape::getLadscapeItem( const ILandscape::Point& _point ) const
 
 
 void
-Landscape::setLadscapeItem(
-		const ILandscape::Point& _point
-	,	const LandscapeItems::Enum _item )
+Landscape::greateGrassItem( const ILandscape::Point& _point )
 {
-	LandscapeItemsCollectionIterator iterator
+	/*LandscapeItemsCollectionIterator iterator
 		= m_LandscapeItems.find( _point );
 
 	if ( iterator != m_LandscapeItems.end() )
 		iterator->second = _item;
 	else
-		m_LandscapeItems.insert( std::make_pair( _point, _item ) );
+		m_LandscapeItems.insert( std::make_pair( _point, _item ) );*/
 
-} // Landscape::setLadscapeItem
+} // Landscape::greateGrassItem
 
 
 /*---------------------------------------------------------------------------*/
