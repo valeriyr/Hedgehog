@@ -30,11 +30,12 @@
     <ClCompile Include="sources\plugin\lm_plugin_instance.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="h\lm_point.hpp" />
     <ClInclude Include="ih\lm_ieditable_landscape.hpp" />
     <ClInclude Include="ih\lm_ilandscape.hpp" />
     <ClInclude Include="ih\lm_ilandscape_editor.hpp" />
-    <ClInclude Include="ih\lm_ilandscape_item.hpp" />
     <ClInclude Include="ih\lm_ilandscape_manager.hpp" />
+    <ClInclude Include="ih\lm_ilandscape_object.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
     <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp" />
     <ClInclude Include="sources\ph\lm_ph.hpp" />

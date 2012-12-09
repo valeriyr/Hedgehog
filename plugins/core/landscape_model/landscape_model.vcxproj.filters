@@ -16,6 +16,9 @@
     <Filter Include="Landscape Editor">
       <UniqueIdentifier>{506f2bef-9630-49a0-b050-eaffd268f76e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{f77ed0ab-ab5b-42e5-b3b9-4f975c4b9cf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -56,7 +59,10 @@
     <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp">
       <Filter>Landscape Editor</Filter>
     </ClInclude>
-    <ClInclude Include="ih\lm_ilandscape_item.hpp">
+    <ClInclude Include="h\lm_point.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_ilandscape_object.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,13 +1,6 @@
 
-#ifndef __LM_ILANDSCAPE_HPP__
-#define __LM_ILANDSCAPE_HPP__
-
-/*---------------------------------------------------------------------------*/
-
-#include "intrusive_base/ib_ibase.hpp"
-
-#include "landscape_model/ih/lm_ilandscape_object.hpp"
-#include "landscape_model/h/lm_point.hpp"
+#ifndef __LM_POINT_HPP__
+#define __LM_POINT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,25 +10,45 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscape
-	:	public Tools::Core::IBase
+struct Point
 {
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		boost::intrusive_ptr< ILandscape >
-		Ptr;
+	Point(
+			const unsigned int _widthIndex
+		,	const unsigned int _heightIndex
+		)
+		:	m_widthIndex( _widthIndex )
+		,	m_heightIndex( _heightIndex )
+	{}
+
+	Point( const Point& _point )
+	{
+		*this = _point;
+	}
 
 /*---------------------------------------------------------------------------*/
 
-	virtual unsigned int getWidth() const = 0;
+	Point& operator = ( const Point& _point )
+	{
+		m_widthIndex = _point.m_widthIndex;
+		m_heightIndex = _point.m_heightIndex;
 
-	virtual unsigned int getHeight() const = 0;
+		return *this;
+	}
+
+	bool operator < ( const Point& _point ) const
+	{
+		return
+				m_widthIndex < _point.m_widthIndex
+			&&	m_heightIndex < _point.m_heightIndex;
+	}
 
 /*---------------------------------------------------------------------------*/
 
-	virtual ILandscapeObject::Ptr getLadscapeObject( const Point& _point ) const = 0;
+	unsigned int m_widthIndex;
+	unsigned int m_heightIndex;
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,4 +62,4 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_HPP__
+#endif // __LM_POINT_HPP__

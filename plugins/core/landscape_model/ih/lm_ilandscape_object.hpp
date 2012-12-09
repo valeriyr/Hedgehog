@@ -1,6 +1,6 @@
 
-#ifndef __LM_ILANDSCAPE_ITEM_HPP__
-#define __LM_ILANDSCAPE_ITEM_HPP__
+#ifndef __LM_ILANDSCAPE_OBJECT_HPP__
+#define __LM_ILANDSCAPE_OBJECT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,14 +14,14 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeItem
+struct ILandscapeObject
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		boost::intrusive_ptr< ILandscapeItem >
+		boost::intrusive_ptr< ILandscapeObject >
 		Ptr;
 
 /*---------------------------------------------------------------------------*/
@@ -42,4 +42,4 @@ struct ILandscapeItem
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_ITEM_HPP__
+#endif // __LM_ILANDSCAPE_OBJECT_HPP__

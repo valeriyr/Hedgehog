@@ -54,22 +54,22 @@ Landscape::getHeight() const
 /*---------------------------------------------------------------------------*/
 
 
-ILandscapeItem::Ptr
-Landscape::getLadscapeItem( const ILandscape::Point& _point ) const
+ILandscapeObject::Ptr
+Landscape::getLadscapeObject( const Point& _point ) const
 {
 	LandscapeItemsCollectionConstIterator iterator
 		= m_LandscapeItems.find( _point );
 
 	return iterator->second;
 
-} // Landscape::getLadscapeItem
+} // Landscape::getLadscapeObject
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Landscape::createWaterItem( const ILandscape::Point& _point )
+Landscape::createWaterItem( const Point& _point )
 {
 	/*LandscapeItemsCollectionIterator iterator
 		= m_LandscapeItems.find( _point );
