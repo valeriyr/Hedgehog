@@ -67,6 +67,17 @@ MainView::viewWasClosed()
 
 /*---------------------------------------------------------------------------*/
 
+
+void
+MainView::printMessege(
+		const Tools::Core::IMessenger::MessegeLevel::Enum _messgeLevel
+	,	const std::string& _messege )
+{
+}
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Console
 } // namespace GUI
 } // namespace Plugins

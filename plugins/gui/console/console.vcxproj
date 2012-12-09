@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\console_messenger\con_console_messenger.cpp" />
     <ClCompile Include="sources\main_view\con_main_view.cpp" />
     <ClCompile Include="sources\ph\con_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -30,6 +31,7 @@
     <ClCompile Include="sources\resources\con_internal_resources.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="sources\console_messenger\con_console_messenger.hpp" />
     <ClInclude Include="sources\main_view\con_main_view.hpp" />
     <ClInclude Include="sources\ph\con_ph.hpp" />
     <ClInclude Include="sources\plugin\con_plugin_instance.hpp" />

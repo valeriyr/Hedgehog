@@ -13,6 +13,9 @@
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{dbad4c5a-0abb-4aae-892b-8cf3a7f7cfcd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Console Messenger">
+      <UniqueIdentifier>{7086098b-7328-4214-b4f6-eacddbda6dc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\con_ph.cpp">
@@ -27,6 +30,9 @@
     <ClCompile Include="sources\resources\con_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
     </ClCompile>
+    <ClCompile Include="sources\console_messenger\con_console_messenger.cpp">
+      <Filter>Console Messenger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\con_ph.hpp">
@@ -40,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="sources\resources\con_internal_resources.hpp">
       <Filter>Internal Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\console_messenger\con_console_messenger.hpp">
+      <Filter>Console Messenger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
