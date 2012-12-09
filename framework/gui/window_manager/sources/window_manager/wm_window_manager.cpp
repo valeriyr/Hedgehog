@@ -37,20 +37,22 @@ WindowManager::WindowManager( const std::string& _applicationName )
 WindowManager::~WindowManager()
 {
 	DockWidgetByViewCollectionIterator
-			begin = m_dockWidgetByViewCollection.begin()
-		,	end = m_dockWidgetByViewCollection.end();
+			beginDockViews = m_dockWidgetByViewCollection.begin()
+		,	endDockViews = m_dockWidgetByViewCollection.end();
 
-	for ( ; begin != end; ++begin )
-		removeView( begin->first );
+	for ( ; beginDockViews != endDockViews; ++beginDockViews )
+		tryToRemoveViewFromDock( beginDockViews->first );
 
 	m_dockWidgetByViewCollection.clear();
 
 	CentralViewsCollectionIterator
-			centralViewsBegin = m_centralViewsCollection.begin()
-		,	centralViewsEnd = m_centralViewsCollection.end();
+			beginCentralViews = m_centralViewsCollection.begin()
+		,	endCentralViews = m_centralViewsCollection.end();
 
-	for ( ; centralViewsBegin != centralViewsEnd; ++centralViewsBegin )
-		removeView( *centralViewsBegin );
+	for ( ; beginCentralViews != endCentralViews; ++beginCentralViews )
+		tryToRemoveViewFromCenter( *beginCentralViews );
+
+	m_centralViewsCollection.clear();
 
 	m_mainWindow.reset();
 
@@ -95,31 +97,10 @@ WindowManager::addView(
 void
 WindowManager::removeView( boost::intrusive_ptr< IView > _view )
 {
-	DockWidgetByViewCollectionIterator iterator = m_dockWidgetByViewCollection.find( _view );
-
-	if ( iterator != m_dockWidgetByViewCollection.end() )
-	{
-		_view->getViewWidget()->setParent( NULL );
-		m_mainWindow->removeDockWidget( iterator->second );
-
+	if ( tryToRemoveViewFromDock( _view ) )
 		m_dockWidgetByViewCollection.erase( _view );
-
-		_view->viewWasClosed();
-	}
-	else
-	{
-		CentralViewsCollectionIterator centralViewiterator = m_centralViewsCollection.find( _view );
-
-		if ( centralViewiterator != m_centralViewsCollection.end() )
-		{
-			_view->getViewWidget()->setParent( NULL );
-			m_centralWidget->removeTab( m_centralWidget->indexOf( _view->getViewWidget() ) );
-
-			m_centralViewsCollection.erase( _view );
-
-			_view->viewWasClosed();
-		}
-	}
+	else if ( tryToRemoveViewFromCenter( _view ) )
+		m_centralViewsCollection.erase( _view );
 
 } // WindowManager::removeView
 
@@ -146,6 +127,52 @@ WindowManager::getQtViewPossition( const ViewPosition::Enum _viewPossition )
 	};
 
 } // WindowManager::getQtViewPossition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+WindowManager::tryToRemoveViewFromDock( boost::intrusive_ptr< IView > _view )
+{
+	DockWidgetByViewCollectionIterator iterator = m_dockWidgetByViewCollection.find( _view );
+
+	if ( iterator != m_dockWidgetByViewCollection.end() )
+	{
+		_view->getViewWidget()->setParent( NULL );
+		m_mainWindow->removeDockWidget( iterator->second );
+
+		_view->viewWasClosed();
+
+		return true;
+	}
+
+	return false;
+
+} // WindowManager::tryToRemoveViewFromDock
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+WindowManager::tryToRemoveViewFromCenter( boost::intrusive_ptr< IView > _view )
+{
+	CentralViewsCollectionIterator centralViewiterator = m_centralViewsCollection.find( _view );
+
+	if ( centralViewiterator != m_centralViewsCollection.end() )
+	{
+		_view->getViewWidget()->setParent( NULL );
+		m_centralWidget->removeTab( m_centralWidget->indexOf( _view->getViewWidget() ) );
+
+		_view->viewWasClosed();
+
+		return true;
+	}
+
+	return false;
+
+} // WindowManager::tryToRemoveViewFromCenter
 
 
 /*---------------------------------------------------------------------------*/

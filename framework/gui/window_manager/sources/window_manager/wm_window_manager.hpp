@@ -51,6 +51,12 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	bool tryToRemoveViewFromDock( boost::intrusive_ptr< IView > _view );
+
+	bool tryToRemoveViewFromCenter( boost::intrusive_ptr< IView > _view );
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
