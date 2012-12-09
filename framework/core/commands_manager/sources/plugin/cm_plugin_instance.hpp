@@ -1,41 +1,43 @@
 
-#ifndef __LM_ILANDSCAPE_HPP__
-#define __LM_ILANDSCAPE_HPP__
+#ifndef __CM_PLUGIN_INSTANCE_HPP__
+#define __CM_PLUGIN_INSTANCE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
-
-#include "landscape_model/ih/lm_ilandscape_object.hpp"
-#include "landscape_model/h/lm_point.hpp"
+#include "plugins_manager/h/pm_base_plugin.hpp"
+#include "plugins_manager/h/pm_interface_map.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
+namespace Framework {
 namespace Core {
-namespace LandscapeModel {
+namespace CommandsManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscape
-	:	public Tools::Core::IBase
+class PluginInstance
+	:	public Framework::Core::PluginsManager::BasePlugin
 {
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		boost::intrusive_ptr< ILandscape >
-		Ptr;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual unsigned int getWidth() const = 0;
+	PluginInstance();
 
-	virtual unsigned int getHeight() const = 0;
+	virtual ~PluginInstance();
 
 /*---------------------------------------------------------------------------*/
 
-	virtual ILandscapeObject::Ptr getLadscapeObject( const Point& _point ) const = 0;
+	INTERFACE_MAP_DECLARATION()
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void initialize();
+
+	/*virtual*/ void close();
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,10 +45,10 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeModel
+} // namespace CommandsManager
 } // namespace Core
-} // namespace Plugins
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_HPP__
+#endif // __CM_PLUGIN_INSTANCE_HPP__

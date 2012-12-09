@@ -36,11 +36,11 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ ILandscapeItem::Ptr getLadscapeItem( const Point& _point ) const;
+	/*virtual*/ ILandscapeObject::Ptr getLadscapeObject( const Point& _point ) const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void createWaterItem( const ILandscape::Point& _point );
+	/*virtual*/ void createWaterItem( const Point& _point );
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,7 +53,7 @@ private:
 	const unsigned int m_height;
 
 	typedef
-		std::map< Point, ILandscapeItem::Ptr >
+		std::map< Point, ILandscapeObject::Ptr >
 		LandscapeItemsCollection;
 	typedef
 		LandscapeItemsCollection::iterator

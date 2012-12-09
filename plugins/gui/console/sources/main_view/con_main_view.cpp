@@ -29,7 +29,7 @@ MainView::MainView()
 
 MainView::~MainView()
 {
-} // MainView::MainView
+} // MainView::~MainView
 
 
 /*---------------------------------------------------------------------------*/
@@ -51,7 +51,7 @@ MainView::getViewWidget() const
 {
 	return m_consoleView.get();
 
-} // MainView::MainView
+} // MainView::getViewWidget
 
 
 /*---------------------------------------------------------------------------*/
@@ -62,7 +62,7 @@ MainView::viewWasClosed()
 {
 	m_consoleView.reset();
 
-} // MainView::MainView
+} // MainView::viewWasClosed
 
 
 /*---------------------------------------------------------------------------*/
