@@ -80,9 +80,9 @@ PluginInstance::close()
 
 	if ( windowManager )
 	{
-		getWindowManager()->removeView( m_descriptionView );
-		getWindowManager()->removeView( m_editorView );
-		getWindowManager()->removeView( m_objectsView );
+		windowManager->removeView( m_descriptionView );
+		windowManager->removeView( m_editorView );
+		windowManager->removeView( m_objectsView );
 	}
 
 	m_descriptionView.reset();

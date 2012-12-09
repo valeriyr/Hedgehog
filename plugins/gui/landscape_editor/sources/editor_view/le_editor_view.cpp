@@ -3,6 +3,8 @@
 
 #include "landscape_editor/sources/editor_view/le_editor_view.hpp"
 
+#include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,7 +17,7 @@ namespace LandscapeEditor {
 
 EditorView::EditorView()
 	:	m_editorView( new QTextEdit() )
-	,	m_viewTitle( "'Landscape file name' should be here" )
+	,	m_viewTitle( Resources::EditorViewDefaultTitle )
 {
 	m_editorView->setReadOnly( true );
 

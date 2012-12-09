@@ -20,8 +20,9 @@ WindowManager::WindowManager( const std::string& _applicationName )
 	:	m_centralWidget( new QTabWidget() )
 	,	m_mainWindow( new QMainWindow() )
 	,	m_dockWidgetByViewCollection()
+	,	m_centralViewsCollection()
 {
-	m_centralWidget->setTabsClosable( true );
+	// m_centralWidget->setTabsClosable( true );
 
 	m_mainWindow->setWindowTitle( _applicationName.c_str() );
 	m_mainWindow->setCentralWidget( m_centralWidget );
@@ -40,12 +41,16 @@ WindowManager::~WindowManager()
 		,	end = m_dockWidgetByViewCollection.end();
 
 	for ( ; begin != end; ++begin )
-	{
 		removeView( begin->first );
-		begin->first->viewWasClosed();
-	}
 
 	m_dockWidgetByViewCollection.clear();
+
+	CentralViewsCollectionIterator
+			centralViewsBegin = m_centralViewsCollection.begin()
+		,	centralViewsEnd = m_centralViewsCollection.end();
+
+	for ( ; centralViewsBegin != centralViewsEnd; ++centralViewsBegin )
+		removeView( *centralViewsBegin );
 
 	m_mainWindow.reset();
 
@@ -65,6 +70,7 @@ WindowManager::addView(
 	if ( _position == ViewPosition::Center )
 	{
 		m_centralWidget->addTab( _view->getViewWidget(), _view->getViewTitle().c_str() );
+		m_centralViewsCollection.insert( _view );
 	}
 	else
 	{
@@ -91,13 +97,29 @@ WindowManager::removeView( boost::intrusive_ptr< IView > _view )
 {
 	DockWidgetByViewCollectionIterator iterator = m_dockWidgetByViewCollection.find( _view );
 
-	if ( iterator == m_dockWidgetByViewCollection.end() )
-		return;
+	if ( iterator != m_dockWidgetByViewCollection.end() )
+	{
+		_view->getViewWidget()->setParent( NULL );
+		m_mainWindow->removeDockWidget( iterator->second );
 
-	_view->getViewWidget()->setParent( NULL );
-	m_mainWindow->removeDockWidget( iterator->second );
+		m_dockWidgetByViewCollection.erase( _view );
 
-	m_dockWidgetByViewCollection.erase( _view );
+		_view->viewWasClosed();
+	}
+	else
+	{
+		CentralViewsCollectionIterator centralViewiterator = m_centralViewsCollection.find( _view );
+
+		if ( centralViewiterator != m_centralViewsCollection.end() )
+		{
+			_view->getViewWidget()->setParent( NULL );
+			m_centralWidget->removeTab( m_centralWidget->indexOf( _view->getViewWidget() ) );
+
+			m_centralViewsCollection.erase( _view );
+
+			_view->viewWasClosed();
+		}
+	}
 
 } // WindowManager::removeView
 

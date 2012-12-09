@@ -15,6 +15,8 @@ namespace Resources {
 
 	extern const char* const DescriptionViewTitle;
 
+	extern const char* const EditorViewDefaultTitle;
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Resources

@@ -55,10 +55,6 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	QTabWidget* m_centralWidget;
-
-	boost::shared_ptr< QMainWindow > m_mainWindow;
-
 	typedef
 		std::map< boost::intrusive_ptr< IView >, QDockWidget* >
 		DockWidgetByViewCollection;
@@ -66,7 +62,22 @@ private:
 		DockWidgetByViewCollection::const_iterator
 		DockWidgetByViewCollectionIterator;
 
+	typedef
+		std::set< boost::intrusive_ptr< IView > >
+		CentralViewsCollection;
+	typedef
+		CentralViewsCollection::const_iterator
+		CentralViewsCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
+	QTabWidget* m_centralWidget;
+
+	boost::shared_ptr< QMainWindow > m_mainWindow;
+
 	DockWidgetByViewCollection m_dockWidgetByViewCollection;
+
+	CentralViewsCollection m_centralViewsCollection;
 
 /*---------------------------------------------------------------------------*/
 

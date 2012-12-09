@@ -17,6 +17,8 @@ namespace Resources {
 
 	const char* const DescriptionViewTitle = "Landscape Description";
 
+	const char* const EditorViewDefaultTitle = "Landscape Editor";
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Resources
