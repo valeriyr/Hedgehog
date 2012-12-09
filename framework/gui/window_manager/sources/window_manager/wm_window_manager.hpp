@@ -55,6 +55,8 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	QTabWidget* m_centralWidget;
+
 	boost::shared_ptr< QMainWindow > m_mainWindow;
 
 	typedef

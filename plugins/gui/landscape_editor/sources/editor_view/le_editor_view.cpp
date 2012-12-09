@@ -1,73 +1,71 @@
 
-#include "console/sources/ph/con_ph.hpp"
+#include "landscape_editor/sources/ph/le_ph.hpp"
 
-#include "console/sources/main_view/con_main_view.hpp"
-
-#include "console/sources/resources/con_internal_resources.hpp"
+#include "landscape_editor/sources/editor_view/le_editor_view.hpp"
 
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
-namespace Console {
+namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
 
-MainView::MainView()
-	:	m_consoleView( new QTextEdit() )
-	,	m_viewTitle( Resources::ConsoleViewTitle )
+EditorView::EditorView()
+	:	m_editorView( new QTextEdit() )
+	,	m_viewTitle( "'Landscape file name' should be here" )
 {
-	m_consoleView->setReadOnly( true );
+	m_editorView->setReadOnly( true );
 
-} // MainView::MainView
+} // EditorView::EditorView
 
 
 /*---------------------------------------------------------------------------*/
 
 
-MainView::~MainView()
+EditorView::~EditorView()
 {
-} // MainView::~MainView
+} // EditorView::~EditorView
 
 
 /*---------------------------------------------------------------------------*/
 
 
 const std::string&
-MainView::getViewTitle() const
+EditorView::getViewTitle() const
 {
 	return m_viewTitle;
 
-} // MainView::getViewTitle
+} // EditorView::getViewTitle
 
 
 /*---------------------------------------------------------------------------*/
 
 
 QWidget*
-MainView::getViewWidget() const
+EditorView::getViewWidget() const
 {
-	return m_consoleView.get();
+	return m_editorView.get();
 
-} // MainView::getViewWidget
+} // EditorView::getViewWidget
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-MainView::viewWasClosed()
+EditorView::viewWasClosed()
 {
-	m_consoleView.reset();
+	m_editorView.reset();
 
-} // MainView::viewWasClosed
+} // EditorView::viewWasClosed
 
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Console
+} // namespace LandscapeEditor
 } // namespace GUI
 } // namespace Plugins
 

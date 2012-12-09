@@ -1,36 +1,27 @@
 
-#ifndef __WM_VIEW_POSITION_HPP__
-#define __WM_VIEW_POSITION_HPP__
-
+#ifndef __LE_INTERNAL_RESOURCES_HPP__
+#define __LE_INTERNAL_RESOURCES_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Plugins {
 namespace GUI {
-namespace WindowManager {
+namespace LandscapeEditor {
+namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-struct ViewPosition
-{
-	enum Enum
-	{
-			Left = 0
-		,	Right
+	extern const char* const ObjectsViewTitle;
 
-		,	Top
-		,	Bottom
-
-		,	Center
-	};
-};
+	extern const char* const DescriptionViewTitle;
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace WindowManager
+} // namespace Resources
+} // namespace LandscapeEditor
 } // namespace GUI
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __WM_VIEW_POSITION_HPP__
+#endif // __LE_INTERNAL_RESOURCES_HPP__

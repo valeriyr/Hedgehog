@@ -1,73 +1,73 @@
 
-#include "console/sources/ph/con_ph.hpp"
+#include "landscape_editor/sources/ph/le_ph.hpp"
 
-#include "console/sources/main_view/con_main_view.hpp"
+#include "landscape_editor/sources/objects_view/le_objects_view.hpp"
 
-#include "console/sources/resources/con_internal_resources.hpp"
+#include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
-namespace Console {
+namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
 
-MainView::MainView()
-	:	m_consoleView( new QTextEdit() )
-	,	m_viewTitle( Resources::ConsoleViewTitle )
+ObjectsView::ObjectsView()
+	:	m_objectsView( new QTextEdit() )
+	,	m_viewTitle( Resources::ObjectsViewTitle )
 {
-	m_consoleView->setReadOnly( true );
+	m_objectsView->setReadOnly( true );
 
-} // MainView::MainView
+} // ObjectsView::ObjectsView
 
 
 /*---------------------------------------------------------------------------*/
 
 
-MainView::~MainView()
+ObjectsView::~ObjectsView()
 {
-} // MainView::~MainView
+} // ObjectsView::~ObjectsView
 
 
 /*---------------------------------------------------------------------------*/
 
 
 const std::string&
-MainView::getViewTitle() const
+ObjectsView::getViewTitle() const
 {
 	return m_viewTitle;
 
-} // MainView::getViewTitle
+} // ObjectsView::getViewTitle
 
 
 /*---------------------------------------------------------------------------*/
 
 
 QWidget*
-MainView::getViewWidget() const
+ObjectsView::getViewWidget() const
 {
-	return m_consoleView.get();
+	return m_objectsView.get();
 
-} // MainView::getViewWidget
+} // ObjectsView::getViewWidget
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-MainView::viewWasClosed()
+ObjectsView::viewWasClosed()
 {
-	m_consoleView.reset();
+	m_objectsView.reset();
 
-} // MainView::viewWasClosed
+} // ObjectsView::viewWasClosed
 
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Console
+} // namespace LandscapeEditor
 } // namespace GUI
 } // namespace Plugins
 

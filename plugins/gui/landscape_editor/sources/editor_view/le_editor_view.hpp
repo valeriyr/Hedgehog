@@ -1,25 +1,10 @@
 
-#ifndef __LE_PLUGIN_INSTANCE_HPP__
-#define __LE_PLUGIN_INSTANCE_HPP__
+#ifndef __LE_EDITOR_VIEW_HPP__
+#define __LE_EDITOR_VIEW_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
-
-/*---------------------------------------------------------------------------*/
-
-namespace Framework
-{
-	namespace GUI
-	{
-		namespace WindowManager
-		{
-			 struct IView;
-			 struct IWindowManager;
-		}
-	}
-}
+#include "window_manager/ih/wm_iview.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,8 +14,8 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+class EditorView
+	:	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -39,28 +24,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	EditorView();
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	virtual ~EditorView();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize();
+	/*virtual*/ const std::string& getViewTitle() const;
 
-	/*virtual*/ void close();
-
-/*---------------------------------------------------------------------------*/
-
-private:
+	/*virtual*/ QWidget* getViewWidget() const;
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
-		getWindowManager() const;
+	/*virtual*/ void viewWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
@@ -68,11 +44,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IView > m_objectsView;
+	boost::shared_ptr< QTextEdit > m_editorView;
 
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IView > m_editorView;
-
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IView > m_descriptionView;
+	std::string m_viewTitle;
 
 /*---------------------------------------------------------------------------*/
 
@@ -86,4 +60,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_PLUGIN_INSTANCE_HPP__
+#endif // __LE_EDITOR_VIEW_HPP__

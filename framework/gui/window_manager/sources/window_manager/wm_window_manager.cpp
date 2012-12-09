@@ -7,9 +7,6 @@
 
 #include "wm_window_manager.moc"
 
-#include <QtGui/QTextEdit>
-
-
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -20,13 +17,15 @@ namespace WindowManager {
 
 
 WindowManager::WindowManager( const std::string& _applicationName )
-	:	m_mainWindow( new QMainWindow() )
+	:	m_centralWidget( new QTabWidget() )
+	,	m_mainWindow( new QMainWindow() )
 	,	m_dockWidgetByViewCollection()
 {
-	m_mainWindow->setWindowTitle( _applicationName.c_str() );
-	m_mainWindow->showMaximized();
+	m_centralWidget->setTabsClosable( true );
 
-	m_mainWindow->setCentralWidget( new QTextEdit() );
+	m_mainWindow->setWindowTitle( _applicationName.c_str() );
+	m_mainWindow->setCentralWidget( m_centralWidget );
+	m_mainWindow->showMaximized();
 
 } // WindowManager::WindowManager
 
@@ -63,16 +62,23 @@ WindowManager::addView(
 {
 	assert( m_dockWidgetByViewCollection.find( _view ) == m_dockWidgetByViewCollection.end() );
 
-	Qt::DockWidgetArea viewPossition( getQtViewPossition( _position ) );
+	if ( _position == ViewPosition::Center )
+	{
+		m_centralWidget->addTab( _view->getViewWidget(), _view->getViewTitle().c_str() );
+	}
+	else
+	{
+		Qt::DockWidgetArea viewPossition( getQtViewPossition( _position ) );
 
-	QDockWidget* docWidget( new QDockWidget() );
+		QDockWidget* docWidget( new QDockWidget() );
 
-	docWidget->setWindowTitle( _view->getViewTitle().c_str() );
-	docWidget->setWidget( _view->getViewWidget() );
+		docWidget->setWindowTitle( _view->getViewTitle().c_str() );
+		docWidget->setWidget( _view->getViewWidget() );
 
-	m_mainWindow->addDockWidget( viewPossition, docWidget );
+		m_mainWindow->addDockWidget( viewPossition, docWidget );
 
-	m_dockWidgetByViewCollection.insert( std::make_pair( _view, docWidget ) );
+		m_dockWidgetByViewCollection.insert( std::make_pair( _view, docWidget ) );
+	}
 
 } // WindowManager::addView
 
