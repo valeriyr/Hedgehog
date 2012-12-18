@@ -78,12 +78,9 @@ PluginInstance::close()
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		windowManager = getWindowManager();
 
-	if ( windowManager )
-	{
-		windowManager->removeView( m_descriptionView );
-		windowManager->removeView( m_editorView );
-		windowManager->removeView( m_objectsView );
-	}
+	windowManager->removeView( m_descriptionView );
+	windowManager->removeView( m_editorView );
+	windowManager->removeView( m_objectsView );
 
 	m_descriptionView.reset();
 	m_editorView.reset();

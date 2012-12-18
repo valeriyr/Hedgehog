@@ -23,6 +23,7 @@ namespace PluginsManager {
 
 PluginsManager::PluginsManager( boost::intrusive_ptr< ISystemInformation > _systemInformation )
 	:	m_pluginsCollection()
+	,	m_pluginsInOrderToCloseCollection()
 	,	m_systemInformation( _systemInformation )
 {
 } // PluginsManager::PluginsManager
@@ -65,7 +66,7 @@ PluginsManager::getPluginInterface( const std::string& _pluginName, const unsign
 	if ( iterator->second->m_pluginState == PluginData::State::Loading )	// We can't get interface from plugin
 		throw std::exception();												// witch is loading!
 
-	loadPluginIfNeeded( *iterator->second );
+	loadPluginIfNeeded( iterator->second );
 
 	return iterator->second->m_pluginPointer->getInterface( _interfaceId );
 
@@ -115,7 +116,7 @@ PluginsManager::loadPlugins()
 		,	end = m_pluginsCollection.end();
 
 	for( ; begin != end; ++begin )
-		loadPluginIfNeeded( *begin->second );
+		loadPluginIfNeeded( begin->second );
 
 } // PluginsManager::loadStartupPlugins
 
@@ -126,19 +127,21 @@ PluginsManager::loadPlugins()
 void
 PluginsManager::closePlugins()
 {
-	PluginsCollectionTypeIterator
-			begin = m_pluginsCollection.begin()
-		,	end = m_pluginsCollection.end();
+	PluginsInOrderToCloseCollectionTypeIterator
+			begin = m_pluginsInOrderToCloseCollection.rbegin()
+		,	end = m_pluginsInOrderToCloseCollection.rend();
 
 	for( ; begin != end; ++begin )
 	{
-		assert( begin->second->m_pluginState == PluginData::State::Loaded );
+		assert( ( *begin )->m_pluginState == PluginData::State::Loaded );
 
-		begin->second->m_pluginPointer->close();
-		begin->second->m_pluginPointer.reset();
+		( *begin )->m_pluginPointer->close();
+		( *begin )->m_pluginPointer.reset();
 
-		begin->second->m_pluginState = PluginData::State::Closed;
+		( *begin )->m_pluginState = PluginData::State::Closed;
 	}
+
+	m_pluginsInOrderToCloseCollection.clear();
 
 } // PluginsManager::closePlugins
 
@@ -147,28 +150,30 @@ PluginsManager::closePlugins()
 
 
 void
-PluginsManager::loadPluginIfNeeded( PluginData& _pluginData )
+PluginsManager::loadPluginIfNeeded( boost::shared_ptr< PluginData > _pluginData )
 {
-	if ( _pluginData.m_pluginState == PluginData::State::NotLoaded )
+	if ( _pluginData->m_pluginState == PluginData::State::NotLoaded )
 	{
-		_pluginData.m_pluginState = PluginData::State::Loading;
+		_pluginData->m_pluginState = PluginData::State::Loading;
 
 		std::string pluginPath(
 				m_systemInformation->getPluginsDirectory()
 			+	"/"
-			+	_pluginData.m_pluginName
+			+	_pluginData->m_pluginName
 			+	Resources::PluginFileExtension );
 
 		PluginFactoryPtr pluginFactory
 			= ( PluginFactoryPtr ) QLibrary::resolve( pluginPath.c_str(), PluginFactoryName );
 		assert( pluginFactory );
 
-		_pluginData.m_pluginPointer.reset( pluginFactory() );
-		assert( _pluginData.m_pluginPointer );
+		_pluginData->m_pluginPointer.reset( pluginFactory() );
+		assert( _pluginData->m_pluginPointer );
 
-		_pluginData.m_pluginPointer->initialize( this );
+		_pluginData->m_pluginPointer->initialize( this );
 
-		_pluginData.m_pluginState = PluginData::State::Loaded;
+		m_pluginsInOrderToCloseCollection.push_back( _pluginData );
+
+		_pluginData->m_pluginState = PluginData::State::Loaded;
 	}
 
 } // PluginsManager::loadPluginIfNeeded
