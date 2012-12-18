@@ -66,16 +66,16 @@ private:
 
 	typedef
 		std::vector< boost::shared_ptr< PluginData > >
-		PluginsInOrderToCloseCollectionType;
+		PluginsInLoadingOrderCollectionType;
 	typedef
-		PluginsInOrderToCloseCollectionType::reverse_iterator
-		PluginsInOrderToCloseCollectionTypeIterator;
+		PluginsInLoadingOrderCollectionType::reverse_iterator
+		PluginsInLoadingOrderCollectionTypeIterator;
 
 /*---------------------------------------------------------------------------*/
 
 	PluginsCollectionType m_pluginsCollection;
 
-	PluginsInOrderToCloseCollectionType m_pluginsInOrderToCloseCollection;
+	PluginsInLoadingOrderCollectionType m_pluginsInLoadingOrderCollection;
 
 	boost::intrusive_ptr< ISystemInformation > m_systemInformation;
 

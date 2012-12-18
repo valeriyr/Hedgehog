@@ -23,7 +23,7 @@ namespace PluginsManager {
 
 PluginsManager::PluginsManager( boost::intrusive_ptr< ISystemInformation > _systemInformation )
 	:	m_pluginsCollection()
-	,	m_pluginsInOrderToCloseCollection()
+	,	m_pluginsInLoadingOrderCollection()
 	,	m_systemInformation( _systemInformation )
 {
 } // PluginsManager::PluginsManager
@@ -127,9 +127,9 @@ PluginsManager::loadPlugins()
 void
 PluginsManager::closePlugins()
 {
-	PluginsInOrderToCloseCollectionTypeIterator
-			begin = m_pluginsInOrderToCloseCollection.rbegin()
-		,	end = m_pluginsInOrderToCloseCollection.rend();
+	PluginsInLoadingOrderCollectionTypeIterator
+			begin = m_pluginsInLoadingOrderCollection.rbegin()
+		,	end = m_pluginsInLoadingOrderCollection.rend();
 
 	for( ; begin != end; ++begin )
 	{
@@ -141,7 +141,7 @@ PluginsManager::closePlugins()
 		( *begin )->m_pluginState = PluginData::State::Closed;
 	}
 
-	m_pluginsInOrderToCloseCollection.clear();
+	m_pluginsInLoadingOrderCollection.clear();
 
 } // PluginsManager::closePlugins
 
@@ -171,7 +171,7 @@ PluginsManager::loadPluginIfNeeded( boost::shared_ptr< PluginData > _pluginData 
 
 		_pluginData->m_pluginPointer->initialize( this );
 
-		m_pluginsInOrderToCloseCollection.push_back( _pluginData );
+		m_pluginsInLoadingOrderCollection.push_back( _pluginData );
 
 		_pluginData->m_pluginState = PluginData::State::Loaded;
 	}
