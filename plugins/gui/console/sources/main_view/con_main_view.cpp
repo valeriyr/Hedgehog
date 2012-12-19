@@ -73,17 +73,26 @@ MainView::printMessege(
 		const Tools::Core::IMessenger::MessegeLevel::Enum _messegeLevel
 	,	const std::string& _messege )
 {
-	switch (_messegeLevel)
+	if ( !m_consoleView )
+		return;
+
+	const char* messageFormat = Resources::InfoMessageFormat;
+
+	switch ( _messegeLevel )
 	{
-	case Tools::Core::IMessenger::MessegeLevel::Enum::Error:
-		m_consoleView->setHtml("> <font color=red><b>[ ERROR ]</b> .</font>");
-	case Tools::Core::IMessenger::MessegeLevel::Enum::Warning:
-		m_consoleView->setHtml("> <font color=blue><b>[ WARNING ]</b> .</font>");
-	case Tools::Core::IMessenger::MessegeLevel::Enum::Info:
-		m_consoleView->setHtml("> <b>[ INFO ]</b> .");
+	case Tools::Core::IMessenger::MessegeLevel::Error:
+		messageFormat = Resources::ErrorMessageFormat;
+		break;
+	case Tools::Core::IMessenger::MessegeLevel::Warning:
+		messageFormat = Resources::WarningMessageFormat;
+		break;
+	case Tools::Core::IMessenger::MessegeLevel::Info:
+		break;
 	default:
-		throw("Unrecognized messege level");
+		assert( !"Unrecognized messege level" );
 	}
+
+	m_consoleView->append( ( boost::format( messageFormat ) % _messege ).str().c_str() );
 }
 
 

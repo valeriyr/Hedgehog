@@ -7,10 +7,6 @@
 #include "plugins_manager/h/pm_base_plugin.hpp"
 #include "plugins_manager/h/pm_interface_map.hpp"
 
-#include "console/sources/console_messenger/con_console_messenger.hpp"
-
-#include "messenger/ms_imessenger.hpp"
-
 /*---------------------------------------------------------------------------*/
 
 namespace Framework
@@ -19,9 +15,16 @@ namespace Framework
 	{
 		namespace WindowManager
 		{
-			 struct IView;
 			 struct IWindowManager;
 		}
+	}
+}
+
+namespace Tools
+{
+	namespace Core
+	{
+		struct IMessenger;
 	}
 }
 
@@ -30,6 +33,10 @@ namespace Framework
 namespace Plugins {
 namespace GUI {
 namespace Console {
+
+/*---------------------------------------------------------------------------*/
+
+	class MainView;
 
 /*---------------------------------------------------------------------------*/
 
@@ -72,7 +79,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IView > m_consoleView;
+	boost::intrusive_ptr< MainView > m_consoleView;
 
 /*---------------------------------------------------------------------------*/
 

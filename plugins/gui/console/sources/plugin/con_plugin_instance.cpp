@@ -4,11 +4,13 @@
 #include "console/sources/plugin/con_plugin_instance.hpp"
 
 #include "console/sources/main_view/con_main_view.hpp"
+#include "console/sources/console_messenger/con_console_messenger.hpp"
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
 #include "window_manager/ih/wm_iwindow_manager.hpp"
 #include "window_manager/h/wm_plugin_id.hpp"
+
 
 
 /*---------------------------------------------------------------------------*/
@@ -53,6 +55,12 @@ PluginInstance::initialize()
 			m_consoleView
 		,	Framework::GUI::WindowManager::ViewPosition::Bottom );
 
+	m_consoleMessenger.reset( new ConsoleMessenger( *m_consoleView ) );
+
+	m_consoleMessenger->printMessage( Tools::Core::IMessenger::MessegeLevel::Error, "Some Error!" );
+	m_consoleMessenger->printMessage( Tools::Core::IMessenger::MessegeLevel::Warning, "Some Warning!" );
+	m_consoleMessenger->printMessage( Tools::Core::IMessenger::MessegeLevel::Info, "Some Info!" );
+
 } // PluginInstance::initialize
 
 
@@ -62,6 +70,8 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	m_consoleMessenger.reset();
+
 	getWindowManager()->removeView( m_consoleView );
 	m_consoleView.reset();
 

@@ -6,19 +6,20 @@
 
 #include "messenger/ms_imessenger.hpp"
 
-#include "console/sources/main_view/con_main_view.hpp"
-
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
 namespace Console {
 
+/*---------------------------------------------------------------------------*/
+
+	class MainView;
 
 /*---------------------------------------------------------------------------*/
 
 class ConsoleMessenger
-	:	public Tools::Core::IMessenger
+	:	public Tools::Core::BaseWrapper< Tools::Core::IMessenger >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -27,13 +28,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ConsoleMessenger();
+	ConsoleMessenger( MainView& _mainView );
 
 	virtual ~ConsoleMessenger();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void printMessege(
+	/*virtual*/ void printMessage(
 			const Tools::Core::IMessenger::MessegeLevel::Enum _messegeLevel
 		,	const std::string& _messege );
 
@@ -43,7 +44,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< MainView > m_mainView;
+	MainView& m_mainView;
 
 /*---------------------------------------------------------------------------*/
 
