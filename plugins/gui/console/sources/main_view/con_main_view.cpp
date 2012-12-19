@@ -69,16 +69,16 @@ MainView::viewWasClosed()
 
 
 void
-MainView::printMessege(
-		const Tools::Core::IMessenger::MessegeLevel::Enum _messegeLevel
-	,	const std::string& _messege )
+MainView::printMessage(
+		const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+	,	const std::string& _message )
 {
 	if ( !m_consoleView )
 		return;
 
 	const char* messageFormat = Resources::InfoMessageFormat;
 
-	switch ( _messegeLevel )
+	switch ( _messageLevel )
 	{
 	case Tools::Core::IMessenger::MessegeLevel::Error:
 		messageFormat = Resources::ErrorMessageFormat;
@@ -92,7 +92,7 @@ MainView::printMessege(
 		assert( !"Unrecognized messege level" );
 	}
 
-	m_consoleView->append( ( boost::format( messageFormat ) % _messege ).str().c_str() );
+	m_consoleView->append( ( boost::format( messageFormat ) % _message ).str().c_str() );
 }
 
 

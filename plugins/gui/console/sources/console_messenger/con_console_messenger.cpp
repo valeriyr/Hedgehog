@@ -36,7 +36,7 @@ void ConsoleMessenger::printMessage(
 		const Tools::Core::IMessenger::MessegeLevel::Enum _messegeLevel
 	,	const std::string& _messege )
 {
-	m_mainView.printMessege( _messegeLevel, _messege );
+	m_mainView.printMessage( _messegeLevel, _messege );
 
 } // ConsoleMessenger::printMessage
 
