@@ -5,6 +5,8 @@
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
+#include "commands_manager/sources/commands_registry/cm_commands_registry.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,6 +18,8 @@ namespace CommandsManager {
 
 
 BEGIN_INTERFACE_MAP( PluginInstance )
+
+	INTERFACE( IID_COMMANDS_REGISTRY, m_commandsRegistry.get() )
 
 END_INTERFACE_MAP()
 
@@ -42,6 +46,8 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	m_commandsRegistry.reset( new CommandsRegistry() );
+
 } // PluginInstance::initialize
 
 
@@ -51,6 +57,8 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	m_commandsRegistry.reset();
+
 } // PluginInstance::close
 
 

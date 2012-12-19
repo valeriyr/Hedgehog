@@ -1,11 +1,10 @@
 
-#ifndef __CM_PLUGIN_INSTANCE_HPP__
-#define __CM_PLUGIN_INSTANCE_HPP__
+#ifndef __CM_ICOMMANDS_REGISTRY_HPP__
+#define __CM_ICOMMANDS_REGISTRY_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,41 +14,26 @@ namespace CommandsManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct ICommandsRegistry;
+struct ICommand;
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+	const unsigned int IID_COMMANDS_REGISTRY = 0;
+
+/*---------------------------------------------------------------------------*/
+
+struct ICommandsRegistry
+	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-public:
+	virtual void registerCommand(
+			const std::string& _commandName
+		,	boost::intrusive_ptr< ICommand > _command ) = 0;
 
-/*---------------------------------------------------------------------------*/
-
-	PluginInstance();
-
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void initialize();
-
-	/*virtual*/ void close();
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	boost::intrusive_ptr< ICommandsRegistry > m_commandsRegistry;
+	virtual boost::intrusive_ptr< ICommand >
+		unregisterCommand( const std::string& _commandName ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -63,4 +47,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CM_PLUGIN_INSTANCE_HPP__
+#endif // __CM_ICOMMANDS_REGISTRY_HPP__

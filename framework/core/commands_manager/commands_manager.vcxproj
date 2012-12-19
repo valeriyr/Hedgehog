@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\commands_registry\cm_commands_registry.cpp" />
     <ClCompile Include="sources\ph\cm_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -28,6 +29,10 @@
     <ClCompile Include="sources\plugin\cm_plugin_instance.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="h\cm_plugin_id.hpp" />
+    <ClInclude Include="ih\cm_icommand.hpp" />
+    <ClInclude Include="ih\cm_icommands_registry.hpp" />
+    <ClInclude Include="sources\commands_registry\cm_commands_registry.hpp" />
     <ClInclude Include="sources\ph\cm_ph.hpp" />
     <ClInclude Include="sources\plugin\cm_plugin_instance.hpp" />
   </ItemGroup>
