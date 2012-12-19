@@ -14,18 +14,23 @@ namespace Console {
 
 /*---------------------------------------------------------------------------*/
 
+
 ConsoleMessenger::ConsoleMessenger( MainView& _mainView )
 	:	m_mainView( _mainView )
 {
 } // ConsoleMessenger::ConsoleMessenger
 
+
 /*---------------------------------------------------------------------------*/
+
 
 ConsoleMessenger::~ConsoleMessenger()
 {
 } // ConsoleMessenger::~ConsoleMessenger
 
+
 /*---------------------------------------------------------------------------*/
+
 
 void ConsoleMessenger::printMessage(
 		const Tools::Core::IMessenger::MessegeLevel::Enum _messegeLevel
@@ -34,6 +39,7 @@ void ConsoleMessenger::printMessage(
 	m_mainView.printMessege( _messegeLevel, _messege );
 
 } // ConsoleMessenger::printMessage
+
 
 /*---------------------------------------------------------------------------*/
 
