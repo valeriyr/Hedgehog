@@ -35,8 +35,8 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void printMessage(
-			const Tools::Core::IMessenger::MessegeLevel::Enum _messegeLevel
-		,	const std::string& _messege );
+			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+		,	const std::string& _message );
 
 /*---------------------------------------------------------------------------*/
 
