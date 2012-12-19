@@ -7,6 +7,15 @@
     <Filter Include="Plugin">
       <UniqueIdentifier>{1e123293-2906-4221-8be3-b8aa1043b567}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{04b01c6f-a9e9-451f-b0d8-16001491eb32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands Registry">
+      <UniqueIdentifier>{9dffbf14-24b8-4988-83a6-cb99fb671f8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{5766bb9f-d48a-4887-a79c-5e9db1346eb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\cm_ph.cpp">
@@ -15,6 +24,9 @@
     <ClCompile Include="sources\plugin\cm_plugin_instance.cpp">
       <Filter>Plugin</Filter>
     </ClCompile>
+    <ClCompile Include="sources\commands_registry\cm_commands_registry.cpp">
+      <Filter>Commands Registry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\cm_ph.hpp">
@@ -22,6 +34,18 @@
     </ClInclude>
     <ClInclude Include="sources\plugin\cm_plugin_instance.hpp">
       <Filter>Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\cm_icommand.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\cm_icommands_registry.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="h\cm_plugin_id.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands_registry\cm_commands_registry.hpp">
+      <Filter>Commands Registry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

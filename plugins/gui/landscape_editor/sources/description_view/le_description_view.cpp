@@ -17,7 +17,7 @@ namespace LandscapeEditor {
 
 DescriptionView::DescriptionView()
 	:	m_descriptionView( new QTextEdit() )
-	,	m_viewTitle( Resources::DescriptionViewTitle )
+	,	m_viewTitle( Resources::Views::DescriptionViewTitle )
 {
 	m_descriptionView->setReadOnly( true );
 

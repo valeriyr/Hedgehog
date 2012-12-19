@@ -43,17 +43,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void addCommandToMenu(
+			const std::string& _menuPath
+		,	const std::string& _commandName );
+
+	/*virtual*/ void removeCommandFromMenu( const std::string& _menuPath );
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
 
 	static Qt::DockWidgetArea getQtViewPossition( const ViewPosition::Enum _viewPossition );
-
-/*---------------------------------------------------------------------------*/
-
-	bool tryToRemoveViewFromDock( boost::intrusive_ptr< IView > _view );
-
-	bool tryToRemoveViewFromCenter( boost::intrusive_ptr< IView > _view );
 
 /*---------------------------------------------------------------------------*/
 
@@ -77,9 +79,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	QTabWidget* m_centralWidget;
-
 	boost::shared_ptr< QMainWindow > m_mainWindow;
+
+	QTabWidget* m_centralWidget;
 
 	DockWidgetByViewCollection m_dockWidgetByViewCollection;
 

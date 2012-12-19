@@ -17,7 +17,7 @@ namespace LandscapeEditor {
 
 EditorView::EditorView()
 	:	m_editorView( new QTextEdit() )
-	,	m_viewTitle( Resources::EditorViewDefaultTitle )
+	,	m_viewTitle( Resources::Views::EditorViewDefaultTitle )
 {
 	m_editorView->setReadOnly( true );
 

@@ -5,6 +5,8 @@
 
 #include "window_manager/ih/wm_iview.hpp"
 
+#include "window_manager/sources/internal_resources/wm_internal_resources.hpp"
+
 #include "wm_window_manager.moc"
 
 /*---------------------------------------------------------------------------*/
@@ -17,8 +19,8 @@ namespace WindowManager {
 
 
 WindowManager::WindowManager( const std::string& _applicationName )
-	:	m_centralWidget( new QTabWidget() )
-	,	m_mainWindow( new QMainWindow() )
+	:	m_mainWindow( new QMainWindow() )
+	,	m_centralWidget( new QTabWidget() )
 	,	m_dockWidgetByViewCollection()
 	,	m_centralViewsCollection()
 {
@@ -36,21 +38,8 @@ WindowManager::WindowManager( const std::string& _applicationName )
 
 WindowManager::~WindowManager()
 {
-	DockWidgetByViewCollectionIterator
-			beginDockViews = m_dockWidgetByViewCollection.begin()
-		,	endDockViews = m_dockWidgetByViewCollection.end();
-
-	for ( ; beginDockViews != endDockViews; ++beginDockViews )
-		tryToRemoveViewFromDock( beginDockViews->first );
-
-	m_dockWidgetByViewCollection.clear();
-
-	CentralViewsCollectionIterator
-			beginCentralViews = m_centralViewsCollection.begin()
-		,	endCentralViews = m_centralViewsCollection.end();
-
-	for ( ; beginCentralViews != endCentralViews; ++beginCentralViews )
-		tryToRemoveViewFromCenter( *beginCentralViews );
+	assert( m_dockWidgetByViewCollection.empty() );
+	assert( m_centralViewsCollection.empty() );
 
 	m_centralViewsCollection.clear();
 
@@ -97,12 +86,61 @@ WindowManager::addView(
 void
 WindowManager::removeView( boost::intrusive_ptr< IView > _view )
 {
-	if ( tryToRemoveViewFromDock( _view ) )
+	DockWidgetByViewCollectionIterator iterator = m_dockWidgetByViewCollection.find( _view );
+
+	if ( iterator != m_dockWidgetByViewCollection.end() )
+	{
+		_view->getViewWidget()->setParent( NULL );
+		m_mainWindow->removeDockWidget( iterator->second );
+
+		_view->viewWasClosed();
+
 		m_dockWidgetByViewCollection.erase( _view );
-	else if ( tryToRemoveViewFromCenter( _view ) )
+	}
+
+	CentralViewsCollectionIterator centralViewiterator = m_centralViewsCollection.find( _view );
+
+	if ( centralViewiterator != m_centralViewsCollection.end() )
+	{
+		_view->getViewWidget()->setParent( NULL );
+		m_centralWidget->removeTab( m_centralWidget->indexOf( _view->getViewWidget() ) );
+
+		_view->viewWasClosed();
+
 		m_centralViewsCollection.erase( _view );
+	}
 
 } // WindowManager::removeView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+WindowManager::addCommandToMenu( const std::string& _menuPath, const std::string& _commandName )
+{
+	QString menuPath( _menuPath.c_str() );
+	QStringList menus( menuPath.split( Resources::MenuItemsSeparator ) );
+
+	assert( menus.size() > 1 );
+
+	QMenu* currentMenu = m_mainWindow->menuBar()->addMenu( menus[ 0 ] );
+
+	for ( int i = 1; i < menus.size() - 1; ++i )
+		currentMenu = currentMenu->addMenu( menus[ i ] );
+
+	currentMenu->addAction( menus[ menus.size() - 1 ] );
+
+} // WindowManager::addCommandToMenu
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+WindowManager::removeCommandFromMenu( const std::string& _menuPath )
+{
+} // WindowManager::removeCommandFromMenu
 
 
 /*---------------------------------------------------------------------------*/
@@ -127,52 +165,6 @@ WindowManager::getQtViewPossition( const ViewPosition::Enum _viewPossition )
 	};
 
 } // WindowManager::getQtViewPossition
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-WindowManager::tryToRemoveViewFromDock( boost::intrusive_ptr< IView > _view )
-{
-	DockWidgetByViewCollectionIterator iterator = m_dockWidgetByViewCollection.find( _view );
-
-	if ( iterator != m_dockWidgetByViewCollection.end() )
-	{
-		_view->getViewWidget()->setParent( NULL );
-		m_mainWindow->removeDockWidget( iterator->second );
-
-		_view->viewWasClosed();
-
-		return true;
-	}
-
-	return false;
-
-} // WindowManager::tryToRemoveViewFromDock
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-WindowManager::tryToRemoveViewFromCenter( boost::intrusive_ptr< IView > _view )
-{
-	CentralViewsCollectionIterator centralViewiterator = m_centralViewsCollection.find( _view );
-
-	if ( centralViewiterator != m_centralViewsCollection.end() )
-	{
-		_view->getViewWidget()->setParent( NULL );
-		m_centralWidget->removeTab( m_centralWidget->indexOf( _view->getViewWidget() ) );
-
-		_view->viewWasClosed();
-
-		return true;
-	}
-
-	return false;
-
-} // WindowManager::tryToRemoveViewFromCenter
 
 
 /*---------------------------------------------------------------------------*/

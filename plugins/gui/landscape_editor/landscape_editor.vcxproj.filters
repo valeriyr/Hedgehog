@@ -19,6 +19,9 @@
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{389e6530-0e7a-45c9-a9ca-34bed5c812e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{7bfb69b5-7de2-4150-bd7c-f33ab5b8cc48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\le_ph.cpp">
@@ -39,6 +42,18 @@
     <ClCompile Include="sources\internal_resources\le_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
     </ClCompile>
+    <ClCompile Include="sources\commands\le_close_landscape_command.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\commands\le_open_landscape_command.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\commands\le_save_landscape_command.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\commands\le_new_landscape_command.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\le_ph.hpp">
@@ -58,6 +73,18 @@
     </ClInclude>
     <ClInclude Include="sources\internal_resources\le_internal_resources.hpp">
       <Filter>Internal Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands\le_close_landscape_command.hpp">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands\le_open_landscape_command.hpp">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands\le_save_landscape_command.hpp">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands\le_new_landscape_command.hpp">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

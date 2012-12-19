@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\commands\le_close_landscape_command.cpp" />
+    <ClCompile Include="sources\commands\le_new_landscape_command.cpp" />
+    <ClCompile Include="sources\commands\le_open_landscape_command.cpp" />
+    <ClCompile Include="sources\commands\le_save_landscape_command.cpp" />
     <ClCompile Include="sources\description_view\le_description_view.cpp" />
     <ClCompile Include="sources\editor_view\le_editor_view.cpp" />
     <ClCompile Include="sources\internal_resources\le_internal_resources.cpp" />
@@ -32,6 +36,10 @@
     <ClCompile Include="sources\plugin\le_plugin_instance.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="sources\commands\le_close_landscape_command.hpp" />
+    <ClInclude Include="sources\commands\le_new_landscape_command.hpp" />
+    <ClInclude Include="sources\commands\le_open_landscape_command.hpp" />
+    <ClInclude Include="sources\commands\le_save_landscape_command.hpp" />
     <ClInclude Include="sources\description_view\le_description_view.hpp" />
     <ClInclude Include="sources\editor_view\le_editor_view.hpp" />
     <ClInclude Include="sources\internal_resources\le_internal_resources.hpp" />

@@ -11,11 +11,37 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+namespace Views {
+
+/*---------------------------------------------------------------------------*/
+
 	extern const char* const ObjectsViewTitle;
 
 	extern const char* const DescriptionViewTitle;
 
 	extern const char* const EditorViewDefaultTitle;
+
+/*---------------------------------------------------------------------------*/
+
+} // namespace Views
+
+/*---------------------------------------------------------------------------*/
+
+namespace Commands {
+
+/*---------------------------------------------------------------------------*/
+
+	extern const char* const NewLandscapeCommandName;
+
+	extern const char* const OpenLandscapeCommandName;
+
+	extern const char* const CloseLandscapeCommandName;
+
+	extern const char* const SaveLandscapeCommandName;
+
+/*---------------------------------------------------------------------------*/
+
+} // namespace Commands
 
 /*---------------------------------------------------------------------------*/
 

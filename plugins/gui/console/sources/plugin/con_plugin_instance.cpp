@@ -62,8 +62,7 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
-	if ( getWindowManager() )
-		getWindowManager()->removeView( m_consoleView );
+	getWindowManager()->removeView( m_consoleView );
 	m_consoleView.reset();
 
 } // PluginInstance::close

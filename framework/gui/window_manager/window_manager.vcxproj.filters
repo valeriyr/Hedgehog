@@ -16,6 +16,9 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{689aac5c-b3a5-4419-84c6-6bb4ea3d7826}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Internal Resources">
+      <UniqueIdentifier>{d189347d-2be2-40a4-9601-af326c18802e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\wm_ph.cpp">
@@ -26,6 +29,9 @@
     </ClCompile>
     <ClCompile Include="sources\window_manager\wm_window_manager.cpp">
       <Filter>Window Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\internal_resources\wm_internal_resources.cpp">
+      <Filter>Internal Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="h\wm_view_position.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\internal_resources\wm_internal_resources.hpp">
+      <Filter>Internal Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

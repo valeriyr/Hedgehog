@@ -53,7 +53,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void loadPluginIfNeeded( PluginData& _pluginData );
+	void loadPluginIfNeeded( boost::shared_ptr< PluginData > _pluginData );
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,9 +64,18 @@ private:
 		PluginsCollectionType::const_iterator
 		PluginsCollectionTypeIterator;
 
+	typedef
+		std::vector< boost::shared_ptr< PluginData > >
+		PluginsInLoadingOrderCollectionType;
+	typedef
+		PluginsInLoadingOrderCollectionType::reverse_iterator
+		PluginsInLoadingOrderCollectionTypeIterator;
+
 /*---------------------------------------------------------------------------*/
 
 	PluginsCollectionType m_pluginsCollection;
+
+	PluginsInLoadingOrderCollectionType m_pluginsInLoadingOrderCollection;
 
 	boost::intrusive_ptr< ISystemInformation > m_systemInformation;
 

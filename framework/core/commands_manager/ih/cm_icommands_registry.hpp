@@ -1,47 +1,39 @@
 
-#ifndef __WM_IWINDOW_MANAGER_HPP__
-#define __WM_IWINDOW_MANAGER_HPP__
+#ifndef __CM_ICOMMANDS_REGISTRY_HPP__
+#define __CM_ICOMMANDS_REGISTRY_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
-#include "window_manager/h/wm_view_position.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
-namespace GUI {
-namespace WindowManager {
+namespace Core {
+namespace CommandsManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_WINDOW_MANAGER = 0;
+struct ICommand;
 
 /*---------------------------------------------------------------------------*/
 
-struct IView;
+	const unsigned int IID_COMMANDS_REGISTRY = 0;
 
 /*---------------------------------------------------------------------------*/
 
-struct IWindowManager
+struct ICommandsRegistry
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void addView(
-			boost::intrusive_ptr< IView > _view
-		,	const ViewPosition::Enum _position ) = 0;
+	virtual void registerCommand(
+			const std::string& _commandName
+		,	boost::intrusive_ptr< ICommand > _command ) = 0;
 
-	virtual void removeView( boost::intrusive_ptr< IView > _view ) = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual void addCommandToMenu(
-			const std::string& _menuPath
-		,	const std::string& _commandName ) = 0;
-
-	virtual void removeCommandFromMenu( const std::string& _menuPath ) = 0;
+	virtual boost::intrusive_ptr< ICommand >
+		unregisterCommand( const std::string& _commandName ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,10 +41,10 @@ struct IWindowManager
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace WindowManager
-} // namespace GUI
+} // namespace CommandsManager
+} // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __WM_IWINDOW_MANAGER_HPP__
+#endif // __CM_ICOMMANDS_REGISTRY_HPP__

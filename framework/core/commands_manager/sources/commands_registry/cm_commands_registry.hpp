@@ -1,11 +1,10 @@
 
-#ifndef __CM_PLUGIN_INSTANCE_HPP__
-#define __CM_PLUGIN_INSTANCE_HPP__
+#ifndef __CM_COMMANDS_REGISTRY_HPP__
+#define __CM_COMMANDS_REGISTRY_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
+#include "commands_manager/ih/cm_icommands_registry.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,12 +14,8 @@ namespace CommandsManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct ICommandsRegistry;
-
-/*---------------------------------------------------------------------------*/
-
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+class CommandsRegistry
+	:	public Tools::Core::BaseWrapper< ICommandsRegistry >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -29,19 +24,18 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	CommandsRegistry();
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	virtual ~CommandsRegistry();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize();
+	/*virtual*/ void registerCommand(
+			const std::string& _commandName
+		,	boost::intrusive_ptr< ICommand > _command );
 
-	/*virtual*/ void close();
+	/*virtual*/ boost::intrusive_ptr< ICommand >
+		unregisterCommand( const std::string& _commandName );
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,7 +43,16 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< ICommandsRegistry > m_commandsRegistry;
+	typedef
+		std::hash_map< std::string, boost::intrusive_ptr< ICommand > >
+		CommandsCollectionType;
+	typedef
+		CommandsCollectionType::iterator
+		CommandsCollectionIteratorType;
+
+/*---------------------------------------------------------------------------*/
+
+	CommandsCollectionType m_commandsCollection;
 
 /*---------------------------------------------------------------------------*/
 
@@ -63,4 +66,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CM_PLUGIN_INSTANCE_HPP__
+#endif // __CM_COMMANDS_REGISTRY_HPP__
