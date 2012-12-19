@@ -19,6 +19,9 @@
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{d189347d-2be2-40a4-9601-af326c18802e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Menu Item">
+      <UniqueIdentifier>{959f9f7e-5645-42b5-b746-da9064659211}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\wm_ph.cpp">
@@ -32,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="sources\internal_resources\wm_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\menu_item\wm_menu_item.cpp">
+      <Filter>Menu Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +66,9 @@
   <ItemGroup>
     <CustomBuild Include="sources\window_manager\wm_window_manager.hpp">
       <Filter>Window Manager</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\menu_item\wm_menu_item.hpp">
+      <Filter>Menu Item</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
