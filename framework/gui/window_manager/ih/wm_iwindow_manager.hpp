@@ -37,6 +37,14 @@ struct IWindowManager
 
 /*---------------------------------------------------------------------------*/
 
+	virtual void addCommandToMenu(
+			const std::string& _menuPath
+		,	const std::string& _commandName ) = 0;
+
+	virtual void removeCommandFromMenu( const std::string& _menuPath ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
 };
 
 /*---------------------------------------------------------------------------*/

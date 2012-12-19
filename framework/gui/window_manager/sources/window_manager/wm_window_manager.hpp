@@ -43,6 +43,14 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void addCommandToMenu(
+			const std::string& _menuPath
+		,	const std::string& _commandName );
+
+	/*virtual*/ void removeCommandFromMenu( const std::string& _menuPath );
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
@@ -71,9 +79,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	QTabWidget* m_centralWidget;
-
 	boost::shared_ptr< QMainWindow > m_mainWindow;
+
+	QTabWidget* m_centralWidget;
 
 	DockWidgetByViewCollection m_dockWidgetByViewCollection;
 

@@ -5,6 +5,8 @@
 
 #include "window_manager/ih/wm_iview.hpp"
 
+#include "window_manager/sources/internal_resources/wm_internal_resources.hpp"
+
 #include "wm_window_manager.moc"
 
 /*---------------------------------------------------------------------------*/
@@ -17,8 +19,8 @@ namespace WindowManager {
 
 
 WindowManager::WindowManager( const std::string& _applicationName )
-	:	m_centralWidget( new QTabWidget() )
-	,	m_mainWindow( new QMainWindow() )
+	:	m_mainWindow( new QMainWindow() )
+	,	m_centralWidget( new QTabWidget() )
 	,	m_dockWidgetByViewCollection()
 	,	m_centralViewsCollection()
 {
@@ -109,6 +111,36 @@ WindowManager::removeView( boost::intrusive_ptr< IView > _view )
 	}
 
 } // WindowManager::removeView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+WindowManager::addCommandToMenu( const std::string& _menuPath, const std::string& _commandName )
+{
+	QString menuPath( _menuPath.c_str() );
+	QStringList menus( menuPath.split( Resources::MenuItemsSeparator ) );
+
+	assert( menus.size() > 1 );
+
+	QMenu* currentMenu = m_mainWindow->menuBar()->addMenu( menus[ 0 ] );
+
+	for ( int i = 1; i < menus.size() - 1; ++i )
+		currentMenu = currentMenu->addMenu( menus[ i ] );
+
+	currentMenu->addAction( menus[ menus.size() - 1 ] );
+
+} // WindowManager::addCommandToMenu
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+WindowManager::removeCommandFromMenu( const std::string& _menuPath )
+{
+} // WindowManager::removeCommandFromMenu
 
 
 /*---------------------------------------------------------------------------*/

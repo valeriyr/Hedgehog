@@ -1,10 +1,10 @@
 
-#include "landscape_editor/sources/ph/le_ph.hpp"
+#ifndef __LE_SAVE_LANDSCAPE_COMMAND_HPP__
+#define __LE_SAVE_LANDSCAPE_COMMAND_HPP__
 
-#include "landscape_editor/sources/objects_view/le_objects_view.hpp"
+/*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
-
+#include "commands_manager/ih/cm_icommand.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,56 +14,27 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-
-ObjectsView::ObjectsView()
-	:	m_objectsView( new QTextEdit() )
-	,	m_viewTitle( Resources::Views::ObjectsViewTitle )
+class SaveLandscapeCommand
+	:	public Tools::Core::BaseWrapper< Framework::Core::CommandsManager::ICommand >
 {
-	m_objectsView->setReadOnly( true );
-
-} // ObjectsView::ObjectsView
-
 
 /*---------------------------------------------------------------------------*/
 
-
-ObjectsView::~ObjectsView()
-{
-} // ObjectsView::~ObjectsView
-
+public:
 
 /*---------------------------------------------------------------------------*/
 
+	SaveLandscapeCommand();
 
-const std::string&
-ObjectsView::getViewTitle() const
-{
-	return m_viewTitle;
-
-} // ObjectsView::getViewTitle
-
+	virtual ~SaveLandscapeCommand();
 
 /*---------------------------------------------------------------------------*/
 
-
-QWidget*
-ObjectsView::getViewWidget() const
-{
-	return m_objectsView.get();
-
-} // ObjectsView::getViewWidget
-
+	/*virtual*/ void execute();
 
 /*---------------------------------------------------------------------------*/
 
-
-void
-ObjectsView::viewWasClosed()
-{
-	m_objectsView.reset();
-
-} // ObjectsView::viewWasClosed
-
+};
 
 /*---------------------------------------------------------------------------*/
 
@@ -72,3 +43,5 @@ ObjectsView::viewWasClosed()
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
+
+#endif // __LE_SAVE_LANDSCAPE_COMMAND_HPP__
