@@ -7,6 +7,10 @@
 #include "plugins_manager/h/pm_base_plugin.hpp"
 #include "plugins_manager/h/pm_interface_map.hpp"
 
+#include "console/sources/console_messenger/con_console_messenger.hpp"
+
+#include "messenger/ms_imessenger.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework
@@ -69,6 +73,10 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IView > m_consoleView;
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< Tools::Core::IMessenger > m_consoleMessenger;
 
 /*---------------------------------------------------------------------------*/
 

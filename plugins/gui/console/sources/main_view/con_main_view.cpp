@@ -70,9 +70,20 @@ MainView::viewWasClosed()
 
 void
 MainView::printMessege(
-		const Tools::Core::IMessenger::MessegeLevel::Enum _messgeLevel
+		const Tools::Core::IMessenger::MessegeLevel::Enum _messegeLevel
 	,	const std::string& _messege )
 {
+	switch (_messegeLevel)
+	{
+	case Tools::Core::IMessenger::MessegeLevel::Enum::Error:
+		m_consoleView->setHtml("> <font color=red><b>[ ERROR ]</b> .</font>");
+	case Tools::Core::IMessenger::MessegeLevel::Enum::Warning:
+		m_consoleView->setHtml("> <font color=blue><b>[ WARNING ]</b> .</font>");
+	case Tools::Core::IMessenger::MessegeLevel::Enum::Info:
+		m_consoleView->setHtml("> <b>[ INFO ]</b> .");
+	default:
+		throw("Unrecognized messege level");
+	}
 }
 
 
