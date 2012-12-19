@@ -15,6 +15,8 @@ namespace Resources {
 
 	const char* const ConsoleViewTitle = "Console";
 
+/*---------------------------------------------------------------------------*/
+
 	const char* const ErrorMessageFormat = "&gt;<font color = 'red' >Error: %1%</font>";
 
 	const char* const WarningMessageFormat = "&gt;<font color = 'blue' >Warning: %1%</font>";

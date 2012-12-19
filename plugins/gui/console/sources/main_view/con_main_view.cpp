@@ -90,6 +90,7 @@ MainView::printMessage(
 		break;
 	default:
 		assert( !"Unrecognized messege level" );
+		break;
 	}
 
 	m_consoleView->append( ( boost::format( messageFormat ) % _message ).str().c_str() );
