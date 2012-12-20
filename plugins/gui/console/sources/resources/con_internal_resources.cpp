@@ -15,6 +15,8 @@ namespace Resources {
 
 	const char* const ConsoleViewTitle = "Console";
 
+	const char* const ConsolePlaceHolderText = "You can enter some commands here. To see the list of all commands enter 'not implemented yet'.";
+
 /*---------------------------------------------------------------------------*/
 
 	const char* const ErrorMessageFormat = "&gt; <font color = 'red' >Error: %1</font>";

@@ -3,6 +3,8 @@
 
 #include "console/sources/main_widget/con_main_widget.hpp"
 
+#include "console/sources/resources/con_internal_resources.hpp"
+
 #include "con_main_widget.moc"
 
 
@@ -20,6 +22,8 @@ MainWidget::MainWidget()
 	,	m_commandEditor( new QLineEdit( this ) )
 {
 	m_consoleDataView->setReadOnly( true );
+
+	m_commandEditor->setPlaceholderText( Resources::ConsolePlaceHolderText );
 
 	QVBoxLayout* mainLayout = new QVBoxLayout( this );
 	mainLayout->setContentsMargins( 0, 0, 0, 0 );

@@ -13,6 +13,8 @@ namespace Resources {
 
 	extern const char* const ConsoleViewTitle;
 
+	extern const char* const ConsolePlaceHolderText;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const ErrorMessageFormat;
