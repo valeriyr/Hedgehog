@@ -24,6 +24,8 @@ namespace Console {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
+	INTERFACE( Tools::Core::IID_MESSENGER, m_consoleMessenger.get() )
+
 END_INTERFACE_MAP()
 
 
@@ -56,10 +58,6 @@ PluginInstance::initialize()
 		,	Framework::GUI::WindowManager::ViewPosition::Bottom );
 
 	m_consoleMessenger.reset( new ConsoleMessenger( *m_consoleView ) );
-
-	m_consoleMessenger->printMessage( Tools::Core::IMessenger::MessegeLevel::Error, "Some Error!" );
-	m_consoleMessenger->printMessage( Tools::Core::IMessenger::MessegeLevel::Warning, "Some Warning!" );
-	m_consoleMessenger->printMessage( Tools::Core::IMessenger::MessegeLevel::Info, "Some Info!" );
 
 } // PluginInstance::initialize
 

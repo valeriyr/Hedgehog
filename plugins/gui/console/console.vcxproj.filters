@@ -16,6 +16,9 @@
     <Filter Include="Console Messenger">
       <UniqueIdentifier>{7086098b-7328-4214-b4f6-eacddbda6dc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{7a8474e0-4d9a-4c7f-bcbc-1c7eda22b20c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\con_ph.cpp">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="sources\console_messenger\con_console_messenger.hpp">
       <Filter>Console Messenger</Filter>
+    </ClInclude>
+    <ClInclude Include="h\con_plugin_id.hpp">
+      <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -27,6 +27,8 @@ public:
 		:	m_pluginsManager( NULL )
 	{}
 
+	virtual ~BasePlugin() {}
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void initialize( IPluginsManager* _pluginsManager )

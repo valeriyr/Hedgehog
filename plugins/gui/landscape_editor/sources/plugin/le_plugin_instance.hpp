@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
+#include "tools/fm_base_gui_plugin.hpp"
 #include "plugins_manager/h/pm_interface_map.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -38,7 +38,7 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+	:	public Framework::GUI::BasePlugin
 {
 
 /*---------------------------------------------------------------------------*/
