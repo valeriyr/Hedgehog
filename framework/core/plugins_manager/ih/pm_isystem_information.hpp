@@ -21,13 +21,13 @@ namespace PluginsManager {
 struct ISystemInformation
 	:	public Tools::Core::IBase
 {
-	virtual const std::string& getPluginsDirectory() const = 0;
+	virtual const QString& getPluginsDirectory() const = 0;
 
-	virtual const std::string& getConfigDirectory() const = 0;
+	virtual const QString& getConfigDirectory() const = 0;
 
-	virtual const std::string& getResourcesDirectory() const = 0;
+	virtual const QString& getResourcesDirectory() const = 0;
 
-	virtual const std::string& getApplicationName() const = 0;
+	virtual const QString& getApplicationName() const = 0;
 };
 
 /*---------------------------------------------------------------------------*/

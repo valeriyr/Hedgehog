@@ -30,7 +30,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const std::string& getViewTitle() const;
+	/*virtual*/ const QString& getViewTitle() const;
 
 	/*virtual*/ QWidget* getViewWidget() const;
 
@@ -46,7 +46,7 @@ private:
 
 	boost::shared_ptr< QTextEdit > m_editorView;
 
-	std::string m_viewTitle;
+	QString m_viewTitle;
 
 /*---------------------------------------------------------------------------*/
 

@@ -36,10 +36,10 @@ public:
 			,	const unsigned int _height ) const;
 
 	/*virtual*/ IEditableLandscape::Ptr
-		loadLandscape( const std::string& _filePath ) const;
+		loadLandscape( const QString& _filePath ) const;
 
 	/*virtual*/ void saveLandscape(
-			const std::string& _filePath 
+			const QString& _filePath 
 		,	ILandscape::Ptr _landscape ) const;
 
 /*---------------------------------------------------------------------------*/

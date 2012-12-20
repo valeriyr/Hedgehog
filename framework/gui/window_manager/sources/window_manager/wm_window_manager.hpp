@@ -29,7 +29,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	WindowManager( const std::string& _applicationName );
+	WindowManager( const QString& _applicationName );
 
 	virtual ~WindowManager();
 
@@ -44,10 +44,10 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void addCommandToMenu(
-			const std::string& _menuPath
-		,	const std::string& _commandName );
+			const QString& _menuPath
+		,	const QString& _commandName );
 
-	/*virtual*/ void removeCommandFromMenu( const std::string& _menuPath );
+	/*virtual*/ void removeCommandFromMenu( const QString& _menuPath );
 
 /*---------------------------------------------------------------------------*/
 

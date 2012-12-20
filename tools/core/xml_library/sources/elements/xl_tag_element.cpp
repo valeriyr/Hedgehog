@@ -15,7 +15,7 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-TagElement::TagElement( const std::string& _tagName )
+TagElement::TagElement( const QString& _tagName )
 	:	BaseType( _tagName )
 	,	m_handlesCollectionType()
 	,	m_postHandlesCollectionType()

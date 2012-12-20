@@ -35,7 +35,7 @@ DescriptionView::~DescriptionView()
 /*---------------------------------------------------------------------------*/
 
 
-const std::string&
+const QString&
 DescriptionView::getViewTitle() const
 {
 	return m_viewTitle;

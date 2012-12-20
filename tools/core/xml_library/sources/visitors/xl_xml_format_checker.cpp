@@ -72,7 +72,7 @@ FormatChecker::visit ( const TagElement& _tag )
 	m_xmlSchemaDocument
 		= QString( Resources::Strings::ElementFormat )
 			.arg(
-						_tag.getName().c_str()
+						_tag.getName()
 					,		( _tag.getRepeatMode() == RepeatMode::ZeroAndMore )
 						?	Resources::Strings::ZeroOrMoreRepeatElement
 						:	""
@@ -90,7 +90,7 @@ FormatChecker::visit ( const AttributeElement& _attribute )
 {
 	m_xmlSchemaDocument
 		+= QString( Resources::Strings::AttributeFormat )
-			.arg( _attribute.getName().c_str() );
+			.arg( _attribute.getName() );
 
 } // FormatChecker::visit
 

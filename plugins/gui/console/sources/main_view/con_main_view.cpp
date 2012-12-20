@@ -49,7 +49,7 @@ MainView::~MainView()
 /*---------------------------------------------------------------------------*/
 
 
-const std::string&
+const QString&
 MainView::getViewTitle() const
 {
 	return m_viewTitle;
@@ -91,7 +91,7 @@ MainView::viewWasClosed()
 void
 MainView::printMessage(
 		const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
-	,	const std::string& _message )
+	,	const QString& _message )
 {
 	if ( !m_consoleView )
 		return;
@@ -113,7 +113,7 @@ MainView::printMessage(
 		break;
 	}
 
-	m_consoleView->pushMessage( QString( messageFormat ).arg( _message.c_str() ) );
+	m_consoleView->pushMessage( QString( messageFormat ).arg( _message ) );
 }
 
 
@@ -121,13 +121,13 @@ MainView::printMessage(
 
 
 void
-MainView::printMessage( const std::string& _message )
+MainView::printMessage( const QString& _message )
 {
 	if ( !m_consoleView )
 		return;
 
-	m_consoleView->pushMessage( QString( Resources::MessageWithoutPrefixFormat )
-		.arg( _message.c_str() ) );
+	m_consoleView->pushMessage(
+		QString( Resources::MessageWithoutPrefixFormat ).arg( _message ) );
 }
 
 
@@ -141,18 +141,18 @@ MainView::onCommandWasEntered( const QString& _command )
 		commandsRegistry( m_environment.getCommandsRegistry() );
 
 	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommand >
-		command( commandsRegistry->getCommand( _command.toLocal8Bit().data() ) );
+		command( commandsRegistry->getCommand( _command ) );
 
 	if ( command )
 	{
-		printMessage( _command.toLocal8Bit().data() );
+		printMessage( _command );
 		command->execute();
 	}
 	else
 	{
 		printMessage(
 				Tools::Core::IMessenger::MessegeLevel::Error
-			,	QString( Resources::SyntaxErrorMessageFormat ).arg( _command ).toLocal8Bit().data() );
+			,	QString( Resources::SyntaxErrorMessageFormat ).arg( _command ) );
 	}
 
 } // MainView::onCommandWasEntered

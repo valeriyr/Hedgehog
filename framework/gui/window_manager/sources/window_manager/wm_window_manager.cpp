@@ -18,7 +18,7 @@ namespace WindowManager {
 /*---------------------------------------------------------------------------*/
 
 
-WindowManager::WindowManager( const std::string& _applicationName )
+WindowManager::WindowManager( const QString& _applicationName )
 	:	m_mainWindow( new QMainWindow() )
 	,	m_centralWidget( new QTabWidget() )
 	,	m_dockWidgetByViewCollection()
@@ -26,7 +26,7 @@ WindowManager::WindowManager( const std::string& _applicationName )
 {
 	// m_centralWidget->setTabsClosable( true );
 
-	m_mainWindow->setWindowTitle( _applicationName.c_str() );
+	m_mainWindow->setWindowTitle( _applicationName );
 	m_mainWindow->setCentralWidget( m_centralWidget );
 	m_mainWindow->showMaximized();
 
@@ -60,7 +60,7 @@ WindowManager::addView(
 
 	if ( _position == ViewPosition::Center )
 	{
-		m_centralWidget->addTab( _view->getViewWidget(), _view->getViewTitle().c_str() );
+		m_centralWidget->addTab( _view->getViewWidget(), _view->getViewTitle() );
 		m_centralViewsCollection.insert( _view );
 	}
 	else
@@ -69,7 +69,7 @@ WindowManager::addView(
 
 		QDockWidget* docWidget( new QDockWidget() );
 
-		docWidget->setWindowTitle( _view->getViewTitle().c_str() );
+		docWidget->setWindowTitle( _view->getViewTitle() );
 		docWidget->setWidget( _view->getViewWidget() );
 
 		m_mainWindow->addDockWidget( viewPossition, docWidget );
@@ -117,9 +117,9 @@ WindowManager::removeView( boost::intrusive_ptr< IView > _view )
 
 
 void
-WindowManager::addCommandToMenu( const std::string& _menuPath, const std::string& _commandName )
+WindowManager::addCommandToMenu( const QString& _menuPath, const QString& _commandName )
 {
-	QString menuPath( _menuPath.c_str() );
+	QString menuPath( _menuPath );
 	QStringList menus( menuPath.split( Resources::MenuItemsSeparator ) );
 
 	assert( menus.size() > 1 );
@@ -138,7 +138,7 @@ WindowManager::addCommandToMenu( const std::string& _menuPath, const std::string
 
 
 void
-WindowManager::removeCommandFromMenu( const std::string& _menuPath )
+WindowManager::removeCommandFromMenu( const QString& _menuPath )
 {
 } // WindowManager::removeCommandFromMenu
 

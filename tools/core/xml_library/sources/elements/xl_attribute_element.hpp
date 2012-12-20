@@ -28,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	AttributeElement( const std::string& _attributeName, AttributeType::Enum _attributeType );
+	AttributeElement( const QString& _attributeName, AttributeType::Enum _attributeType );
 
 /*---------------------------------------------------------------------------*/
 

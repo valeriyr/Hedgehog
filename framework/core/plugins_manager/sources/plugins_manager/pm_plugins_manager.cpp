@@ -41,7 +41,7 @@ PluginsManager::~PluginsManager()
 
 
 boost::intrusive_ptr< Tools::Core::IBase >
-PluginsManager::getPluginInterface( const std::string& _pluginName, const unsigned int _interfaceId )
+PluginsManager::getPluginInterface( const QString& _pluginName, const unsigned int _interfaceId )
 {
 	if ( _pluginName == PID_PLUGINS_MANAGER )
 	{
@@ -77,7 +77,7 @@ PluginsManager::getPluginInterface( const std::string& _pluginName, const unsign
 
 
 bool
-PluginsManager::isPluginLoaded( const std::string& _pluginName ) const
+PluginsManager::isPluginLoaded( const QString& _pluginName ) const
 {
 	if ( _pluginName == PID_PLUGINS_MANAGER )
 		return true;
@@ -156,14 +156,14 @@ PluginsManager::loadPluginIfNeeded( boost::shared_ptr< PluginData > _pluginData 
 	{
 		_pluginData->m_pluginState = PluginData::State::Loading;
 
-		std::string pluginPath(
+		QString pluginPath(
 				m_systemInformation->getPluginsDirectory()
 			+	"/"
 			+	_pluginData->m_pluginName
 			+	Resources::PluginFileExtension );
 
 		PluginFactoryPtr pluginFactory
-			= ( PluginFactoryPtr ) QLibrary::resolve( pluginPath.c_str(), PluginFactoryName );
+			= ( PluginFactoryPtr ) QLibrary::resolve( pluginPath, PluginFactoryName );
 		assert( pluginFactory );
 
 		_pluginData->m_pluginPointer.reset( pluginFactory() );

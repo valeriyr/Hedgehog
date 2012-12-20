@@ -36,7 +36,7 @@ CommandsRegistry::~CommandsRegistry()
 
 void
 CommandsRegistry::registerCommand(
-		const std::string& _commandName
+		const QString& _commandName
 	,	boost::intrusive_ptr< ICommand > _command )
 {
 	assert( m_commandsCollection.find( _commandName ) == m_commandsCollection.end() );
@@ -49,7 +49,7 @@ CommandsRegistry::registerCommand(
 
 
 boost::intrusive_ptr< ICommand >
-CommandsRegistry::unregisterCommand( const std::string& _commandName )
+CommandsRegistry::unregisterCommand( const QString& _commandName )
 {
 	CommandsCollectionIteratorType iterator = m_commandsCollection.find( _commandName );
 
@@ -68,7 +68,7 @@ CommandsRegistry::unregisterCommand( const std::string& _commandName )
 
 
 boost::intrusive_ptr< ICommand >
-CommandsRegistry::getCommand( const std::string& _commandName )
+CommandsRegistry::getCommand( const QString& _commandName )
 {
 	CommandsCollectionIteratorType iterator = m_commandsCollection.find( _commandName );
 

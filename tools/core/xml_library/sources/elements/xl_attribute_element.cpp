@@ -15,7 +15,7 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-AttributeElement::AttributeElement( const std::string& _attributeName, AttributeType::Enum _attributeType )
+AttributeElement::AttributeElement( const QString& _attributeName, AttributeType::Enum _attributeType )
 	:	BaseType( _attributeName )
 	,	m_attributeType( _attributeType ) 
 {

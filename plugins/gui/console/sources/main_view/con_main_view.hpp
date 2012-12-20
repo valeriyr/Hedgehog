@@ -42,7 +42,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const std::string& getViewTitle() const;
+	/*virtual*/ const QString& getViewTitle() const;
 
 	/*virtual*/ QWidget* getViewWidget() const;
 
@@ -54,9 +54,9 @@ public:
 
 	void printMessage(
 			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
-		,	const std::string& _message );
+		,	const QString& _message );
 
-	void printMessage( const std::string& _message );
+	void printMessage( const QString& _message );
 
 /*---------------------------------------------------------------------------*/
 
@@ -76,7 +76,7 @@ private:
 
 	boost::shared_ptr< MainWidget > m_consoleView;
 
-	std::string m_viewTitle;
+	QString m_viewTitle;
 
 /*---------------------------------------------------------------------------*/
 

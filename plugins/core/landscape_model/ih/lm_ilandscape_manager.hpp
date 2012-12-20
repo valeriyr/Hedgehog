@@ -30,7 +30,7 @@ struct ILandscapeEditor
 
 	virtual ILandscape& getCurrentLandscape() const = 0;
 
-	virtual void initCurrentLandscape ( const std::string& _filePath ) const = 0
+	virtual void initCurrentLandscape ( const QString& _filePath ) const = 0
 
 	virtual void closeCurrentLandscape() const = 0;
 

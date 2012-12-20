@@ -36,9 +36,9 @@ public:
 
 	/*virtual*/ void printMessage(
 			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
-		,	const std::string& _message );
+		,	const QString& _message );
 
-	/*virtual*/ void printMessage( const std::string& _message );
+	/*virtual*/ void printMessage( const QString& _message );
 
 /*---------------------------------------------------------------------------*/
 

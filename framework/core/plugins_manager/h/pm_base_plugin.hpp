@@ -50,7 +50,7 @@ protected:
 	template< typename _TInterfaceType >
 	boost::intrusive_ptr< _TInterfaceType >
 	getPluginInterface(
-			const std::string& _pluginName
+			const QString& _pluginName
 		,	const unsigned int _interfaceId ) const
 	{
 		return

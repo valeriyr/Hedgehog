@@ -15,7 +15,7 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-Attribute::Attribute( const std::string& _name, AttributeType::Enum _type )
+Attribute::Attribute( const QString& _name, AttributeType::Enum _type )
 	:	BaseAttribute( boost::shared_ptr< IElement >( new AttributeElement( _name, _type ) ) )
 {
 } // Attribute::Attribute

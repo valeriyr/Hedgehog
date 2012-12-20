@@ -38,10 +38,10 @@ struct IWindowManager
 /*---------------------------------------------------------------------------*/
 
 	virtual void addCommandToMenu(
-			const std::string& _menuPath
-		,	const std::string& _commandName ) = 0;
+			const QString& _menuPath
+		,	const QString& _commandName ) = 0;
 
-	virtual void removeCommandFromMenu( const std::string& _menuPath ) = 0;
+	virtual void removeCommandFromMenu( const QString& _menuPath ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

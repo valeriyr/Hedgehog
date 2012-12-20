@@ -37,7 +37,7 @@ MainGuiApplication::exec()
 	Framework::Core::PluginsManager::ILoader::Ptr
 		pluginsManagerLoader = Framework::Core::PluginsManager::createLoader();
 
-	std::string applicationDirectory( m_qtApplicaiton.applicationDirPath().toLocal8Bit().data() );
+	QString applicationDirectory( m_qtApplicaiton.applicationDirPath() );
 
 	Framework::Core::PluginsManager::SystemData systemData(
 			applicationDirectory + "/" + Resources::PluginsDirectoryName

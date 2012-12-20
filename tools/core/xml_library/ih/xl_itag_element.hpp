@@ -18,7 +18,7 @@ namespace XmlLibrary {
 struct ITagElement
 	:	public IElement
 {
-	virtual const std::string& getName() const = 0;
+	virtual const QString& getName() const = 0;
 
 	virtual boost::shared_ptr< IElement > getChildrenRule() const = 0;
 

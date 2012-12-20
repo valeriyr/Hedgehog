@@ -30,10 +30,10 @@ struct ILandscapeEditor
 			const unsigned int _width
 		,	const unsigned int _height ) const = 0;
 
-	virtual IEditableLandscape::Ptr loadLandscape( const std::string& _filePath ) const = 0;
+	virtual IEditableLandscape::Ptr loadLandscape( const QString& _filePath ) const = 0;
 
 	virtual void saveLandscape(
-			const std::string& _filePath 
+			const QString& _filePath 
 		,	ILandscape::Ptr _landscape ) const = 0;
 
 /*---------------------------------------------------------------------------*/

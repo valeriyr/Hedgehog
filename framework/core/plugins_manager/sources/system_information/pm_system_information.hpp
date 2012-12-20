@@ -31,13 +31,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const std::string& getPluginsDirectory() const;
+	/*virtual*/ const QString& getPluginsDirectory() const;
 
-	/*virtual*/ const std::string& getConfigDirectory() const;
+	/*virtual*/ const QString& getConfigDirectory() const;
 
-	/*virtual*/ const std::string& getResourcesDirectory() const;
+	/*virtual*/ const QString& getResourcesDirectory() const;
 
-	/*virtual*/ const std::string& getApplicationName() const;
+	/*virtual*/ const QString& getApplicationName() const;
 
 /*---------------------------------------------------------------------------*/
 

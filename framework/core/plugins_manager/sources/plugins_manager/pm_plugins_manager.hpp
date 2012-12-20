@@ -35,9 +35,9 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< IBase >
-		getPluginInterface( const std::string& _pluginName, const unsigned int _interfaceId );
+		getPluginInterface( const QString& _pluginName, const unsigned int _interfaceId );
 
-	/*virtual*/ bool isPluginLoaded( const std::string& _pluginName ) const;
+	/*virtual*/ bool isPluginLoaded( const QString& _pluginName ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,7 +58,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::hash_map< std::string, boost::shared_ptr< PluginData > >
+		std::map< QString, boost::shared_ptr< PluginData > >
 		PluginsCollectionType;
 	typedef
 		PluginsCollectionType::const_iterator

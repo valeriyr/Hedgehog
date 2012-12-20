@@ -6,8 +6,6 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
-#include <string>
-
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -20,9 +18,9 @@ struct IPluginsManager
 	:	public Tools::Core::IBase
 {
 	virtual boost::intrusive_ptr< Tools::Core::IBase >
-		getPluginInterface( const std::string& _pluginName, const unsigned int _interfaceId ) = 0;
+		getPluginInterface( const QString& _pluginName, const unsigned int _interfaceId ) = 0;
 
-	virtual bool isPluginLoaded( const std::string& _pluginName ) const = 0;
+	virtual bool isPluginLoaded( const QString& _pluginName ) const = 0;
 };
 
 /*---------------------------------------------------------------------------*/

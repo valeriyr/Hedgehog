@@ -30,7 +30,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Tag( const std::string& _name );
+	Tag( const QString& _name );
 
 	virtual ~Tag();
 

@@ -35,7 +35,7 @@ ObjectsView::~ObjectsView()
 /*---------------------------------------------------------------------------*/
 
 
-const std::string&
+const QString&
 ObjectsView::getViewTitle() const
 {
 	return m_viewTitle;

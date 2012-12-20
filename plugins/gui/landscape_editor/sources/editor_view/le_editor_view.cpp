@@ -35,7 +35,7 @@ EditorView::~EditorView()
 /*---------------------------------------------------------------------------*/
 
 
-const std::string&
+const QString&
 EditorView::getViewTitle() const
 {
 	return m_viewTitle;

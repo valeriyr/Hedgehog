@@ -80,18 +80,18 @@ class UIntAttributeExtructor
 
 public:
 
-	UIntAttributeExtructor( const std::string& _attributeName )
+	UIntAttributeExtructor( const QString& _attributeName )
 		:	m_attributeName( _attributeName )
 	{}
 
 	unsigned int operator () ( const QDomElement& _element )
 	{
-		return _element.attribute( m_attributeName.c_str() ).toUInt();
+		return _element.attribute( m_attributeName ).toUInt();
 	}
 
 private:
 
-	const std::string m_attributeName;
+	const QString m_attributeName;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -101,18 +101,18 @@ class BoolAttributeExtructor
 
 public:
 
-	BoolAttributeExtructor( const std::string& _attributeName )
+	BoolAttributeExtructor( const QString& _attributeName )
 		:	m_attributeName( _attributeName )
 	{}
 
 	bool operator () ( const QDomElement& _element )
 	{
-		return _element.attribute( m_attributeName.c_str() ).toUInt();
+		return _element.attribute( m_attributeName ).toUInt();
 	}
 
 private:
 
-	const std::string m_attributeName;
+	const QString m_attributeName;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -122,18 +122,18 @@ class StringAttributeExtructor
 
 public:
 
-	StringAttributeExtructor( const std::string& _attributeName )
+	StringAttributeExtructor( const QString& _attributeName )
 		:	m_attributeName( _attributeName )
 	{}
 
-	std::string operator () ( const QDomElement& _element )
+	QString operator () ( const QDomElement& _element )
 	{
-		return _element.attribute( m_attributeName.c_str() ).toLocal8Bit().data();
+		return _element.attribute( m_attributeName );
 	}
 
 private:
 
-	const std::string m_attributeName;
+	const QString m_attributeName;
 };
 
 /*---------------------------------------------------------------------------*/

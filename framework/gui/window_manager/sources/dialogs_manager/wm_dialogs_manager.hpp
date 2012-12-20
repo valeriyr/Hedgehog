@@ -30,11 +30,11 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ std::string getExistingDirectory();
+	/*virtual*/ QString getExistingDirectory();
 
-	/*virtual*/ std::string getOpenFileName( const std::string& _filter );
+	/*virtual*/ QString getOpenFileName( const QString& _filter );
 
-	/*virtual*/ std::string getSaveFileName( const std::string& _filter );
+	/*virtual*/ QString getSaveFileName( const QString& _filter );
 
 /*---------------------------------------------------------------------------*/
 

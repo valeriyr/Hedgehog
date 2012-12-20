@@ -17,7 +17,7 @@ namespace XmlLibrary {
 
 
 template < typename _TBaseInterface >
-BaseElement< _TBaseInterface >::BaseElement( const std::string& _name )
+BaseElement< _TBaseInterface >::BaseElement( const QString& _name )
 	:	m_name( _name )
 {
 } // BaseElement< _TBaseInterface >::BaseElement
@@ -27,7 +27,7 @@ BaseElement< _TBaseInterface >::BaseElement( const std::string& _name )
 
 
 template < typename _TBaseInterface >
-const std::string&
+const QString&
 BaseElement< _TBaseInterface >::getName() const
 {
 	return m_name;

@@ -31,14 +31,14 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void registerCommand(
-			const std::string& _commandName
+			const QString& _commandName
 		,	boost::intrusive_ptr< ICommand > _command );
 
 	/*virtual*/ boost::intrusive_ptr< ICommand >
-		unregisterCommand( const std::string& _commandName );
+		unregisterCommand( const QString& _commandName );
 
 	/*virtual*/ boost::intrusive_ptr< ICommand >
-		getCommand( const std::string& _commandName );
+		getCommand( const QString& _commandName );
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,7 +47,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::hash_map< std::string, boost::intrusive_ptr< ICommand > >
+		std::map< QString, boost::intrusive_ptr< ICommand > >
 		CommandsCollectionType;
 	typedef
 		CommandsCollectionType::iterator

@@ -1,5 +1,6 @@
 
-#include <string>
-#include <hash_map>
+#include <map>
+
+#include <QtCore/QString>
 
 #include <boost/intrusive_ptr.hpp>

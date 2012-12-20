@@ -28,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Attribute( const std::string& _name, AttributeType::Enum _type );
+	Attribute( const QString& _name, AttributeType::Enum _type );
 
 	virtual ~Attribute();
 

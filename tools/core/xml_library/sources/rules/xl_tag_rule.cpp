@@ -17,7 +17,7 @@ namespace XmlLibrary {
 /*---------------------------------------------------------------------------*/
 
 
-Tag::Tag( const std::string& _name )
+Tag::Tag( const QString& _name )
 	:	m_tagElement( new TagElement( _name ) )
 {
 } // Tag::Tag

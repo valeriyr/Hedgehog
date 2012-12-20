@@ -24,11 +24,11 @@ struct IDialogsManager
 
 /*---------------------------------------------------------------------------*/
 
-	virtual std::string getExistingDirectory() = 0;
+	virtual QString getExistingDirectory() = 0;
 
-	virtual std::string getOpenFileName( const std::string& _filter ) = 0;
+	virtual QString getOpenFileName( const QString& _filter ) = 0;
 
-	virtual std::string getSaveFileName( const std::string& _filter ) = 0;
+	virtual QString getSaveFileName( const QString& _filter ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

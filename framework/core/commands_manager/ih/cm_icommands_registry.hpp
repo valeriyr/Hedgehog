@@ -29,14 +29,14 @@ struct ICommandsRegistry
 /*---------------------------------------------------------------------------*/
 
 	virtual void registerCommand(
-			const std::string& _commandName
+			const QString& _commandName
 		,	boost::intrusive_ptr< ICommand > _command ) = 0;
 
 	virtual boost::intrusive_ptr< ICommand >
-		unregisterCommand( const std::string& _commandName ) = 0;
+		unregisterCommand( const QString& _commandName ) = 0;
 
 	virtual boost::intrusive_ptr< ICommand >
-		getCommand( const std::string& _commandName ) = 0;
+		getCommand( const QString& _commandName ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

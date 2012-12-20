@@ -30,7 +30,7 @@ SystemInformation::~SystemInformation()
 /*---------------------------------------------------------------------------*/
 
 
-const std::string&
+const QString&
 SystemInformation::getPluginsDirectory() const
 {
 	return m_systemData.m_pluginsDirectory;
@@ -41,7 +41,7 @@ SystemInformation::getPluginsDirectory() const
 /*---------------------------------------------------------------------------*/
 
 
-const std::string&
+const QString&
 SystemInformation::getConfigDirectory() const
 {
 	return m_systemData.m_configDirectory;
@@ -52,7 +52,7 @@ SystemInformation::getConfigDirectory() const
 /*---------------------------------------------------------------------------*/
 
 
-const std::string&
+const QString&
 SystemInformation::getResourcesDirectory() const
 {
 	return m_systemData.m_resourcesDirectory;
@@ -63,7 +63,7 @@ SystemInformation::getResourcesDirectory() const
 /*---------------------------------------------------------------------------*/
 
 
-const std::string&
+const QString&
 SystemInformation::getApplicationName() const
 {
 	return m_systemData.m_applicationName;

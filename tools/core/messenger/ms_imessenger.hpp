@@ -37,9 +37,9 @@ struct IMessenger
 
 	virtual void printMessage(
 			const MessegeLevel::Enum _messageLevel
-		,	const std::string& _message ) = 0;
+		,	const QString& _message ) = 0;
 
-	virtual void printMessage( const std::string& _message ) = 0;
+	virtual void printMessage( const QString& _message ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

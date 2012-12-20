@@ -1,7 +1,7 @@
 
 #include <assert.h>
-#include <hash_map>
-#include <string>
+#include <map>
+#include <vector>
 
 #include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>

@@ -13,10 +13,10 @@ namespace PluginsManager {
 struct SystemData
 {
 	SystemData(
-			const std::string& _pluginsDirectory
-		,	const std::string& _resourcesDirectory
-		,	const std::string& _configDirectory
-		,	const std::string& _applicationName
+			const QString& _pluginsDirectory
+		,	const QString& _resourcesDirectory
+		,	const QString& _configDirectory
+		,	const QString& _applicationName
 		)
 		:	m_pluginsDirectory( _pluginsDirectory )
 		,	m_resourcesDirectory( _resourcesDirectory )
@@ -39,13 +39,13 @@ struct SystemData
 		return *this;
 	}
 
-	std::string m_pluginsDirectory;
+	QString m_pluginsDirectory;
 
-	std::string m_resourcesDirectory;
+	QString m_resourcesDirectory;
 
-	std::string m_configDirectory;
+	QString m_configDirectory;
 
-	std::string m_applicationName;
+	QString m_applicationName;
 };
 
 

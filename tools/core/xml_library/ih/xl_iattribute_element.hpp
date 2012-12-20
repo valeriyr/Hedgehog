@@ -20,7 +20,7 @@ namespace XmlLibrary {
 struct IAttributeElement
 	:	public IElement
 {
-	virtual const std::string& getName() const = 0;
+	virtual const QString& getName() const = 0;
 
 	virtual const AttributeType::Enum getType() const = 0;
 };

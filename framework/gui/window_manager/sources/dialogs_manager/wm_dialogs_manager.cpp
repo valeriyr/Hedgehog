@@ -31,7 +31,7 @@ DialogsManager::~DialogsManager()
 /*---------------------------------------------------------------------------*/
 
 
-std::string
+QString
 DialogsManager::getExistingDirectory()
 {
 	 m_lastOpenedDirectory = QFileDialog::getExistingDirectory(
@@ -39,7 +39,7 @@ DialogsManager::getExistingDirectory()
 		,	"Open Directory"
 		,	m_lastOpenedDirectory );
 
-	 return m_lastOpenedDirectory.toLocal8Bit().data();
+	 return m_lastOpenedDirectory;
 
 } // DialogsManager::getExistingDirectory
 
@@ -47,18 +47,18 @@ DialogsManager::getExistingDirectory()
 /*---------------------------------------------------------------------------*/
 
 
-std::string
-DialogsManager::getOpenFileName( const std::string& _filter )
+QString
+DialogsManager::getOpenFileName( const QString& _filter )
 {
 	QString result = QFileDialog::getOpenFileName(
 			&m_mainWindow
 		,	"Open File"
-		,	_filter.c_str()
+		,	_filter
 		,	m_lastOpenedDirectory );
 
 	setLastOpenedDirectory( result );
 
-	return result.toLocal8Bit().data();
+	return result;
 
 } // DialogsManager::getOpenFileName
 
@@ -66,18 +66,18 @@ DialogsManager::getOpenFileName( const std::string& _filter )
 /*---------------------------------------------------------------------------*/
 
 
-std::string
-DialogsManager::getSaveFileName( const std::string& _filter )
+QString
+DialogsManager::getSaveFileName( const QString& _filter )
 {
 	QString result = QFileDialog::getSaveFileName(
 			&m_mainWindow
 		,	"Save File"
-		,	_filter.c_str()
+		,	_filter
 		,	m_lastOpenedDirectory );
 
 	setLastOpenedDirectory( result );
 
-	return result.toLocal8Bit().data();
+	return result;
 
 } // DialogsManager::getSaveFileName
 

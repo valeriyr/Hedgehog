@@ -45,7 +45,7 @@ LandscapeEditor::createLandscape(
 
 
 IEditableLandscape::Ptr
-LandscapeEditor::loadLandscape( const std::string& _filePath ) const
+LandscapeEditor::loadLandscape( const QString& _filePath ) const
 {
 	return IEditableLandscape::Ptr();
 
@@ -57,7 +57,7 @@ LandscapeEditor::loadLandscape( const std::string& _filePath ) const
 
 void
 LandscapeEditor::saveLandscape(
-		const std::string& _filePath 
+		const QString& _filePath 
 	,	ILandscape::Ptr _landscape ) const
 {
 } // LandscapeEditor::saveLandscape

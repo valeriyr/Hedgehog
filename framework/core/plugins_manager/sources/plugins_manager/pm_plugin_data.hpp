@@ -33,7 +33,7 @@ struct PluginData
 
 /*---------------------------------------------------------------------------*/
 
-	PluginData( const std::string& _pluginName )
+	PluginData( const QString& _pluginName )
 		:	m_pluginName( _pluginName )
 		,	m_pluginState( State::NotLoaded )
 		,	m_pluginPointer()
@@ -41,7 +41,7 @@ struct PluginData
 
 /*---------------------------------------------------------------------------*/
 
-	const std::string m_pluginName;
+	const QString m_pluginName;
 
 	State::Enum m_pluginState;
 
