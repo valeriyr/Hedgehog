@@ -6,6 +6,7 @@
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
 #include "window_manager/ih/wm_iwindow_manager.hpp"
+#include "window_manager/ih/wm_idialogs_manager.hpp"
 #include "window_manager/h/wm_plugin_id.hpp"
 
 #include "commands_manager/ih/cm_icommands_registry.hpp"
@@ -146,6 +147,20 @@ PluginInstance::getWindowManager() const
 			,	Framework::GUI::WindowManager::IID_WINDOW_MANAGER );
 
 } // PluginInstance::getWindowManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::GUI::WindowManager::IDialogsManager >
+PluginInstance::getDialogsManager() const
+{
+	return
+		getPluginInterface< Framework::GUI::WindowManager::IDialogsManager >(
+				Framework::GUI::WindowManager::PID_WINDOW_MANAGER
+			,	Framework::GUI::WindowManager::IID_DIALOGS_MANAGER );
+
+} // PluginInstance::getDialogsManager
 
 
 /*---------------------------------------------------------------------------*/

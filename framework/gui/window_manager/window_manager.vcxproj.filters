@@ -22,6 +22,9 @@
     <Filter Include="Menu Item">
       <UniqueIdentifier>{959f9f7e-5645-42b5-b746-da9064659211}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dialogs Manager">
+      <UniqueIdentifier>{775960c8-ef1f-4bc9-9397-b3dac6dc85da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\wm_ph.cpp">
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="sources\menu_item\wm_menu_item.cpp">
       <Filter>Menu Item</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\dialogs_manager\wm_dialogs_manager.cpp">
+      <Filter>Dialogs Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="sources\internal_resources\wm_internal_resources.hpp">
       <Filter>Internal Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\wm_idialogs_manager.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\dialogs_manager\wm_dialogs_manager.hpp">
+      <Filter>Dialogs Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

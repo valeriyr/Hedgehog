@@ -187,6 +187,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="sources\dialogs_manager\wm_dialogs_manager.cpp" />
     <ClCompile Include="sources\internal_resources\wm_internal_resources.cpp" />
     <ClCompile Include="sources\menu_item\wm_menu_item.cpp" />
     <ClCompile Include="sources\ph\wm_ph.cpp">
@@ -205,8 +206,10 @@
   <ItemGroup>
     <ClInclude Include="h\wm_plugin_id.hpp" />
     <ClInclude Include="h\wm_view_position.hpp" />
+    <ClInclude Include="ih\wm_idialogs_manager.hpp" />
     <ClInclude Include="ih\wm_iview.hpp" />
     <ClInclude Include="ih\wm_iwindow_manager.hpp" />
+    <ClInclude Include="sources\dialogs_manager\wm_dialogs_manager.hpp" />
     <ClInclude Include="sources\internal_resources\wm_internal_resources.hpp" />
     <CustomBuild Include="sources\menu_item\wm_menu_item.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>

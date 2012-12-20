@@ -9,6 +9,7 @@
 #include "plugins_manager/ih/pm_isystem_information.hpp"
 
 #include "window_manager/sources/window_manager/wm_window_manager.hpp"
+#include "window_manager/sources/dialogs_manager/wm_dialogs_manager.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -23,6 +24,7 @@ namespace WindowManager {
 BEGIN_INTERFACE_MAP( PluginInstance )
 
 	INTERFACE( IID_WINDOW_MANAGER, m_windowManager.get() )
+	INTERFACE( IID_DIALOGS_MANAGER, m_dialogsManager.get() )
 
 END_INTERFACE_MAP()
 
@@ -50,6 +52,7 @@ void
 PluginInstance::initialize()
 {
 	m_windowManager.reset( new WindowManager( getSystemInformation()->getApplicationName() ) );
+	m_dialogsManager.reset( new DialogsManager( m_windowManager->getMainWindow() ) );
 
 } // PluginInstance::initialize
 
@@ -60,6 +63,7 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	m_dialogsManager.reset();
 	m_windowManager.reset();
 
 } // PluginInstance::close

@@ -1,24 +1,10 @@
 
-#ifndef __WM_PLUGIN_INSTANCE_HPP__
-#define __WM_PLUGIN_INSTANCE_HPP__
+#ifndef __WM_DIALOGS_MANAGER_HPP__
+#define __WM_DIALOGS_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
-
-/*---------------------------------------------------------------------------*/
-
-namespace Framework
-{
-	namespace Core
-	{
-		namespace PluginsManager
-		{
-			struct ISystemInformation;
-		}
-	}
-}
+#include "window_manager/ih/wm_idialogs_manager.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,13 +14,8 @@ namespace WindowManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct IDialogsManager;
-class WindowManager;
-
-/*---------------------------------------------------------------------------*/
-
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+class DialogsManager
+	:	public Tools::Core::BaseWrapper< IDialogsManager >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -43,28 +24,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	DialogsManager( QWidget& _mainWindow );
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	virtual ~DialogsManager();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize();
+	/*virtual*/ std::string getExistingDirectory();
 
-	/*virtual*/ void close();
+	/*virtual*/ std::string getOpenFileName( const std::string& _filter );
 
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	boost::intrusive_ptr< Core::PluginsManager::ISystemInformation >
-		getSystemInformation() const;
+	/*virtual*/ std::string getSaveFileName( const std::string& _filter );
 
 /*---------------------------------------------------------------------------*/
 
@@ -72,9 +42,17 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< WindowManager > m_windowManager;
+	void setLastOpenedDirectory( const QString& _filePath );
 
-	boost::intrusive_ptr< IDialogsManager > m_dialogsManager;
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	QWidget& m_mainWindow;
+
+	QString m_lastOpenedDirectory;
 
 /*---------------------------------------------------------------------------*/
 
@@ -88,4 +66,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __WM_PLUGIN_INSTANCE_HPP__
+#endif // __WM_IWINDOW_MANAGER_HPP__

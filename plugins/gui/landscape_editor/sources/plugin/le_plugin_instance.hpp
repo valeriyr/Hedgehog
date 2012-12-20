@@ -17,6 +17,7 @@ namespace Framework
 		{
 			 struct IView;
 			 struct IWindowManager;
+			 struct IDialogsManager;
 		}
 	}
 
@@ -69,6 +70,9 @@ private:
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		getWindowManager() const;
+
+	boost::intrusive_ptr< Framework::GUI::WindowManager::IDialogsManager >
+		getDialogsManager() const;
 
 	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
 		getCommandsManager() const;

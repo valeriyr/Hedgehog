@@ -146,6 +146,17 @@ WindowManager::removeCommandFromMenu( const std::string& _menuPath )
 /*---------------------------------------------------------------------------*/
 
 
+QWidget&
+WindowManager::getMainWindow() const
+{
+	return *m_mainWindow;
+
+} // WindowManager::getMainWindow
+
+
+/*---------------------------------------------------------------------------*/
+
+
 Qt::DockWidgetArea
 WindowManager::getQtViewPossition( const ViewPosition::Enum _viewPossition )
 {
