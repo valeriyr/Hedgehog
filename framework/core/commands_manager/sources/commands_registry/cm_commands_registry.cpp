@@ -66,6 +66,22 @@ CommandsRegistry::unregisterCommand( const std::string& _commandName )
 
 /*---------------------------------------------------------------------------*/
 
+
+boost::intrusive_ptr< ICommand >
+CommandsRegistry::getCommand( const std::string& _commandName )
+{
+	CommandsCollectionIteratorType iterator = m_commandsCollection.find( _commandName );
+
+	if ( iterator != m_commandsCollection.end() )
+		return iterator->second;
+
+	return boost::intrusive_ptr< ICommand >();
+
+} // CommandsRegistry::getCommand
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace CommandsManager
 } // namespace Core
 } // namespace Framework

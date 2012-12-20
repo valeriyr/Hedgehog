@@ -32,6 +32,8 @@ NewLandscapeCommand::~NewLandscapeCommand()
 void
 NewLandscapeCommand::execute()
 {
+	int i = 0;
+
 } // NewLandscapeCommand::execute
 
 

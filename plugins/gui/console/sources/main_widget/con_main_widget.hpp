@@ -1,11 +1,7 @@
 
-#ifndef __CON_MAIN_VIEW_HPP__
-#define __CON_MAIN_VIEW_HPP__
+#ifndef __CON_MAIN_WIDGET_HPP__
+#define __CON_MAIN_WIDGET_HPP__
 
-/*---------------------------------------------------------------------------*/
-
-#include "window_manager/ih/wm_iview.hpp"
-#include "messenger/ms_imessenger.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,15 +11,8 @@ namespace Console {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEnvironment;
-
-class MainWidget;
-
-/*---------------------------------------------------------------------------*/
-
-class MainView
-	:	public QObject
-	,	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
+class MainWidget
+	:	public QWidget
 {
 
 /*---------------------------------------------------------------------------*/
@@ -36,25 +25,21 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	MainView( const IEnvironment& _environment );
+	MainWidget();
 
-	virtual ~MainView();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ const std::string& getViewTitle() const;
-
-	/*virtual*/ QWidget* getViewWidget() const;
+	virtual ~MainWidget();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void viewWasClosed();
+	void pushMessage( const QString& _message );
 
 /*---------------------------------------------------------------------------*/
 
-	void printMessage(
-			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
-		,	const std::string& _message );
+signals:
+
+/*---------------------------------------------------------------------------*/
+
+	void commandWasEntered( const QString& _command );
 
 /*---------------------------------------------------------------------------*/
 
@@ -62,7 +47,7 @@ private slots:
 
 /*---------------------------------------------------------------------------*/
 
-	void onCommandWasEntered( const QString& _command );
+	void onReturnPressed();
 
 /*---------------------------------------------------------------------------*/
 
@@ -70,11 +55,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const IEnvironment& m_environment;
+	QTextEdit* m_consoleDataView;
 
-	boost::shared_ptr< MainWidget > m_consoleView;
-
-	std::string m_viewTitle;
+	QLineEdit* m_commandEditor;
 
 /*---------------------------------------------------------------------------*/
 
@@ -88,4 +71,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CON_MAIN_VIEW_HPP__
+#endif // __CON_MAIN_WIDGET_HPP__

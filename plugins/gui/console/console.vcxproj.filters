@@ -19,6 +19,12 @@
     <Filter Include="External Headers">
       <UniqueIdentifier>{7a8474e0-4d9a-4c7f-bcbc-1c7eda22b20c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main Widget">
+      <UniqueIdentifier>{0d78609c-afc1-41fc-a59d-7b27a809e46c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{687d02f0-d9f8-462d-a990-e55f0cac0fe3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\con_ph.cpp">
@@ -36,6 +42,12 @@
     <ClCompile Include="sources\console_messenger\con_console_messenger.cpp">
       <Filter>Console Messenger</Filter>
     </ClCompile>
+    <ClCompile Include="sources\main_widget\con_main_widget.cpp">
+      <Filter>Main Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\environment\con_environment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\con_ph.hpp">
@@ -43,9 +55,6 @@
     </ClInclude>
     <ClInclude Include="sources\plugin\con_plugin_instance.hpp">
       <Filter>Plugin</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\main_view\con_main_view.hpp">
-      <Filter>Main View</Filter>
     </ClInclude>
     <ClInclude Include="sources\resources\con_internal_resources.hpp">
       <Filter>Internal Resources</Filter>
@@ -56,5 +65,19 @@
     <ClInclude Include="h\con_plugin_id.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
+    <ClInclude Include="sources\environment\con_environment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\con_ienvironment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="sources\main_widget\con_main_widget.hpp">
+      <Filter>Main Widget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\main_view\con_main_view.hpp">
+      <Filter>Main View</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

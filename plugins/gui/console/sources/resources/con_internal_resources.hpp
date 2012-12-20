@@ -25,6 +25,10 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+	extern const char* const SyntaxErrorMessageFormat;
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace Console
 } // namespace GUI

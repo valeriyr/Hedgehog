@@ -110,6 +110,9 @@ PluginInstance::close()
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		windowManager = getWindowManager();
 
+	windowManager->removeCommandFromMenu( "File/Save" );
+	windowManager->removeCommandFromMenu( "File/Close" );
+	windowManager->removeCommandFromMenu( "File/Open" );
 	windowManager->removeCommandFromMenu( "File/New" );
 
 	windowManager->removeView( m_descriptionView );

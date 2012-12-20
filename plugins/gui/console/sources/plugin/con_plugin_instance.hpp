@@ -18,6 +18,14 @@ namespace Framework
 			 struct IWindowManager;
 		}
 	}
+
+	namespace Core
+	{
+		namespace CommandsManager
+		{
+			struct ICommandsRegistry;
+		}
+	}
 }
 
 namespace Tools
@@ -35,6 +43,8 @@ namespace GUI {
 namespace Console {
 
 /*---------------------------------------------------------------------------*/
+
+	struct IEnvironment;
 
 	class MainView;
 
@@ -66,22 +76,25 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-private:
+public:
 
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		getWindowManager() const;
 
+	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
+		getCommandsRegistry() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< MainView > m_consoleView;
+	boost::intrusive_ptr< IEnvironment > m_environment;
 
-/*---------------------------------------------------------------------------*/
+	boost::intrusive_ptr< MainView > m_consoleView;
 
 	boost::intrusive_ptr< Tools::Core::IMessenger > m_consoleMessenger;
 

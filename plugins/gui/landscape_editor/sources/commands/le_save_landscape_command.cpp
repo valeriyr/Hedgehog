@@ -32,6 +32,8 @@ SaveLandscapeCommand::~SaveLandscapeCommand()
 void
 SaveLandscapeCommand::execute()
 {
+	int i = 0;
+
 } // SaveLandscapeCommand::execute
 
 

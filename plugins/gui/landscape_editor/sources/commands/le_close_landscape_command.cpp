@@ -32,6 +32,8 @@ CloseLandscapeCommand::~CloseLandscapeCommand()
 void
 CloseLandscapeCommand::execute()
 {
+	int i = 0;
+
 } // CloseLandscapeCommand::execute
 
 

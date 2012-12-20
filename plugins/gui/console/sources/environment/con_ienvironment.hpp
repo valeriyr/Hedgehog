@@ -1,39 +1,50 @@
 
-#include "console/sources/ph/con_ph.hpp"
+#ifndef __CON_IENVIRONMENT_HPP__
+#define __CON_IENVIRONMENT_HPP__
 
-#include "console/sources/resources/con_internal_resources.hpp"
+#include "intrusive_base/ib_ibase.hpp"
 
+
+/*---------------------------------------------------------------------------*/
+
+namespace Framework
+{
+	namespace Core
+	{
+		namespace CommandsManager
+		{
+			struct ICommandsRegistry;
+		}
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
 namespace Console {
-namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ConsoleViewTitle = "Console";
+struct IEnvironment
+	:	public Tools::Core::IBase
+{
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ErrorMessageFormat = "&gt; <font color = 'red' >Error: %1</font>";
-
-	const char* const WarningMessageFormat = "&gt; <font color = 'blue' >Warning: %1</font>";
-
-	const char* const InfoMessageFormat = "&gt; <font>Info: %1</font>";
-
-	const char* const CommandMessageFormat = "&gt; <font>%1</font>";
+	virtual boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
+		getCommandsRegistry() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const SyntaxErrorMessageFormat = "Syntax error: '%1'.";
+};
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Resources
 } // namespace Console
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
+
+#endif // __CON_IENVIRONMENT_HPP__

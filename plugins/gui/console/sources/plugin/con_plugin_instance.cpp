@@ -5,12 +5,15 @@
 
 #include "console/sources/main_view/con_main_view.hpp"
 #include "console/sources/console_messenger/con_console_messenger.hpp"
+#include "console/sources/environment/con_environment.hpp"
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
 #include "window_manager/ih/wm_iwindow_manager.hpp"
 #include "window_manager/h/wm_plugin_id.hpp"
 
+#include "commands_manager/ih/cm_icommands_registry.hpp"
+#include "commands_manager/h/cm_plugin_id.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -51,7 +54,9 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
-	m_consoleView.reset( new MainView() );
+	m_environment.reset( new Environment( *this ) );
+
+	m_consoleView.reset( new MainView( *m_environment ) );
 
 	getWindowManager()->addView(
 			m_consoleView
@@ -73,6 +78,8 @@ PluginInstance::close()
 	getWindowManager()->removeView( m_consoleView );
 	m_consoleView.reset();
 
+	m_environment.reset();
+
 } // PluginInstance::close
 
 
@@ -88,6 +95,20 @@ PluginInstance::getWindowManager() const
 			,	Framework::GUI::WindowManager::IID_WINDOW_MANAGER );
 
 } // PluginInstance::getWindowManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
+PluginInstance::getCommandsRegistry() const
+{
+	return
+		getPluginInterface< Framework::Core::CommandsManager::ICommandsRegistry >(
+				Framework::Core::CommandsManager::PID_COMMANDS_MANAGER
+			,	Framework::Core::CommandsManager::IID_COMMANDS_REGISTRY );
+
+} // PluginInstance::getCommandsRegistry
 
 
 /*---------------------------------------------------------------------------*/

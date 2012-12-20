@@ -3,7 +3,14 @@
 
 #include "console/sources/main_view/con_main_view.hpp"
 
+#include "console/sources/main_widget/con_main_widget.hpp"
+#include "console/sources/environment/con_ienvironment.hpp"
 #include "console/sources/resources/con_internal_resources.hpp"
+
+#include "commands_manager/ih/cm_icommands_registry.hpp"
+#include "commands_manager/ih/cm_icommand.hpp"
+
+#include "con_main_view.moc"
 
 
 /*---------------------------------------------------------------------------*/
@@ -15,11 +22,16 @@ namespace Console {
 /*---------------------------------------------------------------------------*/
 
 
-MainView::MainView()
-	:	m_consoleView( new QTextEdit() )
+MainView::MainView( const IEnvironment& _environment )
+	:	m_environment( _environment )
+	,	m_consoleView( new MainWidget() )
 	,	m_viewTitle( Resources::ConsoleViewTitle )
 {
-	m_consoleView->setReadOnly( true );
+	connect(
+			m_consoleView.get()
+		,	SIGNAL( commandWasEntered( const QString& ) )
+		,	this
+		,	SLOT( onCommandWasEntered( const QString& ) ) );
 
 } // MainView::MainView
 
@@ -29,6 +41,8 @@ MainView::MainView()
 
 MainView::~MainView()
 {
+	assert( !m_consoleView );
+
 } // MainView::~MainView
 
 
@@ -60,6 +74,12 @@ MainView::getViewWidget() const
 void
 MainView::viewWasClosed()
 {
+	disconnect(
+			m_consoleView.get()
+		,	SIGNAL( commandWasEntered( const QString& ) )
+		,	this
+		,	SLOT( onCommandWasEntered( const QString& ) ) );
+
 	m_consoleView.reset();
 
 } // MainView::viewWasClosed
@@ -93,8 +113,35 @@ MainView::printMessage(
 		break;
 	}
 
-	m_consoleView->append( ( boost::format( messageFormat ) % _message ).str().c_str() );
+	m_consoleView->pushMessage( QString( messageFormat ).arg( _message.c_str() ) );
 }
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MainView::onCommandWasEntered( const QString& _command )
+{
+	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
+		commandsRegistry( m_environment.getCommandsRegistry() );
+
+	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommand >
+		command( commandsRegistry->getCommand( _command.toLocal8Bit().data() ) );
+
+	if ( command )
+	{
+		m_consoleView->pushMessage( QString( Resources::CommandMessageFormat ).arg( _command ) );
+		command->execute();
+	}
+	else
+	{
+		printMessage(
+				Tools::Core::IMessenger::MessegeLevel::Error
+			,	QString( Resources::SyntaxErrorMessageFormat ).arg( _command ).toLocal8Bit().data() );
+	}
+
+} // MainView::onCommandWasEntered
 
 
 /*---------------------------------------------------------------------------*/

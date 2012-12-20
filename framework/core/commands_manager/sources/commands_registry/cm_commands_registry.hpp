@@ -37,6 +37,9 @@ public:
 	/*virtual*/ boost::intrusive_ptr< ICommand >
 		unregisterCommand( const std::string& _commandName );
 
+	/*virtual*/ boost::intrusive_ptr< ICommand >
+		getCommand( const std::string& _commandName );
+
 /*---------------------------------------------------------------------------*/
 
 private:

@@ -32,6 +32,8 @@ OpenLandscapeCommand::~OpenLandscapeCommand()
 void
 OpenLandscapeCommand::execute()
 {
+	int i = 0;
+
 } // OpenLandscapeCommand::execute
 
 

@@ -20,7 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\console_messenger\con_console_messenger.cpp" />
+    <ClCompile Include="sources\environment\con_environment.cpp" />
     <ClCompile Include="sources\main_view\con_main_view.cpp" />
+    <ClCompile Include="sources\main_widget\con_main_widget.cpp" />
     <ClCompile Include="sources\ph\con_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -33,7 +35,44 @@
   <ItemGroup>
     <ClInclude Include="h\con_plugin_id.hpp" />
     <ClInclude Include="sources\console_messenger\con_console_messenger.hpp" />
-    <ClInclude Include="sources\main_view\con_main_view.hpp" />
+    <CustomBuild Include="sources\main_view\con_main_view.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="sources\main_widget\con_main_widget.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+    </CustomBuild>
+    <ClInclude Include="sources\environment\con_environment.hpp" />
+    <ClInclude Include="sources\environment\con_ienvironment.hpp" />
     <ClInclude Include="sources\ph\con_ph.hpp" />
     <ClInclude Include="sources\plugin\con_plugin_instance.hpp" />
     <ClInclude Include="sources\resources\con_internal_resources.hpp" />
@@ -124,7 +163,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CONSOLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../temp/x86/gen/$(Configuration)/$(ProjectName)/</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>console/sources/ph/con_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
@@ -144,7 +183,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CONSOLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../temp/x64/gen/$(Configuration)/$(ProjectName)/</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>console/sources/ph/con_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
@@ -166,7 +205,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CONSOLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../temp/x86/gen/$(Configuration)/$(ProjectName)/</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>console/sources/ph/con_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
@@ -190,7 +229,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CONSOLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../temp/x64/gen/$(Configuration)/$(ProjectName)/</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>console/sources/ph/con_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
