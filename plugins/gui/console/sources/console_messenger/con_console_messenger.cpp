@@ -32,11 +32,23 @@ ConsoleMessenger::~ConsoleMessenger()
 /*---------------------------------------------------------------------------*/
 
 
-void ConsoleMessenger::printMessage(
+void
+ConsoleMessenger::printMessage(
 		const Tools::Core::IMessenger::MessegeLevel::Enum _messegeLevel
 	,	const std::string& _messege )
 {
 	m_mainView.printMessage( _messegeLevel, _messege );
+
+} // ConsoleMessenger::printMessage
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ConsoleMessenger::printMessage( const std::string& _messege )
+{
+	m_mainView.printMessage( _messege );
 
 } // ConsoleMessenger::printMessage
 

@@ -121,6 +121,20 @@ MainView::printMessage(
 
 
 void
+MainView::printMessage( const std::string& _message )
+{
+	if ( !m_consoleView )
+		return;
+
+	m_consoleView->pushMessage( QString( Resources::MessageWithoutPrefixFormat )
+		.arg( _message.c_str() ) );
+}
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 MainView::onCommandWasEntered( const QString& _command )
 {
 	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
@@ -131,7 +145,7 @@ MainView::onCommandWasEntered( const QString& _command )
 
 	if ( command )
 	{
-		m_consoleView->pushMessage( QString( Resources::CommandMessageFormat ).arg( _command ) );
+		printMessage( _command.toLocal8Bit().data() );
 		command->execute();
 	}
 	else

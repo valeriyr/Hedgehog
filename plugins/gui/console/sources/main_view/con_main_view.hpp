@@ -56,6 +56,8 @@ public:
 			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
 		,	const std::string& _message );
 
+	void printMessage( const std::string& _message );
+
 /*---------------------------------------------------------------------------*/
 
 private slots:

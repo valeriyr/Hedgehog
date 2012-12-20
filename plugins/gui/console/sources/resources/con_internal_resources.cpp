@@ -23,7 +23,7 @@ namespace Resources {
 
 	const char* const InfoMessageFormat = "&gt; <font>Info: %1</font>";
 
-	const char* const CommandMessageFormat = "&gt; <font>%1</font>";
+	const char* const MessageWithoutPrefixFormat = "&gt; <font>%1</font>";
 
 /*---------------------------------------------------------------------------*/
 

@@ -21,7 +21,7 @@ namespace Resources {
 
 	extern const char* const InfoMessageFormat;
 
-	extern const char* const CommandMessageFormat;
+	extern const char* const MessageWithoutPrefixFormat;
 
 /*---------------------------------------------------------------------------*/
 
