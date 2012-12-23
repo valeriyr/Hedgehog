@@ -12,6 +12,9 @@
 #include "commands_manager/ih/cm_icommands_registry.hpp"
 #include "commands_manager/h/cm_plugin_id.hpp"
 
+#include "landscape_model/ih/lm_ilandscape_editor.hpp"
+#include "landscape_model/h/lm_plugin_id.hpp"
+
 #include "landscape_editor/sources/editor_view/le_editor_view.hpp"
 #include "landscape_editor/sources/objects_view/le_objects_view.hpp"
 #include "landscape_editor/sources/description_view/le_description_view.hpp"
@@ -175,6 +178,20 @@ PluginInstance::getCommandsManager() const
 			,	Framework::Core::CommandsManager::IID_COMMANDS_REGISTRY );
 
 } // PluginInstance::getCommandsManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
+PluginInstance::getLandscapeEditor() const
+{
+	return
+		getPluginInterface< Plugins::Core::LandscapeModel::ILandscapeEditor >(
+				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
+			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_EDITOR );
+
+} // PluginInstance::getLandscapeEditor
 
 
 /*---------------------------------------------------------------------------*/

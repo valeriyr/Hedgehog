@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp" />
     <ClCompile Include="sources\landscape\lm_landscape.cpp" />
     <ClCompile Include="sources\landscape_editor\lm_landscape_editor.cpp" />
     <ClCompile Include="sources\landscape_manager\lm_landscape_manager.cpp" />
@@ -34,6 +35,7 @@
     <ClCompile Include="sources\plugin\lm_plugin_instance.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="h\lm_plugin_id.hpp" />
     <ClInclude Include="h\lm_point.hpp" />
     <ClInclude Include="h\lm_surface_items.hpp" />
     <ClInclude Include="ih\lm_ieditable_landscape.hpp" />
@@ -41,6 +43,7 @@
     <ClInclude Include="ih\lm_ilandscape_editor.hpp" />
     <ClInclude Include="ih\lm_ilandscape_manager.hpp" />
     <ClInclude Include="ih\lm_ilandscape_object.hpp" />
+    <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
     <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp" />
     <ClInclude Include="sources\landscape_manager\lm_landscape_manager.hpp" />

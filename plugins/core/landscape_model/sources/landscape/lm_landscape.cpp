@@ -96,8 +96,8 @@ Landscape::setSize(
 		const unsigned int _width
 	,	const unsigned int _height )
 {
-	if ( ( _width == 0 ) || ( _height == 0 ) )
-		throw std::exception();
+	assert( _width > 0 );
+	assert( _height > 0 );
 
 	m_width = _width;
 	m_height = _height;

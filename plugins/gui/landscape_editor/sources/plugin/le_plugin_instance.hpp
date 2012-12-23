@@ -30,6 +30,17 @@ namespace Framework
 	}
 }
 
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct ILandscapeEditor;
+		}
+	}
+}
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -76,6 +87,11 @@ private:
 
 	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
 		getCommandsManager() const;
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
+		getLandscapeEditor() const;
 
 /*---------------------------------------------------------------------------*/
 

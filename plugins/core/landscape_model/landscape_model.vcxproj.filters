@@ -28,6 +28,9 @@
     <Filter Include="Landscape Objects">
       <UniqueIdentifier>{345357c0-1a8f-4e10-acd2-83d77ee4cab2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Internal Resources">
+      <UniqueIdentifier>{67963bc5-d418-4d1a-a3a0-e2a01366fd18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -53,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="sources\landscape_objects\lm_base_landscape_object.cpp">
       <Filter>Landscape Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp">
+      <Filter>Internal Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="sources\landscape_objects\lm_base_landscape_object.hpp">
       <Filter>Landscape Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp">
+      <Filter>Internal Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_plugin_id.hpp">
+      <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
