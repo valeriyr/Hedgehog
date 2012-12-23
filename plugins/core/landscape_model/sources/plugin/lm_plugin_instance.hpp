@@ -15,6 +15,12 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct ILandscapeSerializer;
+struct ILandscapeEditor;
+struct ILandscapeManager;
+
+/*---------------------------------------------------------------------------*/
+
 class PluginInstance
 	:	public Framework::Core::PluginsManager::BasePlugin
 {
@@ -38,6 +44,18 @@ public:
 	/*virtual*/ void initialize();
 
 	/*virtual*/ void close();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< ILandscapeSerializer > m_landscapeSerializer;
+
+	boost::intrusive_ptr< ILandscapeEditor > m_landscapeEditor;
+
+	boost::intrusive_ptr< ILandscapeManager > m_landscapeManager;
 
 /*---------------------------------------------------------------------------*/
 

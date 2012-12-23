@@ -1,10 +1,10 @@
 
-#ifndef __LM_IEDITABLE_LANDSCAPE_HPP__
-#define __LM_IEDITABLE_LANDSCAPE_HPP__
+#ifndef __LM_LANDSCAPE_SERIALIZER_HPP__
+#define __LM_LANDSCAPE_SERIALIZER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape.hpp"
+#include "landscape_model/sources/landscape_serializer/lm_ilandscape_serializer.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,23 +14,29 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEditableLandscape
-	:	public ILandscape
+class LandscapeSerializer
+	:	public Tools::Core::BaseWrapper< ILandscapeSerializer >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		boost::intrusive_ptr< IEditableLandscape >
-		Ptr;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setSurfaceItem(
-			const Point& _point
-		,	const SurfaceItems::Enum& _surfaceItem ) = 0;
+	LandscapeSerializer();
 
-	virtual void createTreeObject( const Point& _point ) = 0;
+	virtual ~LandscapeSerializer();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void load(
+			IEditableLandscape& _landscape
+		,	const QString& _filePath ) const;
+
+	/*virtual*/ void save(
+			const ILandscape& _landscape
+		,	const QString& _filePath ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,4 +50,4 @@ struct IEditableLandscape
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IEDITABLE_LANDSCAPE_HPP__
+#endif // __LM_LANDSCAPE_SERIALIZER_HPP__

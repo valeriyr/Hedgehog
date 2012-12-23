@@ -15,7 +15,8 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeEditor::LandscapeEditor()
+LandscapeEditor::LandscapeEditor( const ILandscapeSerializer& _landscapeSerializer )
+	:	m_landscapeSerializer( _landscapeSerializer )
 {
 } // LandscapeEditor::LandscapeEditor
 

@@ -1,11 +1,10 @@
 
-#ifndef __LM_ILANDSCAPE_MANAGER_HPP__
-#define __LM_ILANDSCAPE_MANAGER_HPP__
+#ifndef __LM_LANDSCAPE_MANAGER_HPP__
+#define __LM_LANDSCAPE_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
-#include "landscape_model/ih/lm_ilandscape.hpp"
+#include "landscape_model/ih/lm_ilandscape_manager.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,27 +14,43 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_LANDSCAPE_MANAGER = 0;
+struct ILandscapeSerializer;
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscape;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeManager
-	:	public Tools::Core::IBase
+class LandscapeManager
+	:	public Tools::Core::BaseWrapper< ILandscapeManager >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initCurrentLandscape ( const QString& _filePath ) = 0;
-
-	virtual void closeCurrentLandscape() = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual ILandscape::Ptr getCurrentLandscape() const = 0;
+	LandscapeManager( const ILandscapeSerializer& _landscapeSerializer );
+
+	virtual ~LandscapeManager();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void initCurrentLandscape ( const QString& _filePath );
+
+	/*virtual*/ void closeCurrentLandscape();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ ILandscape::Ptr getCurrentLandscape() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const ILandscapeSerializer& m_landscapeSerializer;
+
+	ILandscape::Ptr m_currentLandscape;
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,4 +64,4 @@ struct ILandscapeManager
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_MANAGER_HPP__
+#endif // __LM_LANDSCAPE_MANAGER_HPP__

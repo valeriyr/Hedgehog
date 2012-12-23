@@ -1,15 +1,8 @@
 
-#ifndef __LM_ILANDSCAPE_HPP__
-#define __LM_ILANDSCAPE_HPP__
+#include "landscape_model/sources/ph/lm_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "landscape_model/sources/landscape_manager/lm_landscape_manager.hpp"
 
-#include "intrusive_base/ib_ibase.hpp"
-
-#include "landscape_model/ih/lm_ilandscape_object.hpp"
-
-#include "landscape_model/h/lm_point.hpp"
-#include "landscape_model/h/lm_surface_items.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,31 +12,52 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscape
-	:	public Tools::Core::IBase
+
+LandscapeManager::LandscapeManager( const ILandscapeSerializer& _landscapeSerializer )
+	:	m_landscapeSerializer( _landscapeSerializer )
+	,	m_currentLandscape()
 {
+} // LandscapeManager::LandscapeManager
+
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		boost::intrusive_ptr< ILandscape >
-		Ptr;
+
+LandscapeManager::~LandscapeManager()
+{
+} // LandscapeManager::~LandscapeManager
+
 
 /*---------------------------------------------------------------------------*/
 
-	virtual unsigned int getWidth() const = 0;
 
-	virtual unsigned int getHeight() const = 0;
+void
+LandscapeManager::initCurrentLandscape ( const QString& _filePath )
+{
+} // LandscapeManager::initCurrentLandscape
 
-/*---------------------------------------------------------------------------*/
-
-	virtual ILandscapeObject::Ptr getLadscapeObject( const Point& _point ) const = 0;
-
-	virtual SurfaceItems::Enum getSurfaceItem( const Point& _point ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-};
+
+void
+LandscapeManager::closeCurrentLandscape()
+{
+	m_currentLandscape.reset();
+
+} // LandscapeManager::closeCurrentLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+ILandscape::Ptr
+LandscapeManager::getCurrentLandscape() const
+{
+	return m_currentLandscape;
+
+} // LandscapeManager::getCurrentLandscape
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -52,5 +66,3 @@ struct ILandscape
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LM_ILANDSCAPE_HPP__

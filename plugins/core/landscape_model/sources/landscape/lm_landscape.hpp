@@ -38,9 +38,15 @@ public:
 
 	/*virtual*/ ILandscapeObject::Ptr getLadscapeObject( const Point& _point ) const;
 
+	/*virtual*/ SurfaceItems::Enum getSurfaceItem( const Point& _point ) const;
+
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void createWaterItem( const Point& _point );
+	/*virtual*/ void setSurfaceItem(
+			const Point& _point
+		,	const SurfaceItems::Enum& _surfaceItem );
+
+	/*virtual*/ void createTreeObject( const Point& _point );
 
 /*---------------------------------------------------------------------------*/
 
@@ -51,6 +57,8 @@ private:
 	const unsigned int m_width;
 
 	const unsigned int m_height;
+
+/*---------------------------------------------------------------------------*/
 
 	typedef
 		std::map< Point, ILandscapeObject::Ptr >

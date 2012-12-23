@@ -19,6 +19,12 @@
     <Filter Include="External Headers">
       <UniqueIdentifier>{f77ed0ab-ab5b-42e5-b3b9-4f975c4b9cf6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Landscape Manager">
+      <UniqueIdentifier>{ba5ab976-d333-4aa1-93cc-e00bf119f9ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape Serializer">
+      <UniqueIdentifier>{900b817d-1fec-43fd-a8a0-41044286689a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -32,6 +38,12 @@
     </ClCompile>
     <ClCompile Include="sources\landscape_editor\lm_landscape_editor.cpp">
       <Filter>Landscape Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_manager\lm_landscape_manager.cpp">
+      <Filter>Landscape Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp">
+      <Filter>Landscape Serializer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +76,18 @@
     </ClInclude>
     <ClInclude Include="ih\lm_ilandscape_object.hpp">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_surface_items.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_manager\lm_landscape_manager.hpp">
+      <Filter>Landscape Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_serializer\lm_ilandscape_serializer.hpp">
+      <Filter>Landscape Serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp">
+      <Filter>Landscape Serializer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

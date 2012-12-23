@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClCompile Include="sources\landscape\lm_landscape.cpp" />
     <ClCompile Include="sources\landscape_editor\lm_landscape_editor.cpp" />
+    <ClCompile Include="sources\landscape_manager\lm_landscape_manager.cpp" />
+    <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp" />
     <ClCompile Include="sources\ph\lm_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -31,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\lm_point.hpp" />
+    <ClInclude Include="h\lm_surface_items.hpp" />
     <ClInclude Include="ih\lm_ieditable_landscape.hpp" />
     <ClInclude Include="ih\lm_ilandscape.hpp" />
     <ClInclude Include="ih\lm_ilandscape_editor.hpp" />
@@ -38,6 +41,9 @@
     <ClInclude Include="ih\lm_ilandscape_object.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
     <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp" />
+    <ClInclude Include="sources\landscape_manager\lm_landscape_manager.hpp" />
+    <ClInclude Include="sources\landscape_serializer\lm_ilandscape_serializer.hpp" />
+    <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp" />
     <ClInclude Include="sources\ph\lm_ph.hpp" />
     <ClInclude Include="sources\plugin\lm_plugin_instance.hpp" />
   </ItemGroup>

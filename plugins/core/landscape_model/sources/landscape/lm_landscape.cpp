@@ -68,18 +68,32 @@ Landscape::getLadscapeObject( const Point& _point ) const
 /*---------------------------------------------------------------------------*/
 
 
-void
-Landscape::createWaterItem( const Point& _point )
+SurfaceItems::Enum
+Landscape::getSurfaceItem( const Point& _point ) const
 {
-	/*LandscapeItemsCollectionIterator iterator
-		= m_LandscapeItems.find( _point );
+	return SurfaceItems::Grass;
 
-	if ( iterator != m_LandscapeItems.end() )
-		iterator->second = _item;
-	else
-		m_LandscapeItems.insert( std::make_pair( _point, _item ) );*/
+} // Landscape::getSurfaceItem
 
-} // Landscape::createWaterItem
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Landscape::setSurfaceItem(
+		const Point& _point
+	,	const SurfaceItems::Enum& _surfaceItem )
+{
+} // Landscape::setSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Landscape::createTreeObject( const Point& _point )
+{
+} // Landscape::createTreeObject
 
 
 /*---------------------------------------------------------------------------*/

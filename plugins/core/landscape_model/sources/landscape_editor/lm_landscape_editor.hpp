@@ -14,6 +14,10 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct ILandscapeSerializer;
+
+/*---------------------------------------------------------------------------*/
+
 class LandscapeEditor
 	:	public Tools::Core::BaseWrapper< ILandscapeEditor >
 {
@@ -24,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeEditor();
+	LandscapeEditor( const ILandscapeSerializer& _landscapeSerializer );
 
 	virtual ~LandscapeEditor();
 
@@ -47,6 +51,8 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	const ILandscapeSerializer& m_landscapeSerializer;
 
 /*---------------------------------------------------------------------------*/
 
