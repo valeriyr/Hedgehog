@@ -24,7 +24,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Landscape( const unsigned int _width, const unsigned int _height );
+	Landscape();
 
 	virtual ~Landscape();
 
@@ -42,9 +42,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void setSize(
+			const unsigned int _width
+		,	const unsigned int _height );
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ void setSurfaceItem(
 			const Point& _point
-		,	const SurfaceItems::Enum& _surfaceItem );
+		,	const SurfaceItems::Enum _surfaceItem );
 
 	/*virtual*/ void createTreeObject( const Point& _point );
 
@@ -54,22 +60,13 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int m_width;
+	unsigned int m_width;
 
-	const unsigned int m_height;
+	unsigned int m_height;
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		std::map< Point, ILandscapeObject::Ptr >
-		LandscapeItemsCollection;
-	typedef
-		LandscapeItemsCollection::iterator
-		LandscapeItemsCollectionIterator;
-	typedef
-		LandscapeItemsCollection::const_iterator
-		LandscapeItemsCollectionConstIterator;
-	LandscapeItemsCollection m_LandscapeItems;
+	SurfaceItems::Enum ** m_surfaceData;
 
 /*---------------------------------------------------------------------------*/
 

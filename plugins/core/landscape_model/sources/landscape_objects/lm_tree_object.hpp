@@ -1,10 +1,10 @@
 
-#ifndef __LM_IEDITABLE_LANDSCAPE_HPP__
-#define __LM_IEDITABLE_LANDSCAPE_HPP__
+#ifndef __LM_TREE_OBJECT_HPP__
+#define __LM_TREE_OBJECT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape.hpp"
+#include "landscape_model/sources/landscape_objects/lm_base_landscape_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,29 +14,19 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEditableLandscape
-	:	public ILandscape
+class TreeObject
+	:	public BaseLandscapeObject
 {
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		boost::intrusive_ptr< IEditableLandscape >
-		Ptr;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setSize(
-			const unsigned int _width
-		,	const unsigned int _height ) = 0;
+	TreeObject();
 
-/*---------------------------------------------------------------------------*/
-
-	virtual void setSurfaceItem(
-			const Point& _point
-		,	const SurfaceItems::Enum _surfaceItem ) = 0;
-
-	virtual void createTreeObject( const Point& _point ) = 0;
+	virtual ~TreeObject();
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,4 +40,4 @@ struct IEditableLandscape
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IEDITABLE_LANDSCAPE_HPP__
+#endif // __LM_TREE_OBJECT_HPP__

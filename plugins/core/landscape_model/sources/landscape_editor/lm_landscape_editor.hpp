@@ -43,8 +43,8 @@ public:
 		loadLandscape( const QString& _filePath ) const;
 
 	/*virtual*/ void saveLandscape(
-			const QString& _filePath 
-		,	ILandscape::Ptr _landscape ) const;
+			const ILandscape& _landscape
+		,	const QString& _filePath ) const;
 
 /*---------------------------------------------------------------------------*/
 

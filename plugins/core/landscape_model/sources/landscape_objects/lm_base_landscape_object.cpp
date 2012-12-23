@@ -1,10 +1,8 @@
 
-#ifndef __LM_IEDITABLE_LANDSCAPE_HPP__
-#define __LM_IEDITABLE_LANDSCAPE_HPP__
+#include "landscape_model/sources/ph/lm_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "landscape_model/sources/landscape_objects/lm_base_landscape_object.hpp"
 
-#include "landscape_model/ih/lm_ilandscape.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,33 +12,46 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEditableLandscape
-	:	public ILandscape
+
+BaseLandscapeObject::BaseLandscapeObject(
+		unsigned int _width
+	,	unsigned int _height
+	)
+	:	m_width( _width )
+	,	m_height( _height )
 {
+} // BaseLandscapeObject::BaseLandscapeObject
+
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		boost::intrusive_ptr< IEditableLandscape >
-		Ptr;
+
+BaseLandscapeObject::~BaseLandscapeObject()
+{
+} // BaseLandscapeObject::~BaseLandscapeObject
+
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setSize(
-			const unsigned int _width
-		,	const unsigned int _height ) = 0;
+
+unsigned int
+BaseLandscapeObject::getWidth() const
+{
+	return m_width;
+
+} // BaseLandscapeObject::getWidth
+
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setSurfaceItem(
-			const Point& _point
-		,	const SurfaceItems::Enum _surfaceItem ) = 0;
 
-	virtual void createTreeObject( const Point& _point ) = 0;
+unsigned int
+BaseLandscapeObject::getHeight() const
+{
+	return m_height;
 
-/*---------------------------------------------------------------------------*/
+} // BaseLandscapeObject::getHeight
 
-};
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,5 +60,3 @@ struct IEditableLandscape
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LM_IEDITABLE_LANDSCAPE_HPP__

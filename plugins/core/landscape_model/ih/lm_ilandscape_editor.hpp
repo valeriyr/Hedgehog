@@ -33,8 +33,8 @@ struct ILandscapeEditor
 	virtual IEditableLandscape::Ptr loadLandscape( const QString& _filePath ) const = 0;
 
 	virtual void saveLandscape(
-			const QString& _filePath 
-		,	ILandscape::Ptr _landscape ) const = 0;
+			const ILandscape& _landscape
+		,	const QString& _filePath ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -25,6 +25,9 @@
     <Filter Include="Landscape Serializer">
       <UniqueIdentifier>{900b817d-1fec-43fd-a8a0-41044286689a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Landscape Objects">
+      <UniqueIdentifier>{345357c0-1a8f-4e10-acd2-83d77ee4cab2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -44,6 +47,12 @@
     </ClCompile>
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp">
       <Filter>Landscape Serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_objects\lm_tree_object.cpp">
+      <Filter>Landscape Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_objects\lm_base_landscape_object.cpp">
+      <Filter>Landscape Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +97,12 @@
     </ClInclude>
     <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp">
       <Filter>Landscape Serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_objects\lm_tree_object.hpp">
+      <Filter>Landscape Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_objects\lm_base_landscape_object.hpp">
+      <Filter>Landscape Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

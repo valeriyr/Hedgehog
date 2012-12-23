@@ -3,6 +3,10 @@
 
 #include "landscape_model/sources/landscape_manager/lm_landscape_manager.hpp"
 
+#include "landscape_model/sources/landscape/lm_landscape.hpp"
+
+#include "landscape_model/sources/landscape_serializer/lm_ilandscape_serializer.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,6 +38,12 @@ LandscapeManager::~LandscapeManager()
 void
 LandscapeManager::initCurrentLandscape ( const QString& _filePath )
 {
+	IEditableLandscape::Ptr landscape( new Landscape() );
+
+	m_landscapeSerializer.load( *landscape, _filePath );
+
+	m_currentLandscape = landscape;
+
 } // LandscapeManager::initCurrentLandscape
 
 

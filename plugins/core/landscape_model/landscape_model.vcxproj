@@ -22,6 +22,8 @@
     <ClCompile Include="sources\landscape\lm_landscape.cpp" />
     <ClCompile Include="sources\landscape_editor\lm_landscape_editor.cpp" />
     <ClCompile Include="sources\landscape_manager\lm_landscape_manager.cpp" />
+    <ClCompile Include="sources\landscape_objects\lm_base_landscape_object.cpp" />
+    <ClCompile Include="sources\landscape_objects\lm_tree_object.cpp" />
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp" />
     <ClCompile Include="sources\ph\lm_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -42,6 +44,8 @@
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
     <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp" />
     <ClInclude Include="sources\landscape_manager\lm_landscape_manager.hpp" />
+    <ClInclude Include="sources\landscape_objects\lm_base_landscape_object.hpp" />
+    <ClInclude Include="sources\landscape_objects\lm_tree_object.hpp" />
     <ClInclude Include="sources\landscape_serializer\lm_ilandscape_serializer.hpp" />
     <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp" />
     <ClInclude Include="sources\ph\lm_ph.hpp" />

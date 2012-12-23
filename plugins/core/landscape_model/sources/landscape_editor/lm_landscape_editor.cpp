@@ -5,6 +5,8 @@
 
 #include "landscape_model/sources/landscape/lm_landscape.hpp"
 
+#include "landscape_model/sources/landscape_serializer/lm_ilandscape_serializer.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,7 +39,11 @@ LandscapeEditor::createLandscape(
 		const unsigned int _width
 	,	const unsigned int _height ) const
 {
-	return IEditableLandscape::Ptr( new Landscape( _width, _height ) );
+	IEditableLandscape::Ptr newLandscape( new Landscape() );
+
+	newLandscape->setSize( _width, _height );
+
+	return newLandscape;
 
 } // LandscapeEditor::createLandscape
 
@@ -48,7 +54,11 @@ LandscapeEditor::createLandscape(
 IEditableLandscape::Ptr
 LandscapeEditor::loadLandscape( const QString& _filePath ) const
 {
-	return IEditableLandscape::Ptr();
+	IEditableLandscape::Ptr newLandscape( new Landscape() );
+
+	m_landscapeSerializer.load( *newLandscape, _filePath );
+
+	return newLandscape;
 
 } // LandscapeEditor::loadLandscape
 
@@ -58,9 +68,11 @@ LandscapeEditor::loadLandscape( const QString& _filePath ) const
 
 void
 LandscapeEditor::saveLandscape(
-		const QString& _filePath 
-	,	ILandscape::Ptr _landscape ) const
+		const ILandscape& _landscape
+	,	const QString& _filePath ) const
 {
+	m_landscapeSerializer.save( _landscape, _filePath );
+
 } // LandscapeEditor::saveLandscape
 
 
