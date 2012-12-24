@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "commands_manager/ih/cm_icommand.hpp"
+#include "landscape_editor/sources/commands/le_base_command.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,7 +15,7 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 class NewLandscapeCommand
-	:	public Tools::Core::BaseWrapper< Framework::Core::CommandsManager::ICommand >
+	:	public BaseCommand
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,7 +24,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	NewLandscapeCommand();
+	NewLandscapeCommand( const IEnvironment& _environment );
 
 	virtual ~NewLandscapeCommand();
 

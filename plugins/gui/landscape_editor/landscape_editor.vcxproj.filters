@@ -7,20 +7,17 @@
     <Filter Include="Plugin">
       <UniqueIdentifier>{8a3808b4-e46f-4584-a8a4-3cdc619d1494}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor View">
-      <UniqueIdentifier>{4c99f472-9b49-4561-ae7c-19672c00cc6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects View">
-      <UniqueIdentifier>{d5795eb6-c96b-4267-a60b-cda5d065ccb4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Description View">
-      <UniqueIdentifier>{5725c803-ca4a-4003-b1e2-352a5ee3d268}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{389e6530-0e7a-45c9-a9ca-34bed5c812e8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Commands">
       <UniqueIdentifier>{7bfb69b5-7de2-4150-bd7c-f33ab5b8cc48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{edf05321-ab3d-4159-a5f3-ff51746000b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Viewes">
+      <UniqueIdentifier>{0dc068cb-46b2-4db1-a1bf-62ec3a7982f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -29,15 +26,6 @@
     </ClCompile>
     <ClCompile Include="sources\plugin\le_plugin_instance.cpp">
       <Filter>Plugin</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\editor_view\le_editor_view.cpp">
-      <Filter>Editor View</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\objects_view\le_objects_view.cpp">
-      <Filter>Objects View</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\description_view\le_description_view.cpp">
-      <Filter>Description View</Filter>
     </ClCompile>
     <ClCompile Include="sources\internal_resources\le_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
@@ -54,6 +42,21 @@
     <ClCompile Include="sources\commands\le_new_landscape_command.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="sources\environment\le_environment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\commands\le_base_command.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\views\le_description_view.cpp">
+      <Filter>Viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\views\le_editor_view.cpp">
+      <Filter>Viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\views\le_objects_view.cpp">
+      <Filter>Viewes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\le_ph.hpp">
@@ -61,15 +64,6 @@
     </ClInclude>
     <ClInclude Include="sources\plugin\le_plugin_instance.hpp">
       <Filter>Plugin</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\editor_view\le_editor_view.hpp">
-      <Filter>Editor View</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\objects_view\le_objects_view.hpp">
-      <Filter>Objects View</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\description_view\le_description_view.hpp">
-      <Filter>Description View</Filter>
     </ClInclude>
     <ClInclude Include="sources\internal_resources\le_internal_resources.hpp">
       <Filter>Internal Resources</Filter>
@@ -85,6 +79,27 @@
     </ClInclude>
     <ClInclude Include="sources\commands\le_new_landscape_command.hpp">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\le_environment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\le_ienvironment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands\le_base_command.hpp">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\le_description_view.hpp">
+      <Filter>Viewes</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\le_editor_view.hpp">
+      <Filter>Viewes</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\le_objects_view.hpp">
+      <Filter>Viewes</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\le_ilandscape_editor_view.hpp">
+      <Filter>Viewes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

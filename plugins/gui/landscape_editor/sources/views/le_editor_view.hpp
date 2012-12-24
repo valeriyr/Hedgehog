@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "window_manager/ih/wm_iview.hpp"
+#include "landscape_editor/sources/views/le_ilandscape_editor_view.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,7 +15,7 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 class EditorView
-	:	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
+	:	public Tools::Core::BaseWrapper< ILandscapeEditorView >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -37,6 +37,12 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void viewWasClosed();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void landscapeWasOpened();
+
+	/*virtual*/ void landscapeWasClosed();
 
 /*---------------------------------------------------------------------------*/
 

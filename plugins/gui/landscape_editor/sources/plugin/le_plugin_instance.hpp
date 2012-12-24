@@ -15,7 +15,6 @@ namespace Framework
 	{
 		namespace WindowManager
 		{
-			 struct IView;
 			 struct IWindowManager;
 			 struct IDialogsManager;
 		}
@@ -37,6 +36,7 @@ namespace Plugins
 		namespace LandscapeModel
 		{
 			struct ILandscapeEditor;
+			struct ILandscapeManager;
 		}
 	}
 }
@@ -46,6 +46,11 @@ namespace Plugins
 namespace Plugins {
 namespace GUI {
 namespace LandscapeEditor {
+
+/*---------------------------------------------------------------------------*/
+
+struct IEnvironment;
+struct ILandscapeEditorView;
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,10 +80,6 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-private:
-
-/*---------------------------------------------------------------------------*/
-
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		getWindowManager() const;
 
@@ -93,17 +94,30 @@ private:
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
 		getLandscapeEditor() const;
 
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
+		getLandscapeManager() const;
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< ILandscapeEditorView > getObjectsView() const;
+
+	boost::intrusive_ptr< ILandscapeEditorView > getEditorView() const;
+
+	boost::intrusive_ptr< ILandscapeEditorView > getDescriptionView() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IView > m_objectsView;
+	boost::intrusive_ptr< IEnvironment > m_environment;
 
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IView > m_editorView;
+	boost::intrusive_ptr< ILandscapeEditorView > m_objectsView;
 
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IView > m_descriptionView;
+	boost::intrusive_ptr< ILandscapeEditorView > m_editorView;
+
+	boost::intrusive_ptr< ILandscapeEditorView > m_descriptionView;
 
 /*---------------------------------------------------------------------------*/
 

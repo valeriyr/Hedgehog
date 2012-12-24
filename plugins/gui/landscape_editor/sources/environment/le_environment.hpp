@@ -1,10 +1,10 @@
 
-#ifndef __LE_OBJECTS_VIEW_HPP__
-#define __LE_OBJECTS_VIEW_HPP__
+#ifndef __LE_ENVIRONMENT_HPP__
+#define __LE_ENVIRONMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "window_manager/ih/wm_iview.hpp"
+#include "landscape_editor/sources/environment/le_ienvironment.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,8 +14,12 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-class ObjectsView
-	:	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
+class PluginInstance;
+
+/*---------------------------------------------------------------------------*/
+
+class Environment
+	:	public Tools::Core::BaseWrapper< IEnvironment >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,19 +28,28 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ObjectsView();
+	Environment( const PluginInstance& _pluginInstance );
 
-	virtual ~ObjectsView();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ const QString& getViewTitle() const;
-
-	/*virtual*/ QWidget* getViewWidget() const;
+	virtual ~Environment();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void viewWasClosed();
+	/*virtual*/ boost::intrusive_ptr< Framework::GUI::WindowManager::IDialogsManager >
+		getDialogsManager() const;
+
+	/*virtual*/ boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
+		getLandscapeEditor() const;
+
+	/*virtual*/ boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
+		getLandscapeManager() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorView > getObjectsView() const;
+
+	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorView > getEditorView() const;
+
+	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorView > getDescriptionView() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,9 +57,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< QTextEdit > m_objectsView;
-
-	QString m_viewTitle;
+	const PluginInstance& m_pluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
@@ -60,4 +71,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_OBJECTS_VIEW_HPP__
+#endif // __LE_ENVIRONMENT_HPP__

@@ -1,10 +1,10 @@
 
-#ifndef __LE_DESCRIPTION_VIEW_HPP__
-#define __LE_DESCRIPTION_VIEW_HPP__
+#include "landscape_editor/sources/ph/le_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "landscape_editor/sources/views/le_editor_view.hpp"
 
-#include "window_manager/ih/wm_iview.hpp"
+#include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,43 +14,74 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-class DescriptionView
-	:	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
+
+EditorView::EditorView()
+	:	m_editorView( new QTextEdit() )
+	,	m_viewTitle( Resources::Views::EditorViewDefaultTitle )
 {
+	m_editorView->setReadOnly( true );
+
+} // EditorView::EditorView
+
 
 /*---------------------------------------------------------------------------*/
 
-public:
+
+EditorView::~EditorView()
+{
+} // EditorView::~EditorView
+
 
 /*---------------------------------------------------------------------------*/
 
-	DescriptionView();
 
-	virtual ~DescriptionView();
+const QString&
+EditorView::getViewTitle() const
+{
+	return m_viewTitle;
 
-/*---------------------------------------------------------------------------*/
+} // EditorView::getViewTitle
 
-	/*virtual*/ const QString& getViewTitle() const;
-
-	/*virtual*/ QWidget* getViewWidget() const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void viewWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
-private:
+
+QWidget*
+EditorView::getViewWidget() const
+{
+	return m_editorView.get();
+
+} // EditorView::getViewWidget
+
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< QTextEdit > m_descriptionView;
 
-	QString m_viewTitle;
+void
+EditorView::viewWasClosed()
+{
+	m_editorView.reset();
+
+} // EditorView::viewWasClosed
+
 
 /*---------------------------------------------------------------------------*/
 
-};
+
+void
+EditorView::landscapeWasOpened()
+{
+} // EditorView::landscapeWasOpened
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+EditorView::landscapeWasClosed()
+{
+} // EditorView::landscapeWasClosed
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,5 +90,3 @@ private:
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LE_DESCRIPTION_VIEW_HPP__

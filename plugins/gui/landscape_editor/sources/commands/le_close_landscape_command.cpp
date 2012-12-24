@@ -13,7 +13,8 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-CloseLandscapeCommand::CloseLandscapeCommand()
+CloseLandscapeCommand::CloseLandscapeCommand( const IEnvironment& _environment )
+	:	BaseCommand( _environment )
 {
 } // CloseLandscapeCommand::CloseLandscapeCommand
 

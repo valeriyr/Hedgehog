@@ -1,10 +1,10 @@
 
-#include "landscape_editor/sources/ph/le_ph.hpp"
+#ifndef __LE_BASE_COMMAND_HPP__
+#define __LE_BASE_COMMAND_HPP__
 
-#include "landscape_editor/sources/editor_view/le_editor_view.hpp"
+/*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
-
+#include "commands_manager/ih/cm_icommand.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,56 +14,35 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-
-EditorView::EditorView()
-	:	m_editorView( new QTextEdit() )
-	,	m_viewTitle( Resources::Views::EditorViewDefaultTitle )
-{
-	m_editorView->setReadOnly( true );
-
-} // EditorView::EditorView
-
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-
-EditorView::~EditorView()
+class BaseCommand
+	:	public Tools::Core::BaseWrapper< Framework::Core::CommandsManager::ICommand >
 {
-} // EditorView::~EditorView
-
 
 /*---------------------------------------------------------------------------*/
 
-
-const QString&
-EditorView::getViewTitle() const
-{
-	return m_viewTitle;
-
-} // EditorView::getViewTitle
-
+public:
 
 /*---------------------------------------------------------------------------*/
 
+	BaseCommand( const IEnvironment& _environment );
 
-QWidget*
-EditorView::getViewWidget() const
-{
-	return m_editorView.get();
-
-} // EditorView::getViewWidget
-
+	virtual ~BaseCommand();
 
 /*---------------------------------------------------------------------------*/
 
+protected:
 
-void
-EditorView::viewWasClosed()
-{
-	m_editorView.reset();
+/*---------------------------------------------------------------------------*/
 
-} // EditorView::viewWasClosed
+	const IEnvironment& m_environment;
 
+/*---------------------------------------------------------------------------*/
+
+};
 
 /*---------------------------------------------------------------------------*/
 
@@ -72,3 +51,5 @@ EditorView::viewWasClosed()
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
+
+#endif // __LE_BASE_COMMAND_HPP__

@@ -12,12 +12,15 @@
 #include "commands_manager/ih/cm_icommands_registry.hpp"
 #include "commands_manager/h/cm_plugin_id.hpp"
 
+#include "landscape_model/ih/lm_ilandscape_manager.hpp"
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
 #include "landscape_model/h/lm_plugin_id.hpp"
 
-#include "landscape_editor/sources/editor_view/le_editor_view.hpp"
-#include "landscape_editor/sources/objects_view/le_objects_view.hpp"
-#include "landscape_editor/sources/description_view/le_description_view.hpp"
+#include "landscape_editor/sources/environment/le_environment.hpp"
+
+#include "landscape_editor/sources/views/le_editor_view.hpp"
+#include "landscape_editor/sources/views/le_objects_view.hpp"
+#include "landscape_editor/sources/views/le_description_view.hpp"
 
 #include "landscape_editor/sources/commands/le_new_landscape_command.hpp"
 #include "landscape_editor/sources/commands/le_open_landscape_command.hpp"
@@ -67,18 +70,20 @@ PluginInstance::initialize()
 
 	boost::intrusive_ptr< ICommandsRegistry > commandsRegistry = getCommandsManager();
 
+	m_environment.reset( new Environment( *this ) );
+
 	commandsRegistry->registerCommand(
 			Resources::Commands::NewLandscapeCommandName
-		,	boost::intrusive_ptr< ICommand >( new NewLandscapeCommand() ) );
+		,	boost::intrusive_ptr< ICommand >( new NewLandscapeCommand( *m_environment ) ) );
 	commandsRegistry->registerCommand(
 			Resources::Commands::OpenLandscapeCommandName
-		,	boost::intrusive_ptr< ICommand >( new OpenLandscapeCommand() ) );
+		,	boost::intrusive_ptr< ICommand >( new OpenLandscapeCommand( *m_environment ) ) );
 	commandsRegistry->registerCommand(
 			Resources::Commands::CloseLandscapeCommandName
-		,	boost::intrusive_ptr< ICommand >( new CloseLandscapeCommand() ) );
+		,	boost::intrusive_ptr< ICommand >( new CloseLandscapeCommand( *m_environment ) ) );
 	commandsRegistry->registerCommand(
 			Resources::Commands::SaveLandscapeCommandName
-		,	boost::intrusive_ptr< ICommand >( new SaveLandscapeCommand() ) );
+		,	boost::intrusive_ptr< ICommand >( new SaveLandscapeCommand( *m_environment ) ) );
 
 	m_objectsView.reset( new ObjectsView() );
 	m_editorView.reset( new EditorView() );
@@ -134,6 +139,8 @@ PluginInstance::close()
 	commandsRegistry->unregisterCommand( Resources::Commands::OpenLandscapeCommandName );
 	commandsRegistry->unregisterCommand( Resources::Commands::CloseLandscapeCommandName );
 	commandsRegistry->unregisterCommand( Resources::Commands::SaveLandscapeCommandName );
+
+	m_environment.reset();
 
 } // PluginInstance::close
 
@@ -192,6 +199,53 @@ PluginInstance::getLandscapeEditor() const
 			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_EDITOR );
 
 } // PluginInstance::getLandscapeEditor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
+PluginInstance::getLandscapeManager() const
+{
+	return
+		getPluginInterface< Plugins::Core::LandscapeModel::ILandscapeManager >(
+				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
+			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_MANAGER );
+
+} // PluginInstance::getLandscapeManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ILandscapeEditorView >
+PluginInstance::getObjectsView() const
+{
+	return m_objectsView;
+
+} // PluginInstance::getObjectsView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ILandscapeEditorView >
+PluginInstance::getEditorView() const
+{
+	return m_editorView;
+
+} // PluginInstance::getObjectsView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ILandscapeEditorView >
+PluginInstance::getDescriptionView() const
+{
+	return m_descriptionView;
+
+} // PluginInstance::getObjectsView
 
 
 /*---------------------------------------------------------------------------*/

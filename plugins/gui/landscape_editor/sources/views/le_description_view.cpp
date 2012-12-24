@@ -1,7 +1,7 @@
 
 #include "landscape_editor/sources/ph/le_ph.hpp"
 
-#include "landscape_editor/sources/description_view/le_description_view.hpp"
+#include "landscape_editor/sources/views/le_description_view.hpp"
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 
@@ -63,6 +63,24 @@ DescriptionView::viewWasClosed()
 	m_descriptionView.reset();
 
 } // DescriptionView::viewWasClosed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+DescriptionView::landscapeWasOpened()
+{
+} // DescriptionView::landscapeWasOpened
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+DescriptionView::landscapeWasClosed()
+{
+} // DescriptionView::landscapeWasClosed
 
 
 /*---------------------------------------------------------------------------*/

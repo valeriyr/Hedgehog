@@ -13,7 +13,8 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-NewLandscapeCommand::NewLandscapeCommand()
+NewLandscapeCommand::NewLandscapeCommand( const IEnvironment& _environment )
+	:	BaseCommand( _environment )
 {
 } // NewLandscapeCommand::NewLandscapeCommand
 

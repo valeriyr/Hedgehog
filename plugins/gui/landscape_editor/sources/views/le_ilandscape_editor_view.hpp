@@ -1,10 +1,10 @@
 
-#ifndef __LE_OPEN_LANDSCAPE_COMMAND_HPP__
-#define __LE_OPEN_LANDSCAPE_COMMAND_HPP__
+#ifndef __LE_LANDSCAPE_EDITOR_VIEW_HPP__
+#define __LE_LANDSCAPE_EDITOR_VIEW_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/commands/le_base_command.hpp"
+#include "window_manager/ih/wm_iview.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,23 +14,15 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-class OpenLandscapeCommand
-	:	public BaseCommand
+struct ILandscapeEditorView
+	:	public Framework::GUI::WindowManager::IView
 {
 
 /*---------------------------------------------------------------------------*/
 
-public:
+	virtual void landscapeWasOpened() = 0;
 
-/*---------------------------------------------------------------------------*/
-
-	OpenLandscapeCommand( const IEnvironment& _environment );
-
-	virtual ~OpenLandscapeCommand();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void execute();
+	virtual void landscapeWasClosed() = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,4 +36,4 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_OPEN_LANDSCAPE_COMMAND_HPP__
+#endif // __LE_LANDSCAPE_EDITOR_VIEW_HPP__
