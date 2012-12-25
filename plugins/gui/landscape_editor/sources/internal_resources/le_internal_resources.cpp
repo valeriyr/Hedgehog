@@ -25,6 +25,18 @@ namespace Views {
 
 /*---------------------------------------------------------------------------*/
 
+	const char* const LandscapeDescriptionDefaultText
+		=	"<html>																						"	\
+			"	<head></head>																			"	\
+			"	<body>																					"	\
+			"		<font><center><i>																	"	\
+			"			You should open some landscape to see its description.							"	\
+			"		</i></center></font>																"	\
+			"	</body>																					"	\
+			"</html>																					";
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Views
 
 /*---------------------------------------------------------------------------*/

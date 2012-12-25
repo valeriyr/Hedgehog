@@ -22,6 +22,8 @@ DescriptionView::DescriptionView( const IEnvironment& _environment )
 {
 	m_descriptionView->setReadOnly( true );
 
+	setDefaultDescription();
+
 } // DescriptionView::DescriptionView
 
 
@@ -83,7 +85,20 @@ DescriptionView::landscapeWasOpened(
 void
 DescriptionView::landscapeWasClosed()
 {
+	setDefaultDescription();
+
 } // DescriptionView::landscapeWasClosed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+DescriptionView::setDefaultDescription()
+{
+	m_descriptionView->setHtml( Resources::Views::LandscapeDescriptionDefaultText );
+
+} // DescriptionView::setDefaultDescription
 
 
 /*---------------------------------------------------------------------------*/
