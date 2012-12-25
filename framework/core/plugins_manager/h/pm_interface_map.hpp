@@ -31,7 +31,7 @@ PLUGIN_INSTANCE::getInterface( const unsigned int _interfaceId )						\
 /*---------------------------------------------------------------------------*/
 
 
-#define INTERFACE( INTERFACE_ID, INTERFACE_POINTER )									\
+#define INTERFACE_DECL( INTERFACE_ID, INTERFACE_POINTER )								\
 																						\
 	case ( INTERFACE_ID ):																\
 		return INTERFACE_POINTER;														\

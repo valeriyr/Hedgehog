@@ -19,7 +19,7 @@ namespace CommandsManager {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE( IID_COMMANDS_REGISTRY, m_commandsRegistry.get() )
+	INTERFACE_DECL( IID_COMMANDS_REGISTRY, m_commandsRegistry.get() )
 
 END_INTERFACE_MAP()
 

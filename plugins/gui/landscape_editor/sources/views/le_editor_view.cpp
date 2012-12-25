@@ -16,12 +16,10 @@ namespace LandscapeEditor {
 
 
 EditorView::EditorView( const IEnvironment& _environment )
-	:	m_environment( _environment )
-	,	m_editorView( new QTextEdit() )
+	:	QGLWidget()
+	,	m_environment( _environment )
 	,	m_viewTitle( Resources::Views::EditorViewDefaultTitle )
 {
-	m_editorView->setReadOnly( true );
-
 } // EditorView::EditorView
 
 
@@ -48,9 +46,9 @@ EditorView::getViewTitle() const
 
 
 QWidget*
-EditorView::getViewWidget() const
+EditorView::getViewWidget()
 {
-	return m_editorView.get();
+	return this;
 
 } // EditorView::getViewWidget
 
@@ -61,8 +59,6 @@ EditorView::getViewWidget() const
 void
 EditorView::viewWasClosed()
 {
-	m_editorView.reset();
-
 } // EditorView::viewWasClosed
 
 

@@ -61,7 +61,7 @@ MainView::getViewTitle() const
 
 
 QWidget*
-MainView::getViewWidget() const
+MainView::getViewWidget()
 {
 	return m_consoleView.get();
 

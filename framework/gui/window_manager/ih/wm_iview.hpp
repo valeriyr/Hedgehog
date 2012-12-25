@@ -22,7 +22,7 @@ struct IView
 
 	virtual const QString& getViewTitle() const = 0;
 
-	virtual QWidget* getViewWidget() const = 0;
+	virtual QWidget* getViewWidget() = 0;
 
 /*---------------------------------------------------------------------------*/
 

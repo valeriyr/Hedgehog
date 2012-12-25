@@ -19,7 +19,8 @@ struct IEnvironment;
 /*---------------------------------------------------------------------------*/
 
 class EditorView
-	:	public Tools::Core::BaseWrapper< ILandscapeEditorView >
+	:	public QGLWidget
+	,	public Tools::Core::BaseWrapper< ILandscapeEditorView >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -36,7 +37,7 @@ public:
 
 	/*virtual*/ const QString& getViewTitle() const;
 
-	/*virtual*/ QWidget* getViewWidget() const;
+	/*virtual*/ QWidget* getViewWidget();
 
 /*---------------------------------------------------------------------------*/
 
@@ -55,8 +56,6 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
-
-	boost::shared_ptr< QTextEdit > m_editorView;
 
 	QString m_viewTitle;
 

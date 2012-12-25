@@ -53,7 +53,7 @@ DescriptionView::getViewTitle() const
 
 
 QWidget*
-DescriptionView::getViewWidget() const
+DescriptionView::getViewWidget()
 {
 	return m_descriptionView.get();
 

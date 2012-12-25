@@ -23,8 +23,8 @@ namespace WindowManager {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE( IID_WINDOW_MANAGER, m_windowManager.get() )
-	INTERFACE( IID_DIALOGS_MANAGER, m_dialogsManager.get() )
+	INTERFACE_DECL( IID_WINDOW_MANAGER, m_windowManager.get() )
+	INTERFACE_DECL( IID_DIALOGS_MANAGER, m_dialogsManager.get() )
 
 END_INTERFACE_MAP()
 

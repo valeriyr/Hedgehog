@@ -21,8 +21,8 @@ namespace LandscapeModel {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE( IID_LANDSCAPE_EDITOR, m_landscapeEditor.get() )
-	INTERFACE( IID_LANDSCAPE_MANAGER, m_landscapeManager.get() )
+	INTERFACE_DECL( IID_LANDSCAPE_EDITOR, m_landscapeEditor.get() )
+	INTERFACE_DECL( IID_LANDSCAPE_MANAGER, m_landscapeManager.get() )
 
 END_INTERFACE_MAP()
 

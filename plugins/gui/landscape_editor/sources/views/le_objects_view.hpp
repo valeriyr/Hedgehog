@@ -36,7 +36,7 @@ public:
 
 	/*virtual*/ const QString& getViewTitle() const;
 
-	/*virtual*/ QWidget* getViewWidget() const;
+	/*virtual*/ QWidget* getViewWidget();
 
 /*---------------------------------------------------------------------------*/
 

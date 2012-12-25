@@ -48,7 +48,7 @@ ObjectsView::getViewTitle() const
 
 
 QWidget*
-ObjectsView::getViewWidget() const
+ObjectsView::getViewWidget()
 {
 	return m_objectsView.get();
 
