@@ -63,6 +63,9 @@
     <ClCompile Include="sources\landscape_editor_controller\le_landscape_editor_controller.cpp">
       <Filter>Landscape Editor Controller</Filter>
     </ClCompile>
+    <ClCompile Include="sources\commands\le_save_as_landscape_command.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\le_ph.hpp">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="sources\landscape_editor_controller\le_landscape_editor_controller.hpp">
       <Filter>Landscape Editor Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands\le_save_as_landscape_command.hpp">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

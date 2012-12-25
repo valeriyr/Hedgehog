@@ -25,6 +25,7 @@
 #include "landscape_editor/sources/commands/le_open_landscape_command.hpp"
 #include "landscape_editor/sources/commands/le_close_landscape_command.hpp"
 #include "landscape_editor/sources/commands/le_save_landscape_command.hpp"
+#include "landscape_editor/sources/commands/le_save_as_landscape_command.hpp"
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 
@@ -84,6 +85,9 @@ PluginInstance::initialize()
 	commandsRegistry->registerCommand(
 			Resources::Commands::SaveLandscapeCommandName
 		,	boost::intrusive_ptr< ICommand >( new SaveLandscapeCommand( *m_environment ) ) );
+	commandsRegistry->registerCommand(
+			Resources::Commands::SaveAsLandscapeCommandName
+		,	boost::intrusive_ptr< ICommand >( new SaveAsLandscapeCommand( *m_environment ) ) );
 
 	m_objectsView.reset( new ObjectsView( *m_environment ) );
 	m_editorView.reset( new EditorView( *m_environment ) );
@@ -106,6 +110,7 @@ PluginInstance::initialize()
 	windowManager->addCommandToMenu( "File/Open", Resources::Commands::OpenLandscapeCommandName );
 	windowManager->addCommandToMenu( "File/Close", Resources::Commands::CloseLandscapeCommandName );
 	windowManager->addCommandToMenu( "File/Save", Resources::Commands::SaveLandscapeCommandName );
+	windowManager->addCommandToMenu( "File/Save As", Resources::Commands::SaveAsLandscapeCommandName );
 
 	m_landscapeEditorController.reset( new LandscapeEditorController( *m_environment ) );
 
@@ -123,6 +128,7 @@ PluginInstance::close()
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		windowManager = getWindowManager();
 
+	windowManager->removeCommandFromMenu( "File/Save As" );
 	windowManager->removeCommandFromMenu( "File/Save" );
 	windowManager->removeCommandFromMenu( "File/Close" );
 	windowManager->removeCommandFromMenu( "File/Open" );
@@ -139,10 +145,11 @@ PluginInstance::close()
 	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
 		commandsRegistry = getCommandsManager();
 
-	commandsRegistry->unregisterCommand( Resources::Commands::NewLandscapeCommandName );
-	commandsRegistry->unregisterCommand( Resources::Commands::OpenLandscapeCommandName );
-	commandsRegistry->unregisterCommand( Resources::Commands::CloseLandscapeCommandName );
+	commandsRegistry->unregisterCommand( Resources::Commands::SaveAsLandscapeCommandName );
 	commandsRegistry->unregisterCommand( Resources::Commands::SaveLandscapeCommandName );
+	commandsRegistry->unregisterCommand( Resources::Commands::CloseLandscapeCommandName );
+	commandsRegistry->unregisterCommand( Resources::Commands::OpenLandscapeCommandName );
+	commandsRegistry->unregisterCommand( Resources::Commands::NewLandscapeCommandName );
 
 	m_environment.reset();
 

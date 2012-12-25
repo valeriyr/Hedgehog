@@ -5,6 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/ih/lm_ieditable_landscape.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,6 +28,15 @@ struct ILandscapeEditorController
 	virtual void closeLandscape() = 0;
 
 	virtual void saveLandscape() = 0;
+
+	virtual void saveAsLandscape() = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual const QString& getLandscapeFilePath() const = 0;
+
+	virtual Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
+		getEditableLandscape() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

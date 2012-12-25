@@ -4,6 +4,10 @@
 #include "landscape_editor/sources/landscape_editor_controller/le_landscape_editor_controller.hpp"
 
 #include "landscape_editor/sources/environment/le_ienvironment.hpp"
+#include "landscape_editor/sources/views/le_ilandscape_editor_view.hpp"
+
+#include "window_manager/ih/wm_idialogs_manager.hpp"
+#include "landscape_model/ih/lm_ilandscape_editor.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -17,6 +21,8 @@ namespace LandscapeEditor {
 
 LandscapeEditorController::LandscapeEditorController( const IEnvironment& _environment )
 	:	m_environment( _environment )
+	,	m_landscapeFilePath()
+	,	m_editableLandscape()
 {
 } // LandscapeEditorController::LandscapeEditorController
 
@@ -35,6 +41,11 @@ LandscapeEditorController::~LandscapeEditorController()
 void
 LandscapeEditorController::newLandscape()
 {
+	m_landscapeFilePath = "c:/temp/new.hmap";
+	m_editableLandscape = m_environment.getLandscapeEditor()->createLandscape( 200, 200 );
+
+	landscapeWasOpened();
+
 } // LandscapeEditorController::newLandscape
 
 
@@ -44,16 +55,12 @@ LandscapeEditorController::newLandscape()
 void
 LandscapeEditorController::openLandscape()
 {
-	/*QString fileName( m_environment.getDialogsManager()->getOpenFileName( "*.hmap" ) );
+	m_landscapeFilePath = m_environment.getDialogsManager()->getOpenFileName( "*.hmap" );
+	m_editableLandscape = m_environment.getLandscapeEditor()->loadLandscape( m_landscapeFilePath );
 
-	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr landscape
-		= m_environment.getLandscapeEditor()->loadLandscape( fileName );
+	landscapeWasOpened();
 
-	m_environment.getDescriptionView()->landscapeWasOpened( landscape );
-	m_environment.getObjectsView()->landscapeWasOpened( landscape );
-	m_environment.getEditorView()->landscapeWasOpened( landscape );*/
-
-} // LandscapeEditorController::newLandscape
+} // LandscapeEditorController::openLandscape
 
 
 /*---------------------------------------------------------------------------*/
@@ -62,7 +69,14 @@ LandscapeEditorController::openLandscape()
 void
 LandscapeEditorController::closeLandscape()
 {
-} // LandscapeEditorController::newLandscape
+	m_landscapeFilePath.clear();
+	m_editableLandscape.reset();
+
+	m_environment.getDescriptionView()->landscapeWasClosed();
+	m_environment.getObjectsView()->landscapeWasClosed();
+	m_environment.getEditorView()->landscapeWasClosed();
+
+} // LandscapeEditorController::closeLandscape
 
 
 /*---------------------------------------------------------------------------*/
@@ -71,7 +85,58 @@ LandscapeEditorController::closeLandscape()
 void
 LandscapeEditorController::saveLandscape()
 {
-} // LandscapeEditorController::newLandscape
+	m_environment.getLandscapeEditor()
+		->saveLandscape( *m_editableLandscape, m_landscapeFilePath );
+
+} // LandscapeEditorController::saveLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeEditorController::saveAsLandscape()
+{
+	QString landscapeFilePath = m_environment.getDialogsManager()->getSaveFileName( "*.hmap" );
+	m_environment.getLandscapeEditor()
+		->saveLandscape( *m_editableLandscape, landscapeFilePath );
+
+} // LandscapeEditorController::saveAsLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QString&
+LandscapeEditorController::getLandscapeFilePath() const
+{
+	return m_landscapeFilePath;
+
+} // LandscapeEditorController::getLandscapeFilePath
+
+
+/*---------------------------------------------------------------------------*/
+
+
+Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
+LandscapeEditorController::getEditableLandscape() const
+{
+	return m_editableLandscape;
+
+} // LandscapeEditorController::getEditableLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeEditorController::landscapeWasOpened()
+{
+	m_environment.getDescriptionView()->landscapeWasOpened();
+	m_environment.getObjectsView()->landscapeWasOpened();
+	m_environment.getEditorView()->landscapeWasOpened();
+
+} // LandscapeEditorController::getEditableLandscape
 
 
 /*---------------------------------------------------------------------------*/

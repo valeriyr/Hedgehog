@@ -70,9 +70,7 @@ ObjectsView::viewWasClosed()
 
 
 void
-ObjectsView::landscapeWasOpened(
-	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr _landscape
-	)
+ObjectsView::landscapeWasOpened()
 {
 } // ObjectsView::landscapeWasOpened
 

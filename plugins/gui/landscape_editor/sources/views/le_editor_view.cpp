@@ -70,9 +70,7 @@ EditorView::viewWasClosed()
 
 
 void
-EditorView::landscapeWasOpened(
-	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr _landscape
-	)
+EditorView::landscapeWasOpened()
 {
 } // EditorView::landscapeWasOpened
 

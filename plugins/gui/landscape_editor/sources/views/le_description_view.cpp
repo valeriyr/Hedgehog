@@ -5,6 +5,9 @@
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 
+#include "landscape_editor/sources/environment/le_ienvironment.hpp"
+#include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -72,10 +75,15 @@ DescriptionView::viewWasClosed()
 
 
 void
-DescriptionView::landscapeWasOpened(
-	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr _landscape
-	)
+DescriptionView::landscapeWasOpened()
 {
+	m_descriptionView->setHtml(
+		QString( Resources::Views::LandscapeDescriptionFormat )
+			.arg( m_environment.getLandscapeEditorController()->getLandscapeFilePath() )
+			.arg( m_environment.getLandscapeEditorController()->getEditableLandscape()->getWidth() )
+			.arg( m_environment.getLandscapeEditorController()->getEditableLandscape()->getHeight() )
+		);
+
 } // DescriptionView::landscapeWasOpened
 
 

@@ -44,8 +44,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void landscapeWasOpened(
-		Plugins::Core::LandscapeModel::IEditableLandscape::Ptr _landscape );
+	/*virtual*/ void landscapeWasOpened();
 
 	/*virtual*/ void landscapeWasClosed();
 

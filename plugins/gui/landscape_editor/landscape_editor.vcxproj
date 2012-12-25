@@ -23,6 +23,7 @@
     <ClCompile Include="sources\commands\le_close_landscape_command.cpp" />
     <ClCompile Include="sources\commands\le_new_landscape_command.cpp" />
     <ClCompile Include="sources\commands\le_open_landscape_command.cpp" />
+    <ClCompile Include="sources\commands\le_save_as_landscape_command.cpp" />
     <ClCompile Include="sources\commands\le_save_landscape_command.cpp" />
     <ClCompile Include="sources\environment\le_environment.cpp" />
     <ClCompile Include="sources\internal_resources\le_internal_resources.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="sources\commands\le_close_landscape_command.hpp" />
     <ClInclude Include="sources\commands\le_new_landscape_command.hpp" />
     <ClInclude Include="sources\commands\le_open_landscape_command.hpp" />
+    <ClInclude Include="sources\commands\le_save_as_landscape_command.hpp" />
     <ClInclude Include="sources\commands\le_save_landscape_command.hpp" />
     <ClInclude Include="sources\environment\le_environment.hpp" />
     <ClInclude Include="sources\environment\le_ienvironment.hpp" />

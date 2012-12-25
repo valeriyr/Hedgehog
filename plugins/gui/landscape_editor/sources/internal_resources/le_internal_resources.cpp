@@ -26,14 +26,27 @@ namespace Views {
 /*---------------------------------------------------------------------------*/
 
 	const char* const LandscapeDescriptionDefaultText
-		=	"<html>																						"	\
-			"	<head></head>																			"	\
-			"	<body>																					"	\
-			"		<font><center><i>																	"	\
-			"			You should open some landscape to see its description.							"	\
-			"		</i></center></font>																"	\
-			"	</body>																					"	\
-			"</html>																					";
+		=	"<html>																		"	\
+			"	<head></head>															"	\
+			"	<body>																	"	\
+			"		<font><center><i>													"	\
+			"			You should open some landscape to see its description.			"	\
+			"		</i></center></font>												"	\
+			"	</body>																	"	\
+			"</html>																	";
+
+	const char* const LandscapeDescriptionFormat
+		=	"<html>																		"	\
+			"	<head></head>															"	\
+			"	<body>																	"	\
+			"		<font><center><b>Description</b></center></font>					"	\
+			"		<ul>																"	\
+			"			<li><b>File path:</b> '%1'</li>									"	\
+			"			<br>															"	\
+			"			<li><b>Landscape size:</b> %2 on %3</li>						"	\
+			"		</ul>																"	\
+			"	</body>																	"	\
+			"</html>																	";
 
 /*---------------------------------------------------------------------------*/
 
@@ -52,6 +65,8 @@ namespace Commands {
 	const char* const CloseLandscapeCommandName = "le.landscape.close";
 
 	const char* const SaveLandscapeCommandName = "le.landscape.save";
+
+	const char* const SaveAsLandscapeCommandName = "le.landscape.saveas";
 
 /*---------------------------------------------------------------------------*/
 

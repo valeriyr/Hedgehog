@@ -42,6 +42,23 @@ public:
 
 	/*virtual*/ void saveLandscape();
 
+	/*virtual*/ void saveAsLandscape();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ const QString& getLandscapeFilePath() const;
+
+	/*virtual*/ Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
+		getEditableLandscape() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	void landscapeWasOpened();
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -49,6 +66,10 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	QString m_landscapeFilePath;
+
+	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr m_editableLandscape;
 
 /*---------------------------------------------------------------------------*/
 

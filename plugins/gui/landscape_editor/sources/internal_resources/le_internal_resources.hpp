@@ -25,6 +25,8 @@ namespace Views {
 
 	extern const char* const LandscapeDescriptionDefaultText;
 
+	extern const char* const LandscapeDescriptionFormat;
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Views
@@ -42,6 +44,8 @@ namespace Commands {
 	extern const char* const CloseLandscapeCommandName;
 
 	extern const char* const SaveLandscapeCommandName;
+
+	extern const char* const SaveAsLandscapeCommandName;
 
 /*---------------------------------------------------------------------------*/
 
