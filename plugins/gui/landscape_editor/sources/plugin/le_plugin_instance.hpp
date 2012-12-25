@@ -51,6 +51,7 @@ namespace LandscapeEditor {
 
 struct IEnvironment;
 struct ILandscapeEditorView;
+struct ILandscapeEditorController;
 
 /*---------------------------------------------------------------------------*/
 
@@ -94,9 +95,6 @@ public:
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
 		getLandscapeEditor() const;
 
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
-		getLandscapeManager() const;
-
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< ILandscapeEditorView > getObjectsView() const;
@@ -104,6 +102,10 @@ public:
 	boost::intrusive_ptr< ILandscapeEditorView > getEditorView() const;
 
 	boost::intrusive_ptr< ILandscapeEditorView > getDescriptionView() const;
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< ILandscapeEditorController > getLandscapeEditorController() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -118,6 +120,8 @@ private:
 	boost::intrusive_ptr< ILandscapeEditorView > m_editorView;
 
 	boost::intrusive_ptr< ILandscapeEditorView > m_descriptionView;
+
+	boost::intrusive_ptr< ILandscapeEditorController > m_landscapeEditorController;
 
 /*---------------------------------------------------------------------------*/
 

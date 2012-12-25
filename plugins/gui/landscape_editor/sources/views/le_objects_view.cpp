@@ -15,8 +15,9 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-ObjectsView::ObjectsView()
-	:	m_objectsView( new QTextEdit() )
+ObjectsView::ObjectsView( const IEnvironment& _environment )
+	:	m_environment( _environment )
+	,	m_objectsView( new QTextEdit() )
 	,	m_viewTitle( Resources::Views::ObjectsViewTitle )
 {
 	m_objectsView->setReadOnly( true );
@@ -69,7 +70,9 @@ ObjectsView::viewWasClosed()
 
 
 void
-ObjectsView::landscapeWasOpened()
+ObjectsView::landscapeWasOpened(
+	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr _landscape
+	)
 {
 } // ObjectsView::landscapeWasOpened
 

@@ -1,11 +1,10 @@
 
-#ifndef __LE_LANDSCAPE_EDITOR_VIEW_HPP__
-#define __LE_LANDSCAPE_EDITOR_VIEW_HPP__
+#ifndef __LE_ILANDSCAPE_EDITOR_CONTROLLER_HPP__
+#define __LE_ILANDSCAPE_EDITOR_CONTROLLER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "window_manager/ih/wm_iview.hpp"
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,16 +14,19 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeEditorView
-	:	public Framework::GUI::WindowManager::IView
+struct ILandscapeEditorController
+	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void landscapeWasOpened(
-		Plugins::Core::LandscapeModel::IEditableLandscape::Ptr _landscape ) = 0;
+	virtual void newLandscape() = 0;
 
-	virtual void landscapeWasClosed() = 0;
+	virtual void openLandscape() = 0;
+
+	virtual void closeLandscape() = 0;
+
+	virtual void saveLandscape() = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,4 +40,4 @@ struct ILandscapeEditorView
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_LANDSCAPE_EDITOR_VIEW_HPP__
+#endif // __LE_ILANDSCAPE_EDITOR_CONTROLLER_HPP__

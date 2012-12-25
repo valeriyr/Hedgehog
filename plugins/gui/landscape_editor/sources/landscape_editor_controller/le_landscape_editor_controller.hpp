@@ -1,10 +1,10 @@
 
-#ifndef __LE_ENVIRONMENT_HPP__
-#define __LE_ENVIRONMENT_HPP__
+#ifndef __LE_LANDSCAPE_EDITOR_CONTROLLER_HPP__
+#define __LE_LANDSCAPE_EDITOR_CONTROLLER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/environment/le_ienvironment.hpp"
+#include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,12 +14,12 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
+class LandscapeEditorController
+	:	public Tools::Core::BaseWrapper< ILandscapeEditorController >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,30 +28,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( const PluginInstance& _pluginInstance );
+	LandscapeEditorController( const IEnvironment& _environment );
 
-	virtual ~Environment();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::intrusive_ptr< Framework::GUI::WindowManager::IDialogsManager >
-		getDialogsManager() const;
-
-	/*virtual*/ boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
-		getLandscapeEditor() const;
+	virtual ~LandscapeEditorController();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorView > getObjectsView() const;
+	/*virtual*/ void newLandscape();
 
-	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorView > getEditorView() const;
+	/*virtual*/ void openLandscape();
 
-	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorView > getDescriptionView() const;
+	/*virtual*/ void closeLandscape();
 
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorController >
-		getLandscapeEditorController() const;
+	/*virtual*/ void saveLandscape();
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,7 +48,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const PluginInstance& m_pluginInstance;
+	const IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 
@@ -73,4 +62,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_ENVIRONMENT_HPP__
+#endif // __LE_LANDSCAPE_EDITOR_CONTROLLER_HPP__

@@ -26,7 +26,6 @@ namespace Plugins
 		namespace LandscapeModel
 		{
 			struct ILandscapeEditor;
-			struct ILandscapeManager;
 		}
 	}
 }
@@ -40,6 +39,7 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 struct ILandscapeEditorView;
+struct ILandscapeEditorController;
 
 /*---------------------------------------------------------------------------*/
 
@@ -55,9 +55,6 @@ struct IEnvironment
 	virtual boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
 		getLandscapeEditor() const = 0;
 
-	virtual boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
-		getLandscapeManager() const = 0;
-
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< ILandscapeEditorView > getObjectsView() const = 0;
@@ -65,6 +62,11 @@ struct IEnvironment
 	virtual boost::intrusive_ptr< ILandscapeEditorView > getEditorView() const = 0;
 
 	virtual boost::intrusive_ptr< ILandscapeEditorView > getDescriptionView() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual boost::intrusive_ptr< ILandscapeEditorController >
+		getLandscapeEditorController() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

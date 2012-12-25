@@ -7,10 +7,10 @@
 
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 
-#include "landscape_model/ih/lm_ilandscape_manager.hpp"
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
 
 #include "landscape_editor/sources/views/le_ilandscape_editor_view.hpp"
+#include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -61,17 +61,6 @@ Environment::getLandscapeEditor() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
-Environment::getLandscapeManager() const
-{
-	return m_pluginInstance.getLandscapeManager();
-
-} // Environment::getLandscapeManager
-
-
-/*---------------------------------------------------------------------------*/
-
-
 boost::intrusive_ptr< ILandscapeEditorView >
 Environment::getObjectsView() const
 {
@@ -100,6 +89,17 @@ Environment::getDescriptionView() const
 	return m_pluginInstance.getDescriptionView();
 
 } // Environment::getObjectsView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ILandscapeEditorController >
+Environment::getLandscapeEditorController() const
+{
+	return m_pluginInstance.getLandscapeEditorController();
+
+} // Environment::getLandscapeEditorController
 
 
 /*---------------------------------------------------------------------------*/

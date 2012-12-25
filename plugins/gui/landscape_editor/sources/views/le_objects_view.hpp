@@ -14,6 +14,10 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
+struct IEnvironment;
+
+/*---------------------------------------------------------------------------*/
+
 class ObjectsView
 	:	public Tools::Core::BaseWrapper< ILandscapeEditorView >
 {
@@ -24,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ObjectsView();
+	ObjectsView( const IEnvironment& _environment );
 
 	virtual ~ObjectsView();
 
@@ -40,7 +44,8 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void landscapeWasOpened();
+	/*virtual*/ void landscapeWasOpened(
+		Plugins::Core::LandscapeModel::IEditableLandscape::Ptr _landscape );
 
 	/*virtual*/ void landscapeWasClosed();
 
@@ -49,6 +54,8 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	const IEnvironment& m_environment;
 
 	boost::shared_ptr< QTextEdit > m_objectsView;
 

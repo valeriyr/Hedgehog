@@ -4,10 +4,7 @@
 #include "landscape_editor/sources/commands/le_open_landscape_command.hpp"
 
 #include "landscape_editor/sources/environment/le_ienvironment.hpp"
-
-#include "landscape_model/ih/lm_ilandscape_manager.hpp"
-
-#include "window_manager/ih/wm_idialogs_manager.hpp"
+#include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -39,9 +36,7 @@ OpenLandscapeCommand::~OpenLandscapeCommand()
 void
 OpenLandscapeCommand::execute()
 {
-	QString fileName( m_environment.getDialogsManager()->getOpenFileName( "*.hmap" ) );
-
-	m_environment.getLandscapeManager()->initCurrentLandscape( fileName );
+	m_environment.getLandscapeEditorController()->openLandscape();
 
 } // OpenLandscapeCommand::execute
 

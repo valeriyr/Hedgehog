@@ -12,7 +12,6 @@
 #include "commands_manager/ih/cm_icommands_registry.hpp"
 #include "commands_manager/h/cm_plugin_id.hpp"
 
-#include "landscape_model/ih/lm_ilandscape_manager.hpp"
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
 #include "landscape_model/h/lm_plugin_id.hpp"
 
@@ -28,6 +27,8 @@
 #include "landscape_editor/sources/commands/le_save_landscape_command.hpp"
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
+
+#include "landscape_editor/sources/landscape_editor_controller/le_landscape_editor_controller.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -66,11 +67,10 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
-	using namespace Framework::Core::CommandsManager;
-
-	boost::intrusive_ptr< ICommandsRegistry > commandsRegistry = getCommandsManager();
-
 	m_environment.reset( new Environment( *this ) );
+
+	using namespace Framework::Core::CommandsManager;
+	boost::intrusive_ptr< ICommandsRegistry > commandsRegistry = getCommandsManager();
 
 	commandsRegistry->registerCommand(
 			Resources::Commands::NewLandscapeCommandName
@@ -85,9 +85,9 @@ PluginInstance::initialize()
 			Resources::Commands::SaveLandscapeCommandName
 		,	boost::intrusive_ptr< ICommand >( new SaveLandscapeCommand( *m_environment ) ) );
 
-	m_objectsView.reset( new ObjectsView() );
-	m_editorView.reset( new EditorView() );
-	m_descriptionView.reset( new DescriptionView() );
+	m_objectsView.reset( new ObjectsView( *m_environment ) );
+	m_editorView.reset( new EditorView( *m_environment ) );
+	m_descriptionView.reset( new DescriptionView( *m_environment ) );
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		windowManager = getWindowManager();
@@ -107,6 +107,8 @@ PluginInstance::initialize()
 	windowManager->addCommandToMenu( "File/Close", Resources::Commands::CloseLandscapeCommandName );
 	windowManager->addCommandToMenu( "File/Save", Resources::Commands::SaveLandscapeCommandName );
 
+	m_landscapeEditorController.reset( new LandscapeEditorController( *m_environment ) );
+
 } // PluginInstance::initialize
 
 
@@ -116,6 +118,8 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	m_landscapeEditorController.reset();
+
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		windowManager = getWindowManager();
 
@@ -204,20 +208,6 @@ PluginInstance::getLandscapeEditor() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
-PluginInstance::getLandscapeManager() const
-{
-	return
-		getPluginInterface< Plugins::Core::LandscapeModel::ILandscapeManager >(
-				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
-			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_MANAGER );
-
-} // PluginInstance::getLandscapeManager
-
-
-/*---------------------------------------------------------------------------*/
-
-
 boost::intrusive_ptr< ILandscapeEditorView >
 PluginInstance::getObjectsView() const
 {
@@ -246,6 +236,17 @@ PluginInstance::getDescriptionView() const
 	return m_descriptionView;
 
 } // PluginInstance::getObjectsView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ILandscapeEditorController >
+PluginInstance::getLandscapeEditorController() const
+{
+	return m_landscapeEditorController;
+
+} // PluginInstance::getLandscapeEditorController
 
 
 /*---------------------------------------------------------------------------*/

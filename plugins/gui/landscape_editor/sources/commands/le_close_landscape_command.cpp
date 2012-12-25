@@ -3,6 +3,9 @@
 
 #include "landscape_editor/sources/commands/le_close_landscape_command.hpp"
 
+#include "landscape_editor/sources/environment/le_ienvironment.hpp"
+#include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,7 +36,7 @@ CloseLandscapeCommand::~CloseLandscapeCommand()
 void
 CloseLandscapeCommand::execute()
 {
-	int i = 0;
+	m_environment.getLandscapeEditorController()->closeLandscape();
 
 } // CloseLandscapeCommand::execute
 

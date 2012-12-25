@@ -19,6 +19,9 @@
     <Filter Include="Viewes">
       <UniqueIdentifier>{0dc068cb-46b2-4db1-a1bf-62ec3a7982f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Landscape Editor Controller">
+      <UniqueIdentifier>{516429fd-2913-441c-b841-98a2a7bb5c14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\le_ph.cpp">
@@ -56,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="sources\views\le_objects_view.cpp">
       <Filter>Viewes</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_editor_controller\le_landscape_editor_controller.cpp">
+      <Filter>Landscape Editor Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +106,12 @@
     </ClInclude>
     <ClInclude Include="sources\views\le_ilandscape_editor_view.hpp">
       <Filter>Viewes</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_editor_controller\le_ilandscape_editor_controller.hpp">
+      <Filter>Landscape Editor Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_editor_controller\le_landscape_editor_controller.hpp">
+      <Filter>Landscape Editor Controller</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
