@@ -27,7 +27,7 @@ namespace Console {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE_DECL( Tools::Core::IID_MESSENGER, m_consoleMessenger.get() )
+	INTERFACE_DECLARATION( Tools::Core::IID_MESSENGER, m_consoleMessenger.get() )
 
 END_INTERFACE_MAP()
 
