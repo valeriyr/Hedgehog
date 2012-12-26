@@ -43,11 +43,15 @@ protected:
 
 	void paintEvent( QPaintEvent* _event );
 
+	void mouseDoubleClickEvent ( QMouseEvent* _event );
+
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	void regenerate();
 
 	void regenerateSurface();
 

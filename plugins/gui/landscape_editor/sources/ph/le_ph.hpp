@@ -4,6 +4,7 @@
 #include <QtGui/QColor>
 
 #include <QtGui/QPaintEvent>
+#include <QtGui/QMouseEvent>
 
 #include <QtOpenGL/QGLWidget>
 

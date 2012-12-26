@@ -42,13 +42,7 @@ LandscapeWidget::~LandscapeWidget()
 void
 LandscapeWidget::landscapeWasOpened()
 {
-	regenerateSurface();
-
-	setFixedSize( m_surface.size() );
-
-	QPainter painter;
-	painter.begin( this );
-	painter.drawPixmap( 0, 0, m_surface );
+	regenerate();
 
 	setVisible( true );
 	update();
@@ -75,71 +69,64 @@ LandscapeWidget::setDefaultLandscape()
 void
 LandscapeWidget::paintEvent( QPaintEvent* _event )
 {
-	/*QPainter painter;
-	painter.begin( this );
-	painter.drawPixmap( _event->rect(), m_surface.copy( _event->rect() ) );*/
-
 	QGLWidget::paintEvent( _event );
 
-	/*Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
+} // LandscapeWidget::paintEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeWidget::mouseDoubleClickEvent ( QMouseEvent* _event )
+{
+	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
 		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
 
-	if ( landscape )
+	Plugins::Core::LandscapeModel::Point point(
+			_event->pos().x() / Resources::Landscape::CellSize
+		,	_event->pos().y() / Resources::Landscape::CellSize );
+
+	switch( landscape->getSurfaceItem( point ) )
 	{
-		QPainter painter;
-		painter.begin( this );
-		// painter.setRenderHint( QPainter::Antialiasing );
-		painter.drawPixmap( 0, 0, m_surface );
+	case Plugins::Core::LandscapeModel::SurfaceItems::Grass:
+		landscape->setSurfaceItem( point, Plugins::Core::LandscapeModel::SurfaceItems::Sand );
+		break;
+	case Plugins::Core::LandscapeModel::SurfaceItems::Sand:
+		landscape->setSurfaceItem( point, Plugins::Core::LandscapeModel::SurfaceItems::Snow );
+		break;
+	case Plugins::Core::LandscapeModel::SurfaceItems::Snow:
+		landscape->setSurfaceItem( point, Plugins::Core::LandscapeModel::SurfaceItems::Wather );
+		break;
+	case Plugins::Core::LandscapeModel::SurfaceItems::Wather:
+		landscape->setSurfaceItem( point, Plugins::Core::LandscapeModel::SurfaceItems::Grass );
+		break;
+	default:
+		assert( !"Unrecognized surface item" );
+		break;
 	}
-	else
-	{
-		QGLWidget::paintEvent( _event );
-	}*/
 
-    /*QPainter painter;
-    painter.begin(this);
-    painter.setRenderHint(QPainter::Antialiasing);
+	regenerate();
+	update();
 
-	QLinearGradient gradient(QPointF(50, -20), QPointF(80, 20));
-    gradient.setColorAt(0.0, Qt::white);
-    gradient.setColorAt(1.0, QColor(0xa6, 0xce, 0x39));
-
-    QBrush background = QBrush(QColor(64, 32, 64));
-    QBrush circleBrush = QBrush(gradient);
-    QPen circlePen = QPen(Qt::black);
-    circlePen.setWidth(1);
-    QPen textPen = QPen(Qt::white);
-    QFont textFont;
-	textFont.setPixelSize(50);
+} // LandscapeWidget::mouseDoubleClickEvent
 
 
-    painter.fillRect(event->rect(), background);
-    painter.translate(100, 100);
+/*---------------------------------------------------------------------------*/
 
-    painter.save();
-    painter.setBrush(circleBrush);
-    painter.setPen(circlePen);
-	elapsed = ( elapsed + 100 ) % 1000;
-    painter.rotate( elapsed * 0.030);
 
-    qreal r = elapsed/1000.0;
-    int n = 30;
-    for (int i = 0; i < n; ++i) {
-        painter.rotate(30);
-        qreal radius = 0 + 120.0*((i+r)/n);
-        qreal circleRadius = 1 + ((i+r)/n)*20;
-        painter.drawEllipse(QRectF(radius, -circleRadius,
-                                    circleRadius*2, circleRadius*2));
-    }
-    painter.restore();
+void
+LandscapeWidget::regenerate()
+{
+	regenerateSurface();
 
-    painter.setPen(textPen);
-    painter.setFont(textFont);
-    painter.drawText(QRect(-50, -50, 100, 100), Qt::AlignCenter, "Qt");
+	setFixedSize( m_surface.size() );
 
-    painter.end();*/
+	QPainter painter;
+	painter.begin( this );
+	painter.drawPixmap( 0, 0, m_surface );
 
-} // LandscapeWidget::paintEvent
+} // LandscapeWidget::regenerate
 
 
 /*---------------------------------------------------------------------------*/
@@ -173,9 +160,6 @@ LandscapeWidget::regenerateSurface()
 			{
 			case Plugins::Core::LandscapeModel::SurfaceItems::Grass:
 				color.setRgb( 50, 200, 100 );
-				break;
-			case Plugins::Core::LandscapeModel::SurfaceItems::Ground:
-				color.setRgb( 180, 140, 0 );
 				break;
 			case Plugins::Core::LandscapeModel::SurfaceItems::Sand:
 				color.setRgb( 255, 200, 50 );

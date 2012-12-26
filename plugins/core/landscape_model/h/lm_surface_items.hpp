@@ -17,11 +17,12 @@ struct SurfaceItems
 			Grass	= 1
 		,	Snow	= 2
 		,	Sand	= 4
-
-		,	Ground	= Grass | Snow | Sand
-
 		,	Wather	= 8
+
+		,	Last
 	};
+
+	static const unsigned int ms_ground = Grass | Snow | Sand;
 };
 
 /*---------------------------------------------------------------------------*/
