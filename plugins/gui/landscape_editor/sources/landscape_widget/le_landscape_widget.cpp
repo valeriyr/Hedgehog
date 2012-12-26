@@ -21,7 +21,8 @@ namespace LandscapeEditor {
 LandscapeWidget::LandscapeWidget( const IEnvironment& _environment, QWidget* _parent )
 	:	QGLWidget( QGLFormat( QGL::SampleBuffers ), _parent )
 	,	m_environment( _environment )
-	,	m_surface()
+	,	m_surfaceLayer()
+	,	m_objectsLayer()
 {
 	setDefaultLandscape();
 
@@ -61,17 +62,6 @@ LandscapeWidget::setDefaultLandscape()
 	update();
 
 } // LandscapeWidget::setDefaultLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeWidget::paintEvent( QPaintEvent* _event )
-{
-	QGLWidget::paintEvent( _event );
-
-} // LandscapeWidget::paintEvent
 
 
 /*---------------------------------------------------------------------------*/
@@ -118,13 +108,15 @@ LandscapeWidget::mouseDoubleClickEvent ( QMouseEvent* _event )
 void
 LandscapeWidget::regenerate()
 {
-	regenerateSurface();
+	regenerateSurfaceLayer();
+	regenerateObjectsLayer();
 
-	setFixedSize( m_surface.size() );
+	setFixedSize( m_surfaceLayer.size() );
 
 	QPainter painter;
 	painter.begin( this );
-	painter.drawPixmap( 0, 0, m_surface );
+	painter.drawPixmap( 0, 0, m_surfaceLayer );
+	painter.drawPixmap( 0, 0, m_objectsLayer );
 
 } // LandscapeWidget::regenerate
 
@@ -133,18 +125,18 @@ LandscapeWidget::regenerate()
 
 
 void
-LandscapeWidget::regenerateSurface()
+LandscapeWidget::regenerateSurfaceLayer()
 {
 	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
 		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
 
-	m_surface
+	m_surfaceLayer
 		= QPixmap( QSize(
 				landscape->getWidth() * Resources::Landscape::CellSize
 			,	landscape->getHeight() * Resources::Landscape::CellSize ) );
 
 	QPainter painter;
-	painter.begin( &m_surface );
+	painter.begin( &m_surfaceLayer );
 	painter.setRenderHint( QPainter::Antialiasing );
 
 	for ( unsigned int i = 0; i < landscape->getWidth(); ++i )
@@ -191,16 +183,40 @@ LandscapeWidget::regenerateSurface()
 				i * Resources::Landscape::CellSize
 			,	0
 			,	i * Resources::Landscape::CellSize
-			,	m_surface.size().height() );
+			,	m_surfaceLayer.size().height() );
 
 	for ( unsigned int i = 0; i < landscape->getHeight(); ++i )
 		painter.drawLine(
 				0
 			,	i * Resources::Landscape::CellSize
-			,	m_surface.size().width()
+			,	m_surfaceLayer.size().width()
 			,	i * Resources::Landscape::CellSize );
 
-} // LandscapeWidget::regenerateSurface
+} // LandscapeWidget::regenerateSurfaceLayer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeWidget::regenerateObjectsLayer()
+{
+	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
+		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
+
+	m_objectsLayer
+		= QPixmap( QSize(
+				landscape->getWidth() * Resources::Landscape::CellSize
+			,	landscape->getHeight() * Resources::Landscape::CellSize ) );
+	m_objectsLayer.fill( Qt::transparent );
+
+	QPainter painter;
+	painter.begin( &m_objectsLayer );
+	painter.setRenderHint( QPainter::Antialiasing );
+
+	painter.drawLine( 10, 10, 100, 100 );
+
+} // LandscapeWidget::regenerateObjectsLayer
 
 
 /*---------------------------------------------------------------------------*/

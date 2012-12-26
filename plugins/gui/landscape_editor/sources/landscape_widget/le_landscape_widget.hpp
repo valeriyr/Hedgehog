@@ -41,9 +41,7 @@ protected:
 
 /*---------------------------------------------------------------------------*/
 
-	void paintEvent( QPaintEvent* _event );
-
-	void mouseDoubleClickEvent ( QMouseEvent* _event );
+	/*virtual*/ void mouseDoubleClickEvent ( QMouseEvent* _event );
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,7 +51,9 @@ private:
 
 	void regenerate();
 
-	void regenerateSurface();
+	void regenerateSurfaceLayer();
+
+	void regenerateObjectsLayer();
 
 /*---------------------------------------------------------------------------*/
 
@@ -63,7 +63,9 @@ private:
 
 	const IEnvironment& m_environment;
 
-	QPixmap m_surface;
+	QPixmap m_surfaceLayer;
+
+	QPixmap m_objectsLayer;
 
 /*---------------------------------------------------------------------------*/
 
