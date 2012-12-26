@@ -16,11 +16,12 @@ namespace LandscapeEditor {
 
 struct IEnvironment;
 
+class LandscapeWidget;
+
 /*---------------------------------------------------------------------------*/
 
 class EditorView
-	:	public QGLWidget
-	,	public Tools::Core::BaseWrapper< ILandscapeEditorView >
+	:	public Tools::Core::BaseWrapper< ILandscapeEditorView >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -56,6 +57,10 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	boost::shared_ptr< QScrollArea > m_editorMainWidget;
+
+	LandscapeWidget* m_landscapeWidget;
 
 	QString m_viewTitle;
 

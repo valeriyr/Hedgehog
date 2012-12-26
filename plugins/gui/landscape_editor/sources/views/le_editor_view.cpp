@@ -5,6 +5,8 @@
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 
+#include "landscape_editor/sources/landscape_widget/le_landscape_widget.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,10 +18,13 @@ namespace LandscapeEditor {
 
 
 EditorView::EditorView( const IEnvironment& _environment )
-	:	QGLWidget()
-	,	m_environment( _environment )
+	:	m_environment( _environment )
+	,	m_editorMainWidget( new QScrollArea() )
+	,	m_landscapeWidget( new LandscapeWidget( _environment ) )
 	,	m_viewTitle( Resources::Views::EditorViewDefaultTitle )
 {
+	m_editorMainWidget->setWidget( m_landscapeWidget );
+
 } // EditorView::EditorView
 
 
@@ -48,7 +53,7 @@ EditorView::getViewTitle() const
 QWidget*
 EditorView::getViewWidget()
 {
-	return this;
+	return m_editorMainWidget.get();
 
 } // EditorView::getViewWidget
 
@@ -59,6 +64,8 @@ EditorView::getViewWidget()
 void
 EditorView::viewWasClosed()
 {
+	m_editorMainWidget.reset();
+
 } // EditorView::viewWasClosed
 
 
@@ -68,6 +75,8 @@ EditorView::viewWasClosed()
 void
 EditorView::landscapeWasOpened()
 {
+	m_landscapeWidget->landscapeWasOpened();
+
 } // EditorView::landscapeWasOpened
 
 
@@ -77,6 +86,8 @@ EditorView::landscapeWasOpened()
 void
 EditorView::landscapeWasClosed()
 {
+	m_landscapeWidget->setDefaultLandscape();
+
 } // EditorView::landscapeWasClosed
 
 

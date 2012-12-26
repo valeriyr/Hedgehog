@@ -42,7 +42,7 @@ void
 LandscapeEditorController::newLandscape()
 {
 	m_landscapeFilePath = "c:/temp/new.hmap";
-	m_editableLandscape = m_environment.getLandscapeEditor()->createLandscape( 200, 200 );
+	m_editableLandscape = m_environment.getLandscapeEditor()->createLandscape( 60, 30 );
 
 	landscapeWasOpened();
 
@@ -56,9 +56,12 @@ void
 LandscapeEditorController::openLandscape()
 {
 	m_landscapeFilePath = m_environment.getDialogsManager()->getOpenFileName( "*.hmap" );
-	m_editableLandscape = m_environment.getLandscapeEditor()->loadLandscape( m_landscapeFilePath );
 
-	landscapeWasOpened();
+	if ( !m_landscapeFilePath.isEmpty() )
+	{
+		m_editableLandscape = m_environment.getLandscapeEditor()->loadLandscape( m_landscapeFilePath );
+		landscapeWasOpened();
+	}
 
 } // LandscapeEditorController::openLandscape
 
@@ -85,8 +88,9 @@ LandscapeEditorController::closeLandscape()
 void
 LandscapeEditorController::saveLandscape()
 {
-	m_environment.getLandscapeEditor()
-		->saveLandscape( *m_editableLandscape, m_landscapeFilePath );
+	if ( m_editableLandscape )
+		m_environment.getLandscapeEditor()
+			->saveLandscape( *m_editableLandscape, m_landscapeFilePath );
 
 } // LandscapeEditorController::saveLandscape
 

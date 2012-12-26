@@ -82,7 +82,12 @@ LandscapeSerializer::save(
 		const ILandscape& _landscape
 	,	const QString& _filePath ) const
 {
+	QFileInfo fileInfo( _filePath );
+	if ( !fileInfo.absoluteDir().mkpath(".") )
+		throw std::exception();
+
 	QFile file( _filePath );
+
 	if ( !file.open( QIODevice::WriteOnly ) )
 		throw std::exception();
 

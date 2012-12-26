@@ -1,75 +1,76 @@
 
-#ifndef __LE_INTERNAL_RESOURCES_HPP__
-#define __LE_INTERNAL_RESOURCES_HPP__
+#ifndef __LE_LANDSCAPE_WIDGET_HPP__
+#define __LE_LANDSCAPE_WIDGET_HPP__
+
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
 namespace LandscapeEditor {
-namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-namespace Views {
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const ObjectsViewTitle;
-
-	extern const char* const DescriptionViewTitle;
-
-	extern const char* const EditorViewDefaultTitle;
+class LandscapeWidget
+	:	public QGLWidget
+{
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const LandscapeDescriptionDefaultText;
-
-	extern const char* const LandscapeDescriptionFormat;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Views
+	LandscapeWidget( const IEnvironment& _environment, QWidget* _parent = 0 );
+
+	virtual ~LandscapeWidget();
 
 /*---------------------------------------------------------------------------*/
 
-namespace Commands {
+	void landscapeWasOpened();
+
+	void setDefaultLandscape();
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const NewLandscapeCommandName;
-
-	extern const char* const OpenLandscapeCommandName;
-
-	extern const char* const CloseLandscapeCommandName;
-
-	extern const char* const SaveLandscapeCommandName;
-
-	extern const char* const SaveAsLandscapeCommandName;
+protected:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Commands
+	void paintEvent( QPaintEvent* _event );
 
 /*---------------------------------------------------------------------------*/
 
-namespace Landscape {
+private:
 
 /*---------------------------------------------------------------------------*/
 
-	extern const unsigned int CellSize;
+	void regenerateSurface();
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Landscape
+private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Resources
+	const IEnvironment& m_environment;
+
+	QPixmap m_surface;
+
+/*---------------------------------------------------------------------------*/
+
+};
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeEditor
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_INTERNAL_RESOURCES_HPP__
+#endif // __LE_LANDSCAPE_WIDGET_HPP__

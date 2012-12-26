@@ -22,6 +22,9 @@
     <Filter Include="Landscape Editor Controller">
       <UniqueIdentifier>{516429fd-2913-441c-b841-98a2a7bb5c14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Landscape Widget">
+      <UniqueIdentifier>{062b150e-430c-491e-bb58-eca09be2e5b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\le_ph.cpp">
@@ -65,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="sources\commands\le_save_as_landscape_command.cpp">
       <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_widget\le_landscape_widget.cpp">
+      <Filter>Landscape Widget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="sources\commands\le_save_as_landscape_command.hpp">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_widget\le_landscape_widget.hpp">
+      <Filter>Landscape Widget</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

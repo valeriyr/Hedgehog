@@ -34,12 +34,15 @@ DialogsManager::~DialogsManager()
 QString
 DialogsManager::getExistingDirectory()
 {
-	 m_lastOpenedDirectory = QFileDialog::getExistingDirectory(
+	QString result = QFileDialog::getExistingDirectory(
 			&m_mainWindow
 		,	"Open Directory"
 		,	m_lastOpenedDirectory );
 
-	 return m_lastOpenedDirectory;
+	if ( !result.isEmpty() )
+		m_lastOpenedDirectory = result;
+
+	 return result;
 
 } // DialogsManager::getExistingDirectory
 
@@ -56,7 +59,8 @@ DialogsManager::getOpenFileName( const QString& _filter )
 		,	_filter
 		,	m_lastOpenedDirectory );
 
-	setLastOpenedDirectory( result );
+	if ( !result.isEmpty() )
+		setLastOpenedDirectory( result );
 
 	return result;
 
@@ -75,7 +79,8 @@ DialogsManager::getSaveFileName( const QString& _filter )
 		,	_filter
 		,	m_lastOpenedDirectory );
 
-	setLastOpenedDirectory( result );
+	if ( !result.isEmpty() )
+		setLastOpenedDirectory( result );
 
 	return result;
 
