@@ -18,7 +18,8 @@ namespace LandscapeModel {
 Landscape::Landscape()
 	:	m_width( 0 )
 	,	m_height( 0 )
-	,	m_surfaceData( NULL )
+	,	m_surfaceItems( NULL )
+	,	m_terrainMap( NULL )
 {
 } // Landscape::Landscape
 
@@ -28,14 +29,8 @@ Landscape::Landscape()
 
 Landscape::~Landscape()
 {
-	if ( m_surfaceData )
-	{
-		for ( unsigned int i = 0; i < m_width; ++i )
-			delete m_surfaceData[ i ];
-		delete [] m_surfaceData;
-
-		m_surfaceData = NULL;
-	}
+	clearCollection( m_surfaceItems );
+	clearCollection( m_terrainMap );
 
 } // Landscape::~Landscape
 
@@ -66,7 +61,7 @@ Landscape::getHeight() const
 
 
 ILandscapeObject::Ptr
-Landscape::getLadscapeObject( const Point& _point ) const
+Landscape::getLadscapeObject( const unsigned int _width, const unsigned int _height ) const
 {
 	return ILandscapeObject::Ptr();
 
@@ -77,13 +72,13 @@ Landscape::getLadscapeObject( const Point& _point ) const
 
 
 SurfaceItems::Enum
-Landscape::getSurfaceItem( const Point& _point ) const
+Landscape::getSurfaceItem( const unsigned int _width, const unsigned int _height ) const
 {
-	assert( m_surfaceData );
-	assert( _point.m_widthIndex < m_width );
-	assert( _point.m_heightIndex < m_height );
+	assert( m_surfaceItems );
+	assert( _width < m_width );
+	assert( _height < m_height );
 
-	return m_surfaceData[ _point.m_widthIndex][ _point.m_heightIndex ];
+	return m_surfaceItems[ _width ][ _height ];
 
 } // Landscape::getSurfaceItem
 
@@ -91,10 +86,23 @@ Landscape::getSurfaceItem( const Point& _point ) const
 /*---------------------------------------------------------------------------*/
 
 
+TerrainMapItems::Enum
+Landscape::getTerrainMapItem( const unsigned int _width, const unsigned int _height ) const
+{
+	assert( m_terrainMap );
+	assert( _width < m_width );
+	assert( _height < m_height );
+
+	return m_terrainMap[ _width ][ _height ];
+
+} // Landscape::getTerrainMapItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
-Landscape::setSize(
-		const unsigned int _width
-	,	const unsigned int _height )
+Landscape::setSize( const unsigned int _width, const unsigned int _height )
 {
 	assert( _width > 0 );
 	assert( _height > 0 );
@@ -102,13 +110,20 @@ Landscape::setSize(
 	m_width = _width;
 	m_height = _height;
 
-	m_surfaceData = new SurfaceItems::Enum*[ m_width ];
-	for ( unsigned int i = 0; i < m_width; ++i )
-		m_surfaceData[ i ] = new SurfaceItems::Enum[ m_height ];
+	initCollection( m_surfaceItems );
+	initCollection( m_terrainMap );
 
 	for ( unsigned int i = 0; i < m_width; ++i )
+	{
 		for ( unsigned int j = 0; j < m_height; ++j )
-			m_surfaceData[ i ][ j ] = SurfaceItems::Grass;
+		{
+			SurfaceItems::Enum defaultSurfaceItem = SurfaceItems::Grass;
+
+			m_surfaceItems[ i ][ j ] = defaultSurfaceItem;
+			m_terrainMap[ i ][ j ]
+				= TerrainMapItems::fromSurfaceItem( defaultSurfaceItem );
+		}
+	}
 
 } // Landscape::setWidth
 
@@ -118,14 +133,17 @@ Landscape::setSize(
 
 void
 Landscape::setSurfaceItem(
-		const Point& _point
+		const unsigned int _width
+	,	const unsigned int _height
 	,	const SurfaceItems::Enum _surfaceItem )
 {
-	assert( m_surfaceData );
-	assert( _point.m_widthIndex < m_width );
-	assert( _point.m_heightIndex < m_height );
+	assert( m_surfaceItems );
+	assert( m_terrainMap );
+	assert( _width < m_width );
+	assert( _height < m_height );
 
-	m_surfaceData[ _point.m_widthIndex][ _point.m_heightIndex ] = _surfaceItem;
+	m_surfaceItems[ _width ][ _height ] = _surfaceItem;
+	m_terrainMap[ _width ][ _height ] = TerrainMapItems::fromSurfaceItem( _surfaceItem );
 
 } // Landscape::setSurfaceItem
 
@@ -134,9 +152,44 @@ Landscape::setSurfaceItem(
 
 
 void
-Landscape::createTreeObject( const Point& _point )
+Landscape::createTreeObject( const unsigned int _width, const unsigned int _height )
 {
 } // Landscape::createTreeObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
+template< typename _TCollectionItem >
+void
+Landscape::initCollection( _TCollectionItem**& _collection )
+{
+	assert( !_collection );
+
+	_collection = new _TCollectionItem*[ m_width ];
+	for ( unsigned int i = 0; i < m_width; ++i )
+		_collection[ i ] = new _TCollectionItem[ m_height ];
+
+} // Landscape::initCollection
+
+
+/*---------------------------------------------------------------------------*/
+
+
+template< typename _TCollection >
+void
+Landscape::clearCollection( _TCollection& _collection )
+{
+	if ( _collection )
+	{
+		for ( unsigned int i = 0; i < m_width; ++i )
+			delete _collection[ i ];
+		delete [] _collection;
+
+		_collection = NULL;
+	}
+
+} // Landscape::clearCollection
 
 
 /*---------------------------------------------------------------------------*/

@@ -43,6 +43,8 @@ protected:
 
 	/*virtual*/ void mouseDoubleClickEvent ( QMouseEvent* _event );
 
+	/*virtual*/ void paintEvent( QPaintEvent* _event );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -54,6 +56,13 @@ private:
 	void regenerateSurfaceLayer();
 
 	void regenerateObjectsLayer();
+
+/*---------------------------------------------------------------------------*/
+
+	void drawSurfaceItem(
+			QPainter& _painter
+		,	const unsigned int _widthIndex
+		,	const unsigned int _heightIndex );
 
 /*---------------------------------------------------------------------------*/
 

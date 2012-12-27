@@ -36,8 +36,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\lm_plugin_id.hpp" />
-    <ClInclude Include="h\lm_point.hpp" />
     <ClInclude Include="h\lm_surface_items.hpp" />
+    <ClInclude Include="h\lm_terrain_map_items.hpp" />
     <ClInclude Include="ih\lm_ieditable_landscape.hpp" />
     <ClInclude Include="ih\lm_ilandscape.hpp" />
     <ClInclude Include="ih\lm_ilandscape_editor.hpp" />
@@ -45,6 +45,7 @@
     <ClInclude Include="ih\lm_ilandscape_object.hpp" />
     <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
+    <ClInclude Include="sources\landscape\lm_point.hpp" />
     <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp" />
     <ClInclude Include="sources\landscape_manager\lm_landscape_manager.hpp" />
     <ClInclude Include="sources\landscape_objects\lm_base_landscape_object.hpp" />

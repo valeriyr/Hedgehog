@@ -86,9 +86,6 @@
     <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp">
       <Filter>Landscape Editor</Filter>
     </ClInclude>
-    <ClInclude Include="h\lm_point.hpp">
-      <Filter>External Headers</Filter>
-    </ClInclude>
     <ClInclude Include="ih\lm_ilandscape_object.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -115,6 +112,12 @@
     </ClInclude>
     <ClInclude Include="h\lm_plugin_id.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_terrain_map_items.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape\lm_point.hpp">
+      <Filter>Landscape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

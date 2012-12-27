@@ -87,6 +87,7 @@ void
 EditorView::landscapeWasClosed()
 {
 	m_landscapeWidget->setDefaultLandscape();
+	m_editorMainWidget->update();
 
 } // EditorView::landscapeWasClosed
 

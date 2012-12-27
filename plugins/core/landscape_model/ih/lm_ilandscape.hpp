@@ -8,8 +8,8 @@
 
 #include "landscape_model/ih/lm_ilandscape_object.hpp"
 
-#include "landscape_model/h/lm_point.hpp"
 #include "landscape_model/h/lm_surface_items.hpp"
+#include "landscape_model/h/lm_terrain_map_items.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,9 +37,14 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual ILandscapeObject::Ptr getLadscapeObject( const Point& _point ) const = 0;
+	virtual ILandscapeObject::Ptr
+		getLadscapeObject( const unsigned int _width, const unsigned int _height ) const = 0;
 
-	virtual SurfaceItems::Enum getSurfaceItem( const Point& _point ) const = 0;
+	virtual SurfaceItems::Enum
+		getSurfaceItem( const unsigned int _width, const unsigned int _height ) const = 0;
+
+	virtual TerrainMapItems::Enum
+		getTerrainMapItem( const unsigned int _width, const unsigned int _height ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

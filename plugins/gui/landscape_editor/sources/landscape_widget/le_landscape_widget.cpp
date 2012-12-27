@@ -46,7 +46,6 @@ LandscapeWidget::landscapeWasOpened()
 	regenerate();
 
 	setVisible( true );
-	update();
 
 } // LandscapeWidget::landscapeWasOpened
 
@@ -59,7 +58,6 @@ LandscapeWidget::setDefaultLandscape()
 {
 	setVisible( false );
 	setFixedSize( 0, 0 );
-	update();
 
 } // LandscapeWidget::setDefaultLandscape
 
@@ -73,33 +71,51 @@ LandscapeWidget::mouseDoubleClickEvent ( QMouseEvent* _event )
 	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
 		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
 
-	Plugins::Core::LandscapeModel::Point point(
-			_event->pos().x() / Resources::Landscape::CellSize
-		,	_event->pos().y() / Resources::Landscape::CellSize );
+	const unsigned int width = _event->pos().x() / Resources::Landscape::CellSize;
+	const unsigned int height = _event->pos().y() / Resources::Landscape::CellSize;
 
-	switch( landscape->getSurfaceItem( point ) )
+	switch( landscape->getSurfaceItem( width, height ) )
 	{
 	case Plugins::Core::LandscapeModel::SurfaceItems::Grass:
-		landscape->setSurfaceItem( point, Plugins::Core::LandscapeModel::SurfaceItems::Sand );
+		landscape->setSurfaceItem( width, height, Plugins::Core::LandscapeModel::SurfaceItems::Sand );
 		break;
 	case Plugins::Core::LandscapeModel::SurfaceItems::Sand:
-		landscape->setSurfaceItem( point, Plugins::Core::LandscapeModel::SurfaceItems::Snow );
+		landscape->setSurfaceItem( width, height, Plugins::Core::LandscapeModel::SurfaceItems::Snow );
 		break;
 	case Plugins::Core::LandscapeModel::SurfaceItems::Snow:
-		landscape->setSurfaceItem( point, Plugins::Core::LandscapeModel::SurfaceItems::Wather );
+		landscape->setSurfaceItem( width, height, Plugins::Core::LandscapeModel::SurfaceItems::Water );
 		break;
-	case Plugins::Core::LandscapeModel::SurfaceItems::Wather:
-		landscape->setSurfaceItem( point, Plugins::Core::LandscapeModel::SurfaceItems::Grass );
+	case Plugins::Core::LandscapeModel::SurfaceItems::Water:
+		landscape->setSurfaceItem( width, height, Plugins::Core::LandscapeModel::SurfaceItems::Grass );
 		break;
 	default:
 		assert( !"Unrecognized surface item" );
 		break;
 	}
 
-	regenerate();
+	QPainter painter;
+	painter.begin( &m_surfaceLayer );
+	painter.setRenderHint( QPainter::Antialiasing );
+
+	drawSurfaceItem( painter, width, height );
+
 	update();
 
 } // LandscapeWidget::mouseDoubleClickEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeWidget::paintEvent( QPaintEvent* _event )
+{
+	QPainter painter;
+	painter.begin( this );
+	painter.drawPixmap( 0, 0, m_surfaceLayer );
+	painter.drawPixmap( 0, 0, m_objectsLayer );
+
+} // LandscapeWidget::paintEvent
 
 
 /*---------------------------------------------------------------------------*/
@@ -112,11 +128,6 @@ LandscapeWidget::regenerate()
 	regenerateObjectsLayer();
 
 	setFixedSize( m_surfaceLayer.size() );
-
-	QPainter painter;
-	painter.begin( this );
-	painter.drawPixmap( 0, 0, m_surfaceLayer );
-	painter.drawPixmap( 0, 0, m_objectsLayer );
 
 } // LandscapeWidget::regenerate
 
@@ -140,45 +151,10 @@ LandscapeWidget::regenerateSurfaceLayer()
 	painter.setRenderHint( QPainter::Antialiasing );
 
 	for ( unsigned int i = 0; i < landscape->getWidth(); ++i )
-	{
 		for ( unsigned int j = 0; j < landscape->getHeight(); ++j )
-		{
-			Plugins::Core::LandscapeModel::SurfaceItems::Enum
-				surfaceItem = landscape->getSurfaceItem( Plugins::Core::LandscapeModel::Point( i, j ) );
+			drawSurfaceItem( painter, i, j );
 
-			QColor color;
-
-			switch( surfaceItem )
-			{
-			case Plugins::Core::LandscapeModel::SurfaceItems::Grass:
-				color.setRgb( 50, 200, 100 );
-				break;
-			case Plugins::Core::LandscapeModel::SurfaceItems::Sand:
-				color.setRgb( 255, 200, 50 );
-				break;
-			case Plugins::Core::LandscapeModel::SurfaceItems::Snow:
-				color.setRgb( 155, 255, 255 );
-				break;
-			case Plugins::Core::LandscapeModel::SurfaceItems::Wather:
-				color.setRgb( 0, 120, 245 );
-				break;
-			default:
-				assert( !"Unrecognized surface item" );
-				break;
-			}
-
-			QBrush surfaceItemBrash( color );
-			painter.fillRect(
-					QRect(
-							i * Resources::Landscape::CellSize
-						,	j * Resources::Landscape::CellSize
-						,	Resources::Landscape::CellSize
-						,	Resources::Landscape::CellSize )
-				, surfaceItemBrash );
-		}
-	}
-
-	for ( unsigned int i = 0; i < landscape->getWidth(); ++i )
+	/*for ( unsigned int i = 0; i < landscape->getWidth(); ++i )
 		painter.drawLine(
 				i * Resources::Landscape::CellSize
 			,	0
@@ -190,7 +166,7 @@ LandscapeWidget::regenerateSurfaceLayer()
 				0
 			,	i * Resources::Landscape::CellSize
 			,	m_surfaceLayer.size().width()
-			,	i * Resources::Landscape::CellSize );
+			,	i * Resources::Landscape::CellSize );*/
 
 } // LandscapeWidget::regenerateSurfaceLayer
 
@@ -214,9 +190,85 @@ LandscapeWidget::regenerateObjectsLayer()
 	painter.begin( &m_objectsLayer );
 	painter.setRenderHint( QPainter::Antialiasing );
 
-	painter.drawLine( 10, 10, 100, 100 );
+	QBrush surfaceItemBrash( QColor( 111, 111, 111 ) );
+	painter.fillRect(
+			QRect(
+					3 * Resources::Landscape::CellSize
+				,	3 * Resources::Landscape::CellSize
+				,	Resources::Landscape::CellSize
+				,	Resources::Landscape::CellSize )
+		, surfaceItemBrash );
 
 } // LandscapeWidget::regenerateObjectsLayer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeWidget::drawSurfaceItem(
+		QPainter& _painter
+	,	const unsigned int _widthIndex
+	,	const unsigned int _heightIndex )
+{
+	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
+		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
+
+	Plugins::Core::LandscapeModel::SurfaceItems::Enum
+		surfaceItem = landscape->getSurfaceItem( _widthIndex, _heightIndex );
+
+	QColor color;
+
+	switch( surfaceItem )
+	{
+	case Plugins::Core::LandscapeModel::SurfaceItems::Grass:
+		color.setRgb( 50, 200, 100 );
+		break;
+	case Plugins::Core::LandscapeModel::SurfaceItems::Sand:
+		color.setRgb( 255, 200, 50 );
+		break;
+	case Plugins::Core::LandscapeModel::SurfaceItems::Snow:
+		color.setRgb( 155, 255, 255 );
+		break;
+	case Plugins::Core::LandscapeModel::SurfaceItems::Water:
+		color.setRgb( 0, 120, 245 );
+		break;
+	default:
+		assert( !"Unrecognized surface item" );
+		break;
+	}
+
+	if ( surfaceItem == Plugins::Core::LandscapeModel::SurfaceItems::Grass)
+	{
+		QString filePath( "e:\\Hedgehog\\resources\\images\\grass%1.png" );
+		int grassNamber = ( rand() % 8 ) + 1;
+		if ( grassNamber > 3 )
+			grassNamber = 1;
+
+		QPixmap pixmap;
+		pixmap.load( filePath.arg( grassNamber ) );
+
+		_painter.drawPixmap(
+				QRect(
+						_widthIndex * Resources::Landscape::CellSize
+					,	_heightIndex * Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize )
+			, pixmap );
+	}
+	else
+	{
+		QBrush surfaceItemBrash( color );
+		_painter.fillRect(
+				QRect(
+						_widthIndex * Resources::Landscape::CellSize
+					,	_heightIndex * Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize )
+			, surfaceItemBrash );
+	}
+
+} // LandscapeWidget::drawSurfaceItem
 
 
 /*---------------------------------------------------------------------------*/

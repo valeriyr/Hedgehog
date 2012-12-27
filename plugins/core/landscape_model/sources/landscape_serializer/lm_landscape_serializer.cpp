@@ -66,7 +66,8 @@ LandscapeSerializer::load(
 		{
 			fileStream >> currentSurfaceItem;
 			_landscape.setSurfaceItem(
-					Point( i, j )
+					i
+				,	j
 				,	static_cast< SurfaceItems::Enum >( currentSurfaceItem ) );
 		}
 	}
@@ -100,7 +101,7 @@ LandscapeSerializer::save(
 
 	for ( unsigned int i = 0; i < _landscape.getWidth(); ++i )
 		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
-			fileStream << static_cast< unsigned int >( _landscape.getSurfaceItem( Point( i, j ) ) );
+			fileStream << static_cast< unsigned int >( _landscape.getSurfaceItem( i, j ) );
 
 } // LandscapeSerializer::save
 

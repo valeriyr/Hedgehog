@@ -33,10 +33,11 @@ struct IEditableLandscape
 /*---------------------------------------------------------------------------*/
 
 	virtual void setSurfaceItem(
-			const Point& _point
+			const unsigned int _width
+		,	const unsigned int _height
 		,	const SurfaceItems::Enum _surfaceItem ) = 0;
 
-	virtual void createTreeObject( const Point& _point ) = 0;
+	virtual void createTreeObject( const unsigned int _width, const unsigned int _height ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

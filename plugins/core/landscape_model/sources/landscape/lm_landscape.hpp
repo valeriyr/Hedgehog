@@ -36,9 +36,14 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ ILandscapeObject::Ptr getLadscapeObject( const Point& _point ) const;
+	/*virtual*/ ILandscapeObject::Ptr
+		getLadscapeObject( const unsigned int _width, const unsigned int _height ) const;
 
-	/*virtual*/ SurfaceItems::Enum getSurfaceItem( const Point& _point ) const;
+	/*virtual*/ SurfaceItems::Enum
+		getSurfaceItem( const unsigned int _width, const unsigned int _height ) const;
+
+	/*virtual*/ TerrainMapItems::Enum
+		getTerrainMapItem( const unsigned int _width, const unsigned int _height ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,10 +54,23 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void setSurfaceItem(
-			const Point& _point
+			const unsigned int _width
+		,	const unsigned int _height
 		,	const SurfaceItems::Enum _surfaceItem );
 
-	/*virtual*/ void createTreeObject( const Point& _point );
+	/*virtual*/ void createTreeObject( const unsigned int _width, const unsigned int _height );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	template< typename _TCollectionItem >
+	void initCollection( _TCollectionItem**& _collection );
+
+	template< typename _TCollection >
+	void clearCollection( _TCollection& _collection );
 
 /*---------------------------------------------------------------------------*/
 
@@ -66,7 +84,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	SurfaceItems::Enum ** m_surfaceData;
+	SurfaceItems::Enum ** m_surfaceItems;
+
+	TerrainMapItems::Enum ** m_terrainMap;
 
 /*---------------------------------------------------------------------------*/
 
