@@ -5,7 +5,6 @@
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 
-#include "landscape_editor/sources/environment/le_ienvironment.hpp"
 #include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
 
 
@@ -18,9 +17,12 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeWidget::LandscapeWidget( const IEnvironment& _environment, QWidget* _parent )
+LandscapeWidget::LandscapeWidget(
+		const ILandscapeEditorController& _landscapeEditorController
+	,	QWidget* _parent
+	)
 	:	QGLWidget( QGLFormat( QGL::SampleBuffers ), _parent )
-	,	m_environment( _environment )
+	,	m_landscapeEditorController( _landscapeEditorController )
 	,	m_surfaceLayer()
 	,	m_objectsLayer()
 {
@@ -69,7 +71,7 @@ void
 LandscapeWidget::mouseDoubleClickEvent ( QMouseEvent* _event )
 {
 	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
-		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
+		landscape = m_landscapeEditorController.getEditableLandscape();
 
 	const unsigned int width = _event->pos().x() / Resources::Landscape::CellSize;
 	const unsigned int height = _event->pos().y() / Resources::Landscape::CellSize;
@@ -139,7 +141,7 @@ void
 LandscapeWidget::regenerateSurfaceLayer()
 {
 	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
-		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
+		landscape = m_landscapeEditorController.getEditableLandscape();
 
 	m_surfaceLayer
 		= QPixmap( QSize(
@@ -178,7 +180,7 @@ void
 LandscapeWidget::regenerateObjectsLayer()
 {
 	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
-		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
+		landscape = m_landscapeEditorController.getEditableLandscape();
 
 	m_objectsLayer
 		= QPixmap( QSize(
@@ -212,7 +214,7 @@ LandscapeWidget::drawSurfaceItem(
 	,	const unsigned int _heightIndex )
 {
 	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
-		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
+		landscape = m_landscapeEditorController.getEditableLandscape();
 
 	Plugins::Core::LandscapeModel::SurfaceItems::Enum
 		surfaceItem = landscape->getSurfaceItem( _widthIndex, _heightIndex );

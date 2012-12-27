@@ -89,9 +89,11 @@ PluginInstance::initialize()
 			Resources::Commands::SaveAsLandscapeCommandName
 		,	boost::intrusive_ptr< ICommand >( new SaveAsLandscapeCommand( *m_environment ) ) );
 
-	m_objectsView.reset( new ObjectsView( *m_environment ) );
-	m_editorView.reset( new EditorView( *m_environment ) );
-	m_descriptionView.reset( new DescriptionView( *m_environment ) );
+	m_landscapeEditorController.reset( new LandscapeEditorController( *m_environment ) );
+
+	m_objectsView.reset( new ObjectsView( *m_landscapeEditorController ) );
+	m_editorView.reset( new EditorView( *m_landscapeEditorController ) );
+	m_descriptionView.reset( new DescriptionView( *m_landscapeEditorController ) );
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		windowManager = getWindowManager();
@@ -112,8 +114,6 @@ PluginInstance::initialize()
 	windowManager->addCommandToMenu( "File/Save", Resources::Commands::SaveLandscapeCommandName );
 	windowManager->addCommandToMenu( "File/Save As", Resources::Commands::SaveAsLandscapeCommandName );
 
-	m_landscapeEditorController.reset( new LandscapeEditorController( *m_environment ) );
-
 } // PluginInstance::initialize
 
 
@@ -123,8 +123,6 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
-	m_landscapeEditorController.reset();
-
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		windowManager = getWindowManager();
 
@@ -141,6 +139,8 @@ PluginInstance::close()
 	m_descriptionView.reset();
 	m_editorView.reset();
 	m_objectsView.reset();
+
+	m_landscapeEditorController.reset();
 
 	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
 		commandsRegistry = getCommandsManager();

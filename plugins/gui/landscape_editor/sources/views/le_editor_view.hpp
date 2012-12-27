@@ -14,8 +14,7 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEnvironment;
-
+struct ILandscapeEditorController;
 class LandscapeWidget;
 
 /*---------------------------------------------------------------------------*/
@@ -30,7 +29,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	EditorView( const IEnvironment& _environment );
+	EditorView( const ILandscapeEditorController& _landscapeEditorController );
 
 	virtual ~EditorView();
 
@@ -55,8 +54,6 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
-
-	const IEnvironment& m_environment;
 
 	boost::shared_ptr< QScrollArea > m_editorMainWidget;
 

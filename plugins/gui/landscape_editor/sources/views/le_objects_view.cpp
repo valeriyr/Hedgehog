@@ -15,8 +15,8 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-ObjectsView::ObjectsView( const IEnvironment& _environment )
-	:	m_environment( _environment )
+ObjectsView::ObjectsView( const ILandscapeEditorController& _landscapeEditorController )
+	:	m_landscapeEditorController( _landscapeEditorController )
 	,	m_objectsView( new QTextEdit() )
 	,	m_viewTitle( Resources::Views::ObjectsViewTitle )
 {

@@ -11,7 +11,7 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEnvironment;
+struct ILandscapeEditorController;
 
 /*---------------------------------------------------------------------------*/
 
@@ -25,7 +25,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeWidget( const IEnvironment& _environment, QWidget* _parent = 0 );
+	LandscapeWidget(
+			const ILandscapeEditorController& _landscapeEditorController
+		,	QWidget* _parent = NULL );
 
 	virtual ~LandscapeWidget();
 
@@ -70,7 +72,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const IEnvironment& m_environment;
+	const ILandscapeEditorController& m_landscapeEditorController;
 
 	QPixmap m_surfaceLayer;
 

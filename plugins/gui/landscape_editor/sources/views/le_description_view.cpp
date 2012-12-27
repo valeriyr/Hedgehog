@@ -5,7 +5,6 @@
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 
-#include "landscape_editor/sources/environment/le_ienvironment.hpp"
 #include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
 
 
@@ -18,8 +17,8 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-DescriptionView::DescriptionView( const IEnvironment& _environment )
-	:	m_environment( _environment )
+DescriptionView::DescriptionView( const ILandscapeEditorController& _landscapeEditorController )
+	:	m_landscapeEditorController( _landscapeEditorController )
 	,	m_descriptionView( new QTextEdit() )
 	,	m_viewTitle( Resources::Views::DescriptionViewTitle )
 {
@@ -79,9 +78,9 @@ DescriptionView::landscapeWasOpened()
 {
 	m_descriptionView->setHtml(
 		QString( Resources::Views::LandscapeDescriptionFormat )
-			.arg( m_environment.getLandscapeEditorController()->getLandscapeFilePath() )
-			.arg( m_environment.getLandscapeEditorController()->getEditableLandscape()->getWidth() )
-			.arg( m_environment.getLandscapeEditorController()->getEditableLandscape()->getHeight() )
+			.arg( m_landscapeEditorController.getLandscapeFilePath() )
+			.arg( m_landscapeEditorController.getEditableLandscape()->getWidth() )
+			.arg( m_landscapeEditorController.getEditableLandscape()->getHeight() )
 		);
 
 } // DescriptionView::landscapeWasOpened

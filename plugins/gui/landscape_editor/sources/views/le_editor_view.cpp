@@ -17,10 +17,9 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-EditorView::EditorView( const IEnvironment& _environment )
-	:	m_environment( _environment )
-	,	m_editorMainWidget( new QScrollArea() )
-	,	m_landscapeWidget( new LandscapeWidget( _environment ) )
+EditorView::EditorView( const ILandscapeEditorController& _landscapeEditorController )
+	:	m_editorMainWidget( new QScrollArea() )
+	,	m_landscapeWidget( new LandscapeWidget( _landscapeEditorController ) )
 	,	m_viewTitle( Resources::Views::EditorViewDefaultTitle )
 {
 	m_editorMainWidget->setWidget( m_landscapeWidget );
