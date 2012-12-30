@@ -17,6 +17,8 @@ namespace Views {
 
 	extern const char* const ObjectsViewTitle;
 
+	extern const char* const ObjectsViewColumnName;
+
 	extern const char* const DescriptionViewTitle;
 
 	extern const char* const EditorViewDefaultTitle;

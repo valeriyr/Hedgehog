@@ -13,6 +13,8 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+	const char* const ImagesDirecctory = "images";
+
 	const char* const ImageDefaultExtension = ".png";
 
 /*---------------------------------------------------------------------------*/

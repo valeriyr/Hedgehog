@@ -4,8 +4,9 @@
 #include "landscape_editor/sources/landscape_widget/le_landscape_widget.hpp"
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
-
 #include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
+
+#include "images_manager/ih/im_iimages_manager.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -19,10 +20,12 @@ namespace LandscapeEditor {
 
 LandscapeWidget::LandscapeWidget(
 		const ILandscapeEditorController& _landscapeEditorController
+	,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager
 	,	QWidget* _parent
 	)
 	:	QGLWidget( QGLFormat( QGL::SampleBuffers ), _parent )
 	,	m_landscapeEditorController( _landscapeEditorController )
+	,	m_imagesManager( _imagesManager )
 	,	m_surfaceLayer()
 	,	m_objectsLayer()
 {
@@ -79,9 +82,6 @@ LandscapeWidget::mouseDoubleClickEvent ( QMouseEvent* _event )
 	switch( landscape->getSurfaceItem( width, height ) )
 	{
 	case Plugins::Core::LandscapeModel::SurfaceItems::Grass:
-		landscape->setSurfaceItem( width, height, Plugins::Core::LandscapeModel::SurfaceItems::Sand );
-		break;
-	case Plugins::Core::LandscapeModel::SurfaceItems::Sand:
 		landscape->setSurfaceItem( width, height, Plugins::Core::LandscapeModel::SurfaceItems::Snow );
 		break;
 	case Plugins::Core::LandscapeModel::SurfaceItems::Snow:
@@ -226,9 +226,6 @@ LandscapeWidget::drawSurfaceItem(
 	case Plugins::Core::LandscapeModel::SurfaceItems::Grass:
 		color.setRgb( 50, 200, 100 );
 		break;
-	case Plugins::Core::LandscapeModel::SurfaceItems::Sand:
-		color.setRgb( 255, 200, 50 );
-		break;
 	case Plugins::Core::LandscapeModel::SurfaceItems::Snow:
 		color.setRgb( 155, 255, 255 );
 		break;
@@ -242,13 +239,10 @@ LandscapeWidget::drawSurfaceItem(
 
 	if ( surfaceItem == Plugins::Core::LandscapeModel::SurfaceItems::Grass)
 	{
-		QString filePath( "e:\\Hedgehog\\resources\\images\\grass%1.png" );
+		QString grassImagePath( "grass%1" );
 		int grassNamber = ( rand() % 8 ) + 1;
 		if ( grassNamber > 3 )
 			grassNamber = 1;
-
-		QPixmap pixmap;
-		pixmap.load( filePath.arg( grassNamber ) );
 
 		_painter.drawPixmap(
 				QRect(
@@ -256,7 +250,11 @@ LandscapeWidget::drawSurfaceItem(
 					,	_heightIndex * Resources::Landscape::CellSize
 					,	Resources::Landscape::CellSize
 					,	Resources::Landscape::CellSize )
-			, pixmap );
+				,	m_imagesManager.getPixmap( grassImagePath.arg( grassNamber ) ) );
+	}
+	else if ( surfaceItem == Plugins::Core::LandscapeModel::SurfaceItems::Water )
+	{
+		drawWater( _painter, _widthIndex, _heightIndex );
 	}
 	else
 	{
@@ -270,7 +268,175 @@ LandscapeWidget::drawSurfaceItem(
 			, surfaceItemBrash );
 	}
 
+	// top
+	if ( ( _heightIndex != 0 ) && ( landscape->getSurfaceItem( _widthIndex, _heightIndex - 1 )  == Plugins::Core::LandscapeModel::SurfaceItems::Water ) )
+		drawWater( _painter, _widthIndex, _heightIndex - 1 );
+
+	// bottom
+	if ( ( _heightIndex != landscape->getHeight() - 1 ) && ( landscape->getSurfaceItem( _widthIndex, _heightIndex + 1 ) == Plugins::Core::LandscapeModel::SurfaceItems::Water ) )
+		drawWater( _painter, _widthIndex, _heightIndex + 1 );
+
+	// left
+	if ( ( _widthIndex != 0 ) && ( landscape->getSurfaceItem( _widthIndex - 1, _heightIndex ) == Plugins::Core::LandscapeModel::SurfaceItems::Water ) )
+		drawWater( _painter, _widthIndex - 1, _heightIndex );
+
+	// right
+	if ( ( _widthIndex != landscape->getWidth() - 1 ) && ( landscape->getSurfaceItem( _widthIndex + 1, _heightIndex ) == Plugins::Core::LandscapeModel::SurfaceItems::Water ) )
+		drawWater( _painter, _widthIndex + 1, _heightIndex );
+
+	// left top
+	if (	( _widthIndex != 0  && _heightIndex != 0 )
+		&& landscape->getSurfaceItem( _widthIndex - 1, _heightIndex - 1 ) == Plugins::Core::LandscapeModel::SurfaceItems::Water
+		)
+		drawWater( _painter, _widthIndex - 1, _heightIndex - 1 );
+
+	// right bottom
+	if (	( ( _widthIndex != landscape->getWidth() - 1 )  && ( _heightIndex != landscape->getHeight() - 1 ) )
+		&& landscape->getSurfaceItem( _widthIndex + 1, _heightIndex + 1 ) == Plugins::Core::LandscapeModel::SurfaceItems::Water
+		)
+		drawWater( _painter, _widthIndex + 1, _heightIndex + 1 );
+
+	// right top
+	if (	( ( _widthIndex != landscape->getWidth() - 1 )  && ( _heightIndex != 0 ) )
+		&& landscape->getSurfaceItem( _widthIndex + 1, _heightIndex - 1 ) == Plugins::Core::LandscapeModel::SurfaceItems::Water
+		)
+		drawWater( _painter, _widthIndex + 1, _heightIndex - 1 );
+
+	// left bottom
+	if (	( ( _widthIndex != 0 )  && ( _heightIndex != landscape->getHeight() - 1 ) )
+		&& landscape->getSurfaceItem( _widthIndex - 1, _heightIndex + 1 ) == Plugins::Core::LandscapeModel::SurfaceItems::Water
+		)
+		drawWater( _painter, _widthIndex - 1, _heightIndex + 1 );
+
 } // LandscapeWidget::drawSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeWidget::drawWater(
+		QPainter& _painter
+	,	const unsigned int _widthIndex
+	,	const unsigned int _heightIndex )
+{
+	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
+		landscape = m_landscapeEditorController.getEditableLandscape();
+
+	QColor waterColor( 0, 120, 245 );
+	QBrush surfaceItemBrash( waterColor );
+	_painter.fillRect(
+			QRect(
+					_widthIndex * Resources::Landscape::CellSize
+				,	_heightIndex * Resources::Landscape::CellSize
+				,	Resources::Landscape::CellSize
+				,	Resources::Landscape::CellSize )
+		, surfaceItemBrash );
+
+	QColor sandColor( 255, 200, 50 );
+	QBrush sandBrash( sandColor );
+
+	// top
+	if ( ( _heightIndex == 0 ) || ( landscape->getSurfaceItem( _widthIndex, _heightIndex - 1 ) != Plugins::Core::LandscapeModel::SurfaceItems::Water ) )
+		_painter.fillRect(
+				QRect(
+						_widthIndex * Resources::Landscape::CellSize + ( Resources::Landscape::CellSize * 0.25 )
+					,	_heightIndex * Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize * 0.5
+					,	Resources::Landscape::CellSize * 0.25 )
+			,	sandBrash );
+
+	// bottom
+	if ( ( _heightIndex == landscape->getHeight() - 1 ) || ( landscape->getSurfaceItem( _widthIndex, _heightIndex + 1 ) != Plugins::Core::LandscapeModel::SurfaceItems::Water ) )
+		_painter.fillRect(
+				QRect(
+						_widthIndex * Resources::Landscape::CellSize + ( Resources::Landscape::CellSize * 0.25 )
+					,	_heightIndex * Resources::Landscape::CellSize + ( Resources::Landscape::CellSize * 0.75 )
+					,	Resources::Landscape::CellSize * 0.5
+					,	Resources::Landscape::CellSize * 0.25 )
+			,	sandBrash );
+
+	// left
+	if ( ( _widthIndex == 0 ) || ( landscape->getSurfaceItem( _widthIndex - 1, _heightIndex ) != Plugins::Core::LandscapeModel::SurfaceItems::Water ) )
+		_painter.fillRect(
+				QRect(
+						_widthIndex * Resources::Landscape::CellSize
+					,	_heightIndex * Resources::Landscape::CellSize + ( Resources::Landscape::CellSize * 0.25 )
+					,	Resources::Landscape::CellSize * 0.25
+					,	Resources::Landscape::CellSize * 0.5 )
+			,	sandBrash );
+
+	// right
+	if ( ( _widthIndex == landscape->getWidth() - 1 ) || ( landscape->getSurfaceItem( _widthIndex + 1, _heightIndex ) != Plugins::Core::LandscapeModel::SurfaceItems::Water ) )
+		_painter.fillRect(
+				QRect(
+						_widthIndex * Resources::Landscape::CellSize + ( Resources::Landscape::CellSize * 0.75 )
+					,	_heightIndex * Resources::Landscape::CellSize + ( Resources::Landscape::CellSize * 0.25 )
+					,	Resources::Landscape::CellSize * 0.25
+					,	Resources::Landscape::CellSize * 0.5 )
+			,	sandBrash );
+
+	// left top
+	if (	( _widthIndex == 0  || _heightIndex == 0 )
+		|| ( ( ( _widthIndex != 0 )  && ( _heightIndex != 0 ) )
+		&& ( landscape->getSurfaceItem( _widthIndex - 1, _heightIndex - 1 ) != Plugins::Core::LandscapeModel::SurfaceItems::Water
+		|| landscape->getSurfaceItem( _widthIndex - 1, _heightIndex ) != Plugins::Core::LandscapeModel::SurfaceItems::Water
+		|| landscape->getSurfaceItem( _widthIndex, _heightIndex - 1 ) != Plugins::Core::LandscapeModel::SurfaceItems::Water )
+		))
+		_painter.fillRect(
+				QRect(
+						_widthIndex * Resources::Landscape::CellSize
+					,	_heightIndex * Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize * 0.25
+					,	Resources::Landscape::CellSize * 0.25 )
+			,	sandBrash );
+
+	// right bottom
+	if (	( ( _widthIndex == landscape->getWidth() - 1 )  || ( _heightIndex == landscape->getHeight() - 1 ) )
+		|| ( ( ( _widthIndex != landscape->getWidth() - 1 )  && ( _heightIndex != landscape->getHeight() - 1 ) )
+		&& ( landscape->getSurfaceItem( _widthIndex + 1, _heightIndex + 1 ) != Plugins::Core::LandscapeModel::SurfaceItems::Water
+		|| landscape->getSurfaceItem( _widthIndex + 1, _heightIndex ) != Plugins::Core::LandscapeModel::SurfaceItems::Water
+		|| landscape->getSurfaceItem( _widthIndex, _heightIndex + 1 ) != Plugins::Core::LandscapeModel::SurfaceItems::Water )
+		))
+		_painter.fillRect(
+				QRect(
+						_widthIndex * Resources::Landscape::CellSize + ( Resources::Landscape::CellSize * 0.75 )
+					,	_heightIndex * Resources::Landscape::CellSize + ( Resources::Landscape::CellSize * 0.75 )
+					,	Resources::Landscape::CellSize * 0.25
+					,	Resources::Landscape::CellSize * 0.25 )
+			,	sandBrash );
+
+	// right top
+	if (	( ( _widthIndex == landscape->getWidth() - 1 )  || ( _heightIndex == 0 ) )
+		|| ( ( ( _widthIndex != landscape->getWidth() - 1 )  && ( _heightIndex != 0 ) )
+		&& ( landscape->getSurfaceItem( _widthIndex + 1, _heightIndex - 1 ) != Plugins::Core::LandscapeModel::SurfaceItems::Water
+		|| landscape->getSurfaceItem( _widthIndex + 1, _heightIndex) != Plugins::Core::LandscapeModel::SurfaceItems::Water
+		|| landscape->getSurfaceItem( _widthIndex, _heightIndex - 1 ) != Plugins::Core::LandscapeModel::SurfaceItems::Water )
+		) )
+		_painter.fillRect(
+				QRect(
+						_widthIndex * Resources::Landscape::CellSize + ( Resources::Landscape::CellSize * 0.75 )
+					,	_heightIndex * Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize * 0.25
+					,	Resources::Landscape::CellSize * 0.25 )
+			,	sandBrash );
+
+	// left bottom
+	if (	( ( _widthIndex == 0 )  || ( _heightIndex == landscape->getHeight() - 1 ) )
+		|| ( ( ( _widthIndex != 0 )  && ( _heightIndex != landscape->getHeight() - 1 ) )
+		&& ( landscape->getSurfaceItem( _widthIndex - 1, _heightIndex + 1 ) != Plugins::Core::LandscapeModel::SurfaceItems::Water
+		|| landscape->getSurfaceItem( _widthIndex - 1, _heightIndex ) != Plugins::Core::LandscapeModel::SurfaceItems::Water
+		|| landscape->getSurfaceItem( _widthIndex, _heightIndex + 1 ) != Plugins::Core::LandscapeModel::SurfaceItems::Water )
+		) )
+		_painter.fillRect(
+				QRect(
+						_widthIndex * Resources::Landscape::CellSize
+					,	_heightIndex * Resources::Landscape::CellSize + ( Resources::Landscape::CellSize * 0.75 )
+					,	Resources::Landscape::CellSize * 0.25
+					,	Resources::Landscape::CellSize * 0.25 )
+			,	sandBrash );
+
+} // LandscapeWidget::drawWater
 
 
 /*---------------------------------------------------------------------------*/

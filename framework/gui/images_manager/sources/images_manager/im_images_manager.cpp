@@ -44,6 +44,8 @@ ImagesManager::getPixmap( const QString& _resourcePath )
 	QString pixmapPath
 		=	m_resourcesDirectory
 		+	"/"
+		+	Resources::ImagesDirecctory
+		+	"/"
 		+	_resourcePath
 		+	Resources::ImageDefaultExtension;
 

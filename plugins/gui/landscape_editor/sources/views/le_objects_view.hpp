@@ -8,6 +8,19 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Framework
+{
+	namespace GUI
+	{
+		namespace ImagesManager
+		{
+			struct IImagesManager;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace GUI {
 namespace LandscapeEditor {
@@ -28,7 +41,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ObjectsView( const ILandscapeEditorController& _landscapeEditorController );
+	ObjectsView(
+			const ILandscapeEditorController& _landscapeEditorController
+		,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager );
 
 	virtual ~ObjectsView();
 
@@ -56,7 +71,9 @@ private:
 
 	const ILandscapeEditorController& m_landscapeEditorController;
 
-	boost::shared_ptr< QTextEdit > m_objectsView;
+	Framework::GUI::ImagesManager::IImagesManager& m_imagesManager;
+
+	boost::shared_ptr< QTreeWidget > m_objectsView;
 
 	QString m_viewTitle;
 

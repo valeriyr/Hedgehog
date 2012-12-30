@@ -2,6 +2,18 @@
 #ifndef __LE_LANDSCAPE_WIDGET_HPP__
 #define __LE_LANDSCAPE_WIDGET_HPP__
 
+/*---------------------------------------------------------------------------*/
+
+namespace Framework
+{
+	namespace GUI
+	{
+		namespace ImagesManager
+		{
+			struct IImagesManager;
+		}
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,6 +39,7 @@ public:
 
 	LandscapeWidget(
 			const ILandscapeEditorController& _landscapeEditorController
+		,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager
 		,	QWidget* _parent = NULL );
 
 	virtual ~LandscapeWidget();
@@ -66,6 +79,11 @@ private:
 		,	const unsigned int _widthIndex
 		,	const unsigned int _heightIndex );
 
+	void drawWater(
+			QPainter& _painter
+		,	const unsigned int _widthIndex
+		,	const unsigned int _heightIndex );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -73,6 +91,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const ILandscapeEditorController& m_landscapeEditorController;
+
+	Framework::GUI::ImagesManager::IImagesManager& m_imagesManager;
 
 	QPixmap m_surfaceLayer;
 

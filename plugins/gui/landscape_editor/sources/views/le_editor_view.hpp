@@ -8,6 +8,19 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Framework
+{
+	namespace GUI
+	{
+		namespace ImagesManager
+		{
+			struct IImagesManager;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace GUI {
 namespace LandscapeEditor {
@@ -29,7 +42,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	EditorView( const ILandscapeEditorController& _landscapeEditorController );
+	EditorView(
+			const ILandscapeEditorController& _landscapeEditorController
+		,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager );
 
 	virtual ~EditorView();
 

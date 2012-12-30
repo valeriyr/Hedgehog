@@ -9,6 +9,9 @@
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 #include "window_manager/h/wm_plugin_id.hpp"
 
+#include "images_manager/ih/im_iimages_manager.hpp"
+#include "images_manager/h/im_plugin_id.hpp"
+
 #include "commands_manager/ih/cm_icommands_registry.hpp"
 #include "commands_manager/h/cm_plugin_id.hpp"
 
@@ -91,8 +94,8 @@ PluginInstance::initialize()
 
 	m_landscapeEditorController.reset( new LandscapeEditorController( *m_environment ) );
 
-	m_objectsView.reset( new ObjectsView( *m_landscapeEditorController ) );
-	m_editorView.reset( new EditorView( *m_landscapeEditorController ) );
+	m_objectsView.reset( new ObjectsView( *m_landscapeEditorController, *getImagesManager() ) );
+	m_editorView.reset( new EditorView( *m_landscapeEditorController, *getImagesManager() ) );
 	m_descriptionView.reset( new DescriptionView( *m_landscapeEditorController ) );
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
@@ -182,6 +185,20 @@ PluginInstance::getDialogsManager() const
 			,	Framework::GUI::WindowManager::IID_DIALOGS_MANAGER );
 
 } // PluginInstance::getDialogsManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::GUI::ImagesManager::IImagesManager >
+PluginInstance::getImagesManager() const
+{
+	return
+		getPluginInterface< Framework::GUI::ImagesManager::IImagesManager >(
+				Framework::GUI::ImagesManager::PID_IMAGES_MANAGER
+			,	Framework::GUI::ImagesManager::IID_IMAGES_MANAGER );
+
+} // PluginInstance::getImageManager
 
 
 /*---------------------------------------------------------------------------*/

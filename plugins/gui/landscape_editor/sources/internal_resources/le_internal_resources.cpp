@@ -19,6 +19,8 @@ namespace Views {
 
 	const char* const ObjectsViewTitle = "Landscape Objects";
 
+	const char* const ObjectsViewColumnName = "Landscape Items";
+
 	const char* const DescriptionViewTitle = "Landscape Description";
 
 	const char* const EditorViewDefaultTitle = "Landscape Editor";
@@ -78,7 +80,7 @@ namespace Landscape {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int CellSize = 20;
+	const unsigned int CellSize = 24;
 
 /*---------------------------------------------------------------------------*/
 

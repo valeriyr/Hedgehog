@@ -28,7 +28,6 @@ struct TerrainMapItems
 		switch ( _surfaceItem )
 		{
 		case SurfaceItems::Grass:
-		case SurfaceItems::Sand:
 		case SurfaceItems::Snow:
 			return Ground;
 

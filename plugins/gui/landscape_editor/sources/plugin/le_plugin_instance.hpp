@@ -18,6 +18,11 @@ namespace Framework
 			 struct IWindowManager;
 			 struct IDialogsManager;
 		}
+
+		namespace ImagesManager
+		{
+			struct IImagesManager;
+		}
 	}
 
 	namespace Core
@@ -86,6 +91,9 @@ public:
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IDialogsManager >
 		getDialogsManager() const;
+
+	boost::intrusive_ptr< Framework::GUI::ImagesManager::IImagesManager >
+		getImagesManager() const;
 
 	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
 		getCommandsManager() const;

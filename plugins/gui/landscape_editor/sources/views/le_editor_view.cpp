@@ -4,7 +4,6 @@
 #include "landscape_editor/sources/views/le_editor_view.hpp"
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
-
 #include "landscape_editor/sources/landscape_widget/le_landscape_widget.hpp"
 
 
@@ -17,9 +16,12 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-EditorView::EditorView( const ILandscapeEditorController& _landscapeEditorController )
+EditorView::EditorView(
+		const ILandscapeEditorController& _landscapeEditorController
+	,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager
+	)
 	:	m_editorMainWidget( new QScrollArea() )
-	,	m_landscapeWidget( new LandscapeWidget( _landscapeEditorController ) )
+	,	m_landscapeWidget( new LandscapeWidget( _landscapeEditorController, _imagesManager ) )
 	,	m_viewTitle( Resources::Views::EditorViewDefaultTitle )
 {
 	m_editorMainWidget->setWidget( m_landscapeWidget );
