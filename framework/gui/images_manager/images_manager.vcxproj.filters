@@ -16,6 +16,9 @@
     <Filter Include="Images Manager">
       <UniqueIdentifier>{35525250-e21b-41c0-8d09-7ab2c5f9db31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Internal Resources">
+      <UniqueIdentifier>{af4f7b65-29a7-42df-ac5a-f7b35032fa8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\im_plugin_id.hpp">
@@ -33,6 +36,9 @@
     <ClInclude Include="sources\images_manager\im_images_manager.hpp">
       <Filter>Images Manager</Filter>
     </ClInclude>
+    <ClInclude Include="sources\internal_resources\im_internal_resources.hpp">
+      <Filter>Internal Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\plugin\im_plugin_instance.cpp">
@@ -43,6 +49,9 @@
     </ClCompile>
     <ClCompile Include="sources\images_manager\im_images_manager.cpp">
       <Filter>Images Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\internal_resources\im_internal_resources.cpp">
+      <Filter>Internal Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

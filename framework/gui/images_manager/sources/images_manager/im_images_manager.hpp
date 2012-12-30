@@ -32,15 +32,24 @@ public:
 
 	/*virtual*/ const QPixmap& getPixmap( const QString& _resourcePath );
 
-	/*virtual*/ const QIcon& getIcon( const QString& _resourcePath );
-
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
 
+	typedef
+		std::map< QString, boost::shared_ptr< QPixmap > >
+		PixmapsCollectionType;
+	typedef
+		PixmapsCollectionType::const_iterator
+		PixmapsCollectionIteratorType;
+
+/*---------------------------------------------------------------------------*/
+
 	const QString m_resourcesDirectory;
+
+	PixmapsCollectionType m_pixmapsCollection;
 
 /*---------------------------------------------------------------------------*/
 

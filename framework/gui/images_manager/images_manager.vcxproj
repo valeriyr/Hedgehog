@@ -21,11 +21,13 @@
   <ItemGroup>
     <ClInclude Include="h\im_plugin_id.hpp" />
     <ClInclude Include="ih\im_iimages_manager.hpp" />
+    <ClInclude Include="sources\internal_resources\im_internal_resources.hpp" />
     <ClInclude Include="sources\ph\im_ph.hpp" />
     <ClInclude Include="sources\plugin\im_plugin_instance.hpp" />
     <ClInclude Include="sources\images_manager\im_images_manager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\internal_resources\im_internal_resources.cpp" />
     <ClCompile Include="sources\ph\im_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

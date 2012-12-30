@@ -26,8 +26,6 @@ struct IImagesManager
 
 	virtual const QPixmap& getPixmap( const QString& _resourcePath ) = 0;
 
-	virtual const QIcon& getIcon( const QString& _resourcePath ) = 0;
-
 /*---------------------------------------------------------------------------*/
 
 };
