@@ -44,6 +44,7 @@ MainGuiApplication::exec()
 		,	applicationDirectory + "/" + Resources::ResourcesDirectoryName
 		,	applicationDirectory + "/" + Resources::ConfigsDirectoryName
 		,	Resources::ApplicationName
+		,	Resources::SystemMessengerPluginName
 		);
 
 	pluginsManagerLoader->load( systemData );

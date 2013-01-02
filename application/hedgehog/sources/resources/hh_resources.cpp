@@ -21,6 +21,10 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+	const char* const SystemMessengerPluginName = "console";
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace Hedgehog
 

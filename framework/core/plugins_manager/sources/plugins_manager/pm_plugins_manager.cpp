@@ -11,6 +11,8 @@
 #include "plugins_manager/sources/plugins_manager/pm_plugin_data.hpp"
 #include "plugins_manager/sources/resources/pm_internal_resources.hpp"
 
+#include "messenger/ms_imessenger.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,6 +51,8 @@ PluginsManager::getPluginInterface( const QString& _pluginName, const unsigned i
 		{
 		case IID_SYSTEM_INFORMATION:
 			return m_systemInformation;
+		case Tools::Core::IID_MESSENGER:
+			return getPluginInterface( m_systemInformation->getSystemMessengerPluginName(), _interfaceId );
 		default:
 			return boost::intrusive_ptr< Tools::Core::IBase >();
 		}

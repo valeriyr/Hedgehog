@@ -39,6 +39,8 @@ public:
 
 	/*virtual*/ const QString& getApplicationName() const;
 
+	/*virtual*/ const QString& getSystemMessengerPluginName() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:

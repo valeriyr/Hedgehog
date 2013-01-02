@@ -19,6 +19,10 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+	extern const char* const SystemMessengerPluginName;
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace Hedgehog
 

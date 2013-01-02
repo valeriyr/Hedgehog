@@ -28,6 +28,8 @@ struct ISystemInformation
 	virtual const QString& getResourcesDirectory() const = 0;
 
 	virtual const QString& getApplicationName() const = 0;
+
+	virtual const QString& getSystemMessengerPluginName() const = 0;
 };
 
 /*---------------------------------------------------------------------------*/

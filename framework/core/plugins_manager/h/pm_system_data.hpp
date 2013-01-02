@@ -17,11 +17,13 @@ struct SystemData
 		,	const QString& _resourcesDirectory
 		,	const QString& _configDirectory
 		,	const QString& _applicationName
+		,	const QString& _systemMessengerPluginName
 		)
 		:	m_pluginsDirectory( _pluginsDirectory )
 		,	m_resourcesDirectory( _resourcesDirectory )
 		,	m_configDirectory( _configDirectory )
 		,	m_applicationName( _applicationName )
+		,	m_systemMessengerPluginName( _systemMessengerPluginName )
 	{}
 
 	SystemData( const SystemData& _systemData )
@@ -35,6 +37,7 @@ struct SystemData
 		m_resourcesDirectory = _systemData.m_resourcesDirectory;
 		m_configDirectory = _systemData.m_configDirectory;
 		m_applicationName = _systemData.m_applicationName;
+		m_systemMessengerPluginName = _systemData.m_systemMessengerPluginName;
 
 		return *this;
 	}
@@ -46,6 +49,8 @@ struct SystemData
 	QString m_configDirectory;
 
 	QString m_applicationName;
+
+	QString m_systemMessengerPluginName;
 };
 
 

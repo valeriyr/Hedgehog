@@ -73,6 +73,17 @@ SystemInformation::getApplicationName() const
 
 /*---------------------------------------------------------------------------*/
 
+
+const QString&
+SystemInformation::getSystemMessengerPluginName() const
+{
+	return m_systemData.m_systemMessengerPluginName;
+
+} // SystemInformation::getSystemMessengerPluginName
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace PluginsManager
 } // namespace Core
 } // namespace Framework

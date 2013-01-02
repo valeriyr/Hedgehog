@@ -1,6 +1,6 @@
 
-#ifndef __MS_IMESSANGER_HPP__
-#define __MS_IMESSANGER_HPP__
+#ifndef __MS_IMESSENGER_HPP__
+#define __MS_IMESSENGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -52,4 +52,4 @@ struct IMessenger
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __MS_IMESSANGER_HPP__
+#endif // __MS_IMESSENGER_HPP__

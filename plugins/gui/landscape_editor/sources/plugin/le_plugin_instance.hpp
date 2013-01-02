@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "tools/fm_base_gui_plugin.hpp"
+#include "plugins_manager/h/pm_base_plugin.hpp"
 #include "plugins_manager/h/pm_interface_map.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -61,7 +61,7 @@ struct ILandscapeEditorController;
 /*---------------------------------------------------------------------------*/
 
 class PluginInstance
-	:	public Framework::GUI::BasePlugin
+	:	public Framework::Core::PluginsManager::BasePlugin
 {
 
 /*---------------------------------------------------------------------------*/
