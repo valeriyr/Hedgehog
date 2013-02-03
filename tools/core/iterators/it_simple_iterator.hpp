@@ -20,25 +20,26 @@ template<
 		class _TExtractorType = SimpleExtractor
 	>
 class SimpleIterator
-	:	public IIterator< typename _TExtractorType< typename _TCollectionType::const_iterator, typename _TCollectionType::value_type >::ReturnType >
+	:	public IIterator<
+			typename _TExtractorType<
+					typename _TCollectionType::const_iterator
+				,	typename _TCollectionType::value_type
+				>::ReturnType
+			>
 {
 
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		_TCollectionType
-		CollectionType;
-
-	typedef
-		typename CollectionType::const_iterator
+		typename _TCollectionType::const_iterator
 		CollectionIteratorType;
 
 	typedef
-		typename _TCollectionType::value_type
-		CollectionValueType;
+		_TExtractorType< CollectionIteratorType, typename _TCollectionType::value_type >
+		ExtractorType;
 
 	typedef
-		IIterator< typename _TExtractorType< CollectionIteratorType, CollectionValueType >::ReturnType >
+		IIterator< typename ExtractorType::ReturnType >
 		BaseClass;
 
 /*---------------------------------------------------------------------------*/
@@ -47,7 +48,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	SimpleIterator( const CollectionType& _collection )
+	SimpleIterator( const _TCollectionType& _collection )
 		:	m_begin( _collection.begin() )
 		,	m_end( _collection.end() )
 	{}
@@ -58,8 +59,7 @@ public:
 
 	/*virtual*/ bool isValid() const { return m_begin != m_end; }
 
-	/*virtual*/ typename BaseClass::ReturnType current() const
-	{ return _TExtractorType< CollectionIteratorType, CollectionValueType >().extract( m_begin ); }
+	/*virtual*/ typename BaseClass::ReturnType current() const { return ExtractorType().extract( m_begin ); }
 
 	/*virtual*/ void next() { ++m_begin; }
 
