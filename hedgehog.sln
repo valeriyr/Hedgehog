@@ -36,6 +36,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Iterators", "Iterators", "{
 	ProjectSection(SolutionItems) = preProject
 		tools\core\iterators\it_iiterator.hpp = tools\core\iterators\it_iiterator.hpp
 		tools\core\iterators\it_simple_iterator.hpp = tools\core\iterators\it_simple_iterator.hpp
+		tools\core\iterators\it_value_extractors.hpp = tools\core\iterators\it_value_extractors.hpp
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Allocators", "Allocators", "{960A8F26-9281-42CF-9B30-09B2B0F046CB}"

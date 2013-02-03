@@ -12,7 +12,7 @@
 #include "window_manager/ih/wm_iwindow_manager.hpp"
 #include "window_manager/h/wm_plugin_id.hpp"
 
-#include "commands_manager/ih/cm_icommands_registry.hpp"
+#include "commands_manager/ih/cm_icommand_executor.hpp"
 #include "commands_manager/h/cm_plugin_id.hpp"
 
 
@@ -100,15 +100,15 @@ PluginInstance::getWindowManager() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
-PluginInstance::getCommandsRegistry() const
+boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
+PluginInstance::getCommandExecutor() const
 {
 	return
-		getPluginInterface< Framework::Core::CommandsManager::ICommandsRegistry >(
+		getPluginInterface< Framework::Core::CommandsManager::ICommandExecutor >(
 				Framework::Core::CommandsManager::PID_COMMANDS_MANAGER
-			,	Framework::Core::CommandsManager::IID_COMMANDS_REGISTRY );
+			,	Framework::Core::CommandsManager::IID_COMMAND_EXECUTOR );
 
-} // PluginInstance::getCommandsRegistry
+} // PluginInstance::getCommandExecutor
 
 
 /*---------------------------------------------------------------------------*/

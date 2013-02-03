@@ -68,9 +68,9 @@ CommandsRegistry::unregisterCommand( const QString& _commandName )
 
 
 boost::intrusive_ptr< ICommand >
-CommandsRegistry::getCommand( const QString& _commandName )
+CommandsRegistry::getCommand( const QString& _commandName ) const
 {
-	CommandsCollectionIteratorType iterator = m_commandsCollection.find( _commandName );
+	CommandsCollectionConstIteratorType iterator = m_commandsCollection.find( _commandName );
 
 	if ( iterator != m_commandsCollection.end() )
 		return iterator->second;
@@ -78,6 +78,19 @@ CommandsRegistry::getCommand( const QString& _commandName )
 	return boost::intrusive_ptr< ICommand >();
 
 } // CommandsRegistry::getCommand
+
+
+/*---------------------------------------------------------------------------*/
+
+
+ICommandsRegistry::CommandsIteratorTypePtr
+CommandsRegistry::getCommandsList() const
+{
+	return
+		ICommandsRegistry::CommandsIteratorTypePtr(
+			new ICommandsRegistry::CommandsIteratorType( m_commandsCollection ) );
+
+} // CommandsRegistry::getCommandsList
 
 
 /*---------------------------------------------------------------------------*/

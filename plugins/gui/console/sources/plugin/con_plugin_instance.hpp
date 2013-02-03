@@ -23,7 +23,7 @@ namespace Framework
 	{
 		namespace CommandsManager
 		{
-			struct ICommandsRegistry;
+			struct ICommandExecutor;
 		}
 	}
 }
@@ -83,8 +83,8 @@ public:
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		getWindowManager() const;
 
-	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
-		getCommandsRegistry() const;
+	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
+		getCommandExecutor() const;
 
 /*---------------------------------------------------------------------------*/
 

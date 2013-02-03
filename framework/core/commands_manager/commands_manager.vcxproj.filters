@@ -16,6 +16,15 @@
     <Filter Include="External Headers">
       <UniqueIdentifier>{5766bb9f-d48a-4887-a79c-5e9db1346eb1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command Executor">
+      <UniqueIdentifier>{9a8d70db-949c-4bc2-b1b4-1f479a260c03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{a57dea21-bed1-46ef-bec1-340382ba6abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal Resources">
+      <UniqueIdentifier>{22d810ae-e5fc-49a7-a914-dff2ad892b0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\cm_ph.cpp">
@@ -26,6 +35,15 @@
     </ClCompile>
     <ClCompile Include="sources\commands_registry\cm_commands_registry.cpp">
       <Filter>Commands Registry</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\command_executor\cm_command_executor.cpp">
+      <Filter>Command Executor</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\commands\cm_commands_list_command.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\resources\cm_internal_resources.cpp">
+      <Filter>Internal Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +64,18 @@
     </ClInclude>
     <ClInclude Include="sources\commands_registry\cm_commands_registry.hpp">
       <Filter>Commands Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\cm_icommand_executor.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\command_executor\cm_command_executor.hpp">
+      <Filter>Command Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands\cm_commands_list_command.hpp">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\resources\cm_internal_resources.hpp">
+      <Filter>Internal Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,24 +1,25 @@
 
-#ifndef __CON_ENVIRONMENT_HPP__
-#define __CON_ENVIRONMENT_HPP__
-
-#include "console/sources/environment/con_ienvironment.hpp"
-
+#ifndef __CM_COMMAND_EXECUTOR_HPP__
+#define __CM_COMMAND_EXECUTOR_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
-namespace GUI {
-namespace Console {
+#include "commands_manager/ih/cm_icommand_executor.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
+namespace Framework {
+namespace Core {
+namespace CommandsManager {
 
 /*---------------------------------------------------------------------------*/
 
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
+struct ICommandsRegistry;
+
+/*---------------------------------------------------------------------------*/
+
+class CommandExecutor
+	:	public Tools::Core::BaseWrapper< ICommandExecutor >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -27,14 +28,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( const PluginInstance& _pluginInstance );
+	CommandExecutor( ICommandsRegistry& _commandsRegistry );
 
-	virtual ~Environment();
+	virtual ~CommandExecutor();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
-		getCommandExecutor() const;
+	/*virtual*/ void executeCommand( const QString& _command ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,7 +42,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const PluginInstance& m_pluginInstance;
+	ICommandsRegistry& m_commandsRegistry;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,10 +50,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Console
-} // namespace GUI
-} // namespace Plugins
+} // namespace CommandsManager
+} // namespace Core
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CON_ENVIRONMENT_HPP__
+#endif // __CM_COMMAND_EXECUTOR_HPP__

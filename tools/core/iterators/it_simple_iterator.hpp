@@ -5,6 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "iterators/it_iiterator.hpp"
+#include "iterators/it_value_extractors.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,9 +14,13 @@ namespace Core {
 
 /*---------------------------------------------------------------------------*/
 
-template< typename _TCollectionType >
+template<
+		typename _TCollectionType
+	,	template < typename _TIteratorType, typename _TReturnType >
+		class _TExtractorType = SimpleExtractor
+	>
 class SimpleIterator
-	:	public IIterator< typename _TCollectionType::value_type >
+	:	public IIterator< typename _TExtractorType< typename _TCollectionType::const_iterator, typename _TCollectionType::value_type >::ReturnType >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -29,7 +34,11 @@ class SimpleIterator
 		CollectionIteratorType;
 
 	typedef
-		IIterator< typename _TCollectionType::value_type >
+		typename _TCollectionType::value_type
+		CollectionValueType;
+
+	typedef
+		IIterator< typename _TExtractorType< CollectionIteratorType, CollectionValueType >::ReturnType >
 		BaseClass;
 
 /*---------------------------------------------------------------------------*/
@@ -49,7 +58,8 @@ public:
 
 	/*virtual*/ bool isValid() const { return m_begin != m_end; }
 
-	/*virtual*/ typename BaseClass::ReturnType current() const { return *m_begin; }
+	/*virtual*/ typename BaseClass::ReturnType current() const
+	{ return _TExtractorType< CollectionIteratorType, CollectionValueType >().extract( m_begin ); }
 
 	/*virtual*/ void next() { ++m_begin; }
 

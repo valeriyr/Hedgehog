@@ -37,8 +37,12 @@ public:
 	/*virtual*/ boost::intrusive_ptr< ICommand >
 		unregisterCommand( const QString& _commandName );
 
+/*---------------------------------------------------------------------------*
+
 	/*virtual*/ boost::intrusive_ptr< ICommand >
-		getCommand( const QString& _commandName );
+		getCommand( const QString& _commandName ) const;
+
+	/*virtual*/ ICommandsRegistry::CommandsIteratorTypePtr getCommandsList() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,15 +51,15 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< QString, boost::intrusive_ptr< ICommand > >
-		CommandsCollectionType;
-	typedef
-		CommandsCollectionType::iterator
+		ICommandsRegistry::CommandsCollectionType::iterator
 		CommandsCollectionIteratorType;
+	typedef
+		ICommandsRegistry::CommandsCollectionType::const_iterator
+		CommandsCollectionConstIteratorType;
 
 /*---------------------------------------------------------------------------*/
 
-	CommandsCollectionType m_commandsCollection;
+	ICommandsRegistry::CommandsCollectionType m_commandsCollection;
 
 /*---------------------------------------------------------------------------*/
 

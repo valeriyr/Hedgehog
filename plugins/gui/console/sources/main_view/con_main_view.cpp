@@ -7,8 +7,7 @@
 #include "console/sources/environment/con_ienvironment.hpp"
 #include "console/sources/resources/con_internal_resources.hpp"
 
-#include "commands_manager/ih/cm_icommands_registry.hpp"
-#include "commands_manager/ih/cm_icommand.hpp"
+#include "commands_manager/ih/cm_icommand_executor.hpp"
 
 #include "con_main_view.moc"
 
@@ -137,18 +136,12 @@ MainView::printMessage( const QString& _message )
 void
 MainView::onCommandWasEntered( const QString& _command )
 {
-	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
-		commandsRegistry( m_environment.getCommandsRegistry() );
-
-	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommand >
-		command( commandsRegistry->getCommand( _command ) );
-
-	if ( command )
+	try
 	{
+		m_environment.getCommandExecutor()->executeCommand( _command );
 		printMessage( _command );
-		command->execute();
 	}
-	else
+	catch( const std::exception& /*_exception*/ )
 	{
 		printMessage(
 				Tools::Core::IMessenger::MessegeLevel::Error

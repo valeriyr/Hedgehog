@@ -6,6 +6,8 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
+#include "iterators/it_simple_iterator.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -28,6 +30,20 @@ struct ICommandsRegistry
 
 /*---------------------------------------------------------------------------*/
 
+	typedef
+		std::map< QString, boost::intrusive_ptr< ICommand > >
+		CommandsCollectionType;
+
+	typedef
+		Tools::Core::SimpleIterator< CommandsCollectionType, Tools::Core::FirstExtractor >
+		CommandsIteratorType;
+
+	typedef
+		boost::shared_ptr< CommandsIteratorType >
+		CommandsIteratorTypePtr;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual void registerCommand(
 			const QString& _commandName
 		,	boost::intrusive_ptr< ICommand > _command ) = 0;
@@ -35,8 +51,12 @@ struct ICommandsRegistry
 	virtual boost::intrusive_ptr< ICommand >
 		unregisterCommand( const QString& _commandName ) = 0;
 
+/*---------------------------------------------------------------------------*/
+
 	virtual boost::intrusive_ptr< ICommand >
-		getCommand( const QString& _commandName ) = 0;
+		getCommand( const QString& _commandName ) const = 0;
+
+	virtual CommandsIteratorTypePtr getCommandsList() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

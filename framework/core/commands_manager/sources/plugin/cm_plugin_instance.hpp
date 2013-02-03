@@ -9,6 +9,16 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Tools
+{
+	namespace Core
+	{
+		struct IMessenger;
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Framework {
 namespace Core {
 namespace CommandsManager {
@@ -16,6 +26,7 @@ namespace CommandsManager {
 /*---------------------------------------------------------------------------*/
 
 struct ICommandsRegistry;
+struct ICommandExecutor;
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,11 +56,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	boost::intrusive_ptr< Tools::Core::IMessenger > getSystemMessenger() const;
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< ICommandsRegistry > m_commandsRegistry;
+
+	boost::intrusive_ptr< ICommandExecutor > m_commandExecutor;
 
 /*---------------------------------------------------------------------------*/
 

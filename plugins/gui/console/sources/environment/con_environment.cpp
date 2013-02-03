@@ -5,7 +5,7 @@
 
 #include "console/sources/plugin/con_plugin_instance.hpp"
 
-#include "commands_manager/ih/cm_icommands_registry.hpp"
+#include "commands_manager/ih/cm_icommand_executor.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -34,12 +34,12 @@ Environment::~Environment()
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
-Environment::getCommandsRegistry() const
+boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
+Environment::getCommandExecutor() const
 {
-	return m_pluginInstance.getCommandsRegistry();
+	return m_pluginInstance.getCommandExecutor();
 
-} // Environment::getCommandsRegistry
+} // Environment::getCommandExecutor
 
 
 /*---------------------------------------------------------------------------*/

@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\commands\cm_commands_list_command.cpp" />
     <ClCompile Include="sources\commands_registry\cm_commands_registry.cpp" />
+    <ClCompile Include="sources\command_executor\cm_command_executor.cpp" />
     <ClCompile Include="sources\ph\cm_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -27,14 +29,19 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sources\plugin\cm_plugin_instance.cpp" />
+    <ClCompile Include="sources\resources\cm_internal_resources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\cm_plugin_id.hpp" />
     <ClInclude Include="ih\cm_icommand.hpp" />
     <ClInclude Include="ih\cm_icommands_registry.hpp" />
+    <ClInclude Include="ih\cm_icommand_executor.hpp" />
+    <ClInclude Include="sources\commands\cm_commands_list_command.hpp" />
     <ClInclude Include="sources\commands_registry\cm_commands_registry.hpp" />
+    <ClInclude Include="sources\command_executor\cm_command_executor.hpp" />
     <ClInclude Include="sources\ph\cm_ph.hpp" />
     <ClInclude Include="sources\plugin\cm_plugin_instance.hpp" />
+    <ClInclude Include="sources\resources\cm_internal_resources.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F45758BE-41A3-46FB-BF0E-BAE021131199}</ProjectGuid>

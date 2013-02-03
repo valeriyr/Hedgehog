@@ -1,39 +1,30 @@
 
-#ifndef __CON_IENVIRONMENT_HPP__
-#define __CON_IENVIRONMENT_HPP__
+#ifndef __CM_ICOMMAND_EXECUTOR_HPP__
+#define __CM_ICOMMAND_EXECUTOR_HPP__
+
+/*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
 
+/*---------------------------------------------------------------------------*/
+
+namespace Framework {
+namespace Core {
+namespace CommandsManager {
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework
-{
-	namespace Core
-	{
-		namespace CommandsManager
-		{
-			struct ICommandExecutor;
-		}
-	}
-}
+	const unsigned int IID_COMMAND_EXECUTOR = 1;
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
-namespace GUI {
-namespace Console {
-
-/*---------------------------------------------------------------------------*/
-
-struct IEnvironment
+struct ICommandExecutor
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
-		getCommandExecutor() const = 0;
+	virtual void executeCommand( const QString& _command ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,10 +32,10 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Console
-} // namespace GUI
-} // namespace Plugins
+} // namespace CommandsManager
+} // namespace Core
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CON_IENVIRONMENT_HPP__
+#endif // __CM_ICOMMAND_EXECUTOR_HPP__

@@ -1,24 +1,35 @@
 
-#ifndef __CON_ENVIRONMENT_HPP__
-#define __CON_ENVIRONMENT_HPP__
-
-#include "console/sources/environment/con_ienvironment.hpp"
-
+#ifndef __CM_COMMANDS_LIST_COMMAND_HPP__
+#define __CM_COMMANDS_LIST_COMMAND_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
-namespace GUI {
-namespace Console {
+#include "commands_manager/ih/cm_icommand.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
+namespace Tools
+{
+	namespace Core
+	{
+		struct IMessenger;
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
+namespace Framework {
+namespace Core {
+namespace CommandsManager {
+
+/*---------------------------------------------------------------------------*/
+
+struct ICommandsRegistry;
+
+/*---------------------------------------------------------------------------*/
+
+class CommandsListCommand
+	:	public Tools::Core::BaseWrapper< ICommand >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -27,14 +38,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( const PluginInstance& _pluginInstance );
+	CommandsListCommand(
+			const ICommandsRegistry& _commandsRegistry
+		,	Tools::Core::IMessenger& _messenger );
 
-	virtual ~Environment();
+	virtual ~CommandsListCommand();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
-		getCommandExecutor() const;
+	/*virtual*/ void execute();
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,7 +54,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const PluginInstance& m_pluginInstance;
+	const ICommandsRegistry& m_commandsRegistry;
+
+	Tools::Core::IMessenger& m_messenger;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,10 +64,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Console
-} // namespace GUI
-} // namespace Plugins
+} // namespace CommandsManager
+} // namespace Core
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CON_ENVIRONMENT_HPP__
+#endif // __CM_COMMANDS_LIST_COMMAND_HPP__
