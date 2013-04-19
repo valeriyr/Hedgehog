@@ -111,6 +111,8 @@ public:
 
 	boost::intrusive_ptr< ILandscapeEditorView > getDescriptionView() const;
 
+	boost::intrusive_ptr< ILandscapeEditorView > getMinimapView() const;
+
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< ILandscapeEditorController > getLandscapeEditorController() const;
@@ -128,6 +130,8 @@ private:
 	boost::intrusive_ptr< ILandscapeEditorView > m_editorView;
 
 	boost::intrusive_ptr< ILandscapeEditorView > m_descriptionView;
+
+	boost::intrusive_ptr< ILandscapeEditorView > m_minimapView;
 
 	boost::intrusive_ptr< ILandscapeEditorController > m_landscapeEditorController;
 

@@ -23,6 +23,8 @@ namespace Views {
 
 	extern const char* const EditorViewDefaultTitle;
 
+	extern const char* const MinimapViewTitle;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const LandscapeDescriptionDefaultText;

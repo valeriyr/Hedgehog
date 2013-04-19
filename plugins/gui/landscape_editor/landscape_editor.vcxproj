@@ -29,6 +29,7 @@
     <ClCompile Include="sources\internal_resources\le_internal_resources.cpp" />
     <ClCompile Include="sources\landscape_editor_controller\le_landscape_editor_controller.cpp" />
     <ClCompile Include="sources\landscape_widget\le_landscape_widget.cpp" />
+    <ClCompile Include="sources\minimap_widget\le_minimap_widget.cpp" />
     <ClCompile Include="sources\ph\le_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -38,6 +39,7 @@
     <ClCompile Include="sources\plugin\le_plugin_instance.cpp" />
     <ClCompile Include="sources\views\le_description_view.cpp" />
     <ClCompile Include="sources\views\le_editor_view.cpp" />
+    <ClCompile Include="sources\views\le_minimap_view.cpp" />
     <ClCompile Include="sources\views\le_objects_view.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -53,11 +55,13 @@
     <ClInclude Include="sources\landscape_editor_controller\le_ilandscape_editor_controller.hpp" />
     <ClInclude Include="sources\landscape_editor_controller\le_landscape_editor_controller.hpp" />
     <ClInclude Include="sources\landscape_widget\le_landscape_widget.hpp" />
+    <ClInclude Include="sources\minimap_widget\le_minimap_widget.hpp" />
     <ClInclude Include="sources\ph\le_ph.hpp" />
     <ClInclude Include="sources\plugin\le_plugin_instance.hpp" />
     <ClInclude Include="sources\views\le_description_view.hpp" />
     <ClInclude Include="sources\views\le_editor_view.hpp" />
     <ClInclude Include="sources\views\le_ilandscape_editor_view.hpp" />
+    <ClInclude Include="sources\views\le_minimap_view.hpp" />
     <ClInclude Include="sources\views\le_objects_view.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

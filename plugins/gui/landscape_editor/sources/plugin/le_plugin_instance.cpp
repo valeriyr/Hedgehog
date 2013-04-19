@@ -23,6 +23,7 @@
 #include "landscape_editor/sources/views/le_editor_view.hpp"
 #include "landscape_editor/sources/views/le_objects_view.hpp"
 #include "landscape_editor/sources/views/le_description_view.hpp"
+#include "landscape_editor/sources/views/le_minimap_view.hpp"
 
 #include "landscape_editor/sources/commands/le_new_landscape_command.hpp"
 #include "landscape_editor/sources/commands/le_open_landscape_command.hpp"
@@ -97,6 +98,7 @@ PluginInstance::initialize()
 	m_objectsView.reset( new ObjectsView( *m_landscapeEditorController, *getImagesManager() ) );
 	m_editorView.reset( new EditorView( *m_landscapeEditorController, *getImagesManager() ) );
 	m_descriptionView.reset( new DescriptionView( *m_landscapeEditorController ) );
+	m_minimapView.reset( new MinimapView( *m_landscapeEditorController, *getImagesManager() ) );
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		windowManager = getWindowManager();
@@ -109,6 +111,9 @@ PluginInstance::initialize()
 		,	Framework::GUI::WindowManager::ViewPosition::Center );
 	windowManager->addView(
 			m_descriptionView
+		,	Framework::GUI::WindowManager::ViewPosition::Right );
+	windowManager->addView(
+			m_minimapView
 		,	Framework::GUI::WindowManager::ViewPosition::Right );
 
 	windowManager->addCommandToMenu( "File/New", Resources::Commands::NewLandscapeCommandName );
@@ -135,10 +140,12 @@ PluginInstance::close()
 	windowManager->removeCommandFromMenu( "File/Open" );
 	windowManager->removeCommandFromMenu( "File/New" );
 
+	windowManager->removeView( m_minimapView );
 	windowManager->removeView( m_descriptionView );
 	windowManager->removeView( m_editorView );
 	windowManager->removeView( m_objectsView );
 
+	m_minimapView.reset();
 	m_descriptionView.reset();
 	m_editorView.reset();
 	m_objectsView.reset();
@@ -260,6 +267,17 @@ PluginInstance::getDescriptionView() const
 	return m_descriptionView;
 
 } // PluginInstance::getObjectsView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ILandscapeEditorView >
+PluginInstance::getMinimapView() const
+{
+	return m_minimapView;
+
+} // PluginInstance::getMinimapView
 
 
 /*---------------------------------------------------------------------------*/
