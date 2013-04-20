@@ -8,19 +8,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework
-{
-	namespace GUI
-	{
-		namespace ImagesManager
-		{
-			struct IImagesManager;
-		}
-	}
-}
-
-/*---------------------------------------------------------------------------*/
-
 namespace Plugins {
 namespace GUI {
 namespace LandscapeEditor {
@@ -28,6 +15,8 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 struct ILandscapeEditorController;
+struct ILandscapeRenderer;
+
 class MinimapWidget;
 
 /*---------------------------------------------------------------------------*/
@@ -44,7 +33,7 @@ public:
 
 	MinimapView(
 			const ILandscapeEditorController& _landscapeEditorController
-		,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager );
+		,	ILandscapeRenderer& _landscapeRenderer );
 
 	virtual ~MinimapView();
 
@@ -71,8 +60,6 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const ILandscapeEditorController& m_landscapeEditorController;
-
-	Framework::GUI::ImagesManager::IImagesManager& m_imagesManager;
 
 	boost::shared_ptr< MinimapWidget > m_minimapWidget;
 

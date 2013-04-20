@@ -25,6 +25,9 @@
     <Filter Include="Dialogs Manager">
       <UniqueIdentifier>{775960c8-ef1f-4bc9-9397-b3dac6dc85da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{18513b99-f1a2-4043-8c30-39ad6452755e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\wm_ph.cpp">
@@ -44,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="sources\dialogs_manager\wm_dialogs_manager.cpp">
       <Filter>Dialogs Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\environment\wm_environment.cpp">
+      <Filter>Environment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +79,12 @@
     </ClInclude>
     <ClInclude Include="sources\dialogs_manager\wm_dialogs_manager.hpp">
       <Filter>Dialogs Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\wm_environment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\wm_ienvironment.hpp">
+      <Filter>Environment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

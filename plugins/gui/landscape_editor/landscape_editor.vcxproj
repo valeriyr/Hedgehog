@@ -28,6 +28,7 @@
     <ClCompile Include="sources\environment\le_environment.cpp" />
     <ClCompile Include="sources\internal_resources\le_internal_resources.cpp" />
     <ClCompile Include="sources\landscape_editor_controller\le_landscape_editor_controller.cpp" />
+    <ClCompile Include="sources\landscape_renderer\le_landscape_renderer.cpp" />
     <ClCompile Include="sources\landscape_widget\le_landscape_widget.cpp" />
     <ClCompile Include="sources\minimap_widget\le_minimap_widget.cpp" />
     <ClCompile Include="sources\ph\le_ph.cpp">
@@ -54,6 +55,8 @@
     <ClInclude Include="sources\internal_resources\le_internal_resources.hpp" />
     <ClInclude Include="sources\landscape_editor_controller\le_ilandscape_editor_controller.hpp" />
     <ClInclude Include="sources\landscape_editor_controller\le_landscape_editor_controller.hpp" />
+    <ClInclude Include="sources\landscape_renderer\le_ilandscape_renderer.hpp" />
+    <ClInclude Include="sources\landscape_renderer\le_landscape_renderer.hpp" />
     <ClInclude Include="sources\landscape_widget\le_landscape_widget.hpp" />
     <ClInclude Include="sources\minimap_widget\le_minimap_widget.hpp" />
     <ClInclude Include="sources\ph\le_ph.hpp" />

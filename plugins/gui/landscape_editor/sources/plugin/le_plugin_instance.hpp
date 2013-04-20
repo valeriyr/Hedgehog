@@ -57,6 +57,7 @@ namespace LandscapeEditor {
 struct IEnvironment;
 struct ILandscapeEditorView;
 struct ILandscapeEditorController;
+struct ILandscapeRenderer;
 
 /*---------------------------------------------------------------------------*/
 
@@ -117,6 +118,8 @@ public:
 
 	boost::intrusive_ptr< ILandscapeEditorController > getLandscapeEditorController() const;
 
+	boost::intrusive_ptr< ILandscapeRenderer > getLandscapeRenderer() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -134,6 +137,8 @@ private:
 	boost::intrusive_ptr< ILandscapeEditorView > m_minimapView;
 
 	boost::intrusive_ptr< ILandscapeEditorController > m_landscapeEditorController;
+
+	boost::intrusive_ptr< ILandscapeRenderer > m_landscapeRenderer;
 
 /*---------------------------------------------------------------------------*/
 

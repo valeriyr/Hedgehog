@@ -6,6 +6,7 @@
 #include "window_manager/ih/wm_iview.hpp"
 
 #include "window_manager/sources/internal_resources/wm_internal_resources.hpp"
+#include "window_manager/sources/menu_item/wm_menu_item.hpp"
 
 #include "wm_window_manager.moc"
 
@@ -18,8 +19,9 @@ namespace WindowManager {
 /*---------------------------------------------------------------------------*/
 
 
-WindowManager::WindowManager( const QString& _applicationName )
-	:	m_mainWindow( new QMainWindow() )
+WindowManager::WindowManager( const QString& _applicationName, IEnvironment& _environment )
+	:	m_environment( _environment )
+	,	m_mainWindow( new QMainWindow() )
 	,	m_centralWidget( new QTabWidget() )
 	,	m_dockWidgetByViewCollection()
 	,	m_centralViewsCollection()
@@ -129,7 +131,8 @@ WindowManager::addCommandToMenu( const QString& _menuPath, const QString& _comma
 	for ( int i = 1; i < menus.size() - 1; ++i )
 		currentMenu = currentMenu->addMenu( menus[ i ] );
 
-	currentMenu->addAction( menus[ menus.size() - 1 ] );
+	MenuItem* menuItem = new MenuItem( _commandName, menus[ menus.size() - 1 ], m_environment, currentMenu );
+	currentMenu->addAction( menuItem );
 
 } // WindowManager::addCommandToMenu
 

@@ -2,18 +2,6 @@
 #ifndef __LE_MINIMAP_WIDGET_HPP__
 #define __LE_MINIMAP_WIDGET_HPP__
 
-/*---------------------------------------------------------------------------*/
-
-namespace Framework
-{
-	namespace GUI
-	{
-		namespace ImagesManager
-		{
-			struct IImagesManager;
-		}
-	}
-}
 
 /*---------------------------------------------------------------------------*/
 
@@ -24,6 +12,7 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 struct ILandscapeEditorController;
+struct ILandscapeRenderer;
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,7 +28,7 @@ public:
 
 	MinimapWidget(
 			const ILandscapeEditorController& _landscapeEditorController
-		,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager
+		,	ILandscapeRenderer& _landscapeRenderer
 		,	QWidget* _parent = NULL );
 
 	virtual ~MinimapWidget();
@@ -70,7 +59,7 @@ private:
 
 	const ILandscapeEditorController& m_landscapeEditorController;
 
-	Framework::GUI::ImagesManager::IImagesManager& m_imagesManager;
+	ILandscapeRenderer& m_landscapeRenderer;
 
 	QPixmap m_surfaceLayer;
 

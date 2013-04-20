@@ -63,6 +63,8 @@ struct IEnvironment
 
 	virtual boost::intrusive_ptr< ILandscapeEditorView > getDescriptionView() const = 0;
 
+	virtual boost::intrusive_ptr< ILandscapeEditorView > getMinimapView() const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< ILandscapeEditorController >

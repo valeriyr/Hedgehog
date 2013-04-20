@@ -48,6 +48,8 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorView > getDescriptionView() const;
 
+	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorView > getMinimapView() const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorController >

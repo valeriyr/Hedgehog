@@ -11,6 +11,10 @@ namespace WindowManager {
 
 /*---------------------------------------------------------------------------*/
 
+struct IEnvironment;
+
+/*---------------------------------------------------------------------------*/
+
 class MenuItem
 	:	public QAction
 {
@@ -28,7 +32,8 @@ public:
 	MenuItem(
 			const QString& _commandName
 		,	const QString& _title
-		,	QObject* _parent );
+		,	IEnvironment& _environment
+		,	QObject* _parent = NULL);
 
 	virtual ~MenuItem();
 
@@ -55,6 +60,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const QString m_commandName;
+
+	IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 

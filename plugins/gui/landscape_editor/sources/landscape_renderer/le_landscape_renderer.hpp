@@ -1,10 +1,23 @@
 
-#ifndef __LE_EDITOR_VIEW_HPP__
-#define __LE_EDITOR_VIEW_HPP__
+#ifndef __LE_LANDSCAPE_RENDERER_HPP__
+#define __LE_LANDSCAPE_RENDERER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/views/le_ilandscape_editor_view.hpp"
+#include "landscape_editor/sources/landscape_renderer/le_ilandscape_renderer.hpp"
+
+/*---------------------------------------------------------------------------*/
+
+namespace Framework
+{
+	namespace GUI
+	{
+		namespace ImagesManager
+		{
+			struct IImagesManager;
+		}
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,15 +27,12 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeEditorController;
-struct ILandscapeRenderer;
-
-class LandscapeWidget;
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-class EditorView
-	:	public Tools::Core::BaseWrapper< ILandscapeEditorView >
+class LandscapeRenderer
+	:	public Tools::Core::BaseWrapper< ILandscapeRenderer >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -31,27 +41,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	EditorView(
-			const ILandscapeEditorController& _landscapeEditorController
-		,	ILandscapeRenderer& _landscapeRenderer );
+	LandscapeRenderer( Framework::GUI::ImagesManager::IImagesManager& _imagesManager );
 
-	virtual ~EditorView();
+	virtual ~LandscapeRenderer();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const QString& getViewTitle() const;
+	/*virtual*/ void renderSurface(
+			const Core::LandscapeModel::IEditableLandscape& _landscape
+		,	QPixmap& _pixmap );
 
-	/*virtual*/ QWidget* getViewWidget();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void viewWasClosed();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void landscapeWasOpened();
-
-	/*virtual*/ void landscapeWasClosed();
+	/*virtual*/ void renderObjects(
+			const Core::LandscapeModel::IEditableLandscape& _landscape
+		,	QPixmap& _pixmap );
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,9 +61,25 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< LandscapeWidget > m_landscapeWidget;
+	void drawSurfaceItem(
+			const Core::LandscapeModel::IEditableLandscape& _landscape
+		,	QPainter& _painter
+		,	const unsigned int _widthIndex
+		,	const unsigned int _heightIndex );
 
-	QString m_viewTitle;
+	void drawWater(
+			const Core::LandscapeModel::IEditableLandscape& _landscape
+		,	QPainter& _painter
+		,	const unsigned int _widthIndex
+		,	const unsigned int _heightIndex );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	Framework::GUI::ImagesManager::IImagesManager& m_imagesManager;
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,4 +93,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_EDITOR_VIEW_HPP__
+#endif // __LE_LANDSCAPE_RENDERER_HPP__

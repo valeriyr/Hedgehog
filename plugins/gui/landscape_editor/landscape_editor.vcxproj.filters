@@ -28,6 +28,9 @@
     <Filter Include="Minimap Widget">
       <UniqueIdentifier>{6ca7325c-3d1e-4cc7-a951-856a87008aae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Landscape Renderer">
+      <UniqueIdentifier>{2a4925ff-cc31-4678-a0d4-23921d095ed3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\le_ph.cpp">
@@ -80,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="sources\minimap_widget\le_minimap_widget.cpp">
       <Filter>Minimap Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_renderer\le_landscape_renderer.cpp">
+      <Filter>Landscape Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="sources\minimap_widget\le_minimap_widget.hpp">
       <Filter>Minimap Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_renderer\le_ilandscape_renderer.hpp">
+      <Filter>Landscape Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_renderer\le_landscape_renderer.hpp">
+      <Filter>Landscape Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

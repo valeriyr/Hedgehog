@@ -1,6 +1,5 @@
 
 #include <QtGui/QTextEdit>
-#include <QtGui/QScrollArea>
 #include <QtGui/QTreeWidget>
 
 #include <QtGui/QColor>

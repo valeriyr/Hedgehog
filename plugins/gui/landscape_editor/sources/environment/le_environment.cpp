@@ -77,7 +77,7 @@ Environment::getEditorView() const
 {
 	return m_pluginInstance.getEditorView();
 
-} // Environment::getObjectsView
+} // Environment::getEditorView
 
 
 /*---------------------------------------------------------------------------*/
@@ -88,7 +88,18 @@ Environment::getDescriptionView() const
 {
 	return m_pluginInstance.getDescriptionView();
 
-} // Environment::getObjectsView
+} // Environment::getDescriptionView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ILandscapeEditorView >
+Environment::getMinimapView() const
+{
+	return m_pluginInstance.getMinimapView();
+
+} // Environment::getMinimapView
 
 
 /*---------------------------------------------------------------------------*/

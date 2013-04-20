@@ -14,6 +14,10 @@ namespace WindowManager {
 
 /*---------------------------------------------------------------------------*/
 
+struct IEnvironment;
+
+/*---------------------------------------------------------------------------*/
+
 class WindowManager
 	:	public QObject
 	,	public Tools::Core::BaseWrapper< IWindowManager >
@@ -29,7 +33,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	WindowManager( const QString& _applicationName );
+	WindowManager( const QString& _applicationName, IEnvironment& _environment );
 
 	virtual ~WindowManager();
 
@@ -82,6 +86,8 @@ private:
 		CentralViewsCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
+
+	IEnvironment& m_environment;
 
 	boost::shared_ptr< QMainWindow > m_mainWindow;
 

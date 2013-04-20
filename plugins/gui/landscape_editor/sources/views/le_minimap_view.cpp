@@ -4,7 +4,6 @@
 #include "landscape_editor/sources/views/le_minimap_view.hpp"
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
-
 #include "landscape_editor/sources/minimap_widget/le_minimap_widget.hpp"
 
 
@@ -19,11 +18,10 @@ namespace LandscapeEditor {
 
 MinimapView::MinimapView(
 		const ILandscapeEditorController& _landscapeEditorController
-	,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager
+	,	ILandscapeRenderer& _landscapeRenderer
 	)
 	:	m_landscapeEditorController( _landscapeEditorController )
-	,	m_imagesManager( _imagesManager )
-	,	m_minimapWidget( new MinimapWidget( _landscapeEditorController, _imagesManager ) )
+	,	m_minimapWidget( new MinimapWidget( _landscapeEditorController, _landscapeRenderer ) )
 	,	m_viewTitle( Resources::Views::MinimapViewTitle )
 {
 } // MinimapView::MinimapView

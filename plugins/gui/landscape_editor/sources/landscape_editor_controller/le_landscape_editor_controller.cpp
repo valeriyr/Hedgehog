@@ -78,6 +78,7 @@ LandscapeEditorController::closeLandscape()
 	m_environment.getDescriptionView()->landscapeWasClosed();
 	m_environment.getObjectsView()->landscapeWasClosed();
 	m_environment.getEditorView()->landscapeWasClosed();
+	m_environment.getMinimapView()->landscapeWasClosed();
 
 } // LandscapeEditorController::closeLandscape
 
@@ -139,6 +140,7 @@ LandscapeEditorController::landscapeWasOpened()
 	m_environment.getDescriptionView()->landscapeWasOpened();
 	m_environment.getObjectsView()->landscapeWasOpened();
 	m_environment.getEditorView()->landscapeWasOpened();
+	m_environment.getMinimapView()->landscapeWasOpened();
 
 } // LandscapeEditorController::getEditableLandscape
 

@@ -18,14 +18,11 @@ namespace LandscapeEditor {
 
 EditorView::EditorView(
 		const ILandscapeEditorController& _landscapeEditorController
-	,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager
+	,	ILandscapeRenderer& _landscapeRenderer
 	)
-	:	m_editorMainWidget( new QScrollArea() )
-	,	m_landscapeWidget( new LandscapeWidget( _landscapeEditorController, _imagesManager ) )
+	:	m_landscapeWidget( new LandscapeWidget( _landscapeEditorController, _landscapeRenderer ) )
 	,	m_viewTitle( Resources::Views::EditorViewDefaultTitle )
 {
-	m_editorMainWidget->setWidget( m_landscapeWidget );
-
 } // EditorView::EditorView
 
 
@@ -54,7 +51,7 @@ EditorView::getViewTitle() const
 QWidget*
 EditorView::getViewWidget()
 {
-	return m_editorMainWidget.get();
+	return m_landscapeWidget.get();
 
 } // EditorView::getViewWidget
 
@@ -65,7 +62,7 @@ EditorView::getViewWidget()
 void
 EditorView::viewWasClosed()
 {
-	m_editorMainWidget.reset();
+	m_landscapeWidget.reset();
 
 } // EditorView::viewWasClosed
 
@@ -88,7 +85,6 @@ void
 EditorView::landscapeWasClosed()
 {
 	m_landscapeWidget->setDefaultLandscape();
-	m_editorMainWidget->update();
 
 } // EditorView::landscapeWasClosed
 

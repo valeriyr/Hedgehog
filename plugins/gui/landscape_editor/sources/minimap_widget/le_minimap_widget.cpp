@@ -5,8 +5,7 @@
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 #include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
-
-#include "images_manager/ih/im_iimages_manager.hpp"
+#include "landscape_editor/sources/landscape_renderer/le_ilandscape_renderer.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -26,12 +25,12 @@ const QSize MinimapWidget::ms_fixedWidgetSize = QSize( 300, 200 );
 
 MinimapWidget::MinimapWidget(
 		const ILandscapeEditorController& _landscapeEditorController
-	,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager
+	,	ILandscapeRenderer& _landscapeRenderer
 	,	QWidget* _parent
 	)
 	:	QGLWidget( QGLFormat( QGL::SampleBuffers ), _parent )
 	,	m_landscapeEditorController( _landscapeEditorController )
-	,	m_imagesManager( _imagesManager )
+	,	m_landscapeRenderer( _landscapeRenderer )
 	,	m_surfaceLayer( ms_fixedWidgetSize )
 {
 	setFixedSize( ms_fixedWidgetSize );
@@ -54,6 +53,16 @@ MinimapWidget::~MinimapWidget()
 void
 MinimapWidget::landscapeWasOpened()
 {
+	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
+		landscape = m_landscapeEditorController.getEditableLandscape();
+	QPixmap surfaceLayer;
+
+	m_landscapeRenderer.renderSurface( *landscape, surfaceLayer );
+
+	m_surfaceLayer = surfaceLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+
+	update();
+
 } // MinimapWidget::landscapeWasOpened
 
 
@@ -63,6 +72,8 @@ MinimapWidget::landscapeWasOpened()
 void
 MinimapWidget::setDefaultLandscape()
 {
+	m_surfaceLayer.fill(Qt::white);
+
 } // MinimapWidget::setDefaultLandscape
 
 

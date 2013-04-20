@@ -17,7 +17,7 @@ namespace Resources {
 
 	const char* const ConfigsDirectoryName = "configs";
 
-	const char* const ApplicationName = "Hedgehog Game";
+	const char* const ApplicationName = "Hedgehog";
 
 /*---------------------------------------------------------------------------*/
 

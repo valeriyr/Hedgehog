@@ -1,28 +1,25 @@
 
-#ifndef __LE_EDITOR_VIEW_HPP__
-#define __LE_EDITOR_VIEW_HPP__
+#ifndef __WM_ENVIRONMENT_HPP__
+#define __WM_ENVIRONMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/views/le_ilandscape_editor_view.hpp"
+#include "window_manager/sources/environment/wm_ienvironment.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
+namespace Framework {
 namespace GUI {
-namespace LandscapeEditor {
+namespace WindowManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeEditorController;
-struct ILandscapeRenderer;
-
-class LandscapeWidget;
+class PluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
-class EditorView
-	:	public Tools::Core::BaseWrapper< ILandscapeEditorView >
+class Environment
+	:	public Tools::Core::BaseWrapper< IEnvironment >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -31,27 +28,14 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	EditorView(
-			const ILandscapeEditorController& _landscapeEditorController
-		,	ILandscapeRenderer& _landscapeRenderer );
+	Environment( const PluginInstance& _pluginInstance );
 
-	virtual ~EditorView();
+	virtual ~Environment();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const QString& getViewTitle() const;
-
-	/*virtual*/ QWidget* getViewWidget();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void viewWasClosed();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void landscapeWasOpened();
-
-	/*virtual*/ void landscapeWasClosed();
+	/*virtual*/ boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
+		getCommandExecutor() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,9 +43,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< LandscapeWidget > m_landscapeWidget;
-
-	QString m_viewTitle;
+	const PluginInstance& m_pluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,10 +51,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeEditor
+} // namespace WindowManager
 } // namespace GUI
-} // namespace Plugins
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_EDITOR_VIEW_HPP__
+#endif // __WM_ENVIRONMENT_HPP__

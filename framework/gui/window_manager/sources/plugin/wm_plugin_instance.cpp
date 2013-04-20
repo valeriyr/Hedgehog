@@ -8,8 +8,13 @@
 #include "plugins_manager/h/pm_plugin_id.hpp"
 #include "plugins_manager/ih/pm_isystem_information.hpp"
 
+#include "window_manager/sources/environment/wm_environment.hpp"
+
 #include "window_manager/sources/window_manager/wm_window_manager.hpp"
 #include "window_manager/sources/dialogs_manager/wm_dialogs_manager.hpp"
+
+#include "commands_manager/ih/cm_icommand_executor.hpp"
+#include "commands_manager/h/cm_plugin_id.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -51,7 +56,9 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
-	m_windowManager.reset( new WindowManager( getSystemInformation()->getApplicationName() ) );
+	m_environment.reset( new Environment( *this ) );
+
+	m_windowManager.reset( new WindowManager( getSystemInformation()->getApplicationName(), *m_environment ) );
 	m_dialogsManager.reset( new DialogsManager( m_windowManager->getMainWindow() ) );
 
 } // PluginInstance::initialize
@@ -65,6 +72,8 @@ PluginInstance::close()
 {
 	m_dialogsManager.reset();
 	m_windowManager.reset();
+
+	m_environment.reset();
 
 } // PluginInstance::close
 
@@ -81,6 +90,20 @@ PluginInstance::getSystemInformation() const
 			,	Core::PluginsManager::IID_SYSTEM_INFORMATION );
 
 } // PluginInstance::getSystemInformation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
+PluginInstance::getCommandExecutor() const
+{
+	return
+		getPluginInterface< Framework::Core::CommandsManager::ICommandExecutor >(
+				Framework::Core::CommandsManager::PID_COMMANDS_MANAGER
+			,	Framework::Core::CommandsManager::IID_COMMAND_EXECUTOR );
+
+} // PluginInstance::getCommandExecutor
 
 
 /*---------------------------------------------------------------------------*/

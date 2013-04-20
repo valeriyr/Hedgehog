@@ -17,6 +17,11 @@ namespace Framework
 		{
 			struct ISystemInformation;
 		}
+
+		namespace CommandsManager
+		{
+			struct ICommandExecutor;
+		}
 	}
 }
 
@@ -28,7 +33,9 @@ namespace WindowManager {
 
 /*---------------------------------------------------------------------------*/
 
+struct IEnvironment;
 struct IDialogsManager;
+
 class WindowManager;
 
 /*---------------------------------------------------------------------------*/
@@ -59,18 +66,23 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-private:
+public:
 
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< Core::PluginsManager::ISystemInformation >
 		getSystemInformation() const;
 
+	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
+		getCommandExecutor() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< IEnvironment > m_environment;
 
 	boost::intrusive_ptr< WindowManager > m_windowManager;
 
