@@ -85,7 +85,7 @@ MinimapView::landscapeWasOpened()
 void
 MinimapView::landscapeWasClosed()
 {
-	m_minimapWidget->landscapeWasOpened();
+	m_minimapWidget->setDefaultLandscape();
 
 } // MinimapView::landscapeWasClosed
 

@@ -73,6 +73,7 @@ void
 MinimapWidget::setDefaultLandscape()
 {
 	m_surfaceLayer.fill(Qt::white);
+	update();
 
 } // MinimapWidget::setDefaultLandscape
 
