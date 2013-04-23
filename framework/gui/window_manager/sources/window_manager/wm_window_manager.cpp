@@ -25,6 +25,7 @@ WindowManager::WindowManager( const QString& _applicationName, IEnvironment& _en
 	,	m_centralWidget( new QTabWidget() )
 	,	m_dockWidgetByViewCollection()
 	,	m_centralViewsCollection()
+	,	m_menusCollection()
 {
 	// m_centralWidget->setTabsClosable( true );
 
@@ -42,8 +43,7 @@ WindowManager::~WindowManager()
 {
 	assert( m_dockWidgetByViewCollection.empty() );
 	assert( m_centralViewsCollection.empty() );
-
-	m_centralViewsCollection.clear();
+	// assert( m_menusCollection.empty() );
 
 	m_mainWindow.reset();
 
@@ -121,15 +121,18 @@ WindowManager::removeView( boost::intrusive_ptr< IView > _view )
 void
 WindowManager::addCommandToMenu( const QString& _menuPath, const QString& _commandName )
 {
-	QString menuPath( _menuPath );
-	QStringList menus( menuPath.split( Resources::MenuItemsSeparator ) );
+	QStringList menus( _menuPath.split( Resources::MenuItemsSeparator ) );
 
 	assert( menus.size() > 1 );
 
-	QMenu* currentMenu = m_mainWindow->menuBar()->addMenu( menus[ 0 ] );
+	QString menuPath = menus[ 0 ];
+	QMenu* currentMenu = getMenuByPath( m_mainWindow->menuBar(), menuPath );
 
 	for ( int i = 1; i < menus.size() - 1; ++i )
-		currentMenu = currentMenu->addMenu( menus[ i ] );
+	{
+		menuPath = menuPath + Resources::MenuItemsSeparator + menus[ i ];
+		currentMenu = getMenuByPath( currentMenu, menuPath );
+	}
 
 	MenuItem* menuItem = new MenuItem( _commandName, menus[ menus.size() - 1 ], m_environment, currentMenu );
 	currentMenu->addAction( menuItem );
@@ -179,6 +182,32 @@ WindowManager::getQtViewPossition( const ViewPosition::Enum _viewPossition )
 	};
 
 } // WindowManager::getQtViewPossition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+template< typename _TMenuType >
+QMenu*
+WindowManager::getMenuByPath( _TMenuType* _parentMenu, const QString& _menuPath )
+{
+	QMenu* currentMenu = NULL;
+
+	MenusCollectionIterator iterator = m_menusCollection.find( _menuPath );
+
+	if ( iterator == m_menusCollection.end() )
+	{
+		currentMenu = _parentMenu->addMenu( _menuPath );
+		m_menusCollection.insert( std::make_pair( _menuPath, currentMenu ) );
+	}
+	else
+	{
+		currentMenu = iterator->second;
+	}
+
+	return currentMenu;
+
+} // WindowManager::getMenuByPath
 
 
 /*---------------------------------------------------------------------------*/

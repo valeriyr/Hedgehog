@@ -65,6 +65,9 @@ private:
 
 	static Qt::DockWidgetArea getQtViewPossition( const ViewPosition::Enum _viewPossition );
 
+	template< typename _TMenuType >
+	QMenu* getMenuByPath( _TMenuType* _parentMenu, const QString& _menuPath );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -85,6 +88,13 @@ private:
 		CentralViewsCollection::const_iterator
 		CentralViewsCollectionIterator;
 
+	typedef
+		std::map< QString, QMenu* >
+		MenusCollection;
+	typedef
+		MenusCollection::const_iterator
+		MenusCollectionIterator;
+
 /*---------------------------------------------------------------------------*/
 
 	IEnvironment& m_environment;
@@ -96,6 +106,8 @@ private:
 	DockWidgetByViewCollection m_dockWidgetByViewCollection;
 
 	CentralViewsCollection m_centralViewsCollection;
+
+	MenusCollection m_menusCollection;
 
 /*---------------------------------------------------------------------------*/
 
