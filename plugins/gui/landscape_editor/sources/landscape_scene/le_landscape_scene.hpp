@@ -1,12 +1,19 @@
 
-#ifndef __LE_OBJECTS_VIEW_HPP__
-#define __LE_OBJECTS_VIEW_HPP__
+#ifndef __LE_LANDSCAPE_SCENE_HPP__
+#define __LE_LANDSCAPE_SCENE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/views/le_ibase_view.hpp"
-
-/*---------------------------------------------------------------------------*/
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct IEditableLandscape;
+		}
+	}
+}
 
 namespace Framework
 {
@@ -31,8 +38,8 @@ struct ILandscapeEditorController;
 
 /*---------------------------------------------------------------------------*/
 
-class ObjectsView
-	:	public Tools::Core::BaseWrapper< IBaseView >
+class LandscapeScene
+	:	public QGraphicsScene
 {
 
 /*---------------------------------------------------------------------------*/
@@ -41,27 +48,31 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ObjectsView(
+	LandscapeScene(
 			const ILandscapeEditorController& _landscapeEditorController
-		,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager );
+		,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager
+		,	QObject* _parent = NULL );
 
-	virtual ~ObjectsView();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ const QString& getViewTitle() const;
-
-	/*virtual*/ QWidget* getViewWidget();
+	virtual ~LandscapeScene();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void viewWasClosed();
+	void landscapeWasOpened();
+
+	void setDefaultLandscape();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void landscapeWasOpened();
+private:
 
-	/*virtual*/ void landscapeWasClosed();
+/*---------------------------------------------------------------------------*/
+
+	void regenerate();
+
+	void regenerateSurfaceLayer();
+	void regenerateObjectsLayer();
+
+	void setCorrectSceneSize();
 
 /*---------------------------------------------------------------------------*/
 
@@ -72,10 +83,6 @@ private:
 	const ILandscapeEditorController& m_landscapeEditorController;
 
 	Framework::GUI::ImagesManager::IImagesManager& m_imagesManager;
-
-	boost::shared_ptr< QTreeWidget > m_objectsView;
-
-	QString m_viewTitle;
 
 /*---------------------------------------------------------------------------*/
 
@@ -89,4 +96,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_OBJECTS_VIEW_HPP__
+#endif // __LE_LANDSCAPE_SCENE_HPP__

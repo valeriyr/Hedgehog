@@ -17,8 +17,12 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeEditor::LandscapeEditor( const ILandscapeSerializer& _landscapeSerializer )
+LandscapeEditor::LandscapeEditor(
+		const ILandscapeSerializer& _landscapeSerializer
+	,	const ISurfaceItemsCache& _surfaceItemsCache
+	)
 	:	m_landscapeSerializer( _landscapeSerializer )
+	,	m_surfaceItemsCache( _surfaceItemsCache )
 {
 } // LandscapeEditor::LandscapeEditor
 
@@ -34,12 +38,12 @@ LandscapeEditor::~LandscapeEditor()
 /*---------------------------------------------------------------------------*/
 
 
-IEditableLandscape::Ptr
+boost::intrusive_ptr< IEditableLandscape >
 LandscapeEditor::createLandscape(
 		const unsigned int _width
 	,	const unsigned int _height ) const
 {
-	IEditableLandscape::Ptr newLandscape( new Landscape() );
+	boost::intrusive_ptr< IEditableLandscape > newLandscape( new Landscape( m_surfaceItemsCache ) );
 
 	newLandscape->setSize( _width, _height );
 
@@ -51,10 +55,10 @@ LandscapeEditor::createLandscape(
 /*---------------------------------------------------------------------------*/
 
 
-IEditableLandscape::Ptr
+boost::intrusive_ptr< IEditableLandscape >
 LandscapeEditor::loadLandscape( const QString& _filePath ) const
 {
-	IEditableLandscape::Ptr newLandscape( new Landscape() );
+	boost::intrusive_ptr< IEditableLandscape > newLandscape( new Landscape( m_surfaceItemsCache ) );
 
 	m_landscapeSerializer.load( *newLandscape, _filePath );
 

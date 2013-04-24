@@ -20,12 +20,6 @@ struct IEditableLandscape
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		boost::intrusive_ptr< IEditableLandscape >
-		Ptr;
-
-/*---------------------------------------------------------------------------*/
-
 	virtual void setSize(
 			const unsigned int _width
 		,	const unsigned int _height ) = 0;
@@ -35,9 +29,7 @@ struct IEditableLandscape
 	virtual void setSurfaceItem(
 			const unsigned int _width
 		,	const unsigned int _height
-		,	const SurfaceItems::Enum _surfaceItem ) = 0;
-
-	virtual void createTreeObject( const unsigned int _width, const unsigned int _height ) = 0;
+		,	boost::intrusive_ptr< ISurfaceItem > _surfaceItem ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

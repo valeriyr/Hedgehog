@@ -18,6 +18,7 @@ namespace LandscapeModel {
 struct ILandscapeSerializer;
 struct ILandscapeEditor;
 struct ILandscapeManager;
+struct ISurfaceItemsCache;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,6 +51,16 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	void fillSurfaceItemsCache();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< ISurfaceItemsCache > m_surfaceItemsCache;
 
 	boost::intrusive_ptr< ILandscapeSerializer > m_landscapeSerializer;
 

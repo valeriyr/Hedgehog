@@ -55,7 +55,7 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
-struct ILandscapeEditorView;
+struct IBaseView;
 struct ILandscapeEditorController;
 struct ILandscapeRenderer;
 
@@ -106,13 +106,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< ILandscapeEditorView > getObjectsView() const;
+	boost::intrusive_ptr< IBaseView > getObjectsView() const;
 
-	boost::intrusive_ptr< ILandscapeEditorView > getEditorView() const;
+	boost::intrusive_ptr< IBaseView > getEditorView() const;
 
-	boost::intrusive_ptr< ILandscapeEditorView > getDescriptionView() const;
+	boost::intrusive_ptr< IBaseView > getDescriptionView() const;
 
-	boost::intrusive_ptr< ILandscapeEditorView > getMinimapView() const;
+	boost::intrusive_ptr< IBaseView > getMinimapView() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -128,13 +128,13 @@ private:
 
 	boost::intrusive_ptr< IEnvironment > m_environment;
 
-	boost::intrusive_ptr< ILandscapeEditorView > m_objectsView;
+	boost::intrusive_ptr< IBaseView > m_objectsView;
 
-	boost::intrusive_ptr< ILandscapeEditorView > m_editorView;
+	boost::intrusive_ptr< IBaseView > m_editorView;
 
-	boost::intrusive_ptr< ILandscapeEditorView > m_descriptionView;
+	boost::intrusive_ptr< IBaseView > m_descriptionView;
 
-	boost::intrusive_ptr< ILandscapeEditorView > m_minimapView;
+	boost::intrusive_ptr< IBaseView > m_minimapView;
 
 	boost::intrusive_ptr< ILandscapeEditorController > m_landscapeEditorController;
 

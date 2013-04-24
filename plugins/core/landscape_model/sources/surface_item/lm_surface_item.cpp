@@ -1,7 +1,7 @@
 
 #include "landscape_model/sources/ph/lm_ph.hpp"
 
-#include "landscape_model/sources/landscape_objects/lm_base_landscape_object.hpp"
+#include "landscape_model/sources/surface_item/lm_surface_item.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -13,44 +13,57 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-BaseLandscapeObject::BaseLandscapeObject(
-		unsigned int _width
-	,	unsigned int _height
+SurfaceItem::SurfaceItem(
+		const unsigned int _index
+	,	const QString& _bundlePath
+	,	const QRect& _rectInBundle
 	)
-	:	m_width( _width )
-	,	m_height( _height )
+	:	m_index( _index )
+	,	m_bundlePath( _bundlePath )
+	,	m_rectInBundle( _rectInBundle )
 {
-} // BaseLandscapeObject::BaseLandscapeObject
+} // SurfaceItem::SurfaceItem
 
 
 /*---------------------------------------------------------------------------*/
 
 
-BaseLandscapeObject::~BaseLandscapeObject()
+SurfaceItem::~SurfaceItem()
 {
-} // BaseLandscapeObject::~BaseLandscapeObject
-
-
-/*---------------------------------------------------------------------------*/
-
-
-unsigned int
-BaseLandscapeObject::getWidth() const
-{
-	return m_width;
-
-} // BaseLandscapeObject::getWidth
+} // SurfaceItem::~SurfaceItem
 
 
 /*---------------------------------------------------------------------------*/
 
 
 unsigned int
-BaseLandscapeObject::getHeight() const
+SurfaceItem::getIndex() const
 {
-	return m_height;
+	return m_index;
 
-} // BaseLandscapeObject::getHeight
+} // SurfaceItem::getIndex
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QString&
+SurfaceItem::getBundlePath() const
+{
+	return m_bundlePath;
+
+} // SurfaceItem::getBundlePath
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QRect&
+SurfaceItem::getRectInBundle() const
+{
+	return m_rectInBundle;
+
+} // SurfaceItem::getRectInBundle
 
 
 /*---------------------------------------------------------------------------*/

@@ -14,6 +14,10 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct ISurfaceItemsCache;
+
+/*---------------------------------------------------------------------------*/
+
 class LandscapeSerializer
 	:	public Tools::Core::BaseWrapper< ILandscapeSerializer >
 {
@@ -24,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeSerializer();
+	LandscapeSerializer( const ISurfaceItemsCache& _surfaceItemsCache );
 
 	virtual ~LandscapeSerializer();
 
@@ -37,6 +41,14 @@ public:
 	/*virtual*/ void save(
 			const ILandscape& _landscape
 		,	const QString& _filePath ) const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const ISurfaceItemsCache& m_surfaceItemsCache;
 
 /*---------------------------------------------------------------------------*/
 

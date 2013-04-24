@@ -2,6 +2,10 @@
 #include <QtGui/QTextEdit>
 #include <QtGui/QTreeWidget>
 
+#include <QtGui/QGraphicsView>
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QGraphicsPixmapItem>
+
 #include <QtGui/QColor>
 
 #include <QtGui/QPaintEvent>

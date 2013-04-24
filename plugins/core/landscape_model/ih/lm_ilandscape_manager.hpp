@@ -5,7 +5,6 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
-#include "landscape_model/ih/lm_ilandscape.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,7 +34,7 @@ struct ILandscapeManager
 
 /*---------------------------------------------------------------------------*/
 
-	virtual ILandscape::Ptr getCurrentLandscape() const = 0;
+	virtual boost::intrusive_ptr< ILandscape > getCurrentLandscape() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

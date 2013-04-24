@@ -4,7 +4,7 @@
 #include "landscape_editor/sources/views/le_editor_view.hpp"
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
-#include "landscape_editor/sources/landscape_widget/le_landscape_widget.hpp"
+#include "landscape_editor/sources/landscape_scene/le_landscape_scene.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -18,9 +18,9 @@ namespace LandscapeEditor {
 
 EditorView::EditorView(
 		const ILandscapeEditorController& _landscapeEditorController
-	,	ILandscapeRenderer& _landscapeRenderer
-	)
-	:	m_landscapeWidget( new LandscapeWidget( _landscapeEditorController, _landscapeRenderer ) )
+	,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager )
+	:	m_landscapeScene( new LandscapeScene( _landscapeEditorController, _imagesManager ) )
+	,	m_landscapeWidget( new QGraphicsView( m_landscapeScene.get() ) )
 	,	m_viewTitle( Resources::Views::EditorViewDefaultTitle )
 {
 } // EditorView::EditorView
@@ -63,6 +63,7 @@ void
 EditorView::viewWasClosed()
 {
 	m_landscapeWidget.reset();
+	m_landscapeScene.reset(); 
 
 } // EditorView::viewWasClosed
 
@@ -73,7 +74,7 @@ EditorView::viewWasClosed()
 void
 EditorView::landscapeWasOpened()
 {
-	m_landscapeWidget->landscapeWasOpened();
+	m_landscapeScene->landscapeWasOpened();
 
 } // EditorView::landscapeWasOpened
 
@@ -84,7 +85,7 @@ EditorView::landscapeWasOpened()
 void
 EditorView::landscapeWasClosed()
 {
-	m_landscapeWidget->setDefaultLandscape();
+	m_landscapeScene->setDefaultLandscape();
 
 } // EditorView::landscapeWasClosed
 

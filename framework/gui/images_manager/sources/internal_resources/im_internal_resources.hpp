@@ -15,6 +15,8 @@ namespace Resources {
 
 	extern const char* const ImageDefaultExtension;
 
+	extern const char* const ImageWithRectPathFormat;
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Resources

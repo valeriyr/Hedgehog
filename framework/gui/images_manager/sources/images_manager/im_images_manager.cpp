@@ -62,6 +62,44 @@ ImagesManager::getPixmap( const QString& _resourcePath )
 
 /*---------------------------------------------------------------------------*/
 
+
+const QPixmap&
+ImagesManager::getPixmap( const QString& _resourcePath, const QRect& _rect )
+{
+	QString path = generatePathForPixmapWithRect( _resourcePath, _rect );
+
+	PixmapsCollectionIteratorType iterator = m_pixmapsCollection.find( path );
+	if ( iterator != m_pixmapsCollection.end() )
+		return *iterator->second;
+
+	boost::shared_ptr< QPixmap > pixmap( new QPixmap( getPixmap( _resourcePath ).copy( _rect ) ) );
+
+	m_pixmapsCollection.insert( std::make_pair( path, pixmap ) );
+
+	return *pixmap;
+
+} // ImagesManager::getPixmap
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+ImagesManager::generatePathForPixmapWithRect( const QString& _resourcePath, const QRect& _rect )
+{
+	return
+		QString( Resources::ImageWithRectPathFormat )
+			.arg( _resourcePath )
+			.arg( _rect.x() )
+			.arg( _rect.y() )
+			.arg( _rect.right() )
+			.arg( _rect.bottom() );
+
+} // ImagesManager::generatePathForPixmapWithRect
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace ImagesManager
 } // namespace GUI
 } // namespace Framework

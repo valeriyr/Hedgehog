@@ -38,7 +38,7 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeEditorView;
+struct IBaseView;
 struct ILandscapeEditorController;
 
 /*---------------------------------------------------------------------------*/
@@ -57,13 +57,13 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< ILandscapeEditorView > getObjectsView() const = 0;
+	virtual boost::intrusive_ptr< IBaseView > getObjectsView() const = 0;
 
-	virtual boost::intrusive_ptr< ILandscapeEditorView > getEditorView() const = 0;
+	virtual boost::intrusive_ptr< IBaseView > getEditorView() const = 0;
 
-	virtual boost::intrusive_ptr< ILandscapeEditorView > getDescriptionView() const = 0;
+	virtual boost::intrusive_ptr< IBaseView > getDescriptionView() const = 0;
 
-	virtual boost::intrusive_ptr< ILandscapeEditorView > getMinimapView() const = 0;
+	virtual boost::intrusive_ptr< IBaseView > getMinimapView() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

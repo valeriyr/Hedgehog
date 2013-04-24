@@ -6,16 +6,15 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
-#include "landscape_model/ih/lm_ilandscape_object.hpp"
-
-#include "landscape_model/h/lm_surface_items.hpp"
-#include "landscape_model/h/lm_terrain_map_items.hpp"
-
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
+
+/*---------------------------------------------------------------------------*/
+
+struct ISurfaceItem;
 
 /*---------------------------------------------------------------------------*/
 
@@ -25,26 +24,14 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		boost::intrusive_ptr< ILandscape >
-		Ptr;
-
-/*---------------------------------------------------------------------------*/
-
 	virtual unsigned int getWidth() const = 0;
 
 	virtual unsigned int getHeight() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual ILandscapeObject::Ptr
-		getLadscapeObject( const unsigned int _width, const unsigned int _height ) const = 0;
-
-	virtual SurfaceItems::Enum
+	virtual boost::intrusive_ptr< ISurfaceItem >
 		getSurfaceItem( const unsigned int _width, const unsigned int _height ) const = 0;
-
-	virtual TerrainMapItems::Enum
-		getTerrainMapItem( const unsigned int _width, const unsigned int _height ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

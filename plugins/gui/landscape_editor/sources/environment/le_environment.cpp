@@ -9,7 +9,7 @@
 
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
 
-#include "landscape_editor/sources/views/le_ilandscape_editor_view.hpp"
+#include "landscape_editor/sources/views/le_ibase_view.hpp"
 #include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
 
 
@@ -61,7 +61,7 @@ Environment::getLandscapeEditor() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILandscapeEditorView >
+boost::intrusive_ptr< IBaseView >
 Environment::getObjectsView() const
 {
 	return m_pluginInstance.getObjectsView();
@@ -72,7 +72,7 @@ Environment::getObjectsView() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILandscapeEditorView >
+boost::intrusive_ptr< IBaseView >
 Environment::getEditorView() const
 {
 	return m_pluginInstance.getEditorView();
@@ -83,7 +83,7 @@ Environment::getEditorView() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILandscapeEditorView >
+boost::intrusive_ptr< IBaseView >
 Environment::getDescriptionView() const
 {
 	return m_pluginInstance.getDescriptionView();
@@ -94,7 +94,7 @@ Environment::getDescriptionView() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILandscapeEditorView >
+boost::intrusive_ptr< IBaseView >
 Environment::getMinimapView() const
 {
 	return m_pluginInstance.getMinimapView();

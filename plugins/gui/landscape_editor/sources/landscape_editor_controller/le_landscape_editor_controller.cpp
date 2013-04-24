@@ -4,7 +4,7 @@
 #include "landscape_editor/sources/landscape_editor_controller/le_landscape_editor_controller.hpp"
 
 #include "landscape_editor/sources/environment/le_ienvironment.hpp"
-#include "landscape_editor/sources/views/le_ilandscape_editor_view.hpp"
+#include "landscape_editor/sources/views/le_ibase_view.hpp"
 
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
@@ -41,6 +41,9 @@ LandscapeEditorController::~LandscapeEditorController()
 void
 LandscapeEditorController::newLandscape()
 {
+	if ( m_editableLandscape )
+		closeLandscape();
+
 	m_landscapeFilePath = "c:/temp/new.hmap";
 	m_editableLandscape = m_environment.getLandscapeEditor()->createLandscape( 60, 30 );
 
@@ -55,10 +58,14 @@ LandscapeEditorController::newLandscape()
 void
 LandscapeEditorController::openLandscape()
 {
-	m_landscapeFilePath = m_environment.getDialogsManager()->getOpenFileName( "*.hmap" );
+	QString landscapeFilePath = m_environment.getDialogsManager()->getOpenFileName( "*.hmap" );
 
-	if ( !m_landscapeFilePath.isEmpty() )
+	if ( !landscapeFilePath.isEmpty() )
 	{
+		if ( m_editableLandscape )
+			closeLandscape();
+
+		m_landscapeFilePath = landscapeFilePath;
 		m_editableLandscape = m_environment.getLandscapeEditor()->loadLandscape( m_landscapeFilePath );
 		landscapeWasOpened();
 	}
@@ -123,7 +130,7 @@ LandscapeEditorController::getLandscapeFilePath() const
 /*---------------------------------------------------------------------------*/
 
 
-Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
+boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
 LandscapeEditorController::getEditableLandscape() const
 {
 	return m_editableLandscape;

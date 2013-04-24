@@ -4,7 +4,6 @@
 #include "landscape_editor/sources/views/le_description_view.hpp"
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
-
 #include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
 
 

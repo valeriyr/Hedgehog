@@ -28,7 +28,7 @@ ObjectsView::ObjectsView(
 {
 	m_objectsView->setHeaderLabel( Resources::Views::ObjectsViewColumnName );
 
-	QPixmap waterPixmap( 20, 20 );
+	/*QPixmap waterPixmap( 20, 20 );
 	waterPixmap.fill( Qt::blue );
 
 	QIcon waterIcon( waterPixmap );
@@ -65,7 +65,7 @@ ObjectsView::ObjectsView(
 	m_objectsView->addTopLevelItem( objectsTopItem );
 
 	landscapeTopItem->setExpanded( true );
-	objectsTopItem->setExpanded( true );
+	objectsTopItem->setExpanded( true );*/
 
 } // ObjectsView::ObjectsView
 

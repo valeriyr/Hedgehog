@@ -14,6 +14,10 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct ISurfaceItemsCache;
+
+/*---------------------------------------------------------------------------*/
+
 class Landscape
 	:	public Tools::Core::BaseWrapper< IEditableLandscape >
 {
@@ -24,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Landscape();
+	Landscape( const ISurfaceItemsCache& _surfaceItemsCache );
 
 	virtual ~Landscape();
 
@@ -36,14 +40,8 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ ILandscapeObject::Ptr
-		getLadscapeObject( const unsigned int _width, const unsigned int _height ) const;
-
-	/*virtual*/ SurfaceItems::Enum
+	/*virtual*/ boost::intrusive_ptr< ISurfaceItem >
 		getSurfaceItem( const unsigned int _width, const unsigned int _height ) const;
-
-	/*virtual*/ TerrainMapItems::Enum
-		getTerrainMapItem( const unsigned int _width, const unsigned int _height ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,9 +54,7 @@ public:
 	/*virtual*/ void setSurfaceItem(
 			const unsigned int _width
 		,	const unsigned int _height
-		,	const SurfaceItems::Enum _surfaceItem );
-
-	/*virtual*/ void createTreeObject( const unsigned int _width, const unsigned int _height );
+		,	boost::intrusive_ptr< ISurfaceItem > _surfaceItem );
 
 /*---------------------------------------------------------------------------*/
 
@@ -77,6 +73,10 @@ private:
 private:
 
 /*---------------------------------------------------------------------------*/
+	
+	const ISurfaceItemsCache& m_surfaceItemsCache;
+
+/*---------------------------------------------------------------------------*/
 
 	unsigned int m_width;
 
@@ -84,9 +84,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	SurfaceItems::Enum ** m_surfaceItems;
-
-	TerrainMapItems::Enum ** m_terrainMap;
+	boost::intrusive_ptr< ISurfaceItem > ** m_surfaceItems;
 
 /*---------------------------------------------------------------------------*/
 

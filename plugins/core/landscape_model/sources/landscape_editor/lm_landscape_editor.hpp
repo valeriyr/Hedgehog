@@ -14,6 +14,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct ISurfaceItemsCache;
 struct ILandscapeSerializer;
 
 /*---------------------------------------------------------------------------*/
@@ -28,18 +29,20 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeEditor( const ILandscapeSerializer& _landscapeSerializer );
+	LandscapeEditor(
+			const ILandscapeSerializer& _landscapeSerializer
+		,	const ISurfaceItemsCache& _surfaceItemsCache );
 
 	virtual ~LandscapeEditor();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ IEditableLandscape::Ptr
+	/*virtual*/ boost::intrusive_ptr< IEditableLandscape >
 		createLandscape(
 				const unsigned int _width
 			,	const unsigned int _height ) const;
 
-	/*virtual*/ IEditableLandscape::Ptr
+	/*virtual*/ boost::intrusive_ptr< IEditableLandscape >
 		loadLandscape( const QString& _filePath ) const;
 
 	/*virtual*/ void saveLandscape(
@@ -53,6 +56,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const ILandscapeSerializer& m_landscapeSerializer;
+
+	const ISurfaceItemsCache& m_surfaceItemsCache;
 
 /*---------------------------------------------------------------------------*/
 

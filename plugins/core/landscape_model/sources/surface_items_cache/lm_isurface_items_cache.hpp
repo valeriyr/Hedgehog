@@ -1,6 +1,6 @@
 
-#ifndef __IM_IIMAGES_MANAGER_HPP__
-#define __IM_IIMAGES_MANAGER_HPP__
+#ifndef __LM_ISURFACE_ITEMS_CACHE_HPP__
+#define __LM_ISURFACE_ITEMS_CACHE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -8,25 +8,32 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
-namespace GUI {
-namespace ImagesManager {
+namespace Plugins {
+namespace Core {
+namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_IMAGES_MANAGER = 0;
+struct ISurfaceItem;
 
 /*---------------------------------------------------------------------------*/
 
-struct IImagesManager
+struct ISurfaceItemsCache
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const QPixmap& getPixmap( const QString& _resourcePath ) = 0;
+	virtual boost::intrusive_ptr< ISurfaceItem >
+		getSurfaceItem( const unsigned int _index ) const = 0;
 
-	virtual const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) = 0;
+	virtual boost::intrusive_ptr< ISurfaceItem > getDefaultSurfaceItem() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void addSurfaceItem(
+			const unsigned int _index
+		,	boost::intrusive_ptr< ISurfaceItem > _item ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,10 +41,10 @@ struct IImagesManager
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace ImagesManager
-} // namespace GUI
-} // namespace Framework
+} // namespace LandscapeModel
+} // namespace Core
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __IM_IIMAGES_MANAGER_HPP__
+#endif // __LM_ISURFACE_ITEMS_CACHE_HPP__

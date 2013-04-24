@@ -17,8 +17,12 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeManager::LandscapeManager( const ILandscapeSerializer& _landscapeSerializer )
+LandscapeManager::LandscapeManager(
+		const ILandscapeSerializer& _landscapeSerializer
+	,	const ISurfaceItemsCache& _surfaceItemsCache
+	)
 	:	m_landscapeSerializer( _landscapeSerializer )
+	,	m_surfaceItemsCache( _surfaceItemsCache )
 	,	m_currentLandscape()
 {
 } // LandscapeManager::LandscapeManager
@@ -38,7 +42,7 @@ LandscapeManager::~LandscapeManager()
 void
 LandscapeManager::initCurrentLandscape ( const QString& _filePath )
 {
-	IEditableLandscape::Ptr landscape( new Landscape() );
+	boost::intrusive_ptr< IEditableLandscape > landscape( new Landscape( m_surfaceItemsCache ) );
 
 	m_landscapeSerializer.load( *landscape, _filePath );
 
@@ -61,7 +65,7 @@ LandscapeManager::closeCurrentLandscape()
 /*---------------------------------------------------------------------------*/
 
 
-ILandscape::Ptr
+boost::intrusive_ptr< ILandscape >
 LandscapeManager::getCurrentLandscape() const
 {
 	return m_currentLandscape;

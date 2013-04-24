@@ -14,6 +14,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct ISurfaceItemsCache;
 struct ILandscapeSerializer;
 
 /*---------------------------------------------------------------------------*/
@@ -28,7 +29,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeManager( const ILandscapeSerializer& _landscapeSerializer );
+	LandscapeManager(
+			const ILandscapeSerializer& _landscapeSerializer
+		,	const ISurfaceItemsCache& _surfaceItemsCache );
 
 	virtual ~LandscapeManager();
 
@@ -40,7 +43,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ ILandscape::Ptr getCurrentLandscape() const;
+	/*virtual*/ boost::intrusive_ptr< ILandscape > getCurrentLandscape() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,7 +53,9 @@ private:
 
 	const ILandscapeSerializer& m_landscapeSerializer;
 
-	ILandscape::Ptr m_currentLandscape;
+	const ISurfaceItemsCache& m_surfaceItemsCache;
+
+	boost::intrusive_ptr< ILandscape > m_currentLandscape;
 
 /*---------------------------------------------------------------------------*/
 

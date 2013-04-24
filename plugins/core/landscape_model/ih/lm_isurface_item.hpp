@@ -1,6 +1,6 @@
 
-#ifndef __LM_ILANDSCAPE_OBJECT_HPP__
-#define __LM_ILANDSCAPE_OBJECT_HPP__
+#ifndef __LM_ISURFACE_ITEM_HPP__
+#define __LM_ISURFACE_ITEM_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,21 +14,19 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeObject
+struct ISurfaceItem
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		boost::intrusive_ptr< ILandscapeObject >
-		Ptr;
+	virtual unsigned int getIndex() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual unsigned int getWidth() const = 0;
+	virtual const QString& getBundlePath() const = 0;
 
-	virtual unsigned int getHeight() const = 0;
+	virtual const QRect& getRectInBundle() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,4 +40,4 @@ struct ILandscapeObject
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_OBJECT_HPP__
+#endif // __LM_ISURFACE_ITEM_HPP__

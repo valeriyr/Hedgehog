@@ -3,7 +3,9 @@
 
 #include "landscape_model/sources/landscape/lm_landscape.hpp"
 
-#include "landscape_model/sources/landscape_objects/lm_tree_object.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
+
+#include "landscape_model/sources/surface_items_cache/lm_isurface_items_cache.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -15,11 +17,11 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-Landscape::Landscape()
-	:	m_width( 0 )
+Landscape::Landscape( const ISurfaceItemsCache& _surfaceItemsCache )
+	:	m_surfaceItemsCache( _surfaceItemsCache )
+	,	m_width( 0 )
 	,	m_height( 0 )
 	,	m_surfaceItems( NULL )
-	,	m_terrainMap( NULL )
 {
 } // Landscape::Landscape
 
@@ -30,7 +32,6 @@ Landscape::Landscape()
 Landscape::~Landscape()
 {
 	clearCollection( m_surfaceItems );
-	clearCollection( m_terrainMap );
 
 } // Landscape::~Landscape
 
@@ -60,18 +61,7 @@ Landscape::getHeight() const
 /*---------------------------------------------------------------------------*/
 
 
-ILandscapeObject::Ptr
-Landscape::getLadscapeObject( const unsigned int _width, const unsigned int _height ) const
-{
-	return ILandscapeObject::Ptr();
-
-} // Landscape::getLadscapeObject
-
-
-/*---------------------------------------------------------------------------*/
-
-
-SurfaceItems::Enum
+boost::intrusive_ptr< ISurfaceItem >
 Landscape::getSurfaceItem( const unsigned int _width, const unsigned int _height ) const
 {
 	assert( m_surfaceItems );
@@ -81,21 +71,6 @@ Landscape::getSurfaceItem( const unsigned int _width, const unsigned int _height
 	return m_surfaceItems[ _width ][ _height ];
 
 } // Landscape::getSurfaceItem
-
-
-/*---------------------------------------------------------------------------*/
-
-
-TerrainMapItems::Enum
-Landscape::getTerrainMapItem( const unsigned int _width, const unsigned int _height ) const
-{
-	assert( m_terrainMap );
-	assert( _width < m_width );
-	assert( _height < m_height );
-
-	return m_terrainMap[ _width ][ _height ];
-
-} // Landscape::getTerrainMapItem
 
 
 /*---------------------------------------------------------------------------*/
@@ -111,17 +86,12 @@ Landscape::setSize( const unsigned int _width, const unsigned int _height )
 	m_height = _height;
 
 	initCollection( m_surfaceItems );
-	initCollection( m_terrainMap );
 
 	for ( unsigned int i = 0; i < m_width; ++i )
 	{
 		for ( unsigned int j = 0; j < m_height; ++j )
 		{
-			SurfaceItems::Enum defaultSurfaceItem = SurfaceItems::Grass;
-
-			m_surfaceItems[ i ][ j ] = defaultSurfaceItem;
-			m_terrainMap[ i ][ j ]
-				= TerrainMapItems::fromSurfaceItem( defaultSurfaceItem );
+			m_surfaceItems[ i ][ j ] = m_surfaceItemsCache.getDefaultSurfaceItem();
 		}
 	}
 
@@ -135,26 +105,15 @@ void
 Landscape::setSurfaceItem(
 		const unsigned int _width
 	,	const unsigned int _height
-	,	const SurfaceItems::Enum _surfaceItem )
+	,	boost::intrusive_ptr< ISurfaceItem > _surfaceItem )
 {
 	assert( m_surfaceItems );
-	assert( m_terrainMap );
 	assert( _width < m_width );
 	assert( _height < m_height );
 
 	m_surfaceItems[ _width ][ _height ] = _surfaceItem;
-	m_terrainMap[ _width ][ _height ] = TerrainMapItems::fromSurfaceItem( _surfaceItem );
 
 } // Landscape::setSurfaceItem
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Landscape::createTreeObject( const unsigned int _width, const unsigned int _height )
-{
-} // Landscape::createTreeObject
 
 
 /*---------------------------------------------------------------------------*/

@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/views/le_ilandscape_editor_view.hpp"
+#include "landscape_editor/sources/views/le_ibase_view.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -22,7 +22,7 @@ class MinimapWidget;
 /*---------------------------------------------------------------------------*/
 
 class MinimapView
-	:	public Tools::Core::BaseWrapper< ILandscapeEditorView >
+	:	public Tools::Core::BaseWrapper< IBaseView >
 {
 
 /*---------------------------------------------------------------------------*/

@@ -25,11 +25,14 @@
     <Filter Include="Landscape Serializer">
       <UniqueIdentifier>{900b817d-1fec-43fd-a8a0-41044286689a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Landscape Objects">
-      <UniqueIdentifier>{345357c0-1a8f-4e10-acd2-83d77ee4cab2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{67963bc5-d418-4d1a-a3a0-e2a01366fd18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Surface Item">
+      <UniqueIdentifier>{6890ec01-3281-477e-b8c8-e8c20474d421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Surface Items Cache">
+      <UniqueIdentifier>{fbb3fb56-2742-4afd-9c1d-12772103462c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,14 +54,14 @@
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp">
       <Filter>Landscape Serializer</Filter>
     </ClCompile>
-    <ClCompile Include="sources\landscape_objects\lm_tree_object.cpp">
-      <Filter>Landscape Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\landscape_objects\lm_base_landscape_object.cpp">
-      <Filter>Landscape Objects</Filter>
-    </ClCompile>
     <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\surface_item\lm_surface_item.cpp">
+      <Filter>Surface Item</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp">
+      <Filter>Surface Items Cache</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,12 +89,6 @@
     <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp">
       <Filter>Landscape Editor</Filter>
     </ClInclude>
-    <ClInclude Include="ih\lm_ilandscape_object.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="h\lm_surface_items.hpp">
-      <Filter>External Headers</Filter>
-    </ClInclude>
     <ClInclude Include="sources\landscape_manager\lm_landscape_manager.hpp">
       <Filter>Landscape Manager</Filter>
     </ClInclude>
@@ -101,23 +98,23 @@
     <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp">
       <Filter>Landscape Serializer</Filter>
     </ClInclude>
-    <ClInclude Include="sources\landscape_objects\lm_tree_object.hpp">
-      <Filter>Landscape Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_objects\lm_base_landscape_object.hpp">
-      <Filter>Landscape Objects</Filter>
-    </ClInclude>
     <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp">
       <Filter>Internal Resources</Filter>
     </ClInclude>
     <ClInclude Include="h\lm_plugin_id.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
-    <ClInclude Include="h\lm_terrain_map_items.hpp">
-      <Filter>External Headers</Filter>
+    <ClInclude Include="ih\lm_isurface_item.hpp">
+      <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="sources\landscape\lm_point.hpp">
-      <Filter>Landscape</Filter>
+    <ClInclude Include="sources\surface_item\lm_surface_item.hpp">
+      <Filter>Surface Item</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\surface_items_cache\lm_isurface_items_cache.hpp">
+      <Filter>Surface Items Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp">
+      <Filter>Surface Items Cache</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

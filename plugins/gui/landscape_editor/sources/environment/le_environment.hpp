@@ -42,13 +42,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorView > getObjectsView() const;
+	/*virtual*/ boost::intrusive_ptr< IBaseView > getObjectsView() const;
 
-	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorView > getEditorView() const;
+	/*virtual*/ boost::intrusive_ptr< IBaseView > getEditorView() const;
 
-	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorView > getDescriptionView() const;
+	/*virtual*/ boost::intrusive_ptr< IBaseView > getDescriptionView() const;
 
-	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorView > getMinimapView() const;
+	/*virtual*/ boost::intrusive_ptr< IBaseView > getMinimapView() const;
 
 /*---------------------------------------------------------------------------*/
 

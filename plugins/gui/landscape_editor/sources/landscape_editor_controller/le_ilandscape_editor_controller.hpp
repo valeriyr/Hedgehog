@@ -5,7 +5,19 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
+
+/*---------------------------------------------------------------------------*/
+
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct IEditableLandscape;
+		}
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,7 +47,7 @@ struct ILandscapeEditorController
 
 	virtual const QString& getLandscapeFilePath() const = 0;
 
-	virtual Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
+	virtual boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
 		getEditableLandscape() const = 0;
 
 /*---------------------------------------------------------------------------*/

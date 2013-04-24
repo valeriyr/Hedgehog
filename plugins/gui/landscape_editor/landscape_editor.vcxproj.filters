@@ -22,14 +22,14 @@
     <Filter Include="Landscape Editor Controller">
       <UniqueIdentifier>{516429fd-2913-441c-b841-98a2a7bb5c14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Landscape Widget">
-      <UniqueIdentifier>{062b150e-430c-491e-bb58-eca09be2e5b5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Minimap Widget">
       <UniqueIdentifier>{6ca7325c-3d1e-4cc7-a951-856a87008aae}</UniqueIdentifier>
     </Filter>
     <Filter Include="Landscape Renderer">
       <UniqueIdentifier>{2a4925ff-cc31-4678-a0d4-23921d095ed3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape Scene">
+      <UniqueIdentifier>{062b150e-430c-491e-bb58-eca09be2e5b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,9 +75,6 @@
     <ClCompile Include="sources\commands\le_save_as_landscape_command.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="sources\landscape_widget\le_landscape_widget.cpp">
-      <Filter>Landscape Widget</Filter>
-    </ClCompile>
     <ClCompile Include="sources\views\le_minimap_view.cpp">
       <Filter>Viewes</Filter>
     </ClCompile>
@@ -86,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="sources\landscape_renderer\le_landscape_renderer.cpp">
       <Filter>Landscape Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_scene\le_landscape_scene.cpp">
+      <Filter>Landscape Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,9 +128,6 @@
     <ClInclude Include="sources\views\le_objects_view.hpp">
       <Filter>Viewes</Filter>
     </ClInclude>
-    <ClInclude Include="sources\views\le_ilandscape_editor_view.hpp">
-      <Filter>Viewes</Filter>
-    </ClInclude>
     <ClInclude Include="sources\landscape_editor_controller\le_ilandscape_editor_controller.hpp">
       <Filter>Landscape Editor Controller</Filter>
     </ClInclude>
@@ -139,9 +136,6 @@
     </ClInclude>
     <ClInclude Include="sources\commands\le_save_as_landscape_command.hpp">
       <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_widget\le_landscape_widget.hpp">
-      <Filter>Landscape Widget</Filter>
     </ClInclude>
     <ClInclude Include="sources\views\le_minimap_view.hpp">
       <Filter>Viewes</Filter>
@@ -154,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="sources\landscape_renderer\le_landscape_renderer.hpp">
       <Filter>Landscape Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\le_ibase_view.hpp">
+      <Filter>Viewes</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_scene\le_landscape_scene.hpp">
+      <Filter>Landscape Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

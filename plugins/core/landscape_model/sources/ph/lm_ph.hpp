@@ -6,5 +6,6 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDataStream>
+#include <QtCore/QRect>
 
 #include <boost/intrusive_ptr.hpp>

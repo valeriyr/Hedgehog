@@ -48,7 +48,7 @@ public:
 
 	/*virtual*/ const QString& getLandscapeFilePath() const;
 
-	/*virtual*/ Plugins::Core::LandscapeModel::IEditableLandscape::Ptr
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
 		getEditableLandscape() const;
 
 /*---------------------------------------------------------------------------*/
@@ -69,7 +69,7 @@ private:
 
 	QString m_landscapeFilePath;
 
-	Plugins::Core::LandscapeModel::IEditableLandscape::Ptr m_editableLandscape;
+	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > m_editableLandscape;
 
 /*---------------------------------------------------------------------------*/
 

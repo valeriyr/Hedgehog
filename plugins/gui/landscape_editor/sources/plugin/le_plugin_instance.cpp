@@ -98,7 +98,7 @@ PluginInstance::initialize()
 	m_landscapeRenderer.reset( new LandscapeRenderer( *getImagesManager() ) );
 
 	m_objectsView.reset( new ObjectsView( *m_landscapeEditorController, *getImagesManager() ) );
-	m_editorView.reset( new EditorView( *m_landscapeEditorController, *m_landscapeRenderer ) );
+	m_editorView.reset( new EditorView( *m_landscapeEditorController, *getImagesManager() ) );
 	m_descriptionView.reset( new DescriptionView( *m_landscapeEditorController ) );
 	m_minimapView.reset( new MinimapView( *m_landscapeEditorController, *m_landscapeRenderer ) );
 
@@ -242,7 +242,7 @@ PluginInstance::getLandscapeEditor() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILandscapeEditorView >
+boost::intrusive_ptr< IBaseView >
 PluginInstance::getObjectsView() const
 {
 	return m_objectsView;
@@ -253,7 +253,7 @@ PluginInstance::getObjectsView() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILandscapeEditorView >
+boost::intrusive_ptr< IBaseView >
 PluginInstance::getEditorView() const
 {
 	return m_editorView;
@@ -264,7 +264,7 @@ PluginInstance::getEditorView() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILandscapeEditorView >
+boost::intrusive_ptr< IBaseView >
 PluginInstance::getDescriptionView() const
 {
 	return m_descriptionView;
@@ -275,7 +275,7 @@ PluginInstance::getDescriptionView() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILandscapeEditorView >
+boost::intrusive_ptr< IBaseView >
 PluginInstance::getMinimapView() const
 {
 	return m_minimapView;

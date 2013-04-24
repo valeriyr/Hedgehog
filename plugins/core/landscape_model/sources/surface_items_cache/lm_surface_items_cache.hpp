@@ -1,10 +1,10 @@
 
-#ifndef __LM_BASE_LANDSCAPE_OBJECT_HPP__
-#define __LM_BASE_LANDSCAPE_OBJECT_HPP__
+#ifndef __LM_SURFACE_ITEMS_CACHE_HPP__
+#define __LM_SURFACE_ITEMS_CACHE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape_object.hpp"
+#include "landscape_model/sources/surface_items_cache/lm_isurface_items_cache.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,8 +14,8 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class BaseLandscapeObject
-	:	public Tools::Core::BaseWrapper< ILandscapeObject >
+struct SurfaceItemsCache
+	:	public Tools::Core::BaseWrapper< ISurfaceItemsCache >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,15 +24,22 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	BaseLandscapeObject( unsigned int _width, unsigned int _height );
+	SurfaceItemsCache();
 
-	virtual ~BaseLandscapeObject();
+	virtual ~SurfaceItemsCache();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ unsigned int getWidth() const;
+	/*virtual*/ boost::intrusive_ptr< ISurfaceItem >
+		getSurfaceItem( const unsigned int _index ) const;
 
-	/*virtual*/ unsigned int getHeight() const;
+	/*virtual*/ boost::intrusive_ptr< ISurfaceItem > getDefaultSurfaceItem() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void addSurfaceItem(
+			const unsigned int _index
+		,	boost::intrusive_ptr< ISurfaceItem > _item );
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,9 +47,16 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	unsigned int m_width;
+	typedef
+		std::map< unsigned int, boost::intrusive_ptr< ISurfaceItem > >
+		SurfaceItemsCollection;
+	typedef
+		SurfaceItemsCollection::const_iterator
+		SurfaceItemsCollectionIterator;
 
-	unsigned int m_height;
+/*---------------------------------------------------------------------------*/
+
+	SurfaceItemsCollection m_surfaceItemsCollection;
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,4 +70,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_BASE_LANDSCAPE_OBJECT_HPP__
+#endif // __LM_SURFACE_ITEMS_CACHE_HPP__

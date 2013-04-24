@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/views/le_ilandscape_editor_view.hpp"
+#include "landscape_editor/sources/views/le_ibase_view.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,7 +19,7 @@ struct ILandscapeEditorController;
 /*---------------------------------------------------------------------------*/
 
 class DescriptionView
-	:	public Tools::Core::BaseWrapper< ILandscapeEditorView >
+	:	public Tools::Core::BaseWrapper< IBaseView >
 {
 
 /*---------------------------------------------------------------------------*/

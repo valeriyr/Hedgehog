@@ -4,9 +4,10 @@
 #include "landscape_model/sources/landscape_serializer/lm_landscape_serializer.hpp"
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
+#include "landscape_model/sources/surface_items_cache/lm_isurface_items_cache.hpp"
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
-
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,7 +18,8 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeSerializer::LandscapeSerializer()
+LandscapeSerializer::LandscapeSerializer( const ISurfaceItemsCache& _surfaceItemsCache )
+	:	m_surfaceItemsCache( _surfaceItemsCache )
 {
 } // LandscapeSerializer::LandscapeSerializer
 
@@ -58,17 +60,17 @@ LandscapeSerializer::load(
 
 	_landscape.setSize( width, height );
 
-	unsigned int currentSurfaceItem( SurfaceItems::Grass );
+	unsigned int surfaceItemIndex = 0;
 
 	for ( unsigned int i = 0; i < _landscape.getWidth(); ++i )
 	{
 		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
 		{
-			fileStream >> currentSurfaceItem;
+			fileStream >> surfaceItemIndex;
 			_landscape.setSurfaceItem(
 					i
 				,	j
-				,	static_cast< SurfaceItems::Enum >( currentSurfaceItem ) );
+				,	m_surfaceItemsCache.getSurfaceItem( surfaceItemIndex ) );
 		}
 	}
 
@@ -101,7 +103,7 @@ LandscapeSerializer::save(
 
 	for ( unsigned int i = 0; i < _landscape.getWidth(); ++i )
 		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
-			fileStream << static_cast< unsigned int >( _landscape.getSurfaceItem( i, j ) );
+			fileStream << _landscape.getSurfaceItem( i, j )->getIndex();
 
 } // LandscapeSerializer::save
 

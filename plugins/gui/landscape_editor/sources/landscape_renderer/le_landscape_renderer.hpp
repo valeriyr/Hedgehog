@@ -48,30 +48,12 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void renderSurface(
-			const Core::LandscapeModel::IEditableLandscape& _landscape
+			const Core::LandscapeModel::ILandscape& _landscape
 		,	QPixmap& _pixmap );
 
 	/*virtual*/ void renderObjects(
-			const Core::LandscapeModel::IEditableLandscape& _landscape
+			const Core::LandscapeModel::ILandscape& _landscape
 		,	QPixmap& _pixmap );
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	void drawSurfaceItem(
-			const Core::LandscapeModel::IEditableLandscape& _landscape
-		,	QPainter& _painter
-		,	const unsigned int _widthIndex
-		,	const unsigned int _heightIndex );
-
-	void drawWater(
-			const Core::LandscapeModel::IEditableLandscape& _landscape
-		,	QPainter& _painter
-		,	const unsigned int _widthIndex
-		,	const unsigned int _heightIndex );
 
 /*---------------------------------------------------------------------------*/
 

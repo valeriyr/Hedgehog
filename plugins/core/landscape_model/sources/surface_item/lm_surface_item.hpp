@@ -1,10 +1,10 @@
 
-#ifndef __LM_ILANDSCAPE_EDITOR_HPP__
-#define __LM_ILANDSCAPE_EDITOR_HPP__
+#ifndef __LM_SURFACE_ITEM_HPP__
+#define __LM_SURFACE_ITEM_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,31 +14,44 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_LANDSCAPE_EDITOR = 1;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscape;
-struct IEditableLandscape;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeEditor
-	:	public Tools::Core::IBase
+class SurfaceItem
+	:	public Tools::Core::BaseWrapper< ISurfaceItem >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< IEditableLandscape >
-		createLandscape(
-			const unsigned int _width
-		,	const unsigned int _height ) const = 0;
+public:
 
-	virtual boost::intrusive_ptr< IEditableLandscape > loadLandscape( const QString& _filePath ) const = 0;
+/*---------------------------------------------------------------------------*/
 
-	virtual void saveLandscape(
-			const ILandscape& _landscape
-		,	const QString& _filePath ) const = 0;
+	SurfaceItem(
+			const unsigned int _index
+		,	const QString& _bundlePath
+		,	const QRect& _rectInBundle );
+
+	virtual ~SurfaceItem();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ unsigned int getIndex() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ const QString& getBundlePath() const;
+
+	/*virtual*/ const QRect& getRectInBundle() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	unsigned int m_index;
+
+	QString m_bundlePath;
+
+	QRect m_rectInBundle;
 
 /*---------------------------------------------------------------------------*/
 
@@ -52,4 +65,4 @@ struct ILandscapeEditor
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_EDITOR_HPP__
+#endif // __LM_SURFACE_ITEM_HPP__

@@ -14,7 +14,7 @@ namespace Plugins
 	{
 		namespace LandscapeModel
 		{
-			struct IEditableLandscape;
+			struct ILandscape;
 		}
 	}
 }
@@ -34,11 +34,11 @@ struct ILandscapeRenderer
 /*---------------------------------------------------------------------------*/
 
 	virtual void renderSurface(
-			const Core::LandscapeModel::IEditableLandscape& _landscape
+			const Core::LandscapeModel::ILandscape& _landscape
 		,	QPixmap& _pixmap ) = 0;
 
 	virtual void renderObjects(
-			const Core::LandscapeModel::IEditableLandscape& _landscape
+			const Core::LandscapeModel::ILandscape& _landscape
 		,	QPixmap& _pixmap ) = 0;
 
 /*---------------------------------------------------------------------------*/

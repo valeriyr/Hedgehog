@@ -4,7 +4,20 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/views/le_ilandscape_editor_view.hpp"
+#include "landscape_editor/sources/views/le_ibase_view.hpp"
+
+/*---------------------------------------------------------------------------*/
+
+namespace Framework
+{
+	namespace GUI
+	{
+		namespace ImagesManager
+		{
+			struct IImagesManager;
+		}
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,14 +28,12 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 struct ILandscapeEditorController;
-struct ILandscapeRenderer;
-
-class LandscapeWidget;
+class LandscapeScene;
 
 /*---------------------------------------------------------------------------*/
 
 class EditorView
-	:	public Tools::Core::BaseWrapper< ILandscapeEditorView >
+	:	public Tools::Core::BaseWrapper< IBaseView >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -33,7 +44,7 @@ public:
 
 	EditorView(
 			const ILandscapeEditorController& _landscapeEditorController
-		,	ILandscapeRenderer& _landscapeRenderer );
+		,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager );
 
 	virtual ~EditorView();
 
@@ -59,7 +70,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< LandscapeWidget > m_landscapeWidget;
+	boost::shared_ptr< LandscapeScene > m_landscapeScene;
+
+	boost::shared_ptr< QGraphicsView > m_landscapeWidget;
 
 	QString m_viewTitle;
 

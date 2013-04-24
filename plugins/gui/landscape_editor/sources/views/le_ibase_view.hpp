@@ -1,32 +1,29 @@
 
-#ifndef __LM_TREE_OBJECT_HPP__
-#define __LM_TREE_OBJECT_HPP__
+#ifndef __LE_IBASE_VIEW_HPP__
+#define __LE_IBASE_VIEW_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/sources/landscape_objects/lm_base_landscape_object.hpp"
+#include "window_manager/ih/wm_iview.hpp"
+#include "landscape_model/ih/lm_ieditable_landscape.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
-namespace Core {
-namespace LandscapeModel {
+namespace GUI {
+namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-class TreeObject
-	:	public BaseLandscapeObject
+struct IBaseView
+	:	public Framework::GUI::WindowManager::IView
 {
 
 /*---------------------------------------------------------------------------*/
 
-public:
+	virtual void landscapeWasOpened() = 0;
 
-/*---------------------------------------------------------------------------*/
-
-	TreeObject();
-
-	virtual ~TreeObject();
+	virtual void landscapeWasClosed() = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,10 +31,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeModel
-} // namespace Core
+} // namespace LandscapeEditor
+} // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_TREE_OBJECT_HPP__
+#endif // __LE_IBASE_VIEW_HPP__

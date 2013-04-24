@@ -47,6 +47,14 @@ protected:
 
 	/*virtual*/ void paintEvent( QPaintEvent* _event );
 
+	/*virtual*/ void mousePressEvent( QMouseEvent* _event );
+
+	/*virtual*/ void mouseMoveEvent( QMouseEvent* _event );
+
+/*---------------------------------------------------------------------------*/
+
+	void wasClickedOnWidget( const QPoint& _atPoint );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -62,6 +70,10 @@ private:
 	ILandscapeRenderer& m_landscapeRenderer;
 
 	QPixmap m_surfaceLayer;
+
+	QPixmap m_objectsLayer;
+
+	QRect m_visibleArea;
 
 /*---------------------------------------------------------------------------*/
 
