@@ -41,6 +41,7 @@
     <ClInclude Include="ih\lm_ilandscape_editor.hpp" />
     <ClInclude Include="ih\lm_ilandscape_manager.hpp" />
     <ClInclude Include="ih\lm_isurface_item.hpp" />
+    <ClInclude Include="ih\lm_isurface_items_cache.hpp" />
     <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
     <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp" />
@@ -49,7 +50,6 @@
     <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp" />
     <ClInclude Include="sources\ph\lm_ph.hpp" />
     <ClInclude Include="sources\plugin\lm_plugin_instance.hpp" />
-    <ClInclude Include="sources\surface_items_cache\lm_isurface_items_cache.hpp" />
     <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp" />
     <ClInclude Include="sources\surface_item\lm_surface_item.hpp" />
   </ItemGroup>

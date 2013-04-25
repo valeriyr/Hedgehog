@@ -7,7 +7,11 @@
 
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 
+#include "images_manager/ih/im_iimages_manager.hpp"
+
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
+#include "landscape_model/ih/lm_isurface_items_cache.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 #include "landscape_editor/sources/views/le_ibase_view.hpp"
 #include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
@@ -56,6 +60,28 @@ Environment::getLandscapeEditor() const
 	return m_pluginInstance.getLandscapeEditor();
 
 } // Environment::getLandscapeEditor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+Environment::getSurfaceItem( const unsigned int _index ) const
+{
+	return m_pluginInstance.getSurfaceItemsCache()->getSurfaceItem( _index );
+
+} // Environment::getSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QPixmap&
+Environment::getPixmap( const QString& _resourcePath, const QRect& _rect ) const
+{
+	return m_pluginInstance.getImagesManager()->getPixmap( _resourcePath, _rect );
+
+} // Environment::getPixmap
 
 
 /*---------------------------------------------------------------------------*/

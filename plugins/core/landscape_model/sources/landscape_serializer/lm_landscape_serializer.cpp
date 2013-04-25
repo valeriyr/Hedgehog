@@ -4,8 +4,8 @@
 #include "landscape_model/sources/landscape_serializer/lm_landscape_serializer.hpp"
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
-#include "landscape_model/sources/surface_items_cache/lm_isurface_items_cache.hpp"
 
+#include "landscape_model/ih/lm_isurface_items_cache.hpp"
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 

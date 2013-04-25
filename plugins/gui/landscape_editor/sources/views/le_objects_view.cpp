@@ -4,8 +4,9 @@
 #include "landscape_editor/sources/views/le_objects_view.hpp"
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
+#include "landscape_editor/sources/environment/le_ienvironment.hpp"
 
-#include "images_manager/ih/im_iimages_manager.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -17,55 +18,61 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-ObjectsView::ObjectsView(
-		const ILandscapeEditorController& _landscapeEditorController
-	,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager
-	)
-	:	m_landscapeEditorController( _landscapeEditorController )
-	,	m_imagesManager( _imagesManager )
+ObjectsView::ObjectsView( const IEnvironment& _environment )
+	:	m_environment( _environment )
 	,	m_objectsView( new QTreeWidget() )
 	,	m_viewTitle( Resources::Views::ObjectsViewTitle )
 {
 	m_objectsView->setHeaderLabel( Resources::Views::ObjectsViewColumnName );
 
-	/*QPixmap waterPixmap( 20, 20 );
-	waterPixmap.fill( Qt::blue );
+	QTreeWidgetItem* summerSurface = new QTreeWidgetItem();
+	summerSurface->setText( 0, "Summer" );
 
-	QIcon waterIcon( waterPixmap );
+	QTreeWidgetItem* winterSurface = new QTreeWidgetItem();
+	winterSurface->setText( 0, "Winter" );
 
-	QTreeWidgetItem* grassItem = new QTreeWidgetItem();
-	grassItem->setText( 0, "Grass" );
-	grassItem->setIcon( 0, QIcon( m_imagesManager.getPixmap( "grass2" ) ) );
+	QTreeWidgetItem* wastelandSurface = new QTreeWidgetItem();
+	wastelandSurface->setText( 0, "Wasteland" );
 
-	QTreeWidgetItem* waterItem = new QTreeWidgetItem();
-	waterItem->setText( 0, "Water" );
-	waterItem->setIcon( 0, waterIcon );
+	for ( int i = 0; i < 384; ++i )
+	{
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+			surfaceItem = _environment.getSurfaceItem( i );
 
-	QTreeWidgetItem* landscapeTopItem = new QTreeWidgetItem();
-	landscapeTopItem->setText( 0, "Landscape" );
+		QTreeWidgetItem* summerItem = new QTreeWidgetItem();
+		summerItem->setText( 0, QString( "%1" ).arg( surfaceItem->getIndex() ) );
+		summerItem->setIcon( 0, QIcon( _environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) ) );
 
-	landscapeTopItem->addChild( grassItem );
-	landscapeTopItem->addChild( waterItem );
+		summerSurface->addChild( summerItem );
+	}
 
-	QTreeWidgetItem* objectsTopItem = new QTreeWidgetItem();
-	objectsTopItem->setText( 0, "Objects" );
+	for ( int i = 384; i < 768; ++i )
+	{
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+			surfaceItem = _environment.getSurfaceItem( i );
 
-	QPixmap treePixmap( 20, 20 );
-	treePixmap.fill( Qt::green );
+		QTreeWidgetItem* winterItem = new QTreeWidgetItem();
+		winterItem->setText( 0, QString( "%1" ).arg( surfaceItem->getIndex() ) );
+		winterItem->setIcon( 0, QIcon( _environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) ) );
 
-	QIcon treeIcon( treePixmap );
+		winterSurface->addChild( winterItem );
+	}
 
-	QTreeWidgetItem* treeItem = new QTreeWidgetItem();
-	treeItem->setText( 0, "Tree" );
-	treeItem->setIcon( 0, treeIcon );
+	for ( int i = 768; i < 1152; ++i )
+	{
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+			surfaceItem = _environment.getSurfaceItem( i );
 
-	objectsTopItem->addChild( treeItem );
+		QTreeWidgetItem* wastelandItem = new QTreeWidgetItem();
+		wastelandItem->setText( 0, QString( "%1" ).arg( surfaceItem->getIndex() ) );
+		wastelandItem->setIcon( 0, QIcon( _environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) ) );
 
-	m_objectsView->addTopLevelItem( landscapeTopItem );
-	m_objectsView->addTopLevelItem( objectsTopItem );
+		wastelandSurface->addChild( wastelandItem );
+	}
 
-	landscapeTopItem->setExpanded( true );
-	objectsTopItem->setExpanded( true );*/
+	m_objectsView->addTopLevelItem( summerSurface );
+	m_objectsView->addTopLevelItem( winterSurface );
+	m_objectsView->addTopLevelItem( wastelandSurface );
 
 } // ObjectsView::ObjectsView
 

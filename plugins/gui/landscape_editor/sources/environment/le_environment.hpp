@@ -42,6 +42,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+		getSurfaceItem( const unsigned int _index ) const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) const;
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ boost::intrusive_ptr< IBaseView > getObjectsView() const;
 
 	/*virtual*/ boost::intrusive_ptr< IBaseView > getEditorView() const;

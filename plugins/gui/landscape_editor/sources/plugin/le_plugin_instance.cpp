@@ -16,6 +16,8 @@
 #include "commands_manager/h/cm_plugin_id.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
+#include "landscape_model/ih/lm_isurface_items_cache.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/h/lm_plugin_id.hpp"
 
 #include "landscape_editor/sources/environment/le_environment.hpp"
@@ -73,6 +75,8 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	fillSurfaceItemsCache();
+
 	m_environment.reset( new Environment( *this ) );
 
 	using namespace Framework::Core::CommandsManager;
@@ -97,7 +101,7 @@ PluginInstance::initialize()
 	m_landscapeEditorController.reset( new LandscapeEditorController( *m_environment ) );
 	m_landscapeRenderer.reset( new LandscapeRenderer( *getImagesManager() ) );
 
-	m_objectsView.reset( new ObjectsView( *m_landscapeEditorController, *getImagesManager() ) );
+	m_objectsView.reset( new ObjectsView( *m_environment ) );
 	m_editorView.reset( new EditorView( *m_landscapeEditorController, *getImagesManager() ) );
 	m_descriptionView.reset( new DescriptionView( *m_landscapeEditorController ) );
 	m_minimapView.reset( new MinimapView( *m_landscapeEditorController, *m_landscapeRenderer ) );
@@ -242,6 +246,19 @@ PluginInstance::getLandscapeEditor() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
+PluginInstance::getSurfaceItemsCache() const
+{
+	return
+		getPluginInterface< Plugins::Core::LandscapeModel::ISurfaceItemsCache >(
+				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
+			,	Plugins::Core::LandscapeModel::IID_SURFACE_ITEMS_CACHE );
+}
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< IBaseView >
 PluginInstance::getObjectsView() const
 {
@@ -303,6 +320,55 @@ PluginInstance::getLandscapeRenderer() const
 	return m_landscapeRenderer;
 
 } // PluginInstance::getLandscapeRenderer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::fillSurfaceItemsCache()
+{
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
+		surfaceItemsCache = getSurfaceItemsCache();
+
+	unsigned int counter = 0;
+
+	for ( int i = 0; i < 24; ++i )
+	{
+		for ( int j = 0; j < 16; ++j )
+		{
+			surfaceItemsCache->addSurfaceItem(
+					counter++
+				,	"surface/summer"
+				,	QRect( j * 32, i * 32, 32, 32 ) );
+		}
+	}
+
+	for ( int i = 0; i < 24; ++i )
+	{
+		for ( int j = 0; j < 16; ++j )
+		{
+			surfaceItemsCache->addSurfaceItem(
+					counter++
+				,	"surface/winter"
+				,	QRect( j * 32, i * 32, 32, 32 ) );
+		}
+	}
+
+	for ( int i = 0; i < 24; ++i )
+	{
+		for ( int j = 0; j < 16; ++j )
+		{
+			surfaceItemsCache->addSurfaceItem(
+					counter++
+				,	"surface/wasteland"
+				,	QRect( j * 32, i * 32, 32, 32 ) );
+		}
+	}
+
+	surfaceItemsCache->setDefaultSurfaceItem( surfaceItemsCache->getSurfaceItem( 269 ) );
+
+} // PluginInstance::fillSurfaceItemsCache
 
 
 /*---------------------------------------------------------------------------*/

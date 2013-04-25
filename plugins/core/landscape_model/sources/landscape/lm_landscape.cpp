@@ -4,8 +4,7 @@
 #include "landscape_model/sources/landscape/lm_landscape.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
-
-#include "landscape_model/sources/surface_items_cache/lm_isurface_items_cache.hpp"
+#include "landscape_model/ih/lm_isurface_items_cache.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -68,7 +67,7 @@ Landscape::getSurfaceItem( const unsigned int _width, const unsigned int _height
 	assert( _width < m_width );
 	assert( _height < m_height );
 
-	return m_surfaceItems[ _width ][ _height ];
+	return boost::intrusive_ptr< ISurfaceItem >( m_surfaceItems[ _width ][ _height ] );
 
 } // Landscape::getSurfaceItem
 
@@ -91,7 +90,7 @@ Landscape::setSize( const unsigned int _width, const unsigned int _height )
 	{
 		for ( unsigned int j = 0; j < m_height; ++j )
 		{
-			m_surfaceItems[ i ][ j ] = m_surfaceItemsCache.getDefaultSurfaceItem();
+			m_surfaceItems[ i ][ j ] = m_surfaceItemsCache.getDefaultSurfaceItem().get();
 		}
 	}
 
@@ -111,7 +110,7 @@ Landscape::setSurfaceItem(
 	assert( _width < m_width );
 	assert( _height < m_height );
 
-	m_surfaceItems[ _width ][ _height ] = _surfaceItem;
+	m_surfaceItems[ _width ][ _height ] = _surfaceItem.get();
 
 } // Landscape::setSurfaceItem
 

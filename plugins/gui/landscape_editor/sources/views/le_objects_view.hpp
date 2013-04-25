@@ -6,18 +6,6 @@
 
 #include "landscape_editor/sources/views/le_ibase_view.hpp"
 
-/*---------------------------------------------------------------------------*/
-
-namespace Framework
-{
-	namespace GUI
-	{
-		namespace ImagesManager
-		{
-			struct IImagesManager;
-		}
-	}
-}
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,7 +15,7 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeEditorController;
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,9 +29,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ObjectsView(
-			const ILandscapeEditorController& _landscapeEditorController
-		,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager );
+	ObjectsView( const IEnvironment& _environment );
 
 	virtual ~ObjectsView();
 
@@ -69,9 +55,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const ILandscapeEditorController& m_landscapeEditorController;
-
-	Framework::GUI::ImagesManager::IImagesManager& m_imagesManager;
+	const IEnvironment& m_environment;
 
 	boost::shared_ptr< QTreeWidget > m_objectsView;
 

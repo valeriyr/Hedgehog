@@ -14,6 +14,10 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+	const unsigned int IID_SURFACE_ITEMS_CACHE = 2;
+
+/*---------------------------------------------------------------------------*/
+
 struct ISurfaceItem;
 
 /*---------------------------------------------------------------------------*/
@@ -33,7 +37,10 @@ struct ISurfaceItemsCache
 
 	virtual void addSurfaceItem(
 			const unsigned int _index
-		,	boost::intrusive_ptr< ISurfaceItem > _item ) = 0;
+		,	const QString& _bundlePath
+		,	const QRect& _rectInBundle ) = 0;
+
+	virtual void setDefaultSurfaceItem( boost::intrusive_ptr< ISurfaceItem > _item ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

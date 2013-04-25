@@ -52,14 +52,6 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void fillSurfaceItemsCache();
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
 	boost::intrusive_ptr< ISurfaceItemsCache > m_surfaceItemsCache;
 
 	boost::intrusive_ptr< ILandscapeSerializer > m_landscapeSerializer;

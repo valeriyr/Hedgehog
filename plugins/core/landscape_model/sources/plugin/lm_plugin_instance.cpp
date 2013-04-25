@@ -26,6 +26,7 @@ BEGIN_INTERFACE_MAP( PluginInstance )
 
 	INTERFACE_DECLARATION( IID_LANDSCAPE_EDITOR, m_landscapeEditor.get() )
 	INTERFACE_DECLARATION( IID_LANDSCAPE_MANAGER, m_landscapeManager.get() )
+	INTERFACE_DECLARATION( IID_SURFACE_ITEMS_CACHE, m_surfaceItemsCache.get() )
 
 END_INTERFACE_MAP()
 
@@ -53,9 +54,6 @@ void
 PluginInstance::initialize()
 {
 	m_surfaceItemsCache.reset( new SurfaceItemsCache() );
-
-	fillSurfaceItemsCache();
-
 	m_landscapeSerializer.reset( new LandscapeSerializer( *m_surfaceItemsCache ) );
 	m_landscapeEditor.reset( new LandscapeEditor( *m_landscapeSerializer, *m_surfaceItemsCache ) );
 	m_landscapeManager.reset( new LandscapeManager( *m_landscapeSerializer, *m_surfaceItemsCache ) );
@@ -75,47 +73,6 @@ PluginInstance::close()
 	m_surfaceItemsCache.reset();
 
 } // PluginInstance::close
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-PluginInstance::fillSurfaceItemsCache()
-{
-	unsigned int counter = 0;
-
-	for ( int i = 0; i < 16; ++i )
-	{
-		for ( int j = 0; j < 24; ++j )
-		{
-			m_surfaceItemsCache->addSurfaceItem(
-					counter++
-				,	boost::intrusive_ptr< ISurfaceItem >( new SurfaceItem( counter, "surface/summer", QRect( i * 32, j * 32, 32, 32 ) ) ) );
-		}
-	}
-
-	for ( int i = 0; i < 16; ++i )
-	{
-		for ( int j = 0; j < 24; ++j )
-		{
-			m_surfaceItemsCache->addSurfaceItem(
-					counter++
-				,	boost::intrusive_ptr< ISurfaceItem >( new SurfaceItem( counter, "surface/winter", QRect( i * 32, j * 32, 32, 32 ) ) ) );
-		}
-	}
-
-	for ( int i = 0; i < 16; ++i )
-	{
-		for ( int j = 0; j < 24; ++j )
-		{
-			m_surfaceItemsCache->addSurfaceItem(
-					counter++
-				,	boost::intrusive_ptr< ISurfaceItem >( new SurfaceItem( counter, "surface/wasteland", QRect( i * 32, j * 32, 32, 32 ) ) ) );
-		}
-	}
-
-} // PluginInstance::fillSurfaceItemsCache
 
 
 /*---------------------------------------------------------------------------*/

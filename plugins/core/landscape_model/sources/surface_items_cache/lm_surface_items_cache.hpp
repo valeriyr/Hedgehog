@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/sources/surface_items_cache/lm_isurface_items_cache.hpp"
+#include "landscape_model/ih/lm_isurface_items_cache.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,7 +39,10 @@ public:
 
 	/*virtual*/ void addSurfaceItem(
 			const unsigned int _index
-		,	boost::intrusive_ptr< ISurfaceItem > _item );
+		,	const QString& _bundlePath
+		,	const QRect& _rectInBundle );
+
+	/*virtual*/ void setDefaultSurfaceItem( boost::intrusive_ptr< ISurfaceItem > _item );
 
 /*---------------------------------------------------------------------------*/
 
@@ -57,6 +60,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	SurfaceItemsCollection m_surfaceItemsCollection;
+
+	boost::intrusive_ptr< ISurfaceItem > m_defaultSurfaceItem;
 
 /*---------------------------------------------------------------------------*/
 

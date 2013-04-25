@@ -26,6 +26,7 @@ namespace Plugins
 		namespace LandscapeModel
 		{
 			struct ILandscapeEditor;
+			struct ISurfaceItem;
 		}
 	}
 }
@@ -54,6 +55,15 @@ struct IEnvironment
 
 	virtual boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
 		getLandscapeEditor() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+		getSurfaceItem( const unsigned int _index ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

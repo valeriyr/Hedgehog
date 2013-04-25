@@ -110,11 +110,11 @@
     <ClInclude Include="sources\surface_item\lm_surface_item.hpp">
       <Filter>Surface Item</Filter>
     </ClInclude>
-    <ClInclude Include="sources\surface_items_cache\lm_isurface_items_cache.hpp">
-      <Filter>Surface Items Cache</Filter>
-    </ClInclude>
     <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp">
       <Filter>Surface Items Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_isurface_items_cache.hpp">
+      <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
