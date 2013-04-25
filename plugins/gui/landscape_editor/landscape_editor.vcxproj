@@ -30,6 +30,7 @@
     <ClCompile Include="sources\landscape_editor_controller\le_landscape_editor_controller.cpp" />
     <ClCompile Include="sources\landscape_renderer\le_landscape_renderer.cpp" />
     <ClCompile Include="sources\landscape_scene\le_landscape_scene.cpp" />
+    <ClCompile Include="sources\landscape_view\le_landscape_view.cpp" />
     <ClCompile Include="sources\minimap_widget\le_minimap_widget.cpp" />
     <ClCompile Include="sources\ph\le_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -42,6 +43,7 @@
     <ClCompile Include="sources\views\le_editor_view.cpp" />
     <ClCompile Include="sources\views\le_minimap_view.cpp" />
     <ClCompile Include="sources\views\le_objects_view.cpp" />
+    <ClCompile Include="sources\views_mediator\le_views_mediator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\commands\le_base_command.hpp" />
@@ -57,8 +59,60 @@
     <ClInclude Include="sources\landscape_editor_controller\le_landscape_editor_controller.hpp" />
     <ClInclude Include="sources\landscape_renderer\le_ilandscape_renderer.hpp" />
     <ClInclude Include="sources\landscape_renderer\le_landscape_renderer.hpp" />
-    <ClInclude Include="sources\landscape_scene\le_landscape_scene.hpp" />
-    <ClInclude Include="sources\minimap_widget\le_minimap_widget.hpp" />
+    <CustomBuild Include="sources\landscape_scene\le_landscape_scene.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="sources\minimap_widget\le_minimap_widget.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="sources\landscape_view\le_landscape_view.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+    </CustomBuild>
     <ClInclude Include="sources\ph\le_ph.hpp" />
     <ClInclude Include="sources\plugin\le_plugin_instance.hpp" />
     <ClInclude Include="sources\views\le_description_view.hpp" />
@@ -66,6 +120,24 @@
     <ClInclude Include="sources\views\le_ibase_view.hpp" />
     <ClInclude Include="sources\views\le_minimap_view.hpp" />
     <ClInclude Include="sources\views\le_objects_view.hpp" />
+    <CustomBuild Include="sources\views_mediator\le_views_mediator.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+    </CustomBuild>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{52F71F7A-E2B6-4AB9-9392-912EE8B2FDB1}</ProjectGuid>
@@ -153,7 +225,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LANDSCAPE_EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../plugins/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../plugins/core;../../../temp/x86/gen/$(Configuration)/$(ProjectName)/</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>landscape_editor/sources/ph/le_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
@@ -173,7 +245,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LANDSCAPE_EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../plugins/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../plugins/core;../../../temp/x64/gen/$(Configuration)/$(ProjectName)/</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>landscape_editor/sources/ph/le_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
@@ -195,7 +267,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LANDSCAPE_EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../plugins/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../plugins/core;../../../temp/x86/gen/$(Configuration)/$(ProjectName)/</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>landscape_editor/sources/ph/le_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>
@@ -219,7 +291,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LANDSCAPE_EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../plugins/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../plugins/core;../../../temp/x64/gen/$(Configuration)/$(ProjectName)/</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>landscape_editor/sources/ph/le_ph.hpp</PrecompiledHeaderFile>
     </ClCompile>

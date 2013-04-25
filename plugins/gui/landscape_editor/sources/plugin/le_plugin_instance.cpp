@@ -27,6 +27,8 @@
 #include "landscape_editor/sources/views/le_description_view.hpp"
 #include "landscape_editor/sources/views/le_minimap_view.hpp"
 
+#include "landscape_editor/sources/views_mediator/le_views_mediator.hpp"
+
 #include "landscape_editor/sources/commands/le_new_landscape_command.hpp"
 #include "landscape_editor/sources/commands/le_open_landscape_command.hpp"
 #include "landscape_editor/sources/commands/le_close_landscape_command.hpp"
@@ -101,10 +103,12 @@ PluginInstance::initialize()
 	m_landscapeEditorController.reset( new LandscapeEditorController( *m_environment ) );
 	m_landscapeRenderer.reset( new LandscapeRenderer( *getImagesManager() ) );
 
+	boost::shared_ptr< ViewsMediator > viewsMediator( new ViewsMediator() );
+
 	m_objectsView.reset( new ObjectsView( *m_environment ) );
-	m_editorView.reset( new EditorView( *m_landscapeEditorController, *getImagesManager() ) );
+	m_editorView.reset( new EditorView( *m_environment, viewsMediator ) );
 	m_descriptionView.reset( new DescriptionView( *m_landscapeEditorController ) );
-	m_minimapView.reset( new MinimapView( *m_landscapeEditorController, *m_landscapeRenderer ) );
+	m_minimapView.reset( new MinimapView( *m_landscapeEditorController, *m_landscapeRenderer, viewsMediator ) );
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		windowManager = getWindowManager();
@@ -340,7 +344,11 @@ PluginInstance::fillSurfaceItemsCache()
 			surfaceItemsCache->addSurfaceItem(
 					counter++
 				,	"surface/summer"
-				,	QRect( j * 32, i * 32, 32, 32 ) );
+				,	QRect(
+						j * Resources::Landscape::CellSize
+					,	i * Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize ) );
 		}
 	}
 
@@ -351,7 +359,11 @@ PluginInstance::fillSurfaceItemsCache()
 			surfaceItemsCache->addSurfaceItem(
 					counter++
 				,	"surface/winter"
-				,	QRect( j * 32, i * 32, 32, 32 ) );
+				,	QRect(
+						j * Resources::Landscape::CellSize
+					,	i * Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize ) );
 		}
 	}
 
@@ -362,7 +374,11 @@ PluginInstance::fillSurfaceItemsCache()
 			surfaceItemsCache->addSurfaceItem(
 					counter++
 				,	"surface/wasteland"
-				,	QRect( j * 32, i * 32, 32, 32 ) );
+				,	QRect(
+						j * Resources::Landscape::CellSize
+					,	i * Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize ) );
 		}
 	}
 

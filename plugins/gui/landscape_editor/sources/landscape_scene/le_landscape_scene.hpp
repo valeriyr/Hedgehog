@@ -2,29 +2,6 @@
 #ifndef __LE_LANDSCAPE_SCENE_HPP__
 #define __LE_LANDSCAPE_SCENE_HPP__
 
-/*---------------------------------------------------------------------------*/
-
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct IEditableLandscape;
-		}
-	}
-}
-
-namespace Framework
-{
-	namespace GUI
-	{
-		namespace ImagesManager
-		{
-			struct IImagesManager;
-		}
-	}
-}
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,7 +11,7 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeEditorController;
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,14 +21,15 @@ class LandscapeScene
 
 /*---------------------------------------------------------------------------*/
 
+	Q_OBJECT
+
+/*---------------------------------------------------------------------------*/
+
 public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeScene(
-			const ILandscapeEditorController& _landscapeEditorController
-		,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager
-		,	QObject* _parent = NULL );
+	LandscapeScene( const IEnvironment& _environment, QObject* _parent = NULL );
 
 	virtual ~LandscapeScene();
 
@@ -80,9 +58,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const ILandscapeEditorController& m_landscapeEditorController;
-
-	Framework::GUI::ImagesManager::IImagesManager& m_imagesManager;
+	const IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 

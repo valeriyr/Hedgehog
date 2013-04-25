@@ -6,10 +6,12 @@
 #include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
+#include "landscape_editor/sources/environment/le_ienvironment.hpp"
 
-#include "images_manager/ih/im_iimages_manager.hpp"
+#include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
+
+#include "le_landscape_scene.moc"
 
 
 /*---------------------------------------------------------------------------*/
@@ -21,14 +23,9 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeScene::LandscapeScene(
-		const ILandscapeEditorController& _landscapeEditorController
-	,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager
-	,	QObject* _parent
-	)
+LandscapeScene::LandscapeScene( const IEnvironment& _environment, QObject* _parent )
 	:	QGraphicsScene( _parent )
-	,	m_landscapeEditorController( _landscapeEditorController )
-	,	m_imagesManager( _imagesManager )
+	,	m_environment( _environment )
 {
 } // LandscapeScene::LandscapeScene
 
@@ -86,7 +83,7 @@ void
 LandscapeScene::regenerateSurfaceLayer()
 {
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
-		landscape = m_landscapeEditorController.getEditableLandscape();
+		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
 
 	if ( landscape )
 	{
@@ -96,7 +93,7 @@ LandscapeScene::regenerateSurfaceLayer()
 			{
 				boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > surfaceItem = landscape->getSurfaceItem( i, j );
 
-				QGraphicsPixmapItem* item = addPixmap( m_imagesManager.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
+				QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
 				item->setOffset( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
 			}
 		}
@@ -112,7 +109,7 @@ void
 LandscapeScene::regenerateObjectsLayer()
 {
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
-		landscape = m_landscapeEditorController.getEditableLandscape();
+		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
 
 	if ( landscape )
 	{
@@ -136,7 +133,7 @@ void
 LandscapeScene::setCorrectSceneSize()
 {
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
-		landscape = m_landscapeEditorController.getEditableLandscape();
+		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
 
 	if ( landscape )
 	{

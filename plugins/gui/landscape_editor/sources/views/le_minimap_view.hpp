@@ -18,6 +18,7 @@ struct ILandscapeEditorController;
 struct ILandscapeRenderer;
 
 class MinimapWidget;
+class ViewsMediator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,7 +34,8 @@ public:
 
 	MinimapView(
 			const ILandscapeEditorController& _landscapeEditorController
-		,	ILandscapeRenderer& _landscapeRenderer );
+		,	ILandscapeRenderer& _landscapeRenderer
+		,	boost::shared_ptr< ViewsMediator > _viewsMediator );
 
 	virtual ~MinimapView();
 
@@ -62,6 +64,8 @@ private:
 	const ILandscapeEditorController& m_landscapeEditorController;
 
 	boost::shared_ptr< MinimapWidget > m_minimapWidget;
+
+	boost::shared_ptr< ViewsMediator > m_viewsMediator;
 
 	QString m_viewTitle;
 

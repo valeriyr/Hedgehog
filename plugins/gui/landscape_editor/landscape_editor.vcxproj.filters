@@ -31,6 +31,12 @@
     <Filter Include="Landscape Scene">
       <UniqueIdentifier>{062b150e-430c-491e-bb58-eca09be2e5b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Views Mediator">
+      <UniqueIdentifier>{2793899a-4c4d-49b5-94dd-81a4ab3cfd29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape View">
+      <UniqueIdentifier>{cfc7ae9d-8ecb-45b3-b5f5-6936f8540275}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\le_ph.cpp">
@@ -87,6 +93,12 @@
     <ClCompile Include="sources\landscape_scene\le_landscape_scene.cpp">
       <Filter>Landscape Scene</Filter>
     </ClCompile>
+    <ClCompile Include="sources\views_mediator\le_views_mediator.cpp">
+      <Filter>Views Mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_view\le_landscape_view.cpp">
+      <Filter>Landscape View</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\le_ph.hpp">
@@ -140,9 +152,6 @@
     <ClInclude Include="sources\views\le_minimap_view.hpp">
       <Filter>Viewes</Filter>
     </ClInclude>
-    <ClInclude Include="sources\minimap_widget\le_minimap_widget.hpp">
-      <Filter>Minimap Widget</Filter>
-    </ClInclude>
     <ClInclude Include="sources\landscape_renderer\le_ilandscape_renderer.hpp">
       <Filter>Landscape Renderer</Filter>
     </ClInclude>
@@ -152,8 +161,19 @@
     <ClInclude Include="sources\views\le_ibase_view.hpp">
       <Filter>Viewes</Filter>
     </ClInclude>
-    <ClInclude Include="sources\landscape_scene\le_landscape_scene.hpp">
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="sources\landscape_scene\le_landscape_scene.hpp">
       <Filter>Landscape Scene</Filter>
-    </ClInclude>
+    </CustomBuild>
+    <CustomBuild Include="sources\minimap_widget\le_minimap_widget.hpp">
+      <Filter>Minimap Widget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\views_mediator\le_views_mediator.hpp">
+      <Filter>Views Mediator</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\landscape_view\le_landscape_view.hpp">
+      <Filter>Landscape View</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

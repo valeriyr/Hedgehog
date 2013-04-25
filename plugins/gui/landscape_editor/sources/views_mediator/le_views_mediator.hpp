@@ -1,10 +1,6 @@
 
-#ifndef __LE_EDITOR_VIEW_HPP__
-#define __LE_EDITOR_VIEW_HPP__
-
-/*---------------------------------------------------------------------------*/
-
-#include "landscape_editor/sources/views/le_ibase_view.hpp"
+#ifndef __LE_VIEWS_MEDIATOR_HPP__
+#define __LE_VIEWS_MEDIATOR_HPP__
 
 
 /*---------------------------------------------------------------------------*/
@@ -15,16 +11,13 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEnvironment;
-
-class LandscapeScene;
-class ViewsMediator;
+class ViewsMediator
+	:	public QObject
+{
 
 /*---------------------------------------------------------------------------*/
 
-class EditorView
-	:	public Tools::Core::BaseWrapper< IBaseView >
-{
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -32,39 +25,33 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	EditorView( const IEnvironment& _environment, boost::shared_ptr< ViewsMediator > _viewsMediator );
+	ViewsMediator();
 
-	virtual ~EditorView();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ const QString& getViewTitle() const;
-
-	/*virtual*/ QWidget* getViewWidget();
+	virtual ~ViewsMediator();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void viewWasClosed();
+signals:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void landscapeWasOpened();
+	void visibleRectOnMinimapWasChanged( const float _relPosotionByX, const float _relPosotionByY );
 
-	/*virtual*/ void landscapeWasClosed();
+	void landscapeSceneLoaded( const float _visibleWidth, const float _visibleHeight );
 
-/*---------------------------------------------------------------------------*/
-
-private:
+	void visibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< LandscapeScene > m_landscapeScene;
+public slots:
 
-	boost::shared_ptr< QGraphicsView > m_landscapeWidget;
+/*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< ViewsMediator > m_viewsMediator;
+	void onVisibleRectOnMinimapWasChanged( const float _relPosotionByX, const float _relPosotionByY );
 
-	QString m_viewTitle;
+	void onLandscapeSceneLoaded( const float _visibleWidth, const float _visibleHeight );
+
+	void onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
 
 /*---------------------------------------------------------------------------*/
 
@@ -78,4 +65,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_EDITOR_VIEW_HPP__
+#endif // __LE_VIEWS_MEDIATOR_HPP__

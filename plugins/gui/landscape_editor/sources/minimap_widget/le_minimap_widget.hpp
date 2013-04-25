@@ -22,6 +22,10 @@ class MinimapWidget
 
 /*---------------------------------------------------------------------------*/
 
+	Q_OBJECT
+
+/*---------------------------------------------------------------------------*/
+
 public:
 
 /*---------------------------------------------------------------------------*/
@@ -38,6 +42,24 @@ public:
 	void landscapeWasOpened();
 
 	void setDefaultLandscape();
+
+/*---------------------------------------------------------------------------*/
+
+signals:
+
+/*---------------------------------------------------------------------------*/
+
+	void visibleAreaRectWasChanged( const float _relPosotionByX, const float _relPosotionByY );
+
+/*---------------------------------------------------------------------------*/
+
+public slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void onLandscapeSceneLoaded( const float _visibleWidth, const float _visibleHeight );
+
+	void onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
 
 /*---------------------------------------------------------------------------*/
 

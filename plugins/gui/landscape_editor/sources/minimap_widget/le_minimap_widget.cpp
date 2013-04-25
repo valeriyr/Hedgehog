@@ -9,6 +9,8 @@
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 
+#include "le_minimap_widget.moc"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,8 +77,6 @@ MinimapWidget::landscapeWasOpened()
 	m_surfaceLayer = surfaceLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 	m_objectsLayer = objectsLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 
-	m_visibleArea = QRect( 0, 0, m_surfaceLayer.width() * 0.3, m_surfaceLayer.height() * 0.2 );
-
 	update();
 
 } // MinimapWidget::landscapeWasOpened
@@ -91,9 +91,40 @@ MinimapWidget::setDefaultLandscape()
 	m_surfaceLayer.fill(Qt::white);
 	m_objectsLayer.fill(Qt::transparent);
 
+	m_visibleArea = QRect();
+
 	update();
 
 } // MinimapWidget::setDefaultLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MinimapWidget::onLandscapeSceneLoaded( const float _visibleWidth, const float _visibleHeight )
+{
+	m_visibleArea = QRect( 0, 0, ms_fixedWidgetSize.width() * _visibleWidth, ms_fixedWidgetSize.height() * _visibleHeight );
+
+} // MinimapWidget::onLandscapeSceneLoaded
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MinimapWidget::onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight )
+{
+	m_visibleArea
+		= QRect(
+				( width() - m_visibleArea.width() ) * _visibleWidth
+			,	( height() - m_visibleArea.height() ) * _visibleHeight
+			,	m_visibleArea.width()
+			,	m_visibleArea.height() );
+
+	update();
+
+} // MinimapWidget::onVisibleRectOfLandscapeViewWasChanged
 
 
 /*---------------------------------------------------------------------------*/
@@ -177,6 +208,10 @@ MinimapWidget::wasClickedOnWidget( const QPoint& _atPoint )
 	}
 
 	m_visibleArea.moveTo( visibleAreaOrigin );
+
+	emit visibleAreaRectWasChanged(
+			static_cast< float >( m_visibleArea.left() ) / ( width() - m_visibleArea.width() )
+		,	static_cast< float >( m_visibleArea.top() ) / ( height() - m_visibleArea.height() ) );
 
 } // MinimapWidget::wasClickedOnWidget
 

@@ -4,7 +4,11 @@
 #include "landscape_editor/sources/views/le_editor_view.hpp"
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
+
 #include "landscape_editor/sources/landscape_scene/le_landscape_scene.hpp"
+#include "landscape_editor/sources/landscape_view/le_landscape_view.hpp"
+
+#include "landscape_editor/sources/views_mediator/le_views_mediator.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -16,13 +20,30 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-EditorView::EditorView(
-		const ILandscapeEditorController& _landscapeEditorController
-	,	Framework::GUI::ImagesManager::IImagesManager& _imagesManager )
-	:	m_landscapeScene( new LandscapeScene( _landscapeEditorController, _imagesManager ) )
-	,	m_landscapeWidget( new QGraphicsView( m_landscapeScene.get() ) )
+EditorView::EditorView( const IEnvironment& _environment, boost::shared_ptr< ViewsMediator > _viewsMediator )
+	:	m_landscapeScene( new LandscapeScene( _environment ) )
+	,	m_landscapeWidget( new LandscapeView( m_landscapeScene.get() ) )
+	,	m_viewsMediator( _viewsMediator )
 	,	m_viewTitle( Resources::Views::EditorViewDefaultTitle )
 {
+	QObject::connect(
+			m_viewsMediator.get()
+		,	SIGNAL( visibleRectOnMinimapWasChanged( const float, const float ) )
+		,	m_landscapeWidget.get()
+		,	SLOT( onVisibleRectOnMinimapWasChanged( const float, const float ) ) );
+
+	QObject::connect(
+			m_landscapeWidget.get()
+		,	SIGNAL( landscapeSceneLoaded( const float, const float ) )
+		,	m_viewsMediator.get()
+		,	SLOT( onLandscapeSceneLoaded( const float, const float ) ) );
+
+	QObject::connect(
+			m_landscapeWidget.get()
+		,	SIGNAL( visibleRectOfLandscapeViewWasChanged( const float, const float ) )
+		,	m_viewsMediator.get()
+		,	SLOT( onVisibleRectOfLandscapeViewWasChanged( const float, const float ) ) );
+
 } // EditorView::EditorView
 
 
@@ -31,6 +52,24 @@ EditorView::EditorView(
 
 EditorView::~EditorView()
 {
+	QObject::disconnect(
+			m_viewsMediator.get()
+		,	SIGNAL( visibleRectOnMinimapWasChanged( const float, const float ) )
+		,	m_landscapeWidget.get()
+		,	SLOT( onVisibleRectOnMinimapWasChanged( const float, const float ) ) );
+
+	QObject::disconnect(
+			m_landscapeWidget.get()
+		,	SIGNAL( landscapeSceneLoaded( const float, const float ) )
+		,	m_viewsMediator.get()
+		,	SLOT( onLandscapeSceneLoaded( const float, const float ) ) );
+
+	QObject::disconnect(
+			m_landscapeWidget.get()
+		,	SIGNAL( visibleRectOfLandscapeViewWasChanged( const float, const float ) )
+		,	m_viewsMediator.get()
+		,	SLOT( onVisibleRectOfLandscapeViewWasChanged( const float, const float ) ) );
+
 } // EditorView::~EditorView
 
 
@@ -75,6 +114,10 @@ void
 EditorView::landscapeWasOpened()
 {
 	m_landscapeScene->landscapeWasOpened();
+
+	m_viewsMediator->onLandscapeSceneLoaded(
+			static_cast< float >( m_landscapeWidget->width() ) / m_landscapeScene->width()
+		,	static_cast< float >( m_landscapeWidget->height() ) / m_landscapeScene->height() );
 
 } // EditorView::landscapeWasOpened
 

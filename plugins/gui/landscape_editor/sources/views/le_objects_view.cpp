@@ -25,6 +25,8 @@ ObjectsView::ObjectsView( const IEnvironment& _environment )
 {
 	m_objectsView->setHeaderLabel( Resources::Views::ObjectsViewColumnName );
 
+	m_objectsView->setIconSize( QSize( Resources::Landscape::CellSize, Resources::Landscape::CellSize ) );
+
 	QTreeWidgetItem* summerSurface = new QTreeWidgetItem();
 	summerSurface->setText( 0, "Summer" );
 

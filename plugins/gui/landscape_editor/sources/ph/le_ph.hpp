@@ -1,6 +1,7 @@
 
 #include <QtGui/QTextEdit>
 #include <QtGui/QTreeWidget>
+#include <QtGui/QScrollBar>
 
 #include <QtGui/QGraphicsView>
 #include <QtGui/QGraphicsScene>
