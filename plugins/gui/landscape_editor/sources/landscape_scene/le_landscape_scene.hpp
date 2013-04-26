@@ -41,6 +41,22 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent );
+
+	/*virtual*/ void mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent );
+
+	/*virtual*/ void mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent );
+
+/*---------------------------------------------------------------------------*/
+
+signals:
+
+/*---------------------------------------------------------------------------*/
+
+	void landscapeWasChanged();
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
@@ -51,6 +67,8 @@ private:
 	void regenerateObjectsLayer();
 
 	void setCorrectSceneSize();
+
+	void setNewItemInPosition( const QPointF& _position );
 
 /*---------------------------------------------------------------------------*/
 

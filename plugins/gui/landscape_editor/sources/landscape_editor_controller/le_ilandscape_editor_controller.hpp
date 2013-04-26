@@ -15,6 +15,7 @@ namespace Plugins
 		namespace LandscapeModel
 		{
 			struct IEditableLandscape;
+			struct ISurfaceItem;
 		}
 	}
 }
@@ -42,6 +43,14 @@ struct ILandscapeEditorController
 	virtual void saveLandscape() = 0;
 
 	virtual void saveAsLandscape() = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual boost::intrusive_ptr< Core::LandscapeModel::ISurfaceItem >
+		getSelectedSurfaceItem() const = 0;
+
+	virtual void setSelectedSurfaceItem(
+		boost::intrusive_ptr< Core::LandscapeModel::ISurfaceItem > _item ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

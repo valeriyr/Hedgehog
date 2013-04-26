@@ -19,12 +19,10 @@ namespace LandscapeEditor {
 
 
 MinimapView::MinimapView(
-		const ILandscapeEditorController& _landscapeEditorController
-	,	ILandscapeRenderer& _landscapeRenderer
+		const IEnvironment& _environment
 	,	boost::shared_ptr< ViewsMediator > _viewsMediator
 	)
-	:	m_landscapeEditorController( _landscapeEditorController )
-	,	m_minimapWidget( new MinimapWidget( _landscapeEditorController, _landscapeRenderer ) )
+	:	m_minimapWidget( new MinimapWidget( _environment ) )
 	,	m_viewsMediator( _viewsMediator )
 	,	m_viewTitle( Resources::Views::MinimapViewTitle )
 {
@@ -36,15 +34,21 @@ MinimapView::MinimapView(
 
 	QObject::connect(
 			m_viewsMediator.get()
-		,	SIGNAL( landscapeSceneLoaded( const float, const float ) )
+		,	SIGNAL( landscapeViewWasResized( const float, const float ) )
 		,	m_minimapWidget.get()
-		,	SLOT( onLandscapeSceneLoaded( const float, const float ) ) );
+		,	SLOT( onLandscapeViewWasResized( const float, const float ) ) );
 
 	QObject::connect(
 			m_viewsMediator.get()
 		,	SIGNAL( visibleRectOfLandscapeViewWasChanged( const float, const float ) )
 		,	m_minimapWidget.get()
 		,	SLOT( onVisibleRectOfLandscapeViewWasChanged( const float, const float ) ) );
+
+	QObject::connect(
+			m_viewsMediator.get()
+		,	SIGNAL( landscapeWasChanged() )
+		,	m_minimapWidget.get()
+		,	SLOT( onLandscapeWasChanged() ) );
 
 } // MinimapView::MinimapView
 
@@ -62,7 +66,7 @@ MinimapView::~MinimapView()
 
 	QObject::disconnect(
 			m_viewsMediator.get()
-		,	SIGNAL( landscapeSceneLoaded( const float, const float ) )
+		,	SIGNAL( landscapeViewWasResized( const float, const float ) )
 		,	m_minimapWidget.get()
 		,	SLOT( onLandscapeSceneLoaded( const float, const float ) ) );
 
@@ -71,6 +75,12 @@ MinimapView::~MinimapView()
 		,	SIGNAL( visibleRectOfLandscapeViewWasChanged( const float, const float ) )
 		,	m_minimapWidget.get()
 		,	SLOT( onVisibleRectOfLandscapeViewWasChanged( const float, const float ) ) );
+
+	QObject::disconnect(
+			m_viewsMediator.get()
+		,	SIGNAL( landscapeWasChanged() )
+		,	m_minimapWidget.get()
+		,	SLOT( onLandscapeWasChanged() ) );
 
 } // MinimapView::~MinimapView
 

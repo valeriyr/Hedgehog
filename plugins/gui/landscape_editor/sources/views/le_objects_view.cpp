@@ -5,8 +5,11 @@
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 #include "landscape_editor/sources/environment/le_ienvironment.hpp"
+#include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
+
+#include "le_objects_view.moc"
 
 
 /*---------------------------------------------------------------------------*/
@@ -18,8 +21,9 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-ObjectsView::ObjectsView( const IEnvironment& _environment )
-	:	m_environment( _environment )
+ObjectsView::ObjectsView( const IEnvironment& _environment, QObject* _parent )
+	:	QObject( _parent )
+	,	m_environment( _environment )
 	,	m_objectsView( new QTreeWidget() )
 	,	m_viewTitle( Resources::Views::ObjectsViewTitle )
 {
@@ -76,6 +80,19 @@ ObjectsView::ObjectsView( const IEnvironment& _environment )
 	m_objectsView->addTopLevelItem( winterSurface );
 	m_objectsView->addTopLevelItem( wastelandSurface );
 
+	QList< QTreeWidgetItem* > items
+		= m_objectsView->findItems(
+		QString( "%1" ).arg( _environment.getLandscapeEditorController()->getSelectedSurfaceItem()->getIndex() )
+			,	Qt::MatchFixedString | Qt::MatchRecursive );
+
+	m_objectsView->setCurrentItem( items.first() );
+
+	QObject::connect(
+			m_objectsView.get()
+		,	SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) )
+		,	this
+		,	SLOT( onCurrentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) ) );
+
 } // ObjectsView::ObjectsView
 
 
@@ -84,6 +101,12 @@ ObjectsView::ObjectsView( const IEnvironment& _environment )
 
 ObjectsView::~ObjectsView()
 {
+	QObject::disconnect(
+			m_objectsView.get()
+		,	SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) )
+		,	this
+		,	SLOT( onCurrentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) ) );
+
 } // ObjectsView::~ObjectsView
 
 
@@ -136,6 +159,18 @@ void
 ObjectsView::landscapeWasClosed()
 {
 } // ObjectsView::landscapeWasClosed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectsView::onCurrentItemChanged( QTreeWidgetItem* _current, QTreeWidgetItem* _previous )
+{
+	 m_environment.getLandscapeEditorController()->setSelectedSurfaceItem(
+		 m_environment.getSurfaceItem( _current->text( 0 ).toUInt() ) );
+
+} // ObjectsView::onCurrentItemChanged
 
 
 /*---------------------------------------------------------------------------*/

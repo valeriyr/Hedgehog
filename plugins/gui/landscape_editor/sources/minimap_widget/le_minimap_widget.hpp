@@ -5,14 +5,26 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct ILandscape;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace GUI {
 namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeEditorController;
-struct ILandscapeRenderer;
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
@@ -30,10 +42,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	MinimapWidget(
-			const ILandscapeEditorController& _landscapeEditorController
-		,	ILandscapeRenderer& _landscapeRenderer
-		,	QWidget* _parent = NULL );
+	MinimapWidget( const IEnvironment& _environment, QWidget* _parent = NULL );
 
 	virtual ~MinimapWidget();
 
@@ -57,9 +66,11 @@ public slots:
 
 /*---------------------------------------------------------------------------*/
 
-	void onLandscapeSceneLoaded( const float _visibleWidth, const float _visibleHeight );
+	void onLandscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
 
 	void onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
+
+	void onLandscapeWasChanged();
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,7 +86,17 @@ protected:
 
 /*---------------------------------------------------------------------------*/
 
+private:
+
+/*---------------------------------------------------------------------------*/
+
 	void wasClickedOnWidget( const QPoint& _atPoint );
+
+	void regenerate();
+
+	void renderSurface( const Core::LandscapeModel::ILandscape& _landscape );
+
+	void renderObjects( const Core::LandscapeModel::ILandscape& _landscape );
 
 /*---------------------------------------------------------------------------*/
 
@@ -87,9 +108,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const ILandscapeEditorController& m_landscapeEditorController;
-
-	ILandscapeRenderer& m_landscapeRenderer;
+	const IEnvironment& m_environment;
 
 	QPixmap m_surfaceLayer;
 

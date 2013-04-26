@@ -18,6 +18,8 @@ namespace LandscapeEditor {
 struct IEnvironment;
 
 class LandscapeScene;
+class LandscapeView;
+
 class ViewsMediator;
 
 /*---------------------------------------------------------------------------*/
@@ -60,7 +62,7 @@ private:
 
 	boost::shared_ptr< LandscapeScene > m_landscapeScene;
 
-	boost::shared_ptr< QGraphicsView > m_landscapeWidget;
+	boost::shared_ptr< LandscapeView > m_landscapeWidget;
 
 	boost::shared_ptr< ViewsMediator > m_viewsMediator;
 

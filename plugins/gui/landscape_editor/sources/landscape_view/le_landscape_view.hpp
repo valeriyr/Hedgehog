@@ -29,6 +29,9 @@ public:
 
 	virtual ~LandscapeView();
 
+/*---------------------------------------------------------------------------*/
+
+	void wasResized();
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,6 +40,8 @@ signals:
 /*---------------------------------------------------------------------------*/
 
 	void visibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
+
+	void landscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,6 +52,14 @@ public slots:
 	void onVisibleRectOnMinimapWasChanged( const float _relPosotionByX, const float _relPosotionByY );
 
 	void onSliderMoved( int _value );
+
+/*---------------------------------------------------------------------------*/
+
+protected:
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void resizeEvent( QResizeEvent * _event );
 
 /*---------------------------------------------------------------------------*/
 

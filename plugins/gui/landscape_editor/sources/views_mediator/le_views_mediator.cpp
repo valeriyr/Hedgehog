@@ -43,11 +43,11 @@ ViewsMediator::onVisibleRectOnMinimapWasChanged( const float _relPosotionByX, co
 
 
 void
-ViewsMediator::onLandscapeSceneLoaded( const float _visibleWidth, const float _visibleHeight )
+ViewsMediator::onLandscapeViewWasResized( const float _visibleWidth, const float _visibleHeight )
 {
-	emit landscapeSceneLoaded( _visibleWidth, _visibleHeight );
+	emit landscapeViewWasResized( _visibleWidth, _visibleHeight );
 
-} // ViewsMediator::onLandscapeSceneLoaded
+} // ViewsMediator::onLandscapeViewWasResized
 
 
 /*---------------------------------------------------------------------------*/
@@ -59,6 +59,17 @@ ViewsMediator::onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth
 	emit visibleRectOfLandscapeViewWasChanged( _visibleWidth, _visibleHeight );
 
 } // ViewsMediator::onVisibleRectOfLandscapeViewWasChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ViewsMediator::onLandscapeWasChanged()
+{
+	emit landscapeWasChanged();
+
+} // ViewsMediator::onLandscapeWasChanged
 
 
 /*---------------------------------------------------------------------------*/

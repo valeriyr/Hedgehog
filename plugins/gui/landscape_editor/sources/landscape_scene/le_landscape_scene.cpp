@@ -64,6 +64,45 @@ LandscapeScene::setDefaultLandscape()
 
 
 void
+LandscapeScene::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent )
+{
+	setNewItemInPosition( _mouseEvent->scenePos() );
+
+	QGraphicsScene::mousePressEvent( _mouseEvent );
+
+} // LandscapeScene::mousePressEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent )
+{
+	setNewItemInPosition( _mouseEvent->scenePos() );
+
+	QGraphicsScene::mouseMoveEvent( _mouseEvent );
+
+} // LandscapeScene::mouseMoveEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
+{
+	emit landscapeWasChanged();
+
+	QGraphicsScene::mouseMoveEvent( _mouseEvent );
+
+} // LandscapeScene::mouseReleaseEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 LandscapeScene::regenerate()
 {
 	clear();
@@ -94,7 +133,7 @@ LandscapeScene::regenerateSurfaceLayer()
 				boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > surfaceItem = landscape->getSurfaceItem( i, j );
 
 				QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
-				item->setOffset( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
+				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
 			}
 		}
 	}
@@ -145,6 +184,42 @@ LandscapeScene::setCorrectSceneSize()
 	}
 
 } // LandscapeScene::setCorrectSceneSize
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::setNewItemInPosition( const QPointF& _position )
+{
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
+		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
+
+	if ( landscape )
+	{
+		QGraphicsItem* item = itemAt( _position );
+
+		if ( !item )
+		{
+			return;
+		}
+
+		QPointF itemPos = item->scenePos();
+		removeItem( item );
+
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > surfaceItem
+			= m_environment.getLandscapeEditorController()->getSelectedSurfaceItem();
+
+		m_environment.getLandscapeEditorController()->getEditableLandscape()->setSurfaceItem(
+				itemPos.x() / Resources::Landscape::CellSize
+			,	itemPos.y() / Resources::Landscape::CellSize
+			,	surfaceItem );
+
+		QGraphicsPixmapItem* newItem = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
+		newItem->setPos( itemPos );
+	}
+
+} // LandscapeScene::setNewItemInPosition
 
 
 /*---------------------------------------------------------------------------*/

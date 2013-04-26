@@ -34,15 +34,21 @@ EditorView::EditorView( const IEnvironment& _environment, boost::shared_ptr< Vie
 
 	QObject::connect(
 			m_landscapeWidget.get()
-		,	SIGNAL( landscapeSceneLoaded( const float, const float ) )
-		,	m_viewsMediator.get()
-		,	SLOT( onLandscapeSceneLoaded( const float, const float ) ) );
-
-	QObject::connect(
-			m_landscapeWidget.get()
 		,	SIGNAL( visibleRectOfLandscapeViewWasChanged( const float, const float ) )
 		,	m_viewsMediator.get()
 		,	SLOT( onVisibleRectOfLandscapeViewWasChanged( const float, const float ) ) );
+
+	QObject::connect(
+			m_landscapeWidget.get()
+		,	SIGNAL( landscapeViewWasResized( const float, const float ) )
+		,	m_viewsMediator.get()
+		,	SLOT( onLandscapeViewWasResized( const float, const float ) ) );
+
+	QObject::connect(
+			m_landscapeScene.get()
+		,	SIGNAL( landscapeWasChanged() )
+		,	m_viewsMediator.get()
+		,	SLOT( onLandscapeWasChanged() ) );
 
 } // EditorView::EditorView
 
@@ -60,15 +66,21 @@ EditorView::~EditorView()
 
 	QObject::disconnect(
 			m_landscapeWidget.get()
-		,	SIGNAL( landscapeSceneLoaded( const float, const float ) )
-		,	m_viewsMediator.get()
-		,	SLOT( onLandscapeSceneLoaded( const float, const float ) ) );
-
-	QObject::disconnect(
-			m_landscapeWidget.get()
 		,	SIGNAL( visibleRectOfLandscapeViewWasChanged( const float, const float ) )
 		,	m_viewsMediator.get()
 		,	SLOT( onVisibleRectOfLandscapeViewWasChanged( const float, const float ) ) );
+
+	QObject::disconnect(
+			m_landscapeScene.get()
+		,	SIGNAL( landscapeWasChanged() )
+		,	m_viewsMediator.get()
+		,	SLOT( onLandscapeWasChanged() ) );
+
+	QObject::disconnect(
+			m_landscapeWidget.get()
+		,	SIGNAL( landscapeViewWasResized( const float, const float ) )
+		,	m_viewsMediator.get()
+		,	SLOT( onLandscapeViewWasResized( const float, const float ) ) );
 
 } // EditorView::~EditorView
 
@@ -114,10 +126,7 @@ void
 EditorView::landscapeWasOpened()
 {
 	m_landscapeScene->landscapeWasOpened();
-
-	m_viewsMediator->onLandscapeSceneLoaded(
-			static_cast< float >( m_landscapeWidget->width() ) / m_landscapeScene->width()
-		,	static_cast< float >( m_landscapeWidget->height() ) / m_landscapeScene->height() );
+	m_landscapeWidget->wasResized();
 
 } // EditorView::landscapeWasOpened
 

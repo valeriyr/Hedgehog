@@ -7,7 +7,9 @@
 #include "landscape_editor/sources/views/le_ibase_view.hpp"
 
 #include "window_manager/ih/wm_idialogs_manager.hpp"
+
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -45,7 +47,7 @@ LandscapeEditorController::newLandscape()
 		closeLandscape();
 
 	m_landscapeFilePath = "c:/temp/new.hmap";
-	m_editableLandscape = m_environment.getLandscapeEditor()->createLandscape( 60, 30 );
+	m_editableLandscape = m_environment.getLandscapeEditor()->createLandscape( 140, 120 );
 
 	landscapeWasOpened();
 
@@ -114,6 +116,29 @@ LandscapeEditorController::saveAsLandscape()
 		->saveLandscape( *m_editableLandscape, landscapeFilePath );
 
 } // LandscapeEditorController::saveAsLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Core::LandscapeModel::ISurfaceItem >
+LandscapeEditorController::getSelectedSurfaceItem() const
+{
+	return m_selectedSurfaceItem ? m_selectedSurfaceItem : m_environment.getDefaultSurfaceItem();
+
+} // LandscapeEditorController::getSelectedSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeEditorController::setSelectedSurfaceItem(
+	boost::intrusive_ptr< Core::LandscapeModel::ISurfaceItem > _item )
+{
+	m_selectedSurfaceItem = _item;
+
+} // LandscapeEditorController::setSelectedSurfaceItem
 
 
 /*---------------------------------------------------------------------------*/

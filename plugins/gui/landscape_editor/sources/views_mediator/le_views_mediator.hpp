@@ -37,9 +37,11 @@ signals:
 
 	void visibleRectOnMinimapWasChanged( const float _relPosotionByX, const float _relPosotionByY );
 
-	void landscapeSceneLoaded( const float _visibleWidth, const float _visibleHeight );
+	void landscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
 
 	void visibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
+
+	void landscapeWasChanged();
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,9 +51,11 @@ public slots:
 
 	void onVisibleRectOnMinimapWasChanged( const float _relPosotionByX, const float _relPosotionByY );
 
-	void onLandscapeSceneLoaded( const float _visibleWidth, const float _visibleHeight );
+	void onLandscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
 
 	void onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
+
+	void onLandscapeWasChanged();
 
 /*---------------------------------------------------------------------------*/
 

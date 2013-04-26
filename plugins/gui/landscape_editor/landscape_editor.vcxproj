@@ -28,7 +28,6 @@
     <ClCompile Include="sources\environment\le_environment.cpp" />
     <ClCompile Include="sources\internal_resources\le_internal_resources.cpp" />
     <ClCompile Include="sources\landscape_editor_controller\le_landscape_editor_controller.cpp" />
-    <ClCompile Include="sources\landscape_renderer\le_landscape_renderer.cpp" />
     <ClCompile Include="sources\landscape_scene\le_landscape_scene.cpp" />
     <ClCompile Include="sources\landscape_view\le_landscape_view.cpp" />
     <ClCompile Include="sources\minimap_widget\le_minimap_widget.cpp" />
@@ -57,8 +56,6 @@
     <ClInclude Include="sources\internal_resources\le_internal_resources.hpp" />
     <ClInclude Include="sources\landscape_editor_controller\le_ilandscape_editor_controller.hpp" />
     <ClInclude Include="sources\landscape_editor_controller\le_landscape_editor_controller.hpp" />
-    <ClInclude Include="sources\landscape_renderer\le_ilandscape_renderer.hpp" />
-    <ClInclude Include="sources\landscape_renderer\le_landscape_renderer.hpp" />
     <CustomBuild Include="sources\landscape_scene\le_landscape_scene.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
@@ -119,7 +116,24 @@
     <ClInclude Include="sources\views\le_editor_view.hpp" />
     <ClInclude Include="sources\views\le_ibase_view.hpp" />
     <ClInclude Include="sources\views\le_minimap_view.hpp" />
-    <ClInclude Include="sources\views\le_objects_view.hpp" />
+    <CustomBuild Include="sources\views\le_objects_view.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+    </CustomBuild>
     <CustomBuild Include="sources\views_mediator\le_views_mediator.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>

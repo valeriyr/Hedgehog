@@ -57,6 +57,19 @@ LandscapeView::~LandscapeView()
 
 
 void
+LandscapeView::wasResized()
+{
+	emit landscapeViewWasResized(
+			static_cast< float >( width() ) / scene()->width()
+		,	static_cast< float >( height() ) / scene()->height() );
+
+} // LandscapeView::wasResized
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 LandscapeView::onVisibleRectOnMinimapWasChanged( const float _relPosotionByX, const float _relPosotionByY )
 {
 	verticalScrollBar()->setSliderPosition( verticalScrollBar()->maximum() * _relPosotionByY );
@@ -79,6 +92,19 @@ LandscapeView::onSliderMoved( int _value )
 		,	static_cast< float >( verticalScrollBar()->value() ) / verticalScrollBar()->maximum() );
 
 } // LandscapeView::onSliderMoved
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeView::resizeEvent( QResizeEvent * _event )
+{
+	wasResized();
+
+	QGraphicsView::resizeEvent( _event );
+
+} // LandscapeView::resizeEvent
 
 
 /*---------------------------------------------------------------------------*/

@@ -20,8 +20,13 @@ struct IEnvironment;
 /*---------------------------------------------------------------------------*/
 
 class ObjectsView
-	:	public Tools::Core::BaseWrapper< IBaseView >
+	:	public QObject
+	,	public Tools::Core::BaseWrapper< IBaseView >
 {
+
+/*---------------------------------------------------------------------------*/
+
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,7 +34,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ObjectsView( const IEnvironment& _environment );
+	ObjectsView( const IEnvironment& _environment, QObject* _parent = NULL );
 
 	virtual ~ObjectsView();
 
@@ -48,6 +53,14 @@ public:
 	/*virtual*/ void landscapeWasOpened();
 
 	/*virtual*/ void landscapeWasClosed();
+
+/*---------------------------------------------------------------------------*/
+
+private slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void onCurrentItemChanged( QTreeWidgetItem* _current, QTreeWidgetItem* _previous );
 
 /*---------------------------------------------------------------------------*/
 

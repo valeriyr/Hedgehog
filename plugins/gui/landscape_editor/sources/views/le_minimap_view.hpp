@@ -14,8 +14,7 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeEditorController;
-struct ILandscapeRenderer;
+struct IEnvironment;
 
 class MinimapWidget;
 class ViewsMediator;
@@ -33,8 +32,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	MinimapView(
-			const ILandscapeEditorController& _landscapeEditorController
-		,	ILandscapeRenderer& _landscapeRenderer
+			const IEnvironment& _environment
 		,	boost::shared_ptr< ViewsMediator > _viewsMediator );
 
 	virtual ~MinimapView();
@@ -60,8 +58,6 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
-
-	const ILandscapeEditorController& m_landscapeEditorController;
 
 	boost::shared_ptr< MinimapWidget > m_minimapWidget;
 

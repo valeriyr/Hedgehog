@@ -25,9 +25,6 @@
     <Filter Include="Minimap Widget">
       <UniqueIdentifier>{6ca7325c-3d1e-4cc7-a951-856a87008aae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Landscape Renderer">
-      <UniqueIdentifier>{2a4925ff-cc31-4678-a0d4-23921d095ed3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Landscape Scene">
       <UniqueIdentifier>{062b150e-430c-491e-bb58-eca09be2e5b5}</UniqueIdentifier>
     </Filter>
@@ -87,9 +84,6 @@
     <ClCompile Include="sources\minimap_widget\le_minimap_widget.cpp">
       <Filter>Minimap Widget</Filter>
     </ClCompile>
-    <ClCompile Include="sources\landscape_renderer\le_landscape_renderer.cpp">
-      <Filter>Landscape Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="sources\landscape_scene\le_landscape_scene.cpp">
       <Filter>Landscape Scene</Filter>
     </ClCompile>
@@ -137,9 +131,6 @@
     <ClInclude Include="sources\views\le_editor_view.hpp">
       <Filter>Viewes</Filter>
     </ClInclude>
-    <ClInclude Include="sources\views\le_objects_view.hpp">
-      <Filter>Viewes</Filter>
-    </ClInclude>
     <ClInclude Include="sources\landscape_editor_controller\le_ilandscape_editor_controller.hpp">
       <Filter>Landscape Editor Controller</Filter>
     </ClInclude>
@@ -151,12 +142,6 @@
     </ClInclude>
     <ClInclude Include="sources\views\le_minimap_view.hpp">
       <Filter>Viewes</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_renderer\le_ilandscape_renderer.hpp">
-      <Filter>Landscape Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_renderer\le_landscape_renderer.hpp">
-      <Filter>Landscape Renderer</Filter>
     </ClInclude>
     <ClInclude Include="sources\views\le_ibase_view.hpp">
       <Filter>Viewes</Filter>
@@ -174,6 +159,9 @@
     </CustomBuild>
     <CustomBuild Include="sources\landscape_view\le_landscape_view.hpp">
       <Filter>Landscape View</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\views\le_objects_view.hpp">
+      <Filter>Viewes</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

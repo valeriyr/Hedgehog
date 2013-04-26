@@ -76,6 +76,17 @@ Environment::getSurfaceItem( const unsigned int _index ) const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+Environment::getDefaultSurfaceItem() const
+{
+	return m_pluginInstance.getSurfaceItemsCache()->getDefaultSurfaceItem();
+
+} // Environment::getDefaultSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
 const QPixmap&
 Environment::getPixmap( const QString& _resourcePath, const QRect& _rect ) const
 {

@@ -46,6 +46,14 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::ISurfaceItem >
+		getSelectedSurfaceItem() const;
+
+	/*virtual*/ void setSelectedSurfaceItem(
+		boost::intrusive_ptr< Core::LandscapeModel::ISurfaceItem > _item );
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ const QString& getLandscapeFilePath() const;
 
 	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
@@ -70,6 +78,8 @@ private:
 	QString m_landscapeFilePath;
 
 	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > m_editableLandscape;
+
+	boost::intrusive_ptr< Core::LandscapeModel::ISurfaceItem > m_selectedSurfaceItem;
 
 /*---------------------------------------------------------------------------*/
 

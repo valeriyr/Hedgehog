@@ -5,9 +5,10 @@
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 #include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
-#include "landscape_editor/sources/landscape_renderer/le_ilandscape_renderer.hpp"
+#include "landscape_editor/sources/environment/le_ienvironment.hpp"
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 #include "le_minimap_widget.moc"
 
@@ -27,14 +28,9 @@ const QSize MinimapWidget::ms_fixedWidgetSize = QSize( 300, 200 );
 /*---------------------------------------------------------------------------*/
 
 
-MinimapWidget::MinimapWidget(
-		const ILandscapeEditorController& _landscapeEditorController
-	,	ILandscapeRenderer& _landscapeRenderer
-	,	QWidget* _parent
-	)
+MinimapWidget::MinimapWidget( const IEnvironment& _environment,	QWidget* _parent )
 	:	QGLWidget( QGLFormat( QGL::SampleBuffers ), _parent )
-	,	m_landscapeEditorController( _landscapeEditorController )
-	,	m_landscapeRenderer( _landscapeRenderer )
+	,	m_environment( _environment )
 	,	m_surfaceLayer( ms_fixedWidgetSize )
 	,	m_objectsLayer( ms_fixedWidgetSize )
 	,	m_visibleArea( 0, 0, 0, 0 )
@@ -61,23 +57,7 @@ MinimapWidget::~MinimapWidget()
 void
 MinimapWidget::landscapeWasOpened()
 {
-	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		landscape = m_landscapeEditorController.getEditableLandscape();
-
-	QPixmap surfaceLayer
-		= QPixmap( QSize(
-				landscape->getWidth() * Resources::Landscape::CellSize
-			,	landscape->getHeight() * Resources::Landscape::CellSize ) );
-
-	QPixmap objectsLayer( surfaceLayer.size() );
-
-	m_landscapeRenderer.renderSurface( *landscape, surfaceLayer );
-	m_landscapeRenderer.renderObjects( *landscape, objectsLayer );
-
-	m_surfaceLayer = surfaceLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
-	m_objectsLayer = objectsLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
-
-	update();
+	regenerate();
 
 } // MinimapWidget::landscapeWasOpened
 
@@ -88,12 +68,7 @@ MinimapWidget::landscapeWasOpened()
 void
 MinimapWidget::setDefaultLandscape()
 {
-	m_surfaceLayer.fill(Qt::white);
-	m_objectsLayer.fill(Qt::transparent);
-
-	m_visibleArea = QRect();
-
-	update();
+	regenerate();
 
 } // MinimapWidget::setDefaultLandscape
 
@@ -102,11 +77,12 @@ MinimapWidget::setDefaultLandscape()
 
 
 void
-MinimapWidget::onLandscapeSceneLoaded( const float _visibleWidth, const float _visibleHeight )
+MinimapWidget::onLandscapeViewWasResized( const float _visibleWidth, const float _visibleHeight )
 {
-	m_visibleArea = QRect( 0, 0, ms_fixedWidgetSize.width() * _visibleWidth, ms_fixedWidgetSize.height() * _visibleHeight );
+	m_visibleArea = QRect( m_visibleArea.x(), m_visibleArea.y(), ms_fixedWidgetSize.width() * _visibleWidth, ms_fixedWidgetSize.height() * _visibleHeight );
+	update();
 
-} // MinimapWidget::onLandscapeSceneLoaded
+} // MinimapWidget::onLandscapeViewWasResized
 
 
 /*---------------------------------------------------------------------------*/
@@ -125,6 +101,17 @@ MinimapWidget::onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth
 	update();
 
 } // MinimapWidget::onVisibleRectOfLandscapeViewWasChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MinimapWidget::onLandscapeWasChanged()
+{
+	regenerate();
+
+} // MinimapWidget::onLandscapeWasChanged
 
 
 /*---------------------------------------------------------------------------*/
@@ -214,6 +201,100 @@ MinimapWidget::wasClickedOnWidget( const QPoint& _atPoint )
 		,	static_cast< float >( m_visibleArea.top() ) / ( height() - m_visibleArea.height() ) );
 
 } // MinimapWidget::wasClickedOnWidget
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MinimapWidget::regenerate()
+{
+	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
+
+	if ( landscape )
+	{
+		renderSurface( *landscape );
+		renderObjects( *landscape );
+	}
+	else
+	{
+		m_surfaceLayer.fill(Qt::white);
+		m_objectsLayer.fill(Qt::transparent);
+
+		m_visibleArea = QRect();
+	}
+
+	update();
+
+} // MinimapWidget::regenerate
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape )
+{
+	QPixmap surfaceLayer
+		= QPixmap( QSize(
+				_landscape.getWidth() * Resources::Landscape::CellSize
+			,	_landscape.getHeight() * Resources::Landscape::CellSize ) );
+
+	QPainter painter;
+	painter.begin( &surfaceLayer );
+	painter.setRenderHint( QPainter::Antialiasing );
+
+	for ( unsigned int i = 0; i < _landscape.getWidth(); ++i )
+	{
+		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
+		{
+			boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > surfaceItem = _landscape.getSurfaceItem( i, j );
+
+			painter.drawPixmap(
+				QRect(
+						i * Resources::Landscape::CellSize
+					,	j * Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize )
+					,	m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
+		}
+	}
+
+	m_surfaceLayer = surfaceLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+
+} // MinimapWidget::renderSurface
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape )
+{
+	QPixmap objectsLayer
+		= QPixmap( QSize(
+				_landscape.getWidth() * Resources::Landscape::CellSize
+			,	_landscape.getHeight() * Resources::Landscape::CellSize ) );
+
+	objectsLayer.fill( Qt::transparent );
+
+	QPainter painter;
+	painter.begin( &objectsLayer );
+	painter.setRenderHint( QPainter::Antialiasing );
+
+	QBrush surfaceItemBrash( QColor( 111, 111, 111 ) );
+	painter.fillRect(
+			QRect(
+					3 * Resources::Landscape::CellSize
+				,	3 * Resources::Landscape::CellSize
+				,	Resources::Landscape::CellSize
+				,	Resources::Landscape::CellSize )
+		, surfaceItemBrash );
+
+	m_objectsLayer = objectsLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+
+} // MinimapWidget::renderObjects
 
 
 /*---------------------------------------------------------------------------*/
