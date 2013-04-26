@@ -47,7 +47,7 @@ LandscapeEditorController::newLandscape()
 		closeLandscape();
 
 	m_landscapeFilePath = "c:/temp/new.hmap";
-	m_editableLandscape = m_environment.getLandscapeEditor()->createLandscape( 140, 120 );
+	m_editableLandscape = m_environment.getLandscapeEditor()->createLandscape( 40, 20 );
 
 	landscapeWasOpened();
 
