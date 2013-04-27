@@ -1,0 +1,80 @@
+
+#include "landscape_viewer/sources/ph/lv_ph.hpp"
+
+#include "landscape_viewer/sources/landscape_view/lv_landscape_view.hpp"
+
+#include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
+
+#include "landscape_viewer/sources/landscape_scene/lv_landscape_scene.hpp"
+#include "landscape_viewer/sources/landscape_widget/lv_landscape_widget.hpp"
+
+// #include "lv_landscape_view.moc"
+
+
+/*---------------------------------------------------------------------------*/
+
+namespace Plugins {
+namespace GUI {
+namespace LandscapeViewer {
+
+/*---------------------------------------------------------------------------*/
+
+
+LandscapeView::LandscapeView( QObject* _parent )
+	:	QObject( _parent )
+	,	m_viewTitle( Resources::Views::LandscapeViewTitle )
+	,	m_landscapeScene( new LandscapeScene() )
+	,	m_landscapeWidget( new LandscapeWidget( m_landscapeScene.get() ) )
+{
+} // LandscapeView::LandscapeView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+LandscapeView::~LandscapeView()
+{
+} // LandscapeView::~LandscapeView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QString&
+LandscapeView::getViewTitle() const
+{
+	return m_viewTitle;
+
+} // LandscapeView::getViewTitle
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QWidget*
+LandscapeView::getViewWidget()
+{
+	return m_landscapeWidget.get();
+
+} // LandscapeView::getViewWidget
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeView::viewWasClosed()
+{
+	m_landscapeWidget.reset();
+	m_landscapeScene.reset();
+
+} // LandscapeView::viewWasClosed
+
+
+/*---------------------------------------------------------------------------*/
+
+} // namespace LandscapeViewer
+} // namespace GUI
+} // namespace Plugins
+
+/*---------------------------------------------------------------------------*/

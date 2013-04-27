@@ -10,6 +10,18 @@
     <Filter Include="Plugins Manager">
       <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Landscape View">
+      <UniqueIdentifier>{5ef9aafe-d943-45aa-85c9-387891c89cfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal Resources">
+      <UniqueIdentifier>{69df8527-189e-4e6a-ade6-4ead5ac06a1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape Widget">
+      <UniqueIdentifier>{f2e42633-1af1-48b1-94cd-d88db05136c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape Scene">
+      <UniqueIdentifier>{2cc70f1f-afd0-4b28-9f5c-bf20b29a4a9d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lv_ph.cpp">
@@ -17,6 +29,18 @@
     </ClCompile>
     <ClCompile Include="sources\plugin\lv_plugin_instance.cpp">
       <Filter>Plugins Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_view\lv_landscape_view.cpp">
+      <Filter>Landscape View</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\internal_resources\lv_internal_resources.cpp">
+      <Filter>Internal Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_widget\lv_landscape_widget.cpp">
+      <Filter>Landscape Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_scene\lv_landscape_scene.cpp">
+      <Filter>Landscape Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -28,6 +52,18 @@
     </ClInclude>
     <ClInclude Include="ih\lv_ilandscape_viewer.hpp">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_view\lv_landscape_view.hpp">
+      <Filter>Landscape View</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\internal_resources\lv_internal_resources.hpp">
+      <Filter>Internal Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_widget\lv_landscape_widget.hpp">
+      <Filter>Landscape Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_scene\lv_landscape_scene.hpp">
+      <Filter>Landscape Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

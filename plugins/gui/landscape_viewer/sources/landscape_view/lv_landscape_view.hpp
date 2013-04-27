@@ -1,25 +1,10 @@
 
-#ifndef __LV_PLUGIN_INSTANCE_HPP__
-#define __LV_PLUGIN_INSTANCE_HPP__
+#ifndef __LV_LANDSCAPE_VIEW_HPP__
+#define __LV_LANDSCAPE_VIEW_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
-
-/*---------------------------------------------------------------------------*/
-
-namespace Framework
-{
-	namespace GUI
-	{
-		namespace WindowManager
-		{
-			struct IWindowManager;
-			struct IView;
-		}
-	}
-}
+#include "window_manager/ih/wm_iview.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,9 +14,19 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+class LandscapeScene;
+class LandscapeWidget;
+
+/*---------------------------------------------------------------------------*/
+
+class LandscapeView
+	:	public QObject
+	,	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
+
+/*---------------------------------------------------------------------------*/
+
+	// Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,24 +34,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	LandscapeView( QObject* _parent = NULL );
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	virtual ~LandscapeView();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize();
+	/*virtual*/ const QString& getViewTitle() const;
 
-	/*virtual*/ void close();
+	/*virtual*/ QWidget* getViewWidget();
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
-		getWindowManager() const;
+	/*virtual*/ void viewWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,7 +54,11 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Framework::GUI::WindowManager::IView > m_landscapeView;
+	QString m_viewTitle;
+
+	boost::shared_ptr< LandscapeScene > m_landscapeScene;
+
+	boost::shared_ptr< LandscapeWidget > m_landscapeWidget;
 
 /*---------------------------------------------------------------------------*/
 
@@ -74,8 +68,8 @@ private:
 
 } // namespace LandscapeViewer
 } // namespace GUI
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_PLUGIN_INSTANCE_HPP__
+#endif // __LV_LANDSCAPE_VIEW_HPP__
