@@ -1,6 +1,6 @@
 
-#ifndef __MV_IMINIMAP_VIEWER_HPP__
-#define __MV_IMINIMAP_VIEWER_HPP__
+#ifndef __LV_ILANDSCAPE_VIEWER_HPP__
+#define __LV_ILANDSCAPE_VIEWER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -10,17 +10,17 @@
 
 namespace Plugins {
 namespace GUI {
-namespace MinimapViewer {
+namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace MinimapViewer
+} // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __MV_IMINIMAP_VIEWER_HPP__
+#endif // __LV_ILANDSCAPE_VIEWER_HPP__
