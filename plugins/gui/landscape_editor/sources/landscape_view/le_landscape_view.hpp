@@ -33,6 +33,8 @@ public:
 
 	void wasResized();
 
+	void changeVisibleRect( const float _relPosotionByX, const float _relPosotionByY );
+
 /*---------------------------------------------------------------------------*/
 
 signals:
@@ -48,8 +50,6 @@ signals:
 public slots:
 
 /*---------------------------------------------------------------------------*/
-
-	void onVisibleRectOnMinimapWasChanged( const float _relPosotionByX, const float _relPosotionByY );
 
 	void onSliderMoved( int _value );
 

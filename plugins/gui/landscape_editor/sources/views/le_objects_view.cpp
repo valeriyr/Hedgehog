@@ -5,7 +5,7 @@
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 #include "landscape_editor/sources/environment/le_ienvironment.hpp"
-#include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
+#include "landscape_editor/sources/landscape_editor/le_ilandscape_editor_internal.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
@@ -82,7 +82,7 @@ ObjectsView::ObjectsView( const IEnvironment& _environment, QObject* _parent )
 
 	QList< QTreeWidgetItem* > items
 		= m_objectsView->findItems(
-		QString( "%1" ).arg( _environment.getLandscapeEditorController()->getSelectedSurfaceItem()->getIndex() )
+		QString( "%1" ).arg( _environment.getGUILandscapeEditor()->getSelectedSurfaceItem()->getIndex() )
 			,	Qt::MatchFixedString | Qt::MatchRecursive );
 
 	m_objectsView->setCurrentItem( items.first() );
@@ -167,7 +167,7 @@ ObjectsView::landscapeWasClosed()
 void
 ObjectsView::onCurrentItemChanged( QTreeWidgetItem* _current, QTreeWidgetItem* _previous )
 {
-	 m_environment.getLandscapeEditorController()->setSelectedSurfaceItem(
+	 m_environment.getGUILandscapeEditor()->setSelectedSurfaceItem(
 		 m_environment.getSurfaceItem( _current->text( 0 ).toUInt() ) );
 
 } // ObjectsView::onCurrentItemChanged

@@ -25,8 +25,6 @@ namespace Views {
 
 	const char* const EditorViewDefaultTitle = "Landscape Editor";
 
-	const char* const MinimapViewTitle = "Mini Map";
-
 /*---------------------------------------------------------------------------*/
 
 	const char* const LandscapeDescriptionDefaultText

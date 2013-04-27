@@ -1,23 +1,25 @@
 
-#include "landscape_editor/sources/ph/le_ph.hpp"
+#include "minimap_viewer/sources/ph/mv_ph.hpp"
 
-#include "landscape_editor/sources/minimap_widget/le_minimap_widget.hpp"
+#include "minimap_viewer/sources/minimap_widget/mv_minimap_widget.hpp"
 
-#include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
-#include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
+#include "minimap_viewer/sources/internal_resources/mv_internal_resources.hpp"
+#include "minimap_viewer/sources/environment/mv_ienvironment.hpp"
+#include "minimap_viewer/sources/internal_resources/mv_internal_resources.hpp"
+
 #include "landscape_editor/sources/environment/le_ienvironment.hpp"
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
-#include "le_minimap_widget.moc"
+#include "mv_minimap_widget.moc"
 
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
-namespace LandscapeEditor {
+namespace MinimapViewer {
 
 /*---------------------------------------------------------------------------*/
 
@@ -55,9 +57,9 @@ MinimapWidget::~MinimapWidget()
 
 
 void
-MinimapWidget::landscapeWasOpened()
+MinimapWidget::showLandscape( const Core::LandscapeModel::ILandscape& _landscape )
 {
-	regenerate();
+	regenerate( _landscape );
 
 } // MinimapWidget::landscapeWasOpened
 
@@ -68,7 +70,12 @@ MinimapWidget::landscapeWasOpened()
 void
 MinimapWidget::setDefaultLandscape()
 {
-	regenerate();
+	m_surfaceLayer.fill(Qt::white);
+	m_objectsLayer.fill(Qt::transparent);
+
+	m_visibleArea = QRect();
+
+	update();
 
 } // MinimapWidget::setDefaultLandscape
 
@@ -77,19 +84,19 @@ MinimapWidget::setDefaultLandscape()
 
 
 void
-MinimapWidget::onLandscapeViewWasResized( const float _visibleWidth, const float _visibleHeight )
+MinimapWidget::setVisibilityRectSize( const float _visibleWidth, const float _visibleHeight )
 {
 	m_visibleArea = QRect( m_visibleArea.x(), m_visibleArea.y(), ms_fixedWidgetSize.width() * _visibleWidth, ms_fixedWidgetSize.height() * _visibleHeight );
 	update();
 
-} // MinimapWidget::onLandscapeViewWasResized
+} // MinimapWidget::setVisibilityRectSize
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-MinimapWidget::onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight )
+MinimapWidget::setVisibilityRectPosition( const float _visibleWidth, const float _visibleHeight )
 {
 	m_visibleArea
 		= QRect(
@@ -100,18 +107,7 @@ MinimapWidget::onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth
 
 	update();
 
-} // MinimapWidget::onVisibleRectOfLandscapeViewWasChanged
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-MinimapWidget::onLandscapeWasChanged()
-{
-	regenerate();
-
-} // MinimapWidget::onLandscapeWasChanged
+} // MinimapWidget::setVisibilityRectPosition
 
 
 /*---------------------------------------------------------------------------*/
@@ -196,7 +192,7 @@ MinimapWidget::wasClickedOnWidget( const QPoint& _atPoint )
 
 	m_visibleArea.moveTo( visibleAreaOrigin );
 
-	emit visibleAreaRectWasChanged(
+	emit visibilityRectChangedPosition(
 			static_cast< float >( m_visibleArea.left() ) / ( width() - m_visibleArea.width() )
 		,	static_cast< float >( m_visibleArea.top() ) / ( height() - m_visibleArea.height() ) );
 
@@ -207,23 +203,10 @@ MinimapWidget::wasClickedOnWidget( const QPoint& _atPoint )
 
 
 void
-MinimapWidget::regenerate()
+MinimapWidget::regenerate( const Core::LandscapeModel::ILandscape& _landscape )
 {
-	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
-
-	if ( landscape )
-	{
-		renderSurface( *landscape );
-		renderObjects( *landscape );
-	}
-	else
-	{
-		m_surfaceLayer.fill(Qt::white);
-		m_objectsLayer.fill(Qt::transparent);
-
-		m_visibleArea = QRect();
-	}
+	renderSurface( _landscape );
+	renderObjects( _landscape );
 
 	update();
 
@@ -299,7 +282,7 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeEditor
+} // namespace MinimapViewer
 } // namespace GUI
 } // namespace Plugins
 

@@ -4,26 +4,29 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/views/le_ibase_view.hpp"
+#include "minimap_viewer/ih/mv_iminimap_viewer.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
-namespace LandscapeEditor {
+namespace MinimapViewer {
 
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
-
 class MinimapWidget;
-class ViewsMediator;
 
 /*---------------------------------------------------------------------------*/
 
 class MinimapView
-	:	public Tools::Core::BaseWrapper< IBaseView >
+	:	public QObject
+	,	public Tools::Core::BaseWrapper< IMinimapViewer >
 {
+
+/*---------------------------------------------------------------------------*/
+
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -31,9 +34,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	MinimapView(
-			const IEnvironment& _environment
-		,	boost::shared_ptr< ViewsMediator > _viewsMediator );
+	MinimapView( const IEnvironment& _environment );
 
 	virtual ~MinimapView();
 
@@ -49,9 +50,21 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void landscapeWasOpened();
+	/*virtual*/ void showLandscape( const Core::LandscapeModel::ILandscape& _landscape );
 
-	/*virtual*/ void landscapeWasClosed();
+	/*virtual*/ void clear();
+
+	/*virtual*/ void setVisibilityRectSize( const float _relVisibleWidth, const float _relVisibleHeight );
+
+	/*virtual*/ void setVisibilityRectPosition( const float _relVisibleWidth, const float _relVisibleHeight );
+
+/*---------------------------------------------------------------------------*/
+
+private slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void onVisibilityRectChangedPosition( const float _visibleWidth, const float _visibleHeight );
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,9 +72,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< MinimapWidget > m_minimapWidget;
+	const IEnvironment& m_environment;
 
-	boost::shared_ptr< ViewsMediator > m_viewsMediator;
+	boost::shared_ptr< MinimapWidget > m_minimapWidget;
 
 	QString m_viewTitle;
 
@@ -71,7 +84,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeEditor
+} // namespace MinimapViewer
 } // namespace GUI
 } // namespace Plugins
 

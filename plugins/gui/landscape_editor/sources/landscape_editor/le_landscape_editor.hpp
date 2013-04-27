@@ -1,10 +1,10 @@
 
-#ifndef __LE_LANDSCAPE_EDITOR_CONTROLLER_HPP__
-#define __LE_LANDSCAPE_EDITOR_CONTROLLER_HPP__
+#ifndef __LE_LANDSCAPE_EDITOR_HPP__
+#define __LE_LANDSCAPE_EDITOR_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
+#include "landscape_editor/sources/landscape_editor/le_ilandscape_editor_internal.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -18,8 +18,8 @@ struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-class LandscapeEditorController
-	:	public Tools::Core::BaseWrapper< ILandscapeEditorController >
+class LandscapeEditor
+	:	public Tools::Core::BaseWrapper< ILandscapeEditorInternal >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,9 +28,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeEditorController( const IEnvironment& _environment );
+	LandscapeEditor( const IEnvironment& _environment );
 
-	virtual ~LandscapeEditorController();
+	virtual ~LandscapeEditor();
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,6 +58,12 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
 		getEditableLandscape() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void setVisibilityRectPosition(
+			const float _relVisibleWidth
+		,	const float _relVisibleHeight );
 
 /*---------------------------------------------------------------------------*/
 
@@ -93,4 +99,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_LANDSCAPE_EDITOR_CONTROLLER_HPP__
+#endif // __LE_LANDSCAPE_EDITOR_HPP__

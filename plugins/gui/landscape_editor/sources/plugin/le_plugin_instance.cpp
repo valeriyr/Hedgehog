@@ -15,6 +15,9 @@
 #include "commands_manager/ih/cm_icommands_registry.hpp"
 #include "commands_manager/h/cm_plugin_id.hpp"
 
+#include "minimap_viewer/ih/mv_iminimap_viewer.hpp"
+#include "minimap_viewer/h/mv_plugin_id.hpp"
+
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
@@ -25,9 +28,6 @@
 #include "landscape_editor/sources/views/le_editor_view.hpp"
 #include "landscape_editor/sources/views/le_objects_view.hpp"
 #include "landscape_editor/sources/views/le_description_view.hpp"
-#include "landscape_editor/sources/views/le_minimap_view.hpp"
-
-#include "landscape_editor/sources/views_mediator/le_views_mediator.hpp"
 
 #include "landscape_editor/sources/commands/le_new_landscape_command.hpp"
 #include "landscape_editor/sources/commands/le_open_landscape_command.hpp"
@@ -37,7 +37,7 @@
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 
-#include "landscape_editor/sources/landscape_editor_controller/le_landscape_editor_controller.hpp"
+#include "landscape_editor/sources/landscape_editor/le_landscape_editor.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -50,6 +50,8 @@ namespace LandscapeEditor {
 
 
 BEGIN_INTERFACE_MAP( PluginInstance )
+
+	INTERFACE_DECLARATION( IID_LANDSCAPE_EDITOR, m_landscapeEditor.get() )
 
 END_INTERFACE_MAP()
 
@@ -99,14 +101,11 @@ PluginInstance::initialize()
 			Resources::Commands::SaveAsLandscapeCommandName
 		,	boost::intrusive_ptr< ICommand >( new SaveAsLandscapeCommand( *m_environment ) ) );
 
-	m_landscapeEditorController.reset( new LandscapeEditorController( *m_environment ) );
-
-	boost::shared_ptr< ViewsMediator > viewsMediator( new ViewsMediator() );
+	m_landscapeEditor.reset( new LandscapeEditor( *m_environment ) );
 
 	m_objectsView.reset( new ObjectsView( *m_environment ) );
-	m_editorView.reset( new EditorView( *m_environment, viewsMediator ) );
-	m_descriptionView.reset( new DescriptionView( *m_landscapeEditorController ) );
-	m_minimapView.reset( new MinimapView( *m_environment, viewsMediator ) );
+	m_editorView.reset( new EditorView( *m_environment ) );
+	m_descriptionView.reset( new DescriptionView( *m_landscapeEditor ) );
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		windowManager = getWindowManager();
@@ -119,9 +118,6 @@ PluginInstance::initialize()
 		,	Framework::GUI::WindowManager::ViewPosition::Center );
 	windowManager->addView(
 			m_descriptionView
-		,	Framework::GUI::WindowManager::ViewPosition::Right );
-	windowManager->addView(
-			m_minimapView
 		,	Framework::GUI::WindowManager::ViewPosition::Right );
 
 	windowManager->addCommandToMenu( "File/New", Resources::Commands::NewLandscapeCommandName );
@@ -148,17 +144,15 @@ PluginInstance::close()
 	windowManager->removeCommandFromMenu( "File/Open" );
 	windowManager->removeCommandFromMenu( "File/New" );
 
-	windowManager->removeView( m_minimapView );
 	windowManager->removeView( m_descriptionView );
 	windowManager->removeView( m_editorView );
 	windowManager->removeView( m_objectsView );
 
-	m_minimapView.reset();
 	m_descriptionView.reset();
 	m_editorView.reset();
 	m_objectsView.reset();
 
-	m_landscapeEditorController.reset();
+	m_landscapeEditor.reset();
 
 	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
 		commandsRegistry = getCommandsManager();
@@ -219,6 +213,20 @@ PluginInstance::getImagesManager() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< MinimapViewer::IMinimapViewer >
+PluginInstance::getMinimapViewer() const
+{
+	return
+		getPluginInterface< MinimapViewer::IMinimapViewer >(
+				MinimapViewer::PID_MINIMAP_VIEWER
+			,	MinimapViewer::IID_MINIMAP_VIEWER );
+
+} // PluginInstance::getMinimapViewer
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
 PluginInstance::getCommandsManager() const
 {
@@ -254,7 +262,8 @@ PluginInstance::getSurfaceItemsCache() const
 		getPluginInterface< Plugins::Core::LandscapeModel::ISurfaceItemsCache >(
 				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
 			,	Plugins::Core::LandscapeModel::IID_SURFACE_ITEMS_CACHE );
-}
+
+} // PluginInstance::getSurfaceItemsCache
 
 
 /*---------------------------------------------------------------------------*/
@@ -271,7 +280,7 @@ PluginInstance::getObjectsView() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IBaseView >
+boost::intrusive_ptr< IEditorView >
 PluginInstance::getEditorView() const
 {
 	return m_editorView;
@@ -293,23 +302,12 @@ PluginInstance::getDescriptionView() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IBaseView >
-PluginInstance::getMinimapView() const
+boost::intrusive_ptr< ILandscapeEditorInternal >
+PluginInstance::getGUILandscapeEditor() const
 {
-	return m_minimapView;
+	return m_landscapeEditor;
 
-} // PluginInstance::getMinimapView
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< ILandscapeEditorController >
-PluginInstance::getLandscapeEditorController() const
-{
-	return m_landscapeEditorController;
-
-} // PluginInstance::getLandscapeEditorController
+} // PluginInstance::getGUILandscapeEditor
 
 
 /*---------------------------------------------------------------------------*/

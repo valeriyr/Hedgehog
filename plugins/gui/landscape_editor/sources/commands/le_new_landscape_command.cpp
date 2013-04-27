@@ -4,7 +4,7 @@
 #include "landscape_editor/sources/commands/le_new_landscape_command.hpp"
 
 #include "landscape_editor/sources/environment/le_ienvironment.hpp"
-#include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
+#include "landscape_editor/sources/landscape_editor/le_ilandscape_editor_internal.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -36,7 +36,7 @@ NewLandscapeCommand::~NewLandscapeCommand()
 void
 NewLandscapeCommand::execute()
 {
-	m_environment.getLandscapeEditorController()->newLandscape();
+	m_environment.getGUILandscapeEditor()->newLandscape();
 
 } // NewLandscapeCommand::execute
 

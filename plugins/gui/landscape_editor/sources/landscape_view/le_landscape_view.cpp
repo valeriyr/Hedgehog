@@ -70,12 +70,12 @@ LandscapeView::wasResized()
 
 
 void
-LandscapeView::onVisibleRectOnMinimapWasChanged( const float _relPosotionByX, const float _relPosotionByY )
+LandscapeView::changeVisibleRect( const float _relPosotionByX, const float _relPosotionByY )
 {
 	verticalScrollBar()->setSliderPosition( verticalScrollBar()->maximum() * _relPosotionByY );
 	horizontalScrollBar()->setSliderPosition( horizontalScrollBar()->maximum() * _relPosotionByX );
 
-} // LandscapeView::onVisibleRectOnMinimapWasChanged
+} // LandscapeView::changeVisibleRect
 
 
 /*---------------------------------------------------------------------------*/

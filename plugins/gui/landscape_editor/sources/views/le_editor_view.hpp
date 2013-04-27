@@ -4,8 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/views/le_ibase_view.hpp"
-
+#include "landscape_editor/sources/views/le_ieditor_view.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -20,13 +19,16 @@ struct IEnvironment;
 class LandscapeScene;
 class LandscapeView;
 
-class ViewsMediator;
-
 /*---------------------------------------------------------------------------*/
 
 class EditorView
-	:	public Tools::Core::BaseWrapper< IBaseView >
+	:	public QObject
+	,	public Tools::Core::BaseWrapper< IEditorView >
 {
+
+/*---------------------------------------------------------------------------*/
+
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,7 +36,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	EditorView( const IEnvironment& _environment, boost::shared_ptr< ViewsMediator > _viewsMediator );
+	EditorView( const IEnvironment& _environment );
 
 	virtual ~EditorView();
 
@@ -56,15 +58,31 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void setVisibilityRectPosition( const float _relVisibleWidth, const float _relVisibleHeight );
+
+/*---------------------------------------------------------------------------*/
+
+private slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void onLandscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
+
+	void onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
+
+	void onLandscapeWasChanged();
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
 
+	const IEnvironment& m_environment;
+
 	boost::shared_ptr< LandscapeScene > m_landscapeScene;
 
 	boost::shared_ptr< LandscapeView > m_landscapeWidget;
-
-	boost::shared_ptr< ViewsMediator > m_viewsMediator;
 
 	QString m_viewTitle;
 

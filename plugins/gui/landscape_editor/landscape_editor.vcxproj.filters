@@ -19,20 +19,20 @@
     <Filter Include="Viewes">
       <UniqueIdentifier>{0dc068cb-46b2-4db1-a1bf-62ec3a7982f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Landscape Editor Controller">
-      <UniqueIdentifier>{516429fd-2913-441c-b841-98a2a7bb5c14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Minimap Widget">
-      <UniqueIdentifier>{6ca7325c-3d1e-4cc7-a951-856a87008aae}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Landscape Scene">
       <UniqueIdentifier>{062b150e-430c-491e-bb58-eca09be2e5b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Views Mediator">
-      <UniqueIdentifier>{2793899a-4c4d-49b5-94dd-81a4ab3cfd29}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Landscape View">
       <UniqueIdentifier>{cfc7ae9d-8ecb-45b3-b5f5-6936f8540275}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{e8969ba6-8081-4d11-8c5f-608b5d15be71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{1179fdc1-97a8-460f-81b9-9224d47f5d7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape Editor">
+      <UniqueIdentifier>{516429fd-2913-441c-b841-98a2a7bb5c14}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -72,26 +72,17 @@
     <ClCompile Include="sources\views\le_objects_view.cpp">
       <Filter>Viewes</Filter>
     </ClCompile>
-    <ClCompile Include="sources\landscape_editor_controller\le_landscape_editor_controller.cpp">
-      <Filter>Landscape Editor Controller</Filter>
-    </ClCompile>
     <ClCompile Include="sources\commands\le_save_as_landscape_command.cpp">
       <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\views\le_minimap_view.cpp">
-      <Filter>Viewes</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\minimap_widget\le_minimap_widget.cpp">
-      <Filter>Minimap Widget</Filter>
     </ClCompile>
     <ClCompile Include="sources\landscape_scene\le_landscape_scene.cpp">
       <Filter>Landscape Scene</Filter>
     </ClCompile>
-    <ClCompile Include="sources\views_mediator\le_views_mediator.cpp">
-      <Filter>Views Mediator</Filter>
-    </ClCompile>
     <ClCompile Include="sources\landscape_view\le_landscape_view.cpp">
       <Filter>Landscape View</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_editor\le_landscape_editor.cpp">
+      <Filter>Landscape Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,22 +119,25 @@
     <ClInclude Include="sources\views\le_description_view.hpp">
       <Filter>Viewes</Filter>
     </ClInclude>
-    <ClInclude Include="sources\views\le_editor_view.hpp">
-      <Filter>Viewes</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_editor_controller\le_ilandscape_editor_controller.hpp">
-      <Filter>Landscape Editor Controller</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_editor_controller\le_landscape_editor_controller.hpp">
-      <Filter>Landscape Editor Controller</Filter>
-    </ClInclude>
     <ClInclude Include="sources\commands\le_save_as_landscape_command.hpp">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="sources\views\le_minimap_view.hpp">
+    <ClInclude Include="sources\views\le_ibase_view.hpp">
       <Filter>Viewes</Filter>
     </ClInclude>
-    <ClInclude Include="sources\views\le_ibase_view.hpp">
+    <ClInclude Include="h\le_plugin_id.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\le_ilandscape_editor.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_editor\le_ilandscape_editor_internal.hpp">
+      <Filter>Landscape Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_editor\le_landscape_editor.hpp">
+      <Filter>Landscape Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\le_ieditor_view.hpp">
       <Filter>Viewes</Filter>
     </ClInclude>
   </ItemGroup>
@@ -151,16 +145,13 @@
     <CustomBuild Include="sources\landscape_scene\le_landscape_scene.hpp">
       <Filter>Landscape Scene</Filter>
     </CustomBuild>
-    <CustomBuild Include="sources\minimap_widget\le_minimap_widget.hpp">
-      <Filter>Minimap Widget</Filter>
-    </CustomBuild>
-    <CustomBuild Include="sources\views_mediator\le_views_mediator.hpp">
-      <Filter>Views Mediator</Filter>
-    </CustomBuild>
     <CustomBuild Include="sources\landscape_view\le_landscape_view.hpp">
       <Filter>Landscape View</Filter>
     </CustomBuild>
     <CustomBuild Include="sources\views\le_objects_view.hpp">
+      <Filter>Viewes</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\views\le_editor_view.hpp">
       <Filter>Viewes</Filter>
     </CustomBuild>
   </ItemGroup>

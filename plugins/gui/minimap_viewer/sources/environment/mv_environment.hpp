@@ -4,13 +4,13 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_editor/sources/environment/le_ienvironment.hpp"
+#include "minimap_viewer/sources/environment/mv_ienvironment.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
-namespace LandscapeEditor {
+namespace MinimapViewer {
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,14 +34,6 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< Framework::GUI::WindowManager::IDialogsManager >
-		getDialogsManager() const;
-
-	/*virtual*/ boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
-		getLandscapeEditor() const;
-
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
 		getSurfaceItem( const unsigned int _index ) const;
 
@@ -54,30 +46,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void showLandscapeOnMinimap(
-		const Plugins::Core::LandscapeModel::ILandscape& _landscape ) const;
-
-	/*virtual*/ void clearMinimap() const;
-
-	/*virtual*/ void setMinimapVisibilityRectSize(
-			const float _relVisibleWidth
-		,	const float _relVisibleHeight ) const;
-
-	/*virtual*/ void setMinimapVisibilityRectPosition(
-			const float _relVisibleWidth
-		,	const float _relVisibleHeight ) const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::intrusive_ptr< IBaseView > getObjectsView() const;
-
-	/*virtual*/ boost::intrusive_ptr< IEditorView > getEditorView() const;
-
-	/*virtual*/ boost::intrusive_ptr< IBaseView > getDescriptionView() const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::intrusive_ptr< ILandscapeEditorInternal > getGUILandscapeEditor() const;
+	/*virtual*/ void changeVisibleAreaOnMainWindow(
+			const float _relPosotionByX
+		,	const float _relPosotionByY ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -93,7 +64,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeEditor
+} // namespace MinimapViewer
 } // namespace GUI
 } // namespace Plugins
 

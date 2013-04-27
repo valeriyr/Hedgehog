@@ -4,12 +4,12 @@
 #include "landscape_editor/sources/views/le_editor_view.hpp"
 
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
-
 #include "landscape_editor/sources/landscape_scene/le_landscape_scene.hpp"
 #include "landscape_editor/sources/landscape_view/le_landscape_view.hpp"
+#include "landscape_editor/sources/environment/le_ienvironment.hpp"
+#include "landscape_editor/sources/landscape_editor/le_ilandscape_editor_internal.hpp"
 
-#include "landscape_editor/sources/views_mediator/le_views_mediator.hpp"
-
+#include "le_editor_view.moc"
 
 /*---------------------------------------------------------------------------*/
 
@@ -20,34 +20,29 @@ namespace LandscapeEditor {
 /*---------------------------------------------------------------------------*/
 
 
-EditorView::EditorView( const IEnvironment& _environment, boost::shared_ptr< ViewsMediator > _viewsMediator )
-	:	m_landscapeScene( new LandscapeScene( _environment ) )
+EditorView::EditorView( const IEnvironment& _environment )
+	:	QObject()
+	,	m_environment( _environment )
+	,	m_landscapeScene( new LandscapeScene( _environment ) )
 	,	m_landscapeWidget( new LandscapeView( m_landscapeScene.get() ) )
-	,	m_viewsMediator( _viewsMediator )
 	,	m_viewTitle( Resources::Views::EditorViewDefaultTitle )
 {
 	QObject::connect(
-			m_viewsMediator.get()
-		,	SIGNAL( visibleRectOnMinimapWasChanged( const float, const float ) )
-		,	m_landscapeWidget.get()
-		,	SLOT( onVisibleRectOnMinimapWasChanged( const float, const float ) ) );
-
-	QObject::connect(
 			m_landscapeWidget.get()
 		,	SIGNAL( visibleRectOfLandscapeViewWasChanged( const float, const float ) )
-		,	m_viewsMediator.get()
+		,	this
 		,	SLOT( onVisibleRectOfLandscapeViewWasChanged( const float, const float ) ) );
 
 	QObject::connect(
 			m_landscapeWidget.get()
 		,	SIGNAL( landscapeViewWasResized( const float, const float ) )
-		,	m_viewsMediator.get()
+		,	this
 		,	SLOT( onLandscapeViewWasResized( const float, const float ) ) );
 
 	QObject::connect(
 			m_landscapeScene.get()
 		,	SIGNAL( landscapeWasChanged() )
-		,	m_viewsMediator.get()
+		,	this
 		,	SLOT( onLandscapeWasChanged() ) );
 
 } // EditorView::EditorView
@@ -59,28 +54,22 @@ EditorView::EditorView( const IEnvironment& _environment, boost::shared_ptr< Vie
 EditorView::~EditorView()
 {
 	QObject::disconnect(
-			m_viewsMediator.get()
-		,	SIGNAL( visibleRectOnMinimapWasChanged( const float, const float ) )
-		,	m_landscapeWidget.get()
-		,	SLOT( onVisibleRectOnMinimapWasChanged( const float, const float ) ) );
-
-	QObject::disconnect(
 			m_landscapeWidget.get()
 		,	SIGNAL( visibleRectOfLandscapeViewWasChanged( const float, const float ) )
-		,	m_viewsMediator.get()
+		,	this
 		,	SLOT( onVisibleRectOfLandscapeViewWasChanged( const float, const float ) ) );
-
-	QObject::disconnect(
-			m_landscapeScene.get()
-		,	SIGNAL( landscapeWasChanged() )
-		,	m_viewsMediator.get()
-		,	SLOT( onLandscapeWasChanged() ) );
 
 	QObject::disconnect(
 			m_landscapeWidget.get()
 		,	SIGNAL( landscapeViewWasResized( const float, const float ) )
-		,	m_viewsMediator.get()
+		,	this
 		,	SLOT( onLandscapeViewWasResized( const float, const float ) ) );
+
+	QObject::disconnect(
+			m_landscapeScene.get()
+		,	SIGNAL( landscapeWasChanged() )
+		,	this
+		,	SLOT( onLandscapeWasChanged() ) );
 
 } // EditorView::~EditorView
 
@@ -140,6 +129,51 @@ EditorView::landscapeWasClosed()
 	m_landscapeScene->setDefaultLandscape();
 
 } // EditorView::landscapeWasClosed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+EditorView::setVisibilityRectPosition( const float _relVisibleWidth, const float _relVisibleHeight )
+{
+	m_landscapeWidget->changeVisibleRect( _relVisibleWidth, _relVisibleHeight );
+
+} // EditorView::setVisibilityRectPosition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+EditorView::onLandscapeViewWasResized( const float _visibleWidth, const float _visibleHeight )
+{
+	m_environment.setMinimapVisibilityRectSize( _visibleWidth, _visibleHeight );
+
+} // EditorView::onLandscapeViewWasResized
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+EditorView::onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight )
+{
+	m_environment.setMinimapVisibilityRectPosition( _visibleWidth, _visibleHeight );
+
+} // EditorView::onVisibleRectOfLandscapeViewWasChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+EditorView::onLandscapeWasChanged()
+{
+	m_environment.showLandscapeOnMinimap(
+		*m_environment.getGUILandscapeEditor()->getEditableLandscape() );
+
+} // EditorView::onLandscapeWasChanged
 
 
 /*---------------------------------------------------------------------------*/

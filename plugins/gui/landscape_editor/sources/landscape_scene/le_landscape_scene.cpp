@@ -3,7 +3,7 @@
 
 #include "landscape_editor/sources/landscape_scene/le_landscape_scene.hpp"
 
-#include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
+#include "landscape_editor/sources/landscape_editor/le_ilandscape_editor_internal.hpp"
 #include "landscape_editor/sources/internal_resources/le_internal_resources.hpp"
 
 #include "landscape_editor/sources/environment/le_ienvironment.hpp"
@@ -122,7 +122,7 @@ void
 LandscapeScene::regenerateSurfaceLayer()
 {
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
-		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
+		landscape = m_environment.getGUILandscapeEditor()->getEditableLandscape();
 
 	if ( landscape )
 	{
@@ -148,7 +148,7 @@ void
 LandscapeScene::regenerateObjectsLayer()
 {
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
-		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
+		landscape = m_environment.getGUILandscapeEditor()->getEditableLandscape();
 
 	if ( landscape )
 	{
@@ -172,7 +172,7 @@ void
 LandscapeScene::setCorrectSceneSize()
 {
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
-		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
+		landscape = m_environment.getGUILandscapeEditor()->getEditableLandscape();
 
 	if ( landscape )
 	{
@@ -193,7 +193,7 @@ void
 LandscapeScene::setNewItemInPosition( const QPointF& _position )
 {
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
-		landscape = m_environment.getLandscapeEditorController()->getEditableLandscape();
+		landscape = m_environment.getGUILandscapeEditor()->getEditableLandscape();
 
 	if ( landscape )
 	{
@@ -208,9 +208,9 @@ LandscapeScene::setNewItemInPosition( const QPointF& _position )
 		removeItem( item );
 
 		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > surfaceItem
-			= m_environment.getLandscapeEditorController()->getSelectedSurfaceItem();
+			= m_environment.getGUILandscapeEditor()->getSelectedSurfaceItem();
 
-		m_environment.getLandscapeEditorController()->getEditableLandscape()->setSurfaceItem(
+		m_environment.getGUILandscapeEditor()->getEditableLandscape()->setSurfaceItem(
 				itemPos.x() / Resources::Landscape::CellSize
 			,	itemPos.y() / Resources::Landscape::CellSize
 			,	surfaceItem );

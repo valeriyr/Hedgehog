@@ -1,6 +1,6 @@
 
-#ifndef __LE_MINIMAP_WIDGET_HPP__
-#define __LE_MINIMAP_WIDGET_HPP__
+#ifndef __MV_MINIMAP_WIDGET_HPP__
+#define __MV_MINIMAP_WIDGET_HPP__
 
 
 /*---------------------------------------------------------------------------*/
@@ -20,7 +20,7 @@ namespace Plugins
 
 namespace Plugins {
 namespace GUI {
-namespace LandscapeEditor {
+namespace MinimapViewer {
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,9 +48,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasOpened();
+	void showLandscape( const Core::LandscapeModel::ILandscape& _landscape );
 
 	void setDefaultLandscape();
+
+	void setVisibilityRectSize( const float _visibleWidth, const float _visibleHeight );
+
+	void setVisibilityRectPosition( const float _visibleWidth, const float _visibleHeight );
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,19 +62,7 @@ signals:
 
 /*---------------------------------------------------------------------------*/
 
-	void visibleAreaRectWasChanged( const float _relPosotionByX, const float _relPosotionByY );
-
-/*---------------------------------------------------------------------------*/
-
-public slots:
-
-/*---------------------------------------------------------------------------*/
-
-	void onLandscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
-
-	void onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
-
-	void onLandscapeWasChanged();
+	void visibilityRectChangedPosition( const float _relPosotionByX, const float _relPosotionByY );
 
 /*---------------------------------------------------------------------------*/
 
@@ -92,7 +84,7 @@ private:
 
 	void wasClickedOnWidget( const QPoint& _atPoint );
 
-	void regenerate();
+	void regenerate( const Core::LandscapeModel::ILandscape& _landscape );
 
 	void renderSurface( const Core::LandscapeModel::ILandscape& _landscape );
 
@@ -122,10 +114,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeEditor
+} // namespace MinimapViewer
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_MINIMAP_WIDGET_HPP__
+#endif // __MV_MINIMAP_WIDGET_HPP__

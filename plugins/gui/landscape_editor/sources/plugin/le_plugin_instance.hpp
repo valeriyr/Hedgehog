@@ -45,6 +45,14 @@ namespace Plugins
 			struct ISurfaceItemsCache;
 		}
 	}
+
+	namespace GUI
+	{
+		namespace MinimapViewer
+		{
+			struct IMinimapViewer;
+		}
+	}
 }
 
 /*---------------------------------------------------------------------------*/
@@ -57,7 +65,8 @@ namespace LandscapeEditor {
 
 struct IEnvironment;
 struct IBaseView;
-struct ILandscapeEditorController;
+struct IEditorView;
+struct ILandscapeEditorInternal;
 
 /*---------------------------------------------------------------------------*/
 
@@ -99,6 +108,9 @@ public:
 	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
 		getCommandsManager() const;
 
+	boost::intrusive_ptr< MinimapViewer::IMinimapViewer >
+		getMinimapViewer() const;
+
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
@@ -111,15 +123,13 @@ public:
 
 	boost::intrusive_ptr< IBaseView > getObjectsView() const;
 
-	boost::intrusive_ptr< IBaseView > getEditorView() const;
+	boost::intrusive_ptr< IEditorView > getEditorView() const;
 
 	boost::intrusive_ptr< IBaseView > getDescriptionView() const;
 
-	boost::intrusive_ptr< IBaseView > getMinimapView() const;
-
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< ILandscapeEditorController > getLandscapeEditorController() const;
+	boost::intrusive_ptr< ILandscapeEditorInternal > getGUILandscapeEditor() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -135,13 +145,11 @@ private:
 
 	boost::intrusive_ptr< IBaseView > m_objectsView;
 
-	boost::intrusive_ptr< IBaseView > m_editorView;
+	boost::intrusive_ptr< IEditorView > m_editorView;
 
 	boost::intrusive_ptr< IBaseView > m_descriptionView;
 
-	boost::intrusive_ptr< IBaseView > m_minimapView;
-
-	boost::intrusive_ptr< ILandscapeEditorController > m_landscapeEditorController;
+	boost::intrusive_ptr< ILandscapeEditorInternal > m_landscapeEditor;
 
 /*---------------------------------------------------------------------------*/
 

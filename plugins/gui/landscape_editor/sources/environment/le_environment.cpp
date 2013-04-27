@@ -14,7 +14,10 @@
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
 #include "landscape_editor/sources/views/le_ibase_view.hpp"
-#include "landscape_editor/sources/landscape_editor_controller/le_ilandscape_editor_controller.hpp"
+#include "landscape_editor/sources/views/le_ieditor_view.hpp"
+#include "landscape_editor/sources/landscape_editor/le_ilandscape_editor_internal.hpp"
+
+#include "minimap_viewer/ih/mv_iminimap_viewer.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -98,6 +101,56 @@ Environment::getPixmap( const QString& _resourcePath, const QRect& _rect ) const
 /*---------------------------------------------------------------------------*/
 
 
+void
+Environment::showLandscapeOnMinimap( const Plugins::Core::LandscapeModel::ILandscape& _landscape ) const
+{
+	return m_pluginInstance.getMinimapViewer()->showLandscape( _landscape );
+
+} // Environment::showLandscapeOnMinimap
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::clearMinimap() const
+{
+	return m_pluginInstance.getMinimapViewer()->clear();
+
+} // Environment::clearMinimap
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::setMinimapVisibilityRectSize(
+		const float _relVisibleWidth
+	,	const float _relVisibleHeight ) const
+{
+	return m_pluginInstance.getMinimapViewer()
+		->setVisibilityRectSize( _relVisibleWidth, _relVisibleHeight );
+
+} // Environment::setMinimapVisibilityRectSize
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::setMinimapVisibilityRectPosition(
+		const float _relVisibleWidth
+	,	const float _relVisibleHeight ) const
+{
+	return m_pluginInstance.getMinimapViewer()
+		->setVisibilityRectPosition( _relVisibleWidth, _relVisibleHeight );
+
+} // Environment::setMinimapVisibilityRectPosition
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< IBaseView >
 Environment::getObjectsView() const
 {
@@ -109,7 +162,7 @@ Environment::getObjectsView() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IBaseView >
+boost::intrusive_ptr< IEditorView >
 Environment::getEditorView() const
 {
 	return m_pluginInstance.getEditorView();
@@ -131,23 +184,12 @@ Environment::getDescriptionView() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IBaseView >
-Environment::getMinimapView() const
+boost::intrusive_ptr< ILandscapeEditorInternal >
+Environment::getGUILandscapeEditor() const
 {
-	return m_pluginInstance.getMinimapView();
+	return m_pluginInstance.getGUILandscapeEditor();
 
-} // Environment::getMinimapView
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< ILandscapeEditorController >
-Environment::getLandscapeEditorController() const
-{
-	return m_pluginInstance.getLandscapeEditorController();
-
-} // Environment::getLandscapeEditorController
+} // Environment::getGUILandscapeEditor
 
 
 /*---------------------------------------------------------------------------*/

@@ -14,7 +14,7 @@ namespace LandscapeEditor {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeEditorController;
+struct ILandscapeEditorInternal;
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	DescriptionView( const ILandscapeEditorController& _landscapeEditorController );
+	DescriptionView( const ILandscapeEditorInternal& _landscapeEditor );
 
 	virtual ~DescriptionView();
 
@@ -62,7 +62,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const ILandscapeEditorController& m_landscapeEditorController;
+	const ILandscapeEditorInternal& m_landscapeEditor;
 
 	boost::shared_ptr< QTextEdit > m_descriptionView;
 

@@ -1,6 +1,6 @@
 
-#ifndef __LE_ILANDSCAPE_EDITOR_CONTROLLER_HPP__
-#define __LE_ILANDSCAPE_EDITOR_CONTROLLER_HPP__
+#ifndef __MV_IENVIRONMENT_HPP__
+#define __MV_IENVIRONMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,7 +14,7 @@ namespace Plugins
 	{
 		namespace LandscapeModel
 		{
-			struct IEditableLandscape;
+			struct ILandscapeEditor;
 			struct ISurfaceItem;
 		}
 	}
@@ -24,40 +24,31 @@ namespace Plugins
 
 namespace Plugins {
 namespace GUI {
-namespace LandscapeEditor {
+namespace MinimapViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeEditorController
+struct IEnvironment
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void newLandscape() = 0;
+	virtual boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+		getSurfaceItem( const unsigned int _index ) const = 0;
 
-	virtual void openLandscape() = 0;
-
-	virtual void closeLandscape() = 0;
-
-	virtual void saveLandscape() = 0;
-
-	virtual void saveAsLandscape() = 0;
+	virtual boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+		getDefaultSurfaceItem() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< Core::LandscapeModel::ISurfaceItem >
-		getSelectedSurfaceItem() const = 0;
-
-	virtual void setSelectedSurfaceItem(
-		boost::intrusive_ptr< Core::LandscapeModel::ISurfaceItem > _item ) = 0;
+	virtual const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const QString& getLandscapeFilePath() const = 0;
-
-	virtual boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		getEditableLandscape() const = 0;
+	virtual void changeVisibleAreaOnMainWindow(
+			const float _relPosotionByX
+		,	const float _relPosotionByY ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -65,10 +56,10 @@ struct ILandscapeEditorController
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeEditor
+} // namespace MinimapViewer
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LE_ILANDSCAPE_EDITOR_CONTROLLER_HPP__
+#endif // __MV_IENVIRONMENT_HPP__
