@@ -1,59 +1,55 @@
 
-#include "landscape_viewer/sources/ph/lv_ph.hpp"
+#ifndef __LV_BASE_COMMAND_HPP__
+#define __LV_BASE_COMMAND_HPP__
 
-#include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
+/*---------------------------------------------------------------------------*/
 
+#include "commands_manager/ih/cm_icommand.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
-namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-namespace Views {
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const LandscapeViewTitle = "Landscape";
+class BaseCommand
+	:	public Tools::Core::BaseWrapper< Framework::Core::CommandsManager::ICommand >
+{
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Views
+public:
 
 /*---------------------------------------------------------------------------*/
 
-namespace Landscape {
+	BaseCommand( const IEnvironment& _environment );
+
+	virtual ~BaseCommand();
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int CellSize = 32;
+protected:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Landscape
+	const IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 
-namespace Commands {
+};
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const RunGameCommandName = "lv.game.run";
-
-	const char* const StopGameCommandName = "lv.game.stop";
-
-/*---------------------------------------------------------------------------*/
-
-} // namespace Commands
-
-/*---------------------------------------------------------------------------*/
-
-} // namespace Resources
 } // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
+
+#endif // __LV_BASE_COMMAND_HPP__

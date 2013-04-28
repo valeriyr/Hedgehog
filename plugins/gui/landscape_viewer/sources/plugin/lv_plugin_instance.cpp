@@ -11,12 +11,21 @@
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 
+#include "landscape_viewer/sources/commands/lv_run_game_command.hpp"
+#include "landscape_viewer/sources/commands/lv_stop_game_command.hpp"
+
 #include "window_manager/ih/wm_iwindow_manager.hpp"
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 #include "window_manager/h/wm_plugin_id.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_manager.hpp"
 #include "landscape_model/h/lm_plugin_id.hpp"
+
+#include "commands_manager/ih/cm_icommands_registry.hpp"
+#include "commands_manager/h/cm_plugin_id.hpp"
+
+#include "images_manager/ih/im_iimages_manager.hpp"
+#include "images_manager/h/im_plugin_id.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -59,13 +68,22 @@ PluginInstance::initialize()
 
 	m_gameInitializer.reset( new GameInitializer( *m_environment ) );
 
-	m_landscapeView.reset( new LandscapeView() );
+	m_landscapeView.reset( new LandscapeView( *m_environment ) );
 
 	getWindowManager()->addView(
 			m_landscapeView
 		,	Framework::GUI::WindowManager::ViewPosition::Center );
 
+	using namespace Framework::Core::CommandsManager;
+	getCommandsManager()->registerCommand(
+			Resources::Commands::RunGameCommandName
+		,	boost::intrusive_ptr< ICommand >( new RunGameCommand( *m_environment ) ) );
+	getCommandsManager()->registerCommand(
+			Resources::Commands::StopGameCommandName
+		,	boost::intrusive_ptr< ICommand >( new StopGameCommand( *m_environment ) ) );
+
 	getWindowManager()->addCommandToMenu( "Game/Run", Resources::Commands::RunGameCommandName );
+	getWindowManager()->addCommandToMenu( "Game/Stop", Resources::Commands::StopGameCommandName );
 
 } // PluginInstance::initialize
 
@@ -76,7 +94,11 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	getWindowManager()->removeCommandFromMenu( "Game/Stop" );
 	getWindowManager()->removeCommandFromMenu( "Game/Run" );
+
+	getCommandsManager()->unregisterCommand( Resources::Commands::StopGameCommandName );
+	getCommandsManager()->unregisterCommand( Resources::Commands::RunGameCommandName );
 
 	getWindowManager()->removeView( m_landscapeView );
 
@@ -127,6 +149,34 @@ PluginInstance::getDialogsManager() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< Framework::GUI::ImagesManager::IImagesManager >
+PluginInstance::getImagesManager() const
+{
+	return
+		getPluginInterface< Framework::GUI::ImagesManager::IImagesManager >(
+				Framework::GUI::ImagesManager::PID_IMAGES_MANAGER
+			,	Framework::GUI::ImagesManager::IID_IMAGES_MANAGER );
+
+} // PluginInstance::getImageManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
+PluginInstance::getCommandsManager() const
+{
+	return
+		getPluginInterface< Framework::Core::CommandsManager::ICommandsRegistry >(
+				Framework::Core::CommandsManager::PID_COMMANDS_MANAGER
+			,	Framework::Core::CommandsManager::IID_COMMANDS_REGISTRY );
+
+} // PluginInstance::getCommandsManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
 PluginInstance::getLandscapeManager() const
 {
@@ -136,6 +186,17 @@ PluginInstance::getLandscapeManager() const
 			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_MANAGER );
 
 } // PluginInstance::getLandscapeManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::showCurrentLandscapeModel()
+{
+	m_landscapeView->showCurrentLandscapeModel();
+
+} // PluginInstance::showCurrentLandscapeModel
 
 
 /*---------------------------------------------------------------------------*/

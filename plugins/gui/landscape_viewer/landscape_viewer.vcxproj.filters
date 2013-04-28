@@ -4,12 +4,6 @@
     <Filter Include="Precompiled Header">
       <UniqueIdentifier>{d346cf84-1029-4b9b-8628-15e84de4de2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Interfaces">
-      <UniqueIdentifier>{8f4466e9-401e-40a6-b4a4-fab93e7a838d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Plugins Manager">
-      <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Landscape View">
       <UniqueIdentifier>{5ef9aafe-d943-45aa-85c9-387891c89cfa}</UniqueIdentifier>
     </Filter>
@@ -31,13 +25,19 @@
     <Filter Include="Game Initializer">
       <UniqueIdentifier>{039ec837-a0a3-4dc4-96a4-5f52e6e4a371}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Landscape Viewer">
+      <UniqueIdentifier>{82012fe0-b2f7-4857-a6e5-130149401440}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lv_ph.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
     <ClCompile Include="sources\plugin\lv_plugin_instance.cpp">
-      <Filter>Plugins Manager</Filter>
+      <Filter>Plugin</Filter>
     </ClCompile>
     <ClCompile Include="sources\landscape_view\lv_landscape_view.cpp">
       <Filter>Landscape View</Filter>
@@ -60,16 +60,22 @@
     <ClCompile Include="sources\game_initializer\lv_game_initializer.cpp">
       <Filter>Game Initializer</Filter>
     </ClCompile>
+    <ClCompile Include="sources\commands\lv_base_command.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\commands\lv_stop_game_command.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_viewer\lv_landscape_viewer.cpp">
+      <Filter>Landscape Viewer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lv_ph.hpp">
       <Filter>Precompiled Header</Filter>
     </ClInclude>
     <ClInclude Include="sources\plugin\lv_plugin_instance.hpp">
-      <Filter>Plugins Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\lv_ilandscape_viewer.hpp">
-      <Filter>Interfaces</Filter>
+      <Filter>Plugin</Filter>
     </ClInclude>
     <ClInclude Include="sources\landscape_view\lv_landscape_view.hpp">
       <Filter>Landscape View</Filter>
@@ -97,6 +103,18 @@
     </ClInclude>
     <ClInclude Include="sources\game_initializer\lv_igame_initializer.hpp">
       <Filter>Game Initializer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands\lv_base_command.hpp">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands\lv_stop_game_command.hpp">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_viewer\lv_ilandscape_viewer.hpp">
+      <Filter>Landscape Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_viewer\lv_landscape_viewer.hpp">
+      <Filter>Landscape Viewer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,6 +8,10 @@
 #include "landscape_viewer/sources/landscape_scene/lv_landscape_scene.hpp"
 #include "landscape_viewer/sources/landscape_widget/lv_landscape_widget.hpp"
 
+#include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
+
+#include "landscape_model/ih/lm_ilandscape.hpp"
+
 // #include "lv_landscape_view.moc"
 
 
@@ -20,10 +24,11 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeView::LandscapeView( QObject* _parent )
+LandscapeView::LandscapeView( const IEnvironment& _environment, QObject* _parent )
 	:	QObject( _parent )
+	,	m_environment( _environment )
 	,	m_viewTitle( Resources::Views::LandscapeViewTitle )
-	,	m_landscapeScene( new LandscapeScene() )
+	,	m_landscapeScene( new LandscapeScene( _environment ) )
 	,	m_landscapeWidget( new LandscapeWidget( m_landscapeScene.get() ) )
 {
 } // LandscapeView::LandscapeView
@@ -69,6 +74,17 @@ LandscapeView::viewWasClosed()
 	m_landscapeScene.reset();
 
 } // LandscapeView::viewWasClosed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeView::showCurrentLandscapeModel()
+{
+	m_landscapeScene->showLandscape( *m_environment.getLandscape() );
+
+} // LandscapeView::showCurrentLandscapeModel
 
 
 /*---------------------------------------------------------------------------*/

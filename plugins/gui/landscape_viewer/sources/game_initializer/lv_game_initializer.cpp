@@ -15,7 +15,7 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-GameInitializer::GameInitializer( const IEnvironment& _environment )
+GameInitializer::GameInitializer( IEnvironment& _environment )
 	:	m_environment( _environment )
 {
 } // GameInitializer::GameInitializer
@@ -33,14 +33,26 @@ GameInitializer::~GameInitializer()
 
 
 void
-GameInitializer::run() const
+GameInitializer::run()
 {
 	QString fileName = m_environment.showOpenFileDialog();
 
-	m_environment.initializeLandscapeModel( fileName );
-	m_environment.showCurrentLandscapeInView();
+	if ( !fileName.isEmpty() )
+	{
+		m_environment.initializeLandscapeModel( fileName );
+		m_environment.showCurrentLandscapeModel();
+	}
 
 } // GameInitializer::run
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+GameInitializer::stop()
+{
+} // GameInitializer::stop
 
 
 /*---------------------------------------------------------------------------*/

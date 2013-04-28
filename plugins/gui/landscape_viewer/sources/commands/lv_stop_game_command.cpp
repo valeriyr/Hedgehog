@@ -1,10 +1,12 @@
 
-#ifndef __LV_IGAME_INITIALIZER_HPP__
-#define __LV_IGAME_INITIALIZER_HPP__
+#include "landscape_viewer/sources/ph/lv_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "landscape_viewer/sources/commands/lv_stop_game_command.hpp"
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
+
+#include "landscape_viewer/sources/game_initializer/lv_igame_initializer.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,19 +16,31 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct IGameInitializer
-	:	public Tools::Core::IBase
+
+StopGameCommand::StopGameCommand( const IEnvironment& _environment )
+	:	BaseCommand( _environment )
 {
+} // StopGameCommand::StopGameCommand
+
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void run() = 0;
 
-	virtual void stop() = 0;
+StopGameCommand::~StopGameCommand()
+{
+} // StopGameCommand::~StopGameCommand
+
 
 /*---------------------------------------------------------------------------*/
 
-};
+
+void
+StopGameCommand::execute()
+{
+	m_environment.getGameInitializer()->stop();
+
+} // StopGameCommand::execute
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,5 +49,3 @@ struct IGameInitializer
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LV_IGAME_INITIALIZER_HPP__

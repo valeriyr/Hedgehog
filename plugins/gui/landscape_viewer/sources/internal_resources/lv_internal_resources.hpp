@@ -41,6 +41,8 @@ namespace Commands {
 
 	extern const char* const RunGameCommandName;
 
+	extern const char* const StopGameCommandName;
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Commands

@@ -14,6 +14,8 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
+struct IEnvironment;
+
 class LandscapeScene;
 class LandscapeWidget;
 
@@ -34,7 +36,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeView( QObject* _parent = NULL );
+	LandscapeView( const IEnvironment& _environment, QObject* _parent = NULL );
 
 	virtual ~LandscapeView();
 
@@ -50,9 +52,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	void showCurrentLandscapeModel();
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	const IEnvironment& m_environment;
 
 	QString m_viewTitle;
 

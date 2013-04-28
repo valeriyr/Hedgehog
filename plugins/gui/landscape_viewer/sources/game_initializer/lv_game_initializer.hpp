@@ -28,13 +28,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	GameInitializer( const IEnvironment& _environment );
+	GameInitializer( IEnvironment& _environment );
 
 	virtual ~GameInitializer();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void run() const;
+	/*virtual*/ void run();
+
+	/*virtual*/ void stop();
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,7 +44,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const IEnvironment& m_environment;
+	IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 

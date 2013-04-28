@@ -1,10 +1,10 @@
 
-#ifndef __LV_IGAME_INITIALIZER_HPP__
-#define __LV_IGAME_INITIALIZER_HPP__
+#ifndef __LV_LANDSCAPE_VIEWER_HPP__
+#define __LV_LANDSCAPE_VIEWER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,15 +14,25 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct IGameInitializer
-	:	public Tools::Core::IBase
+class LandscapeViewer
+	:	public Tools::Core::BaseWrapper< ILandscapeViewer >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void run() = 0;
+public:
 
-	virtual void stop() = 0;
+/*---------------------------------------------------------------------------*/
+
+	LandscapeViewer();
+
+	virtual ~LandscapeViewer();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void startUpdateViewTimer();
+
+	/*virtual*/ void stopUpdateViewTimer();
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,4 +46,4 @@ struct IGameInitializer
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_IGAME_INITIALIZER_HPP__
+#endif // __LV_ILANDSCAPE_VIEWER_HPP__

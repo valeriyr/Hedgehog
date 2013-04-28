@@ -8,7 +8,10 @@
 
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 
+#include "images_manager/ih/im_iimages_manager.hpp"
+
 #include "landscape_model/ih/lm_ilandscape_manager.hpp"
+#include "landscape_model/ih/lm_ilandscape.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -20,7 +23,7 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-Environment::Environment( const PluginInstance& _pluginInstance )
+Environment::Environment( PluginInstance& _pluginInstance )
 	:	m_pluginInstance( _pluginInstance )
 {
 } // Environment::Environment
@@ -59,8 +62,19 @@ Environment::showOpenFileDialog() const
 /*---------------------------------------------------------------------------*/
 
 
+const QPixmap&
+Environment::getPixmap( const QString& _resourcePath, const QRect& _rect ) const
+{
+	return m_pluginInstance.getImagesManager()->getPixmap( _resourcePath, _rect );
+
+} // Environment::getPixmap
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
-Environment::initializeLandscapeModel( const QString& _fileName ) const
+Environment::initializeLandscapeModel( const QString& _fileName )
 {
 	m_pluginInstance.getLandscapeManager()->initCurrentLandscape( _fileName );
 
@@ -70,10 +84,23 @@ Environment::initializeLandscapeModel( const QString& _fileName ) const
 /*---------------------------------------------------------------------------*/
 
 
-void
-Environment::showCurrentLandscapeInView() const
+boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
+Environment::getLandscape() const
 {
-} // Environment::showCurrentLandscapeInView
+	return m_pluginInstance.getLandscapeManager()->getCurrentLandscape();
+
+} // Environment::getLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::showCurrentLandscapeModel()
+{
+	m_pluginInstance.showCurrentLandscapeModel();
+
+} // Environment::showCurrentLandscapeModel
 
 
 /*---------------------------------------------------------------------------*/

@@ -1,10 +1,10 @@
 
-#ifndef __LV_IGAME_INITIALIZER_HPP__
-#define __LV_IGAME_INITIALIZER_HPP__
+#ifndef __LV_STOP_GAME_COMMAND_HPP__
+#define __LV_STOP_GAME_COMMAND_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "landscape_viewer/sources/commands/lv_base_command.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,15 +14,23 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct IGameInitializer
-	:	public Tools::Core::IBase
+class StopGameCommand
+	:	public BaseCommand
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void run() = 0;
+public:
 
-	virtual void stop() = 0;
+/*---------------------------------------------------------------------------*/
+
+	StopGameCommand( const IEnvironment& _environment );
+
+	virtual ~StopGameCommand();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void execute();
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,4 +44,4 @@ struct IGameInitializer
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_IGAME_INITIALIZER_HPP__
+#endif // __LV_STOP_GAME_COMMAND_HPP__

@@ -2,12 +2,28 @@
 #ifndef __LV_LANDSCAPE_SCENE_HPP__
 #define __LV_LANDSCAPE_SCENE_HPP__
 
+/*---------------------------------------------------------------------------*/
+
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct ILandscape;
+		}
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
+
+/*---------------------------------------------------------------------------*/
+
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
@@ -25,9 +41,21 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeScene( QObject* _parent = NULL );
+	LandscapeScene( const IEnvironment& _environment, QObject* _parent = NULL );
 
 	virtual ~LandscapeScene();
+
+/*---------------------------------------------------------------------------*/
+
+	void showLandscape( const Core::LandscapeModel::ILandscape& _landscape );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 

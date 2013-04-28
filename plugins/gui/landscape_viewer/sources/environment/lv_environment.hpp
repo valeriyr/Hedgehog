@@ -28,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( const PluginInstance& _pluginInstance );
+	Environment( PluginInstance& _pluginInstance );
 
 	virtual ~Environment();
 
@@ -42,11 +42,18 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initializeLandscapeModel( const QString& _fileName ) const;
+	/*virtual*/ const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void showCurrentLandscapeInView() const;
+	/*virtual*/ void initializeLandscapeModel( const QString& _fileName );
+
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
+		getLandscape() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void showCurrentLandscapeModel();
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,7 +61,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const PluginInstance& m_pluginInstance;
+	PluginInstance& m_pluginInstance;
 
 /*---------------------------------------------------------------------------*/
 

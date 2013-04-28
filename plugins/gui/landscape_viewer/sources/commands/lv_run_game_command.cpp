@@ -18,7 +18,7 @@ namespace LandscapeViewer {
 
 
 RunGameCommand::RunGameCommand( const IEnvironment& _environment )
-	:	m_environment( _environment )
+	:	BaseCommand( _environment )
 {
 } // RunGameCommand::RunGameCommand
 
