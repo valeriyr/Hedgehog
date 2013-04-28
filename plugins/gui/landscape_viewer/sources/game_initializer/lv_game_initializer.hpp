@@ -1,57 +1,59 @@
 
-#ifndef __LV_INTERNAL_RESOURCES_HPP__
-#define __LV_INTERNAL_RESOURCES_HPP__
+#ifndef __LV_GAME_INITIALIZER_HPP__
+#define __LV_GAME_INITIALIZER_HPP__
+
+/*---------------------------------------------------------------------------*/
+
+#include "landscape_viewer/sources/game_initializer/lv_igame_initializer.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
-namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-namespace Views {
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const LandscapeViewTitle;
+class GameInitializer
+	:	public Tools::Core::BaseWrapper< IGameInitializer >
+{
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Views
+public:
 
 /*---------------------------------------------------------------------------*/
 
-namespace Landscape {
+	GameInitializer( const IEnvironment& _environment );
+
+	virtual ~GameInitializer();
 
 /*---------------------------------------------------------------------------*/
 
-	extern const unsigned int CellSize;
+	/*virtual*/ void run() const;
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Landscape
+private:
 
 /*---------------------------------------------------------------------------*/
 
-namespace Commands {
+	const IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const RunGameCommandName;
+};
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Commands
-
-/*---------------------------------------------------------------------------*/
-
-} // namespace Resources
 } // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_INTERNAL_RESOURCES_HPP__
+#endif // __LV_GAME_INITIALIZER_HPP__

@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\commands\lv_run_game_command.cpp" />
+    <ClCompile Include="sources\environment\lv_environment.cpp" />
+    <ClCompile Include="sources\game_initializer\lv_game_initializer.cpp" />
     <ClCompile Include="sources\internal_resources\lv_internal_resources.cpp" />
     <ClCompile Include="sources\landscape_scene\lv_landscape_scene.cpp" />
     <ClCompile Include="sources\landscape_view\lv_landscape_view.cpp" />
@@ -33,6 +36,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ih\lv_ilandscape_viewer.hpp" />
+    <ClInclude Include="sources\commands\lv_run_game_command.hpp" />
+    <ClInclude Include="sources\environment\lv_environment.hpp" />
+    <ClInclude Include="sources\environment\lv_ienvironment.hpp" />
+    <ClInclude Include="sources\game_initializer\lv_game_initializer.hpp" />
+    <ClInclude Include="sources\game_initializer\lv_igame_initializer.hpp" />
     <ClInclude Include="sources\internal_resources\lv_internal_resources.hpp" />
     <ClInclude Include="sources\landscape_scene\lv_landscape_scene.hpp" />
     <ClInclude Include="sources\landscape_view\lv_landscape_view.hpp" />

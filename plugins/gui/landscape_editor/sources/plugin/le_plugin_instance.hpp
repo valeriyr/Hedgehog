@@ -41,7 +41,6 @@ namespace Plugins
 		namespace LandscapeModel
 		{
 			struct ILandscapeEditor;
-			struct ILandscapeManager;
 			struct ISurfaceItemsCache;
 		}
 	}

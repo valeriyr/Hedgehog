@@ -15,8 +15,20 @@ namespace Framework
 	{
 		namespace WindowManager
 		{
+			struct IDialogsManager;
 			struct IWindowManager;
 			struct IView;
+		}
+	}
+}
+
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct ILandscapeManager;
 		}
 	}
 }
@@ -26,6 +38,11 @@ namespace Framework
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
+
+/*---------------------------------------------------------------------------*/
+
+struct IEnvironment;
+struct IGameInitializer;
 
 /*---------------------------------------------------------------------------*/
 
@@ -55,14 +72,28 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	boost::intrusive_ptr< IGameInitializer > getGameInitializer() const;
+
+/*---------------------------------------------------------------------------*/
+
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		getWindowManager() const;
+
+	boost::intrusive_ptr< Framework::GUI::WindowManager::IDialogsManager >
+		getDialogsManager() const;
+
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
+		getLandscapeManager() const;
 
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< IEnvironment > m_environment;
+
+	boost::intrusive_ptr< IGameInitializer > m_gameInitializer;
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IView > m_landscapeView;
 

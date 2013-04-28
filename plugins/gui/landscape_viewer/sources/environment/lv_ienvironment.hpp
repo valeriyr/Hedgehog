@@ -1,57 +1,53 @@
 
-#ifndef __LV_INTERNAL_RESOURCES_HPP__
-#define __LV_INTERNAL_RESOURCES_HPP__
+#ifndef __LV_IENVIRONMENT_HPP__
+#define __LV_IENVIRONMENT_HPP__
+
+/*---------------------------------------------------------------------------*/
+
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
-namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-namespace Views {
+struct IGameInitializer;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const LandscapeViewTitle;
+struct IEnvironment
+	:	public Tools::Core::IBase
+{
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Views
+	virtual boost::intrusive_ptr< IGameInitializer > getGameInitializer() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-namespace Landscape {
+	virtual QString showOpenFileDialog() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const unsigned int CellSize;
+	virtual void initializeLandscapeModel( const QString& _fileName ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Landscape
+	virtual void showCurrentLandscapeInView() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-namespace Commands {
+};
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const RunGameCommandName;
-
-/*---------------------------------------------------------------------------*/
-
-} // namespace Commands
-
-/*---------------------------------------------------------------------------*/
-
-} // namespace Resources
 } // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_INTERNAL_RESOURCES_HPP__
+#endif // __LV_IENVIRONMENT_HPP__

@@ -1,57 +1,71 @@
 
-#ifndef __LV_INTERNAL_RESOURCES_HPP__
-#define __LV_INTERNAL_RESOURCES_HPP__
+#ifndef __LV_ENVIRONMENT_HPP__
+#define __LV_ENVIRONMENT_HPP__
+
+/*---------------------------------------------------------------------------*/
+
+#include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
-namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-namespace Views {
+class PluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const LandscapeViewTitle;
+class Environment
+	:	public Tools::Core::BaseWrapper< IEnvironment >
+{
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Views
+public:
 
 /*---------------------------------------------------------------------------*/
 
-namespace Landscape {
+	Environment( const PluginInstance& _pluginInstance );
+
+	virtual ~Environment();
 
 /*---------------------------------------------------------------------------*/
 
-	extern const unsigned int CellSize;
+	/*virtual*/ boost::intrusive_ptr< IGameInitializer > getGameInitializer() const;
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Landscape
+	/*virtual*/ QString showOpenFileDialog() const;
 
 /*---------------------------------------------------------------------------*/
 
-namespace Commands {
+	/*virtual*/ void initializeLandscapeModel( const QString& _fileName ) const;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const RunGameCommandName;
+	/*virtual*/ void showCurrentLandscapeInView() const;
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Commands
+private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Resources
+	const PluginInstance& m_pluginInstance;
+
+/*---------------------------------------------------------------------------*/
+
+};
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_INTERNAL_RESOURCES_HPP__
+#endif // __LV_ENVIRONMENT_HPP__

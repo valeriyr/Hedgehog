@@ -1,57 +1,59 @@
 
-#ifndef __LV_INTERNAL_RESOURCES_HPP__
-#define __LV_INTERNAL_RESOURCES_HPP__
+#ifndef __LV_RUN_GAME_COMMAND_HPP__
+#define __LV_RUN_GAME_COMMAND_HPP__
+
+/*---------------------------------------------------------------------------*/
+
+#include "commands_manager/ih/cm_icommand.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
-namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-namespace Views {
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const LandscapeViewTitle;
+class RunGameCommand
+	:	public Tools::Core::BaseWrapper< Framework::Core::CommandsManager::ICommand >
+{
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Views
+public:
 
 /*---------------------------------------------------------------------------*/
 
-namespace Landscape {
+	RunGameCommand( const IEnvironment& _environment );
+
+	virtual ~RunGameCommand();
 
 /*---------------------------------------------------------------------------*/
 
-	extern const unsigned int CellSize;
+	/*virtual*/ void execute();
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Landscape
+private:
 
 /*---------------------------------------------------------------------------*/
 
-namespace Commands {
+	const IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const RunGameCommandName;
+};
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Commands
-
-/*---------------------------------------------------------------------------*/
-
-} // namespace Resources
 } // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_INTERNAL_RESOURCES_HPP__
+#endif // __LV_RUN_GAME_COMMAND_HPP__

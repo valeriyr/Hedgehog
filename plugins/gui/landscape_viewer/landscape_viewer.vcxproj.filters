@@ -22,6 +22,15 @@
     <Filter Include="Landscape Scene">
       <UniqueIdentifier>{2cc70f1f-afd0-4b28-9f5c-bf20b29a4a9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{84648fae-68a4-4d56-8bcb-229b53ac6918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{1b9ece88-7442-425c-90a0-e2b0154e1390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Initializer">
+      <UniqueIdentifier>{039ec837-a0a3-4dc4-96a4-5f52e6e4a371}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lv_ph.cpp">
@@ -41,6 +50,15 @@
     </ClCompile>
     <ClCompile Include="sources\landscape_scene\lv_landscape_scene.cpp">
       <Filter>Landscape Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\environment\lv_environment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\commands\lv_run_game_command.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\game_initializer\lv_game_initializer.cpp">
+      <Filter>Game Initializer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +82,21 @@
     </ClInclude>
     <ClInclude Include="sources\landscape_scene\lv_landscape_scene.hpp">
       <Filter>Landscape Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\lv_environment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\lv_ienvironment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands\lv_run_game_command.hpp">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\game_initializer\lv_game_initializer.hpp">
+      <Filter>Game Initializer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\game_initializer\lv_igame_initializer.hpp">
+      <Filter>Game Initializer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
