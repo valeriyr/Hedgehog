@@ -8,6 +8,9 @@
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/ih/lm_iunits_cache.hpp"
+#include "landscape_model/ih/lm_iunit.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -18,8 +21,12 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeSerializer::LandscapeSerializer( const ISurfaceItemsCache& _surfaceItemsCache )
+LandscapeSerializer::LandscapeSerializer(
+		const ISurfaceItemsCache& _surfaceItemsCache
+	,	const IUnitsCache& _unitsCache
+	)
 	:	m_surfaceItemsCache( _surfaceItemsCache )
+	,	m_unitsCache( _unitsCache )
 {
 } // LandscapeSerializer::LandscapeSerializer
 
@@ -74,6 +81,22 @@ LandscapeSerializer::load(
 		}
 	}
 
+	unsigned int unitsCount = 0;
+	fileStream >> unitsCount;
+
+	for ( unsigned int i = 0; i < unitsCount; ++i )
+	{
+		QString unitName;
+		unsigned int positionByX = 0;
+		unsigned int positionByY = 0;
+
+		fileStream >> unitName;
+		fileStream >> positionByX;
+		fileStream >> positionByY;
+
+		_landscape.setUnit( positionByX, positionByY, m_unitsCache.cloneUnit( unitName ) );
+	}
+
 } // LandscapeSerializer::load
 
 
@@ -104,6 +127,19 @@ LandscapeSerializer::save(
 	for ( unsigned int i = 0; i < _landscape.getWidth(); ++i )
 		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
 			fileStream << _landscape.getSurfaceItem( i, j )->getIndex();
+
+	fileStream << _landscape.getUnitsCount();
+
+	ILandscape::UnitsIteratorPtr unitsIterator = _landscape.getUnitsIterator();
+
+	while ( unitsIterator->isValid() )
+	{
+		fileStream << unitsIterator->current()->getName();
+		fileStream << _landscape.getUnitPosition( unitsIterator->current() ).first;
+		fileStream << _landscape.getUnitPosition( unitsIterator->current() ).second;
+
+		unitsIterator->next();
+	}
 
 } // LandscapeSerializer::save
 

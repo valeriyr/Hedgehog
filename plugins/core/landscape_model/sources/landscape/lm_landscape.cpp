@@ -6,6 +6,8 @@
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 
+#include "landscape_model/ih/lm_iunit.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -20,7 +22,9 @@ Landscape::Landscape( const ISurfaceItemsCache& _surfaceItemsCache )
 	:	m_surfaceItemsCache( _surfaceItemsCache )
 	,	m_width( 0 )
 	,	m_height( 0 )
+	,	m_units()
 	,	m_surfaceItems( NULL )
+	,	m_terrainMap( NULL )
 {
 } // Landscape::Landscape
 
@@ -31,6 +35,7 @@ Landscape::Landscape( const ISurfaceItemsCache& _surfaceItemsCache )
 Landscape::~Landscape()
 {
 	clearCollection( m_surfaceItems );
+	clearCollection( m_terrainMap );
 
 } // Landscape::~Landscape
 
@@ -75,6 +80,80 @@ Landscape::getSurfaceItem( const unsigned int _width, const unsigned int _height
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< IUnit >
+Landscape::getUnit( const unsigned int _width, const unsigned int _height ) const
+{
+	ILandscape::UnitsMapConstIterator iterator = m_units.find( std::make_pair( _width, _height ) );
+
+	if ( iterator != m_units.end() )
+		return iterator->second;
+
+	return boost::intrusive_ptr< IUnit >();
+
+} // Landscape::getUnit
+
+
+/*---------------------------------------------------------------------------*/
+
+
+std::pair< unsigned int, unsigned int >
+Landscape::getUnitPosition( boost::intrusive_ptr< IUnit > _unit ) const
+{
+	ILandscape::UnitsMapConstIterator
+			begin = m_units.begin()
+		,	end = m_units.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( begin->second == _unit )
+			return begin->first;
+	}
+
+	return std::pair< unsigned int, unsigned int >();
+
+} // Landscape::getUnitPosition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+unsigned int
+Landscape::getUnitsCount() const
+{
+	return m_units.size();
+
+} // Landscape::getUnitsCount
+
+
+/*---------------------------------------------------------------------------*/
+
+
+ILandscape::UnitsIteratorPtr
+Landscape::getUnitsIterator() const
+{
+	return ILandscape::UnitsIteratorPtr( new ILandscape::UnitsIterator( m_units ) );
+
+} // Landscape::getUnitsIterator
+
+
+/*---------------------------------------------------------------------------*/
+
+
+int
+Landscape::getTerrainMapValue( const unsigned int _width, const unsigned int _height ) const
+{
+	assert( m_terrainMap );
+	assert( _width < m_width );
+	assert( _height < m_height );
+	
+	return m_terrainMap[ _width ][ _height ];
+
+} // Landscape::getTerrainMapValue
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 Landscape::setSize( const unsigned int _width, const unsigned int _height )
 {
@@ -85,12 +164,14 @@ Landscape::setSize( const unsigned int _width, const unsigned int _height )
 	m_height = _height;
 
 	initCollection( m_surfaceItems );
+	initCollection( m_terrainMap );
 
 	for ( unsigned int i = 0; i < m_width; ++i )
 	{
 		for ( unsigned int j = 0; j < m_height; ++j )
 		{
 			m_surfaceItems[ i ][ j ] = m_surfaceItemsCache.getDefaultSurfaceItem().get();
+			m_terrainMap[ i ][ j ] = m_surfaceItemsCache.getDefaultSurfaceItem()->getTerrainMapValue();
 		}
 	}
 
@@ -107,10 +188,35 @@ Landscape::setSurfaceItem(
 	,	boost::intrusive_ptr< ISurfaceItem > _surfaceItem )
 {
 	assert( m_surfaceItems );
+	assert( m_terrainMap );
 	assert( _width < m_width );
 	assert( _height < m_height );
 
 	m_surfaceItems[ _width ][ _height ] = _surfaceItem.get();
+	m_terrainMap[ _width ][ _height ] = _surfaceItem->getTerrainMapValue();
+
+} // Landscape::setSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Landscape::setUnit(
+		const unsigned int _width
+	,	const unsigned int _height
+	,	boost::intrusive_ptr< IUnit > _unit )
+{
+	ILandscape::UnitsMapIterator iterator = m_units.find( std::make_pair( _width, _height ) );
+
+	if ( iterator == m_units.end() )
+	{
+		m_units.insert( std::make_pair( std::make_pair( _width, _height ), _unit ) );
+	}
+	else
+	{
+		iterator->second = _unit;
+	}
 
 } // Landscape::setSurfaceItem
 

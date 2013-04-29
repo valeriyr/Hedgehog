@@ -15,6 +15,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct ISurfaceItemsCache;
+struct IUnitsCache;
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +29,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeSerializer( const ISurfaceItemsCache& _surfaceItemsCache );
+	LandscapeSerializer(
+			const ISurfaceItemsCache& _surfaceItemsCache
+		,	const IUnitsCache& _unitsCache );
 
 	virtual ~LandscapeSerializer();
 
@@ -49,6 +52,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const ISurfaceItemsCache& m_surfaceItemsCache;
+
+	const IUnitsCache& m_unitsCache;
 
 /*---------------------------------------------------------------------------*/
 

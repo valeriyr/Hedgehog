@@ -1,7 +1,7 @@
 
 #include "landscape_model/sources/ph/lm_ph.hpp"
 
-#include "landscape_model/sources/surface_item/lm_surface_item.hpp"
+#include "landscape_model/sources/unit/lm_unit.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -13,68 +13,79 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-SurfaceItem::SurfaceItem(
-		const unsigned int _index
+Unit::Unit(
+		const QString& _name
 	,	const QString& _bundlePath
-	,	const QRect& _rectInBundle
-	)
-	:	m_index( _index )
+	,	const QRect& _rectInBundle )
+	:	m_name( _name )
 	,	m_bundlePath( _bundlePath )
 	,	m_rectInBundle( _rectInBundle )
 {
-} // SurfaceItem::SurfaceItem
+} // Unit::Unit
 
 
 /*---------------------------------------------------------------------------*/
 
 
-SurfaceItem::~SurfaceItem()
+Unit::Unit( const Unit& _unit )
 {
-} // SurfaceItem::~SurfaceItem
+	m_name = _unit.m_name;
+	m_bundlePath = _unit.m_bundlePath;
+	m_rectInBundle = _unit.m_rectInBundle;
+
+} // Unit::Unit
 
 
 /*---------------------------------------------------------------------------*/
 
 
-unsigned int
-SurfaceItem::getIndex() const
+Unit::~Unit()
 {
-	return m_index;
-
-} // SurfaceItem::getIndex
+} // Unit::Unit
 
 
 /*---------------------------------------------------------------------------*/
 
 
 const QString&
-SurfaceItem::getBundlePath() const
+Unit::getName() const
+{
+	return m_name;
+
+} // Unit::getName
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QString&
+Unit::getBundlePath() const
 {
 	return m_bundlePath;
 
-} // SurfaceItem::getBundlePath
+} // Unit::getBundlePath
 
 
 /*---------------------------------------------------------------------------*/
 
 
 const QRect&
-SurfaceItem::getRectInBundle() const
+Unit::getRectInBundle() const
 {
 	return m_rectInBundle;
 
-} // SurfaceItem::getRectInBundle
+} // Unit::getRectInBundle
 
 
 /*---------------------------------------------------------------------------*/
 
 
-const int
-SurfaceItem::getTerrainMapValue() const
+boost::intrusive_ptr< IUnit >
+Unit::clone() const
 {
-	return 0;
+	return boost::intrusive_ptr< IUnit >( new Unit( *this ) );
 
-} // SurfaceItem::getTerrainMapValue
+} // Unit::clone
 
 
 /*---------------------------------------------------------------------------*/

@@ -34,6 +34,12 @@
     <Filter Include="Surface Items Cache">
       <UniqueIdentifier>{fbb3fb56-2742-4afd-9c1d-12772103462c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Unit">
+      <UniqueIdentifier>{2645f18c-2fdf-4cc2-a4e0-1451aba88d26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Units Cache">
+      <UniqueIdentifier>{e3b48cde-4f5e-48e0-beff-0fef7697b4b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -62,6 +68,12 @@
     </ClCompile>
     <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp">
       <Filter>Surface Items Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\unit\lm_unit.cpp">
+      <Filter>Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\units_cache\lm_units_cache.cpp">
+      <Filter>Units Cache</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +127,21 @@
     </ClInclude>
     <ClInclude Include="ih\lm_isurface_items_cache.hpp">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_iunit.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\unit\lm_unit.hpp">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\units_cache\lm_units_cache.hpp">
+      <Filter>Units Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_iunits_cache.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_terrain_map_items.hpp">
+      <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,10 +1,10 @@
 
-#ifndef __LM_IEDITABLE_LANDSCAPE_HPP__
-#define __LM_IEDITABLE_LANDSCAPE_HPP__
+#ifndef __LM_IUNIT_HPP__
+#define __LM_IUNIT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape.hpp"
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,27 +14,21 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEditableLandscape
-	:	public ILandscape
+struct IUnit
+	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setSize(
-			const unsigned int _width
-		,	const unsigned int _height ) = 0;
+	virtual const QString& getName() const = 0;
+
+	virtual const QString& getBundlePath() const = 0;
+
+	virtual const QRect& getRectInBundle() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setSurfaceItem(
-			const unsigned int _width
-		,	const unsigned int _height
-		,	boost::intrusive_ptr< ISurfaceItem > _surfaceItem ) = 0;
-
-	virtual void setUnit(
-			const unsigned int _width
-		,	const unsigned int _height
-		,	boost::intrusive_ptr< IUnit > _unit ) = 0;
+	virtual boost::intrusive_ptr< IUnit > clone() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,4 +42,4 @@ struct IEditableLandscape
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IEDITABLE_LANDSCAPE_HPP__
+#endif // __LM_ILANDSCAPE_HPP__

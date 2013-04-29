@@ -19,6 +19,7 @@ struct ILandscapeSerializer;
 struct ILandscapeEditor;
 struct ILandscapeManager;
 struct ISurfaceItemsCache;
+struct IUnitsCache;
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,6 +54,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< ISurfaceItemsCache > m_surfaceItemsCache;
+
+	boost::intrusive_ptr< IUnitsCache > m_unitsCache;
 
 	boost::intrusive_ptr< ILandscapeSerializer > m_landscapeSerializer;
 

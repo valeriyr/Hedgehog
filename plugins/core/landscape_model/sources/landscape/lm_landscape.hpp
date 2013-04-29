@@ -45,6 +45,22 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ boost::intrusive_ptr< IUnit >
+		getUnit( const unsigned int _width, const unsigned int _height ) const;
+
+	/*virtual*/ std::pair< unsigned int, unsigned int >
+		getUnitPosition( boost::intrusive_ptr< IUnit > _unit ) const;
+
+	/*virtual*/ unsigned int getUnitsCount() const;
+
+	/*virtual*/ ILandscape::UnitsIteratorPtr getUnitsIterator() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ int getTerrainMapValue( const unsigned int _width, const unsigned int _height ) const;
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ void setSize(
 			const unsigned int _width
 		,	const unsigned int _height );
@@ -55,6 +71,11 @@ public:
 			const unsigned int _width
 		,	const unsigned int _height
 		,	boost::intrusive_ptr< ISurfaceItem > _surfaceItem );
+
+	/*virtual*/ void setUnit(
+			const unsigned int _width
+		,	const unsigned int _height
+		,	boost::intrusive_ptr< IUnit > _unit );
 
 /*---------------------------------------------------------------------------*/
 
@@ -84,7 +105,11 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	ILandscape::UnitsMap m_units;
+
 	ISurfaceItem *** m_surfaceItems;
+
+	int ** m_terrainMap;
 
 /*---------------------------------------------------------------------------*/
 

@@ -1,8 +1,10 @@
 
-#include "landscape_model/sources/ph/lm_ph.hpp"
+#ifndef __LM_UNIT_HPP__
+#define __LM_UNIT_HPP__
 
-#include "landscape_model/sources/surface_item/lm_surface_item.hpp"
+/*---------------------------------------------------------------------------*/
 
+#include "landscape_model/ih/lm_iunit.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -12,70 +14,51 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-
-SurfaceItem::SurfaceItem(
-		const unsigned int _index
-	,	const QString& _bundlePath
-	,	const QRect& _rectInBundle
-	)
-	:	m_index( _index )
-	,	m_bundlePath( _bundlePath )
-	,	m_rectInBundle( _rectInBundle )
+class Unit
+	:	public Tools::Core::BaseWrapper< IUnit>
 {
-} // SurfaceItem::SurfaceItem
-
 
 /*---------------------------------------------------------------------------*/
 
-
-SurfaceItem::~SurfaceItem()
-{
-} // SurfaceItem::~SurfaceItem
-
+public:
 
 /*---------------------------------------------------------------------------*/
 
+	Unit(	const QString& _name
+		,	const QString& _bundlePath
+		,	const QRect& _rectInBundle );
 
-unsigned int
-SurfaceItem::getIndex() const
-{
-	return m_index;
+	Unit( const Unit& _unit );
 
-} // SurfaceItem::getIndex
-
-
-/*---------------------------------------------------------------------------*/
-
-
-const QString&
-SurfaceItem::getBundlePath() const
-{
-	return m_bundlePath;
-
-} // SurfaceItem::getBundlePath
-
+	virtual ~Unit();
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ const QString& getName() const;
 
-const QRect&
-SurfaceItem::getRectInBundle() const
-{
-	return m_rectInBundle;
+	/*virtual*/ const QString& getBundlePath() const;
 
-} // SurfaceItem::getRectInBundle
-
+	/*virtual*/ const QRect& getRectInBundle() const;
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ boost::intrusive_ptr< IUnit > clone() const;
 
-const int
-SurfaceItem::getTerrainMapValue() const
-{
-	return 0;
+/*---------------------------------------------------------------------------*/
 
-} // SurfaceItem::getTerrainMapValue
+private:
 
+/*---------------------------------------------------------------------------*/
+
+	QString m_name;
+
+	QString m_bundlePath;
+
+	QRect m_rectInBundle;
+
+/*---------------------------------------------------------------------------*/
+
+};
 
 /*---------------------------------------------------------------------------*/
 
@@ -84,3 +67,5 @@ SurfaceItem::getTerrainMapValue() const
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
+
+#endif // __LM_UNIT_HPP__

@@ -1,10 +1,10 @@
 
-#ifndef __LM_SURFACE_ITEM_HPP__
-#define __LM_SURFACE_ITEM_HPP__
+#ifndef __LM_UNITS_CACHE_HPP__
+#define __LM_UNITS_CACHE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/ih/lm_iunits_cache.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,8 +14,8 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class SurfaceItem
-	:	public Tools::Core::BaseWrapper< ISurfaceItem >
+struct UnitsCache
+	:	public Tools::Core::BaseWrapper< IUnitsCache >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,26 +24,21 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	SurfaceItem(
-			const unsigned int _index
+	UnitsCache();
+
+	virtual ~UnitsCache();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< IUnit >
+		cloneUnit( const QString& _name ) const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void addUnit(
+			const QString& _name
 		,	const QString& _bundlePath
 		,	const QRect& _rectInBundle );
-
-	virtual ~SurfaceItem();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ unsigned int getIndex() const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ const QString& getBundlePath() const;
-
-	/*virtual*/ const QRect& getRectInBundle() const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ const int getTerrainMapValue() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -51,11 +46,16 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	unsigned int m_index;
+	typedef
+		std::map< QString, boost::intrusive_ptr< IUnit > >
+		UnitsCollection;
+	typedef
+		UnitsCollection::const_iterator
+		UnitsCollectionIterator;
 
-	QString m_bundlePath;
+/*---------------------------------------------------------------------------*/
 
-	QRect m_rectInBundle;
+	UnitsCollection m_unitsCollection;
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,4 +69,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_SURFACE_ITEM_HPP__
+#endif // __LM_UNITS_CACHE_HPP__
