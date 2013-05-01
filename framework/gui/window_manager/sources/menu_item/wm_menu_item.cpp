@@ -55,13 +55,10 @@ MenuItem::onActionStateChanged()
 	try
 	{
 		m_environment.getCommandExecutor()->executeCommand( m_commandName );
-		//printMessage( _command );
 	}
 	catch( const std::exception& /*_exception*/ )
 	{
-		/*printMessage(
-				Tools::Core::IMessenger::MessegeLevel::Error
-			,	QString( Resources::SyntaxErrorMessageFormat ).arg( _command ) );*/
+		assert( !"Some exception during command execution from menu!" );
 	}
 
 } // MenuItem::onActionToggled

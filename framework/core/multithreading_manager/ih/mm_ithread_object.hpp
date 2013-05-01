@@ -1,6 +1,6 @@
 
-#ifndef __PM_ITHREAD_OBJECT_HPP__
-#define __PM_ITHREAD_OBJECT_HPP__
+#ifndef __MM_ITHREAD_OBJECT_HPP__
+#define __MM_ITHREAD_OBJECT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -23,4 +23,4 @@ namespace MultithreadingManager {
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __PM_ITHREAD_OBJECT_HPP__
+#endif // __MM_ITHREAD_OBJECT_HPP__

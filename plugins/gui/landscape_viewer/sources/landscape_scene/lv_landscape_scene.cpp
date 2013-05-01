@@ -53,6 +53,7 @@ LandscapeScene::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 	{
 		m_selectionItem = addRect( 0, 0, 0, 0 );
 		m_selectionItem->setPos( _mouseEvent->scenePos().x(), _mouseEvent->scenePos().y() );
+		m_selectionItem->setZValue( 3 );
 		m_startSelectionPoint = _mouseEvent->scenePos();
 	}
 
@@ -143,6 +144,7 @@ LandscapeScene::showLandscape( const Core::LandscapeModel::ILandscape& _landscap
 
 			QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
 			item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
+			item->setZValue( 0 );
 		}
 	}
 
@@ -170,6 +172,7 @@ LandscapeScene::showLandscape( const Core::LandscapeModel::ILandscape& _landscap
 		}
 
 		item->setPos( posByX, posByY );
+		item->setZValue( 1 );
 
 		unitsIterator->next();
 	}
