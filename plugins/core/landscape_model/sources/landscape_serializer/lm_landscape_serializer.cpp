@@ -75,8 +75,7 @@ LandscapeSerializer::load(
 		{
 			fileStream >> surfaceItemIndex;
 			_landscape.setSurfaceItem(
-					i
-				,	j
+					Point( i, j )
 				,	m_surfaceItemsCache.getSurfaceItem( surfaceItemIndex ) );
 		}
 	}
@@ -94,7 +93,7 @@ LandscapeSerializer::load(
 		fileStream >> positionByX;
 		fileStream >> positionByY;
 
-		_landscape.setUnit( positionByX, positionByY, m_unitsCache.cloneUnit( unitName ) );
+		_landscape.setUnit( Point( positionByX, positionByY ), m_unitsCache.cloneUnit( unitName ) );
 	}
 
 } // LandscapeSerializer::load
@@ -126,7 +125,7 @@ LandscapeSerializer::save(
 
 	for ( unsigned int i = 0; i < _landscape.getWidth(); ++i )
 		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
-			fileStream << _landscape.getSurfaceItem( i, j )->getIndex();
+			fileStream << _landscape.getSurfaceItem( Point( i, j ) )->getIndex();
 
 	fileStream << _landscape.getUnitsCount();
 
@@ -135,8 +134,8 @@ LandscapeSerializer::save(
 	while ( unitsIterator->isValid() )
 	{
 		fileStream << unitsIterator->current()->getName();
-		fileStream << _landscape.getUnitPosition( unitsIterator->current() ).first;
-		fileStream << _landscape.getUnitPosition( unitsIterator->current() ).second;
+		fileStream << _landscape.getUnitPosition( unitsIterator->current() ).m_x;
+		fileStream << _landscape.getUnitPosition( unitsIterator->current() ).m_y;
 
 		unitsIterator->next();
 	}

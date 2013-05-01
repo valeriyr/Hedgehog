@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\lm_plugin_id.hpp" />
+    <ClInclude Include="h\lm_point.hpp" />
     <ClInclude Include="h\lm_terrain_map_items.hpp" />
     <ClInclude Include="ih\lm_ieditable_landscape.hpp" />
     <ClInclude Include="ih\lm_ilandscape.hpp" />

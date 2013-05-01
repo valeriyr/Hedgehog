@@ -67,13 +67,13 @@ Landscape::getHeight() const
 
 
 boost::intrusive_ptr< ISurfaceItem >
-Landscape::getSurfaceItem( const unsigned int _width, const unsigned int _height ) const
+Landscape::getSurfaceItem( const Point& _point ) const
 {
 	assert( m_surfaceItems );
-	assert( _width < m_width );
-	assert( _height < m_height );
+	assert( _point.m_x < m_width );
+	assert( _point.m_y < m_height );
 
-	return boost::intrusive_ptr< ISurfaceItem >( m_surfaceItems[ _width ][ _height ] );
+	return boost::intrusive_ptr< ISurfaceItem >( m_surfaceItems[ _point.m_x ][ _point.m_y ] );
 
 } // Landscape::getSurfaceItem
 
@@ -82,9 +82,9 @@ Landscape::getSurfaceItem( const unsigned int _width, const unsigned int _height
 
 
 boost::intrusive_ptr< IUnit >
-Landscape::getUnit( const unsigned int _width, const unsigned int _height ) const
+Landscape::getUnit( const Point& _point ) const
 {
-	ILandscape::UnitsMapConstIterator iterator = m_units.find( std::make_pair( _width, _height ) );
+	ILandscape::UnitsMapConstIterator iterator = m_units.find( _point );
 
 	if ( iterator != m_units.end() )
 		return iterator->second;
@@ -97,7 +97,7 @@ Landscape::getUnit( const unsigned int _width, const unsigned int _height ) cons
 /*---------------------------------------------------------------------------*/
 
 
-std::pair< unsigned int, unsigned int >
+Point
 Landscape::getUnitPosition( boost::intrusive_ptr< IUnit > _unit ) const
 {
 	ILandscape::UnitsMapConstIterator
@@ -110,7 +110,7 @@ Landscape::getUnitPosition( boost::intrusive_ptr< IUnit > _unit ) const
 			return begin->first;
 	}
 
-	return std::pair< unsigned int, unsigned int >();
+	return Point();
 
 } // Landscape::getUnitPosition
 
@@ -121,7 +121,7 @@ Landscape::getUnitPosition( boost::intrusive_ptr< IUnit > _unit ) const
 unsigned int
 Landscape::getUnitsCount() const
 {
-	return m_units.size();
+	return static_cast< unsigned int >( m_units.size() );
 
 } // Landscape::getUnitsCount
 
@@ -152,13 +152,13 @@ Landscape::getSelectedUnit() const
 
 
 int
-Landscape::getTerrainMapValue( const unsigned int _width, const unsigned int _height ) const
+Landscape::getTerrainMapValue( const Point& _point ) const
 {
 	assert( m_terrainMap );
-	assert( _width < m_width );
-	assert( _height < m_height );
+	assert( _point.m_x < m_width );
+	assert( _point.m_y < m_height );
 	
-	return m_terrainMap[ _width ][ _height ];
+	return m_terrainMap[ _point.m_x ][ _point.m_y ];
 
 } // Landscape::getTerrainMapValue
 
@@ -195,17 +195,16 @@ Landscape::setSize( const unsigned int _width, const unsigned int _height )
 
 void
 Landscape::setSurfaceItem(
-		const unsigned int _width
-	,	const unsigned int _height
+		const Point& _point
 	,	boost::intrusive_ptr< ISurfaceItem > _surfaceItem )
 {
 	assert( m_surfaceItems );
 	assert( m_terrainMap );
-	assert( _width < m_width );
-	assert( _height < m_height );
+	assert( _point.m_x < m_width );
+	assert( _point.m_y < m_height );
 
-	m_surfaceItems[ _width ][ _height ] = _surfaceItem.get();
-	m_terrainMap[ _width ][ _height ] = _surfaceItem->getTerrainMapValue();
+	m_surfaceItems[ _point.m_x ][ _point.m_y ] = _surfaceItem.get();
+	m_terrainMap[ _point.m_x ][ _point.m_y ] = _surfaceItem->getTerrainMapValue();
 
 } // Landscape::setSurfaceItem
 
@@ -215,15 +214,14 @@ Landscape::setSurfaceItem(
 
 void
 Landscape::setUnit(
-		const unsigned int _width
-	,	const unsigned int _height
+		const Point& _point
 	,	boost::intrusive_ptr< IUnit > _unit )
 {
-	ILandscape::UnitsMapIterator iterator = m_units.find( std::make_pair( _width, _height ) );
+	ILandscape::UnitsMapIterator iterator = m_units.find( _point );
 
 	if ( iterator == m_units.end() )
 	{
-		m_units.insert( std::make_pair( std::make_pair( _width, _height ), _unit ) );
+		m_units.insert( std::make_pair( _point, _unit ) );
 	}
 	else
 	{
@@ -237,9 +235,9 @@ Landscape::setUnit(
 
 
 void
-Landscape::setSelectedUnit( const unsigned int _width, const unsigned int _height )
+Landscape::setSelectedUnit( const Point& _point )
 {
-	m_selectedUnit = getUnit( _width, _height );
+	m_selectedUnit = getUnit( _point );
 
 } // Landscape::setSelectedUnit
 

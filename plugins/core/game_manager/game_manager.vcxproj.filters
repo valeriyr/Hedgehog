@@ -10,6 +10,9 @@
     <Filter Include="Plugins Manager">
       <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actions">
+      <UniqueIdentifier>{aa49db82-303c-4bdf-9fae-dc11a79be4c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\gm_ph.cpp">
@@ -28,6 +31,9 @@
     </ClInclude>
     <ClInclude Include="ih\gm_igame_manager.hpp">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\gm_iaction.hpp">
+      <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

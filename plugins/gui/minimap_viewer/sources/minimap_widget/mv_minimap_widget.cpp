@@ -233,7 +233,8 @@ MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape
 	{
 		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
 		{
-			boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > surfaceItem = _landscape.getSurfaceItem( i, j );
+			boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+				surfaceItem = _landscape.getSurfaceItem( Plugins::Core::LandscapeModel::Point( i, j ) );
 
 			painter.drawPixmap(
 				QRect(
@@ -272,17 +273,17 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 
 	while ( unitsIterator->isValid() )
 	{
-		std::pair< unsigned int, unsigned int > position = _landscape.getUnitPosition( unitsIterator->current() );
+		Plugins::Core::LandscapeModel::Point position = _landscape.getUnitPosition( unitsIterator->current() );
 
-		qreal posByX = position.first * Resources::Landscape::CellSize;
-		qreal posByY = position.second * Resources::Landscape::CellSize;
+		qreal posByX = position.m_x * Resources::Landscape::CellSize;
+		qreal posByY = position.m_y * Resources::Landscape::CellSize;
 
-		if ( unitsIterator->current()->getRectInBundle().width() > Resources::Landscape::CellSize )
+		if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().width() ) > Resources::Landscape::CellSize )
 		{
 			posByX -= ( unitsIterator->current()->getRectInBundle().width() - Resources::Landscape::CellSize ) / 2;
 		}
 
-		if ( unitsIterator->current()->getRectInBundle().height() > Resources::Landscape::CellSize )
+		if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().height() ) > Resources::Landscape::CellSize )
 		{
 			posByY -= ( unitsIterator->current()->getRectInBundle().height() - Resources::Landscape::CellSize ) / 2;
 		}

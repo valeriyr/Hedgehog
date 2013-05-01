@@ -140,7 +140,8 @@ LandscapeScene::showLandscape( const Core::LandscapeModel::ILandscape& _landscap
 	{
 		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
 		{
-			boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > surfaceItem = _landscape.getSurfaceItem( i, j );
+			boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+				surfaceItem = _landscape.getSurfaceItem( Plugins::Core::LandscapeModel::Point( i, j ) );
 
 			QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
 			item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
@@ -156,17 +157,17 @@ LandscapeScene::showLandscape( const Core::LandscapeModel::ILandscape& _landscap
 		QGraphicsPixmapItem* item = addPixmap(
 			m_environment.getPixmap( unitsIterator->current()->getBundlePath(), unitsIterator->current()->getRectInBundle() ) );
 
-		std::pair< unsigned int, unsigned int > position = _landscape.getUnitPosition( unitsIterator->current() );
+		Plugins::Core::LandscapeModel::Point position = _landscape.getUnitPosition( unitsIterator->current() );
 
-		qreal posByX = position.first * Resources::Landscape::CellSize;
-		qreal posByY = position.second * Resources::Landscape::CellSize;
+		qreal posByX = position.m_x * Resources::Landscape::CellSize;
+		qreal posByY = position.m_y * Resources::Landscape::CellSize;
 
-		if ( unitsIterator->current()->getRectInBundle().width() > Resources::Landscape::CellSize )
+		if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().width() ) > Resources::Landscape::CellSize )
 		{
 			posByX -= ( unitsIterator->current()->getRectInBundle().width() - Resources::Landscape::CellSize ) / 2;
 		}
 
-		if ( unitsIterator->current()->getRectInBundle().height() > Resources::Landscape::CellSize )
+		if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().height() ) > Resources::Landscape::CellSize )
 		{
 			posByY -= ( unitsIterator->current()->getRectInBundle().height() - Resources::Landscape::CellSize ) / 2;
 		}

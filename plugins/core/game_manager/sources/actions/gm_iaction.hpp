@@ -1,23 +1,10 @@
 
-#ifndef __GM_IGAME_MANAGER_HPP__
-#define __GM_IGAME_MANAGER_HPP__
+#ifndef __GM_IACTION_HPP__
+#define __GM_IACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
-
-/*---------------------------------------------------------------------------*/
-
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct IUnit;
-		}
-	}
-}
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,13 +15,13 @@ namespace GameManager {
 /*---------------------------------------------------------------------------*/
 
 
-struct IGameManager
+struct IAction
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void pushMoveAction( boost::intrusive_ptr< LandscapeModel::IUnit > _unit ) = 0;
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,4 +35,4 @@ struct IGameManager
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __GM_IGAME_MANAGER_HPP__
+#endif // __GM_IACTION_HPP__

@@ -40,16 +40,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< ISurfaceItem >
-		getSurfaceItem( const unsigned int _width, const unsigned int _height ) const;
+	/*virtual*/ boost::intrusive_ptr< ISurfaceItem > getSurfaceItem( const Point& _point ) const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IUnit >
-		getUnit( const unsigned int _width, const unsigned int _height ) const;
+	/*virtual*/ boost::intrusive_ptr< IUnit > getUnit( const Point& _point ) const;
 
-	/*virtual*/ std::pair< unsigned int, unsigned int >
-		getUnitPosition( boost::intrusive_ptr< IUnit > _unit ) const;
+	/*virtual*/ Point getUnitPosition( boost::intrusive_ptr< IUnit > _unit ) const;
 
 	/*virtual*/ unsigned int getUnitsCount() const;
 
@@ -61,7 +58,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ int getTerrainMapValue( const unsigned int _width, const unsigned int _height ) const;
+	/*virtual*/ int getTerrainMapValue( const Point& _point ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -72,18 +69,14 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void setSurfaceItem(
-			const unsigned int _width
-		,	const unsigned int _height
+			const Point& _point
 		,	boost::intrusive_ptr< ISurfaceItem > _surfaceItem );
 
 	/*virtual*/ void setUnit(
-			const unsigned int _width
-		,	const unsigned int _height
+			const Point& _point
 		,	boost::intrusive_ptr< IUnit > _unit );
 
-	/*virtual*/ void setSelectedUnit(
-			const unsigned int _width
-		,	const unsigned int _height );
+	/*virtual*/ void setSelectedUnit( const Point& _point );
 
 /*---------------------------------------------------------------------------*/
 

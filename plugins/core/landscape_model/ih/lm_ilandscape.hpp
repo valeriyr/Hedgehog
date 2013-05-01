@@ -8,6 +8,7 @@
 
 #include "iterators/it_simple_iterator.hpp"
 
+#include "landscape_model/h/lm_point.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,7 +30,7 @@ struct ILandscape
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< std::pair< unsigned int, unsigned int >, boost::intrusive_ptr< IUnit > >
+		std::map< Point, boost::intrusive_ptr< IUnit > >
 		UnitsMap;
 	typedef UnitsMap::const_iterator UnitsMapConstIterator;
 	typedef UnitsMap::iterator UnitsMapIterator;
@@ -52,16 +53,13 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< ISurfaceItem >
-		getSurfaceItem( const unsigned int _width, const unsigned int _height ) const = 0;
+	virtual boost::intrusive_ptr< ISurfaceItem > getSurfaceItem( const Point& _point ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< IUnit >
-		getUnit( const unsigned int _width, const unsigned int _height ) const = 0;
+	virtual boost::intrusive_ptr< IUnit > getUnit( const Point& _point ) const = 0;
 
-	virtual std::pair< unsigned int, unsigned int >
-		getUnitPosition( boost::intrusive_ptr< IUnit > _unit ) const = 0;
+	virtual Point getUnitPosition( boost::intrusive_ptr< IUnit > _unit ) const = 0;
 
 	virtual unsigned int getUnitsCount() const = 0;
 
@@ -73,7 +71,7 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual int getTerrainMapValue( const unsigned int _width, const unsigned int _height ) const = 0;
+	virtual int getTerrainMapValue( const Point& _point ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

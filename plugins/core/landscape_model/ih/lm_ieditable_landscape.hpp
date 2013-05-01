@@ -27,18 +27,14 @@ struct IEditableLandscape
 /*---------------------------------------------------------------------------*/
 
 	virtual void setSurfaceItem(
-			const unsigned int _width
-		,	const unsigned int _height
+			const Point& _point
 		,	boost::intrusive_ptr< ISurfaceItem > _surfaceItem ) = 0;
 
 	virtual void setUnit(
-			const unsigned int _width
-		,	const unsigned int _height
+			const Point& _point
 		,	boost::intrusive_ptr< IUnit > _unit ) = 0;
 
-	virtual void setSelectedUnit(
-			const unsigned int _width
-		,	const unsigned int _height ) = 0;
+	virtual void setSelectedUnit( const Point& _point ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
