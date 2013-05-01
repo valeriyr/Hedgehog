@@ -10,6 +10,7 @@
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/ih/lm_iunit.hpp"
 
 #include "le_landscape_scene.moc"
 
@@ -152,14 +153,33 @@ LandscapeScene::regenerateObjectsLayer()
 
 	if ( landscape )
 	{
-		addRect(
-				QRect(
-						3 * Resources::Landscape::CellSize
-					,	3 * Resources::Landscape::CellSize
-					,	Resources::Landscape::CellSize
-					,	Resources::Landscape::CellSize )
-			,	QPen()
-			,	QBrush( QColor( 111, 111, 111 ) ) );
+		Plugins::Core::LandscapeModel::ILandscape::UnitsIteratorPtr
+			unitsIterator = landscape->getUnitsIterator();
+
+		while ( unitsIterator->isValid() )
+		{
+			QGraphicsPixmapItem* item = addPixmap(
+				m_environment.getPixmap( unitsIterator->current()->getBundlePath(), unitsIterator->current()->getRectInBundle() ) );
+
+			std::pair< unsigned int, unsigned int > position = landscape->getUnitPosition( unitsIterator->current() );
+
+			qreal posByX = position.first * Resources::Landscape::CellSize;
+			qreal posByY = position.second * Resources::Landscape::CellSize;
+
+			if ( unitsIterator->current()->getRectInBundle().width() > Resources::Landscape::CellSize )
+			{
+				posByX -= ( unitsIterator->current()->getRectInBundle().width() - Resources::Landscape::CellSize ) / 2;
+			}
+
+			if ( unitsIterator->current()->getRectInBundle().height() > Resources::Landscape::CellSize )
+			{
+				posByY -= ( unitsIterator->current()->getRectInBundle().height() - Resources::Landscape::CellSize ) / 2;
+			}
+
+			item->setPos( posByX, posByY );
+
+			unitsIterator->next();
+		}
 	}
 
 } // LandscapeScene::regenerateObjectsLayer

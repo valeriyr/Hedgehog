@@ -9,6 +9,7 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/ih/lm_iunit.hpp"
 
 // #include "lv_landscape_scene.moc"
 
@@ -52,6 +53,34 @@ LandscapeScene::showLandscape( const Core::LandscapeModel::ILandscape& _landscap
 			QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
 			item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
 		}
+	}
+
+	Plugins::Core::LandscapeModel::ILandscape::UnitsIteratorPtr
+		unitsIterator = _landscape.getUnitsIterator();
+
+	while ( unitsIterator->isValid() )
+	{
+		QGraphicsPixmapItem* item = addPixmap(
+			m_environment.getPixmap( unitsIterator->current()->getBundlePath(), unitsIterator->current()->getRectInBundle() ) );
+
+		std::pair< unsigned int, unsigned int > position = _landscape.getUnitPosition( unitsIterator->current() );
+
+		qreal posByX = position.first * Resources::Landscape::CellSize;
+		qreal posByY = position.second * Resources::Landscape::CellSize;
+
+		if ( unitsIterator->current()->getRectInBundle().width() > Resources::Landscape::CellSize )
+		{
+			posByX -= ( unitsIterator->current()->getRectInBundle().width() - Resources::Landscape::CellSize ) / 2;
+		}
+
+		if ( unitsIterator->current()->getRectInBundle().height() > Resources::Landscape::CellSize )
+		{
+			posByY -= ( unitsIterator->current()->getRectInBundle().height() - Resources::Landscape::CellSize ) / 2;
+		}
+
+		item->setPos( posByX, posByY );
+
+		unitsIterator->next();
 	}
 
 } // LandscapeScene::showLandscape

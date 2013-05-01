@@ -11,6 +11,7 @@
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/ih/lm_iunit.hpp"
 
 #include "mv_minimap_widget.moc"
 
@@ -266,14 +267,36 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 	painter.begin( &objectsLayer );
 	painter.setRenderHint( QPainter::Antialiasing );
 
-	QBrush surfaceItemBrash( QColor( 111, 111, 111 ) );
-	painter.fillRect(
+	Plugins::Core::LandscapeModel::ILandscape::UnitsIteratorPtr
+		unitsIterator = _landscape.getUnitsIterator();
+
+	while ( unitsIterator->isValid() )
+	{
+		std::pair< unsigned int, unsigned int > position = _landscape.getUnitPosition( unitsIterator->current() );
+
+		qreal posByX = position.first * Resources::Landscape::CellSize;
+		qreal posByY = position.second * Resources::Landscape::CellSize;
+
+		if ( unitsIterator->current()->getRectInBundle().width() > Resources::Landscape::CellSize )
+		{
+			posByX -= ( unitsIterator->current()->getRectInBundle().width() - Resources::Landscape::CellSize ) / 2;
+		}
+
+		if ( unitsIterator->current()->getRectInBundle().height() > Resources::Landscape::CellSize )
+		{
+			posByY -= ( unitsIterator->current()->getRectInBundle().height() - Resources::Landscape::CellSize ) / 2;
+		}
+
+		painter.drawPixmap(
 			QRect(
-					3 * Resources::Landscape::CellSize
-				,	3 * Resources::Landscape::CellSize
-				,	Resources::Landscape::CellSize
-				,	Resources::Landscape::CellSize )
-		, surfaceItemBrash );
+					posByX
+				,	posByY
+				,	unitsIterator->current()->getRectInBundle().width()
+				,	unitsIterator->current()->getRectInBundle().height() )
+				,	m_environment.getPixmap( unitsIterator->current()->getBundlePath(), unitsIterator->current()->getRectInBundle() ) );
+
+		unitsIterator->next();
+	}
 
 	m_objectsLayer = objectsLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 

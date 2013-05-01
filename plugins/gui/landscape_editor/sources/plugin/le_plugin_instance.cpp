@@ -19,6 +19,7 @@
 #include "minimap_viewer/h/mv_plugin_id.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
+#include "landscape_model/ih/lm_iunits_cache.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/h/lm_plugin_id.hpp"
@@ -79,6 +80,7 @@ void
 PluginInstance::initialize()
 {
 	fillSurfaceItemsCache();
+	fillUnitsCache();
 
 	m_environment.reset( new Environment( *this ) );
 
@@ -269,6 +271,20 @@ PluginInstance::getSurfaceItemsCache() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnitsCache >
+PluginInstance::getUnitsCache() const
+{
+	return
+		getPluginInterface< Plugins::Core::LandscapeModel::IUnitsCache >(
+				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
+			,	Plugins::Core::LandscapeModel::IID_UNITS_CACHE );
+
+} // PluginInstance::getUnitsCache
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< IBaseView >
 PluginInstance::getObjectsView() const
 {
@@ -369,6 +385,20 @@ PluginInstance::fillSurfaceItemsCache()
 	surfaceItemsCache->setDefaultSurfaceItem( surfaceItemsCache->getSurfaceItem( 269 ) );
 
 } // PluginInstance::fillSurfaceItemsCache
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::fillUnitsCache()
+{
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnitsCache >
+		unitsCache = getUnitsCache();
+
+	unitsCache->addUnit( "Grunt", "units/grunt", QRect( 288, 0, 72, 72 ) );
+
+} // PluginInstance::fillUnitsCache
 
 
 /*---------------------------------------------------------------------------*/

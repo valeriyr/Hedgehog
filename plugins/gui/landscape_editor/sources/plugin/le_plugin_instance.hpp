@@ -42,6 +42,7 @@ namespace Plugins
 		{
 			struct ILandscapeEditor;
 			struct ISurfaceItemsCache;
+			struct IUnitsCache;
 		}
 	}
 
@@ -118,6 +119,9 @@ public:
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
 		getSurfaceItemsCache() const;
 
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnitsCache >
+		getUnitsCache() const;
+
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< IBaseView > getObjectsView() const;
@@ -133,6 +137,8 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	void fillSurfaceItemsCache();
+
+	void fillUnitsCache();
 
 /*---------------------------------------------------------------------------*/
 
