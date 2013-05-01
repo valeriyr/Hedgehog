@@ -46,14 +46,24 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initializeLandscapeModel( const QString& _fileName );
+	/*virtual*/ void initializeLandscape( const QString& _fileName );
+
+	/*virtual*/ void closeLandscape();
 
 	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
 		getLandscape() const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void showCurrentLandscapeModel();
+	/*virtual*/ void showCurrentLandscape();
+
+	/*virtual*/ void clearLandscapeView();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void runGameManager() const;
+
+	/*virtual*/ void stopGameManager() const;
 
 /*---------------------------------------------------------------------------*/
 

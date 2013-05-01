@@ -1,12 +1,10 @@
 
-#ifndef __GM_PLUGIN_INSTANCE_HPP__
-#define __GM_PLUGIN_INSTANCE_HPP__
+#ifndef __GM_GAME_MANAGER_HPP__
+#define __GM_GAME_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
-
+#include "game_manager/ih/gm_igame_manager.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,12 +14,9 @@ namespace GameManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct IGameManager;
 
-/*---------------------------------------------------------------------------*/
-
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+class GameManager
+	:	public Tools::Core::BaseWrapper< IGameManager >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -30,27 +25,27 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	GameManager();
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	virtual ~GameManager();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize();
+	/*virtual*/ void run();
 
-	/*virtual*/ void close();
+	/*virtual*/ void stop();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void pushMoveAction(
+			boost::intrusive_ptr< LandscapeModel::IUnit > _unit
+		,	const LandscapeModel::Point& _moveTo );
 
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
-
-	boost::intrusive_ptr< IGameManager > m_gameManager;
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,4 +59,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __GM_PLUGIN_INSTANCE_HPP__
+#endif // __GM_GAME_MANAGER_HPP__

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\game_manager\gm_game_manager.cpp" />
     <ClCompile Include="sources\ph\gm_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -28,8 +29,10 @@
     <ClCompile Include="sources\plugin\gm_plugin_instance.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="h\gm_plugin_id.hpp" />
     <ClInclude Include="ih\gm_igame_manager.hpp" />
     <ClInclude Include="sources\actions\gm_iaction.hpp" />
+    <ClInclude Include="sources\game_manager\gm_game_manager.hpp" />
     <ClInclude Include="sources\ph\gm_ph.hpp" />
     <ClInclude Include="sources\plugin\gm_plugin_instance.hpp" />
   </ItemGroup>

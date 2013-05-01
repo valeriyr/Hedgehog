@@ -27,6 +27,9 @@
 #include "images_manager/ih/im_iimages_manager.hpp"
 #include "images_manager/h/im_plugin_id.hpp"
 
+#include "game_manager/ih/gm_igame_manager.hpp"
+#include "game_manager/h/gm_plugin_id.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -121,6 +124,17 @@ PluginInstance::getGameInitializer() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< LandscapeView >
+PluginInstance::getLandscapeView() const
+{
+	return m_landscapeView;
+
+} // PluginInstance::getLandscapeView
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 PluginInstance::getWindowManager() const
 {
@@ -191,12 +205,15 @@ PluginInstance::getLandscapeManager() const
 /*---------------------------------------------------------------------------*/
 
 
-void
-PluginInstance::showCurrentLandscapeModel()
+boost::intrusive_ptr< Plugins::Core::GameManager::IGameManager >
+PluginInstance::getGameManager() const
 {
-	m_landscapeView->showCurrentLandscapeModel();
+	return
+		getPluginInterface< Plugins::Core::GameManager::IGameManager >(
+				Plugins::Core::GameManager::PID_GAME_MANAGER
+			,	Plugins::Core::GameManager::IID_GAME_MANAGER );
 
-} // PluginInstance::showCurrentLandscapeModel
+} // PluginInstance::getGameManager
 
 
 /*---------------------------------------------------------------------------*/

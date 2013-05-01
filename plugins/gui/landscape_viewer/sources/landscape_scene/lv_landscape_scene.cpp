@@ -46,7 +46,8 @@ LandscapeScene::~LandscapeScene()
 void
 LandscapeScene::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	if (	_mouseEvent->scenePos().x() >= 0
+	if (	_mouseEvent->buttons() == Qt::LeftButton
+		&&	_mouseEvent->scenePos().x() >= 0
 		&&	_mouseEvent->scenePos().y() >= 0
 		&&	_mouseEvent->scenePos().x() <= width()
 		&&	_mouseEvent->scenePos().y() <= height() )

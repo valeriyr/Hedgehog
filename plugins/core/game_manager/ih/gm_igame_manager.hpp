@@ -15,6 +15,7 @@ namespace Plugins
 		namespace LandscapeModel
 		{
 			struct IUnit;
+			struct Point;
 		}
 	}
 }
@@ -27,6 +28,9 @@ namespace GameManager {
 
 /*---------------------------------------------------------------------------*/
 
+	const unsigned int IID_GAME_MANAGER = 0;
+
+/*---------------------------------------------------------------------------*/
 
 struct IGameManager
 	:	public Tools::Core::IBase
@@ -34,7 +38,15 @@ struct IGameManager
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void pushMoveAction( boost::intrusive_ptr< LandscapeModel::IUnit > _unit ) = 0;
+	virtual void run() = 0;
+
+	virtual void stop() = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void pushMoveAction(
+			boost::intrusive_ptr< LandscapeModel::IUnit > _unit
+		,	const LandscapeModel::Point& _moveTo ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

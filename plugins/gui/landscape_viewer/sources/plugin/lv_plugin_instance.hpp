@@ -42,6 +42,11 @@ namespace Plugins
 		{
 			struct ILandscapeManager;
 		}
+
+		namespace GameManager
+		{
+			struct IGameManager;
+		}
 	}
 }
 
@@ -88,6 +93,8 @@ public:
 
 	boost::intrusive_ptr< IGameInitializer > getGameInitializer() const;
 
+	boost::intrusive_ptr< LandscapeView > getLandscapeView() const;
+
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
@@ -105,9 +112,8 @@ public:
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
 		getLandscapeManager() const;
 
-/*---------------------------------------------------------------------------*/
-
-	void showCurrentLandscapeModel();
+	boost::intrusive_ptr< Plugins::Core::GameManager::IGameManager >
+		getGameManager() const;
 
 /*---------------------------------------------------------------------------*/
 

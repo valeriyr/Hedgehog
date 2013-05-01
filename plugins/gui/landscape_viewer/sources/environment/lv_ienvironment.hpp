@@ -49,14 +49,24 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initializeLandscapeModel( const QString& _fileName ) = 0;
+	virtual void initializeLandscape( const QString& _fileName ) = 0;
+
+	virtual void closeLandscape() = 0;
 
 	virtual boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
 		getLandscape() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void showCurrentLandscapeModel() = 0;
+	virtual void showCurrentLandscape() = 0;
+
+	virtual void clearLandscapeView() = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void runGameManager() const = 0;
+
+	virtual void stopGameManager() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

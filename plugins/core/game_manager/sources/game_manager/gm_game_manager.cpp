@@ -1,11 +1,9 @@
 
 #include "game_manager/sources/ph/gm_ph.hpp"
 
-#include "game_manager/sources/plugin/gm_plugin_instance.hpp"
-
-#include "plugins_manager/h/pm_plugin_factory.hpp"
-
 #include "game_manager/sources/game_manager/gm_game_manager.hpp"
+
+#include "landscape_model/ih/lm_iunit.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -17,55 +15,47 @@ namespace GameManager {
 /*---------------------------------------------------------------------------*/
 
 
-BEGIN_INTERFACE_MAP( PluginInstance )
-
-	INTERFACE_DECLARATION( IID_GAME_MANAGER, m_gameManager.get() )
-
-END_INTERFACE_MAP()
+GameManager::GameManager()
+{
+} // GameManager::GameManager
 
 
 /*---------------------------------------------------------------------------*/
 
 
-PluginInstance::PluginInstance()
+GameManager::~GameManager()
 {
-} // PluginInstance::PluginInstance
-
-
-/*---------------------------------------------------------------------------*/
-
-
-PluginInstance::~PluginInstance()
-{
-} // PluginInstance::~PluginInstance
+} // GameManager::~GameManager
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-PluginInstance::initialize()
+GameManager::run()
 {
-	m_gameManager.reset( new GameManager() );
-
-} // PluginInstance::initialize
+} // GameManager::run
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-PluginInstance::close()
+GameManager::stop()
 {
-	m_gameManager.reset();
-
-} // PluginInstance::close
+} // GameManager::stop
 
 
 /*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
 
-PLUGIN_FACTORY_DECLARATION( PluginInstance )
+
+void
+GameManager::pushMoveAction(
+		boost::intrusive_ptr< LandscapeModel::IUnit > _unit
+	,	const LandscapeModel::Point& _moveTo )
+{
+} // GameManager::pushMoveAction
+
 
 /*---------------------------------------------------------------------------*/
 

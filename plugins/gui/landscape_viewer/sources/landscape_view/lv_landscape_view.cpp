@@ -80,11 +80,26 @@ LandscapeView::viewWasClosed()
 
 
 void
-LandscapeView::showCurrentLandscapeModel()
+LandscapeView::showCurrentLandscape()
 {
-	m_landscapeScene->showLandscape( *m_environment.getLandscape() );
+	if ( m_environment.getLandscape() )
+	{
+		m_landscapeScene->showLandscape( *m_environment.getLandscape() );
+	}
 
-} // LandscapeView::showCurrentLandscapeModel
+} // LandscapeView::showCurrentLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeView::clearView()
+{
+	m_landscapeScene->clear();
+	m_landscapeScene->setSceneRect( 0, 0, 0, 0 );
+
+} // LandscapeView::clearView
 
 
 /*---------------------------------------------------------------------------*/

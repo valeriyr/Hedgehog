@@ -6,12 +6,16 @@
 #include "landscape_viewer/sources/plugin/lv_plugin_instance.hpp"
 #include "landscape_viewer/sources/game_initializer/lv_igame_initializer.hpp"
 
+#include "landscape_viewer/sources/landscape_view/lv_landscape_view.hpp"
+
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 
 #include "images_manager/ih/im_iimages_manager.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_manager.hpp"
 #include "landscape_model/ih/lm_ilandscape.hpp"
+
+#include "game_manager/ih/gm_igame_manager.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -74,11 +78,22 @@ Environment::getPixmap( const QString& _resourcePath, const QRect& _rect ) const
 
 
 void
-Environment::initializeLandscapeModel( const QString& _fileName )
+Environment::initializeLandscape( const QString& _fileName )
 {
 	m_pluginInstance.getLandscapeManager()->initCurrentLandscape( _fileName );
 
-} // Environment::initializeLandscapeModel
+} // Environment::initializeLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::closeLandscape()
+{
+	m_pluginInstance.getLandscapeManager()->closeCurrentLandscape();
+
+} // Environment::closeLandscape
 
 
 /*---------------------------------------------------------------------------*/
@@ -96,11 +111,44 @@ Environment::getLandscape() const
 
 
 void
-Environment::showCurrentLandscapeModel()
+Environment::showCurrentLandscape()
 {
-	m_pluginInstance.showCurrentLandscapeModel();
+	m_pluginInstance.getLandscapeView()->showCurrentLandscape();
 
-} // Environment::showCurrentLandscapeModel
+} // Environment::showCurrentLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::clearLandscapeView()
+{
+	m_pluginInstance.getLandscapeView()->clearView();
+
+} // Environment::clearLandscapeView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::runGameManager() const
+{
+	m_pluginInstance.getGameManager()->run();
+
+} // Environment::runGameManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::stopGameManager() const
+{
+	m_pluginInstance.getGameManager()->stop();
+
+} // Environment::stopGameManager
 
 
 /*---------------------------------------------------------------------------*/

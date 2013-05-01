@@ -39,8 +39,9 @@ GameInitializer::run()
 
 	if ( !fileName.isEmpty() )
 	{
-		m_environment.initializeLandscapeModel( fileName );
-		m_environment.showCurrentLandscapeModel();
+		m_environment.initializeLandscape( fileName );
+		m_environment.showCurrentLandscape();
+		m_environment.runGameManager();
 	}
 
 } // GameInitializer::run
@@ -52,6 +53,10 @@ GameInitializer::run()
 void
 GameInitializer::stop()
 {
+	m_environment.stopGameManager();
+	m_environment.clearLandscapeView();
+	m_environment.closeLandscape();
+
 } // GameInitializer::stop
 
 
