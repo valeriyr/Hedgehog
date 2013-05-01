@@ -36,6 +36,10 @@ struct IEditableLandscape
 		,	const unsigned int _height
 		,	boost::intrusive_ptr< IUnit > _unit ) = 0;
 
+	virtual void setSelectedUnit(
+			const unsigned int _width
+		,	const unsigned int _height ) = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };

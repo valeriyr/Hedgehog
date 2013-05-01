@@ -25,6 +25,7 @@ Landscape::Landscape( const ISurfaceItemsCache& _surfaceItemsCache )
 	,	m_units()
 	,	m_surfaceItems( NULL )
 	,	m_terrainMap( NULL )
+	,	m_selectedUnit()
 {
 } // Landscape::Landscape
 
@@ -139,6 +140,17 @@ Landscape::getUnitsIterator() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< IUnit >
+Landscape::getSelectedUnit() const
+{
+	return m_selectedUnit;
+
+} // Landscape::getSelectedUnit
+
+
+/*---------------------------------------------------------------------------*/
+
+
 int
 Landscape::getTerrainMapValue( const unsigned int _width, const unsigned int _height ) const
 {
@@ -219,6 +231,17 @@ Landscape::setUnit(
 	}
 
 } // Landscape::setSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Landscape::setSelectedUnit( const unsigned int _width, const unsigned int _height )
+{
+	m_selectedUnit = getUnit( _width, _height );
+
+} // Landscape::setSelectedUnit
 
 
 /*---------------------------------------------------------------------------*/

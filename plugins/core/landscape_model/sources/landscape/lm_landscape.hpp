@@ -57,6 +57,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ boost::intrusive_ptr< IUnit > getSelectedUnit() const;
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ int getTerrainMapValue( const unsigned int _width, const unsigned int _height ) const;
 
 /*---------------------------------------------------------------------------*/
@@ -76,6 +80,10 @@ public:
 			const unsigned int _width
 		,	const unsigned int _height
 		,	boost::intrusive_ptr< IUnit > _unit );
+
+	/*virtual*/ void setSelectedUnit(
+			const unsigned int _width
+		,	const unsigned int _height );
 
 /*---------------------------------------------------------------------------*/
 
@@ -110,6 +118,8 @@ private:
 	ISurfaceItem *** m_surfaceItems;
 
 	int ** m_terrainMap;
+
+	boost::intrusive_ptr< IUnit > m_selectedUnit;
 
 /*---------------------------------------------------------------------------*/
 

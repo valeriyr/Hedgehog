@@ -170,8 +170,11 @@ EditorView::onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, c
 void
 EditorView::onLandscapeWasChanged()
 {
-	m_environment.showLandscapeOnMinimap(
-		*m_environment.getGUILandscapeEditor()->getEditableLandscape() );
+	if ( m_environment.getGUILandscapeEditor()->getEditableLandscape() )
+	{
+		m_environment.showLandscapeOnMinimap(
+			*m_environment.getGUILandscapeEditor()->getEditableLandscape() );
+	}
 
 } // EditorView::onLandscapeWasChanged
 

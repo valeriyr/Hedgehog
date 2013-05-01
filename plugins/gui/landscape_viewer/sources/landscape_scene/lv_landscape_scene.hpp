@@ -47,6 +47,14 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent );
+
+	/*virtual*/ void mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent );
+
+	/*virtual*/ void mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent );
+
+/*---------------------------------------------------------------------------*/
+
 	void showLandscape( const Core::LandscapeModel::ILandscape& _landscape );
 
 /*---------------------------------------------------------------------------*/
@@ -56,6 +64,9 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	QPointF m_startSelectionPoint;
+	QGraphicsRectItem* m_selectionItem;
 
 /*---------------------------------------------------------------------------*/
 

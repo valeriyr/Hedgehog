@@ -26,6 +26,8 @@ namespace LandscapeViewer {
 LandscapeScene::LandscapeScene( const IEnvironment& _environment, QObject* _parent )
 	:	QGraphicsScene( _parent )
 	,	m_environment( _environment )
+	,	m_selectionItem( NULL )
+	,	m_startSelectionPoint()
 {
 } // LandscapeScene::LandscapeScene
 
@@ -36,6 +38,95 @@ LandscapeScene::LandscapeScene( const IEnvironment& _environment, QObject* _pare
 LandscapeScene::~LandscapeScene()
 {
 } // LandscapeScene::~LandscapeScene
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent )
+{
+	if (	_mouseEvent->scenePos().x() >= 0
+		&&	_mouseEvent->scenePos().y() >= 0
+		&&	_mouseEvent->scenePos().x() <= width()
+		&&	_mouseEvent->scenePos().y() <= height() )
+	{
+		m_selectionItem = addRect( 0, 0, 0, 0 );
+		m_selectionItem->setPos( _mouseEvent->scenePos().x(), _mouseEvent->scenePos().y() );
+		m_startSelectionPoint = _mouseEvent->scenePos();
+	}
+
+	QGraphicsScene::mousePressEvent( _mouseEvent );
+
+} // LandscapeScene::mousePressEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent )
+{
+	if ( m_selectionItem )
+	{
+		qreal posByX = m_startSelectionPoint.x();
+		qreal posByY = m_startSelectionPoint.y();
+
+		qreal mounsePosByX = _mouseEvent->scenePos().x() < 0 ? 0 : _mouseEvent->scenePos().x();
+		qreal mounsePosByY = _mouseEvent->scenePos().y() < 0 ? 0 : _mouseEvent->scenePos().y();
+
+		qreal width = mounsePosByX - m_startSelectionPoint.x();
+		qreal height = mounsePosByY - m_startSelectionPoint.y();
+
+		if ( width < 0 )
+		{
+			posByX += width;
+			width = -width;
+		}
+
+		if ( height < 0 )
+		{
+			posByY += height;
+			height = -height;
+		}
+
+		if ( posByX + width >= this->width() )
+		{
+			width = this->width() - posByX;
+		}
+
+		if ( posByY + height >= this->height() )
+		{
+			height = this->height() - posByY;
+		}
+
+		m_selectionItem->setPos( posByX, posByY );
+
+		m_selectionItem->setRect( 0, 0, width, height );
+	}
+
+	QGraphicsScene::mouseMoveEvent( _mouseEvent );
+
+} // LandscapeScene::mouseMoveEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
+{
+	if ( m_selectionItem )
+	{
+		removeItem( m_selectionItem );
+		delete m_selectionItem;
+		m_selectionItem = NULL;
+		m_startSelectionPoint = QPointF();
+	}
+
+	QGraphicsScene::mouseMoveEvent( _mouseEvent );
+
+} // LandscapeScene::mouseReleaseEvent
 
 
 /*---------------------------------------------------------------------------*/

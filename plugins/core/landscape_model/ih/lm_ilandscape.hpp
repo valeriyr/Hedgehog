@@ -69,6 +69,10 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
+	virtual boost::intrusive_ptr< IUnit > getSelectedUnit() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual int getTerrainMapValue( const unsigned int _width, const unsigned int _height ) const = 0;
 
 /*---------------------------------------------------------------------------*/
