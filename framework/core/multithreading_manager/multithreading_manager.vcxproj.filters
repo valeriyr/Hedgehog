@@ -62,13 +62,13 @@
     <ClInclude Include="h\mm_runnable_function.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
+    <ClInclude Include="sources\multithreading_manager\mm_multithreading_manager.hpp">
+      <Filter>Multithreading Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="sources\worker\mm_worker.hpp">
       <Filter>Worker</Filter>
-    </CustomBuild>
-    <CustomBuild Include="sources\multithreading_manager\mm_multithreading_manager.hpp">
-      <Filter>Multithreading Manager</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
