@@ -1,11 +1,10 @@
 
-#ifndef __MM_IMULTITHREADING_MANAGER_HPP__
-#define __MM_IMULTITHREADING_MANAGER_HPP__
+#include "multithreading_manager/sources/ph/mm_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "multithreading_manager/sources/worker/mm_worker.hpp"
 
-#include "intrusive_base/ib_ibase.hpp"
-#include "multithreading_manager/h/mm_runnable_function.hpp"
+#include "mm_worker.moc"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,30 +14,53 @@ namespace MultithreadingManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_MULTITHREADING_MANAGER = 0;
 
-/*---------------------------------------------------------------------------*/
-
-struct IMultithreadingManager
-	:	public Tools::Core::IBase
+Worker::Worker(
+		RunnableFunction _function
+	,	const unsigned int _period
+	,	QObject* _parent
+	)
+	:	QObject( _parent )
+	,	m_function( _function )
+	,	m_period( _period )
+	,	m_timer( new QTimer( this ) )
 {
+	QObject::connect( m_timer, SIGNAL( timeout() ), this, SLOT( doWork() ) );
+
+} // Worker::Worker
+
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void run( RunnableFunction _function ) = 0;
 
-	virtual void run(
-			const QString& _threadName
-		,	RunnableFunction _function
-		,	const unsigned int _period ) = 0;
+Worker::~Worker()
+{
+	QObject::disconnect( m_timer, SIGNAL( timeout() ), this, SLOT( doWork() ) );
 
-/*---------------------------------------------------------------------------*/
+} // Worker::~Worker
 
-	virtual void stop( const QString& _threadName ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
-};
+
+void
+Worker::startTimer()
+{
+	m_timer->start( m_period );
+
+} // Worker::startTimer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Worker::doWork()
+{
+	m_function();
+
+} // Worker::doWork
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,5 +69,3 @@ struct IMultithreadingManager
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __MM_IMULTITHREADING_MANAGER_HPP__

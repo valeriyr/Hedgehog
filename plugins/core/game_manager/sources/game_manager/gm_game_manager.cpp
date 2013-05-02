@@ -42,7 +42,7 @@ GameManager::~GameManager()
 void
 GameManager::run()
 {
-	m_environment.run( boost::bind( &GameManager::runEventsProcessing, this ) );
+	m_environment.run( "thread", boost::bind( &GameManager::runEventsProcessing, this ) );
 
 } // GameManager::run
 
@@ -53,6 +53,8 @@ GameManager::run()
 void
 GameManager::stop()
 {
+	m_environment.stop( "thread" );
+
 } // GameManager::stop
 
 

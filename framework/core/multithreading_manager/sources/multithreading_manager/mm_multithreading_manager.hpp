@@ -32,8 +32,6 @@ public:
 
 	/*virtual*/ void run( RunnableFunction _function );
 
-	/*virtual*/ void run( const QString& _threadName, RunnableFunction _function );
-
 	/*virtual*/ void run(
 			const QString& _threadName
 		,	RunnableFunction _function
@@ -49,7 +47,18 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	typedef
+		std::map< QString, boost::shared_ptr< QThread > >
+		ThreadsCollection;
+	typedef
+		ThreadsCollection::iterator
+		ThreadsCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
 	QThreadPool m_threadPool;
+
+	ThreadsCollection m_threadsCollection;
 
 /*---------------------------------------------------------------------------*/
 

@@ -35,11 +35,24 @@ Environment::~Environment()
 
 
 void
-Environment::run( Framework::Core::MultithreadingManager::RunnableFunction _function ) const
+Environment::run(
+		const QString& _threadName
+	,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const
 {
-	m_pluginInstance.getMultithreadingManager()->run( _function );
+	m_pluginInstance.getMultithreadingManager()->run( _threadName, _function, 1000 );
 
 } // Environment::run
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::stop( const QString& _threadName ) const
+{
+	m_pluginInstance.getMultithreadingManager()->stop( _threadName );
+
+} // Environment::stop
 
 
 /*---------------------------------------------------------------------------*/

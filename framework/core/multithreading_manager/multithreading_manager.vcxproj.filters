@@ -19,6 +19,9 @@
     <Filter Include="Runnable">
       <UniqueIdentifier>{1681e637-7727-49bc-8b3d-2afa21088beb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Worker">
+      <UniqueIdentifier>{c8647747-90e3-4085-a2a1-fd39d0fd5dc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\mm_ph.cpp">
@@ -32,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="sources\runnable\mm_runnable.cpp">
       <Filter>Runnable</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\worker\mm_worker.cpp">
+      <Filter>Worker</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,9 +53,6 @@
     <ClInclude Include="ih\mm_imultithreading_manager.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="sources\multithreading_manager\mm_multithreading_manager.hpp">
-      <Filter>Multithreading Manager</Filter>
-    </ClInclude>
     <ClInclude Include="h\mm_plugin_id.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
@@ -59,5 +62,13 @@
     <ClInclude Include="h\mm_runnable_function.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="sources\worker\mm_worker.hpp">
+      <Filter>Worker</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\multithreading_manager\mm_multithreading_manager.hpp">
+      <Filter>Multithreading Manager</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

@@ -1,26 +1,26 @@
 
-#ifndef __GM_ENVIRONMENT_HPP__
-#define __GM_ENVIRONMENT_HPP__
+#ifndef __MM_WORKER_HPP__
+#define __MM_WORKER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "game_manager/sources/environment/gm_ienvironment.hpp"
+#include "multithreading_manager/h/mm_runnable_function.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
+namespace Framework {
 namespace Core {
-namespace GameManager {
+namespace MultithreadingManager {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
-
-/*---------------------------------------------------------------------------*/
-
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
+class Worker
+	:	public QObject
 {
+
+/*---------------------------------------------------------------------------*/
+
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,17 +28,28 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( PluginInstance& _pluginInstance );
+	Worker(
+			RunnableFunction _function
+		,	const unsigned int _period
+		,	QObject* _parent = NULL );
 
-	virtual ~Environment();
+	virtual ~Worker();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void run(
-			const QString& _threadName
-		,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const;
+public slots:
 
-	/*virtual*/ void stop( const QString& _threadName ) const;
+/*---------------------------------------------------------------------------*/
+
+	void startTimer();
+
+/*---------------------------------------------------------------------------*/
+
+private slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void doWork();
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,7 +57,11 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance& m_pluginInstance;
+	RunnableFunction m_function;
+
+	const unsigned int m_period;
+
+	QTimer* m_timer;
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,10 +69,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace GameManager
+} // namespace MultithreadingManager
 } // namespace Core
-} // namespace Plugins
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __GM_ENVIRONMENT_HPP__
+#endif // __MM_WORKER_HPP__
