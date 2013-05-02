@@ -15,7 +15,8 @@ namespace GameManager {
 /*---------------------------------------------------------------------------*/
 
 
-GameManager::GameManager()
+GameManager::GameManager( const IEnvironment& _environment )
+	:	m_environment( _environment )
 {
 } // GameManager::GameManager
 
@@ -55,6 +56,17 @@ GameManager::pushMoveAction(
 	,	const LandscapeModel::Point& _moveTo )
 {
 } // GameManager::pushMoveAction
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+GameManager::pushSelectAction(
+		const LandscapeModel::Point& _from
+	,	const LandscapeModel::Point& _to )
+{
+} // GameManager::pushSelectAction
 
 
 /*---------------------------------------------------------------------------*/

@@ -16,6 +16,7 @@ namespace GameManager {
 
 /*---------------------------------------------------------------------------*/
 
+struct IEnvironment;
 struct IGameManager;
 
 /*---------------------------------------------------------------------------*/
@@ -49,6 +50,8 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< IEnvironment > m_environment;
 
 	boost::intrusive_ptr< IGameManager > m_gameManager;
 

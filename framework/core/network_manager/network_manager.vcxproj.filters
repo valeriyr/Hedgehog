@@ -7,7 +7,7 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{8f4466e9-401e-40a6-b4a4-fab93e7a838d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Plugins Manager">
+    <Filter Include="Plugin">
       <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -16,7 +16,7 @@
       <Filter>Precompiled Header</Filter>
     </ClCompile>
     <ClCompile Include="sources\plugin\nm_plugin_instance.cpp">
-      <Filter>Plugins Manager</Filter>
+      <Filter>Plugin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -24,7 +24,7 @@
       <Filter>Precompiled Header</Filter>
     </ClInclude>
     <ClInclude Include="sources\plugin\nm_plugin_instance.hpp">
-      <Filter>Plugins Manager</Filter>
+      <Filter>Plugin</Filter>
     </ClInclude>
     <ClInclude Include="ih\nm_iconnection.hpp">
       <Filter>Interfaces</Filter>

@@ -7,9 +7,6 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{8f4466e9-401e-40a6-b4a4-fab93e7a838d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Plugins Manager">
-      <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Minimap Widget">
       <UniqueIdentifier>{d985f233-7d57-4ab3-b6d4-6be669eb664f}</UniqueIdentifier>
     </Filter>
@@ -25,13 +22,16 @@
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{fd7d22f9-00e0-48e1-b879-db8358090918}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\mv_ph.cpp">
       <Filter>Precompiled Header</Filter>
     </ClCompile>
     <ClCompile Include="sources\plugin\mv_plugin_instance.cpp">
-      <Filter>Plugins Manager</Filter>
+      <Filter>Plugin</Filter>
     </ClCompile>
     <ClCompile Include="sources\minimap_widget\mv_minimap_widget.cpp">
       <Filter>Minimap Widget</Filter>
@@ -51,7 +51,7 @@
       <Filter>Precompiled Header</Filter>
     </ClInclude>
     <ClInclude Include="sources\plugin\mv_plugin_instance.hpp">
-      <Filter>Plugins Manager</Filter>
+      <Filter>Plugin</Filter>
     </ClInclude>
     <ClInclude Include="ih\mv_iminimap_viewer.hpp">
       <Filter>Interfaces</Filter>

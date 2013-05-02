@@ -48,6 +48,10 @@ struct IGameManager
 			boost::intrusive_ptr< LandscapeModel::IUnit > _unit
 		,	const LandscapeModel::Point& _moveTo ) = 0;
 
+	virtual void pushSelectAction(
+			const LandscapeModel::Point& _from
+		,	const LandscapeModel::Point& _to ) = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };

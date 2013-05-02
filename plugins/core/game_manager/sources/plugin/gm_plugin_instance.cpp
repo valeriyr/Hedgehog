@@ -6,6 +6,7 @@
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
 #include "game_manager/sources/game_manager/gm_game_manager.hpp"
+#include "game_manager/sources/environment/gm_environment.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -46,7 +47,8 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
-	m_gameManager.reset( new GameManager() );
+	m_environment.reset( new Environment( *this ) );
+	m_gameManager.reset( new GameManager( *m_environment ) );
 
 } // PluginInstance::initialize
 
@@ -58,6 +60,7 @@ void
 PluginInstance::close()
 {
 	m_gameManager.reset();
+	m_environment.reset();
 
 } // PluginInstance::close
 

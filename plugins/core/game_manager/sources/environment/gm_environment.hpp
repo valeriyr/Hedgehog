@@ -1,10 +1,10 @@
 
-#ifndef __GM_GAME_MANAGER_HPP__
-#define __GM_GAME_MANAGER_HPP__
+#ifndef __GM_ENVIRONMENT_HPP__
+#define __GM_ENVIRONMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "game_manager/ih/gm_igame_manager.hpp"
+#include "game_manager/sources/environment/gm_ienvironment.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,12 +14,12 @@ namespace GameManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEnvironment;
+class PluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
-class GameManager
-	:	public Tools::Core::BaseWrapper< IGameManager >
+class Environment
+	:	public Tools::Core::BaseWrapper< IEnvironment >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,25 +28,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	GameManager( const IEnvironment& _environment );
+	Environment( PluginInstance& _pluginInstance );
 
-	virtual ~GameManager();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void run();
-
-	/*virtual*/ void stop();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void pushMoveAction(
-			boost::intrusive_ptr< LandscapeModel::IUnit > _unit
-		,	const LandscapeModel::Point& _moveTo );
-
-	/*virtual*/ void pushSelectAction(
-			const LandscapeModel::Point& _from
-		,	const LandscapeModel::Point& _to );
+	virtual ~Environment();
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,7 +38,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const IEnvironment& m_environment;
+	PluginInstance& m_pluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
@@ -68,4 +52,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __GM_GAME_MANAGER_HPP__
+#endif // __GM_ENVIRONMENT_HPP__
