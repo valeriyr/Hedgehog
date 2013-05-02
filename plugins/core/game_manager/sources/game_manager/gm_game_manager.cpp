@@ -4,6 +4,7 @@
 #include "game_manager/sources/game_manager/gm_game_manager.hpp"
 
 #include "game_manager/sources/actions_queue/gm_iactions_queue.hpp"
+#include "game_manager/sources/environment/gm_ienvironment.hpp"
 
 #include "landscape_model/ih/lm_iunit.hpp"
 
@@ -41,6 +42,8 @@ GameManager::~GameManager()
 void
 GameManager::run()
 {
+	m_environment.run( boost::bind( &GameManager::runEventsProcessing, this ) );
+
 } // GameManager::run
 
 
@@ -73,6 +76,15 @@ GameManager::pushSelectAction(
 	,	const LandscapeModel::Point& _to )
 {
 } // GameManager::pushSelectAction
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+GameManager::runEventsProcessing()
+{
+} // GameManager::runEventsProcessing
 
 
 /*---------------------------------------------------------------------------*/

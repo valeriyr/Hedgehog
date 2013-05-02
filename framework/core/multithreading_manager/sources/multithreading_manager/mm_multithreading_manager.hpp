@@ -30,6 +30,29 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void run( RunnableFunction _function );
+
+	/*virtual*/ void run( const QString& _threadName, RunnableFunction _function );
+
+	/*virtual*/ void run(
+			const QString& _threadName
+		,	RunnableFunction _function
+		,	const unsigned int _period );
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void stop( const QString& _threadName );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	QThreadPool m_threadPool;
+
+/*---------------------------------------------------------------------------*/
+
 };
 
 /*---------------------------------------------------------------------------*/

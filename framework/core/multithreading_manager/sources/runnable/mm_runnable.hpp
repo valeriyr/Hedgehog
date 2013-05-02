@@ -1,10 +1,9 @@
 
-#ifndef __MM_IMULTITHREADING_MANAGER_HPP__
-#define __MM_IMULTITHREADING_MANAGER_HPP__
+#ifndef __MM_RUNNABLE_HPP__
+#define __MM_RUNNABLE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
 #include "multithreading_manager/h/mm_runnable_function.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -15,28 +14,31 @@ namespace MultithreadingManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_MULTITHREADING_MANAGER = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct IMultithreadingManager
-	:	public Tools::Core::IBase
+class Runnable
+	:	public QRunnable
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void run( RunnableFunction _function ) = 0;
-
-	virtual void run( const QString& _threadName, RunnableFunction _function ) = 0;
-
-	virtual void run(
-			const QString& _threadName
-		,	RunnableFunction _function
-		,	const unsigned int _period ) = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void stop( const QString& _threadName ) = 0;
+	Runnable( RunnableFunction _function );
+
+	virtual ~Runnable();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void run();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	RunnableFunction m_function;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,4 +52,4 @@ struct IMultithreadingManager
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __MM_IMULTITHREADING_MANAGER_HPP__
+#endif // __MM_RUNNABLE_HPP__

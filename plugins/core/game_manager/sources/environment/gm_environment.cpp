@@ -5,6 +5,8 @@
 
 #include "game_manager/sources/plugin/gm_plugin_instance.hpp"
 
+#include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,6 +29,17 @@ Environment::Environment( PluginInstance& _pluginInstance )
 Environment::~Environment()
 {
 } // Environment::~Environment
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::run( Framework::Core::MultithreadingManager::RunnableFunction _function ) const
+{
+	m_pluginInstance.getMultithreadingManager()->run( _function );
+
+} // Environment::run
 
 
 /*---------------------------------------------------------------------------*/

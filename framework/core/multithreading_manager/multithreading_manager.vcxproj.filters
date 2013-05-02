@@ -16,6 +16,9 @@
     <Filter Include="External Headers">
       <UniqueIdentifier>{4584fa3a-8a97-4c81-90a5-0cb2491b083b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Runnable">
+      <UniqueIdentifier>{1681e637-7727-49bc-8b3d-2afa21088beb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\mm_ph.cpp">
@@ -26,6 +29,9 @@
     </ClCompile>
     <ClCompile Include="sources\multithreading_manager\mm_multithreading_manager.cpp">
       <Filter>Multithreading Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\runnable\mm_runnable.cpp">
+      <Filter>Runnable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +51,12 @@
       <Filter>Multithreading Manager</Filter>
     </ClInclude>
     <ClInclude Include="h\mm_plugin_id.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\runnable\mm_runnable.hpp">
+      <Filter>Runnable</Filter>
+    </ClInclude>
+    <ClInclude Include="h\mm_runnable_function.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,6 +7,18 @@
 #include "plugins_manager/h/pm_base_plugin.hpp"
 #include "plugins_manager/h/pm_interface_map.hpp"
 
+/*---------------------------------------------------------------------------*/
+
+namespace Framework
+{
+	namespace Core
+	{
+		namespace MultithreadingManager
+		{
+			struct IMultithreadingManager;
+		}
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,6 +56,11 @@ public:
 	/*virtual*/ void initialize();
 
 	/*virtual*/ void close();
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< Framework::Core::MultithreadingManager::IMultithreadingManager >
+		getMultithreadingManager() const;
 
 /*---------------------------------------------------------------------------*/
 

@@ -9,6 +9,9 @@
 #include "game_manager/sources/environment/gm_environment.hpp"
 #include "game_manager/sources/actions_queue/gm_actions_queue.hpp"
 
+#include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
+#include "multithreading_manager/h/mm_plugin_id.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -67,6 +70,20 @@ PluginInstance::close()
 	m_environment.reset();
 
 } // PluginInstance::close
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::MultithreadingManager::IMultithreadingManager >
+PluginInstance::getMultithreadingManager() const
+{
+	return
+		getPluginInterface< Framework::Core::MultithreadingManager::IMultithreadingManager >(
+				Framework::Core::MultithreadingManager::PID_MULTITHREADING_MANAGER
+			,	Framework::Core::MultithreadingManager::IID_MULTITHREADING_MANAGER );
+
+} // PluginInstance::getMultithreadingManager
 
 
 /*---------------------------------------------------------------------------*/

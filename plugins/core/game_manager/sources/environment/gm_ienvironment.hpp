@@ -5,6 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+#include "multithreading_manager/h/mm_runnable_function.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,7 +18,7 @@ namespace GameManager {
 struct IEnvironment
 	:	public Tools::Core::IBase
 {
-
+	virtual void run( Framework::Core::MultithreadingManager::RunnableFunction _function ) const = 0;
 };
 
 /*---------------------------------------------------------------------------*/
