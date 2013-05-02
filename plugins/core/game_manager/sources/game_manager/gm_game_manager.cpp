@@ -3,6 +3,8 @@
 
 #include "game_manager/sources/game_manager/gm_game_manager.hpp"
 
+#include "game_manager/sources/actions_queue/gm_iactions_queue.hpp"
+
 #include "landscape_model/ih/lm_iunit.hpp"
 
 
@@ -15,8 +17,12 @@ namespace GameManager {
 /*---------------------------------------------------------------------------*/
 
 
-GameManager::GameManager( const IEnvironment& _environment )
+GameManager::GameManager(
+		const IEnvironment& _environment
+	,	boost::intrusive_ptr< IActionsQueue > _actionsQueue
+	)
 	:	m_environment( _environment )
+	,	m_actionsQueue( _actionsQueue )
 {
 } // GameManager::GameManager
 

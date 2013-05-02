@@ -16,6 +16,10 @@ namespace MultithreadingManager {
 
 /*---------------------------------------------------------------------------*/
 
+struct IMultithreadingManager;
+
+/*---------------------------------------------------------------------------*/
+
 class PluginInstance
 	:	public Framework::Core::PluginsManager::BasePlugin
 {
@@ -39,6 +43,14 @@ public:
 	/*virtual*/ void initialize();
 
 	/*virtual*/ void close();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< IMultithreadingManager > m_multithreadingManager;
 
 /*---------------------------------------------------------------------------*/
 

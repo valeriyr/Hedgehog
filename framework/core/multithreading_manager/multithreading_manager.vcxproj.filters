@@ -10,6 +10,12 @@
     <Filter Include="Plugin">
       <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Multithreading Manager">
+      <UniqueIdentifier>{88f04be1-9ae2-4761-b194-4bcd4692c7fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{4584fa3a-8a97-4c81-90a5-0cb2491b083b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\mm_ph.cpp">
@@ -17,6 +23,9 @@
     </ClCompile>
     <ClCompile Include="sources\plugin\mm_plugin_instance.cpp">
       <Filter>Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\multithreading_manager\mm_multithreading_manager.cpp">
+      <Filter>Multithreading Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -28,6 +37,15 @@
     </ClInclude>
     <ClInclude Include="sources\plugin\mm_plugin_instance.hpp">
       <Filter>Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\mm_imultithreading_manager.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\multithreading_manager\mm_multithreading_manager.hpp">
+      <Filter>Multithreading Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="h\mm_plugin_id.hpp">
+      <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

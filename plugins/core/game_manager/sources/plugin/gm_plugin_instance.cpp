@@ -7,6 +7,7 @@
 
 #include "game_manager/sources/game_manager/gm_game_manager.hpp"
 #include "game_manager/sources/environment/gm_environment.hpp"
+#include "game_manager/sources/actions_queue/gm_actions_queue.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -48,7 +49,10 @@ void
 PluginInstance::initialize()
 {
 	m_environment.reset( new Environment( *this ) );
-	m_gameManager.reset( new GameManager( *m_environment ) );
+	m_gameManager.reset(
+		new GameManager(
+				*m_environment
+			,	boost::intrusive_ptr< IActionsQueue >( new ActionsQueue() ) ) );
 
 } // PluginInstance::initialize
 

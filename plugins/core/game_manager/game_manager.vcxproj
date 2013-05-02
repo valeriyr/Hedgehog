@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\actions_queue\gm_actions_queue.cpp" />
     <ClCompile Include="sources\environment\gm_environment.cpp" />
     <ClCompile Include="sources\game_manager\gm_game_manager.cpp" />
     <ClCompile Include="sources\ph\gm_ph.cpp">
@@ -33,6 +34,8 @@
     <ClInclude Include="h\gm_plugin_id.hpp" />
     <ClInclude Include="ih\gm_igame_manager.hpp" />
     <ClInclude Include="sources\actions\gm_iaction.hpp" />
+    <ClInclude Include="sources\actions_queue\gm_actions_queue.hpp" />
+    <ClInclude Include="sources\actions_queue\gm_iactions_queue.hpp" />
     <ClInclude Include="sources\environment\gm_environment.hpp" />
     <ClInclude Include="sources\environment\gm_ienvironment.hpp" />
     <ClInclude Include="sources\game_manager\gm_game_manager.hpp" />

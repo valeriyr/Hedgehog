@@ -5,6 +5,8 @@
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
+#include "multithreading_manager/sources/multithreading_manager/mm_multithreading_manager.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,6 +18,8 @@ namespace MultithreadingManager {
 
 
 BEGIN_INTERFACE_MAP( PluginInstance )
+
+	INTERFACE_DECLARATION( IID_MULTITHREADING_MANAGER, m_multithreadingManager.get() )
 
 END_INTERFACE_MAP()
 
@@ -42,6 +46,8 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	m_multithreadingManager.reset( new MultithreadingManager() );
+
 } // PluginInstance::initialize
 
 
@@ -51,6 +57,8 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	m_multithreadingManager.reset();
+
 } // PluginInstance::close
 
 

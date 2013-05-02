@@ -15,6 +15,7 @@ namespace GameManager {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
+struct IActionsQueue;
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +29,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	GameManager( const IEnvironment& _environment );
+	GameManager(
+			const IEnvironment& _environment
+		,	boost::intrusive_ptr< IActionsQueue > _actionsQueue );
 
 	virtual ~GameManager();
 
@@ -55,6 +58,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	boost::intrusive_ptr< IActionsQueue > m_actionsQueue;
 
 /*---------------------------------------------------------------------------*/
 

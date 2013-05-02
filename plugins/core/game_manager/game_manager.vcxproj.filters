@@ -22,6 +22,9 @@
     <Filter Include="Plugin">
       <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actions Queue">
+      <UniqueIdentifier>{c24f7f15-2845-464b-86ca-a3a1c2ed1dec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\gm_ph.cpp">
@@ -35,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="sources\environment\gm_environment.cpp">
       <Filter>Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\actions_queue\gm_actions_queue.cpp">
+      <Filter>Actions Queue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="sources\environment\gm_ienvironment.hpp">
       <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions_queue\gm_actions_queue.hpp">
+      <Filter>Actions Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions_queue\gm_iactions_queue.hpp">
+      <Filter>Actions Queue</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
