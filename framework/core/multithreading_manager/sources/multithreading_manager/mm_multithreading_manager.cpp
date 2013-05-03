@@ -28,6 +28,8 @@ MultithreadingManager::MultithreadingManager()
 
 MultithreadingManager::~MultithreadingManager()
 {
+	assert( m_threadsCollection.empty() );
+
 } // MultithreadingManager::~MultithreadingManager
 
 

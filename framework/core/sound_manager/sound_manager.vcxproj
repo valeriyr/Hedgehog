@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\internal_resources\sm_internal_resources.cpp" />
     <ClCompile Include="sources\ph\sm_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -26,11 +27,15 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sources\plugin\sm_plugin_instance.cpp" />
+    <ClCompile Include="sources\sound_manager\sm_sound_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="h\sm_plugin_id.hpp" />
     <ClInclude Include="ih\sm_isound_manager.hpp" />
+    <ClInclude Include="sources\internal_resources\sm_internal_resources.hpp" />
     <ClInclude Include="sources\ph\sm_ph.hpp" />
     <ClInclude Include="sources\plugin\sm_plugin_instance.hpp" />
+    <ClInclude Include="sources\sound_manager\sm_sound_manager.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{80FFB28A-0D87-4568-9C28-6896773E5508}</ProjectGuid>
@@ -130,7 +135,7 @@
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>QtCored4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>QtCored4.lib;QtGuid4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -151,7 +156,7 @@
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>QtCored4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>QtCored4.lib;QtGuid4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -176,7 +181,7 @@
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>QtCore4.lib;QtGui4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -201,7 +206,7 @@
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>QtCore4.lib;QtGui4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

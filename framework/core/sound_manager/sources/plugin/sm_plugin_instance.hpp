@@ -7,12 +7,28 @@
 #include "plugins_manager/h/pm_base_plugin.hpp"
 #include "plugins_manager/h/pm_interface_map.hpp"
 
+/*---------------------------------------------------------------------------*/
+
+namespace Framework
+{
+	namespace Core
+	{
+		namespace PluginsManager
+		{
+			struct ISystemInformation;
+		}
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
 namespace Core {
 namespace SoundManager {
+
+/*---------------------------------------------------------------------------*/
+
+struct ISoundManager;
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,6 +55,23 @@ public:
 	/*virtual*/ void initialize();
 
 	/*virtual*/ void close();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< Core::PluginsManager::ISystemInformation >
+		getSystemInformation() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< ISoundManager > m_soundManager;
 
 /*---------------------------------------------------------------------------*/
 

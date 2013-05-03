@@ -6,6 +6,7 @@
 #include "game_manager/sources/plugin/gm_plugin_instance.hpp"
 
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
+#include "sound_manager/ih/sm_isound_manager.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -53,6 +54,17 @@ Environment::stop( const QString& _threadName ) const
 	m_pluginInstance.getMultithreadingManager()->stop( _threadName );
 
 } // Environment::stop
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::playSound( const QString& _resourcePath ) const
+{
+	m_pluginInstance.getSoundManager()->play( _resourcePath );
+
+} // Environment::playSound
 
 
 /*---------------------------------------------------------------------------*/

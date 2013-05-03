@@ -12,6 +12,9 @@
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 #include "multithreading_manager/h/mm_plugin_id.hpp"
 
+#include "sound_manager/ih/sm_isound_manager.hpp"
+#include "sound_manager/h/sm_plugin_id.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -84,6 +87,20 @@ PluginInstance::getMultithreadingManager() const
 			,	Framework::Core::MultithreadingManager::IID_MULTITHREADING_MANAGER );
 
 } // PluginInstance::getMultithreadingManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::SoundManager::ISoundManager >
+PluginInstance::getSoundManager() const
+{
+	return
+		getPluginInterface< Framework::Core::SoundManager::ISoundManager >(
+				Framework::Core::SoundManager::PID_SOUND_MANAGER
+			,	Framework::Core::SoundManager::IID_SOUND_MANAGER );
+
+} // PluginInstance::getSoundManager
 
 
 /*---------------------------------------------------------------------------*/

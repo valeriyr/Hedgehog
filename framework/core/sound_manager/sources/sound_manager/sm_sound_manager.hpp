@@ -1,25 +1,21 @@
 
-#ifndef __GM_ENVIRONMENT_HPP__
-#define __GM_ENVIRONMENT_HPP__
+#ifndef __SM_SOUND_MANAGER_HPP__
+#define __SM_SOUND_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "game_manager/sources/environment/gm_ienvironment.hpp"
+#include "sound_manager/ih/sm_isound_manager.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
+namespace Framework {
 namespace Core {
-namespace GameManager {
+namespace SoundManager {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
-
-/*---------------------------------------------------------------------------*/
-
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
+class SoundManager
+	:	public Tools::Core::BaseWrapper< ISoundManager >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,21 +24,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( PluginInstance& _pluginInstance );
+	SoundManager( const QString& _resourcesDirectory );
 
-	virtual ~Environment();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void run(
-			const QString& _threadName
-		,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const;
-
-	/*virtual*/ void stop( const QString& _threadName ) const;
+	virtual ~SoundManager();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void playSound( const QString& _resourcePath ) const;
+	/*virtual*/ void play( const QString& _resourcePath );
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,7 +38,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance& m_pluginInstance;
+	const QString m_resourcesDirectory;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,10 +46,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace GameManager
+} // namespace SoundManager
 } // namespace Core
-} // namespace Plugins
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __GM_ENVIRONMENT_HPP__
+#endif // __SM_SOUND_MANAGER_HPP__

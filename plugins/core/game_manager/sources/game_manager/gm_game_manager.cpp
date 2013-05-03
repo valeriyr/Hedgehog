@@ -43,6 +43,7 @@ void
 GameManager::run()
 {
 	m_environment.run( "thread", boost::bind( &GameManager::runEventsProcessing, this ) );
+	m_environment.playSound( "act" );
 
 } // GameManager::run
 

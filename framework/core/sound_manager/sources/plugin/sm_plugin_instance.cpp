@@ -5,6 +5,11 @@
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
+#include "sound_manager/sources/sound_manager/sm_sound_manager.hpp"
+
+#include "plugins_manager/h/pm_plugin_id.hpp"
+#include "plugins_manager/ih/pm_isystem_information.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,6 +21,8 @@ namespace SoundManager {
 
 
 BEGIN_INTERFACE_MAP( PluginInstance )
+
+	INTERFACE_DECLARATION( IID_SOUND_MANAGER, m_soundManager.get() )
 
 END_INTERFACE_MAP()
 
@@ -42,6 +49,8 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	m_soundManager.reset( new SoundManager( getSystemInformation()->getResourcesDirectory() ) );
+
 } // PluginInstance::initialize
 
 
@@ -51,7 +60,23 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	m_soundManager.reset();
+
 } // PluginInstance::close
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Core::PluginsManager::ISystemInformation >
+PluginInstance::getSystemInformation() const
+{
+	return
+		getPluginInterface< Core::PluginsManager::ISystemInformation >(
+				Core::PluginsManager::PID_PLUGINS_MANAGER
+			,	Core::PluginsManager::IID_SYSTEM_INFORMATION );
+
+} // PluginInstance::getSystemInformation
 
 
 /*---------------------------------------------------------------------------*/

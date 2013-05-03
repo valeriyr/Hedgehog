@@ -18,11 +18,21 @@ namespace GameManager {
 struct IEnvironment
 	:	public Tools::Core::IBase
 {
+
+/*---------------------------------------------------------------------------*/
+
 	virtual void run(
 			const QString& _threadName
 		,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const = 0;
 
 	virtual void stop( const QString& _threadName ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void playSound( const QString& _resourcePath ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
 };
 
 /*---------------------------------------------------------------------------*/

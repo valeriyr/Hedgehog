@@ -10,6 +10,15 @@
     <Filter Include="Plugin">
       <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound Manager">
+      <UniqueIdentifier>{adc71e75-8857-4d2b-9054-ad43ce74296c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{b9cd7a99-ad58-4538-8b5e-4b6b8acaffc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal Resources">
+      <UniqueIdentifier>{69d44430-c3d8-4b11-911d-a5bf9e4060df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\sm_ph.cpp">
@@ -17,6 +26,12 @@
     </ClCompile>
     <ClCompile Include="sources\plugin\sm_plugin_instance.cpp">
       <Filter>Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\sound_manager\sm_sound_manager.cpp">
+      <Filter>Sound Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\internal_resources\sm_internal_resources.cpp">
+      <Filter>Internal Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -28,6 +43,15 @@
     </ClInclude>
     <ClInclude Include="ih\sm_isound_manager.hpp">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\sound_manager\sm_sound_manager.hpp">
+      <Filter>Sound Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="h\sm_plugin_id.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\internal_resources\sm_internal_resources.hpp">
+      <Filter>Internal Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
