@@ -1,5 +1,5 @@
 
 #include <QtCore/QString>
-#include <QtGui/QSound>
+#include <QtMultimedia/QSound>
 
 #include <boost/intrusive_ptr.hpp>

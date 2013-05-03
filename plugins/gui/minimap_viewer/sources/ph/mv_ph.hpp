@@ -1,5 +1,6 @@
 
-#include <QtOpenGL/QGLWidget>
+#include <QtWidgets/QWidget>
+#include <QtGui/QPainter>
 
 #include <QtGui/QPaintEvent>
 #include <QtGui/QMouseEvent>

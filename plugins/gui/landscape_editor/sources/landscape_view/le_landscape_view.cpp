@@ -60,8 +60,8 @@ void
 LandscapeView::wasResized()
 {
 	emit landscapeViewWasResized(
-			static_cast< float >( width() ) / scene()->width()
-		,	static_cast< float >( height() ) / scene()->height() );
+			scene()->width() == 0 ? 0.0f : static_cast< float >( width() ) / scene()->width()
+		,	scene()->height() == 0 ? 0.0f : static_cast< float >( height() ) / scene()->height() );
 
 } // LandscapeView::wasResized
 
@@ -84,12 +84,9 @@ LandscapeView::changeVisibleRect( const float _relPosotionByX, const float _relP
 void
 LandscapeView::onSliderMoved( int _value )
 {
-	int v = verticalScrollBar()->value();
-	int m = verticalScrollBar()->maximum();
-
 	emit visibleRectOfLandscapeViewWasChanged(
-			static_cast< float >( horizontalScrollBar()->value() ) / horizontalScrollBar()->maximum()
-		,	static_cast< float >( verticalScrollBar()->value() ) / verticalScrollBar()->maximum() );
+			horizontalScrollBar()->maximum() == 0 ? 0.0f : static_cast< float >( horizontalScrollBar()->value() ) / horizontalScrollBar()->maximum()
+		,	verticalScrollBar()->maximum() == 0 ? 0.0f : static_cast< float >( verticalScrollBar()->value() ) / verticalScrollBar()->maximum() );
 
 } // LandscapeView::onSliderMoved
 

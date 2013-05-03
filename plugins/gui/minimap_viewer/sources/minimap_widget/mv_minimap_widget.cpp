@@ -32,7 +32,7 @@ const QSize MinimapWidget::ms_fixedWidgetSize = QSize( 300, 200 );
 
 
 MinimapWidget::MinimapWidget( const IEnvironment& _environment,	QWidget* _parent )
-	:	QGLWidget( QGLFormat( QGL::SampleBuffers ), _parent )
+	:	QWidget( _parent )
 	,	m_environment( _environment )
 	,	m_surfaceLayer( ms_fixedWidgetSize )
 	,	m_objectsLayer( ms_fixedWidgetSize )
@@ -124,8 +124,6 @@ MinimapWidget::paintEvent( QPaintEvent* _event )
 
 	painter.drawRect( m_visibleArea );
 
-	QGLWidget::paintEvent( _event );
-
 } // MinimapWidget::paintEvent
 
 
@@ -137,8 +135,6 @@ MinimapWidget::mousePressEvent ( QMouseEvent* _event )
 {
 	wasClickedOnWidget( _event->pos() );
 	update();
-
-	QGLWidget::mousePressEvent( _event );
 
 } // MinimapWidget::mousePressEvent
 
@@ -152,8 +148,6 @@ MinimapWidget::mouseMoveEvent ( QMouseEvent* _event )
 	wasClickedOnWidget( _event->pos() );
 	update();
 
-	QGLWidget::mouseMoveEvent( _event );
-
 } // MinimapWidget::mouseMoveEvent
 
 
@@ -163,6 +157,9 @@ MinimapWidget::mouseMoveEvent ( QMouseEvent* _event )
 void
 MinimapWidget::wasClickedOnWidget( const QPoint& _atPoint )
 {
+	if ( _atPoint.x() < 0 || _atPoint.y() < 0 )
+		return;
+
 	QPoint visibleAreaOrigin( m_visibleArea.topLeft() );
 
 	if ( _atPoint.x() - m_visibleArea.width() / 2 < 0 )

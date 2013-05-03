@@ -1,7 +1,7 @@
 
-#include <QtGui/QTextEdit>
-#include <QtGui/QLineEdit>
-#include <QtGui/QVBoxLayout>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QVBoxLayout>
 
 #include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>

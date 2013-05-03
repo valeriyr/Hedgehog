@@ -90,36 +90,36 @@
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/</OutDir>
-    <ExecutablePath>$(LIBPATH)\qt\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(LIBPATH)\qt\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(LIBPATH)\qt\qtbase\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(LIBPATH)\qt\qtbase\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LIBPATH)\qt\qtbase\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/</OutDir>
-    <ExecutablePath>$(LIBPATH)\qt\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(LIBPATH)\qt\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(LIBPATH)\qt\qtbase\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(LIBPATH)\qt\qtbase\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LIBPATH)\qt\qtbase\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/</OutDir>
     <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
-    <ExecutablePath>$(LIBPATH)\qt\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(LIBPATH)\qt\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(LIBPATH)\qt\qtbase\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(LIBPATH)\qt\qtbase\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LIBPATH)\qt\qtbase\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/</OutDir>
     <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
-    <ExecutablePath>$(LIBPATH)\qt\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(LIBPATH)\qt\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(LIBPATH)\qt\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(LIBPATH)\qt\qtbase\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(LIBPATH)\qt\qtbase\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LIBPATH)\qt\qtbase\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -140,7 +140,7 @@
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>QtCored4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -161,7 +161,7 @@
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>QtCored4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -186,7 +186,7 @@
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -211,7 +211,7 @@
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>QtCore4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

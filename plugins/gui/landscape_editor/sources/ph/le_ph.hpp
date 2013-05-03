@@ -1,12 +1,12 @@
 
-#include <QtGui/QTextEdit>
-#include <QtGui/QScrollBar>
-#include <QtGui/QTreeWidget>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QScrollBar>
+#include <QtWidgets/QTreeWidget>
 
-#include <QtGui/QGraphicsView>
-#include <QtGui/QGraphicsScene>
-#include <QtGui/QGraphicsPixmapItem>
-#include <QtGui/QGraphicsSceneMouseEvent>
+#include <QtWidgets/QGraphicsView>
+#include <QtWidgets/QGraphicsScene>
+#include <QtWidgets/QGraphicsPixmapItem>
+#include <QtWidgets/QGraphicsSceneMouseEvent>
 
 #include <QtGui/QColor>
 
