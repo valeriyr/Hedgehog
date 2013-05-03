@@ -157,9 +157,6 @@ MinimapWidget::mouseMoveEvent ( QMouseEvent* _event )
 void
 MinimapWidget::wasClickedOnWidget( const QPoint& _atPoint )
 {
-	if ( _atPoint.x() < 0 || _atPoint.y() < 0 )
-		return;
-
 	QPoint visibleAreaOrigin( m_visibleArea.topLeft() );
 
 	if ( _atPoint.x() - m_visibleArea.width() / 2 < 0 )
