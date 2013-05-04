@@ -31,7 +31,7 @@ WindowManager::WindowManager( const QString& _applicationName, IEnvironment& _en
 
 	m_mainWindow->setWindowTitle( _applicationName );
 	m_mainWindow->setCentralWidget( m_centralWidget );
-	m_mainWindow->showMaximized();
+	m_mainWindow->showFullScreen();
 
 } // WindowManager::WindowManager
 
