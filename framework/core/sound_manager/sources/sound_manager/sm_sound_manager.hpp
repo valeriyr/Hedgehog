@@ -38,7 +38,24 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	 boost::shared_ptr< QSound > getSound( const QString& _resourcePath );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	typedef
+		std::map< QString, boost::shared_ptr< QSound > >
+		SoundsCache;
+	typedef SoundsCache::iterator SoundsCacheIterator;
+
+/*---------------------------------------------------------------------------*/
+
 	const QString m_resourcesDirectory;
+
+	SoundsCache m_soundsCache;
 
 /*---------------------------------------------------------------------------*/
 
