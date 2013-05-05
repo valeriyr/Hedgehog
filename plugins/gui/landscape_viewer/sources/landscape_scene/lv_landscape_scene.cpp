@@ -94,12 +94,12 @@ LandscapeScene::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 
 		if ( posByX + width >= this->width() )
 		{
-			width = this->width() - posByX;
+			width = this->width() - posByX - 1;
 		}
 
 		if ( posByY + height >= this->height() )
 		{
-			height = this->height() - posByY;
+			height = this->height() - posByY - 1;
 		}
 
 		m_selectionItem->setPos( posByX, posByY );
