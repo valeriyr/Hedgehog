@@ -11,6 +11,11 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
+struct IEnvironment;
+class LandscapeScene;
+
+/*---------------------------------------------------------------------------*/
+
 class LandscapeWidget
 	:	public QGraphicsView
 {
@@ -25,9 +30,30 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeWidget( QGraphicsScene* _scene, QWidget* _parent = NULL );
+	LandscapeWidget(
+			const IEnvironment& _environment
+		,	LandscapeScene* _scene
+		,	QWidget* _parent = NULL );
 
 	virtual ~LandscapeWidget();
+
+/*---------------------------------------------------------------------------*/
+
+protected:
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void resizeEvent( QResizeEvent* _event );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const IEnvironment& m_environment;
+
+	LandscapeScene* m_scene;
 
 /*---------------------------------------------------------------------------*/
 

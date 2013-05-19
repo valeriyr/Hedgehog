@@ -29,7 +29,7 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, QObject* _parent
 	,	m_environment( _environment )
 	,	m_viewTitle( Resources::Views::LandscapeViewTitle )
 	,	m_landscapeScene( new LandscapeScene( _environment ) )
-	,	m_landscapeWidget( new LandscapeWidget( m_landscapeScene.get() ) )
+	,	m_landscapeWidget( new LandscapeWidget( _environment, m_landscapeScene.get() ) )
 {
 } // LandscapeView::LandscapeView
 

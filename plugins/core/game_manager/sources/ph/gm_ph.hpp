@@ -1,4 +1,7 @@
 
+#include <deque>
+#include <map>
+
 #include <QtCore/QRect>
 #include <QtCore/QString>
 

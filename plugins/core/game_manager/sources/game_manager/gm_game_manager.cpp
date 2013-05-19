@@ -6,6 +6,9 @@
 #include "game_manager/sources/actions_queue/gm_iactions_queue.hpp"
 #include "game_manager/sources/environment/gm_ienvironment.hpp"
 
+#include "game_manager/sources/actions/gm_move_items_action.hpp"
+#include "game_manager/sources/actions/gm_select_items_action.hpp"
+
 #include "landscape_model/ih/lm_iunit.hpp"
 
 
@@ -42,8 +45,7 @@ GameManager::~GameManager()
 void
 GameManager::run()
 {
-	m_environment.run( "thread", boost::bind( &GameManager::runEventsProcessing, this ) );
-	m_environment.playSound( "act" );
+	m_environment.runThread( "actionsProcessingLoop", boost::bind( &GameManager::runActionsProcessing, this ) );
 
 } // GameManager::run
 
@@ -54,7 +56,7 @@ GameManager::run()
 void
 GameManager::stop()
 {
-	m_environment.stop( "thread" );
+	m_environment.stopThread( "actionsProcessingLoop" );
 
 } // GameManager::stop
 
@@ -63,10 +65,11 @@ GameManager::stop()
 
 
 void
-GameManager::pushMoveAction(
-		boost::intrusive_ptr< LandscapeModel::IUnit > _unit
-	,	const LandscapeModel::Point& _moveTo )
+GameManager::pushMoveAction( const LandscapeModel::Point& _moveTo )
 {
+	m_actionsQueue->pushBackAction(
+		boost::intrusive_ptr< IAction >( new MoveAction( m_environment, _moveTo ) ) );
+
 } // GameManager::pushMoveAction
 
 
@@ -78,6 +81,9 @@ GameManager::pushSelectAction(
 		const LandscapeModel::Point& _from
 	,	const LandscapeModel::Point& _to )
 {
+	m_actionsQueue->pushBackAction(
+		boost::intrusive_ptr< IAction >( new SelectAction( m_environment, _from, _to ) ) );
+
 } // GameManager::pushSelectAction
 
 
@@ -85,9 +91,16 @@ GameManager::pushSelectAction(
 
 
 void
-GameManager::runEventsProcessing()
+GameManager::runActionsProcessing()
 {
-} // GameManager::runEventsProcessing
+	while( m_actionsQueue->hasActions() )
+	{
+		boost::intrusive_ptr< IAction > action = m_actionsQueue->popFrontAction();
+
+		action->doAction();
+	}
+
+} // GameManager::runActionsProcessing
 
 
 /*---------------------------------------------------------------------------*/

@@ -34,11 +34,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void run(
+	/*virtual*/ boost::intrusive_ptr< LandscapeModel::IEditableLandscape > getCurrentLandscape() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void runThread(
 			const QString& _threadName
 		,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const;
 
-	/*virtual*/ void stop( const QString& _threadName ) const;
+	/*virtual*/ void stopThread( const QString& _threadName ) const;
 
 /*---------------------------------------------------------------------------*/
 

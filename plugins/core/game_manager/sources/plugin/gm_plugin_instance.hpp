@@ -25,6 +25,17 @@ namespace Framework
 	}
 }
 
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct ILandscapeManager;
+		}
+	}
+}
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -69,6 +80,9 @@ public:
 
 	boost::intrusive_ptr< Framework::Core::SoundManager::ISoundManager >
 		getSoundManager() const;
+
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
+		getLandscapeManager() const;
 
 /*---------------------------------------------------------------------------*/
 

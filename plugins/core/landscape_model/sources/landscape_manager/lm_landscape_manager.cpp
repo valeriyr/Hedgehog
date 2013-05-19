@@ -65,7 +65,7 @@ LandscapeManager::closeCurrentLandscape()
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILandscape >
+boost::intrusive_ptr< IEditableLandscape >
 LandscapeManager::getCurrentLandscape() const
 {
 	return m_currentLandscape;

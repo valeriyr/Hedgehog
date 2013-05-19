@@ -1,10 +1,10 @@
 
-#ifndef __GM_IACTION_HPP__
-#define __GM_IACTION_HPP__
+#ifndef __GM_BASE_ACTION_HPP__
+#define __GM_BASE_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "game_manager/sources/actions/gm_iaction.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,16 +14,31 @@ namespace GameManager {
 
 /*---------------------------------------------------------------------------*/
 
+struct IEnvironment;
 
-struct IAction
-	:	public Tools::Core::IBase
+/*---------------------------------------------------------------------------*/
+
+class BaseAction
+	:	public Tools::Core::BaseWrapper< IAction >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void doAction() = 0;
+public:
 
-	virtual void undoAction() = 0;
+/*---------------------------------------------------------------------------*/
+
+	BaseAction( const IEnvironment& _environment );
+
+	virtual ~BaseAction();
+
+/*---------------------------------------------------------------------------*/
+
+protected:
+
+/*---------------------------------------------------------------------------*/
+
+	const IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,4 +52,4 @@ struct IAction
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __GM_IACTION_HPP__
+#endif // __GM_BASE_ACTION_HPP__

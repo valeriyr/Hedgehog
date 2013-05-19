@@ -9,6 +9,19 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct IEditableLandscape;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace Core {
 namespace GameManager {
@@ -21,11 +34,15 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void run(
+	virtual boost::intrusive_ptr< LandscapeModel::IEditableLandscape > getCurrentLandscape() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void runThread(
 			const QString& _threadName
 		,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const = 0;
 
-	virtual void stop( const QString& _threadName ) const = 0;
+	virtual void stopThread( const QString& _threadName ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

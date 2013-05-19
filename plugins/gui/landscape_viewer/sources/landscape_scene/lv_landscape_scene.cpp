@@ -120,10 +120,18 @@ LandscapeScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
 	if ( m_selectionItem )
 	{
+		m_environment.selectItemsInModel(
+				LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() )
+			,	LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() ) );
+
 		removeItem( m_selectionItem );
 		delete m_selectionItem;
 		m_selectionItem = NULL;
 		m_startSelectionPoint = QPointF();
+	}
+	else
+	{
+		m_environment.moveSelectedItems( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ) );
 	}
 
 	QGraphicsScene::mouseMoveEvent( _mouseEvent );
@@ -180,6 +188,20 @@ LandscapeScene::showLandscape( const Core::LandscapeModel::ILandscape& _landscap
 	}
 
 } // LandscapeScene::showLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+Core::LandscapeModel::Point
+LandscapeScene::convertFromScenePosition( const QPointF& _scenePosition )
+{
+	return
+		Plugins::Core::LandscapeModel::Point(
+				_scenePosition.x() / Resources::Landscape::CellSize
+			,	_scenePosition.y() / Resources::Landscape::CellSize );
+
+} // LandscapeScene::convertFromScenePosition
 
 
 /*---------------------------------------------------------------------------*/

@@ -13,7 +13,7 @@
 #include "images_manager/ih/im_iimages_manager.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_manager.hpp"
-#include "landscape_model/ih/lm_ilandscape.hpp"
+#include "landscape_model/ih/lm_ieditable_landscape.hpp"
 
 #include "game_manager/ih/gm_igame_manager.hpp"
 
@@ -149,6 +149,30 @@ Environment::stopGameManager() const
 	m_pluginInstance.getGameManager()->stop();
 
 } // Environment::stopGameManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::selectItemsInModel(
+		const Core::LandscapeModel::Point& _from
+	,	const Core::LandscapeModel::Point& _to ) const
+{
+	m_pluginInstance.getGameManager()->pushSelectAction( _from, _to );
+
+} // Environment::selectItemsInModel
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::moveSelectedItems( const Core::LandscapeModel::Point& _to ) const
+{
+	m_pluginInstance.getGameManager()->pushMoveAction( _to );
+
+} // Environment::moveSelectedItems
 
 
 /*---------------------------------------------------------------------------*/

@@ -36,6 +36,8 @@ struct IEditableLandscape
 
 	virtual void setSelectedUnit( const Point& _point ) = 0;
 
+	virtual void moveUnit( boost::intrusive_ptr< IUnit > _unit, const Point& _point ) = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };

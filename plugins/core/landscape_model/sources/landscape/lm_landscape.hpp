@@ -78,6 +78,8 @@ public:
 
 	/*virtual*/ void setSelectedUnit( const Point& _point );
 
+	/*virtual*/ void moveUnit( boost::intrusive_ptr< IUnit > _unit, const Point& _point );
+
 /*---------------------------------------------------------------------------*/
 
 private:

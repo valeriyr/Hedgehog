@@ -14,6 +14,7 @@ namespace Plugins
 	{
 		namespace LandscapeModel
 		{
+			struct Point;
 			struct ILandscape;
 		}
 	}
@@ -67,6 +68,14 @@ struct IEnvironment
 	virtual void runGameManager() const = 0;
 
 	virtual void stopGameManager() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void selectItemsInModel(
+			const Core::LandscapeModel::Point& _from
+		,	const Core::LandscapeModel::Point& _to ) const = 0;
+
+	virtual void moveSelectedItems( const Core::LandscapeModel::Point& _to ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

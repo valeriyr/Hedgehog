@@ -7,7 +7,8 @@
 
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 #include "sound_manager/ih/sm_isound_manager.hpp"
-
+#include "landscape_model/ih/lm_ilandscape_manager.hpp"
+#include "landscape_model/ih/lm_ieditable_landscape.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,25 +36,36 @@ Environment::~Environment()
 /*---------------------------------------------------------------------------*/
 
 
-void
-Environment::run(
-		const QString& _threadName
-	,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const
+boost::intrusive_ptr< LandscapeModel::IEditableLandscape >
+Environment::getCurrentLandscape() const
 {
-	m_pluginInstance.getMultithreadingManager()->run( _threadName, _function, 1000 );
+	return m_pluginInstance.getLandscapeManager()->getCurrentLandscape();
 
-} // Environment::run
+} // Environment::getCurrentLandscape
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Environment::stop( const QString& _threadName ) const
+Environment::runThread(
+		const QString& _threadName
+	,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const
+{
+	m_pluginInstance.getMultithreadingManager()->run( _threadName, _function, 1000 );
+
+} // Environment::runThread
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::stopThread( const QString& _threadName ) const
 {
 	m_pluginInstance.getMultithreadingManager()->stop( _threadName );
 
-} // Environment::stop
+} // Environment::stopThread
 
 
 /*---------------------------------------------------------------------------*/

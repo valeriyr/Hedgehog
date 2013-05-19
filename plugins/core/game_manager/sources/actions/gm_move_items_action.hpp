@@ -1,10 +1,12 @@
 
-#ifndef __GM_ACTIONS_QUEUE_HPP__
-#define __GM_ACTIONS_QUEUE_HPP__
+#ifndef __GM_MOVE_ITEMS_ACTION_HPP__
+#define __GM_MOVE_ITEMS_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "game_manager/sources/actions_queue/gm_iactions_queue.hpp"
+#include "game_manager/sources/actions/gm_base_action.hpp"
+
+#include "landscape_model/h/lm_point.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,8 +16,8 @@ namespace GameManager {
 
 /*---------------------------------------------------------------------------*/
 
-class ActionsQueue
-	:	public Tools::Core::BaseWrapper< IActionsQueue >
+class MoveAction
+	:	public BaseAction
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,19 +26,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ActionsQueue();
+	MoveAction(
+			const IEnvironment& _environment
+		,	const LandscapeModel::Point& _to );
 
-	virtual ~ActionsQueue();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ bool hasActions() const;
+	virtual ~MoveAction();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void pushBackAction( boost::intrusive_ptr< IAction > _action );
+	/*virtual*/ void doAction();
 
-	/*virtual*/ boost::intrusive_ptr< IAction > popFrontAction();
+	/*virtual*/ void undoAction();
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,14 +44,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		std::deque< boost::intrusive_ptr< IAction > >
-		ActionsCollection;
-	typedef ActionsCollection::iterator ActionsCollectionIterator;
-
-/*---------------------------------------------------------------------------*/
-
-	ActionsCollection m_actionsCollection;
+	const LandscapeModel::Point m_to;
 
 /*---------------------------------------------------------------------------*/
 
@@ -65,4 +58,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __GM_ACTIONS_QUEUE_HPP__
+#endif // __GM_MOVE_ITEMS_ACTION_HPP__

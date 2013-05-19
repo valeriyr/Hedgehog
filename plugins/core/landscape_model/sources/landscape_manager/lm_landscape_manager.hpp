@@ -43,7 +43,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< ILandscape > getCurrentLandscape() const;
+	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getCurrentLandscape() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -55,7 +55,7 @@ private:
 
 	const ISurfaceItemsCache& m_surfaceItemsCache;
 
-	boost::intrusive_ptr< ILandscape > m_currentLandscape;
+	boost::intrusive_ptr< IEditableLandscape > m_currentLandscape;
 
 /*---------------------------------------------------------------------------*/
 

@@ -95,7 +95,7 @@ LandscapeView::onSliderMoved( int _value )
 
 
 void
-LandscapeView::resizeEvent( QResizeEvent * _event )
+LandscapeView::resizeEvent( QResizeEvent* _event )
 {
 	wasResized();
 

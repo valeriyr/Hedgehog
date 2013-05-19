@@ -245,6 +245,23 @@ Landscape::setSelectedUnit( const Point& _point )
 /*---------------------------------------------------------------------------*/
 
 
+void
+Landscape::moveUnit( boost::intrusive_ptr< IUnit > _unit, const Point& _point )
+{
+	Point unitPosition = getUnitPosition( _unit );
+
+	ILandscape::UnitsMapIterator iterator = m_units.find( unitPosition );
+
+	m_units.erase( iterator );
+
+	setUnit( _point, _unit );
+
+} // Landscape::moveUnit
+
+
+/*---------------------------------------------------------------------------*/
+
+
 template< typename _TCollectionItem >
 void
 Landscape::initCollection( _TCollectionItem**& _collection )

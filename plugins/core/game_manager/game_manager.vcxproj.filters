@@ -42,6 +42,15 @@
     <ClCompile Include="sources\actions_queue\gm_actions_queue.cpp">
       <Filter>Actions Queue</Filter>
     </ClCompile>
+    <ClCompile Include="sources\actions\gm_move_items_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\actions\gm_select_items_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\actions\gm_base_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\gm_ph.hpp">
@@ -73,6 +82,15 @@
     </ClInclude>
     <ClInclude Include="sources\actions_queue\gm_iactions_queue.hpp">
       <Filter>Actions Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\gm_move_items_action.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\gm_select_items_action.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\gm_base_action.hpp">
+      <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@ namespace Plugins
 	{
 		namespace LandscapeModel
 		{
+			struct Point;
 			struct ILandscape;
 		}
 	}
@@ -56,6 +57,14 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	void showLandscape( const Core::LandscapeModel::ILandscape& _landscape );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	static Core::LandscapeModel::Point convertFromScenePosition( const QPointF& _scenePosition );
 
 /*---------------------------------------------------------------------------*/
 

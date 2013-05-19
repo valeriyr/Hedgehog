@@ -15,6 +15,9 @@
 #include "sound_manager/ih/sm_isound_manager.hpp"
 #include "sound_manager/h/sm_plugin_id.hpp"
 
+#include "landscape_model/ih/lm_ilandscape_manager.hpp"
+#include "landscape_model/h/lm_plugin_id.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -101,6 +104,20 @@ PluginInstance::getSoundManager() const
 			,	Framework::Core::SoundManager::IID_SOUND_MANAGER );
 
 } // PluginInstance::getSoundManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
+PluginInstance::getLandscapeManager() const
+{
+	return
+		getPluginInterface< Plugins::Core::LandscapeModel::ILandscapeManager >(
+				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
+			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_MANAGER );
+
+} // PluginInstance::getLandscapeManager
 
 
 /*---------------------------------------------------------------------------*/

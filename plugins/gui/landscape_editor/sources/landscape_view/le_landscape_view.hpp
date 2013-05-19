@@ -59,7 +59,7 @@ protected:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void resizeEvent( QResizeEvent * _event );
+	/*virtual*/ void resizeEvent( QResizeEvent* _event );
 
 /*---------------------------------------------------------------------------*/
 

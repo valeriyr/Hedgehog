@@ -43,9 +43,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void pushMoveAction(
-			boost::intrusive_ptr< LandscapeModel::IUnit > _unit
-		,	const LandscapeModel::Point& _moveTo );
+	/*virtual*/ void pushMoveAction( const LandscapeModel::Point& _moveTo );
 
 	/*virtual*/ void pushSelectAction(
 			const LandscapeModel::Point& _from
@@ -57,7 +55,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void runEventsProcessing();
+	void runActionsProcessing();
 
 /*---------------------------------------------------------------------------*/
 

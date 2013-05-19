@@ -67,6 +67,14 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void selectItemsInModel(
+			const Core::LandscapeModel::Point& _from
+		,	const Core::LandscapeModel::Point& _to ) const;
+
+	/*virtual*/ void moveSelectedItems( const Core::LandscapeModel::Point& _to ) const;
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
