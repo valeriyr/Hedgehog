@@ -29,10 +29,6 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const SyntaxErrorMessageFormat = "Syntax error: '%1'.";
-
-/*---------------------------------------------------------------------------*/
-
 } // namespace Resources
 } // namespace Console
 } // namespace GUI

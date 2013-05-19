@@ -8,6 +8,9 @@ namespace Framework {
 namespace Core {
 namespace CommandsManager {
 namespace Resources {
+
+/*---------------------------------------------------------------------------*/
+
 namespace Commands {
 
 /*---------------------------------------------------------------------------*/
@@ -17,6 +20,23 @@ namespace Commands {
 /*---------------------------------------------------------------------------*/
 
 } // namespace Commands
+
+/*---------------------------------------------------------------------------*/
+
+namespace Exceptions {
+
+/*---------------------------------------------------------------------------*/
+
+	extern const char* const UnknownCommandMessageFormat;
+
+	extern const char* const DisabledCommandMessageFormat;
+
+/*---------------------------------------------------------------------------*/
+
+} // namespace Exceptions
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace CommandsManager
 } // namespace Core

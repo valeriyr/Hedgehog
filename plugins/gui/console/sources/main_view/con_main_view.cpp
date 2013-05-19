@@ -8,6 +8,7 @@
 #include "console/sources/resources/con_internal_resources.hpp"
 
 #include "commands_manager/ih/cm_icommand_executor.hpp"
+#include "commands_manager/ih/cm_iexceptions.hpp"
 
 #include "con_main_view.moc"
 
@@ -141,11 +142,11 @@ MainView::onCommandWasEntered( const QString& _command )
 		m_environment.getCommandExecutor()->executeCommand( _command );
 		printMessage( _command );
 	}
-	catch( const std::exception& /*_exception*/ )
+	catch( const Framework::Core::CommandsManager::IException& _exception )
 	{
 		printMessage(
 				Tools::Core::IMessenger::MessegeLevel::Error
-			,	QString( Resources::SyntaxErrorMessageFormat ).arg( _command ) );
+			,	_exception.what() );
 	}
 
 } // MainView::onCommandWasEntered

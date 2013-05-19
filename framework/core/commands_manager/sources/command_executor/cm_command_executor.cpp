@@ -6,6 +6,8 @@
 #include "commands_manager/ih/cm_icommands_registry.hpp"
 #include "commands_manager/ih/cm_icommand.hpp"
 
+#include "commands_manager/sources/exceptions/cm_exceptions.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,7 +42,10 @@ CommandExecutor::executeCommand( const QString& _command ) const
 		command( m_commandsRegistry.getCommand( _command ) );
 
 	if ( !command )
-		throw std::exception();
+		throw UnknownCommandException( _command );
+
+	if ( !command->isEnabled() )
+		throw DisabledCommandException( _command );
 
 	command->execute();
 

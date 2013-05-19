@@ -25,6 +25,9 @@
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{22d810ae-e5fc-49a7-a914-dff2ad892b0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{006bf143-604c-4367-8216-12828358638a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\cm_ph.cpp">
@@ -44,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="sources\resources\cm_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\exceptions\cm_exceptions.cpp">
+      <Filter>Exceptions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +82,12 @@
     </ClInclude>
     <ClInclude Include="sources\resources\cm_internal_resources.hpp">
       <Filter>Internal Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\exceptions\cm_exceptions.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\cm_iexceptions.hpp">
+      <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

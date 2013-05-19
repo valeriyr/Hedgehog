@@ -6,6 +6,7 @@
 #include "window_manager/sources/environment/wm_ienvironment.hpp"
 
 #include "commands_manager/ih/cm_icommand_executor.hpp"
+#include "commands_manager/ih/cm_iexceptions.hpp"
 
 #include "wm_menu_item.moc"
 
@@ -50,13 +51,11 @@ MenuItem::~MenuItem()
 void
 MenuItem::onActionStateChanged()
 {
-	emit actionWasChanged( m_commandName );
-
 	try
 	{
 		m_environment.getCommandExecutor()->executeCommand( m_commandName );
 	}
-	catch( const std::exception& /*_exception*/ )
+	catch( const Framework::Core::CommandsManager::IException& /*_exception*/ )
 	{
 		assert( !"Some exception during command execution from menu!" );
 	}

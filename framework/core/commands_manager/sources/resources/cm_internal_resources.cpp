@@ -10,6 +10,9 @@ namespace Framework {
 namespace Core {
 namespace CommandsManager {
 namespace Resources {
+
+/*---------------------------------------------------------------------------*/
+
 namespace Commands {
 
 /*---------------------------------------------------------------------------*/
@@ -19,6 +22,23 @@ namespace Commands {
 /*---------------------------------------------------------------------------*/
 
 } // namespace Commands
+
+/*---------------------------------------------------------------------------*/
+
+namespace Exceptions {
+
+/*---------------------------------------------------------------------------*/
+
+	const char* const UnknownCommandMessageFormat = "Unknown command '%1'.";
+
+	const char* const DisabledCommandMessageFormat = "'%1' command is disabled in this time.";
+
+/*---------------------------------------------------------------------------*/
+
+} // namespace Exceptions
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace CommandsManager
 } // namespace Core

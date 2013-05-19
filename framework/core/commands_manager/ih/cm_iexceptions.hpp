@@ -1,6 +1,6 @@
 
-#ifndef __CM_ICOMMAND_HPP__
-#define __CM_ICOMMAND_HPP__
+#ifndef __CM_IEXCEPTIONS_HPP__
+#define __CM_IEXCEPTIONS_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,18 +14,24 @@ namespace CommandsManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct ICommand
+struct IException
 	:	public Tools::Core::IBase
 {
+	virtual QString what() const = 0;
+};
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void execute() = 0;
-
-	virtual bool isEnabled() const = 0;
+struct IUnknownCommandException
+	:	public IException
+{
+};
 
 /*---------------------------------------------------------------------------*/
 
+struct IDisabledCommandException
+	:	public IException
+{
 };
 
 /*---------------------------------------------------------------------------*/
@@ -36,4 +42,4 @@ struct ICommand
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CM_ICOMMAND_HPP__
+#endif // __CM_IEXCEPTIONS_HPP__
