@@ -1,10 +1,10 @@
 
-#ifndef __LV_ENVIRONMENT_HPP__
-#define __LV_ENVIRONMENT_HPP__
+#ifndef __LV_OBJECTS_VIEW_HPP__
+#define __LV_OBJECTS_VIEW_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
+#include "window_manager/ih/wm_iview.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,13 +14,18 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
+class ObjectsView
+	:	public QObject
+	,	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
+
+/*---------------------------------------------------------------------------*/
+
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,46 +33,33 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( PluginInstance& _pluginInstance );
+	ObjectsView( const IEnvironment& _environment, QObject* _parent = NULL );
 
-	virtual ~Environment();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ QString showOpenFileDialog() const;
-
-	/*virtual*/ QString showSaveFileDialog() const;
+	virtual ~ObjectsView();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) const;
+	/*virtual*/ const QString& getViewTitle() const;
+
+	/*virtual*/ QWidget* getViewWidget();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initializeLandscape( const QString& _fileName ) const;
-
-	/*virtual*/ void closeLandscape() const;
-
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
-		getLandscape() const;
-
-	/*virtual*/ void saveLandscape(
-			const QString& _fileName
-		,	const Core::LandscapeModel::ILandscape& _landscape ) const;
+	/*virtual*/ void viewWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void runGameManager() const;
+	void landscapeWasOpened();
 
-	/*virtual*/ void stopGameManager() const;
+	void landscapeWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void selectItemsInModel(
-			const Core::LandscapeModel::Point& _from
-		,	const Core::LandscapeModel::Point& _to ) const;
+private slots:
 
-	/*virtual*/ void moveSelectedItems( const Core::LandscapeModel::Point& _to ) const;
+/*---------------------------------------------------------------------------*/
+
+	void onCurrentItemChanged( QTreeWidgetItem* _current, QTreeWidgetItem* _previous );
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,7 +67,11 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance& m_pluginInstance;
+	const IEnvironment& m_environment;
+
+	boost::shared_ptr< QTreeWidget > m_objectsView;
+
+	QString m_viewTitle;
 
 /*---------------------------------------------------------------------------*/
 
@@ -89,4 +85,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ENVIRONMENT_HPP__
+#endif // __LV_OBJECTS_VIEW_HPP__

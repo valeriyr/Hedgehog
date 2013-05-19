@@ -1,10 +1,7 @@
 
-#ifndef __LV_ENVIRONMENT_HPP__
-#define __LV_ENVIRONMENT_HPP__
+#ifndef __LV_LANDSCAPE_EDITOR_SCENE_HPP__
+#define __LV_LANDSCAPE_EDITOR_SCENE_HPP__
 
-/*---------------------------------------------------------------------------*/
-
-#include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,13 +11,17 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
+class LandscapeEditorScene
+	:	public QGraphicsScene
 {
+
+/*---------------------------------------------------------------------------*/
+
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,46 +29,31 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( PluginInstance& _pluginInstance );
+	LandscapeEditorScene( const IEnvironment& _environment, QObject* _parent = NULL );
 
-	virtual ~Environment();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ QString showOpenFileDialog() const;
-
-	/*virtual*/ QString showSaveFileDialog() const;
+	virtual ~LandscapeEditorScene();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) const;
+	void landscapeWasOpened();
+
+	void setDefaultLandscape();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initializeLandscape( const QString& _fileName ) const;
+	/*virtual*/ void mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent );
 
-	/*virtual*/ void closeLandscape() const;
+	/*virtual*/ void mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent );
 
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
-		getLandscape() const;
-
-	/*virtual*/ void saveLandscape(
-			const QString& _fileName
-		,	const Core::LandscapeModel::ILandscape& _landscape ) const;
+	/*virtual*/ void mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent );
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void runGameManager() const;
-
-	/*virtual*/ void stopGameManager() const;
+signals:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void selectItemsInModel(
-			const Core::LandscapeModel::Point& _from
-		,	const Core::LandscapeModel::Point& _to ) const;
-
-	/*virtual*/ void moveSelectedItems( const Core::LandscapeModel::Point& _to ) const;
+	void landscapeWasChanged();
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,7 +61,22 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance& m_pluginInstance;
+	void regenerate();
+
+	void regenerateSurfaceLayer();
+	void regenerateObjectsLayer();
+
+	void setCorrectSceneSize();
+
+	void setNewItemInPosition( const QPointF& _position );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 
@@ -89,4 +90,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ENVIRONMENT_HPP__
+#endif // __LV_LANDSCAPE_EDITOR_SCENE_HPP__

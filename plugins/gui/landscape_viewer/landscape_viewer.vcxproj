@@ -20,15 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\commands\lv_base_command.cpp" />
-    <ClCompile Include="sources\commands\lv_run_game_command.cpp" />
-    <ClCompile Include="sources\commands\lv_stop_game_command.cpp" />
+    <ClCompile Include="sources\commands\lv_commands.cpp" />
+    <ClCompile Include="sources\commands_executor\lv_commands_executor.cpp" />
     <ClCompile Include="sources\environment\lv_environment.cpp" />
-    <ClCompile Include="sources\game_initializer\lv_game_initializer.cpp" />
     <ClCompile Include="sources\internal_resources\lv_internal_resources.cpp" />
-    <ClCompile Include="sources\landscape_scene\lv_landscape_scene.cpp" />
     <ClCompile Include="sources\landscape_viewer\lv_landscape_viewer.cpp" />
-    <ClCompile Include="sources\landscape_view\lv_landscape_view.cpp" />
-    <ClCompile Include="sources\landscape_widget\lv_landscape_widget.cpp" />
     <ClCompile Include="sources\ph\lv_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -36,23 +32,44 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sources\plugin\lv_plugin_instance.cpp" />
+    <ClCompile Include="sources\views\lv_description_view.cpp" />
+    <ClCompile Include="sources\views\lv_editor_view.cpp" />
+    <ClCompile Include="sources\views\lv_landscape_view.cpp" />
+    <ClCompile Include="sources\views\lv_minimap_view.cpp" />
+    <ClCompile Include="sources\views\lv_objects_view.cpp" />
+    <ClCompile Include="sources\view_mode\lv_editing_mode.cpp" />
+    <ClCompile Include="sources\view_mode\lv_playing_mode.cpp" />
+    <ClCompile Include="sources\widgets\lv_landscape_editor_scene.cpp" />
+    <ClCompile Include="sources\widgets\lv_landscape_editor_widget.cpp" />
+    <ClCompile Include="sources\widgets\lv_landscape_scene.cpp" />
+    <ClCompile Include="sources\widgets\lv_landscape_widget.cpp" />
+    <ClCompile Include="sources\widgets\lv_minimap_widget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\commands\lv_base_command.hpp" />
-    <ClInclude Include="sources\commands\lv_run_game_command.hpp" />
-    <ClInclude Include="sources\commands\lv_stop_game_command.hpp" />
+    <ClInclude Include="sources\commands\lv_commands.hpp" />
+    <ClInclude Include="sources\commands_executor\lv_commands_executor.hpp" />
+    <ClInclude Include="sources\commands_executor\lv_icommands_executor.hpp" />
     <ClInclude Include="sources\environment\lv_environment.hpp" />
     <ClInclude Include="sources\environment\lv_ienvironment.hpp" />
-    <ClInclude Include="sources\game_initializer\lv_game_initializer.hpp" />
-    <ClInclude Include="sources\game_initializer\lv_igame_initializer.hpp" />
     <ClInclude Include="sources\internal_resources\lv_internal_resources.hpp" />
-    <ClInclude Include="sources\landscape_scene\lv_landscape_scene.hpp" />
     <ClInclude Include="sources\landscape_viewer\lv_ilandscape_viewer.hpp" />
     <ClInclude Include="sources\landscape_viewer\lv_landscape_viewer.hpp" />
-    <ClInclude Include="sources\landscape_view\lv_landscape_view.hpp" />
-    <ClInclude Include="sources\landscape_widget\lv_landscape_widget.hpp" />
     <ClInclude Include="sources\ph\lv_ph.hpp" />
     <ClInclude Include="sources\plugin\lv_plugin_instance.hpp" />
+    <ClInclude Include="sources\views\lv_description_view.hpp" />
+    <ClInclude Include="sources\views\lv_editor_view.hpp" />
+    <ClInclude Include="sources\views\lv_landscape_view.hpp" />
+    <ClInclude Include="sources\views\lv_minimap_view.hpp" />
+    <ClInclude Include="sources\views\lv_objects_view.hpp" />
+    <ClInclude Include="sources\view_mode\lv_editing_mode.hpp" />
+    <ClInclude Include="sources\view_mode\lv_iview_mode.hpp" />
+    <ClInclude Include="sources\view_mode\lv_playing_mode.hpp" />
+    <ClInclude Include="sources\widgets\lv_landscape_editor_scene.hpp" />
+    <ClInclude Include="sources\widgets\lv_landscape_editor_widget.hpp" />
+    <ClInclude Include="sources\widgets\lv_landscape_scene.hpp" />
+    <ClInclude Include="sources\widgets\lv_landscape_widget.hpp" />
+    <ClInclude Include="sources\widgets\lv_minimap_widget.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{16CA5581-CDC1-4756-A90C-6ADF432E71E1}</ProjectGuid>

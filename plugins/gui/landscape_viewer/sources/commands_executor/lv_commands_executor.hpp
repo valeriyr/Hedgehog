@@ -1,24 +1,26 @@
 
-#ifndef __CON_ENVIRONMENT_HPP__
-#define __CON_ENVIRONMENT_HPP__
+#ifndef __LV_COMMANDS_EXECUTOR_HPP__
+#define __LV_COMMANDS_EXECUTOR_HPP__
 
-#include "console/sources/environment/con_ienvironment.hpp"
+/*---------------------------------------------------------------------------*/
 
+#include "landscape_viewer/sources/commands_executor/lv_icommands_executor.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
-namespace Console {
+namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
+struct IEnvironment;
+struct ILandscapeViewer;
 
 /*---------------------------------------------------------------------------*/
 
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
+class CommandsExecutor
+	:	public Tools::Core::BaseWrapper< ICommandsExecutor >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -27,13 +29,27 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( const PluginInstance& _pluginInstance );
+	CommandsExecutor( const IEnvironment& _environment, ILandscapeViewer& _landscapeViewer );
 
-	virtual ~Environment();
+	virtual ~CommandsExecutor();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void executeCommand( const QString& _commandName ) const;
+	/*virtual*/ void runGame();
+
+	/*virtual*/ void stopGame();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void newLandscape();
+
+	/*virtual*/ void openLandscape();
+
+	/*virtual*/ void closeLandscape();
+
+	/*virtual*/ void saveLandscape();
+
+	/*virtual*/ void saveAsLandscape();
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,7 +57,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const PluginInstance& m_pluginInstance;
+	const IEnvironment& m_environment;
+
+	ILandscapeViewer& m_landscapeViewer;
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,10 +67,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Console
+} // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CON_ENVIRONMENT_HPP__
+#endif // __LV_COMMANDS_EXECUTOR_HPP__

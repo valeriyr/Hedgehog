@@ -54,6 +54,17 @@ CommandsListCommand::execute()
 
 /*---------------------------------------------------------------------------*/
 
+
+bool
+CommandsListCommand::isEnabled() const
+{
+	return true;
+
+} // CommandsListCommand::isEnabled
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace CommandsManager
 } // namespace Core
 } // namespace Framework

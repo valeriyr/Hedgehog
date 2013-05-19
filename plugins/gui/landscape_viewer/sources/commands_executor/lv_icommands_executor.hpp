@@ -1,6 +1,6 @@
 
-#ifndef __LV_ILANDSCAPE_VIEWER_HPP__
-#define __LV_ILANDSCAPE_VIEWER_HPP__
+#ifndef __LV_ICOMMANDS_EXECUTOR_HPP__
+#define __LV_ICOMMANDS_EXECUTOR_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,23 +14,27 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct IViewMode;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeViewer
+struct ICommandsExecutor
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< IViewMode > getViewMode() const = 0;
+	virtual void runGame() = 0;
+
+	virtual void stopGame() = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void ensureLandscapeEditingMode() = 0;
+	virtual void newLandscape() = 0;
 
-	virtual void ensurePlayingMode() = 0;
+	virtual void openLandscape() = 0;
+
+	virtual void closeLandscape() = 0;
+
+	virtual void saveLandscape() = 0;
+
+	virtual void saveAsLandscape() = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,4 +48,4 @@ struct ILandscapeViewer
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ILANDSCAPE_VIEWER_HPP__
+#endif // __LV_ICOMMANDS_EXECUTOR_HPP__

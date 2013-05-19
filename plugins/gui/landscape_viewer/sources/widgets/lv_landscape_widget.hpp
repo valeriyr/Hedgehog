@@ -1,24 +1,23 @@
 
-#ifndef __CON_ENVIRONMENT_HPP__
-#define __CON_ENVIRONMENT_HPP__
-
-#include "console/sources/environment/con_ienvironment.hpp"
+#ifndef __LV_LANDSCAPE_WIDGET_HPP__
+#define __LV_LANDSCAPE_WIDGET_HPP__
 
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
-namespace Console {
+namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
+struct IEnvironment;
+class LandscapeScene;
 
 /*---------------------------------------------------------------------------*/
 
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
+class LandscapeWidget
+	:	public QGraphicsView
 {
 
 /*---------------------------------------------------------------------------*/
@@ -27,13 +26,20 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( const PluginInstance& _pluginInstance );
+	LandscapeWidget(
+			const IEnvironment& _environment
+		,	LandscapeScene* _scene
+		,	QWidget* _parent = NULL );
 
-	virtual ~Environment();
+	virtual ~LandscapeWidget();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void executeCommand( const QString& _commandName ) const;
+protected:
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void resizeEvent( QResizeEvent* _event );
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,7 +47,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const PluginInstance& m_pluginInstance;
+	const IEnvironment& m_environment;
+
+	LandscapeScene* m_scene;
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,10 +57,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Console
+} // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CON_ENVIRONMENT_HPP__
+#endif // __LV_LANDSCAPE_WIDGET_HPP__

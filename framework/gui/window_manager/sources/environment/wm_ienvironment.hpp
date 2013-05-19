@@ -7,19 +7,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework
-{
-	namespace Core
-	{
-		namespace CommandsManager
-		{
-			struct ICommandExecutor;
-		}
-	}
-}
-
-/*---------------------------------------------------------------------------*/
-
 namespace Framework {
 namespace GUI {
 namespace WindowManager {
@@ -32,8 +19,7 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
-		getCommandExecutor() const = 0;
+	virtual void executeCommand( const QString& _commandName ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

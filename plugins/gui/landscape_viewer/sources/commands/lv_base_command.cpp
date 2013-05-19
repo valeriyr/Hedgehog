@@ -13,8 +13,9 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-BaseCommand::BaseCommand( const IEnvironment& _environment )
-	:	m_environment( _environment )
+BaseCommand::BaseCommand( ICommandExecutor& _commandExecutor )
+	:	m_commandExecutor( _commandExecutor )
+	,	m_isEnabled( true )
 {
 } // BaseCommand::BaseCommand
 
@@ -25,6 +26,39 @@ BaseCommand::BaseCommand( const IEnvironment& _environment )
 BaseCommand::~BaseCommand()
 {
 } // BaseCommand::~BaseCommand
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+BaseCommand::isEnabled() const
+{
+	return m_isEnabled;
+
+} // BaseCommand::isEnabled
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+BaseCommand::enable()
+{
+	m_isEnabled = true;
+
+} // BaseCommand::enable
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+BaseCommand::disable()
+{
+	m_isEnabled = false;
+
+} // BaseCommand::disable
 
 
 /*---------------------------------------------------------------------------*/

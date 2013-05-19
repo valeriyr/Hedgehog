@@ -28,21 +28,15 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct IGameInitializer;
-
-/*---------------------------------------------------------------------------*/
-
 struct IEnvironment
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< IGameInitializer > getGameInitializer() const = 0;
-
-/*---------------------------------------------------------------------------*/
-
 	virtual QString showOpenFileDialog() const = 0;
+
+	virtual QString showSaveFileDialog() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,18 +44,16 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initializeLandscape( const QString& _fileName ) = 0;
+	virtual void initializeLandscape( const QString& _fileName ) const = 0;
 
-	virtual void closeLandscape() = 0;
+	virtual void closeLandscape() const = 0;
 
 	virtual boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
 		getLandscape() const = 0;
 
-/*---------------------------------------------------------------------------*/
-
-	virtual void showCurrentLandscape() = 0;
-
-	virtual void clearLandscapeView() = 0;
+	virtual void saveLandscape(
+			const QString& _fileName
+		,	const Core::LandscapeModel::ILandscape& _landscape ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

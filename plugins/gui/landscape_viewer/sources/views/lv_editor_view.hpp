@@ -1,10 +1,10 @@
 
-#ifndef __LV_ENVIRONMENT_HPP__
-#define __LV_ENVIRONMENT_HPP__
+#ifndef __LV_EDITOR_VIEW_HPP__
+#define __LV_EDITOR_VIEW_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
+#include "window_manager/ih/wm_iview.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,13 +14,21 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
+struct IEnvironment;
+
+class LandscapeEditorScene;
+class LandscapeEditorWidget;
 
 /*---------------------------------------------------------------------------*/
 
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
+class EditorView
+	:	public QObject
+	,	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
+
+/*---------------------------------------------------------------------------*/
+
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,46 +36,41 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( PluginInstance& _pluginInstance );
+	EditorView( const IEnvironment& _environment );
 
-	virtual ~Environment();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ QString showOpenFileDialog() const;
-
-	/*virtual*/ QString showSaveFileDialog() const;
+	virtual ~EditorView();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) const;
+	/*virtual*/ const QString& getViewTitle() const;
+
+	/*virtual*/ QWidget* getViewWidget();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initializeLandscape( const QString& _fileName ) const;
-
-	/*virtual*/ void closeLandscape() const;
-
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
-		getLandscape() const;
-
-	/*virtual*/ void saveLandscape(
-			const QString& _fileName
-		,	const Core::LandscapeModel::ILandscape& _landscape ) const;
+	/*virtual*/ void viewWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void runGameManager() const;
+	void landscapeWasOpened();
 
-	/*virtual*/ void stopGameManager() const;
+	void landscapeWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void selectItemsInModel(
-			const Core::LandscapeModel::Point& _from
-		,	const Core::LandscapeModel::Point& _to ) const;
+	void setVisibilityRectPosition( const float _relVisibleWidth, const float _relVisibleHeight );
 
-	/*virtual*/ void moveSelectedItems( const Core::LandscapeModel::Point& _to ) const;
+/*---------------------------------------------------------------------------*/
+
+private slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void onLandscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
+
+	void onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
+
+	void onLandscapeWasChanged();
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,7 +78,13 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance& m_pluginInstance;
+	const IEnvironment& m_environment;
+
+	boost::shared_ptr< LandscapeEditorScene > m_landscapeScene;
+
+	boost::shared_ptr< LandscapeEditorWidget > m_landscapeWidget;
+
+	QString m_viewTitle;
 
 /*---------------------------------------------------------------------------*/
 
@@ -89,4 +98,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ENVIRONMENT_HPP__
+#endif // __LV_EDITOR_VIEW_HPP__

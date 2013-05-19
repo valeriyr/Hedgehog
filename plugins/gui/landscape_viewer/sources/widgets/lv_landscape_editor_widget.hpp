@@ -1,10 +1,7 @@
 
-#ifndef __LV_ENVIRONMENT_HPP__
-#define __LV_ENVIRONMENT_HPP__
+#ifndef __LV_LANDSCAPE_EDITOR_WIDGET_HPP__
+#define __LV_LANDSCAPE_EDITOR_WIDGET_HPP__
 
-/*---------------------------------------------------------------------------*/
-
-#include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,13 +11,13 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
+class LandscapeEditorWidget
+	:	public QGraphicsView
+{
 
 /*---------------------------------------------------------------------------*/
 
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
-{
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,54 +25,41 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( PluginInstance& _pluginInstance );
+	LandscapeEditorWidget( QGraphicsScene* _scene, QWidget* _parent = NULL );
 
-	virtual ~Environment();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ QString showOpenFileDialog() const;
-
-	/*virtual*/ QString showSaveFileDialog() const;
+	virtual ~LandscapeEditorWidget();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) const;
+	void wasResized();
+
+	void changeVisibleRect( const float _relPosotionByX, const float _relPosotionByY );
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initializeLandscape( const QString& _fileName ) const;
-
-	/*virtual*/ void closeLandscape() const;
-
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
-		getLandscape() const;
-
-	/*virtual*/ void saveLandscape(
-			const QString& _fileName
-		,	const Core::LandscapeModel::ILandscape& _landscape ) const;
+signals:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void runGameManager() const;
+	void visibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
 
-	/*virtual*/ void stopGameManager() const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void selectItemsInModel(
-			const Core::LandscapeModel::Point& _from
-		,	const Core::LandscapeModel::Point& _to ) const;
-
-	/*virtual*/ void moveSelectedItems( const Core::LandscapeModel::Point& _to ) const;
+	void landscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
 
 /*---------------------------------------------------------------------------*/
 
-private:
+public slots:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance& m_pluginInstance;
+	void onSliderMoved( int _value );
+
+/*---------------------------------------------------------------------------*/
+
+protected:
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void resizeEvent( QResizeEvent* _event );
 
 /*---------------------------------------------------------------------------*/
 
@@ -89,4 +73,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ENVIRONMENT_HPP__
+#endif // __LV_LANDSCAPE_EDITOR_WIDGET_HPP__

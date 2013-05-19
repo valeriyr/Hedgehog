@@ -17,6 +17,22 @@ namespace Views {
 
 	extern const char* const LandscapeViewTitle;
 
+	extern const char* const MinimapViewTitle;
+
+	extern const char* const ObjectsViewTitle;
+
+	extern const char* const ObjectsViewColumnName;
+
+	extern const char* const DescriptionViewTitle;
+
+	extern const char* const EditorViewDefaultTitle;
+
+/*---------------------------------------------------------------------------*/
+
+	extern const char* const LandscapeDescriptionDefaultText;
+
+	extern const char* const LandscapeDescriptionFormat;
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Views
@@ -42,6 +58,16 @@ namespace Commands {
 	extern const char* const RunGameCommandName;
 
 	extern const char* const StopGameCommandName;
+
+	extern const char* const NewLandscapeCommandName;
+
+	extern const char* const OpenLandscapeCommandName;
+
+	extern const char* const CloseLandscapeCommandName;
+
+	extern const char* const SaveLandscapeCommandName;
+
+	extern const char* const SaveAsLandscapeCommandName;
 
 /*---------------------------------------------------------------------------*/
 

@@ -1,47 +1,54 @@
 
-#ifndef __CON_ENVIRONMENT_HPP__
-#define __CON_ENVIRONMENT_HPP__
+#ifndef __LV_IVIEW_MODE_HPP__
+#define __LV_IVIEW_MODE_HPP__
 
-#include "console/sources/environment/con_ienvironment.hpp"
+/*---------------------------------------------------------------------------*/
 
+#include "intrusive_base/ib_ibase.hpp"
+
+/*---------------------------------------------------------------------------*/
+
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct IEditableLandscape;
+		}
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
-namespace Console {
+namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
-
-/*---------------------------------------------------------------------------*/
-
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
+struct IViewMode
+	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-public:
+	virtual boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+		getCurrentLandscape() const = 0;
+
+	virtual QString getLandscapeFilePath() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( const PluginInstance& _pluginInstance );
+	virtual bool isPlayingMode() const = 0;
 
-	virtual ~Environment();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void executeCommand( const QString& _commandName ) const;
+	virtual bool isEditingMode() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-private:
+	virtual void openLandscape( const QString& _filePath ) = 0;
 
-/*---------------------------------------------------------------------------*/
-
-	const PluginInstance& m_pluginInstance;
+	virtual void closeLandscape() = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,10 +56,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Console
+} // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CON_ENVIRONMENT_HPP__
+#endif // __LV_IVIEW_MODE_HPP__

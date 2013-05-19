@@ -1,10 +1,10 @@
 
-#ifndef __LV_ENVIRONMENT_HPP__
-#define __LV_ENVIRONMENT_HPP__
+#ifndef __LV_DESCRIPTION_VIEW_HPP__
+#define __LV_DESCRIPTION_VIEW_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
+#include "window_manager/ih/wm_iview.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,12 +14,8 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance;
-
-/*---------------------------------------------------------------------------*/
-
-class Environment
-	:	public Tools::Core::BaseWrapper< IEnvironment >
+class DescriptionView
+	:	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,46 +24,25 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Environment( PluginInstance& _pluginInstance );
+	DescriptionView( const ILandscapeEditorInternal& _landscapeEditor );
 
-	virtual ~Environment();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ QString showOpenFileDialog() const;
-
-	/*virtual*/ QString showSaveFileDialog() const;
+	virtual ~DescriptionView();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) const;
+	/*virtual*/ const QString& getViewTitle() const;
+
+	/*virtual*/ QWidget* getViewWidget();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initializeLandscape( const QString& _fileName ) const;
-
-	/*virtual*/ void closeLandscape() const;
-
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
-		getLandscape() const;
-
-	/*virtual*/ void saveLandscape(
-			const QString& _fileName
-		,	const Core::LandscapeModel::ILandscape& _landscape ) const;
+	/*virtual*/ void viewWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void runGameManager() const;
+	void landscapeWasOpened();
 
-	/*virtual*/ void stopGameManager() const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void selectItemsInModel(
-			const Core::LandscapeModel::Point& _from
-		,	const Core::LandscapeModel::Point& _to ) const;
-
-	/*virtual*/ void moveSelectedItems( const Core::LandscapeModel::Point& _to ) const;
+	void landscapeWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,7 +50,19 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance& m_pluginInstance;
+	void setDefaultDescription();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const ILandscapeEditorInternal& m_landscapeEditor;
+
+	boost::shared_ptr< QTextEdit > m_descriptionView;
+
+	QString m_viewTitle;
 
 /*---------------------------------------------------------------------------*/
 
@@ -89,4 +76,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ENVIRONMENT_HPP__
+#endif // __LV_DESCRIPTION_VIEW_HPP__

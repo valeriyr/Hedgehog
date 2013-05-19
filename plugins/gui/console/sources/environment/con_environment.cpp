@@ -34,12 +34,12 @@ Environment::~Environment()
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
-Environment::getCommandExecutor() const
+void
+Environment::executeCommand( const QString& _commandName ) const
 {
-	return m_pluginInstance.getCommandExecutor();
+	m_pluginInstance.getCommandExecutor()->executeCommand( _commandName );
 
-} // Environment::getCommandExecutor
+} // Environment::executeCommand
 
 
 /*---------------------------------------------------------------------------*/

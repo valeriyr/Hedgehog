@@ -53,7 +53,7 @@ MenuItem::onActionStateChanged()
 {
 	try
 	{
-		m_environment.getCommandExecutor()->executeCommand( m_commandName );
+		m_environment.executeCommand( m_commandName );
 	}
 	catch( const Framework::Core::CommandsManager::IException& /*_exception*/ )
 	{

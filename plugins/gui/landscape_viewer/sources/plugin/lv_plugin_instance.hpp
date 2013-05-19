@@ -41,6 +41,9 @@ namespace Plugins
 		namespace LandscapeModel
 		{
 			struct ILandscapeManager;
+			struct ILandscapeEditor;
+			struct ISurfaceItemsCache;
+			struct IUnitsCache;
 		}
 
 		namespace GameManager
@@ -59,9 +62,8 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
-struct IGameInitializer;
-
-class LandscapeView;
+struct ILandscapeViewer;
+struct ICommandsExecutor;
 
 /*---------------------------------------------------------------------------*/
 
@@ -91,12 +93,6 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< IGameInitializer > getGameInitializer() const;
-
-	boost::intrusive_ptr< LandscapeView > getLandscapeView() const;
-
-/*---------------------------------------------------------------------------*/
-
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		getWindowManager() const;
 
@@ -109,8 +105,21 @@ public:
 	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
 		getCommandsManager() const;
 
+/*---------------------------------------------------------------------------*/
+
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
 		getLandscapeManager() const;
+
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
+		getLandscapeEditor() const;
+
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
+		getSurfaceItemsCache() const;
+
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnitsCache >
+		getUnitsCache() const;
+
+/*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< Plugins::Core::GameManager::IGameManager >
 		getGameManager() const;
@@ -121,11 +130,21 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void fillSurfaceItemsCache();
+
+	void fillUnitsCache();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
 	boost::intrusive_ptr< IEnvironment > m_environment;
 
-	boost::intrusive_ptr< IGameInitializer > m_gameInitializer;
+	boost::intrusive_ptr< ILandscapeViewer > m_landscapeViewer;
 
-	boost::intrusive_ptr< LandscapeView > m_landscapeView;
+	boost::intrusive_ptr< ICommandsExecutor > m_commandsExecutor;
 
 /*---------------------------------------------------------------------------*/
 

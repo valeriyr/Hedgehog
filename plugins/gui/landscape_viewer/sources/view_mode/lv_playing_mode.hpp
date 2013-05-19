@@ -1,10 +1,10 @@
 
-#ifndef __LV_LANDSCAPE_VIEWER_HPP__
-#define __LV_LANDSCAPE_VIEWER_HPP__
+#ifndef __LV_PLAYING_MODE_HPP__
+#define __LV_PLAYING_MODE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
+#include "landscape_viewer/sources/view_mode/lv_iview_mode.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -18,8 +18,8 @@ struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-class LandscapeViewer
-	:	public Tools::Core::BaseWrapper< ILandscapeViewer >
+class PlayingMode
+	:	public Tools::Core::BaseWrapper< IViewMode >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,19 +28,28 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeViewer( const IEnvironment& _environment );
+	PlayingMode( const IEnvironment& _environment );
 
-	virtual ~LandscapeViewer();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::intrusive_ptr< IViewMode > getViewMode() const;
+	virtual ~PlayingMode();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void ensureLandscapeEditingMode();
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+		getCurrentLandscape() const;
 
-	/*virtual*/ void ensurePlayingMode();
+	/*virtual*/ QString getLandscapeFilePath() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool isPlayingMode() const;
+
+	/*virtual*/ bool isEditingMode() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void openLandscape( const QString& _filePath );
+
+	/*virtual*/ void closeLandscape();
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,7 +59,7 @@ private:
 
 	const IEnvironment& m_environment;
 
-	boost::intrusive_ptr< IViewMode > m_viewMode;
+	QString m_landscapeFilePath;
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,4 +73,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ILANDSCAPE_VIEWER_HPP__
+#endif // __LV_PLAYING_MODE_HPP__

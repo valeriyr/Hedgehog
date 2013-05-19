@@ -1,10 +1,10 @@
 
-#ifndef __LV_LANDSCAPE_VIEWER_HPP__
-#define __LV_LANDSCAPE_VIEWER_HPP__
+#ifndef __LV_LANDSCAPE_VIEW_HPP__
+#define __LV_LANDSCAPE_VIEW_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
+#include "window_manager/ih/wm_iview.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,10 +16,14 @@ namespace LandscapeViewer {
 
 struct IEnvironment;
 
+class LandscapeScene;
+class LandscapeWidget;
+
 /*---------------------------------------------------------------------------*/
 
-class LandscapeViewer
-	:	public Tools::Core::BaseWrapper< ILandscapeViewer >
+class LandscapeView
+	:	public QObject
+	,	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,19 +32,25 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeViewer( const IEnvironment& _environment );
+	LandscapeView( const IEnvironment& _environment, QObject* _parent = NULL );
 
-	virtual ~LandscapeViewer();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::intrusive_ptr< IViewMode > getViewMode() const;
+	virtual ~LandscapeView();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void ensureLandscapeEditingMode();
+	/*virtual*/ const QString& getViewTitle() const;
 
-	/*virtual*/ void ensurePlayingMode();
+	/*virtual*/ QWidget* getViewWidget();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void viewWasClosed();
+
+/*---------------------------------------------------------------------------*/
+
+	void showCurrentLandscape();
+
+	void clearView();
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,7 +60,11 @@ private:
 
 	const IEnvironment& m_environment;
 
-	boost::intrusive_ptr< IViewMode > m_viewMode;
+	QString m_viewTitle;
+
+	boost::shared_ptr< LandscapeScene > m_landscapeScene;
+
+	boost::shared_ptr< LandscapeWidget > m_landscapeWidget;
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,4 +78,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ILANDSCAPE_VIEWER_HPP__
+#endif // __LV_LANDSCAPE_VIEW_HPP__

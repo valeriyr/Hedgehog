@@ -7,7 +7,6 @@
 #include "console/sources/environment/con_ienvironment.hpp"
 #include "console/sources/resources/con_internal_resources.hpp"
 
-#include "commands_manager/ih/cm_icommand_executor.hpp"
 #include "commands_manager/ih/cm_iexceptions.hpp"
 
 #include "con_main_view.moc"
@@ -139,7 +138,7 @@ MainView::onCommandWasEntered( const QString& _command )
 {
 	try
 	{
-		m_environment.getCommandExecutor()->executeCommand( _command );
+		m_environment.executeCommand( _command );
 		printMessage( _command );
 	}
 	catch( const Framework::Core::CommandsManager::IException& _exception )

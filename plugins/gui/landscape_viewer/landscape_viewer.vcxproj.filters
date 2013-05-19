@@ -4,17 +4,8 @@
     <Filter Include="Precompiled Header">
       <UniqueIdentifier>{d346cf84-1029-4b9b-8628-15e84de4de2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Landscape View">
-      <UniqueIdentifier>{5ef9aafe-d943-45aa-85c9-387891c89cfa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{69df8527-189e-4e6a-ade6-4ead5ac06a1a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Landscape Widget">
-      <UniqueIdentifier>{f2e42633-1af1-48b1-94cd-d88db05136c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Landscape Scene">
-      <UniqueIdentifier>{2cc70f1f-afd0-4b28-9f5c-bf20b29a4a9d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Commands">
       <UniqueIdentifier>{84648fae-68a4-4d56-8bcb-229b53ac6918}</UniqueIdentifier>
@@ -22,14 +13,23 @@
     <Filter Include="Environment">
       <UniqueIdentifier>{1b9ece88-7442-425c-90a0-e2b0154e1390}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Initializer">
-      <UniqueIdentifier>{039ec837-a0a3-4dc4-96a4-5f52e6e4a371}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Landscape Viewer">
-      <UniqueIdentifier>{82012fe0-b2f7-4857-a6e5-130149401440}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Plugin">
       <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Views">
+      <UniqueIdentifier>{6829ae9d-a2b7-4a4a-9754-b7733684bc75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Widgets">
+      <UniqueIdentifier>{a1ed6f58-c9d0-4fba-afa1-62d08b026f6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands Executor">
+      <UniqueIdentifier>{0697837a-3a07-4410-96c5-d695e8c8ff04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="View Mode">
+      <UniqueIdentifier>{550dd4ae-e190-45df-bffa-27b883d1f803}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape Viewer">
+      <UniqueIdentifier>{a88b0280-8e57-41d5-98e1-ad694c0477c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,35 +39,59 @@
     <ClCompile Include="sources\plugin\lv_plugin_instance.cpp">
       <Filter>Plugin</Filter>
     </ClCompile>
-    <ClCompile Include="sources\landscape_view\lv_landscape_view.cpp">
-      <Filter>Landscape View</Filter>
-    </ClCompile>
     <ClCompile Include="sources\internal_resources\lv_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\landscape_widget\lv_landscape_widget.cpp">
-      <Filter>Landscape Widget</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\landscape_scene\lv_landscape_scene.cpp">
-      <Filter>Landscape Scene</Filter>
     </ClCompile>
     <ClCompile Include="sources\environment\lv_environment.cpp">
       <Filter>Environment</Filter>
     </ClCompile>
-    <ClCompile Include="sources\commands\lv_run_game_command.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\game_initializer\lv_game_initializer.cpp">
-      <Filter>Game Initializer</Filter>
-    </ClCompile>
     <ClCompile Include="sources\commands\lv_base_command.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\commands\lv_stop_game_command.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="sources\landscape_viewer\lv_landscape_viewer.cpp">
       <Filter>Landscape Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\views\lv_description_view.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\views\lv_editor_view.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\views\lv_landscape_view.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\views\lv_minimap_view.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\views\lv_objects_view.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\widgets\lv_landscape_editor_scene.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\widgets\lv_landscape_editor_widget.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\widgets\lv_landscape_scene.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\widgets\lv_landscape_widget.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\widgets\lv_minimap_widget.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\commands\lv_commands.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\view_mode\lv_editing_mode.cpp">
+      <Filter>View Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\view_mode\lv_playing_mode.cpp">
+      <Filter>View Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\commands_executor\lv_commands_executor.cpp">
+      <Filter>Commands Executor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,17 +101,8 @@
     <ClInclude Include="sources\plugin\lv_plugin_instance.hpp">
       <Filter>Plugin</Filter>
     </ClInclude>
-    <ClInclude Include="sources\landscape_view\lv_landscape_view.hpp">
-      <Filter>Landscape View</Filter>
-    </ClInclude>
     <ClInclude Include="sources\internal_resources\lv_internal_resources.hpp">
       <Filter>Internal Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_widget\lv_landscape_widget.hpp">
-      <Filter>Landscape Widget</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_scene\lv_landscape_scene.hpp">
-      <Filter>Landscape Scene</Filter>
     </ClInclude>
     <ClInclude Include="sources\environment\lv_environment.hpp">
       <Filter>Environment</Filter>
@@ -95,19 +110,7 @@
     <ClInclude Include="sources\environment\lv_ienvironment.hpp">
       <Filter>Environment</Filter>
     </ClInclude>
-    <ClInclude Include="sources\commands\lv_run_game_command.hpp">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\game_initializer\lv_game_initializer.hpp">
-      <Filter>Game Initializer</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\game_initializer\lv_igame_initializer.hpp">
-      <Filter>Game Initializer</Filter>
-    </ClInclude>
     <ClInclude Include="sources\commands\lv_base_command.hpp">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\commands\lv_stop_game_command.hpp">
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="sources\landscape_viewer\lv_ilandscape_viewer.hpp">
@@ -115,6 +118,54 @@
     </ClInclude>
     <ClInclude Include="sources\landscape_viewer\lv_landscape_viewer.hpp">
       <Filter>Landscape Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\lv_description_view.hpp">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\lv_editor_view.hpp">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\lv_landscape_view.hpp">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\lv_minimap_view.hpp">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\lv_objects_view.hpp">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\widgets\lv_landscape_editor_scene.hpp">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\widgets\lv_landscape_editor_widget.hpp">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\widgets\lv_landscape_scene.hpp">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\widgets\lv_landscape_widget.hpp">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\widgets\lv_minimap_widget.hpp">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands_executor\lv_icommands_executor.hpp">
+      <Filter>Commands Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands\lv_commands.hpp">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\view_mode\lv_editing_mode.hpp">
+      <Filter>View Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\view_mode\lv_iview_mode.hpp">
+      <Filter>View Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\view_mode\lv_playing_mode.hpp">
+      <Filter>View Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\commands_executor\lv_commands_executor.hpp">
+      <Filter>Commands Executor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

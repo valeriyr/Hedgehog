@@ -48,6 +48,8 @@ public:
 
 	/*virtual*/ void execute();
 
+	/*virtual*/ bool isEnabled() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:

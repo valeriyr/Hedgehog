@@ -6,19 +6,22 @@
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
 #include "landscape_viewer/sources/environment/lv_environment.hpp"
-#include "landscape_viewer/sources/game_initializer/lv_game_initializer.hpp"
-#include "landscape_viewer/sources/landscape_view/lv_landscape_view.hpp"
+#include "landscape_viewer/sources/landscape_viewer/lv_landscape_viewer.hpp"
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 
-#include "landscape_viewer/sources/commands/lv_run_game_command.hpp"
-#include "landscape_viewer/sources/commands/lv_stop_game_command.hpp"
+#include "landscape_viewer/sources/commands/lv_commands.hpp"
+#include "landscape_viewer/sources/commands_executor/lv_commands_executor.hpp"
 
 #include "window_manager/ih/wm_iwindow_manager.hpp"
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 #include "window_manager/h/wm_plugin_id.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_manager.hpp"
+#include "landscape_model/ih/lm_ilandscape_editor.hpp"
+#include "landscape_model/ih/lm_iunits_cache.hpp"
+#include "landscape_model/ih/lm_isurface_items_cache.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/h/lm_plugin_id.hpp"
 
 #include "commands_manager/ih/cm_icommands_registry.hpp"
@@ -67,23 +70,42 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	fillSurfaceItemsCache();
+	fillUnitsCache();
+
 	m_environment.reset( new Environment( *this ) );
+	m_landscapeViewer.reset( new LandscapeViewer() );
 
-	m_gameInitializer.reset( new GameInitializer( *m_environment ) );
-
-	m_landscapeView.reset( new LandscapeView( *m_environment ) );
-
-	getWindowManager()->addView(
-			m_landscapeView
-		,	Framework::GUI::WindowManager::ViewPosition::Center );
+	m_commandsExecutor.reset( new CommandsExecutor( *m_environment, *m_landscapeViewer ) );
 
 	using namespace Framework::Core::CommandsManager;
 	getCommandsManager()->registerCommand(
 			Resources::Commands::RunGameCommandName
-		,	boost::intrusive_ptr< ICommand >( new RunGameCommand( *m_environment ) ) );
+		,	boost::intrusive_ptr< ICommand >( new RunGameCommand( *m_commandsExecutor ) ) );
 	getCommandsManager()->registerCommand(
 			Resources::Commands::StopGameCommandName
-		,	boost::intrusive_ptr< ICommand >( new StopGameCommand( *m_environment ) ) );
+		,	boost::intrusive_ptr< ICommand >( new StopGameCommand( *m_commandsExecutor ) ) );
+	getCommandsManager()->registerCommand(
+			Resources::Commands::NewLandscapeCommandName
+		,	boost::intrusive_ptr< ICommand >( new NewLandscapeCommand( *m_commandsExecutor ) ) );
+	getCommandsManager()->registerCommand(
+			Resources::Commands::OpenLandscapeCommandName
+		,	boost::intrusive_ptr< ICommand >( new OpenLandscapeCommand( *m_commandsExecutor ) ) );
+	getCommandsManager()->registerCommand(
+			Resources::Commands::CloseLandscapeCommandName
+		,	boost::intrusive_ptr< ICommand >( new CloseLandscapeCommand( *m_commandsExecutor ) ) );
+	getCommandsManager()->registerCommand(
+			Resources::Commands::SaveLandscapeCommandName
+		,	boost::intrusive_ptr< ICommand >( new SaveLandscapeCommand( *m_commandsExecutor ) ) );
+	getCommandsManager()->registerCommand(
+			Resources::Commands::SaveAsLandscapeCommandName
+		,	boost::intrusive_ptr< ICommand >( new SaveAsLandscapeCommand( *m_commandsExecutor ) ) );
+
+	getWindowManager()->addCommandToMenu( "File/New", Resources::Commands::NewLandscapeCommandName );
+	getWindowManager()->addCommandToMenu( "File/Open", Resources::Commands::OpenLandscapeCommandName );
+	getWindowManager()->addCommandToMenu( "File/Close", Resources::Commands::CloseLandscapeCommandName );
+	getWindowManager()->addCommandToMenu( "File/Save", Resources::Commands::SaveLandscapeCommandName );
+	getWindowManager()->addCommandToMenu( "File/Save As", Resources::Commands::SaveAsLandscapeCommandName );
 
 	getWindowManager()->addCommandToMenu( "Game/Run", Resources::Commands::RunGameCommandName );
 	getWindowManager()->addCommandToMenu( "Game/Stop", Resources::Commands::StopGameCommandName );
@@ -100,36 +122,26 @@ PluginInstance::close()
 	getWindowManager()->removeCommandFromMenu( "Game/Stop" );
 	getWindowManager()->removeCommandFromMenu( "Game/Run" );
 
+	getWindowManager()->removeCommandFromMenu( "File/Save As" );
+	getWindowManager()->removeCommandFromMenu( "File/Save" );
+	getWindowManager()->removeCommandFromMenu( "File/Close" );
+	getWindowManager()->removeCommandFromMenu( "File/Open" );
+	getWindowManager()->removeCommandFromMenu( "File/New" );
+
+	getCommandsManager()->unregisterCommand( Resources::Commands::SaveAsLandscapeCommandName );
+	getCommandsManager()->unregisterCommand( Resources::Commands::SaveLandscapeCommandName );
+	getCommandsManager()->unregisterCommand( Resources::Commands::CloseLandscapeCommandName );
+	getCommandsManager()->unregisterCommand( Resources::Commands::OpenLandscapeCommandName );
+	getCommandsManager()->unregisterCommand( Resources::Commands::NewLandscapeCommandName );
+
 	getCommandsManager()->unregisterCommand( Resources::Commands::StopGameCommandName );
 	getCommandsManager()->unregisterCommand( Resources::Commands::RunGameCommandName );
 
-	getWindowManager()->removeView( m_landscapeView );
-
-	m_landscapeView.reset();
+	m_commandsExecutor.reset();
+	m_landscapeViewer.reset();
+	m_environment.reset();
 
 } // PluginInstance::close
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< IGameInitializer >
-PluginInstance::getGameInitializer() const
-{
-	return m_gameInitializer;
-
-} // PluginInstance::getGameInitializer
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< LandscapeView >
-PluginInstance::getLandscapeView() const
-{
-	return m_landscapeView;
-
-} // PluginInstance::getLandscapeView
 
 
 /*---------------------------------------------------------------------------*/
@@ -205,6 +217,48 @@ PluginInstance::getLandscapeManager() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
+PluginInstance::getLandscapeEditor() const
+{
+	return
+		getPluginInterface< Plugins::Core::LandscapeModel::ILandscapeEditor >(
+				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
+			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_EDITOR );
+
+} // PluginInstance::getLandscapeEditor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
+PluginInstance::getSurfaceItemsCache() const
+{
+	return
+		getPluginInterface< Plugins::Core::LandscapeModel::ISurfaceItemsCache >(
+				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
+			,	Plugins::Core::LandscapeModel::IID_SURFACE_ITEMS_CACHE );
+
+} // PluginInstance::getSurfaceItemsCache
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnitsCache >
+PluginInstance::getUnitsCache() const
+{
+	return
+		getPluginInterface< Plugins::Core::LandscapeModel::IUnitsCache >(
+				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
+			,	Plugins::Core::LandscapeModel::IID_UNITS_CACHE );
+
+} // PluginInstance::getUnitsCache
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< Plugins::Core::GameManager::IGameManager >
 PluginInstance::getGameManager() const
 {
@@ -214,6 +268,81 @@ PluginInstance::getGameManager() const
 			,	Plugins::Core::GameManager::IID_GAME_MANAGER );
 
 } // PluginInstance::getGameManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::fillSurfaceItemsCache()
+{
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
+		surfaceItemsCache = getSurfaceItemsCache();
+
+	unsigned int counter = 0;
+
+	for ( int i = 0; i < 24; ++i )
+	{
+		for ( int j = 0; j < 16; ++j )
+		{
+			surfaceItemsCache->addSurfaceItem(
+					counter++
+				,	"surface/summer"
+				,	QRect(
+						j * Resources::Landscape::CellSize
+					,	i * Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize ) );
+		}
+	}
+
+	for ( int i = 0; i < 24; ++i )
+	{
+		for ( int j = 0; j < 16; ++j )
+		{
+			surfaceItemsCache->addSurfaceItem(
+					counter++
+				,	"surface/winter"
+				,	QRect(
+						j * Resources::Landscape::CellSize
+					,	i * Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize ) );
+		}
+	}
+
+	for ( int i = 0; i < 24; ++i )
+	{
+		for ( int j = 0; j < 16; ++j )
+		{
+			surfaceItemsCache->addSurfaceItem(
+					counter++
+				,	"surface/wasteland"
+				,	QRect(
+						j * Resources::Landscape::CellSize
+					,	i * Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize
+					,	Resources::Landscape::CellSize ) );
+		}
+	}
+
+	surfaceItemsCache->setDefaultSurfaceItem( surfaceItemsCache->getSurfaceItem( 269 ) );
+
+} // PluginInstance::fillSurfaceItemsCache
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::fillUnitsCache()
+{
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnitsCache >
+		unitsCache = getUnitsCache();
+
+	unitsCache->addUnit( "Grunt", "units/grunt", QRect( 288, 0, 72, 72 ) );
+
+} // PluginInstance::fillUnitsCache
 
 
 /*---------------------------------------------------------------------------*/

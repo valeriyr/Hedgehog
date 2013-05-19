@@ -34,8 +34,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
-		getCommandExecutor() const;
+	/*virtual*/ void executeCommand( const QString& _commandName ) const;
 
 /*---------------------------------------------------------------------------*/
 
