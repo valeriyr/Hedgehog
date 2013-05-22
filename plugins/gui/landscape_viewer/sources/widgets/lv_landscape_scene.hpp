@@ -52,7 +52,14 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void showLandscape( const Core::LandscapeModel::ILandscape& _landscape );
+	void landscapeWasOpened(
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape );
+
+	void landscapeWasClosed();
+
+/*---------------------------------------------------------------------------*/
+
+	void refreshData();
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,6 +76,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > m_landscape;
 
 	QPointF m_startSelectionPoint;
 	QGraphicsRectItem* m_selectionItem;

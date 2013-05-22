@@ -23,9 +23,7 @@ namespace LandscapeViewer {
 
 
 EditingMode::EditingMode( const IEnvironment& _environment )
-	:	m_environment( _environment )
-	,	m_editableLandscape()
-	,	m_landscapeFilePath()
+	:	BaseMode( _environment )
 	,	m_descriptionView( new DescriptionView() )
 	,	m_editorView( new EditorView( _environment ) )
 	,	m_minimapView( new MinimapView( _environment ) )
@@ -50,28 +48,6 @@ EditingMode::~EditingMode()
 	m_environment.removeFrameworkView( m_objectsView );
 
 } // EditingMode::~EditingMode
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-EditingMode::getCurrentLandscape() const
-{
-	return m_editableLandscape;
-
-} // EditingMode::getCurrentLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
-QString
-EditingMode::getLandscapeFilePath() const
-{
-	return m_landscapeFilePath;
-
-} // EditingMode::getLandscapeFilePath
 
 
 /*---------------------------------------------------------------------------*/
@@ -111,8 +87,8 @@ EditingMode::openLandscape( const QString& _filePath )
 	
 	m_descriptionView->landscapeWasOpened( *m_editableLandscape, m_landscapeFilePath );
 	m_objectsView->landscapeWasOpened();
-	m_editorView->landscapeWasOpened();
 	m_minimapView->landscapeWasOpened( *m_editableLandscape );
+	m_editorView->landscapeWasOpened( m_editableLandscape );
 
 } // EditingMode::openLandscape
 
@@ -125,8 +101,8 @@ EditingMode::closeLandscape()
 {
 	m_descriptionView->landscapeWasClosed();
 	m_objectsView->landscapeWasClosed();
-	m_editorView->landscapeWasClosed();
 	m_minimapView->landscapeWasClosed();
+	m_editorView->landscapeWasClosed();
 
 	m_landscapeFilePath.clear();
 	m_editableLandscape.reset();

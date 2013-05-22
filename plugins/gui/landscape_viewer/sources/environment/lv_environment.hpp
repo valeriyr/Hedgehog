@@ -53,12 +53,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initializeLandscape( const QString& _fileName ) const;
-
-	/*virtual*/ void closeLandscape() const;
-
 	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		getLandscape() const;
+		initializeLandscapeManager( const QString& _fileName ) const;
+
+	/*virtual*/ void resetLandscapeManager() const;
 
 /*---------------------------------------------------------------------------*/
 

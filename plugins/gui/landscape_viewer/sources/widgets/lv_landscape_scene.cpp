@@ -141,51 +141,82 @@ LandscapeScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 
 
 void
-LandscapeScene::showLandscape( const Core::LandscapeModel::ILandscape& _landscape )
+LandscapeScene::landscapeWasOpened(
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape )
 {
-	for ( unsigned int i = 0; i < _landscape.getWidth(); ++i )
-	{
-		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
-		{
-			boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-				surfaceItem = _landscape.getSurfaceItem( Plugins::Core::LandscapeModel::Point( i, j ) );
+	m_landscape = _landscape;
 
-			QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
-			item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
-			item->setZValue( 0 );
+	refreshData();
+
+} // LandscapeScene::landscapeWasOpened
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::landscapeWasClosed()
+{
+	clear();
+	setSceneRect( 0, 0, 0, 0 );
+
+	m_landscape.reset();
+
+} // LandscapeScene::landscapeWasClosed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::refreshData()
+{
+	if ( m_landscape )
+	{
+		for ( unsigned int i = 0; i < m_landscape->getWidth(); ++i )
+		{
+			for ( unsigned int j = 0; j < m_landscape->getHeight(); ++j )
+			{
+				boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+					surfaceItem = m_landscape->getSurfaceItem( Plugins::Core::LandscapeModel::Point( i, j ) );
+
+				QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
+				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
+				item->setZValue( 0 );
+			}
+		}
+
+		Plugins::Core::LandscapeModel::ILandscape::UnitsIteratorPtr
+			unitsIterator = m_landscape->getUnitsIterator();
+
+		while ( unitsIterator->isValid() )
+		{
+			QGraphicsPixmapItem* item = addPixmap(
+				m_environment.getPixmap( unitsIterator->current()->getBundlePath(), unitsIterator->current()->getRectInBundle() ) );
+
+			Plugins::Core::LandscapeModel::Point position = m_landscape->getUnitPosition( unitsIterator->current() );
+
+			qreal posByX = position.m_x * Resources::Landscape::CellSize;
+			qreal posByY = position.m_y * Resources::Landscape::CellSize;
+
+			if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().width() ) > Resources::Landscape::CellSize )
+			{
+				posByX -= ( unitsIterator->current()->getRectInBundle().width() - Resources::Landscape::CellSize ) / 2;
+			}
+
+			if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().height() ) > Resources::Landscape::CellSize )
+			{
+				posByY -= ( unitsIterator->current()->getRectInBundle().height() - Resources::Landscape::CellSize ) / 2;
+			}
+
+			item->setPos( posByX, posByY );
+			item->setZValue( 1 );
+
+			unitsIterator->next();
 		}
 	}
 
-	Plugins::Core::LandscapeModel::ILandscape::UnitsIteratorPtr
-		unitsIterator = _landscape.getUnitsIterator();
-
-	while ( unitsIterator->isValid() )
-	{
-		QGraphicsPixmapItem* item = addPixmap(
-			m_environment.getPixmap( unitsIterator->current()->getBundlePath(), unitsIterator->current()->getRectInBundle() ) );
-
-		Plugins::Core::LandscapeModel::Point position = _landscape.getUnitPosition( unitsIterator->current() );
-
-		qreal posByX = position.m_x * Resources::Landscape::CellSize;
-		qreal posByY = position.m_y * Resources::Landscape::CellSize;
-
-		if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().width() ) > Resources::Landscape::CellSize )
-		{
-			posByX -= ( unitsIterator->current()->getRectInBundle().width() - Resources::Landscape::CellSize ) / 2;
-		}
-
-		if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().height() ) > Resources::Landscape::CellSize )
-		{
-			posByY -= ( unitsIterator->current()->getRectInBundle().height() - Resources::Landscape::CellSize ) / 2;
-		}
-
-		item->setPos( posByX, posByY );
-		item->setZValue( 1 );
-
-		unitsIterator->next();
-	}
-
-} // LandscapeScene::showLandscape
+} // LandscapeScene::refreshData
 
 
 /*---------------------------------------------------------------------------*/

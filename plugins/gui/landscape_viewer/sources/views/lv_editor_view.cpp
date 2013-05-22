@@ -8,6 +8,8 @@
 #include "landscape_viewer/sources/widgets/lv_landscape_editor_widget.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
+#include "landscape_model/ih/lm_ieditable_landscape.hpp"
+
 #include "lv_editor_view.moc"
 
 /*---------------------------------------------------------------------------*/
@@ -111,9 +113,9 @@ EditorView::viewWasClosed()
 
 
 void
-EditorView::landscapeWasOpened()
+EditorView::landscapeWasOpened( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape )
 {
-	m_landscapeScene->landscapeWasOpened();
+	m_landscapeScene->landscapeWasOpened( _landscape );
 	m_landscapeWidget->wasResized();
 
 } // EditorView::landscapeWasOpened
@@ -125,7 +127,7 @@ EditorView::landscapeWasOpened()
 void
 EditorView::landscapeWasClosed()
 {
-	m_landscapeScene->setDefaultLandscape();
+	m_landscapeScene->landscapeWasClosed();
 
 } // EditorView::landscapeWasClosed
 

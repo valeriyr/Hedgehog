@@ -1,9 +1,9 @@
 
 #include "landscape_viewer/sources/ph/lv_ph.hpp"
 
-#include "landscape_viewer/sources/widgets/lv_landscape_widget.hpp"
+#include "landscape_viewer/sources/view_mode/lv_base_mode.hpp"
 
-#include "landscape_viewer/sources/widgets/lv_landscape_scene.hpp"
+#include "landscape_model/ih/lm_ieditable_landscape.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -15,37 +15,42 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeWidget::LandscapeWidget(
-		const IEnvironment& _environment
-	,	LandscapeScene* _scene
-	,	QWidget* _parent
-	)
-	:	QGraphicsView( _scene, _parent )
-	,	m_environment( _environment )
-	,	m_scene( _scene )
+BaseMode::BaseMode( const IEnvironment& _environment )
+	:	m_environment( _environment )
+	,	m_editableLandscape()
+	,	m_landscapeFilePath()
 {
-} // LandscapeWidget::LandscapeWidget
+} // BaseMode::BaseMode
 
 
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeWidget::~LandscapeWidget()
+BaseMode::~BaseMode()
 {
-} // LandscapeWidget::~LandscapeWidget
+} // BaseMode::~BaseMode
 
 
 /*---------------------------------------------------------------------------*/
 
 
-void
-LandscapeWidget::resizeEvent( QResizeEvent* _event )
+boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+BaseMode::getCurrentLandscape() const
 {
-	m_scene->refreshData();
+	return m_editableLandscape;
 
-	QGraphicsView::resizeEvent( _event );
+} // BaseMode::getCurrentLandscape
 
-} // LandscapeWidget::resizeEvent
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+BaseMode::getLandscapeFilePath() const
+{
+	return m_landscapeFilePath;
+
+} // BaseMode::getLandscapeFilePath
 
 
 /*---------------------------------------------------------------------------*/

@@ -78,12 +78,10 @@ LandscapeView::viewWasClosed()
 
 
 void
-LandscapeView::landscapeWasOpened()
+LandscapeView::landscapeWasOpened(
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape )
 {
-	if ( m_environment.getLandscape() )
-	{
-		m_landscapeScene->showLandscape( *m_environment.getLandscape() );
-	}
+	m_landscapeScene->landscapeWasOpened( _landscape );
 
 } // LandscapeView::landscapeWasOpened
 
@@ -94,8 +92,7 @@ LandscapeView::landscapeWasOpened()
 void
 LandscapeView::landscapeWasClosed()
 {
-	m_landscapeScene->clear();
-	m_landscapeScene->setSceneRect( 0, 0, 0, 0 );
+	m_landscapeScene->landscapeWasClosed();
 
 } // LandscapeView::landscapeWasClosed
 

@@ -1,23 +1,10 @@
 
-#ifndef __LV_LANDSCAPE_VIEW_HPP__
-#define __LV_LANDSCAPE_VIEW_HPP__
+#ifndef __LV_BASE_MODE_HPP__
+#define __LV_BASE_MODE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "window_manager/ih/wm_iview.hpp"
-
-/*---------------------------------------------------------------------------*/
-
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct ILandscape;
-		}
-	}
-}
+#include "landscape_viewer/sources/view_mode/lv_iview_mode.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,14 +16,10 @@ namespace LandscapeViewer {
 
 struct IEnvironment;
 
-class LandscapeScene;
-class LandscapeWidget;
-
 /*---------------------------------------------------------------------------*/
 
-class LandscapeView
-	:	public QObject
-	,	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
+class BaseMode
+	:	public Tools::Core::BaseWrapper< IViewMode >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -45,40 +28,28 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeView( const IEnvironment& _environment, QObject* _parent = NULL );
+	BaseMode( const IEnvironment& _environment );
 
-	virtual ~LandscapeView();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ const QString& getViewTitle() const;
-
-	/*virtual*/ QWidget* getViewWidget();
+	virtual ~BaseMode();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void viewWasClosed();
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+		getCurrentLandscape() const;
+
+	/*virtual*/ QString getLandscapeFilePath() const;
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasOpened(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape );
-
-	void landscapeWasClosed();
-
-/*---------------------------------------------------------------------------*/
-
-private:
+protected:
 
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
 
-	QString m_viewTitle;
+	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > m_editableLandscape;
 
-	boost::shared_ptr< LandscapeScene > m_landscapeScene;
-
-	boost::shared_ptr< LandscapeWidget > m_landscapeWidget;
+	QString m_landscapeFilePath;
 
 /*---------------------------------------------------------------------------*/
 
@@ -92,4 +63,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_LANDSCAPE_VIEW_HPP__
+#endif // __LV_BASE_MODE_HPP__

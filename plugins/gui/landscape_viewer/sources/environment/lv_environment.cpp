@@ -102,11 +102,11 @@ Environment::removeFrameworkView( boost::intrusive_ptr< Framework::GUI::WindowMa
 
 /*---------------------------------------------------------------------------*/
 
-
-void
-Environment::initializeLandscape( const QString& _fileName ) const
+boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+Environment::initializeLandscapeManager( const QString& _fileName ) const
 {
 	m_pluginInstance.getLandscapeManager()->initCurrentLandscape( _fileName );
+	return m_pluginInstance.getLandscapeManager()->getCurrentLandscape();
 
 } // Environment::initializeLandscape
 
@@ -115,22 +115,11 @@ Environment::initializeLandscape( const QString& _fileName ) const
 
 
 void
-Environment::closeLandscape() const
+Environment::resetLandscapeManager() const
 {
 	m_pluginInstance.getLandscapeManager()->closeCurrentLandscape();
 
 } // Environment::closeLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-Environment::getLandscape() const
-{
-	return m_pluginInstance.getLandscapeManager()->getCurrentLandscape();
-
-} // Environment::getLandscape
 
 
 /*---------------------------------------------------------------------------*/

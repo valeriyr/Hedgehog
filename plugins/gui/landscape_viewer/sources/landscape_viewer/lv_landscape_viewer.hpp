@@ -34,13 +34,28 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IViewMode > getViewMode() const;
+	/*virtual*/ bool isPlayingMode() const;
+
+	/*virtual*/ bool isEditingMode() const;
 
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void ensureLandscapeEditingMode();
 
 	/*virtual*/ void ensurePlayingMode();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+		getCurrentLandscape() const;
+
+	/*virtual*/ QString getLandscapeFilePath() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void openLandscape( const QString& _filePath );
+
+	/*virtual*/ void closeLandscape();
 
 /*---------------------------------------------------------------------------*/
 

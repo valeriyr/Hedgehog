@@ -68,12 +68,10 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initializeLandscape( const QString& _fileName ) const = 0;
-
-	virtual void closeLandscape() const = 0;
-
 	virtual boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		getLandscape() const = 0;
+		initializeLandscapeManager( const QString& _fileName ) const = 0;
+
+	virtual void resetLandscapeManager() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

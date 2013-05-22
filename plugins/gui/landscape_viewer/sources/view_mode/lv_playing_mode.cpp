@@ -24,7 +24,7 @@ namespace LandscapeViewer {
 
 
 PlayingMode::PlayingMode( const IEnvironment& _environment )
-	:	m_environment( _environment )
+	:	BaseMode( _environment )
 	,	m_descriptionView( new DescriptionView() )
 	,	m_landscapeView( new LandscapeView( _environment ) )
 	,	m_minimapView( new MinimapView( _environment ) )
@@ -46,28 +46,6 @@ PlayingMode::~PlayingMode()
 	m_environment.removeFrameworkView( m_landscapeView );
 
 } // PlayingMode::~PlayingMode
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-PlayingMode::getCurrentLandscape() const
-{
-	return m_environment.getLandscape();
-
-} // PlayingMode::getCurrentLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
-QString
-PlayingMode::getLandscapeFilePath() const
-{
-	return m_landscapeFilePath;
-
-} // PlayingMode::getLandscapeFilePath
 
 
 /*---------------------------------------------------------------------------*/
@@ -99,11 +77,11 @@ void
 PlayingMode::openLandscape( const QString& _filePath )
 {
 	m_landscapeFilePath = _filePath;
-	m_environment.initializeLandscape( _filePath );
+	m_editableLandscape = m_environment.initializeLandscapeManager( _filePath );
 
-	m_landscapeView->landscapeWasOpened();
-	m_descriptionView->landscapeWasOpened( *m_environment.getLandscape(), _filePath );
-	m_minimapView->landscapeWasOpened( *m_environment.getLandscape() );
+	m_descriptionView->landscapeWasOpened( *m_editableLandscape, _filePath );
+	m_minimapView->landscapeWasOpened( *m_editableLandscape );
+	m_landscapeView->landscapeWasOpened( m_editableLandscape );
 
 	m_environment.runGameManager();
 
@@ -118,11 +96,14 @@ PlayingMode::closeLandscape()
 {
 	m_environment.stopGameManager();
 
+	m_landscapeView->landscapeWasClosed();
 	m_minimapView->landscapeWasClosed();
 	m_descriptionView->landscapeWasClosed();
-	m_landscapeView->landscapeWasClosed();
 
-	m_environment.closeLandscape();
+	m_environment.resetLandscapeManager();
+
+	m_landscapeFilePath.clear();
+	m_editableLandscape.reset();
 
 } // PlayingMode::closeLandscape
 

@@ -37,6 +37,7 @@
     <ClCompile Include="sources\views\lv_landscape_view.cpp" />
     <ClCompile Include="sources\views\lv_minimap_view.cpp" />
     <ClCompile Include="sources\views\lv_objects_view.cpp" />
+    <ClCompile Include="sources\view_mode\lv_base_mode.cpp" />
     <ClCompile Include="sources\view_mode\lv_editing_mode.cpp" />
     <ClCompile Include="sources\view_mode\lv_playing_mode.cpp" />
     <ClCompile Include="sources\widgets\lv_landscape_editor_scene.cpp" />
@@ -113,6 +114,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
     </CustomBuild>
+    <ClInclude Include="sources\view_mode\lv_base_mode.hpp" />
     <ClInclude Include="sources\view_mode\lv_editing_mode.hpp" />
     <ClInclude Include="sources\view_mode\lv_iview_mode.hpp" />
     <ClInclude Include="sources\view_mode\lv_playing_mode.hpp" />

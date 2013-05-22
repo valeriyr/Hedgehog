@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_viewer/sources/view_mode/lv_iview_mode.hpp"
+#include "landscape_viewer/sources/view_mode/lv_base_mode.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,8 +14,6 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEnvironment;
-
 class DescriptionView;
 class EditorView;
 class MinimapView;
@@ -24,7 +22,7 @@ class ObjectsView;
 /*---------------------------------------------------------------------------*/
 
 class EditingMode
-	:	public Tools::Core::BaseWrapper< IViewMode >
+	:	public BaseMode
 {
 
 /*---------------------------------------------------------------------------*/
@@ -36,13 +34,6 @@ public:
 	EditingMode( const IEnvironment& _environment );
 
 	virtual ~EditingMode();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		getCurrentLandscape() const;
-
-	/*virtual*/ QString getLandscapeFilePath() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -61,12 +52,6 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
-
-	const IEnvironment& m_environment;
-
-	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > m_editableLandscape;
-
-	QString m_landscapeFilePath;
 
 	boost::intrusive_ptr< DescriptionView > m_descriptionView;
 	boost::intrusive_ptr< EditorView > m_editorView;

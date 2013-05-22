@@ -2,6 +2,18 @@
 #ifndef __LV_LANDSCAPE_EDITOR_SCENE_HPP__
 #define __LV_LANDSCAPE_EDITOR_SCENE_HPP__
 
+/*---------------------------------------------------------------------------*/
+
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct ILandscape;
+		}
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,9 +47,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasOpened();
+	void landscapeWasOpened(
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape );
 
-	void setDefaultLandscape();
+	void landscapeWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
@@ -77,6 +90,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > m_landscape;
 
 /*---------------------------------------------------------------------------*/
 

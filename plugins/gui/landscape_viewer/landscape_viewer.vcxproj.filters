@@ -93,6 +93,9 @@
     <ClCompile Include="sources\commands_executor\lv_commands_executor.cpp">
       <Filter>Commands Executor</Filter>
     </ClCompile>
+    <ClCompile Include="sources\view_mode\lv_base_mode.cpp">
+      <Filter>View Mode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lv_ph.hpp">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="sources\commands_executor\lv_commands_executor.hpp">
       <Filter>Commands Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\view_mode\lv_base_mode.hpp">
+      <Filter>View Mode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

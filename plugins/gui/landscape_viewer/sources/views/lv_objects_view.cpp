@@ -79,12 +79,12 @@ ObjectsView::ObjectsView( const IEnvironment& _environment, QObject* _parent )
 	m_objectsView->addTopLevelItem( winterSurface );
 	m_objectsView->addTopLevelItem( wastelandSurface );
 
-	/*QList< QTreeWidgetItem* > items
+	QList< QTreeWidgetItem* > items
 		= m_objectsView->findItems(
-		QString( "%1" ).arg( _environment.getGUILandscapeEditor()->getSelectedSurfaceItem()->getIndex() )
+		QString( "%1" ).arg( _environment.getDefaultSurfaceItem()->getIndex() )
 			,	Qt::MatchFixedString | Qt::MatchRecursive );
 
-	m_objectsView->setCurrentItem( items.first() );*/
+	m_objectsView->setCurrentItem( items.first() );
 
 	QObject::connect(
 			m_objectsView.get()

@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_viewer/sources/view_mode/lv_iview_mode.hpp"
+#include "landscape_viewer/sources/view_mode/lv_base_mode.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -23,7 +23,7 @@ class MinimapView;
 /*---------------------------------------------------------------------------*/
 
 class PlayingMode
-	:	public Tools::Core::BaseWrapper< IViewMode >
+	:	public BaseMode
 {
 
 /*---------------------------------------------------------------------------*/
@@ -35,13 +35,6 @@ public:
 	PlayingMode( const IEnvironment& _environment );
 
 	virtual ~PlayingMode();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		getCurrentLandscape() const;
-
-	/*virtual*/ QString getLandscapeFilePath() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -60,10 +53,6 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
-
-	const IEnvironment& m_environment;
-
-	QString m_landscapeFilePath;
 
 	boost::intrusive_ptr< DescriptionView > m_descriptionView;
 	boost::intrusive_ptr< LandscapeView > m_landscapeView;

@@ -26,6 +26,7 @@ namespace LandscapeViewer {
 LandscapeEditorScene::LandscapeEditorScene( const IEnvironment& _environment, QObject* _parent )
 	:	QGraphicsScene( _parent )
 	,	m_environment( _environment )
+	,	m_landscape()
 {
 } // LandscapeEditorScene::LandscapeEditorScene
 
@@ -42,8 +43,10 @@ LandscapeEditorScene::~LandscapeEditorScene()
 
 
 void
-LandscapeEditorScene::landscapeWasOpened()
+LandscapeEditorScene::landscapeWasOpened(
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape )
 {
+	m_landscape = _landscape;
 	regenerate();
 
 } // LandscapeEditorScene::landscapeWasOpened
@@ -53,11 +56,12 @@ LandscapeEditorScene::landscapeWasOpened()
 
 
 void
-LandscapeEditorScene::setDefaultLandscape()
+LandscapeEditorScene::landscapeWasClosed()
 {
+	m_landscape.reset();
 	regenerate();
 
-} // LandscapeEditorScene::setDefaultLandscape
+} // LandscapeEditorScene::landscapeWasClosed
 
 
 /*---------------------------------------------------------------------------*/
@@ -121,24 +125,21 @@ LandscapeEditorScene::regenerate()
 void
 LandscapeEditorScene::regenerateSurfaceLayer()
 {
-	/*boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
-		landscape = m_environment.getGUILandscapeEditor()->getEditableLandscape();
-
-	if ( landscape )
+	if ( m_landscape )
 	{
-		for ( unsigned int i = 0; i < landscape->getWidth(); ++i )
+		for ( unsigned int i = 0; i < m_landscape->getWidth(); ++i )
 		{
-			for ( unsigned int j = 0; j < landscape->getHeight(); ++j )
+			for ( unsigned int j = 0; j < m_landscape->getHeight(); ++j )
 			{
 				boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-					surfaceItem = landscape->getSurfaceItem( Plugins::Core::LandscapeModel::Point( i, j ) );
+					surfaceItem = m_landscape->getSurfaceItem( Plugins::Core::LandscapeModel::Point( i, j ) );
 
 				QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
 				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
 				item->setZValue( 0 );
 			}
 		}
-	}*/
+	}
 
 } // LandscapeEditorScene::regenerateSurfaceLayer
 
@@ -149,20 +150,17 @@ LandscapeEditorScene::regenerateSurfaceLayer()
 void
 LandscapeEditorScene::regenerateObjectsLayer()
 {
-	/*boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
-		landscape = m_environment.getGUILandscapeEditor()->getEditableLandscape();
-
-	if ( landscape )
+	if ( m_landscape )
 	{
 		Plugins::Core::LandscapeModel::ILandscape::UnitsIteratorPtr
-			unitsIterator = landscape->getUnitsIterator();
+			unitsIterator = m_landscape->getUnitsIterator();
 
 		while ( unitsIterator->isValid() )
 		{
 			QGraphicsPixmapItem* item = addPixmap(
 				m_environment.getPixmap( unitsIterator->current()->getBundlePath(), unitsIterator->current()->getRectInBundle() ) );
 
-			Plugins::Core::LandscapeModel::Point position = landscape->getUnitPosition( unitsIterator->current() );
+			Plugins::Core::LandscapeModel::Point position = m_landscape->getUnitPosition( unitsIterator->current() );
 
 			qreal posByX = position.m_x * Resources::Landscape::CellSize;
 			qreal posByY = position.m_y * Resources::Landscape::CellSize;
@@ -182,7 +180,7 @@ LandscapeEditorScene::regenerateObjectsLayer()
 
 			unitsIterator->next();
 		}
-	}*/
+	}
 
 } // LandscapeEditorScene::regenerateObjectsLayer
 
@@ -193,17 +191,14 @@ LandscapeEditorScene::regenerateObjectsLayer()
 void
 LandscapeEditorScene::setCorrectSceneSize()
 {
-	/*boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
-		landscape = m_environment.getGUILandscapeEditor()->getEditableLandscape();
-
-	if ( landscape )
+	if ( m_landscape )
 	{
-		setSceneRect( 0, 0, landscape->getWidth() * Resources::Landscape::CellSize, landscape->getHeight() * Resources::Landscape::CellSize );
+		setSceneRect( 0, 0, m_landscape->getWidth() * Resources::Landscape::CellSize, m_landscape->getHeight() * Resources::Landscape::CellSize );
 	}
 	else
 	{
 		setSceneRect( 0, 0, 0, 0 );
-	}*/
+	}
 
 } // LandscapeEditorScene::setCorrectSceneSize
 
@@ -214,10 +209,7 @@ LandscapeEditorScene::setCorrectSceneSize()
 void
 LandscapeEditorScene::setNewItemInPosition( const QPointF& _position )
 {
-	/*boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
-		landscape = m_environment.getGUILandscapeEditor()->getEditableLandscape();
-
-	if ( landscape )
+	/*if ( m_landscape )
 	{
 		QList< QGraphicsItem* > items = this->items( _position, Qt::ContainsItemShape, Qt::AscendingOrder );
 

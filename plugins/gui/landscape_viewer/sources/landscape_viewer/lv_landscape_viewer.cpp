@@ -6,6 +6,8 @@
 #include "landscape_viewer/sources/view_mode/lv_editing_mode.hpp"
 #include "landscape_viewer/sources/view_mode/lv_playing_mode.hpp"
 
+#include "landscape_model/ih/lm_ieditable_landscape.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,12 +38,23 @@ LandscapeViewer::~LandscapeViewer()
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IViewMode >
-LandscapeViewer::getViewMode() const
+bool
+LandscapeViewer::isPlayingMode() const
 {
-	return m_viewMode;
+	return m_viewMode->isPlayingMode();
 
-} // LandscapeViewer::getViewMode
+} // LandscapeViewer::isPlayingMode
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+LandscapeViewer::isEditingMode() const
+{
+	return m_viewMode->isEditingMode();
+
+} // LandscapeViewer::isEditingMode
 
 
 /*---------------------------------------------------------------------------*/
@@ -66,6 +79,50 @@ LandscapeViewer::ensurePlayingMode()
 		m_viewMode = boost::intrusive_ptr< IViewMode >( new PlayingMode( m_environment ) );
 
 } // LandscapeViewer::ensurePlayingMode
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+LandscapeViewer::getCurrentLandscape() const
+{
+	return m_viewMode->getCurrentLandscape();
+
+} // LandscapeViewer::getCurrentLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+LandscapeViewer::getLandscapeFilePath() const
+{
+	return m_viewMode->getLandscapeFilePath();
+
+} // LandscapeViewer::getLandscapeFilePath
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeViewer::openLandscape( const QString& _filePath )
+{
+	m_viewMode->openLandscape( _filePath );
+
+} // LandscapeViewer::openLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeViewer::closeLandscape()
+{
+	m_viewMode->closeLandscape();
+
+} // LandscapeViewer::closeLandscape
 
 
 /*---------------------------------------------------------------------------*/

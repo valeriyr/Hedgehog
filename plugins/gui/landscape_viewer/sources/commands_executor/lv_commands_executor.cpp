@@ -5,7 +5,6 @@
 
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
-#include "landscape_viewer/sources/view_mode/lv_iview_mode.hpp"
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 
@@ -45,7 +44,7 @@ CommandsExecutor::runGame()
 	if ( !fileName.isEmpty() )
 	{
 		m_landscapeViewer.ensurePlayingMode();
-		m_landscapeViewer.getViewMode()->openLandscape( fileName );
+		m_landscapeViewer.openLandscape( fileName );
 	}
 
 } // CommandsExecutor::runGame
@@ -57,7 +56,7 @@ CommandsExecutor::runGame()
 void
 CommandsExecutor::stopGame()
 {
-	m_landscapeViewer.getViewMode()->closeLandscape();
+	m_landscapeViewer.closeLandscape();
 
 } // CommandsExecutor::stopGame
 
@@ -70,10 +69,10 @@ CommandsExecutor::newLandscape()
 {
 	m_landscapeViewer.ensureLandscapeEditingMode();
 
-	if ( m_landscapeViewer.getViewMode()->getCurrentLandscape() )
-		m_landscapeViewer.getViewMode()->closeLandscape();
+	if ( m_landscapeViewer.getCurrentLandscape() )
+		m_landscapeViewer.closeLandscape();
 
-	m_landscapeViewer.getViewMode()->openLandscape( "c:/temp/new.hmap" );
+	m_landscapeViewer.openLandscape( "c:/temp/new.hmap" );
 
 } // CommandsExecutor::newLandscape
 
@@ -90,10 +89,10 @@ CommandsExecutor::openLandscape()
 	{
 		m_landscapeViewer.ensureLandscapeEditingMode();
 
-		if ( m_landscapeViewer.getViewMode()->getCurrentLandscape() )
-			m_landscapeViewer.getViewMode()->closeLandscape();
+		if ( m_landscapeViewer.getCurrentLandscape() )
+			m_landscapeViewer.closeLandscape();
 
-		m_landscapeViewer.getViewMode()->openLandscape( landscapeFilePath );
+		m_landscapeViewer.openLandscape( landscapeFilePath );
 	}
 
 } // CommandsExecutor::openLandscape
@@ -105,7 +104,7 @@ CommandsExecutor::openLandscape()
 void
 CommandsExecutor::closeLandscape()
 {
-	m_landscapeViewer.getViewMode()->closeLandscape();
+	m_landscapeViewer.closeLandscape();
 
 } // CommandsExecutor::closeLandscape
 
@@ -116,10 +115,10 @@ CommandsExecutor::closeLandscape()
 void
 CommandsExecutor::saveLandscape()
 {
-	if ( m_landscapeViewer.getViewMode()->getCurrentLandscape() )
+	if ( m_landscapeViewer.getCurrentLandscape() )
 		m_environment.saveLandscape(
-				m_landscapeViewer.getViewMode()->getLandscapeFilePath()
-			,	*m_landscapeViewer.getViewMode()->getCurrentLandscape() );
+				m_landscapeViewer.getLandscapeFilePath()
+			,	*m_landscapeViewer.getCurrentLandscape() );
 
 } // CommandsExecutor::saveLandscape
 
@@ -132,8 +131,8 @@ CommandsExecutor::saveAsLandscape()
 {
 	QString landscapeFilePath = m_environment.showSaveFileDialog();
 	m_environment.saveLandscape(
-			m_landscapeViewer.getViewMode()->getLandscapeFilePath()
-		,	*m_landscapeViewer.getViewMode()->getCurrentLandscape() );
+			m_landscapeViewer.getLandscapeFilePath()
+		,	*m_landscapeViewer.getCurrentLandscape() );
 
 } // CommandsExecutor::saveAsLandscape
 
