@@ -10,27 +10,27 @@
 
 namespace Plugins {
 namespace GUI {
-namespace LandscapeEditor {
+namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
 
-#define DEFINE_COMMAND( COMMAND_NAME, EXECUTOR )								/
-																				/
-COMMAND_NAME::COMMAND_NAME( ICommandExecutor& _commandExecutor )				/
-	:	BaseCommand( _commandExecutor )											/
-{																				/
-}																				/
-																				/
-COMMAND_NAME::~COMMAND_NAME()													/
-{																				/
-}																				/
-																				/
-void																			/
-COMMAND_NAME::execute()															/
-{																				/
-	m_commandExecutor.EXECUTOR();												/
-}																				/
+#define DEFINE_COMMAND( COMMAND_NAME, EXECUTOR )								\
+																				\
+COMMAND_NAME::COMMAND_NAME( ICommandsExecutor& _commandsExecutor )				\
+	:	BaseCommand( _commandsExecutor )										\
+{																				\
+}																				\
+																				\
+COMMAND_NAME::~COMMAND_NAME()													\
+{																				\
+}																				\
+																				\
+void																			\
+COMMAND_NAME::execute()															\
+{																				\
+	m_commandsExecutor.EXECUTOR();												\
+}																				\
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,7 +45,7 @@ DEFINE_COMMAND( StopGameCommand, stopGame )
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeEditor
+} // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins
 

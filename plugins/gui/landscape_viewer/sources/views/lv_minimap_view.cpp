@@ -3,7 +3,7 @@
 
 #include "landscape_viewer/sources/views/lv_minimap_view.hpp"
 
-#include "landscape_viewer/sources/widgets/mv_minimap_widget.hpp"
+#include "landscape_viewer/sources/widgets/lv_minimap_widget.hpp"
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
@@ -85,22 +85,22 @@ MinimapView::viewWasClosed()
 
 
 void
-MinimapView::showLandscape( const Core::LandscapeModel::ILandscape& _landscape )
+MinimapView::landscapeWasOpened( const Core::LandscapeModel::ILandscape& _landscape )
 {
 	m_minimapWidget->showLandscape( _landscape );
 
-} // MinimapView::showLandscape
+} // MinimapView::landscapeWasOpened
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-MinimapView::clear()
+MinimapView::landscapeWasClosed()
 {
 	m_minimapWidget->setDefaultLandscape();
 
-} // MinimapView::clear
+} // MinimapView::landscapeWasClosed
 
 
 /*---------------------------------------------------------------------------*/
@@ -131,7 +131,7 @@ MinimapView::setVisibilityRectPosition( const float _relVisibleWidth, const floa
 void
 MinimapView::onVisibilityRectChangedPosition( const float _visibleWidth, const float _visibleHeight )
 {
-	m_environment.changeVisibleAreaOnMainWindow( _visibleWidth, _visibleHeight );
+	//m_environment.changeVisibleAreaOnMainWindow( _visibleWidth, _visibleHeight );
 
 } // MinimapView::onVisibilityRectChangedPosition
 

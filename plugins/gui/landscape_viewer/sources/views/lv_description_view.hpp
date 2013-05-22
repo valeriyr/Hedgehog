@@ -8,6 +8,19 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct ILandscape;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -24,7 +37,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	DescriptionView( const ILandscapeEditorInternal& _landscapeEditor );
+	DescriptionView();
 
 	virtual ~DescriptionView();
 
@@ -40,7 +53,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasOpened();
+	void landscapeWasOpened(
+			const Plugins::Core::LandscapeModel::ILandscape& _landscape
+		,	const QString& _landscapeFilePath );
 
 	void landscapeWasClosed();
 
@@ -57,8 +72,6 @@ private:
 private:
 
 /*---------------------------------------------------------------------------*/
-
-	const ILandscapeEditorInternal& m_landscapeEditor;
 
 	boost::shared_ptr< QTextEdit > m_descriptionView;
 

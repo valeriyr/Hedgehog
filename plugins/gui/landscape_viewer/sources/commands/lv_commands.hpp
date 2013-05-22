@@ -14,22 +14,22 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-#define DECLARE_COMMAND( COMMAND_NAME )									/
-																		/
-class COMMAND_NAME														/
-	:	public BaseCommand												/
-{																		/
-																		/
-public:																	/
-																		/
-	COMMAND_NAME( ICommandExecutor& _commandExecutor );					/
-																		/
-	virtual ~COMMAND_NAME();											/
-																		/
-public:																	/
-																		/
-	/*virtual*/ void execute();											/
-};																		/
+#define DECLARE_COMMAND( COMMAND_NAME )									\
+																		\
+class COMMAND_NAME														\
+	:	public BaseCommand												\
+{																		\
+																		\
+public:																	\
+																		\
+	COMMAND_NAME( ICommandsExecutor& _commandsExecutor );				\
+																		\
+	virtual ~COMMAND_NAME();											\
+																		\
+public:																	\
+																		\
+	/*virtual*/ void execute();											\
+};																		\
 
 /*---------------------------------------------------------------------------*/
 

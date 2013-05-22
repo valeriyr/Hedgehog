@@ -3,6 +3,8 @@
 
 #include <QtWidgets/QTreeWidget>
 
+#include <QtWidgets/QScrollBar>
+
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGraphicsScene>
 #include <QtWidgets/QGraphicsPixmapItem>

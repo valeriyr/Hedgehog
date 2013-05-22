@@ -48,9 +48,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void showCurrentLandscape();
+	void landscapeWasOpened();
 
-	void clearView();
+	void landscapeWasClosed();
 
 /*---------------------------------------------------------------------------*/
 

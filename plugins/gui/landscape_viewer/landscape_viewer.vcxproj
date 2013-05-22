@@ -58,18 +58,120 @@
     <ClInclude Include="sources\ph\lv_ph.hpp" />
     <ClInclude Include="sources\plugin\lv_plugin_instance.hpp" />
     <ClInclude Include="sources\views\lv_description_view.hpp" />
-    <ClInclude Include="sources\views\lv_editor_view.hpp" />
+    <CustomBuild Include="sources\views\lv_editor_view.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+    </CustomBuild>
     <ClInclude Include="sources\views\lv_landscape_view.hpp" />
-    <ClInclude Include="sources\views\lv_minimap_view.hpp" />
-    <ClInclude Include="sources\views\lv_objects_view.hpp" />
+    <CustomBuild Include="sources\views\lv_minimap_view.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+    </CustomBuild>
+    <CustomBuild Include="sources\views\lv_objects_view.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+    </CustomBuild>
     <ClInclude Include="sources\view_mode\lv_editing_mode.hpp" />
     <ClInclude Include="sources\view_mode\lv_iview_mode.hpp" />
     <ClInclude Include="sources\view_mode\lv_playing_mode.hpp" />
-    <ClInclude Include="sources\widgets\lv_landscape_editor_scene.hpp" />
-    <ClInclude Include="sources\widgets\lv_landscape_editor_widget.hpp" />
+    <CustomBuild Include="sources\widgets\lv_landscape_editor_scene.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+    </CustomBuild>
+    <CustomBuild Include="sources\widgets\lv_landscape_editor_widget.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+    </CustomBuild>
     <ClInclude Include="sources\widgets\lv_landscape_scene.hpp" />
     <ClInclude Include="sources\widgets\lv_landscape_widget.hpp" />
-    <ClInclude Include="sources\widgets\lv_minimap_widget.hpp" />
+    <CustomBuild Include="sources\widgets\lv_minimap_widget.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+    </CustomBuild>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{16CA5581-CDC1-4756-A90C-6ADF432E71E1}</ProjectGuid>
@@ -167,7 +269,6 @@
       <OutputFile>$(TargetDir)/$(ProjectName).hplugin</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
-      <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
       <AdditionalDependencies>Qt5Cored.lib;Qt5Widgetsd.lib;Qt5Guid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -188,7 +289,6 @@
       <OutputFile>$(TargetDir)/$(ProjectName).hplugin</OutputFile>
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
-      <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
       <AdditionalDependencies>Qt5Cored.lib;Qt5Widgetsd.lib;Qt5Guid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -213,7 +313,6 @@
       <OutputFile>$(TargetDir)/$(ProjectName).hplugin</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
-      <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
       <AdditionalDependencies>Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -238,7 +337,6 @@
       <OutputFile>$(TargetDir)/$(ProjectName).hplugin</OutputFile>
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
-      <NoEntryPoint>true</NoEntryPoint>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
       <AdditionalDependencies>Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>

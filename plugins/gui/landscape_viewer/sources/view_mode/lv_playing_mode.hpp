@@ -16,6 +16,10 @@ namespace LandscapeViewer {
 
 struct IEnvironment;
 
+class DescriptionView;
+class LandscapeView;
+class MinimapView;
+
 /*---------------------------------------------------------------------------*/
 
 class PlayingMode
@@ -60,6 +64,10 @@ private:
 	const IEnvironment& m_environment;
 
 	QString m_landscapeFilePath;
+
+	boost::intrusive_ptr< DescriptionView > m_descriptionView;
+	boost::intrusive_ptr< LandscapeView > m_landscapeView;
+	boost::intrusive_ptr< MinimapView > m_minimapView;
 
 /*---------------------------------------------------------------------------*/
 

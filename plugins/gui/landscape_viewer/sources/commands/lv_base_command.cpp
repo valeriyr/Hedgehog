@@ -13,8 +13,8 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-BaseCommand::BaseCommand( ICommandExecutor& _commandExecutor )
-	:	m_commandExecutor( _commandExecutor )
+BaseCommand::BaseCommand( ICommandsExecutor& _commandsExecutor )
+	:	m_commandsExecutor( _commandsExecutor )
 	,	m_isEnabled( true )
 {
 } // BaseCommand::BaseCommand

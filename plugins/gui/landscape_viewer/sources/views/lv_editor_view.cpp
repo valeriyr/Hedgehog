@@ -147,7 +147,7 @@ EditorView::setVisibilityRectPosition( const float _relVisibleWidth, const float
 void
 EditorView::onLandscapeViewWasResized( const float _visibleWidth, const float _visibleHeight )
 {
-	m_environment.setMinimapVisibilityRectSize( _visibleWidth, _visibleHeight );
+	// m_environment.setMinimapVisibilityRectSize( _visibleWidth, _visibleHeight );
 
 } // EditorView::onLandscapeViewWasResized
 
@@ -158,7 +158,7 @@ EditorView::onLandscapeViewWasResized( const float _visibleWidth, const float _v
 void
 EditorView::onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight )
 {
-	m_environment.setMinimapVisibilityRectPosition( _visibleWidth, _visibleHeight );
+	// m_environment.setMinimapVisibilityRectPosition( _visibleWidth, _visibleHeight );
 
 } // EditorView::onVisibleRectOfLandscapeViewWasChanged
 
@@ -169,11 +169,11 @@ EditorView::onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, c
 void
 EditorView::onLandscapeWasChanged()
 {
-	if ( m_environment.getGUILandscapeEditor()->getEditableLandscape() )
+	/*if ( m_environment.getGUILandscapeEditor()->getEditableLandscape() )
 	{
 		m_environment.showLandscapeOnMinimap(
 			*m_environment.getGUILandscapeEditor()->getEditableLandscape() );
-	}
+	}*/
 
 } // EditorView::onLandscapeWasChanged
 

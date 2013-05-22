@@ -6,12 +6,16 @@
 #include "landscape_viewer/sources/plugin/lv_plugin_instance.hpp"
 
 #include "window_manager/ih/wm_idialogs_manager.hpp"
+#include "window_manager/ih/wm_iwindow_manager.hpp"
+#include "window_manager/ih/wm_iview.hpp"
 
 #include "images_manager/ih/im_iimages_manager.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_manager.hpp"
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
+#include "landscape_model/ih/lm_isurface_items_cache.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 #include "game_manager/ih/gm_igame_manager.hpp"
 
@@ -76,6 +80,30 @@ Environment::getPixmap( const QString& _resourcePath, const QRect& _rect ) const
 
 
 void
+Environment::addFrameworkView(
+		boost::intrusive_ptr< Framework::GUI::WindowManager::IView > _view
+	,	const Framework::GUI::WindowManager::ViewPosition::Enum _position ) const
+{
+	m_pluginInstance.getWindowManager()->addView( _view, _position );
+
+} // Environment::addFrameworkView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::removeFrameworkView( boost::intrusive_ptr< Framework::GUI::WindowManager::IView > _view ) const
+{
+	m_pluginInstance.getWindowManager()->removeView( _view );
+
+} // Environment::removeFrameworkView
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 Environment::initializeLandscape( const QString& _fileName ) const
 {
 	m_pluginInstance.getLandscapeManager()->initCurrentLandscape( _fileName );
@@ -97,7 +125,7 @@ Environment::closeLandscape() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
+boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
 Environment::getLandscape() const
 {
 	return m_pluginInstance.getLandscapeManager()->getCurrentLandscape();
@@ -116,6 +144,50 @@ Environment::saveLandscape(
 	m_pluginInstance.getLandscapeEditor()->saveLandscape( _landscape, _fileName );
 
 } // Environment::saveLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+Environment::createLandscape( const unsigned int _width, const unsigned int _height ) const
+{
+	return m_pluginInstance.getLandscapeEditor()->createLandscape( _width, _height );
+
+} // Environment::saveLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+Environment::tryToOpenLandscape( const QString& _landscapePath ) const
+{
+	return m_pluginInstance.getLandscapeEditor()->loadLandscape( _landscapePath );
+
+} // Environment::saveLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+Environment::getSurfaceItem( const unsigned int _index ) const
+{
+	return m_pluginInstance.getSurfaceItemsCache()->getSurfaceItem( _index );
+
+} // Environment::getSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+Environment::getDefaultSurfaceItem() const
+{
+	return m_pluginInstance.getSurfaceItemsCache()->getDefaultSurfaceItem();
+
+} // Environment::getDefaultSurfaceItem
 
 
 /*---------------------------------------------------------------------------*/

@@ -14,7 +14,7 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct ICommandExecutor;
+struct ICommandsExecutor;
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	BaseCommand( ICommandExecutor& _commandExecutor );
+	BaseCommand( ICommandsExecutor& _commandsExecutor );
 
 	virtual ~BaseCommand();
 
@@ -48,7 +48,7 @@ protected:
 
 /*---------------------------------------------------------------------------*/
 
-	ICommandExecutor& m_commandExecutor;
+	ICommandsExecutor& m_commandsExecutor;
 
 	bool m_isEnabled;
 

@@ -10,7 +10,7 @@
 
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
-#include "landscape_model/ih/lm_ilandscape.hpp"
+#include "landscape_model/ih/lm_ieditable_landscape.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -78,26 +78,26 @@ LandscapeView::viewWasClosed()
 
 
 void
-LandscapeView::showCurrentLandscape()
+LandscapeView::landscapeWasOpened()
 {
 	if ( m_environment.getLandscape() )
 	{
 		m_landscapeScene->showLandscape( *m_environment.getLandscape() );
 	}
 
-} // LandscapeView::showCurrentLandscape
+} // LandscapeView::landscapeWasOpened
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-LandscapeView::clearView()
+LandscapeView::landscapeWasClosed()
 {
 	m_landscapeScene->clear();
 	m_landscapeScene->setSceneRect( 0, 0, 0, 0 );
 
-} // LandscapeView::clearView
+} // LandscapeView::landscapeWasClosed
 
 
 /*---------------------------------------------------------------------------*/

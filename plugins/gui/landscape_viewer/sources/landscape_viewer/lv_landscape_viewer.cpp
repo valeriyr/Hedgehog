@@ -50,7 +50,7 @@ LandscapeViewer::getViewMode() const
 void
 LandscapeViewer::ensureLandscapeEditingMode()
 {
-	if ( !m_viewMode->isEditingMode() )
+	if ( !m_viewMode || !m_viewMode->isEditingMode() )
 		m_viewMode = boost::intrusive_ptr< IViewMode >( new EditingMode( m_environment ) );
 
 } // LandscapeViewer::ensureLandscapeEditingMode
@@ -62,7 +62,7 @@ LandscapeViewer::ensureLandscapeEditingMode()
 void
 LandscapeViewer::ensurePlayingMode()
 {
-	if ( !m_viewMode->isPlayingMode() )
+	if ( !m_viewMode || !m_viewMode->isPlayingMode() )
 		m_viewMode = boost::intrusive_ptr< IViewMode >( new PlayingMode( m_environment ) );
 
 } // LandscapeViewer::ensurePlayingMode

@@ -60,7 +60,14 @@ LandscapeEditor::loadLandscape( const QString& _filePath ) const
 {
 	boost::intrusive_ptr< IEditableLandscape > newLandscape( new Landscape( m_surfaceItemsCache ) );
 
-	m_landscapeSerializer.load( *newLandscape, _filePath );
+	try
+	{
+		m_landscapeSerializer.load( *newLandscape, _filePath );
+	}
+	catch( ... )
+	{
+		return boost::intrusive_ptr< IEditableLandscape >();
+	}
 
 	return newLandscape;
 

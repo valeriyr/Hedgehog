@@ -122,31 +122,13 @@
     <ClInclude Include="sources\views\lv_description_view.hpp">
       <Filter>Views</Filter>
     </ClInclude>
-    <ClInclude Include="sources\views\lv_editor_view.hpp">
-      <Filter>Views</Filter>
-    </ClInclude>
     <ClInclude Include="sources\views\lv_landscape_view.hpp">
       <Filter>Views</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\views\lv_minimap_view.hpp">
-      <Filter>Views</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\views\lv_objects_view.hpp">
-      <Filter>Views</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\widgets\lv_landscape_editor_scene.hpp">
-      <Filter>Widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\widgets\lv_landscape_editor_widget.hpp">
-      <Filter>Widgets</Filter>
     </ClInclude>
     <ClInclude Include="sources\widgets\lv_landscape_scene.hpp">
       <Filter>Widgets</Filter>
     </ClInclude>
     <ClInclude Include="sources\widgets\lv_landscape_widget.hpp">
-      <Filter>Widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\widgets\lv_minimap_widget.hpp">
       <Filter>Widgets</Filter>
     </ClInclude>
     <ClInclude Include="sources\commands_executor\lv_icommands_executor.hpp">
@@ -167,5 +149,25 @@
     <ClInclude Include="sources\commands_executor\lv_commands_executor.hpp">
       <Filter>Commands Executor</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="sources\widgets\lv_minimap_widget.hpp">
+      <Filter>Widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\widgets\lv_landscape_editor_widget.hpp">
+      <Filter>Widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\widgets\lv_landscape_editor_scene.hpp">
+      <Filter>Widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\views\lv_objects_view.hpp">
+      <Filter>Views</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\views\lv_minimap_view.hpp">
+      <Filter>Views</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\views\lv_editor_view.hpp">
+      <Filter>Views</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

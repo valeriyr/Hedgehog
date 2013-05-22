@@ -74,7 +74,7 @@ PluginInstance::initialize()
 	fillUnitsCache();
 
 	m_environment.reset( new Environment( *this ) );
-	m_landscapeViewer.reset( new LandscapeViewer() );
+	m_landscapeViewer.reset( new LandscapeViewer( *m_environment ) );
 
 	m_commandsExecutor.reset( new CommandsExecutor( *m_environment, *m_landscapeViewer ) );
 

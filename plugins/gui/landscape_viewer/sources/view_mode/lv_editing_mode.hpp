@@ -16,6 +16,11 @@ namespace LandscapeViewer {
 
 struct IEnvironment;
 
+class DescriptionView;
+class EditorView;
+class MinimapView;
+class ObjectsView;
+
 /*---------------------------------------------------------------------------*/
 
 class EditingMode
@@ -62,6 +67,11 @@ private:
 	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > m_editableLandscape;
 
 	QString m_landscapeFilePath;
+
+	boost::intrusive_ptr< DescriptionView > m_descriptionView;
+	boost::intrusive_ptr< EditorView > m_editorView;
+	boost::intrusive_ptr< MinimapView > m_minimapView;
+	boost::intrusive_ptr< ObjectsView > m_objectsView;
 
 /*---------------------------------------------------------------------------*/
 

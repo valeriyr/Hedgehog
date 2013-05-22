@@ -121,7 +121,7 @@ LandscapeEditorScene::regenerate()
 void
 LandscapeEditorScene::regenerateSurfaceLayer()
 {
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
+	/*boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
 		landscape = m_environment.getGUILandscapeEditor()->getEditableLandscape();
 
 	if ( landscape )
@@ -138,7 +138,7 @@ LandscapeEditorScene::regenerateSurfaceLayer()
 				item->setZValue( 0 );
 			}
 		}
-	}
+	}*/
 
 } // LandscapeEditorScene::regenerateSurfaceLayer
 
@@ -149,7 +149,7 @@ LandscapeEditorScene::regenerateSurfaceLayer()
 void
 LandscapeEditorScene::regenerateObjectsLayer()
 {
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
+	/*boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
 		landscape = m_environment.getGUILandscapeEditor()->getEditableLandscape();
 
 	if ( landscape )
@@ -182,7 +182,7 @@ LandscapeEditorScene::regenerateObjectsLayer()
 
 			unitsIterator->next();
 		}
-	}
+	}*/
 
 } // LandscapeEditorScene::regenerateObjectsLayer
 
@@ -193,7 +193,7 @@ LandscapeEditorScene::regenerateObjectsLayer()
 void
 LandscapeEditorScene::setCorrectSceneSize()
 {
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
+	/*boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
 		landscape = m_environment.getGUILandscapeEditor()->getEditableLandscape();
 
 	if ( landscape )
@@ -203,7 +203,7 @@ LandscapeEditorScene::setCorrectSceneSize()
 	else
 	{
 		setSceneRect( 0, 0, 0, 0 );
-	}
+	}*/
 
 } // LandscapeEditorScene::setCorrectSceneSize
 
@@ -214,7 +214,7 @@ LandscapeEditorScene::setCorrectSceneSize()
 void
 LandscapeEditorScene::setNewItemInPosition( const QPointF& _position )
 {
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
+	/*boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape >
 		landscape = m_environment.getGUILandscapeEditor()->getEditableLandscape();
 
 	if ( landscape )
@@ -239,7 +239,7 @@ LandscapeEditorScene::setNewItemInPosition( const QPointF& _position )
 		QGraphicsPixmapItem* newItem = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
 		newItem->setPos( itemPos );
 		newItem->setZValue( 0 );
-	}
+	}*/
 
 } // LandscapeEditorScene::setNewItemInPosition
 

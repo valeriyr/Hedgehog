@@ -6,6 +6,20 @@
 
 #include "window_manager/ih/wm_iview.hpp"
 
+
+/*---------------------------------------------------------------------------*/
+
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct ILandscape;
+		}
+	}
+}
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -50,9 +64,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void showLandscape( const Core::LandscapeModel::ILandscape& _landscape );
+	void landscapeWasOpened( const Core::LandscapeModel::ILandscape& _landscape );
 
-	void clear();
+	void landscapeWasClosed();
 
 /*---------------------------------------------------------------------------*/
 

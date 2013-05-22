@@ -44,16 +44,41 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void addFrameworkView(
+			boost::intrusive_ptr< Framework::GUI::WindowManager::IView > _view
+		,	const Framework::GUI::WindowManager::ViewPosition::Enum _position ) const;
+
+	/*virtual*/ void removeFrameworkView(
+			boost::intrusive_ptr< Framework::GUI::WindowManager::IView > _view ) const;
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ void initializeLandscape( const QString& _fileName ) const;
 
 	/*virtual*/ void closeLandscape() const;
 
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
 		getLandscape() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+		createLandscape( const unsigned int _width, const unsigned int _height ) const;
+
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+		tryToOpenLandscape( const QString& _landscapePath ) const;
 
 	/*virtual*/ void saveLandscape(
 			const QString& _fileName
 		,	const Core::LandscapeModel::ILandscape& _landscape ) const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+		getSurfaceItem( const unsigned int _index ) const;
+
+	/*virtual*/ boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+		getDefaultSurfaceItem() const;
 
 /*---------------------------------------------------------------------------*/
 

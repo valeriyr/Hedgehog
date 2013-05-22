@@ -5,6 +5,8 @@
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 
+#include "landscape_model/ih/lm_ilandscape.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,9 +17,8 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-DescriptionView::DescriptionView( const ILandscapeEditorInternal& _landscapeEditor )
-	:	m_landscapeEditor( _landscapeEditor )
-	,	m_descriptionView( new QTextEdit() )
+DescriptionView::DescriptionView()
+	:	m_descriptionView( new QTextEdit() )
 	,	m_viewTitle( Resources::Views::DescriptionViewTitle )
 {
 	m_descriptionView->setReadOnly( true );
@@ -72,13 +73,16 @@ DescriptionView::viewWasClosed()
 
 
 void
-DescriptionView::landscapeWasOpened()
+DescriptionView::landscapeWasOpened(
+		const Plugins::Core::LandscapeModel::ILandscape& _landscape
+	,	const QString& _landscapeFilePath
+	)
 {
 	m_descriptionView->setHtml(
 		QString( Resources::Views::LandscapeDescriptionFormat )
-			.arg( m_landscapeEditor.getLandscapeFilePath() )
-			.arg( m_landscapeEditor.getEditableLandscape()->getWidth() )
-			.arg( m_landscapeEditor.getEditableLandscape()->getHeight() )
+			.arg( _landscapeFilePath )
+			.arg( _landscape.getWidth() )
+			.arg( _landscape.getHeight() )
 		);
 
 } // DescriptionView::landscapeWasOpened
