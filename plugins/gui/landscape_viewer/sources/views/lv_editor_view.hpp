@@ -14,7 +14,7 @@ namespace Plugins
 	{
 		namespace LandscapeModel
 		{
-			struct ILandscape;
+			struct IEditableLandscape;
 		}
 	}
 }
@@ -63,7 +63,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	void landscapeWasOpened(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape );
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > _landscape );
 
 	void landscapeWasClosed();
 

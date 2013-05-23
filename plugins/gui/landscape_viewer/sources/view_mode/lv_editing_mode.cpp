@@ -27,7 +27,7 @@ EditingMode::EditingMode( const IEnvironment& _environment )
 	,	m_descriptionView( new DescriptionView() )
 	,	m_editorView( new EditorView( _environment, *m_viewsMediator ) )
 	,	m_minimapView( new MinimapView( _environment, *m_viewsMediator ) )
-	,	m_objectsView( new ObjectsView( _environment ) )
+	,	m_objectsView( new ObjectsView( _environment, *m_viewsMediator ) )
 {
 	m_environment.addFrameworkView( m_objectsView, Framework::GUI::WindowManager::ViewPosition::Left );
 	m_environment.addFrameworkView( m_editorView, Framework::GUI::WindowManager::ViewPosition::Center );

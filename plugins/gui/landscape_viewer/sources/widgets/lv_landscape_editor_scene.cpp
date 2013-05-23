@@ -27,6 +27,7 @@ LandscapeEditorScene::LandscapeEditorScene( const IEnvironment& _environment, QO
 	:	QGraphicsScene( _parent )
 	,	m_environment( _environment )
 	,	m_landscape()
+	,	m_surfaceItem( _environment.getDefaultSurfaceItem() )
 {
 } // LandscapeEditorScene::LandscapeEditorScene
 
@@ -44,7 +45,7 @@ LandscapeEditorScene::~LandscapeEditorScene()
 
 void
 LandscapeEditorScene::landscapeWasOpened(
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape )
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > _landscape )
 {
 	m_landscape = _landscape;
 	regenerate();
@@ -101,6 +102,18 @@ LandscapeEditorScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 	QGraphicsScene::mouseMoveEvent( _mouseEvent );
 
 } // LandscapeEditorScene::mouseReleaseEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeEditorScene::onChangeSurfaceItem(
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > _surfaceItem )
+{
+	m_surfaceItem = _surfaceItem;
+
+} // LandscapeEditorScene::onChangeSurfaceItem
 
 
 /*---------------------------------------------------------------------------*/
@@ -209,7 +222,7 @@ LandscapeEditorScene::setCorrectSceneSize()
 void
 LandscapeEditorScene::setNewItemInPosition( const QPointF& _position )
 {
-	/*if ( m_landscape )
+	if ( m_landscape )
 	{
 		QList< QGraphicsItem* > items = this->items( _position, Qt::ContainsItemShape, Qt::AscendingOrder );
 
@@ -221,17 +234,14 @@ LandscapeEditorScene::setNewItemInPosition( const QPointF& _position )
 		QPointF itemPos = items[0]->scenePos();
 		removeItem( items[0] );
 
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > surfaceItem
-			= m_environment.getGUILandscapeEditor()->getSelectedSurfaceItem();
-
-		m_environment.getGUILandscapeEditor()->getEditableLandscape()->setSurfaceItem(
+		m_landscape->setSurfaceItem(
 				Plugins::Core::LandscapeModel::Point( itemPos.x() / Resources::Landscape::CellSize, itemPos.y() / Resources::Landscape::CellSize )
-			,	surfaceItem );
+			,	m_surfaceItem );
 
-		QGraphicsPixmapItem* newItem = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
+		QGraphicsPixmapItem* newItem = addPixmap( m_environment.getPixmap( m_surfaceItem->getBundlePath(), m_surfaceItem->getRectInBundle() ) );
 		newItem->setPos( itemPos );
 		newItem->setZValue( 0 );
-	}*/
+	}
 
 } // LandscapeEditorScene::setNewItemInPosition
 

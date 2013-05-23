@@ -5,6 +5,19 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct ISurfaceItem;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -42,6 +55,9 @@ signals:
 	void landscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
 
 	void visibilityRectChangedPosition( const float _visibleWidth, const float _visibleHeight );
+
+	void currentSurfaceItemWasChanged(
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > _surfaceItem );
 
 /*---------------------------------------------------------------------------*/
 

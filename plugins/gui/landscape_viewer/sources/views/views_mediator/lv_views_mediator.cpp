@@ -3,6 +3,8 @@
 
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
 
+#include "landscape_model/ih/lm_isurface_item.hpp"
+
 #include "lv_views_mediator.moc"
 
 

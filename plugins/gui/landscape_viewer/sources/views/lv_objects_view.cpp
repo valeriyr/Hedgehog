@@ -5,6 +5,7 @@
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
+#include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
@@ -20,9 +21,14 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-ObjectsView::ObjectsView( const IEnvironment& _environment, QObject* _parent )
+ObjectsView::ObjectsView(
+		const IEnvironment& _environment
+	,	const ViewsMediator& _viewsMediator
+	,	QObject* _parent
+	)
 	:	QObject( _parent )
 	,	m_environment( _environment )
+	,	m_viewsMediator( _viewsMediator )
 	,	m_objectsView( new QTreeWidget() )
 	,	m_viewTitle( Resources::Views::ObjectsViewTitle )
 {
@@ -92,6 +98,12 @@ ObjectsView::ObjectsView( const IEnvironment& _environment, QObject* _parent )
 		,	this
 		,	SLOT( onCurrentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) ) );
 
+	QObject::connect(
+			this
+		,	SIGNAL( currentSurfaceItemWasChanged( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) )
+		,	&m_viewsMediator
+		,	SIGNAL( currentSurfaceItemWasChanged( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) ) );
+
 } // ObjectsView::ObjectsView
 
 
@@ -105,6 +117,12 @@ ObjectsView::~ObjectsView()
 		,	SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) )
 		,	this
 		,	SLOT( onCurrentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) ) );
+
+	QObject::disconnect(
+			this
+		,	SIGNAL( currentSurfaceItemWasChanged( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) )
+		,	&m_viewsMediator
+		,	SIGNAL( currentSurfaceItemWasChanged( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) ) );
 
 } // ObjectsView::~ObjectsView
 
@@ -166,8 +184,7 @@ ObjectsView::landscapeWasClosed()
 void
 ObjectsView::onCurrentItemChanged( QTreeWidgetItem* _current, QTreeWidgetItem* _previous )
 {
-	 /*m_environment.getGUILandscapeEditor()->setSelectedSurfaceItem(
-		 m_environment.getSurfaceItem( _current->text( 0 ).toUInt() ) );*/
+	emit currentSurfaceItemWasChanged( m_environment.getSurfaceItem( _current->text( 0 ).toUInt() ) );
 
 } // ObjectsView::onCurrentItemChanged
 

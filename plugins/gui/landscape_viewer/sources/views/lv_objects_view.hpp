@@ -8,6 +8,19 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct ISurfaceItem;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -15,6 +28,8 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
+
+class ViewsMediator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,7 +48,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ObjectsView( const IEnvironment& _environment, QObject* _parent = NULL );
+	ObjectsView(
+			const IEnvironment& _environment
+		,	const ViewsMediator& _viewsMediator
+		,	QObject* _parent = NULL );
 
 	virtual ~ObjectsView();
 
@@ -55,6 +73,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+signals:
+
+/*---------------------------------------------------------------------------*/
+
+	void currentSurfaceItemWasChanged(
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > _surfaceItem );
+
+/*---------------------------------------------------------------------------*/
+
 private slots:
 
 /*---------------------------------------------------------------------------*/
@@ -68,6 +95,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	const ViewsMediator& m_viewsMediator;
 
 	boost::shared_ptr< QTreeWidget > m_objectsView;
 

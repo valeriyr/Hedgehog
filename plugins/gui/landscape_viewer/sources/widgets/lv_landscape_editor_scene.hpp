@@ -10,7 +10,8 @@ namespace Plugins
 	{
 		namespace LandscapeModel
 		{
-			struct ILandscape;
+			struct IEditableLandscape;
+			struct ISurfaceItem;
 		}
 	}
 }
@@ -48,7 +49,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	void landscapeWasOpened(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape );
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > _landscape );
 
 	void landscapeWasClosed();
 
@@ -67,6 +68,15 @@ signals:
 /*---------------------------------------------------------------------------*/
 
 	void landscapeWasChanged();
+
+/*---------------------------------------------------------------------------*/
+
+public slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void onChangeSurfaceItem(
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > _surfaceItem );
 
 /*---------------------------------------------------------------------------*/
 
@@ -91,7 +101,9 @@ private:
 
 	const IEnvironment& m_environment;
 
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > m_landscape;
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > m_landscape;
+
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > m_surfaceItem;
 
 /*---------------------------------------------------------------------------*/
 

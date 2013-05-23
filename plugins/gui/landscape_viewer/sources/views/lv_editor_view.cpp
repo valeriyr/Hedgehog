@@ -10,6 +10,7 @@
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -52,6 +53,12 @@ EditorView::EditorView( const IEnvironment& _environment, const ViewsMediator& _
 		,	m_landscapeWidget.get()
 		,	SLOT( onChangeVisibleRect( const float, const float ) ) );
 
+	QObject::connect(
+			&m_viewsMediator
+		,	SIGNAL( currentSurfaceItemWasChanged( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) )
+		,	m_landscapeScene.get()
+		,	SLOT( onChangeSurfaceItem( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) ) );
+
 } // EditorView::EditorView
 
 
@@ -83,6 +90,12 @@ EditorView::~EditorView()
 		,	SIGNAL( visibilityRectChangedPosition( const float, const float ) )
 		,	m_landscapeWidget.get()
 		,	SLOT( onChangeVisibleRect( const float, const float ) ) );
+
+	QObject::disconnect(
+			&m_viewsMediator
+		,	SIGNAL( currentSurfaceItemWasChanged( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) )
+		,	m_landscapeScene.get()
+		,	SLOT( onChangeSurfaceItem( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) ) );
 
 } // EditorView::~EditorView
 
@@ -125,7 +138,7 @@ EditorView::viewWasClosed()
 
 
 void
-EditorView::landscapeWasOpened( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape )
+EditorView::landscapeWasOpened( boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > _landscape )
 {
 	m_landscapeScene->landscapeWasOpened( _landscape );
 	m_landscapeWidget->wasResized();
