@@ -31,6 +31,9 @@
     <Filter Include="Landscape Viewer">
       <UniqueIdentifier>{a88b0280-8e57-41d5-98e1-ad694c0477c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Views\Views Mediator">
+      <UniqueIdentifier>{322492f8-5b4a-4045-b70b-7259b6439177}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lv_ph.cpp">
@@ -69,9 +72,6 @@
     <ClCompile Include="sources\widgets\lv_landscape_editor_scene.cpp">
       <Filter>Widgets</Filter>
     </ClCompile>
-    <ClCompile Include="sources\widgets\lv_landscape_editor_widget.cpp">
-      <Filter>Widgets</Filter>
-    </ClCompile>
     <ClCompile Include="sources\widgets\lv_landscape_scene.cpp">
       <Filter>Widgets</Filter>
     </ClCompile>
@@ -95,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="sources\view_mode\lv_base_mode.cpp">
       <Filter>View Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\views\views_mediator\lv_views_mediator.cpp">
+      <Filter>Views\Views Mediator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,9 +134,6 @@
     <ClInclude Include="sources\widgets\lv_landscape_scene.hpp">
       <Filter>Widgets</Filter>
     </ClInclude>
-    <ClInclude Include="sources\widgets\lv_landscape_widget.hpp">
-      <Filter>Widgets</Filter>
-    </ClInclude>
     <ClInclude Include="sources\commands_executor\lv_icommands_executor.hpp">
       <Filter>Commands Executor</Filter>
     </ClInclude>
@@ -155,12 +155,15 @@
     <ClInclude Include="sources\view_mode\lv_base_mode.hpp">
       <Filter>View Mode</Filter>
     </ClInclude>
+    <ClInclude Include="sources\views\lv_editor_view.hpp">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\lv_minimap_view.hpp">
+      <Filter>Views</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="sources\widgets\lv_minimap_widget.hpp">
-      <Filter>Widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="sources\widgets\lv_landscape_editor_widget.hpp">
       <Filter>Widgets</Filter>
     </CustomBuild>
     <CustomBuild Include="sources\widgets\lv_landscape_editor_scene.hpp">
@@ -169,11 +172,11 @@
     <CustomBuild Include="sources\views\lv_objects_view.hpp">
       <Filter>Views</Filter>
     </CustomBuild>
-    <CustomBuild Include="sources\views\lv_minimap_view.hpp">
-      <Filter>Views</Filter>
+    <CustomBuild Include="sources\views\views_mediator\lv_views_mediator.hpp">
+      <Filter>Views\Views Mediator</Filter>
     </CustomBuild>
-    <CustomBuild Include="sources\views\lv_editor_view.hpp">
-      <Filter>Views</Filter>
+    <CustomBuild Include="sources\widgets\lv_landscape_widget.hpp">
+      <Filter>Widgets</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

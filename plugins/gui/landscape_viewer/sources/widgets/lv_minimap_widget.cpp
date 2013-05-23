@@ -31,6 +31,7 @@ const QSize MinimapWidget::ms_fixedWidgetSize = QSize( 300, 200 );
 MinimapWidget::MinimapWidget( const IEnvironment& _environment,	QWidget* _parent )
 	:	QWidget( _parent )
 	,	m_environment( _environment )
+	,	m_landscape()
 	,	m_surfaceLayer( ms_fixedWidgetSize )
 	,	m_objectsLayer( ms_fixedWidgetSize )
 	,	m_visibleArea( 0, 0, 0, 0 )
@@ -55,9 +56,12 @@ MinimapWidget::~MinimapWidget()
 
 
 void
-MinimapWidget::showLandscape( const Core::LandscapeModel::ILandscape& _landscape )
+MinimapWidget::landscapeWasOpened(
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape )
 {
-	regenerate( _landscape );
+	m_landscape = _landscape;
+
+	onUpdateView();
 
 } // MinimapWidget::landscapeWasOpened
 
@@ -66,35 +70,37 @@ MinimapWidget::showLandscape( const Core::LandscapeModel::ILandscape& _landscape
 
 
 void
-MinimapWidget::setDefaultLandscape()
+MinimapWidget::landscapeWasClosed()
 {
 	m_surfaceLayer.fill(Qt::white);
 	m_objectsLayer.fill(Qt::transparent);
 
 	m_visibleArea = QRect();
 
+	m_landscape.reset();
+
 	update();
 
-} // MinimapWidget::setDefaultLandscape
+} // MinimapWidget::landscapeWasClosed
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-MinimapWidget::setVisibilityRectSize( const float _visibleWidth, const float _visibleHeight )
+MinimapWidget::onChangeVisibilityRectSize( const float _visibleWidth, const float _visibleHeight )
 {
 	m_visibleArea = QRect( m_visibleArea.x(), m_visibleArea.y(), ms_fixedWidgetSize.width() * _visibleWidth, ms_fixedWidgetSize.height() * _visibleHeight );
 	update();
 
-} // MinimapWidget::setVisibilityRectSize
+} // MinimapWidget::onChangeVisibilityRectSize
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-MinimapWidget::setVisibilityRectPosition( const float _visibleWidth, const float _visibleHeight )
+MinimapWidget::onChangeVisibilityRectPosition( const float _visibleWidth, const float _visibleHeight )
 {
 	m_visibleArea
 		= QRect(
@@ -105,7 +111,24 @@ MinimapWidget::setVisibilityRectPosition( const float _visibleWidth, const float
 
 	update();
 
-} // MinimapWidget::setVisibilityRectPosition
+} // MinimapWidget::onChangeVisibilityRectPosition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MinimapWidget::onUpdateView()
+{
+	if ( m_landscape )
+	{
+		renderSurface( *m_landscape );
+		renderObjects( *m_landscape );
+
+		update();
+	}
+
+} // MinimapWidget::onUpdateView
 
 
 /*---------------------------------------------------------------------------*/
@@ -189,20 +212,6 @@ MinimapWidget::wasClickedOnWidget( const QPoint& _atPoint )
 		,	static_cast< float >( m_visibleArea.top() ) / ( height() - m_visibleArea.height() ) );
 
 } // MinimapWidget::wasClickedOnWidget
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-MinimapWidget::regenerate( const Core::LandscapeModel::ILandscape& _landscape )
-{
-	renderSurface( _landscape );
-	renderObjects( _landscape );
-
-	update();
-
-} // MinimapWidget::regenerate
 
 
 /*---------------------------------------------------------------------------*/

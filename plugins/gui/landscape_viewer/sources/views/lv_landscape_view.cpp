@@ -7,7 +7,7 @@
 
 #include "landscape_viewer/sources/widgets/lv_landscape_scene.hpp"
 #include "landscape_viewer/sources/widgets/lv_landscape_widget.hpp"
-
+#include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
@@ -22,13 +22,31 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeView::LandscapeView( const IEnvironment& _environment, QObject* _parent )
-	:	QObject( _parent )
-	,	m_environment( _environment )
+LandscapeView::LandscapeView( const IEnvironment& _environment, const ViewsMediator& _viewsMediator )
+	:	m_environment( _environment )
+	,	m_viewsMediator( _viewsMediator )
 	,	m_viewTitle( Resources::Views::LandscapeViewTitle )
 	,	m_landscapeScene( new LandscapeScene( _environment ) )
-	,	m_landscapeWidget( new LandscapeWidget( _environment, m_landscapeScene.get() ) )
+	,	m_landscapeWidget( new LandscapeWidget( m_landscapeScene.get() ) )
 {
+	QObject::connect(
+			m_landscapeWidget.get()
+		,	SIGNAL( visibleRectOfLandscapeViewWasChanged( const float, const float ) )
+		,	&m_viewsMediator
+		,	SIGNAL( visibleRectOfLandscapeViewWasChanged( const float, const float ) ) );
+
+	QObject::connect(
+			m_landscapeWidget.get()
+		,	SIGNAL( landscapeViewWasResized( const float, const float ) )
+		,	&m_viewsMediator
+		,	SIGNAL( landscapeViewWasResized( const float, const float ) ) );
+
+	QObject::connect(
+			&m_viewsMediator
+		,	SIGNAL( visibilityRectChangedPosition( const float, const float ) )
+		,	m_landscapeWidget.get()
+		,	SLOT( onChangeVisibleRect( const float, const float ) ) );
+
 } // LandscapeView::LandscapeView
 
 
@@ -37,6 +55,24 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, QObject* _parent
 
 LandscapeView::~LandscapeView()
 {
+	QObject::disconnect(
+			m_landscapeWidget.get()
+		,	SIGNAL( visibleRectOfLandscapeViewWasChanged( const float, const float ) )
+		,	&m_viewsMediator
+		,	SIGNAL( visibleRectOfLandscapeViewWasChanged( const float, const float ) ) );
+
+	QObject::disconnect(
+			m_landscapeWidget.get()
+		,	SIGNAL( landscapeViewWasResized( const float, const float ) )
+		,	&m_viewsMediator
+		,	SIGNAL( landscapeViewWasResized( const float, const float ) ) );
+
+	QObject::disconnect(
+			&m_viewsMediator
+		,	SIGNAL( visibilityRectChangedPosition( const float, const float ) )
+		,	m_landscapeWidget.get()
+		,	SLOT( onChangeVisibleRect( const float, const float ) ) );
+
 } // LandscapeView::~LandscapeView
 
 
@@ -82,6 +118,7 @@ LandscapeView::landscapeWasOpened(
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape )
 {
 	m_landscapeScene->landscapeWasOpened( _landscape );
+	m_landscapeWidget->wasResized();
 
 } // LandscapeView::landscapeWasOpened
 

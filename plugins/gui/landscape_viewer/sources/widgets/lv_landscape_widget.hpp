@@ -11,14 +11,13 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEnvironment;
-class LandscapeScene;
-
-/*---------------------------------------------------------------------------*/
-
 class LandscapeWidget
 	:	public QGraphicsView
 {
+
+/*---------------------------------------------------------------------------*/
+
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -26,12 +25,33 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeWidget(
-			const IEnvironment& _environment
-		,	LandscapeScene* _scene
-		,	QWidget* _parent = NULL );
+	LandscapeWidget( QGraphicsScene* _scene, QWidget* _parent = NULL );
 
 	virtual ~LandscapeWidget();
+
+/*---------------------------------------------------------------------------*/
+
+	void wasResized();
+
+/*---------------------------------------------------------------------------*/
+
+signals:
+
+/*---------------------------------------------------------------------------*/
+
+	void visibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
+
+	void landscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
+
+/*---------------------------------------------------------------------------*/
+
+public slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void onSliderMoved( int _value );
+
+	void onChangeVisibleRect( const float _relPosotionByX, const float _relPosotionByY );
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,16 +60,6 @@ protected:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void resizeEvent( QResizeEvent* _event );
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	const IEnvironment& m_environment;
-
-	LandscapeScene* m_scene;
 
 /*---------------------------------------------------------------------------*/
 

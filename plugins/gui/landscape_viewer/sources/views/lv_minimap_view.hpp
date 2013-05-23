@@ -29,18 +29,15 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
+
 class MinimapWidget;
+class ViewsMediator;
 
 /*---------------------------------------------------------------------------*/
 
 class MinimapView
-	:	public QObject
-	,	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
+	:	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
-
-/*---------------------------------------------------------------------------*/
-
-	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,7 +45,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	MinimapView( const IEnvironment& _environment );
+	MinimapView( const IEnvironment& _environment, const ViewsMediator& _viewsMediator );
 
 	virtual ~MinimapView();
 
@@ -64,23 +61,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasOpened( const Core::LandscapeModel::ILandscape& _landscape );
+	void landscapeWasOpened(
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape );
 
 	void landscapeWasClosed();
-
-/*---------------------------------------------------------------------------*/
-
-	void setVisibilityRectSize( const float _relVisibleWidth, const float _relVisibleHeight );
-
-	void setVisibilityRectPosition( const float _relVisibleWidth, const float _relVisibleHeight );
-
-/*---------------------------------------------------------------------------*/
-
-private slots:
-
-/*---------------------------------------------------------------------------*/
-
-	void onVisibilityRectChangedPosition( const float _visibleWidth, const float _visibleHeight );
 
 /*---------------------------------------------------------------------------*/
 
@@ -89,6 +73,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	const ViewsMediator& m_viewsMediator;
 
 	boost::shared_ptr< MinimapWidget > m_minimapWidget;
 

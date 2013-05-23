@@ -31,12 +31,12 @@ struct IEnvironment;
 
 class LandscapeScene;
 class LandscapeWidget;
+class ViewsMediator;
 
 /*---------------------------------------------------------------------------*/
 
 class LandscapeView
-	:	public QObject
-	,	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
+	:	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -45,7 +45,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeView( const IEnvironment& _environment, QObject* _parent = NULL );
+	LandscapeView( const IEnvironment& _environment, const ViewsMediator& _viewsMediator );
 
 	virtual ~LandscapeView();
 
@@ -73,6 +73,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	const ViewsMediator& m_viewsMediator;
 
 	QString m_viewTitle;
 

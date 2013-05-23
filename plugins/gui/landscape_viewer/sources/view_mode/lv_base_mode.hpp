@@ -16,6 +16,8 @@ namespace LandscapeViewer {
 
 struct IEnvironment;
 
+class ViewsMediator;
+
 /*---------------------------------------------------------------------------*/
 
 class BaseMode
@@ -45,9 +47,23 @@ protected:
 
 /*---------------------------------------------------------------------------*/
 
+	void landscapeWasOpened(
+			const QString& _filePath
+		,	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > _landscape );
+
+	void landscapeWasClosed();
+
+/*---------------------------------------------------------------------------*/
+
+protected:
+
+/*---------------------------------------------------------------------------*/
+
 	const IEnvironment& m_environment;
 
-	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > m_editableLandscape;
+	boost::shared_ptr< ViewsMediator > m_viewsMediator;
+
+	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > m_landscape;
 
 	QString m_landscapeFilePath;
 

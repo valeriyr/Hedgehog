@@ -30,18 +30,15 @@ namespace LandscapeViewer {
 struct IEnvironment;
 
 class LandscapeEditorScene;
-class LandscapeEditorWidget;
+class LandscapeWidget;
+
+class ViewsMediator;
 
 /*---------------------------------------------------------------------------*/
 
 class EditorView
-	:	public QObject
-	,	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
+	:	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
-
-/*---------------------------------------------------------------------------*/
-
-	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,7 +46,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	EditorView( const IEnvironment& _environment );
+	EditorView( const IEnvironment& _environment, const ViewsMediator& _viewsMediator );
 
 	virtual ~EditorView();
 
@@ -72,31 +69,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void setVisibilityRectPosition( const float _relVisibleWidth, const float _relVisibleHeight );
-
-/*---------------------------------------------------------------------------*/
-
-private slots:
-
-/*---------------------------------------------------------------------------*/
-
-	void onLandscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
-
-	void onVisibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
-
-	void onLandscapeWasChanged();
-
-/*---------------------------------------------------------------------------*/
-
 private:
 
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
 
+	const ViewsMediator& m_viewsMediator;
+
 	boost::shared_ptr< LandscapeEditorScene > m_landscapeScene;
 
-	boost::shared_ptr< LandscapeEditorWidget > m_landscapeWidget;
+	boost::shared_ptr< LandscapeWidget > m_landscapeWidget;
 
 	QString m_viewTitle;
 

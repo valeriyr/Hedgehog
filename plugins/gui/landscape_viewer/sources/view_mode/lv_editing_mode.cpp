@@ -25,8 +25,8 @@ namespace LandscapeViewer {
 EditingMode::EditingMode( const IEnvironment& _environment )
 	:	BaseMode( _environment )
 	,	m_descriptionView( new DescriptionView() )
-	,	m_editorView( new EditorView( _environment ) )
-	,	m_minimapView( new MinimapView( _environment ) )
+	,	m_editorView( new EditorView( _environment, *m_viewsMediator ) )
+	,	m_minimapView( new MinimapView( _environment, *m_viewsMediator ) )
 	,	m_objectsView( new ObjectsView( _environment ) )
 {
 	m_environment.addFrameworkView( m_objectsView, Framework::GUI::WindowManager::ViewPosition::Left );
@@ -78,17 +78,18 @@ EditingMode::isEditingMode() const
 void
 EditingMode::openLandscape( const QString& _filePath )
 {
-	m_landscapeFilePath = _filePath;
+	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > landscape
+		= m_environment.tryToOpenLandscape( _filePath );
 
-	m_editableLandscape = m_environment.tryToOpenLandscape( m_landscapeFilePath );
+	if ( !landscape )
+		landscape = m_environment.createLandscape( 300, 300 );
 
-	if ( !m_editableLandscape )
-		m_editableLandscape = m_environment.createLandscape( 300, 300 );
-	
-	m_descriptionView->landscapeWasOpened( *m_editableLandscape, m_landscapeFilePath );
+	landscapeWasOpened( _filePath, landscape );
+
+	m_descriptionView->landscapeWasOpened( *m_landscape, m_landscapeFilePath );
 	m_objectsView->landscapeWasOpened();
-	m_minimapView->landscapeWasOpened( *m_editableLandscape );
-	m_editorView->landscapeWasOpened( m_editableLandscape );
+	m_minimapView->landscapeWasOpened( m_landscape );
+	m_editorView->landscapeWasOpened( m_landscape );
 
 } // EditingMode::openLandscape
 
@@ -104,8 +105,7 @@ EditingMode::closeLandscape()
 	m_minimapView->landscapeWasClosed();
 	m_editorView->landscapeWasClosed();
 
-	m_landscapeFilePath.clear();
-	m_editableLandscape.reset();
+	landscapeWasClosed();
 
 } // EditingMode::closeLandscape
 

@@ -48,15 +48,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void showLandscape( const Core::LandscapeModel::ILandscape& _landscape );
+	void landscapeWasOpened(
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape );
 
-	void setDefaultLandscape();
-
-/*---------------------------------------------------------------------------*/
-
-	void setVisibilityRectSize( const float _visibleWidth, const float _visibleHeight );
-
-	void setVisibilityRectPosition( const float _visibleWidth, const float _visibleHeight );
+	void landscapeWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
@@ -65,6 +60,18 @@ signals:
 /*---------------------------------------------------------------------------*/
 
 	void visibilityRectChangedPosition( const float _relPosotionByX, const float _relPosotionByY );
+
+/*---------------------------------------------------------------------------*/
+
+public slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void onChangeVisibilityRectSize( const float _visibleWidth, const float _visibleHeight );
+
+	void onChangeVisibilityRectPosition( const float _visibleWidth, const float _visibleHeight );
+
+	void onUpdateView();
 
 /*---------------------------------------------------------------------------*/
 
@@ -86,7 +93,7 @@ private:
 
 	void wasClickedOnWidget( const QPoint& _atPoint );
 
-	void regenerate( const Core::LandscapeModel::ILandscape& _landscape );
+	void regenerate();
 
 	void renderSurface( const Core::LandscapeModel::ILandscape& _landscape );
 
@@ -103,6 +110,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > m_landscape;
 
 	QPixmap m_surfaceLayer;
 

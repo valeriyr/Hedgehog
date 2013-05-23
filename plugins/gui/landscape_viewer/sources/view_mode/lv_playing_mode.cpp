@@ -26,8 +26,8 @@ namespace LandscapeViewer {
 PlayingMode::PlayingMode( const IEnvironment& _environment )
 	:	BaseMode( _environment )
 	,	m_descriptionView( new DescriptionView() )
-	,	m_landscapeView( new LandscapeView( _environment ) )
-	,	m_minimapView( new MinimapView( _environment ) )
+	,	m_landscapeView( new LandscapeView( _environment, *m_viewsMediator ) )
+	,	m_minimapView( new MinimapView( _environment, *m_viewsMediator ) )
 {
 	m_environment.addFrameworkView( m_landscapeView, Framework::GUI::WindowManager::ViewPosition::Center );
 	m_environment.addFrameworkView( m_minimapView, Framework::GUI::WindowManager::ViewPosition::Right );
@@ -76,12 +76,11 @@ PlayingMode::isEditingMode() const
 void
 PlayingMode::openLandscape( const QString& _filePath )
 {
-	m_landscapeFilePath = _filePath;
-	m_editableLandscape = m_environment.initializeLandscapeManager( _filePath );
+	landscapeWasOpened( _filePath, m_environment.initializeLandscapeManager( _filePath ) );
 
-	m_descriptionView->landscapeWasOpened( *m_editableLandscape, _filePath );
-	m_minimapView->landscapeWasOpened( *m_editableLandscape );
-	m_landscapeView->landscapeWasOpened( m_editableLandscape );
+	m_descriptionView->landscapeWasOpened( *m_landscape, _filePath );
+	m_minimapView->landscapeWasOpened( m_landscape );
+	m_landscapeView->landscapeWasOpened( m_landscape );
 
 	m_environment.runGameManager();
 
@@ -102,8 +101,7 @@ PlayingMode::closeLandscape()
 
 	m_environment.resetLandscapeManager();
 
-	m_landscapeFilePath.clear();
-	m_editableLandscape.reset();
+	landscapeWasClosed();
 
 } // PlayingMode::closeLandscape
 

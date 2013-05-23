@@ -3,7 +3,7 @@
 
 #include "landscape_viewer/sources/widgets/lv_landscape_widget.hpp"
 
-#include "landscape_viewer/sources/widgets/lv_landscape_scene.hpp"
+#include "lv_landscape_widget.moc"
 
 
 /*---------------------------------------------------------------------------*/
@@ -15,15 +15,21 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeWidget::LandscapeWidget(
-		const IEnvironment& _environment
-	,	LandscapeScene* _scene
-	,	QWidget* _parent
-	)
+LandscapeWidget::LandscapeWidget( QGraphicsScene* _scene, QWidget* _parent )
 	:	QGraphicsView( _scene, _parent )
-	,	m_environment( _environment )
-	,	m_scene( _scene )
 {
+	QObject::connect(
+			verticalScrollBar()
+		,	SIGNAL( valueChanged( int ) )
+		,	this
+		,	SLOT( onSliderMoved( int ) ) );
+
+	QObject::connect(
+			horizontalScrollBar()
+		,	SIGNAL( valueChanged( int ) )
+		,	this
+		,	SLOT( onSliderMoved( int ) ) );
+
 } // LandscapeWidget::LandscapeWidget
 
 
@@ -32,7 +38,57 @@ LandscapeWidget::LandscapeWidget(
 
 LandscapeWidget::~LandscapeWidget()
 {
+	QObject::disconnect(
+			verticalScrollBar()
+		,	SIGNAL( valueChanged( int ) )
+		,	this
+		,	SLOT( onSliderMoved( int ) ) );
+
+	QObject::disconnect(
+			horizontalScrollBar()
+		,	SIGNAL( valueChanged( int ) )
+		,	this
+		,	SLOT( onSliderMoved( int ) ) );
+
 } // LandscapeWidget::~LandscapeWidget
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeWidget::wasResized()
+{
+	emit landscapeViewWasResized(
+			scene()->width() == 0 ? 0.0f : static_cast< float >( width() ) / scene()->width()
+		,	scene()->height() == 0 ? 0.0f : static_cast< float >( height() ) / scene()->height() );
+
+} // LandscapeWidget::wasResized
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeWidget::onSliderMoved( int _value )
+{
+	emit visibleRectOfLandscapeViewWasChanged(
+			horizontalScrollBar()->maximum() == 0 ? 0.0f : static_cast< float >( horizontalScrollBar()->value() ) / horizontalScrollBar()->maximum()
+		,	verticalScrollBar()->maximum() == 0 ? 0.0f : static_cast< float >( verticalScrollBar()->value() ) / verticalScrollBar()->maximum() );
+
+} // LandscapeWidget::onSliderMoved
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeWidget::onChangeVisibleRect( const float _relPosotionByX, const float _relPosotionByY )
+{
+	verticalScrollBar()->setSliderPosition( verticalScrollBar()->maximum() * _relPosotionByY );
+	horizontalScrollBar()->setSliderPosition( horizontalScrollBar()->maximum() * _relPosotionByX );
+
+} // LandscapeWidget::onChangeVisibleRect
 
 
 /*---------------------------------------------------------------------------*/
@@ -41,9 +97,9 @@ LandscapeWidget::~LandscapeWidget()
 void
 LandscapeWidget::resizeEvent( QResizeEvent* _event )
 {
-	m_scene->refreshData();
-
 	QGraphicsView::resizeEvent( _event );
+
+	wasResized();
 
 } // LandscapeWidget::resizeEvent
 

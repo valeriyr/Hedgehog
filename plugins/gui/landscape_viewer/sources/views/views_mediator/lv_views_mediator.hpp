@@ -1,6 +1,6 @@
 
-#ifndef __LV_LANDSCAPE_EDITOR_WIDGET_HPP__
-#define __LV_LANDSCAPE_EDITOR_WIDGET_HPP__
+#ifndef __LV_VIEWS_MEDIATOR_HPP__
+#define __LV_VIEWS_MEDIATOR_HPP__
 
 
 /*---------------------------------------------------------------------------*/
@@ -11,8 +11,8 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-class LandscapeEditorWidget
-	:	public QGraphicsView
+class ViewsMediator
+	:	public QObject
 {
 
 /*---------------------------------------------------------------------------*/
@@ -25,15 +25,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeEditorWidget( QGraphicsScene* _scene, QWidget* _parent = NULL );
+	ViewsMediator();
 
-	virtual ~LandscapeEditorWidget();
-
-/*---------------------------------------------------------------------------*/
-
-	void wasResized();
-
-	void changeVisibleRect( const float _relPosotionByX, const float _relPosotionByY );
+	virtual ~ViewsMediator();
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,25 +35,13 @@ signals:
 
 /*---------------------------------------------------------------------------*/
 
+	void landscapeWasChanged();
+
 	void visibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
 
 	void landscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
 
-/*---------------------------------------------------------------------------*/
-
-public slots:
-
-/*---------------------------------------------------------------------------*/
-
-	void onSliderMoved( int _value );
-
-/*---------------------------------------------------------------------------*/
-
-protected:
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void resizeEvent( QResizeEvent* _event );
+	void visibilityRectChangedPosition( const float _visibleWidth, const float _visibleHeight );
 
 /*---------------------------------------------------------------------------*/
 
@@ -73,4 +55,4 @@ protected:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_LANDSCAPE_EDITOR_WIDGET_HPP__
+#endif // __LV_VIEWS_MEDIATOR_HPP__
