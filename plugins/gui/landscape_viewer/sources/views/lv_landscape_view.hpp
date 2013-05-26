@@ -82,6 +82,12 @@ private:
 
 	boost::shared_ptr< LandscapeWidget > m_landscapeWidget;
 
+	QTimer m_timer;
+
+/*---------------------------------------------------------------------------*/
+
+	static const int ms_updatePeriod = 10;
+
 /*---------------------------------------------------------------------------*/
 
 };

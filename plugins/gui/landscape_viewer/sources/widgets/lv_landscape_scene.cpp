@@ -11,6 +11,8 @@
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/ih/lm_iunit.hpp"
 
+#include "lv_landscape_scene.moc"
+
 
 /*---------------------------------------------------------------------------*/
 

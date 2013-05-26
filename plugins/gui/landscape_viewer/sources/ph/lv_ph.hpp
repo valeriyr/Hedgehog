@@ -1,4 +1,6 @@
 
+#include <QtCore/QTimer>
+
 #include <QtWidgets/QTextEdit>
 
 #include <QtWidgets/QTreeWidget>

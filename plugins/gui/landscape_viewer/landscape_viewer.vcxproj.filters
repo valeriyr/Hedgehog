@@ -131,9 +131,6 @@
     <ClInclude Include="sources\views\lv_landscape_view.hpp">
       <Filter>Views</Filter>
     </ClInclude>
-    <ClInclude Include="sources\widgets\lv_landscape_scene.hpp">
-      <Filter>Widgets</Filter>
-    </ClInclude>
     <ClInclude Include="sources\commands_executor\lv_icommands_executor.hpp">
       <Filter>Commands Executor</Filter>
     </ClInclude>
@@ -176,6 +173,9 @@
       <Filter>Views\Views Mediator</Filter>
     </CustomBuild>
     <CustomBuild Include="sources\widgets\lv_landscape_widget.hpp">
+      <Filter>Widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\widgets\lv_landscape_scene.hpp">
       <Filter>Widgets</Filter>
     </CustomBuild>
   </ItemGroup>
