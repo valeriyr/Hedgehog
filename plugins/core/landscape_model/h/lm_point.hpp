@@ -44,7 +44,7 @@ struct Point
 
 	bool operator < ( const Point& _point ) const
 	{
-		return m_x < _point.m_x && m_y < _point.m_y;
+		return m_x < _point.m_x || m_y < _point.m_y;
 	}
 
 /*---------------------------------------------------------------------------*/
