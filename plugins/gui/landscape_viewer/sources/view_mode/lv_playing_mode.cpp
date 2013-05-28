@@ -10,6 +10,7 @@
 #include "landscape_viewer/sources/views/lv_description_view.hpp"
 #include "landscape_viewer/sources/views/lv_landscape_view.hpp"
 #include "landscape_viewer/sources/views/lv_minimap_view.hpp"
+#include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
 
 #include "window_manager/ih/wm_iview.hpp"
 
@@ -28,10 +29,13 @@ PlayingMode::PlayingMode( const IEnvironment& _environment )
 	,	m_descriptionView( new DescriptionView() )
 	,	m_landscapeView( new LandscapeView( _environment, *m_viewsMediator ) )
 	,	m_minimapView( new MinimapView( _environment, *m_viewsMediator ) )
+	,	m_timer()
 {
 	m_environment.addFrameworkView( m_landscapeView, Framework::GUI::WindowManager::ViewPosition::Center );
 	m_environment.addFrameworkView( m_minimapView, Framework::GUI::WindowManager::ViewPosition::Right );
 	m_environment.addFrameworkView( m_descriptionView, Framework::GUI::WindowManager::ViewPosition::Right );
+
+	QObject::connect( &m_timer, SIGNAL( timeout() ), m_viewsMediator.get(), SIGNAL( updateTimerFired() ) );
 
 } // PlayingMode::PlayingMode
 
@@ -41,6 +45,8 @@ PlayingMode::PlayingMode( const IEnvironment& _environment )
 
 PlayingMode::~PlayingMode()
 {
+	QObject::disconnect( &m_timer, SIGNAL( timeout() ), m_viewsMediator.get(), SIGNAL( updateTimerFired() ) );
+
 	m_environment.removeFrameworkView( m_descriptionView );
 	m_environment.removeFrameworkView( m_minimapView );
 	m_environment.removeFrameworkView( m_landscapeView );
@@ -84,6 +90,8 @@ PlayingMode::openLandscape( const QString& _filePath )
 
 	m_environment.runGameManager();
 
+	m_timer.start( ms_updatePeriod );
+
 } // PlayingMode::openLandscape
 
 
@@ -93,6 +101,8 @@ PlayingMode::openLandscape( const QString& _filePath )
 void
 PlayingMode::closeLandscape()
 {
+	m_timer.stop();
+
 	m_environment.stopGameManager();
 
 	m_landscapeView->landscapeWasClosed();

@@ -135,6 +135,21 @@ MinimapWidget::onUpdateView()
 
 
 void
+MinimapWidget::onUpdateTimerFired()
+{
+	if ( m_landscape )
+	{
+		renderObjects( *m_landscape );
+		update();
+	}
+
+} // MinimapWidget::onUpdateTimerFired
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 MinimapWidget::paintEvent( QPaintEvent* _event )
 {
 	QPainter painter;

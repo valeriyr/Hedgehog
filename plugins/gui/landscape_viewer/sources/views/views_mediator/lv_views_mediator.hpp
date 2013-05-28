@@ -59,6 +59,8 @@ signals:
 	void currentSurfaceItemWasChanged(
 		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > _surfaceItem );
 
+	void updateTimerFired();
+
 /*---------------------------------------------------------------------------*/
 
 };

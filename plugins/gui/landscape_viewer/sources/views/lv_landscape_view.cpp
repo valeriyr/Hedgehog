@@ -28,7 +28,6 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, const ViewsMedia
 	,	m_viewTitle( Resources::Views::LandscapeViewTitle )
 	,	m_landscapeScene( new LandscapeScene( _environment ) )
 	,	m_landscapeWidget( new LandscapeWidget( m_landscapeScene.get() ) )
-	,	m_timer()
 {
 	QObject::connect(
 			m_landscapeWidget.get()
@@ -48,7 +47,11 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, const ViewsMedia
 		,	m_landscapeWidget.get()
 		,	SLOT( onChangeVisibleRect( const float, const float ) ) );
 
-	QObject::connect( &m_timer, SIGNAL( timeout() ), m_landscapeScene.get(), SLOT( onUpdateTimerFired() ) );
+	QObject::connect(
+			&m_viewsMediator
+		,	SIGNAL( updateTimerFired() )
+		,	m_landscapeScene.get()
+		,	SLOT( onUpdateTimerFired() ) );
 
 } // LandscapeView::LandscapeView
 
@@ -76,7 +79,11 @@ LandscapeView::~LandscapeView()
 		,	m_landscapeWidget.get()
 		,	SLOT( onChangeVisibleRect( const float, const float ) ) );
 
-	QObject::disconnect( &m_timer, SIGNAL( timeout() ), m_landscapeScene.get(), SLOT( onUpdateTimerFired() ) );
+	QObject::disconnect(
+			&m_viewsMediator
+		,	SIGNAL( updateTimerFired() )
+		,	m_landscapeScene.get()
+		,	SLOT( onUpdateTimerFired() ) );
 
 } // LandscapeView::~LandscapeView
 
@@ -125,8 +132,6 @@ LandscapeView::landscapeWasOpened(
 	m_landscapeScene->landscapeWasOpened( _landscape );
 	m_landscapeWidget->wasResized();
 
-	m_timer.start( ms_updatePeriod );
-
 } // LandscapeView::landscapeWasOpened
 
 
@@ -136,8 +141,6 @@ LandscapeView::landscapeWasOpened(
 void
 LandscapeView::landscapeWasClosed()
 {
-	m_timer.stop();
-
 	m_landscapeScene->landscapeWasClosed();
 
 } // LandscapeView::landscapeWasClosed

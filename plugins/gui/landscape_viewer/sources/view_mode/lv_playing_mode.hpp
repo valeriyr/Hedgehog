@@ -58,6 +58,12 @@ private:
 	boost::intrusive_ptr< LandscapeView > m_landscapeView;
 	boost::intrusive_ptr< MinimapView > m_minimapView;
 
+	QTimer m_timer;
+
+/*---------------------------------------------------------------------------*/
+
+	static const int ms_updatePeriod = 10;
+
 /*---------------------------------------------------------------------------*/
 
 };

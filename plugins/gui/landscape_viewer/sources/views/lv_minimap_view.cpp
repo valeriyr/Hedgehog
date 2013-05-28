@@ -50,6 +50,12 @@ MinimapView::MinimapView( const IEnvironment& _environment, const ViewsMediator&
 		,	m_minimapWidget.get()
 		,	SLOT( onUpdateView() ) );
 
+	QObject::connect(
+			&m_viewsMediator
+		,	SIGNAL( updateTimerFired() )
+		,	m_minimapWidget.get()
+		,	SLOT( onUpdateTimerFired() ) );
+
 } // MinimapView::MinimapView
 
 
@@ -81,6 +87,12 @@ MinimapView::~MinimapView()
 		,	SIGNAL( landscapeWasChanged() )
 		,	m_minimapWidget.get()
 		,	SLOT( onUpdateView() ) );
+
+	QObject::disconnect(
+			&m_viewsMediator
+		,	SIGNAL( updateTimerFired() )
+		,	m_minimapWidget.get()
+		,	SLOT( onUpdateTimerFired() ) );
 
 } // MinimapView::~MinimapView
 

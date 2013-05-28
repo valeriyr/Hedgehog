@@ -73,6 +73,8 @@ public slots:
 
 	void onUpdateView();
 
+	void onUpdateTimerFired();
+
 /*---------------------------------------------------------------------------*/
 
 protected:
