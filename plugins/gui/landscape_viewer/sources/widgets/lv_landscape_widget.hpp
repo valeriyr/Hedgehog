@@ -43,6 +43,8 @@ signals:
 
 	void landscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
 
+	void mousePossitionWasChanged( const QPointF& _point );
+
 /*---------------------------------------------------------------------------*/
 
 public slots:
@@ -60,6 +62,8 @@ protected:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void resizeEvent( QResizeEvent* _event );
+
+	/*virtual*/ void mouseMoveEvent( QMouseEvent* _event );
 
 /*---------------------------------------------------------------------------*/
 

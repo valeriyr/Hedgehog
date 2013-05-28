@@ -26,8 +26,9 @@ namespace LandscapeViewer {
 LandscapeScene::LandscapeScene( const IEnvironment& _environment, QObject* _parent )
 	:	QGraphicsScene( _parent )
 	,	m_environment( _environment )
-	,	m_selectionItem( NULL )
 	,	m_startSelectionPoint()
+	,	m_selectionItem( NULL )
+	,	m_unitsCollection()
 {
 } // LandscapeScene::LandscapeScene
 
@@ -148,7 +149,7 @@ LandscapeScene::landscapeWasOpened(
 {
 	m_landscape = _landscape;
 
-	refreshData();
+	generateLandscape();
 
 } // LandscapeScene::landscapeWasOpened
 
@@ -171,7 +172,36 @@ LandscapeScene::landscapeWasClosed()
 
 
 void
-LandscapeScene::refreshData()
+LandscapeScene::onUpdateTimerFired()
+{
+	UnitsCollectionIterator
+			begin = m_unitsCollection.begin()
+		,	end = m_unitsCollection.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		updatePosition( begin->first, begin->second );
+		begin->second->setGraphicsEffect( NULL );
+	}
+
+	if ( m_landscape->getSelectedUnit() )
+	{
+		UnitsCollectionIterator iterator
+			= m_unitsCollection.find( m_landscape->getSelectedUnit() );
+
+		assert( iterator != m_unitsCollection.end() );
+
+		iterator->second->setGraphicsEffect( new QGraphicsColorizeEffect() );
+	}
+
+} // LandscapeScene::onUpdateTimerFired
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::generateLandscape()
 {
 	if ( m_landscape )
 	{
@@ -196,29 +226,45 @@ LandscapeScene::refreshData()
 			QGraphicsPixmapItem* item = addPixmap(
 				m_environment.getPixmap( unitsIterator->current()->getBundlePath(), unitsIterator->current()->getRectInBundle() ) );
 
-			Plugins::Core::LandscapeModel::Point position = m_landscape->getUnitPosition( unitsIterator->current() );
+			updatePosition( unitsIterator->current(), item );
 
-			qreal posByX = position.m_x * Resources::Landscape::CellSize;
-			qreal posByY = position.m_y * Resources::Landscape::CellSize;
-
-			if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().width() ) > Resources::Landscape::CellSize )
-			{
-				posByX -= ( unitsIterator->current()->getRectInBundle().width() - Resources::Landscape::CellSize ) / 2;
-			}
-
-			if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().height() ) > Resources::Landscape::CellSize )
-			{
-				posByY -= ( unitsIterator->current()->getRectInBundle().height() - Resources::Landscape::CellSize ) / 2;
-			}
-
-			item->setPos( posByX, posByY );
 			item->setZValue( 1 );
+
+			m_unitsCollection.insert( std::make_pair( unitsIterator->current(), item ) );
 
 			unitsIterator->next();
 		}
 	}
 
-} // LandscapeScene::refreshData
+} // LandscapeScene::generateLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::updatePosition(
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnit > _unit
+	,	QGraphicsPixmapItem* _graphicsItem )
+{
+	Plugins::Core::LandscapeModel::Point position = m_landscape->getUnitPosition( _unit );
+
+	qreal posByX = position.m_x * Resources::Landscape::CellSize;
+	qreal posByY = position.m_y * Resources::Landscape::CellSize;
+
+	if ( static_cast< unsigned int >( _unit->getRectInBundle().width() ) > Resources::Landscape::CellSize )
+	{
+		posByX -= ( _unit->getRectInBundle().width() - Resources::Landscape::CellSize ) / 2;
+	}
+
+	if ( static_cast< unsigned int >( _unit->getRectInBundle().height() ) > Resources::Landscape::CellSize )
+	{
+		posByY -= ( _unit->getRectInBundle().height() - Resources::Landscape::CellSize ) / 2;
+	}
+
+	_graphicsItem->setPos( posByX, posByY );
+
+} // LandscapeScene::updatePosition
 
 
 /*---------------------------------------------------------------------------*/

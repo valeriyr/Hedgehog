@@ -1,4 +1,6 @@
 
+#include <map>
+
 #include <QtCore/QTimer>
 
 #include <QtWidgets/QTextEdit>
@@ -11,6 +13,7 @@
 #include <QtWidgets/QGraphicsScene>
 #include <QtWidgets/QGraphicsPixmapItem>
 #include <QtWidgets/QGraphicsSceneMouseEvent>
+#include <QtWidgets/QGraphicsEffect>
 
 #include <QtGui/QMouseEvent>
 

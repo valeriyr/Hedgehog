@@ -27,7 +27,8 @@ LandscapeEditorScene::LandscapeEditorScene( const IEnvironment& _environment, QO
 	:	QGraphicsScene( _parent )
 	,	m_environment( _environment )
 	,	m_landscape()
-	,	m_surfaceItem( _environment.getDefaultSurfaceItem() )
+	,	m_surfaceItem()
+	,	m_surfaceGraphicsItem( NULL )
 {
 } // LandscapeEditorScene::LandscapeEditorScene
 
@@ -50,6 +51,8 @@ LandscapeEditorScene::landscapeWasOpened(
 	m_landscape = _landscape;
 	regenerate();
 
+	onChangeSurfaceItem( m_environment.getDefaultSurfaceItem() );
+
 } // LandscapeEditorScene::landscapeWasOpened
 
 
@@ -59,6 +62,9 @@ LandscapeEditorScene::landscapeWasOpened(
 void
 LandscapeEditorScene::landscapeWasClosed()
 {
+	delete m_surfaceGraphicsItem;
+	m_surfaceGraphicsItem = NULL;
+
 	m_landscape.reset();
 	regenerate();
 
@@ -71,7 +77,8 @@ LandscapeEditorScene::landscapeWasClosed()
 void
 LandscapeEditorScene::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	setNewItemInPosition( _mouseEvent->scenePos() );
+	if ( _mouseEvent->buttons() & Qt::LeftButton )
+		setNewItemInPosition( _mouseEvent->scenePos() );
 
 	QGraphicsScene::mousePressEvent( _mouseEvent );
 
@@ -84,7 +91,8 @@ LandscapeEditorScene::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 void
 LandscapeEditorScene::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	setNewItemInPosition( _mouseEvent->scenePos() );
+	if ( _mouseEvent->buttons() & Qt::LeftButton )
+		setNewItemInPosition( _mouseEvent->scenePos() );
 
 	QGraphicsScene::mouseMoveEvent( _mouseEvent );
 
@@ -113,7 +121,46 @@ LandscapeEditorScene::onChangeSurfaceItem(
 {
 	m_surfaceItem = _surfaceItem;
 
+	if ( m_surfaceGraphicsItem )
+		delete m_surfaceGraphicsItem;
+
+	m_surfaceGraphicsItem
+		= new QGraphicsPixmapItem( m_environment.getPixmap( m_surfaceItem->getBundlePath(), m_surfaceItem->getRectInBundle() ) );
+
+	QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
+	opacityEffect->setOpacity( 0.5 );
+
+	m_surfaceGraphicsItem->setGraphicsEffect( opacityEffect );
+
+	addItem( m_surfaceGraphicsItem );
+
+	m_surfaceGraphicsItem->setZValue( 1 );
+	m_surfaceGraphicsItem->setPos( 0, 0 );
+
 } // LandscapeEditorScene::onChangeSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeEditorScene::onMousePossitionWasChanged( const QPointF& _point )
+{
+	if ( m_surfaceGraphicsItem )
+	{
+		qreal xpos = _point.x() < 0 ? 0 : ( static_cast< int >( _point.x() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
+		qreal ypos = _point.y() < 0 ? 0 : ( static_cast< int >( _point.y() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
+
+		if ( xpos > width() - Resources::Landscape::CellSize )
+			xpos = width() - Resources::Landscape::CellSize;
+
+		if ( ypos > height() - Resources::Landscape::CellSize )
+			ypos = height() - Resources::Landscape::CellSize;
+
+		m_surfaceGraphicsItem->setPos( xpos, ypos );
+	}
+
+} // LandscapeEditorScene::onMousePossitionWasChanged
 
 
 /*---------------------------------------------------------------------------*/
@@ -189,7 +236,7 @@ LandscapeEditorScene::regenerateObjectsLayer()
 			}
 
 			item->setPos( posByX, posByY );
-			item->setZValue( 1 );
+			item->setZValue( 2 );
 
 			unitsIterator->next();
 		}

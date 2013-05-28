@@ -30,6 +30,8 @@ LandscapeWidget::LandscapeWidget( QGraphicsScene* _scene, QWidget* _parent )
 		,	this
 		,	SLOT( onSliderMoved( int ) ) );
 
+	setMouseTracking( true );
+
 } // LandscapeWidget::LandscapeWidget
 
 
@@ -102,6 +104,21 @@ LandscapeWidget::resizeEvent( QResizeEvent* _event )
 	wasResized();
 
 } // LandscapeWidget::resizeEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeWidget::mouseMoveEvent( QMouseEvent* _event )
+{
+	QGraphicsView::mouseMoveEvent( _event );
+
+	QPointF point = mapToScene( _event->pos() );
+
+	emit mousePossitionWasChanged( point );
+
+} // LandscapeWidget::mouseMoveEvent
 
 
 /*---------------------------------------------------------------------------*/

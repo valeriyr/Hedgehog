@@ -78,6 +78,8 @@ public slots:
 	void onChangeSurfaceItem(
 		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > _surfaceItem );
 
+	void onMousePossitionWasChanged( const QPointF& _point );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -104,6 +106,8 @@ private:
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > m_landscape;
 
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > m_surfaceItem;
+
+	QGraphicsPixmapItem* m_surfaceGraphicsItem;
 
 /*---------------------------------------------------------------------------*/
 

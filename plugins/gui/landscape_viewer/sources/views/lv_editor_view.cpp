@@ -42,6 +42,12 @@ EditorView::EditorView( const IEnvironment& _environment, const ViewsMediator& _
 		,	SIGNAL( landscapeViewWasResized( const float, const float ) ) );
 
 	QObject::connect(
+			m_landscapeWidget.get()
+		,	SIGNAL( mousePossitionWasChanged( const QPointF& ) )
+		,	m_landscapeScene.get()
+		,	SLOT( onMousePossitionWasChanged( const QPointF& ) ) );
+
+	QObject::connect(
 			m_landscapeScene.get()
 		,	SIGNAL( landscapeWasChanged() )
 		,	&m_viewsMediator
@@ -78,6 +84,12 @@ EditorView::~EditorView()
 		,	SIGNAL( landscapeViewWasResized( const float, const float ) )
 		,	&m_viewsMediator
 		,	SIGNAL( landscapeViewWasResized( const float, const float ) ) );
+
+	QObject::disconnect(
+			m_landscapeWidget.get()
+		,	SIGNAL( mousePossitionWasChanged( const QPointF& ) )
+		,	m_landscapeScene.get()
+		,	SLOT( onMousePossitionWasChanged( const QPointF& ) ) );
 
 	QObject::disconnect(
 			m_landscapeScene.get()

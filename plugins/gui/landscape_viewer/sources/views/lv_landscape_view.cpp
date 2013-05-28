@@ -48,7 +48,7 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, const ViewsMedia
 		,	m_landscapeWidget.get()
 		,	SLOT( onChangeVisibleRect( const float, const float ) ) );
 
-	QObject::connect( &m_timer, SIGNAL( timeout() ), m_landscapeScene.get(), SLOT( refreshData() ) );
+	QObject::connect( &m_timer, SIGNAL( timeout() ), m_landscapeScene.get(), SLOT( onUpdateTimerFired() ) );
 
 } // LandscapeView::LandscapeView
 
@@ -76,7 +76,7 @@ LandscapeView::~LandscapeView()
 		,	m_landscapeWidget.get()
 		,	SLOT( onChangeVisibleRect( const float, const float ) ) );
 
-	QObject::disconnect( &m_timer, SIGNAL( timeout() ), m_landscapeScene.get(), SLOT( refreshData() ) );
+	QObject::disconnect( &m_timer, SIGNAL( timeout() ), m_landscapeScene.get(), SLOT( onUpdateTimerFired() ) );
 
 } // LandscapeView::~LandscapeView
 
