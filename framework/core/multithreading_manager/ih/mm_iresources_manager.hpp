@@ -1,12 +1,10 @@
 
-#ifndef __MM_PLUGIN_INSTANCE_HPP__
-#define __MM_PLUGIN_INSTANCE_HPP__
+#ifndef __MM_IRESOURCES_MANAGER_HPP__
+#define __MM_IRESOURCES_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
-
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,44 +14,51 @@ namespace MultithreadingManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct IMultithreadingManager;
-struct IResourcesManager;
+	const unsigned int IID_RESOURCES_MANAGER = 1;
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+struct IResourcesManager
+	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-public:
+	struct AccessType
+	{
+		enum Enum
+		{
+				Unlocked = 0
+
+			,	Read = 1
+			,	Write = 2
+		};
+	};
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	virtual void registerResource( const QString& _resourceName ) = 0;
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	virtual void unregisterResource( const QString& _resourceName ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize();
+	virtual bool tryLock(
+			const QString& _resourceName
+		,	const AccessType::Enum _lockType
+		,	const int _timeout ) = 0;
 
-	/*virtual*/ void close();
+	virtual void lock(
+			const QString& _resourceName
+		,	const AccessType::Enum _lockType ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
-private:
+	virtual void unlock( const QString& _resourceName ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< IMultithreadingManager > m_multithreadingManager;
-
-	boost::intrusive_ptr< IResourcesManager > m_resourcesManager;
+	virtual AccessType::Enum getResourceStatus( const QString& _resourceName ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -67,4 +72,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __MM_PLUGIN_INSTANCE_HPP__
+#endif // __MM_IRESOURCES_MANAGER_HPP__

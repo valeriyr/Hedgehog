@@ -22,6 +22,9 @@
     <Filter Include="Worker">
       <UniqueIdentifier>{c8647747-90e3-4085-a2a1-fd39d0fd5dc8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources Manager">
+      <UniqueIdentifier>{58991c0a-4e59-4946-af23-ee7d65883011}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\mm_ph.cpp">
@@ -39,13 +42,13 @@
     <ClCompile Include="sources\worker\mm_worker.cpp">
       <Filter>Worker</Filter>
     </ClCompile>
+    <ClCompile Include="sources\resources_manager\mm_resources_manager.cpp">
+      <Filter>Resources Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\mm_ph.hpp">
       <Filter>Precompiled Header</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\mm_ithread_object.hpp">
-      <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="sources\plugin\mm_plugin_instance.hpp">
       <Filter>Plugin</Filter>
@@ -64,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="sources\multithreading_manager\mm_multithreading_manager.hpp">
       <Filter>Multithreading Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\mm_iresources_manager.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\resources_manager\mm_resources_manager.hpp">
+      <Filter>Resources Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

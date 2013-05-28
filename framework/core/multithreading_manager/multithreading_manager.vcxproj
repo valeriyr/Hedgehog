@@ -27,6 +27,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sources\plugin\mm_plugin_instance.cpp" />
+    <ClCompile Include="sources\resources_manager\mm_resources_manager.cpp" />
     <ClCompile Include="sources\runnable\mm_runnable.cpp" />
     <ClCompile Include="sources\worker\mm_worker.cpp" />
   </ItemGroup>
@@ -34,10 +35,11 @@
     <ClInclude Include="h\mm_plugin_id.hpp" />
     <ClInclude Include="h\mm_runnable_function.hpp" />
     <ClInclude Include="ih\mm_imultithreading_manager.hpp" />
-    <ClInclude Include="ih\mm_ithread_object.hpp" />
+    <ClInclude Include="ih\mm_iresources_manager.hpp" />
     <ClInclude Include="sources\multithreading_manager\mm_multithreading_manager.hpp" />
     <ClInclude Include="sources\ph\mm_ph.hpp" />
     <ClInclude Include="sources\plugin\mm_plugin_instance.hpp" />
+    <ClInclude Include="sources\resources_manager\mm_resources_manager.hpp" />
     <ClInclude Include="sources\runnable\mm_runnable.hpp" />
     <CustomBuild Include="sources\worker\mm_worker.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
