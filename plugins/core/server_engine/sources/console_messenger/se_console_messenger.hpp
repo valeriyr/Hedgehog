@@ -1,15 +1,21 @@
 
-#ifndef __HEDGEHOG_MAIN_GUI_APPLICATION_HPP__
-#define __HEDGEHOG_MAIN_GUI_APPLICATION_HPP__
+#ifndef __SE_CONSOLE_MESSENGER_HPP__
+#define __SE_CONSOLE_MESSENGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-namespace Hedgehog {
-namespace Client {
+#include "messenger/ms_imessenger.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-class MainGuiApplication
+namespace Plugins {
+namespace Core {
+namespace ServerEngine {
+
+/*---------------------------------------------------------------------------*/
+
+class ConsoleMessenger
+	:	public Tools::Core::BaseWrapper< Tools::Core::IMessenger >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -18,21 +24,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	MainGuiApplication( int argc, char* argv[] );
+	ConsoleMessenger();
 
-	~MainGuiApplication();
-
-/*---------------------------------------------------------------------------*/
-
-	int exec();
+	virtual ~ConsoleMessenger();
 
 /*---------------------------------------------------------------------------*/
 
-private:
+	/*virtual*/ void printMessage(
+			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+		,	const QString& _message );
 
-/*---------------------------------------------------------------------------*/
-
-	QApplication m_qtApplicaiton;
+	/*virtual*/ void printMessage( const QString& _message );
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,9 +42,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Client
-} // namespace Hedgehog
+} // namespace ServerEngine
+} // namespace Core
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __HEDGEHOG_MAIN_GUI_APPLICATION_HPP__
+#endif // __SE_CONSOLE_MESSENGER_HPP__

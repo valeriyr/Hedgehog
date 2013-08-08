@@ -1,5 +1,5 @@
 
-#include <QtWidgets/QApplication>
+#include <QtCore/QCoreApplication>
 
 #include <vector>
 

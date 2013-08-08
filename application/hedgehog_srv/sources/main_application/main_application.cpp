@@ -1,8 +1,8 @@
 
-#include "hedgehog/sources/ph/hh_ph.hpp"
+#include "hedgehog_srv/sources/ph/hhs_ph.hpp"
 
-#include "hedgehog/sources/main_gui_application/main_gui_application.hpp"
-#include "hedgehog/sources/resources/hh_resources.hpp"
+#include "hedgehog_srv/sources/main_application/main_application.hpp"
+#include "hedgehog_srv/sources/resources/hhs_resources.hpp"
 
 #include "plugins_manager/ih/pm_iloader.hpp"
 #include "plugins_manager/h/pm_system_data.hpp"
@@ -10,30 +10,30 @@
 /*---------------------------------------------------------------------------*/
 
 namespace Hedgehog {
-namespace Client {
+namespace Server {
 
 /*---------------------------------------------------------------------------*/
 
 
-MainGuiApplication::MainGuiApplication( int argc, char* argv[] )
+MainApplication::MainApplication( int argc, char* argv[] )
 	:	m_qtApplicaiton( argc, argv )
 {
-} // MainGuiApplication::MainGuiApplication
+} // MainApplication::MainApplication
 
 
 /*---------------------------------------------------------------------------*/
 
 
-MainGuiApplication::~MainGuiApplication()
+MainApplication::~MainApplication()
 {
-} // MainGuiApplication::~MainGuiApplication
+} // MainApplication::~MainApplication
 
 
 /*---------------------------------------------------------------------------*/
 
 
 int
-MainGuiApplication::exec()
+MainApplication::exec()
 {
 	Framework::Core::PluginsManager::ILoader::Ptr
 		pluginsManagerLoader = Framework::Core::PluginsManager::createLoader();
@@ -49,7 +49,7 @@ MainGuiApplication::exec()
 		);
 
 	systemData.m_additionalPluginsDirectories.push_back(
-		applicationDirectory + "/" +  Resources::PluginsDirectoryName + "/" + Resources::ClientPluginsDirectoryName );
+		applicationDirectory + "/" +  Resources::PluginsDirectoryName + "/" + Resources::ServerPluginsDirectoryName );
 
 	pluginsManagerLoader->load( systemData );
 
@@ -59,12 +59,12 @@ MainGuiApplication::exec()
 
 	return result;
 
-} // MainGuiApplication::exec
+} // MainApplication::exec
 
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Client
+} // namespace Server
 } // namespace Hedgehog
 
 /*---------------------------------------------------------------------------*/

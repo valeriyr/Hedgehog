@@ -31,6 +31,23 @@ struct IMessenger
 			,	Warning
 			,	Error
 		};
+
+		static QString toString( const Enum _level )
+		{
+			switch( _level )
+			{
+			case Info:
+				return "Info";
+			case Warning:
+				return "Warning";
+			case Error:
+				return "Error";
+			default:
+				break;
+			}
+
+			return "Unknown Level";
+		}
 	};
 
 /*---------------------------------------------------------------------------*/

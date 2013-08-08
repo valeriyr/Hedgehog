@@ -112,7 +112,10 @@ MainView::printMessage(
 		break;
 	}
 
-	m_consoleView->pushMessage( QString( messageFormat ).arg( _message ) );
+	m_consoleView->pushMessage(
+		QString( messageFormat )
+			.arg( Tools::Core::IMessenger::MessegeLevel::toString( _messageLevel ) )
+			.arg( _message ) );
 }
 
 

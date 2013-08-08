@@ -160,14 +160,8 @@ PluginsManager::loadPluginIfNeeded( boost::shared_ptr< PluginData > _pluginData 
 	{
 		_pluginData->m_pluginState = PluginData::State::Loading;
 
-		QString pluginPath(
-				m_systemInformation->getPluginsDirectory()
-			+	"/"
-			+	_pluginData->m_pluginName
-			+	Resources::PluginFileExtension );
-
 		PluginFactoryPtr pluginFactory
-			= ( PluginFactoryPtr ) QLibrary::resolve( pluginPath, PluginFactoryName );
+			= ( PluginFactoryPtr ) QLibrary::resolve( _pluginData->m_pluginFullPath, PluginFactoryName );
 		assert( pluginFactory );
 
 		_pluginData->m_pluginPointer.reset( pluginFactory() );

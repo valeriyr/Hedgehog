@@ -5,11 +5,14 @@
 /*---------------------------------------------------------------------------*/
 
 namespace Hedgehog {
+namespace Client {
 namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const PluginsDirectoryName;
+
+	extern const char* const ClientPluginsDirectoryName;
 
 	extern const char* const ResourcesDirectoryName;
 
@@ -24,6 +27,7 @@ namespace Resources {
 /*---------------------------------------------------------------------------*/
 
 } // namespace Resources
+} // namespace Client
 } // namespace Hedgehog
 
 /*---------------------------------------------------------------------------*/

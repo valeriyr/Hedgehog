@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{d346cf84-1029-4b9b-8628-15e84de4de2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{8e552adf-9fd1-4ae2-a0a0-85cb5ac05d00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Console Messenger">
+      <UniqueIdentifier>{b3d18acc-248c-45b8-9be5-69e12d42ed63}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\ph\se_ph.cpp">
+      <Filter>Precompiled Header</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\plugin\se_plugin_instance.cpp">
+      <Filter>Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\console_messenger\se_console_messenger.cpp">
+      <Filter>Console Messenger</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sources\ph\se_ph.hpp">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\plugin\se_plugin_instance.hpp">
+      <Filter>Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="h\se_plugin_id.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\console_messenger\se_console_messenger.hpp">
+      <Filter>Console Messenger</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

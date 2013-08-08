@@ -44,8 +44,30 @@ PluginsSerializer::~PluginsSerializer()
 void
 PluginsSerializer::loadPluginsList()
 {
-	QDir pluginsDirectory = QDir( m_systemInformation.getPluginsDirectory() );
-	assert( pluginsDirectory.exists() );
+	loadPluginsListFromDirectory( m_systemInformation.getPluginsDirectory() );
+
+	ISystemInformation::AdditionalPluginsDirectoriesIterator iterator
+		= m_systemInformation.getAdditionalPluginsDirectories();
+
+	while ( iterator->isValid() )
+	{
+		loadPluginsListFromDirectory( iterator->current() );
+		iterator->next();
+	}
+
+} // PluginsSerializer::loadPluginsList
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginsSerializer::loadPluginsListFromDirectory( const QString& _directory )
+{
+	QDir pluginsDirectory = QDir( _directory );
+
+	if ( !pluginsDirectory.exists() )
+		return;
 
 	QStringList filesFilter;
 	filesFilter.push_back( QString( "*" ) + Resources::PluginFileExtension );
@@ -56,10 +78,9 @@ PluginsSerializer::loadPluginsList()
 	{
          QFileInfo fileInfo = filesList.at( i );
 		 m_pluginsManager.registerPlugin(
-			 boost::shared_ptr< PluginData >( new PluginData( fileInfo.baseName() ) ) );
+			 boost::shared_ptr< PluginData >( new PluginData( fileInfo.baseName(), fileInfo.filePath() ) ) );
 	}
-
-} // PluginsSerializer::loadPluginsList
+}
 
 
 /*---------------------------------------------------------------------------*/

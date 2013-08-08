@@ -41,6 +41,8 @@ public:
 
 	/*virtual*/ const QString& getSystemMessengerPluginName() const;
 
+	/*virtual*/ AdditionalPluginsDirectoriesIterator getAdditionalPluginsDirectories() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:

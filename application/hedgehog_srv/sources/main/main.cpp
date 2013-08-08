@@ -1,7 +1,7 @@
 
-#include "hedgehog/sources/ph/hh_ph.hpp"
+#include "hedgehog_srv/sources/ph/hhs_ph.hpp"
 
-#include "hedgehog/sources/main_gui_application/main_gui_application.hpp"
+#include "hedgehog_srv/sources/main_application/main_application.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,7 +14,7 @@
 int WINAPI
 WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpcmdline, int ncmdshow )
 {
-	Hedgehog::Client::MainGuiApplication app( ncmdshow, (char **)lpcmdline );
+	Hedgehog::Server::MainApplication app( ncmdshow, (char **)lpcmdline );
 	return app.exec();
 }
 
@@ -26,7 +26,7 @@ WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpcmdline, int ncmd
 
 int main( int argc, char* argv[] )
 {
-	Hedgehog::Client::MainGuiApplication app( argc, argv );
+	Hedgehog::Server::MainApplication app( argc, argv );
 	return app.exec();
 }
 

@@ -1,54 +1,43 @@
 
-#ifndef __PM_PLUGIN_DATA_HPP__
-#define __PM_PLUGIN_DATA_HPP__
+#ifndef __SE_PLUGIN_INSTANCE_HPP__
+#define __SE_PLUGIN_INSTANCE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/ih/pm_iplugins_manager.hpp"
-#include "plugins_manager/ih/pm_iplugin.hpp"
+#include "plugins_manager/h/pm_base_plugin.hpp"
+#include "plugins_manager/h/pm_interface_map.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Plugins {
 namespace Core {
-namespace PluginsManager {
+namespace ServerEngine {
 
 /*---------------------------------------------------------------------------*/
 
-struct PluginData
+class PluginInstance
+	:	public Framework::Core::PluginsManager::BasePlugin
 {
 
 /*---------------------------------------------------------------------------*/
 
-	struct State
-	{
-		enum Enum
-		{
-				NotLoaded = 0
-			,	Loaded
-			,	Loading
-			,	Closed
-		};
-	};
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginData( const QString& _pluginName, const QString& _pluginFullPath )
-		:	m_pluginName( _pluginName )
-		,	m_pluginFullPath( _pluginFullPath )
-		,	m_pluginState( State::NotLoaded )
-		,	m_pluginPointer()
-	{}
+	PluginInstance();
+
+	virtual ~PluginInstance();
 
 /*---------------------------------------------------------------------------*/
 
-	const QString m_pluginName;
+	INTERFACE_MAP_DECLARATION()
 
-	const QString m_pluginFullPath;
+/*---------------------------------------------------------------------------*/
 
-	State::Enum m_pluginState;
+	/*virtual*/ void initialize();
 
-	boost::intrusive_ptr< IPlugin > m_pluginPointer;
+	/*virtual*/ void close();
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,10 +45,10 @@ struct PluginData
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace PluginsManager
+} // namespace ServerEngine
 } // namespace Core
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __PM_PLUGIN_DATA_HPP__
+#endif // __SE_PLUGIN_INSTANCE_HPP__

@@ -1,38 +1,54 @@
 
-#ifndef __HEDGEHOG_MAIN_GUI_APPLICATION_HPP__
-#define __HEDGEHOG_MAIN_GUI_APPLICATION_HPP__
+#ifndef __GM_IGAME_MANAGER_HPP__
+#define __GM_IGAME_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-namespace Hedgehog {
-namespace Client {
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-class MainGuiApplication
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct IUnit;
+			struct Point;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
+namespace Plugins {
+namespace Core {
+namespace GameManager {
+
+/*---------------------------------------------------------------------------*/
+
+	const unsigned int IID_GAME_MANAGER = 0;
+
+/*---------------------------------------------------------------------------*/
+
+struct IGameManager
+	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-public:
+	virtual void run() = 0;
+
+	virtual void stop() = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	MainGuiApplication( int argc, char* argv[] );
+	virtual void pushMoveAction( const LandscapeModel::Point& _moveTo ) = 0;
 
-	~MainGuiApplication();
-
-/*---------------------------------------------------------------------------*/
-
-	int exec();
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	QApplication m_qtApplicaiton;
+	virtual void pushSelectAction(
+			const LandscapeModel::Point& _from
+		,	const LandscapeModel::Point& _to ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,9 +56,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Client
-} // namespace Hedgehog
+} // namespace GameManager
+} // namespace Core
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __HEDGEHOG_MAIN_GUI_APPLICATION_HPP__
+#endif // __GM_IGAME_MANAGER_HPP__

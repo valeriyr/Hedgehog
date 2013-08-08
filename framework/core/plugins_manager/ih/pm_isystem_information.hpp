@@ -5,6 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+#include "iterators/it_iiterator.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -21,6 +22,15 @@ namespace PluginsManager {
 struct ISystemInformation
 	:	public Tools::Core::IBase
 {
+
+/*---------------------------------------------------------------------------*/
+
+	typedef
+		boost::shared_ptr< Tools::Core::IIterator< QString > >
+		AdditionalPluginsDirectoriesIterator;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual const QString& getPluginsDirectory() const = 0;
 
 	virtual const QString& getConfigDirectory() const = 0;
@@ -30,6 +40,8 @@ struct ISystemInformation
 	virtual const QString& getApplicationName() const = 0;
 
 	virtual const QString& getSystemMessengerPluginName() const = 0;
+
+	virtual AdditionalPluginsDirectoriesIterator getAdditionalPluginsDirectories() const = 0;
 };
 
 /*---------------------------------------------------------------------------*/

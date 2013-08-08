@@ -1,35 +1,35 @@
 
-#include "hedgehog/sources/ph/hh_ph.hpp"
-
-#include "hedgehog/sources/resources/hh_resources.hpp"
-
+#ifndef __HEDGEHOG_SERVER_RESOURCES_HPP__
+#define __HEDGEHOG_SERVER_RESOURCES_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 namespace Hedgehog {
-namespace Client {
+namespace Server {
 namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PluginsDirectoryName = "plugins";
+	extern const char* const PluginsDirectoryName;
 
-	const char* const ClientPluginsDirectoryName = "client";
+	extern const char* const ServerPluginsDirectoryName;
 
-	const char* const ResourcesDirectoryName = "resources";
+	extern const char* const ResourcesDirectoryName;
 
-	const char* const ConfigsDirectoryName = "configs";
+	extern const char* const ConfigsDirectoryName;
 
-	const char* const ApplicationName = "Hedgehog";
+	extern const char* const ApplicationName;
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const SystemMessengerPluginName = "console";
+	extern const char* const SystemMessengerPluginName;
 
 /*---------------------------------------------------------------------------*/
 
 } // namespace Resources
-} // namespace Client
+} // namespace Server
 } // namespace Hedgehog
 
 /*---------------------------------------------------------------------------*/
+
+#endif // __HEDGEHOG_SERVER_RESOURCES_HPP__

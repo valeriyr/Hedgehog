@@ -19,11 +19,11 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ErrorMessageFormat = "&gt; <font color = 'red' >Error: %1</font>";
+	const char* const ErrorMessageFormat = "&gt; <font color = 'red' >%1: %2</font>";
 
-	const char* const WarningMessageFormat = "&gt; <font color = 'blue' >Warning: %1</font>";
+	const char* const WarningMessageFormat = "&gt; <font color = 'blue' >%1: %2</font>";
 
-	const char* const InfoMessageFormat = "&gt; <font>Info: %1</font>";
+	const char* const InfoMessageFormat = "&gt; <font>%1: %2</font>";
 
 	const char* const MessageWithoutPrefixFormat = "&gt; <font>%1</font>";
 

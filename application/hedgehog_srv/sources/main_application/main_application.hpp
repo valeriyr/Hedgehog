@@ -1,15 +1,15 @@
 
-#ifndef __HEDGEHOG_MAIN_GUI_APPLICATION_HPP__
-#define __HEDGEHOG_MAIN_GUI_APPLICATION_HPP__
+#ifndef __HEDGEHOG_SERVER_MAIN_APPLICATION_HPP__
+#define __HEDGEHOG_SERVER_MAIN_APPLICATION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 namespace Hedgehog {
-namespace Client {
+namespace Server {
 
 /*---------------------------------------------------------------------------*/
 
-class MainGuiApplication
+class MainApplication
 {
 
 /*---------------------------------------------------------------------------*/
@@ -18,9 +18,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	MainGuiApplication( int argc, char* argv[] );
+	MainApplication( int argc, char* argv[] );
 
-	~MainGuiApplication();
+	~MainApplication();
 
 /*---------------------------------------------------------------------------*/
 
@@ -32,7 +32,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	QApplication m_qtApplicaiton;
+	QCoreApplication m_qtApplicaiton;
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,9 +40,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Client
+} // namespace Server
 } // namespace Hedgehog
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __HEDGEHOG_MAIN_GUI_APPLICATION_HPP__
+#endif // __HEDGEHOG_SERVER_MAIN_APPLICATION_HPP__

@@ -3,6 +3,8 @@
 
 #include "plugins_manager/sources/system_information/pm_system_information.hpp"
 
+#include "iterators/it_simple_iterator.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,6 +38,20 @@ SystemInformation::getPluginsDirectory() const
 	return m_systemData.m_pluginsDirectory;
 
 } // SystemInformation::getPluginsDirectory
+
+
+/*---------------------------------------------------------------------------*/
+
+
+ISystemInformation::AdditionalPluginsDirectoriesIterator
+SystemInformation::getAdditionalPluginsDirectories() const
+{
+	return
+		ISystemInformation::AdditionalPluginsDirectoriesIterator(
+			new Tools::Core::SimpleIterator< SystemData::AdditionalPluginsDirectoriesCollection >(
+				m_systemData.m_additionalPluginsDirectories ) );
+
+} // SystemInformation::getAdditionalPluginsDirectories
 
 
 /*---------------------------------------------------------------------------*/

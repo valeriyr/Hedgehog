@@ -40,6 +40,14 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void loadPluginsListFromDirectory( const QString& _directory );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
 	IPluginsManagerInternal& m_pluginsManager;
 
 	const ISystemInformation& m_systemInformation;
