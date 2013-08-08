@@ -14,6 +14,7 @@ namespace ServerEngine {
 
 
 ConsoleMessenger::ConsoleMessenger()
+	:	m_outputStream( stdout )
 {
 } // ConsoleMessenger::ConsoleMessenger
 
@@ -34,11 +35,11 @@ ConsoleMessenger::printMessage(
 		const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
 	,	const QString& _message )
 {
-	/*std::cout
+	m_outputStream
 		<< Tools::Core::IMessenger::MessegeLevel::toString( _messageLevel )
 		<< ": "
 		<< _message
-		<< std::endl;*/
+		<< "/n";
 
 } // ConsoleMessenger::printMessage
 
@@ -49,7 +50,7 @@ ConsoleMessenger::printMessage(
 void
 ConsoleMessenger::printMessage( const QString& _message )
 {
-	/*std::cout << _message << std::endl;*/
+	m_outputStream << _message << "/n";
 
 } // ConsoleMessenger::printMessage
 

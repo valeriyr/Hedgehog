@@ -5,6 +5,8 @@
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
+#include "server_engine/sources/console_messenger/se_console_messenger.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,6 +18,8 @@ namespace ServerEngine {
 
 
 BEGIN_INTERFACE_MAP( PluginInstance )
+
+	INTERFACE_DECLARATION( Tools::Core::IID_MESSENGER, m_consoleMessenger.get() )
 
 END_INTERFACE_MAP()
 
@@ -42,6 +46,8 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	m_consoleMessenger.reset( new ConsoleMessenger() );
+
 } // PluginInstance::initialize
 
 
@@ -51,6 +57,8 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	m_consoleMessenger.reset();
+
 } // PluginInstance::close
 
 

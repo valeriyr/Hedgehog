@@ -15,6 +15,10 @@ namespace ServerEngine {
 
 /*---------------------------------------------------------------------------*/
 
+class ConsoleMessenger;
+
+/*---------------------------------------------------------------------------*/
+
 class PluginInstance
 	:	public Framework::Core::PluginsManager::BasePlugin
 {
@@ -38,6 +42,14 @@ public:
 	/*virtual*/ void initialize();
 
 	/*virtual*/ void close();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< ConsoleMessenger > m_consoleMessenger;
 
 /*---------------------------------------------------------------------------*/
 
