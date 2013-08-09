@@ -1,12 +1,10 @@
 
-#ifndef __NM_PLUGIN_INSTANCE_HPP__
-#define __NM_PLUGIN_INSTANCE_HPP__
+#ifndef __NM_CONNECTION_MANAGER_HPP__
+#define __NM_CONNECTION_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
-
+#include "network_manager/ih/nm_iconnection_manager.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,12 +14,8 @@ namespace NetworkManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct IConnectionManager;
-
-/*---------------------------------------------------------------------------*/
-
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+class ConnectionManager
+	:	public Tools::Core::BaseWrapper< IConnectionManager >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -30,19 +24,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	ConnectionManager();
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	virtual ~ConnectionManager();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize();
+	/*virtual*/ IUdpConnection& getUdpConnection( const QString& _connectionId );
 
-	/*virtual*/ void close();
+	/*virtual*/ void closeUdpConnection( const QString& _connectionId );
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,7 +40,16 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< IConnectionManager > m_connectionManager;
+	typedef
+		std::map< QString, boost::intrusive_ptr< IUdpConnection > >
+		ConnectionsCollection;
+	typedef
+		ConnectionsCollection::iterator
+		ConnectionsCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
+	ConnectionsCollection m_connectionsCollection;
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,4 +63,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __NM_PLUGIN_INSTANCE_HPP__
+#endif // __NM_CONNECTION_MANAGER_HPP__

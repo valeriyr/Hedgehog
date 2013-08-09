@@ -5,6 +5,8 @@
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
+#include "network_manager/sources/connection_manager/nm_connection_manager.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,6 +18,8 @@ namespace NetworkManager {
 
 
 BEGIN_INTERFACE_MAP( PluginInstance )
+
+	INTERFACE_DECLARATION( IID_CONNECTION_MANAGER, m_connectionManager.get() )
 
 END_INTERFACE_MAP()
 
@@ -42,6 +46,8 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	m_connectionManager.reset( new ConnectionManager() );
+
 } // PluginInstance::initialize
 
 
@@ -51,6 +57,8 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	m_connectionManager.reset();
+
 } // PluginInstance::close
 
 

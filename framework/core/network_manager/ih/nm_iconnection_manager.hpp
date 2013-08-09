@@ -1,12 +1,10 @@
 
-#ifndef __NM_PLUGIN_INSTANCE_HPP__
-#define __NM_PLUGIN_INSTANCE_HPP__
+#ifndef __NM_ICONNECTION_MANAGER_HPP__
+#define __NM_ICONNECTION_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
-
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,41 +14,23 @@ namespace NetworkManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct IConnectionManager;
+	const unsigned int IID_CONNECTION_MANAGER = 0;
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+struct IUdpConnection;
+
+/*---------------------------------------------------------------------------*/
+
+struct IConnectionManager
+	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-public:
+	virtual IUdpConnection& getUdpConnection( const QString& _connectionId ) = 0;
 
-/*---------------------------------------------------------------------------*/
-
-	PluginInstance();
-
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void initialize();
-
-	/*virtual*/ void close();
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	boost::intrusive_ptr< IConnectionManager > m_connectionManager;
+	virtual void closeUdpConnection( const QString& _connectionId ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,4 +44,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __NM_PLUGIN_INSTANCE_HPP__
+#endif // __NM_ICONNECTION_MANAGER_HPP__

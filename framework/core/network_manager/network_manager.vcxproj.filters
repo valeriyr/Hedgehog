@@ -10,6 +10,12 @@
     <Filter Include="Plugin">
       <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Connection Manager">
+      <UniqueIdentifier>{61802ea6-3d8e-4ddb-9404-fa1b8538c98c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Udp Connection">
+      <UniqueIdentifier>{12e4701f-5bda-4006-8d89-a53d2838c05b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\nm_ph.cpp">
@@ -17,6 +23,12 @@
     </ClCompile>
     <ClCompile Include="sources\plugin\nm_plugin_instance.cpp">
       <Filter>Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\connection_manager\nm_connection_manager.cpp">
+      <Filter>Connection Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\udp_connection\nm_udp_connection.cpp">
+      <Filter>Udp Connection</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -26,8 +38,17 @@
     <ClInclude Include="sources\plugin\nm_plugin_instance.hpp">
       <Filter>Plugin</Filter>
     </ClInclude>
-    <ClInclude Include="ih\nm_iconnection.hpp">
+    <ClInclude Include="ih\nm_iudp_connection.hpp">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\nm_iconnection_manager.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\connection_manager\nm_connection_manager.hpp">
+      <Filter>Connection Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\udp_connection\nm_udp_connection.hpp">
+      <Filter>Udp Connection</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

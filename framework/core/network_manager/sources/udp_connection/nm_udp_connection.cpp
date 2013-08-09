@@ -1,10 +1,8 @@
 
-#ifndef __NM_ICONNECTION_HPP__
-#define __NM_ICONNECTION_HPP__
+#include "network_manager/sources/ph/nm_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "network_manager/sources/udp_connection/nm_udp_connection.hpp"
 
-#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,6 +13,19 @@ namespace NetworkManager {
 /*---------------------------------------------------------------------------*/
 
 
+UdpConnection::UdpConnection()
+{
+} // UdpConnection::UdpConnection
+
+
+/*---------------------------------------------------------------------------*/
+
+
+UdpConnection::~UdpConnection()
+{
+} // UdpConnection::~UdpConnection
+
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace NetworkManager
@@ -22,5 +33,3 @@ namespace NetworkManager {
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __NM_ICONNECTION_HPP__

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\connection_manager\nm_connection_manager.cpp" />
     <ClCompile Include="sources\ph\nm_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -26,11 +27,15 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sources\plugin\nm_plugin_instance.cpp" />
+    <ClCompile Include="sources\udp_connection\nm_udp_connection.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ih\nm_iconnection.hpp" />
+    <ClInclude Include="ih\nm_iconnection_manager.hpp" />
+    <ClInclude Include="ih\nm_iudp_connection.hpp" />
+    <ClInclude Include="sources\connection_manager\nm_connection_manager.hpp" />
     <ClInclude Include="sources\ph\nm_ph.hpp" />
     <ClInclude Include="sources\plugin\nm_plugin_instance.hpp" />
+    <ClInclude Include="sources\udp_connection\nm_udp_connection.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9C7C9F09-52B3-47E1-B140-A38DE22BDFA7}</ProjectGuid>
