@@ -9,13 +9,19 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
-namespace Core {
-namespace ServerEngine {
+namespace Tools
+{
+	namespace Core
+	{
+		struct IMessenger;
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
-class ConsoleMessenger;
+namespace Plugins {
+namespace Core {
+namespace ServerEngine {
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,7 +55,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< ConsoleMessenger > m_consoleMessenger;
+	boost::intrusive_ptr< Tools::Core::IMessenger > m_consoleMessenger;
 
 /*---------------------------------------------------------------------------*/
 

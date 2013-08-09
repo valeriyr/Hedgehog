@@ -7,6 +7,8 @@
 
 #include "server_engine/sources/console_messenger/se_console_messenger.hpp"
 
+#include "server_engine/sources/internal_resources/se_internal_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,6 +49,8 @@ void
 PluginInstance::initialize()
 {
 	m_consoleMessenger.reset( new ConsoleMessenger() );
+
+	m_consoleMessenger->printMessage( Resources::Messanges::IntroMessage );
 
 } // PluginInstance::initialize
 

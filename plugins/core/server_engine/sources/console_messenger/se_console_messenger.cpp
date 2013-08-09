@@ -39,7 +39,8 @@ ConsoleMessenger::printMessage(
 		<< Tools::Core::IMessenger::MessegeLevel::toString( _messageLevel )
 		<< ": "
 		<< _message
-		<< "/n";
+		<< "\n";
+	flush();
 
 } // ConsoleMessenger::printMessage
 
@@ -50,9 +51,21 @@ ConsoleMessenger::printMessage(
 void
 ConsoleMessenger::printMessage( const QString& _message )
 {
-	m_outputStream << _message << "/n";
+	m_outputStream << _message << "\n";
+	flush();
 
 } // ConsoleMessenger::printMessage
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ConsoleMessenger::flush()
+{
+	m_outputStream.flush();
+
+} // ConsoleMessenger::flush
 
 
 /*---------------------------------------------------------------------------*/
