@@ -15,6 +15,12 @@ namespace Messanges {
 
 /*---------------------------------------------------------------------------*/
 
+	extern const char* const SimpleMessageFormat;
+
+	extern const char* const MessageWithLevelFormat;
+
+/*---------------------------------------------------------------------------*/
+
 	extern const char* const IntroMessage;
 
 /*---------------------------------------------------------------------------*/

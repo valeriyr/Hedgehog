@@ -3,6 +3,8 @@
 
 #include "server_engine/sources/console_messenger/se_console_messenger.hpp"
 
+#include "server_engine/sources/internal_resources/se_internal_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,10 +38,9 @@ ConsoleMessenger::printMessage(
 	,	const QString& _message )
 {
 	m_outputStream
-		<< Tools::Core::IMessenger::MessegeLevel::toString( _messageLevel )
-		<< ": "
-		<< _message
-		<< "\n";
+		<< QString( Resources::Messanges::MessageWithLevelFormat )
+				.arg( Tools::Core::IMessenger::MessegeLevel::toString( _messageLevel ) )
+				.arg( _message );
 	flush();
 
 } // ConsoleMessenger::printMessage
@@ -51,7 +52,7 @@ ConsoleMessenger::printMessage(
 void
 ConsoleMessenger::printMessage( const QString& _message )
 {
-	m_outputStream << _message << "\n";
+	m_outputStream << QString( Resources::Messanges::SimpleMessageFormat ).arg( _message );
 	flush();
 
 } // ConsoleMessenger::printMessage

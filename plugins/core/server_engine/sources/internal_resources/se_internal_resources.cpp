@@ -17,6 +17,12 @@ namespace Messanges {
 
 /*---------------------------------------------------------------------------*/
 
+	const char* const SimpleMessageFormat = "%1\n";
+
+	const char* const MessageWithLevelFormat = "%1: %2\n";
+
+/*---------------------------------------------------------------------------*/
+
 	const char* const IntroMessage = "Hedgehog server was loaded.";
 
 /*---------------------------------------------------------------------------*/
