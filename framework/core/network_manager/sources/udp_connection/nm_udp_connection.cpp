@@ -41,9 +41,9 @@ UdpConnection::~UdpConnection()
 
 
 void
-UdpConnection::sendDataTo( const ConnectionInfo& _connectionInfo, const QByteArray& _data )
+UdpConnection::sendDataTo( const ConnectionInfo& _to, const QByteArray& _data )
 {
-	m_udpSocket->writeDatagram( _data, QHostAddress( _connectionInfo.m_address ), _connectionInfo.m_port);
+	m_udpSocket->writeDatagram( _data, QHostAddress( _to.m_address ), _to.m_port);
 
 } // UdpConnection::sendData
 

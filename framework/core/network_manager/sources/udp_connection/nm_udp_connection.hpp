@@ -41,7 +41,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void sendDataTo( const ConnectionInfo& _connectionInfo, const QByteArray& _data );
+	/*virtual*/ void sendDataTo( const ConnectionInfo& _to, const QByteArray& _data );
 
 	/*virtual*/ void addConnectionListener( boost::intrusive_ptr< IConnectionListener > _listener );
 
