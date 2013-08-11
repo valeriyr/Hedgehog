@@ -1,12 +1,6 @@
 
-#ifndef __NM_ICONNECTION_MANAGER_HPP__
-#define __NM_ICONNECTION_MANAGER_HPP__
-
-/*---------------------------------------------------------------------------*/
-
-#include "intrusive_base/ib_ibase.hpp"
-
-#include "network_manager/h/nm_connection_info.hpp"
+#ifndef __NM_CONNECTION_INFO_HPP__
+#define __NM_CONNECTION_INFO_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,23 +10,39 @@ namespace NetworkManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_CONNECTION_MANAGER = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct IUdpConnection;
-
-/*---------------------------------------------------------------------------*/
-
-struct IConnectionManager
-	:	public Tools::Core::IBase
+struct ConnectionInfo
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual IUdpConnection& getUdpConnection( const ConnectionInfo& _connectionInfo ) = 0;
+	ConnectionInfo()
+		:	m_address()
+		,	m_port()
+	{}
 
-	virtual void closeUdpConnection( const ConnectionInfo& _connectionInfo ) = 0;
+	ConnectionInfo( const QString& _address, const unsigned int _port )
+		:	m_address( _address )
+		,	m_port( _port )
+	{}
+
+	ConnectionInfo( const ConnectionInfo& _connectionId )
+		:	m_address( _connectionId.m_address )
+		,	m_port( _connectionId.m_port )
+	{
+	}
+
+/*---------------------------------------------------------------------------*/
+
+	bool operator < ( const ConnectionInfo& _connectionId ) const
+	{
+		return m_port < _connectionId.m_port && m_address < _connectionId.m_address;
+	}
+
+/*---------------------------------------------------------------------------*/
+
+	const QString m_address;
+
+	const unsigned int m_port;
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,4 +56,4 @@ struct IConnectionManager
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __NM_ICONNECTION_MANAGER_HPP__
+#endif // __NM_CONNECTION_INFO_HPP__

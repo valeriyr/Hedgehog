@@ -26,6 +26,8 @@ ConnectionManager::ConnectionManager()
 
 ConnectionManager::~ConnectionManager()
 {
+	assert( m_connectionsCollection.empty() );
+
 } // ConnectionManager::~ConnectionManager
 
 
@@ -33,16 +35,16 @@ ConnectionManager::~ConnectionManager()
 
 
 IUdpConnection&
-ConnectionManager::getUdpConnection( const QString& _connectionId )
+ConnectionManager::getUdpConnection( const ConnectionInfo& _connectionInfo )
 {
-	ConnectionsCollectionIterator iterator = m_connectionsCollection.find( _connectionId );
+	ConnectionsCollectionIterator iterator = m_connectionsCollection.find( _connectionInfo );
 
 	if ( iterator == m_connectionsCollection.end() )
 		return *iterator->second;
 
-	boost::intrusive_ptr< IUdpConnection > connection( new UdpConnection() );
+	boost::intrusive_ptr< IUdpConnection > connection( new UdpConnection( _connectionInfo ) );
 
-	m_connectionsCollection.insert( std::make_pair( _connectionId, connection ) );
+	m_connectionsCollection.insert( std::make_pair( _connectionInfo, connection ) );
 
 	return *connection;
 
@@ -53,9 +55,9 @@ ConnectionManager::getUdpConnection( const QString& _connectionId )
 
 
 void
-ConnectionManager::closeUdpConnection( const QString& _connectionId )
+ConnectionManager::closeUdpConnection( const ConnectionInfo& _connectionInfo )
 {
-	ConnectionsCollectionIterator iterator = m_connectionsCollection.find( _connectionId );
+	ConnectionsCollectionIterator iterator = m_connectionsCollection.find( _connectionInfo );
 
 	if ( iterator != m_connectionsCollection.end() )
 	{

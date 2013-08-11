@@ -6,6 +6,8 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
+#include "network_manager/h/nm_connection_info.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -14,11 +16,21 @@ namespace NetworkManager {
 
 /*---------------------------------------------------------------------------*/
 
+struct IConnectionListener;
+
+/*---------------------------------------------------------------------------*/
+
 struct IUdpConnection
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
+
+	virtual void sendDataTo( const ConnectionInfo& _connectionInfo, const QByteArray& _data ) = 0;
+
+	virtual void addConnectionListener( boost::intrusive_ptr< IConnectionListener > _listener ) = 0;
+
+	virtual void removeConnectionListener( boost::intrusive_ptr< IConnectionListener > _listener ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

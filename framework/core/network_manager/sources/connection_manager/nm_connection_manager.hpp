@@ -30,9 +30,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ IUdpConnection& getUdpConnection( const QString& _connectionId );
+	/*virtual*/ IUdpConnection& getUdpConnection( const ConnectionInfo& _connectionInfo );
 
-	/*virtual*/ void closeUdpConnection( const QString& _connectionId );
+	/*virtual*/ void closeUdpConnection( const ConnectionInfo& _connectionInfo  );
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,7 +41,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< QString, boost::intrusive_ptr< IUdpConnection > >
+		std::map< ConnectionInfo, boost::intrusive_ptr< IUdpConnection > >
 		ConnectionsCollection;
 	typedef
 		ConnectionsCollection::iterator

@@ -1,12 +1,10 @@
 
-#ifndef __NM_ICONNECTION_MANAGER_HPP__
-#define __NM_ICONNECTION_MANAGER_HPP__
+#ifndef __NM_ICONNECTION_LISTENER_HPP__
+#define __NM_ICONNECTION_LISTENER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
-
-#include "network_manager/h/nm_connection_info.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,23 +14,16 @@ namespace NetworkManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_CONNECTION_MANAGER = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct IUdpConnection;
-
-/*---------------------------------------------------------------------------*/
-
-struct IConnectionManager
+struct IConnectionListener
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual IUdpConnection& getUdpConnection( const ConnectionInfo& _connectionInfo ) = 0;
-
-	virtual void closeUdpConnection( const ConnectionInfo& _connectionInfo ) = 0;
+	virtual void onDataReceive(
+			const QString& _fromAddress
+		,	const unsigned int _fromPort
+		,	const QByteArray& _data ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,4 +37,4 @@ struct IConnectionManager
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __NM_ICONNECTION_MANAGER_HPP__
+#endif // __NM_ICONNECTION_LISTENER_HPP__

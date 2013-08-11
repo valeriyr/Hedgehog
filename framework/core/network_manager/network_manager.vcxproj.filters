@@ -16,6 +16,9 @@
     <Filter Include="Udp Connection">
       <UniqueIdentifier>{12e4701f-5bda-4006-8d89-a53d2838c05b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{7c674161-c979-4006-b493-8c57709e1ab2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\nm_ph.cpp">
@@ -47,8 +50,16 @@
     <ClInclude Include="sources\connection_manager\nm_connection_manager.hpp">
       <Filter>Connection Manager</Filter>
     </ClInclude>
-    <ClInclude Include="sources\udp_connection\nm_udp_connection.hpp">
-      <Filter>Udp Connection</Filter>
+    <ClInclude Include="ih\nm_iconnection_listener.hpp">
+      <Filter>Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="h\nm_connection_info.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="sources\udp_connection\nm_udp_connection.hpp">
+      <Filter>Udp Connection</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

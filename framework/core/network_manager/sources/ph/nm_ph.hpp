@@ -4,3 +4,4 @@
 #include <boost/intrusive_ptr.hpp>
 
 #include <map>
+#include <set>
