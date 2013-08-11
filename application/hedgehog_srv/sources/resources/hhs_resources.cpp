@@ -24,7 +24,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const SystemMessengerPluginName = "server_engine";
+	const char* const SystemMessengerPluginName = "logger";
 
 /*---------------------------------------------------------------------------*/
 

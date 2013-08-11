@@ -1,39 +1,39 @@
 
-#include "server_engine/sources/ph/se_ph.hpp"
+#include "logger/sources/ph/lg_ph.hpp"
 
-#include "server_engine/sources/console_messenger/se_console_messenger.hpp"
+#include "logger/sources/console_logger/lg_console_logger.hpp"
 
-#include "server_engine/sources/internal_resources/se_internal_resources.hpp"
+#include "logger/sources/internal_resources/lg_internal_resources.hpp"
 
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
+namespace Framework {
 namespace Core {
-namespace ServerEngine {
+namespace Logger {
 
 /*---------------------------------------------------------------------------*/
 
 
-ConsoleMessenger::ConsoleMessenger()
+ConsoleLogger::ConsoleLogger()
 	:	m_outputStream( stdout )
 {
-} // ConsoleMessenger::ConsoleMessenger
+} // ConsoleLogger::ConsoleLogger
 
 
 /*---------------------------------------------------------------------------*/
 
 
-ConsoleMessenger::~ConsoleMessenger()
+ConsoleLogger::~ConsoleLogger()
 {
-} // ConsoleMessenger::~ConsoleMessenger
+} // ConsoleLogger::~ConsoleLogger
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-ConsoleMessenger::printMessage(
+ConsoleLogger::printMessage(
 		const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
 	,	const QString& _message )
 {
@@ -43,36 +43,36 @@ ConsoleMessenger::printMessage(
 				.arg( _message );
 	flush();
 
-} // ConsoleMessenger::printMessage
+} // ConsoleLogger::printMessage
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-ConsoleMessenger::printMessage( const QString& _message )
+ConsoleLogger::printMessage( const QString& _message )
 {
 	m_outputStream << QString( Resources::Messanges::SimpleMessageFormat ).arg( _message );
 	flush();
 
-} // ConsoleMessenger::printMessage
+} // ConsoleLogger::printMessage
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-ConsoleMessenger::flush()
+ConsoleLogger::flush()
 {
 	m_outputStream.flush();
 
-} // ConsoleMessenger::flush
+} // ConsoleLogger::flush
 
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace ServerEngine
+} // namespace Logger
 } // namespace Core
-} // namespace Plugins
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/

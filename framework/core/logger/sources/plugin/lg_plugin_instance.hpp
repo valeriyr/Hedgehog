@@ -1,21 +1,32 @@
 
-#ifndef __SE_CONSOLE_MESSENGER_HPP__
-#define __SE_CONSOLE_MESSENGER_HPP__
+#ifndef __LG_PLUGIN_INSTANCE_HPP__
+#define __LG_PLUGIN_INSTANCE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "messenger/ms_imessenger.hpp"
+#include "plugins_manager/h/pm_base_plugin.hpp"
+#include "plugins_manager/h/pm_interface_map.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
+namespace Tools
+{
+	namespace Core
+	{
+		struct IMessenger;
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
+namespace Framework {
 namespace Core {
-namespace ServerEngine {
+namespace Logger {
 
 /*---------------------------------------------------------------------------*/
 
-class ConsoleMessenger
-	:	public Tools::Core::BaseWrapper< Tools::Core::IMessenger >
+class PluginInstance
+	:	public Framework::Core::PluginsManager::BasePlugin
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,25 +35,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ConsoleMessenger();
+	PluginInstance();
 
-	virtual ~ConsoleMessenger();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void printMessage(
-			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
-		,	const QString& _message );
-
-	/*virtual*/ void printMessage( const QString& _message );
+	virtual ~PluginInstance();
 
 /*---------------------------------------------------------------------------*/
 
-private:
+	INTERFACE_MAP_DECLARATION()
 
 /*---------------------------------------------------------------------------*/
 
-	void flush();
+	/*virtual*/ void initialize();
+
+	/*virtual*/ void close();
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,7 +55,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	QTextStream m_outputStream;
+	boost::intrusive_ptr< Tools::Core::IMessenger > m_consoleLogger;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,10 +63,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace ServerEngine
+} // namespace Logger
 } // namespace Core
-} // namespace Plugins
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SE_CONSOLE_MESSENGER_HPP__
+#endif // __LG_PLUGIN_INSTANCE_HPP__

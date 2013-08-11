@@ -19,25 +19,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\internal_resources\se_internal_resources.cpp" />
-    <ClCompile Include="sources\ph\se_ph.cpp">
+    <ClCompile Include="sources\console_logger\lg_console_logger.cpp" />
+    <ClCompile Include="sources\internal_resources\lg_internal_resources.cpp" />
+    <ClCompile Include="sources\ph\lg_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="sources\plugin\se_plugin_instance.cpp" />
+    <ClCompile Include="sources\plugin\lg_plugin_instance.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="h\se_plugin_id.hpp" />
-    <ClInclude Include="sources\internal_resources\se_internal_resources.hpp" />
-    <ClInclude Include="sources\ph\se_ph.hpp" />
-    <ClInclude Include="sources\plugin\se_plugin_instance.hpp" />
+    <ClInclude Include="h\lg_plugin_id.hpp" />
+    <ClInclude Include="sources\console_logger\lg_console_logger.hpp" />
+    <ClInclude Include="sources\internal_resources\lg_internal_resources.hpp" />
+    <ClInclude Include="sources\ph\lg_ph.hpp" />
+    <ClInclude Include="sources\plugin\lg_plugin_instance.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{BD82B3CD-57FE-4FA1-8C96-133E491461EE}</ProjectGuid>
+    <ProjectGuid>{C09A63AC-E94B-4D87-A3F0-2F800C6B2C1E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>server_engine</RootNamespace>
+    <RootNamespace>logger</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -81,7 +83,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
-    <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/server/</OutDir>
+    <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/</OutDir>
     <ExecutablePath>$(QTPATH)\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
     <LibraryPath>$(QTPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
@@ -90,7 +92,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
-    <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/server/</OutDir>
+    <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/</OutDir>
     <ExecutablePath>$(QTPATH)\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
     <LibraryPath>$(QTPATH)\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
@@ -98,7 +100,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/server/</OutDir>
+    <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/</OutDir>
     <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <ExecutablePath>$(QTPATH)\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
@@ -107,7 +109,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/server/</OutDir>
+    <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/</OutDir>
     <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <ExecutablePath>$(QTPATH)\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
@@ -119,10 +121,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;SERVER_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>server_engine/sources/ph/se_ph.hpp</PrecompiledHeaderFile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;LOGGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>logger/sources/ph/lg_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,10 +142,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;SERVER_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>server_engine/sources/ph/se_ph.hpp</PrecompiledHeaderFile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;LOGGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>logger/sources/ph/lg_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -163,10 +165,10 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;SERVER_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>server_engine/sources/ph/se_ph.hpp</PrecompiledHeaderFile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;LOGGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>logger/sources/ph/lg_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -188,10 +190,10 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;SERVER_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>server_engine/sources/ph/se_ph.hpp</PrecompiledHeaderFile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;LOGGER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>logger/sources/ph/lg_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

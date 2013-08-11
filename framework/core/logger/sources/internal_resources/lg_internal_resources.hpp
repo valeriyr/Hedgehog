@@ -1,14 +1,12 @@
 
-#include "server_engine/sources/ph/se_ph.hpp"
-
-#include "server_engine/sources/internal_resources/se_internal_resources.hpp"
-
+#ifndef __LG_INTERNAL_RESOURCES_HPP__
+#define __LG_INTERNAL_RESOURCES_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
+namespace Framework {
 namespace Core {
-namespace ServerEngine {
+namespace Logger {
 namespace Resources {
 
 /*---------------------------------------------------------------------------*/
@@ -17,7 +15,9 @@ namespace Messanges {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const IntroMessage = "Hedgehog server was loaded.";
+	extern const char* const SimpleMessageFormat;
+
+	extern const char* const MessageWithLevelFormat;
 
 /*---------------------------------------------------------------------------*/
 
@@ -26,8 +26,10 @@ namespace Messanges {
 /*---------------------------------------------------------------------------*/
 
 } // namespace Resources
-} // namespace ServerEngine
+} // namespace Logger
 } // namespace Core
-} // namespace Plugins
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
+
+#endif // __LG_INTERNAL_RESOURCES_HPP__

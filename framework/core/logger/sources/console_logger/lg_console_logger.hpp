@@ -1,32 +1,21 @@
 
-#ifndef __SE_PLUGIN_INSTANCE_HPP__
-#define __SE_PLUGIN_INSTANCE_HPP__
+#ifndef __LG_CONSOLE_LOGGER_HPP__
+#define __LG_CONSOLE_LOGGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
+#include "messenger/ms_imessenger.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Tools
-{
-	namespace Core
-	{
-		struct IMessenger;
-	}
-}
-
-/*---------------------------------------------------------------------------*/
-
-namespace Plugins {
+namespace Framework {
 namespace Core {
-namespace ServerEngine {
+namespace Logger {
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+class ConsoleLogger
+	:	public Tools::Core::BaseWrapper< Tools::Core::IMessenger >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -35,23 +24,33 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	ConsoleLogger();
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
+	virtual ~ConsoleLogger();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initialize();
+	/*virtual*/ void printMessage(
+			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+		,	const QString& _message );
 
-	/*virtual*/ void close();
+	/*virtual*/ void printMessage( const QString& _message );
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Tools::Core::IMessenger > getSystemMessenger() const;
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	void flush();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	QTextStream m_outputStream;
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,10 +58,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace ServerEngine
+} // namespace Logger
 } // namespace Core
-} // namespace Plugins
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SE_PLUGIN_INSTANCE_HPP__
+#endif // __LG_CONSOLE_LOGGER_HPP__

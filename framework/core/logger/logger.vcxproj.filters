@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="sources\plugin\lg_plugin_instance.cpp">
+      <Filter>Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ph\lg_ph.cpp">
+      <Filter>Precompiled Header</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\internal_resources\lg_internal_resources.cpp">
+      <Filter>Internal Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\console_logger\lg_console_logger.cpp">
+      <Filter>Console Logger</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sources\plugin\lg_plugin_instance.hpp">
+      <Filter>Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ph\lg_ph.hpp">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\internal_resources\lg_internal_resources.hpp">
+      <Filter>Internal Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lg_plugin_id.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\console_logger\lg_console_logger.hpp">
+      <Filter>Console Logger</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{48a1f2c5-2c9e-4d24-998a-5ee9029b2167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{e8639a1a-d38b-4efd-a594-3eabf0635f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal Resources">
+      <UniqueIdentifier>{4e278fed-ee6a-41a0-a27a-66920bce675f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{761f58b8-2ae8-498f-8559-5ea80c6cfa2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Console Logger">
+      <UniqueIdentifier>{c1128cd3-4fe8-4a39-abca-c7f7ded2ac9b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

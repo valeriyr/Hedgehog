@@ -1,26 +1,25 @@
 
-#include "server_engine/sources/ph/se_ph.hpp"
+#include "logger/sources/ph/lg_ph.hpp"
 
-#include "server_engine/sources/plugin/se_plugin_instance.hpp"
+#include "logger/sources/plugin/lg_plugin_instance.hpp"
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
-#include "plugins_manager/h/pm_plugin_id.hpp"
 
-#include "messenger/ms_imessenger.hpp"
-
-#include "server_engine/sources/internal_resources/se_internal_resources.hpp"
+#include "logger/sources/console_logger/lg_console_logger.hpp"
 
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
+namespace Framework {
 namespace Core {
-namespace ServerEngine {
+namespace Logger {
 
 /*---------------------------------------------------------------------------*/
 
 
 BEGIN_INTERFACE_MAP( PluginInstance )
+
+	INTERFACE_DECLARATION( Tools::Core::IID_MESSENGER, m_consoleLogger.get() )
 
 END_INTERFACE_MAP()
 
@@ -47,7 +46,7 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
-	getSystemMessenger()->printMessage( Resources::Messanges::IntroMessage );
+	m_consoleLogger.reset( new ConsoleLogger() );
 
 } // PluginInstance::initialize
 
@@ -58,21 +57,9 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	m_consoleLogger.reset();
+
 } // PluginInstance::close
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< Tools::Core::IMessenger >
-PluginInstance::getSystemMessenger() const
-{
-	return
-		getPluginInterface< Tools::Core::IMessenger >(
-				Framework::Core::PluginsManager::PID_PLUGINS_MANAGER
-			,	Tools::Core::IID_MESSENGER );
-
-} // PluginInstance::getSystemMessenger
 
 
 /*---------------------------------------------------------------------------*/
@@ -82,8 +69,8 @@ PLUGIN_FACTORY_DECLARATION( PluginInstance )
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace ServerEngine
+} // namespace Logger
 } // namespace Core
-} // namespace Plugins
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
