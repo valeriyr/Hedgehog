@@ -26,7 +26,7 @@ MainView::MainView( const IEnvironment& _environment )
 	,	m_consoleView( new MainWidget() )
 	,	m_viewTitle( Resources::ConsoleViewTitle )
 {
-	connect(
+	QObject::connect(
 			m_consoleView.get()
 		,	SIGNAL( commandWasEntered( const QString& ) )
 		,	this
@@ -73,7 +73,7 @@ MainView::getViewWidget()
 void
 MainView::viewWasClosed()
 {
-	disconnect(
+	QObject::disconnect(
 			m_consoleView.get()
 		,	SIGNAL( commandWasEntered( const QString& ) )
 		,	this

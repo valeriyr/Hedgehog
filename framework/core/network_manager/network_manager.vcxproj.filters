@@ -56,6 +56,9 @@
     <ClInclude Include="h\nm_connection_info.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
+    <ClInclude Include="h\nm_plugin_id.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="sources\udp_connection\nm_udp_connection.hpp">

@@ -7,6 +7,8 @@
 #include "plugins_manager/ih/pm_iloader.hpp"
 #include "plugins_manager/h/pm_system_data.hpp"
 
+#include <csignal>
+
 /*---------------------------------------------------------------------------*/
 
 namespace Hedgehog {
@@ -18,6 +20,10 @@ namespace Server {
 MainApplication::MainApplication( int argc, char* argv[] )
 	:	m_qtApplicaiton( argc, argv )
 {
+	signal(SIGINT, &MainApplication::exitQt);
+	signal(SIGTERM, &MainApplication::exitQt);
+	signal(SIGBREAK, &MainApplication::exitQt);
+
 } // MainApplication::MainApplication
 
 
@@ -60,6 +66,15 @@ MainApplication::exec()
 	return result;
 
 } // MainApplication::exec
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void MainApplication::exitQt( int _signal )
+{
+	QCoreApplication::exit(0);
+}
 
 
 /*---------------------------------------------------------------------------*/

@@ -34,7 +34,7 @@ MainWidget::MainWidget()
 
 	setLayout( mainLayout );
 
-	connect( m_commandEditor, SIGNAL( returnPressed() ), this, SLOT( onReturnPressed() ) );
+	QObject::connect( m_commandEditor, SIGNAL( returnPressed() ), this, SLOT( onReturnPressed() ) );
 
 } // MainWidget::MainWidget
 
@@ -44,7 +44,7 @@ MainWidget::MainWidget()
 
 MainWidget::~MainWidget()
 {
-	disconnect( m_commandEditor, SIGNAL( returnPressed() ), this, SLOT( onReturnPressed() ) );
+	QObject::disconnect( m_commandEditor, SIGNAL( returnPressed() ), this, SLOT( onReturnPressed() ) );
 
 } // MainWidget::~MainWidget
 

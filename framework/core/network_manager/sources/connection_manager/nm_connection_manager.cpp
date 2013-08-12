@@ -39,7 +39,7 @@ ConnectionManager::getUdpConnection( const ConnectionInfo& _connectionInfo )
 {
 	ConnectionsCollectionIterator iterator = m_connectionsCollection.find( _connectionInfo );
 
-	if ( iterator == m_connectionsCollection.end() )
+	if ( iterator != m_connectionsCollection.end() )
 		return *iterator->second;
 
 	boost::intrusive_ptr< IUdpConnection > connection( new UdpConnection( _connectionInfo ) );

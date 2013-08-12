@@ -1,33 +1,41 @@
 
-#ifndef __NM_UDP_CONNECTION_HPP__
-#define __NM_UDP_CONNECTION_HPP__
+#ifndef __SE_SERVER_ENGINE_HPP__
+#define __SE_SERVER_ENGINE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "network_manager/ih/nm_iudp_connection.hpp"
+#include "server_engine/sources/server_engine/se_iserver_engine.hpp"
 
 #include "network_manager/h/nm_connection_info.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
-namespace Core {
-namespace NetworkManager {
-
-/*---------------------------------------------------------------------------*/
-
-struct ConnectionInfo;
-
-/*---------------------------------------------------------------------------*/
-
-class UdpConnection
-	:	public QObject
-	,	public Tools::Core::BaseWrapper< IUdpConnection >
+namespace Framework
 {
+	namespace Core
+	{
+		namespace NetworkManager
+		{
+			struct IUdpConnection;
+		}
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
-	Q_OBJECT
+namespace Plugins {
+namespace Core {
+namespace ServerEngine {
+
+/*---------------------------------------------------------------------------*/
+
+struct IEnvironment;
+
+/*---------------------------------------------------------------------------*/
+
+class ServerEngine
+	:	public Tools::Core::BaseWrapper< IServerEngine >
+{
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,25 +43,16 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	UdpConnection( const ConnectionInfo& _connectionInfo, QObject* _parent = NULL );
+	ServerEngine( const IEnvironment& _environment );
 
-	virtual ~UdpConnection();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void sendDataTo( const ConnectionInfo& _to, const QByteArray& _data );
-
-	/*virtual*/ void addConnectionListener( IConnectionListener* _listener );
-
-	/*virtual*/ void removeConnectionListener( IConnectionListener* _listener );
+	virtual ~ServerEngine();
 
 /*---------------------------------------------------------------------------*/
 
-private slots:
-
-/*---------------------------------------------------------------------------*/
-
-	void onReadReady();
+	/*virtual*/ void onDataReceive(
+			const QString& _fromAddress
+		,	const unsigned int _fromPort
+		,	const QByteArray& _data );
 
 /*---------------------------------------------------------------------------*/
 
@@ -61,20 +60,13 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		std::set< IConnectionListener* >
-		ListenersCollection;
-	typedef
-		ListenersCollection::iterator
-		ListenersCollectionIterator;
+	const IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 
-	ConnectionInfo m_connectionInfo;
+	Framework::Core::NetworkManager::ConnectionInfo m_connectionInfo;
 
-	QUdpSocket* m_udpSocket;
-
-	ListenersCollection m_listenersCollection;
+	Framework::Core::NetworkManager::IUdpConnection& m_connection;
 
 /*---------------------------------------------------------------------------*/
 
@@ -82,10 +74,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace NetworkManager
+} // namespace ServerEngine
 } // namespace Core
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __NM_UDP_CONNECTION_HPP__
+#endif // __SE_SERVER_ENGINE_HPP__

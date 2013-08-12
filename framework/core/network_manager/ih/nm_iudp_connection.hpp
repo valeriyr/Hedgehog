@@ -28,9 +28,9 @@ struct IUdpConnection
 
 	virtual void sendDataTo( const ConnectionInfo& _to, const QByteArray& _data ) = 0;
 
-	virtual void addConnectionListener( boost::intrusive_ptr< IConnectionListener > _listener ) = 0;
+	virtual void addConnectionListener( IConnectionListener* _listener ) = 0;
 
-	virtual void removeConnectionListener( boost::intrusive_ptr< IConnectionListener > _listener ) = 0;
+	virtual void removeConnectionListener( IConnectionListener* _listener ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

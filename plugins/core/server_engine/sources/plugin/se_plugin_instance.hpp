@@ -17,11 +17,27 @@ namespace Tools
 	}
 }
 
+namespace Framework
+{
+	namespace Core
+	{
+		namespace NetworkManager
+		{
+			struct IConnectionManager;
+		}
+	}
+}
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace Core {
 namespace ServerEngine {
+
+/*---------------------------------------------------------------------------*/
+
+struct IEnvironment;
+struct IServerEngine;
 
 /*---------------------------------------------------------------------------*/
 
@@ -52,6 +68,19 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< Tools::Core::IMessenger > getSystemMessenger() const;
+
+	boost::intrusive_ptr< Framework::Core::NetworkManager::IConnectionManager >
+		getConnectionManager() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< IEnvironment > m_environment;
+
+	boost::intrusive_ptr< IServerEngine > m_serverEngine;
 
 /*---------------------------------------------------------------------------*/
 

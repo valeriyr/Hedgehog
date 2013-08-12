@@ -30,7 +30,7 @@ MenuItem::MenuItem(
 	,	m_commandName( _commandName )
 	,	m_environment( _environment )
 {
-	connect( this, SIGNAL( triggered(bool) ), this, SLOT( onActionStateChanged() ) );
+	QObject::connect( this, SIGNAL( triggered(bool) ), this, SLOT( onActionStateChanged() ) );
 
 } // MenuItem::MenuItem
 
@@ -40,7 +40,7 @@ MenuItem::MenuItem(
 
 MenuItem::~MenuItem()
 {
-	disconnect( this, SIGNAL( triggered(bool) ), this, SLOT( onActionStateChanged() ) );
+	QObject::disconnect( this, SIGNAL( triggered(bool) ), this, SLOT( onActionStateChanged() ) );
 
 } // MenuItem::~MenuItem
 

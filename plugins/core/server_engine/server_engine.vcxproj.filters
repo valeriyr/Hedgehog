@@ -13,6 +13,12 @@
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{2358e645-0b17-425c-b314-44d1be517650}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{90c014db-d6bc-44f3-b9c5-764c7d8a4ec3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server Engine">
+      <UniqueIdentifier>{6990c170-88b0-41e7-b027-c4938cdce829}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\se_ph.cpp">
@@ -23,6 +29,12 @@
     </ClCompile>
     <ClCompile Include="sources\internal_resources\se_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\environment\se_environment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\server_engine\se_server_engine.cpp">
+      <Filter>Server Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +49,18 @@
     </ClInclude>
     <ClInclude Include="sources\internal_resources\se_internal_resources.hpp">
       <Filter>Internal Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\se_environment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\se_ienvironment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\server_engine\se_iserver_engine.hpp">
+      <Filter>Server Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\server_engine\se_server_engine.hpp">
+      <Filter>Server Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

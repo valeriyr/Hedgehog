@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\environment\se_environment.cpp" />
     <ClCompile Include="sources\internal_resources\se_internal_resources.cpp" />
     <ClCompile Include="sources\ph\se_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -27,12 +28,17 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sources\plugin\se_plugin_instance.cpp" />
+    <ClCompile Include="sources\server_engine\se_server_engine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\se_plugin_id.hpp" />
+    <ClInclude Include="sources\environment\se_environment.hpp" />
+    <ClInclude Include="sources\environment\se_ienvironment.hpp" />
     <ClInclude Include="sources\internal_resources\se_internal_resources.hpp" />
     <ClInclude Include="sources\ph\se_ph.hpp" />
     <ClInclude Include="sources\plugin\se_plugin_instance.hpp" />
+    <ClInclude Include="sources\server_engine\se_iserver_engine.hpp" />
+    <ClInclude Include="sources\server_engine\se_server_engine.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BD82B3CD-57FE-4FA1-8C96-133E491461EE}</ProjectGuid>
