@@ -11,6 +11,7 @@
 
 #include "landscape_model/ih/lm_iunit.hpp"
 
+#include "network_manager/ih/nm_iudp_connection.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -26,8 +27,14 @@ GameManager::GameManager(
 	,	boost::intrusive_ptr< IActionsQueue > _actionsQueue
 	)
 	:	m_environment( _environment )
+	,	m_connectionInfo( "127.0.0.1", 1988 )
+	,	m_connection( _environment.getConnection( m_connectionInfo ) )
 	,	m_actionsQueue( _actionsQueue )
 {
+	m_connection.addConnectionListener( this );
+
+	m_environment.printMessage( QString( "Socket was opened on: '%1:%2'." ).arg( m_connectionInfo.m_address ).arg( m_connectionInfo.m_port ) );
+
 } // GameManager::GameManager
 
 
@@ -36,6 +43,11 @@ GameManager::GameManager(
 
 GameManager::~GameManager()
 {
+	m_connection.removeConnectionListener( this );
+	m_environment.closeConnection( m_connectionInfo );
+
+	m_environment.printMessage( QString( "Socket was closed on: '%1:%2'." ).arg( m_connectionInfo.m_address ).arg( m_connectionInfo.m_port ) );
+
 } // GameManager::~GameManager
 
 
@@ -91,6 +103,20 @@ GameManager::pushSelectAction(
 
 
 void
+GameManager::onDataReceive(
+		const QString& _fromAddress
+	,	const unsigned int _fromPort
+	,	const QByteArray& _data )
+{
+	m_environment.printMessage( QString( "Received data from '%1:%2': '%3'." ).arg( _fromAddress ).arg( _fromPort ).arg( _data.data() ) );
+
+} // ServerEngine::onDataReceive
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 GameManager::runActionsProcessing()
 {
 	while( m_actionsQueue->hasActions() )
@@ -98,6 +124,8 @@ GameManager::runActionsProcessing()
 		boost::intrusive_ptr< IAction > action = m_actionsQueue->popFrontAction();
 
 		action->doAction();
+
+		m_connection.sendDataTo( Framework::Core::NetworkManager::ConnectionInfo( "127.0.0.1", 2013 ), QString( "action was finished: '%1'" ).arg( (int)action.get() ).toUtf8() );
 	}
 
 } // GameManager::runActionsProcessing

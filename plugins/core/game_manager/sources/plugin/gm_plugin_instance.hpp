@@ -9,6 +9,14 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Tools
+{
+	namespace Core
+	{
+		struct IMessenger;
+	}
+}
+
 namespace Framework
 {
 	namespace Core
@@ -16,6 +24,11 @@ namespace Framework
 		namespace MultithreadingManager
 		{
 			struct IMultithreadingManager;
+		}
+
+		namespace NetworkManager
+		{
+			struct IConnectionManager;
 		}
 
 		namespace SoundManager
@@ -75,6 +88,8 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	boost::intrusive_ptr< Tools::Core::IMessenger > getSystemMessenger() const;
+
 	boost::intrusive_ptr< Framework::Core::MultithreadingManager::IMultithreadingManager >
 		getMultithreadingManager() const;
 
@@ -83,6 +98,9 @@ public:
 
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
 		getLandscapeManager() const;
+
+	boost::intrusive_ptr< Framework::Core::NetworkManager::IConnectionManager >
+		getConnectionManager() const;
 
 /*---------------------------------------------------------------------------*/
 

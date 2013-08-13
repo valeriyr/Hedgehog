@@ -9,6 +9,18 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Framework
+{
+	namespace Core
+	{
+		namespace NetworkManager
+		{
+			struct IUdpConnection;
+			struct ConnectionInfo;
+		}
+	}
+}
+
 namespace Plugins
 {
 	namespace Core
@@ -47,6 +59,17 @@ struct IEnvironment
 /*---------------------------------------------------------------------------*/
 
 	virtual void playSound( const QString& _resourcePath ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void printMessage( const QString& _message ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual Framework::Core::NetworkManager::IUdpConnection&
+		getConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const = 0;
+
+	virtual void closeConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

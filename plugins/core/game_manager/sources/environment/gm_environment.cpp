@@ -6,9 +6,16 @@
 #include "game_manager/sources/plugin/gm_plugin_instance.hpp"
 
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
+
+#include "network_manager/ih/nm_iconnection_manager.hpp"
+
 #include "sound_manager/ih/sm_isound_manager.hpp"
+
 #include "landscape_model/ih/lm_ilandscape_manager.hpp"
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
+
+#include "messenger/ms_imessenger.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -77,6 +84,39 @@ Environment::playSound( const QString& _resourcePath ) const
 	m_pluginInstance.getSoundManager()->play( _resourcePath );
 
 } // Environment::playSound
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::printMessage( const QString& _message ) const
+{
+	m_pluginInstance.getSystemMessenger()->printMessage( _message );
+
+} // Environment::printMessage
+
+
+/*---------------------------------------------------------------------------*/
+
+
+Framework::Core::NetworkManager::IUdpConnection&
+Environment::getConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const
+{
+	return m_pluginInstance.getConnectionManager()->getUdpConnection( _connectionInfo );
+
+} // Environment::getConnection
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::closeConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const
+{
+	m_pluginInstance.getConnectionManager()->closeUdpConnection( _connectionInfo );
+
+} // Environment::closeConnection
 
 
 /*---------------------------------------------------------------------------*/

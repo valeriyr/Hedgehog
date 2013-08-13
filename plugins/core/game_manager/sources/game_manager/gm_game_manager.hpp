@@ -6,6 +6,21 @@
 
 #include "game_manager/ih/gm_igame_manager.hpp"
 
+#include "network_manager/h/nm_connection_info.hpp"
+
+/*---------------------------------------------------------------------------*/
+
+namespace Framework
+{
+	namespace Core
+	{
+		namespace NetworkManager
+		{
+			struct IUdpConnection;
+		}
+	}
+}
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -55,6 +70,13 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void onDataReceive(
+			const QString& _fromAddress
+		,	const unsigned int _fromPort
+		,	const QByteArray& _data );
+
+/*---------------------------------------------------------------------------*/
+
 	void runActionsProcessing();
 
 /*---------------------------------------------------------------------------*/
@@ -64,6 +86,10 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	Framework::Core::NetworkManager::ConnectionInfo m_connectionInfo;
+
+	Framework::Core::NetworkManager::IUdpConnection& m_connection;
 
 	boost::intrusive_ptr< IActionsQueue > m_actionsQueue;
 

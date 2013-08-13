@@ -3,7 +3,10 @@
 
 #include "game_manager/sources/plugin/gm_plugin_instance.hpp"
 
+#include "messenger/ms_imessenger.hpp"
+
 #include "plugins_manager/h/pm_plugin_factory.hpp"
+#include "plugins_manager/h/pm_plugin_id.hpp"
 
 #include "game_manager/sources/game_manager/gm_game_manager.hpp"
 #include "game_manager/sources/environment/gm_environment.hpp"
@@ -12,12 +15,14 @@
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 #include "multithreading_manager/h/mm_plugin_id.hpp"
 
+#include "network_manager/h/nm_plugin_id.hpp"
+#include "network_manager/ih/nm_iconnection_manager.hpp"
+
 #include "sound_manager/ih/sm_isound_manager.hpp"
 #include "sound_manager/h/sm_plugin_id.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_manager.hpp"
 #include "landscape_model/h/lm_plugin_id.hpp"
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -81,6 +86,20 @@ PluginInstance::close()
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< Tools::Core::IMessenger >
+PluginInstance::getSystemMessenger() const
+{
+	return
+		getPluginInterface< Tools::Core::IMessenger >(
+				Framework::Core::PluginsManager::PID_PLUGINS_MANAGER
+			,	Tools::Core::IID_MESSENGER );
+
+} // PluginInstance::getSystemMessenger
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< Framework::Core::MultithreadingManager::IMultithreadingManager >
 PluginInstance::getMultithreadingManager() const
 {
@@ -118,6 +137,20 @@ PluginInstance::getLandscapeManager() const
 			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_MANAGER );
 
 } // PluginInstance::getLandscapeManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::NetworkManager::IConnectionManager >
+PluginInstance::getConnectionManager() const
+{
+	return
+		getPluginInterface< Framework::Core::NetworkManager::IConnectionManager >(
+				Framework::Core::NetworkManager::PID_NETWORK_MANAGER
+			,	Framework::Core::NetworkManager::IID_CONNECTION_MANAGER );
+
+} // PluginInstance::getConnectionManager
 
 
 /*---------------------------------------------------------------------------*/

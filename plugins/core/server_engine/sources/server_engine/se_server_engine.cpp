@@ -19,7 +19,7 @@ namespace ServerEngine {
 
 ServerEngine::ServerEngine( const IEnvironment& _environment )
 	:	m_environment( _environment )
-	,	m_connectionInfo( "localhost", 1988 )
+	,	m_connectionInfo( "127.0.0.1", 2013 )
 	,	m_connection( _environment.getConnection( m_connectionInfo ) )
 {
 	m_connection.addConnectionListener( this );
@@ -51,7 +51,9 @@ ServerEngine::onDataReceive(
 	,	const unsigned int _fromPort
 	,	const QByteArray& _data )
 {
-	m_environment.printMessage( QString( "Received data from '%1:%2': %3." ).arg( _fromAddress ).arg( _fromPort ).arg( _data.data() ) );
+	m_environment.printMessage( QString( "Received data from '%1:%2': '%3'." ).arg( _fromAddress ).arg( _fromPort ).arg( _data.data() ) );
+
+	m_connection.sendDataTo( Framework::Core::NetworkManager::ConnectionInfo( "127.0.0.1", 1988 ), QString( "waiting for the new actions" ).toUtf8() );
 
 } // ServerEngine::onDataReceive
 

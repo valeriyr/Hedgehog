@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "network_manager/ih/nm_iconnection_listener.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,7 +33,7 @@ namespace GameManager {
 /*---------------------------------------------------------------------------*/
 
 struct IGameManager
-	:	public Tools::Core::IBase
+	:	public Framework::Core::NetworkManager::IConnectionListener
 {
 
 /*---------------------------------------------------------------------------*/
