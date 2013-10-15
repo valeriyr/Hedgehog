@@ -38,11 +38,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void runThread(
-			const QString& _threadName
-		,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const;
+	/*virtual*/ void startThread( const QString& _threadName ) const;
 
 	/*virtual*/ void stopThread( const QString& _threadName ) const;
+
+	/*virtual*/ Framework::Core::MultithreadingManager::TaskHandle
+		pushTask(
+				const QString& _threadName
+			,	Framework::Core::MultithreadingManager::RunnableFunction _function
+			,	const qint64 _period ) const;
 
 /*---------------------------------------------------------------------------*/
 

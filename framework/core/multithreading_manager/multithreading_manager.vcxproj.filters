@@ -19,11 +19,14 @@
     <Filter Include="Runnable">
       <UniqueIdentifier>{1681e637-7727-49bc-8b3d-2afa21088beb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Worker">
-      <UniqueIdentifier>{c8647747-90e3-4085-a2a1-fd39d0fd5dc8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources Manager">
       <UniqueIdentifier>{58991c0a-4e59-4946-af23-ee7d65883011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Workers">
+      <UniqueIdentifier>{c8647747-90e3-4085-a2a1-fd39d0fd5dc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tasks Queue">
+      <UniqueIdentifier>{b08138ef-5874-4988-8edd-dc14aeba1bfa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,11 +42,17 @@
     <ClCompile Include="sources\runnable\mm_runnable.cpp">
       <Filter>Runnable</Filter>
     </ClCompile>
-    <ClCompile Include="sources\worker\mm_worker.cpp">
-      <Filter>Worker</Filter>
-    </ClCompile>
     <ClCompile Include="sources\resources_manager\mm_resources_manager.cpp">
       <Filter>Resources Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\workers\mm_worker.cpp">
+      <Filter>Workers</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\workers\mm_main_thread_worker.cpp">
+      <Filter>Workers</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\tasks_queue\mm_tasks_queue.cpp">
+      <Filter>Tasks Queue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,10 +83,22 @@
     <ClInclude Include="sources\resources_manager\mm_resources_manager.hpp">
       <Filter>Resources Manager</Filter>
     </ClInclude>
+    <ClInclude Include="h\mm_task_handle.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="h\mm_external_resources.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\tasks_queue\mm_tasks_queue.hpp">
+      <Filter>Tasks Queue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="sources\worker\mm_worker.hpp">
-      <Filter>Worker</Filter>
+    <CustomBuild Include="sources\workers\mm_main_thread_worker.hpp">
+      <Filter>Workers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\workers\mm_worker.hpp">
+      <Filter>Workers</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

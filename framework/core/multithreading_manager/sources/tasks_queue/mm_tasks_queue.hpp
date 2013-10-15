@@ -1,6 +1,6 @@
 
-#ifndef __MM_WORKER_HPP__
-#define __MM_WORKER_HPP__
+#ifndef __MM_TASKS_QUEUE_HPP__
+#define __MM_TASKS_QUEUE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,13 +14,45 @@ namespace MultithreadingManager {
 
 /*---------------------------------------------------------------------------*/
 
-class Worker
-	:	public QObject
-{
+	struct TaskData
+	{
+
+		TaskData()
+			:	m_function()
+			,	m_period()
+			,	m_isInitialized( false )
+		{}
+
+		TaskData(
+				RunnableFunction _function
+			,	const qint64 _period
+			)
+			:	m_function( _function )
+			,	m_period( _period )
+			,	m_lastStart( 0 )
+			,	m_isInitialized( true )
+		{}
+
+		TaskData( RunnableFunction _function )
+			:	m_function( _function )
+			,	m_period( 0 )
+			,	m_lastStart( 0 )
+			,	m_isInitialized( true )
+		{}
+
+		bool isPeriodical() { return m_period > 0; }
+
+		RunnableFunction m_function;
+		qint64 m_period;
+		qint64 m_lastStart;
+
+		const bool m_isInitialized;
+	};
 
 /*---------------------------------------------------------------------------*/
 
-	Q_OBJECT
+class TasksQueue
+{
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,28 +60,23 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Worker(
-			RunnableFunction _function
-		,	const unsigned int _period
-		,	QObject* _parent = NULL );
+	TasksQueue();
 
-	virtual ~Worker();
+	virtual ~TasksQueue();
 
 /*---------------------------------------------------------------------------*/
 
-public slots:
+	QString pushTask( RunnableFunction _function, const qint64 _period );
+
+	void removeTask( const QString& _taskId );
+
+	void clear();
+
+	TaskData getTaskForProcessing();
 
 /*---------------------------------------------------------------------------*/
 
-	void startTimer();
-
-/*---------------------------------------------------------------------------*/
-
-private slots:
-
-/*---------------------------------------------------------------------------*/
-
-	void doWork();
+	unsigned int refreshPeriodicalTasks();
 
 /*---------------------------------------------------------------------------*/
 
@@ -57,11 +84,19 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	RunnableFunction m_function;
+	typedef
+		std::map< QString, TaskData >
+		TasksCollection;
+	typedef
+		TasksCollection::iterator
+		TasksCollectionIterator;
 
-	const unsigned int m_period;
+/*---------------------------------------------------------------------------*/
 
-	QTimer* m_timer;
+	TasksCollection m_readyTasksCollection;
+	TasksCollection m_periodicalTasksCollection;
+
+	QMutex m_taskQueueLocker;
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,4 +110,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __MM_WORKER_HPP__
+#endif // __MM_TASKS_QUEUE_HPP__

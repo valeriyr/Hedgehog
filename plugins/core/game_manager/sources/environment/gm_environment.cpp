@@ -55,13 +55,11 @@ Environment::getCurrentLandscape() const
 
 
 void
-Environment::runThread(
-		const QString& _threadName
-	,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const
+Environment::startThread( const QString& _threadName ) const
 {
-	m_pluginInstance.getMultithreadingManager()->run( _threadName, _function, 1000 );
+	m_pluginInstance.getMultithreadingManager()->startThread( _threadName );
 
-} // Environment::runThread
+} // Environment::startThread
 
 
 /*---------------------------------------------------------------------------*/
@@ -70,9 +68,23 @@ Environment::runThread(
 void
 Environment::stopThread( const QString& _threadName ) const
 {
-	m_pluginInstance.getMultithreadingManager()->stop( _threadName );
+	m_pluginInstance.getMultithreadingManager()->stopThread( _threadName );
 
 } // Environment::stopThread
+
+
+/*---------------------------------------------------------------------------*/
+
+
+Framework::Core::MultithreadingManager::TaskHandle
+Environment::pushTask(
+		const QString& _threadName
+	,	Framework::Core::MultithreadingManager::RunnableFunction _function
+	,	const qint64 _period ) const
+{
+	return m_pluginInstance.getMultithreadingManager()->pushTask( _threadName, _function, _period );
+
+} // Environment::pushTask
 
 
 /*---------------------------------------------------------------------------*/

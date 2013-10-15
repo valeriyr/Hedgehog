@@ -29,11 +29,15 @@
     <ClCompile Include="sources\plugin\mm_plugin_instance.cpp" />
     <ClCompile Include="sources\resources_manager\mm_resources_manager.cpp" />
     <ClCompile Include="sources\runnable\mm_runnable.cpp" />
-    <ClCompile Include="sources\worker\mm_worker.cpp" />
+    <ClCompile Include="sources\tasks_queue\mm_tasks_queue.cpp" />
+    <ClCompile Include="sources\workers\mm_main_thread_worker.cpp" />
+    <ClCompile Include="sources\workers\mm_worker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="h\mm_external_resources.hpp" />
     <ClInclude Include="h\mm_plugin_id.hpp" />
     <ClInclude Include="h\mm_runnable_function.hpp" />
+    <ClInclude Include="h\mm_task_handle.hpp" />
     <ClInclude Include="ih\mm_imultithreading_manager.hpp" />
     <ClInclude Include="ih\mm_iresources_manager.hpp" />
     <ClInclude Include="sources\multithreading_manager\mm_multithreading_manager.hpp" />
@@ -41,7 +45,16 @@
     <ClInclude Include="sources\plugin\mm_plugin_instance.hpp" />
     <ClInclude Include="sources\resources_manager\mm_resources_manager.hpp" />
     <ClInclude Include="sources\runnable\mm_runnable.hpp" />
-    <CustomBuild Include="sources\worker\mm_worker.hpp">
+    <ClInclude Include="sources\tasks_queue\mm_tasks_queue.hpp" />
+    <CustomBuild Include="sources\workers\mm_main_thread_worker.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
@@ -50,14 +63,24 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="sources\workers\mm_worker.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
     </CustomBuild>
   </ItemGroup>
   <PropertyGroup Label="Globals">

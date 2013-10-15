@@ -1,13 +1,11 @@
 
-#ifndef __MM_IMULTITHREADING_MANAGER_HPP__
-#define __MM_IMULTITHREADING_MANAGER_HPP__
+#ifndef __MM_WORKER_HPP__
+#define __MM_WORKER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
-
 #include "multithreading_manager/h/mm_runnable_function.hpp"
-#include "multithreading_manager/h/mm_task_handle.hpp"
+#include "multithreading_manager/sources/tasks_queue/mm_tasks_queue.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,32 +15,57 @@ namespace MultithreadingManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_MULTITHREADING_MANAGER = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct IMultithreadingManager
-	:	public Tools::Core::IBase
+class Worker
+	:	public QObject
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void startThread( const QString& _threadName ) = 0;
-
-	virtual void stopThread( const QString& _threadName ) = 0;
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void run( RunnableFunction _function ) = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual TaskHandle pushTask(
-			const QString& _threadName
-		,	RunnableFunction _function
-		,	const qint64 _period ) = 0;
+	Worker( QObject* _parent = NULL );
 
-	virtual void removeTask( const TaskHandle& _taskId ) = 0;
+	virtual ~Worker();
+
+/*---------------------------------------------------------------------------*/
+
+	QString pushTask( RunnableFunction _function, const qint64 _period );
+
+	void removeTask( const QString& _taskId );
+
+	void refreshPeriodicalTasks();
+
+/*---------------------------------------------------------------------------*/
+
+	void clear();
+
+	void stop();
+
+/*---------------------------------------------------------------------------*/
+
+public slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void doWork();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	QSemaphore m_semaphore;
+
+	TasksQueue m_tasksQueue;
+
+	bool m_stopped;
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,4 +79,4 @@ struct IMultithreadingManager
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __MM_IMULTITHREADING_MANAGER_HPP__
+#endif // __MM_WORKER_HPP__

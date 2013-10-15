@@ -57,7 +57,8 @@ GameManager::~GameManager()
 void
 GameManager::run()
 {
-	m_environment.runThread( "actionsProcessingLoop", boost::bind( &GameManager::runActionsProcessing, this ) );
+	m_environment.startThread( "actionsProcessingLoop" );
+	m_environment.pushTask( "actionsProcessingLoop", boost::bind( &GameManager::runActionsProcessing, this ), 100 );
 
 } // GameManager::run
 

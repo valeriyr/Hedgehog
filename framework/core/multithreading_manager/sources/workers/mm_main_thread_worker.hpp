@@ -1,10 +1,11 @@
 
-#ifndef __MM_MULTITHREADING_MANAGER_HPP__
-#define __MM_MULTITHREADING_MANAGER_HPP__
+#ifndef __MM_MAIN_THREAD_WORKER_HPP__
+#define __MM_MAIN_THREAD_WORKER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
+#include "multithreading_manager/h/mm_runnable_function.hpp"
+#include "multithreading_manager/sources/tasks_queue/mm_tasks_queue.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,14 +15,13 @@ namespace MultithreadingManager {
 
 /*---------------------------------------------------------------------------*/
 
-class Worker;
-class MainThreadWorker;
+class MainThreadWorker
+	:	public QObject
+{
 
 /*---------------------------------------------------------------------------*/
 
-class MultithreadingManager
-	:	public Tools::Core::BaseWrapper< IMultithreadingManager >
-{
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,28 +29,39 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	MultithreadingManager();
-
-	virtual ~MultithreadingManager();
+	static const unsigned int ms_period = 100;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void startThread( const QString& _threadName );
+	MainThreadWorker( QObject* _parent = NULL );
 
-	/*virtual*/ void stopThread( const QString& _threadName );
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void run( RunnableFunction _function );
+	virtual ~MainThreadWorker();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ TaskHandle pushTask(
-			const QString& _threadName
-		,	RunnableFunction _function
-		,	const qint64 _period );
+	QString pushTask( RunnableFunction _function, const qint64 _period );
 
-	/*virtual*/ void removeTask( const TaskHandle& _taskHandle );
+	void removeTask( const QString& _taskId );
+
+	void clear();
+
+	void refreshPeriodicalTasks();
+
+/*---------------------------------------------------------------------------*/
+
+public slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void start();
+
+/*---------------------------------------------------------------------------*/
+
+private slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void doWork();
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,42 +69,11 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void refreshPeriodicalTasks();
+	static const unsigned int ms_oneTickTimeLimit = 50;
 
-/*---------------------------------------------------------------------------*/
+	QTimer* m_timer;
 
-	struct ThreadData
-	{
-		ThreadData(
-				boost::shared_ptr< QThread > _thread
-			,	Worker* _worker
-			)
-			:	m_thread( _thread )
-			,	m_worker( _worker )
-		{
-			assert( m_thread && m_worker && "Worker and Thread should not be NULL!" );
-		}
-
-		boost::shared_ptr< QThread > m_thread;
-		Worker* m_worker;
-	};
-
-/*---------------------------------------------------------------------------*/
-
-	typedef
-		std::map< QString, ThreadData >
-		ThreadsCollection;
-	typedef
-		ThreadsCollection::iterator
-		ThreadsCollectionIterator;
-
-/*---------------------------------------------------------------------------*/
-
-	QThreadPool m_threadPool;
-
-	ThreadsCollection m_threadsCollection;
-
-	boost::shared_ptr< MainThreadWorker > m_mainThreadWorker;
+	TasksQueue m_tasksQueue;
 
 /*---------------------------------------------------------------------------*/
 
@@ -107,4 +87,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __MM_MULTITHREADING_MANAGER_HPP__
+#endif // __MM_WORKER_HPP__

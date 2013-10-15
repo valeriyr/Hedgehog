@@ -5,7 +5,9 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+
 #include "multithreading_manager/h/mm_runnable_function.hpp"
+#include "multithreading_manager/h/mm_task_handle.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,11 +52,15 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void runThread(
-			const QString& _threadName
-		,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const = 0;
+	virtual void startThread( const QString& _threadName ) const = 0;
 
 	virtual void stopThread( const QString& _threadName ) const = 0;
+
+	virtual Framework::Core::MultithreadingManager::TaskHandle
+		pushTask(
+			const QString& _threadName
+		,	Framework::Core::MultithreadingManager::RunnableFunction _function
+		,	const qint64 _period ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
