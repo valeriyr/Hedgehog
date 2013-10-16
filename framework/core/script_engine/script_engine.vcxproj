@@ -83,36 +83,36 @@
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/</OutDir>
-    <ExecutablePath>$(QTPATH)\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(QTPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(QTPATH)\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(LIBPATH)\lua\bin;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(LIBPATH)\lua\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(QTPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LIBPATH)\lua\lib;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/</OutDir>
-    <ExecutablePath>$(QTPATH)\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(QTPATH)\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(QTPATH)\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(LIBPATH)\lua\bin64;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(LIBPATH)\lua\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(QTPATH)\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LIBPATH)\lua\lib64;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/</OutDir>
     <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
-    <ExecutablePath>$(QTPATH)\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(QTPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(QTPATH)\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(LIBPATH)\lua\bin;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(LIBPATH)\lua\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(QTPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LIBPATH)\lua\lib;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/</OutDir>
     <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
-    <ExecutablePath>$(QTPATH)\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(QTPATH)\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(QTPATH)\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(LIBPATH)\lua\bin64;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(LIBPATH)\lua\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(QTPATH)\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LIBPATH)\lua\lib64;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -132,7 +132,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Cored.lib;lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -152,7 +152,7 @@
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Cored.lib;lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -176,7 +176,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Core.lib;lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -200,7 +200,7 @@
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Core.lib;lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
