@@ -13,6 +13,9 @@
     <Filter Include="External Headers">
       <UniqueIdentifier>{b9cd7a99-ad58-4538-8b5e-4b6b8acaffc7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts Executor">
+      <UniqueIdentifier>{8ea69a59-3e17-463d-9888-9179f54175a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\se_ph.cpp">
@@ -20,6 +23,9 @@
     </ClCompile>
     <ClCompile Include="sources\plugin\se_plugin_instance.cpp">
       <Filter>Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\scripts_executor\se_scripts_executor.cpp">
+      <Filter>Scripts Executor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -31,6 +37,12 @@
     </ClInclude>
     <ClInclude Include="h\se_plugin_id.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\se_iscripts_executor.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\scripts_executor\se_scripts_executor.hpp">
+      <Filter>Scripts Executor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

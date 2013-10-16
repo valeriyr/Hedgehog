@@ -26,11 +26,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sources\plugin\se_plugin_instance.cpp" />
+    <ClCompile Include="sources\scripts_executor\se_scripts_executor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\se_plugin_id.hpp" />
+    <ClInclude Include="ih\se_iscripts_executor.hpp" />
     <ClInclude Include="sources\ph\se_ph.hpp" />
     <ClInclude Include="sources\plugin\se_plugin_instance.hpp" />
+    <ClInclude Include="sources\scripts_executor\se_scripts_executor.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{050CE3C8-8DC6-475B-82CB-D5247CE44A96}</ProjectGuid>

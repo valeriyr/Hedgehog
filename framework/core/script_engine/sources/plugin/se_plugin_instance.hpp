@@ -15,6 +15,10 @@ namespace ScriptEngine {
 
 /*---------------------------------------------------------------------------*/
 
+struct IScriptsExecutor;
+
+/*---------------------------------------------------------------------------*/
+
 class PluginInstance
 	:	public Framework::Core::PluginsManager::BasePlugin
 {
@@ -44,6 +48,8 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< IScriptsExecutor > m_scriptsExecutor;
 
 /*---------------------------------------------------------------------------*/
 
