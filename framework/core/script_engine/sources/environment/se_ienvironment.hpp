@@ -1,11 +1,20 @@
 
-#ifndef __SE_ISCRIPTS_EXECUTOR_HPP__
-#define __SE_ISCRIPTS_EXECUTOR_HPP__
+#ifndef __SE_IENVIRONMENT_HPP__
+#define __SE_IENVIRONMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
-#include "script_engine/h/se_register.hpp"
+
+/*---------------------------------------------------------------------------*/
+
+namespace Tools
+{
+	namespace Core
+	{
+		struct IMessenger;
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,23 +24,15 @@ namespace ScriptEngine {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_SCRIPTS_EXECUTOR = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct IScriptsExecutor
+struct IEnvironment
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void executeFile( const QString& _fileName ) = 0;
+	virtual boost::intrusive_ptr< Tools::Core::IMessenger > getSystemMessenger() const = 0;
 
-	virtual void executeScript( const QString& _script ) = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual Register getRegister() = 0;
+	virtual const QString& getSystemConfigDirectory() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,4 +46,4 @@ struct IScriptsExecutor
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SE_ISCRIPTS_EXECUTOR_HPP__
+#endif // __SE_IENVIRONMENT_HPP__

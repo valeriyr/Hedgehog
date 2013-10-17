@@ -16,6 +16,12 @@
     <Filter Include="Scripts Executor">
       <UniqueIdentifier>{8ea69a59-3e17-463d-9888-9179f54175a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{912afb30-12e5-48d6-bdba-7ac3853954dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal Resources">
+      <UniqueIdentifier>{7224c934-adde-40e5-aae8-e9ee706ad64f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\se_ph.cpp">
@@ -26,6 +32,12 @@
     </ClCompile>
     <ClCompile Include="sources\scripts_executor\se_scripts_executor.cpp">
       <Filter>Scripts Executor</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\environment\se_environment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\resources\se_internal_resources.cpp">
+      <Filter>Internal Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +55,18 @@
     </ClInclude>
     <ClInclude Include="sources\scripts_executor\se_scripts_executor.hpp">
       <Filter>Scripts Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="h\se_register.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\se_environment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\se_ienvironment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\resources\se_internal_resources.hpp">
+      <Filter>Internal Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

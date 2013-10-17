@@ -9,6 +9,27 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Tools
+{
+	namespace Core
+	{
+		struct IMessenger;
+	}
+}
+
+namespace Framework
+{
+	namespace Core
+	{
+		namespace PluginsManager
+		{
+			struct ISystemInformation;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Framework {
 namespace Core {
 namespace ScriptEngine {
@@ -16,6 +37,7 @@ namespace ScriptEngine {
 /*---------------------------------------------------------------------------*/
 
 struct IScriptsExecutor;
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,11 +67,20 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	boost::intrusive_ptr< Tools::Core::IMessenger > getSystemMessenger() const;
+
+	boost::intrusive_ptr< Core::PluginsManager::ISystemInformation >
+		getSystemInformation() const;
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< IScriptsExecutor > m_scriptsExecutor;
+
+	boost::intrusive_ptr< IEnvironment > m_environment;
 
 /*---------------------------------------------------------------------------*/
 

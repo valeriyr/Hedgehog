@@ -1,20 +1,10 @@
 
-#ifndef __SE_SCRIPTS_EXECUTOR_HPP__
-#define __SE_SCRIPTS_EXECUTOR_HPP__
+#ifndef __SE_ENVIRONMENT_HPP__
+#define __SE_ENVIRONMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "script_engine/ih/se_iscripts_executor.hpp"
-
-/*---------------------------------------------------------------------------*/
-
-namespace Tools
-{
-	namespace Core
-	{
-		struct IMessenger;
-	}
-}
+#include "script_engine/sources/environment/se_ienvironment.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -24,12 +14,12 @@ namespace ScriptEngine {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEnvironment;
+class PluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
-class ScriptsExecutor
-	:	public Tools::Core::BaseWrapper< IScriptsExecutor >
+class Environment
+	:	public Tools::Core::BaseWrapper< IEnvironment >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -38,19 +28,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ScriptsExecutor( const IEnvironment& _environment );
+	Environment( PluginInstance& _pluginInstance );
 
-	virtual ~ScriptsExecutor();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void executeFile( const QString& _fileName );
-
-	/*virtual*/ void executeScript( const QString& _script );
+	virtual ~Environment();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ Register getRegister();
+	/*virtual*/ boost::intrusive_ptr< Tools::Core::IMessenger > getSystemMessenger() const;
+
+	/*virtual*/ const QString& getSystemConfigDirectory() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,13 +44,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void exportScriptAPI();
-
-/*---------------------------------------------------------------------------*/
-
-	lua_State* m_luaEngine;
-
-	const IEnvironment& m_environment;
+	PluginInstance& m_pluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
@@ -78,4 +58,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SE_SCRIPTS_EXECUTOR_HPP__
+#endif // __SE_ENVIRONMENT_HPP__

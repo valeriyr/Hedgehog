@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\environment\se_environment.cpp" />
     <ClCompile Include="sources\ph\se_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -26,13 +27,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sources\plugin\se_plugin_instance.cpp" />
+    <ClCompile Include="sources\resources\se_internal_resources.cpp" />
     <ClCompile Include="sources\scripts_executor\se_scripts_executor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\se_plugin_id.hpp" />
+    <ClInclude Include="h\se_register.hpp" />
     <ClInclude Include="ih\se_iscripts_executor.hpp" />
+    <ClInclude Include="sources\environment\se_environment.hpp" />
+    <ClInclude Include="sources\environment\se_ienvironment.hpp" />
     <ClInclude Include="sources\ph\se_ph.hpp" />
     <ClInclude Include="sources\plugin\se_plugin_instance.hpp" />
+    <ClInclude Include="sources\resources\se_internal_resources.hpp" />
     <ClInclude Include="sources\scripts_executor\se_scripts_executor.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -123,7 +129,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;SCRIPT_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>script_engine/sources/ph/se_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..;../../../tools/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../3rd-party/core/luabind</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,7 +138,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>Qt5Cored.lib;lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Cored.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -143,7 +149,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;SCRIPT_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>script_engine/sources/ph/se_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..;../../../tools/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../3rd-party/core/luabind</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,7 +158,7 @@
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>Qt5Cored.lib;lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Cored.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -165,7 +171,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;SCRIPT_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>script_engine/sources/ph/se_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..;../../../tools/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../3rd-party/core/luabind</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -176,7 +182,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>Qt5Core.lib;lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Core.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -189,7 +195,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;SCRIPT_ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>script_engine/sources/ph/se_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
-      <AdditionalIncludeDirectories>./..;../../../tools/core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./..;../../../tools/core;../../../3rd-party/core/luabind</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -200,7 +206,7 @@
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>Qt5Core.lib;lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Core.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
