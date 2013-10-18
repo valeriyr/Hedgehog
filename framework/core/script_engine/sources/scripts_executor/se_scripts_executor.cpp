@@ -17,6 +17,17 @@ namespace ScriptEngine {
 
 /*---------------------------------------------------------------------------*/
 
+
+boost::intrusive_ptr< Tools::Core::IMessenger > ScriptsExecutor::ms_externalMessenger;
+
+void print( boost::intrusive_ptr< Tools::Core::IMessenger >& _messenger, const char* _message )
+{
+	_messenger->printMessage( _message );
+}
+
+/*---------------------------------------------------------------------------*/
+
+
 ScriptsExecutor::ScriptsExecutor( const IEnvironment& _environment )
 	:	m_luaEngine( lua_open() )
 	,	m_environment( _environment )
@@ -88,7 +99,30 @@ Register
 ScriptsExecutor::getRegister()
 {
 	return Register( m_luaEngine );
-}
+
+} // ScriptsExecutor::getRegister
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ScriptsExecutor::setExternalMessenger( boost::intrusive_ptr< Tools::Core::IMessenger > _externalMessenger )
+{
+	ms_externalMessenger = _externalMessenger;
+
+} // ScriptsExecutor::setExternalMessenger
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Tools::Core::IMessenger >
+ScriptsExecutor::getExternalMessenger()
+{
+	return ms_externalMessenger;
+
+} // ScriptsExecutor::getExternalMessenger
 
 
 /*---------------------------------------------------------------------------*/
@@ -100,10 +134,10 @@ ScriptsExecutor::exportScriptAPI()
 	Register reg = getRegister();
 
 	reg
-		.registerClass< Tools::Core::IMessenger >( "Messenger" )
-			.withMethod( "printMessage", static_cast< void( Tools::Core::IMessenger::* )( const QString& ) >( &Tools::Core::IMessenger::printMessage ) );
+		.registerClass< Tools::Core::IMessenger >( "IMessenger" )
+			.withMethod( "printMessage", &print );
 
-	reg.pushObject( "systemMessenger", m_environment.getSystemMessenger() );
+	reg.registerFunction( "systemMessenger", &ScriptsExecutor::getExternalMessenger );
 
 } // ScriptsExecutor::exportScriptAPI
 

@@ -1,4 +1,6 @@
 
 function print(string)
-    systemMessager:systemMessenger(string)
+    systemMessenger():printMessage(string)
 end
+
+print("Hello from lua!")

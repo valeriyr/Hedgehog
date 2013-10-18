@@ -54,6 +54,12 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	static void setExternalMessenger( boost::intrusive_ptr< Tools::Core::IMessenger > _externalMessenger );
+
+	static boost::intrusive_ptr< Tools::Core::IMessenger > getExternalMessenger();
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
@@ -65,6 +71,8 @@ private:
 	lua_State* m_luaEngine;
 
 	const IEnvironment& m_environment;
+
+	static boost::intrusive_ptr< Tools::Core::IMessenger > ms_externalMessenger;
 
 /*---------------------------------------------------------------------------*/
 

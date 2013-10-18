@@ -75,6 +75,10 @@ public:
 	template< typename _TObject >
 	void pushObject( const char* _objectName, _TObject _object )
 	{
+		luabind::module( m_luaEngine )
+		[
+			luabind::def( _objectName, _object )
+		];
 	}
 
 private:

@@ -51,6 +51,8 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	ScriptsExecutor::setExternalMessenger( getSystemMessenger() );
+
 	m_environment.reset( new Environment( *this ) );
 	m_scriptsExecutor.reset( new ScriptsExecutor( *m_environment ) );
 
@@ -65,6 +67,8 @@ PluginInstance::close()
 {
 	m_scriptsExecutor.reset();
 	m_environment.reset();
+
+	ScriptsExecutor::setExternalMessenger( boost::intrusive_ptr< Tools::Core::IMessenger >() );
 
 } // PluginInstance::close
 
