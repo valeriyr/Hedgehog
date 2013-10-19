@@ -25,6 +25,7 @@ void print( boost::intrusive_ptr< Tools::Core::IMessenger >& _messenger, const c
 	_messenger->printMessage( _message );
 }
 
+
 /*---------------------------------------------------------------------------*/
 
 
