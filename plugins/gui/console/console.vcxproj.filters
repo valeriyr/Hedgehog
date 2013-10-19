@@ -25,6 +25,9 @@
     <Filter Include="Environment">
       <UniqueIdentifier>{687d02f0-d9f8-462d-a990-e55f0cac0fe3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input Widget">
+      <UniqueIdentifier>{0661aa7a-c240-4629-976a-582ad55cba36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\con_ph.cpp">
@@ -47,6 +50,9 @@
     </ClCompile>
     <ClCompile Include="sources\environment\con_environment.cpp">
       <Filter>Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\input_widget\con_input_widget.cpp">
+      <Filter>Input Widget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +84,9 @@
     </CustomBuild>
     <CustomBuild Include="sources\main_view\con_main_view.hpp">
       <Filter>Main View</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\input_widget\con_input_widget.hpp">
+      <Filter>Input Widget</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

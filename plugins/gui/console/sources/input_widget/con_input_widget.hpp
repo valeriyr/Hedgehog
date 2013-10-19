@@ -1,6 +1,6 @@
 
-#ifndef __CON_MAIN_WIDGET_HPP__
-#define __CON_MAIN_WIDGET_HPP__
+#ifndef __CON_INPUT_WIDGET_HPP__
+#define __CON_INPUT_WIDGET_HPP__
 
 
 /*---------------------------------------------------------------------------*/
@@ -11,12 +11,8 @@ namespace Console {
 
 /*---------------------------------------------------------------------------*/
 
-class InputWidget;
-
-/*---------------------------------------------------------------------------*/
-
-class MainWidget
-	:	public QWidget
+class InputWidget
+	:	public QLineEdit
 {
 
 /*---------------------------------------------------------------------------*/
@@ -29,13 +25,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	MainWidget();
+	InputWidget( QWidget* _parent = NULL );
 
-	virtual ~MainWidget();
-
-/*---------------------------------------------------------------------------*/
-
-	void pushMessage( const QString& _message );
+	virtual ~InputWidget();
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,38 +35,17 @@ signals:
 
 /*---------------------------------------------------------------------------*/
 
-	void commandWasEntered( const QString& _command );
+	void showNextCommand();
+
+	void showPreviousCommand();
 
 /*---------------------------------------------------------------------------*/
 
-private slots:
+protected:
 
 /*---------------------------------------------------------------------------*/
 
-	void onReturnPressed();
-
-	void onShowNextCommand();
-	void onShowPreviousCommand();
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	typedef
-		std::list< QString >
-		CommandsStack;
-	typedef
-		CommandsStack::iterator
-		CommandsStackIterator;
-
-	CommandsStack m_commandsStack;
-	CommandsStackIterator m_currentCommand;
-
-	QTextEdit* m_consoleDataView;
-
-	InputWidget* m_inputWidget;
+	void keyPressEvent( QKeyEvent* _event );
 
 /*---------------------------------------------------------------------------*/
 
@@ -88,4 +59,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __CON_MAIN_WIDGET_HPP__
+#endif // __CON_INPUT_WIDGET_HPP__
