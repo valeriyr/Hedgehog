@@ -1,6 +1,6 @@
 
-#ifndef __SE_REGISTER_HPP__
-#define __SE_REGISTER_HPP__
+#ifndef __SE_DATA_EXPORTER_HPP__
+#define __SE_DATA_EXPORTER_HPP__
 
 #include <luabind/luabind.hpp>
 
@@ -14,18 +14,18 @@ namespace ScriptEngine {
 /*---------------------------------------------------------------------------*/
 
 template < typename _TClass >
-class ClassRegister
+class ClassExporter
 {
 
 public:
 
-	ClassRegister( lua_State* _luaEngine, const char* _className )
+	ClassExporter( lua_State* _luaEngine, const char* _className )
 		:	m_luaEngine( _luaEngine )
 		,	m_class( _className )
 	{
 	}
 
-	~ClassRegister()
+	~ClassExporter()
 	{
 		luabind::module( m_luaEngine )
 		[
@@ -34,7 +34,7 @@ public:
 	}
 
 	template< typename _TMethod >
-	ClassRegister& withMethod( const char* _methodName, _TMethod _method )
+	ClassExporter& withMethod( const char* _methodName, _TMethod _method )
 	{
 		m_class.def( _methodName, _method );
 		return *this;
@@ -48,36 +48,27 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-class Register
+class DataExporter
 {
 
 public:
 
-	Register( lua_State* _luaEngine )
+	DataExporter( lua_State* _luaEngine )
 		:	m_luaEngine( _luaEngine )
 	{}
 
 	template< typename _TClass >
-	ClassRegister< _TClass > registerClass( const char* _className )
+	ClassExporter< _TClass > exportClass( const char* _className )
 	{
-		return ClassRegister< _TClass >( m_luaEngine, _className );
+		return ClassExporter< _TClass >( m_luaEngine, _className );
 	}
 
 	template< typename _TFunction >
-	void registerFunction( const char* _functionName, _TFunction _function )
+	void exportFunction( const char* _functionName, _TFunction _function )
 	{
 		luabind::module( m_luaEngine )
 		[
 			luabind::def( _functionName, _function )
-		];
-	}
-
-	template< typename _TObject >
-	void pushObject( const char* _objectName, _TObject _object )
-	{
-		luabind::module( m_luaEngine )
-		[
-			luabind::def( _objectName, _object )
 		];
 	}
 
@@ -94,4 +85,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SE_REGISTER_HPP__
+#endif // __SE_DATA_EXPORTER_HPP__

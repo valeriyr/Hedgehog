@@ -5,7 +5,7 @@
 
 #include "console/sources/plugin/con_plugin_instance.hpp"
 
-#include "commands_manager/ih/cm_icommand_executor.hpp"
+#include "script_engine/ih/se_iscripts_executor.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -35,9 +35,9 @@ Environment::~Environment()
 
 
 void
-Environment::executeCommand( const QString& _commandName ) const
+Environment::executeScript( const QString& _script ) const
 {
-	m_pluginInstance.getCommandExecutor()->executeCommand( _commandName );
+	m_pluginInstance.getScriptsExecutor()->executeScript( _script );
 
 } // Environment::executeCommand
 

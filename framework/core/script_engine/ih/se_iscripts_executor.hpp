@@ -5,7 +5,6 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
-#include "script_engine/h/se_register.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,10 +27,6 @@ struct IScriptsExecutor
 	virtual void executeFile( const QString& _fileName ) = 0;
 
 	virtual void executeScript( const QString& _script ) = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual Register getRegister() = 0;
 
 /*---------------------------------------------------------------------------*/
 

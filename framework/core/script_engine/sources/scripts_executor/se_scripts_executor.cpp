@@ -64,11 +64,17 @@ ScriptsExecutor::executeFile( const QString& _fileName )
 
 	if ( result != 0 ) 
 	{
-		// error lua_tostring(g_LuaVM, -1)
+		printErrorMessage();
 		return;
 	}
 
 	result = lua_pcall( m_luaEngine, 0, LUA_MULTRET, 0 );
+
+	if ( result != 0 ) 
+	{
+		printErrorMessage();
+		return;
+	}
 
 } // ScriptsExecutor::executeFile
 
@@ -83,11 +89,17 @@ ScriptsExecutor::executeScript( const QString& _script )
 
 	if ( result != 0 ) 
 	{
-		// error lua_tostring(g_LuaVM, -1)
+		printErrorMessage();
 		return;
 	}
 
 	result = lua_pcall( m_luaEngine, 0, LUA_MULTRET, 0 );
+
+	if ( result != 0 ) 
+	{
+		printErrorMessage();
+		return;
+	}
 
 } // ScriptsExecutor::executeScript
 
@@ -95,12 +107,12 @@ ScriptsExecutor::executeScript( const QString& _script )
 /*---------------------------------------------------------------------------*/
 
 
-Register
-ScriptsExecutor::getRegister()
+DataExporter
+ScriptsExecutor::getDataExporter()
 {
-	return Register( m_luaEngine );
+	return DataExporter( m_luaEngine );
 
-} // ScriptsExecutor::getRegister
+} // ScriptsExecutor::getDataExporter
 
 
 /*---------------------------------------------------------------------------*/
@@ -131,15 +143,27 @@ ScriptsExecutor::getExternalMessenger()
 void
 ScriptsExecutor::exportScriptAPI()
 {
-	Register reg = getRegister();
+	DataExporter exporter = getDataExporter();
 
-	reg
-		.registerClass< Tools::Core::IMessenger >( "IMessenger" )
+	exporter
+		.exportClass< Tools::Core::IMessenger >( "IMessenger" )
 			.withMethod( "printMessage", &print );
 
-	reg.registerFunction( "systemMessenger", &ScriptsExecutor::getExternalMessenger );
+	exporter.exportFunction( "systemMessenger", &ScriptsExecutor::getExternalMessenger );
 
 } // ScriptsExecutor::exportScriptAPI
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ScriptsExecutor::printErrorMessage()
+{
+	m_environment.getSystemMessenger()->printMessage( Tools::Core::IMessenger::MessegeLevel::Error
+													, QString( Resources::ScripterMessageFormat ).arg( lua_tostring( m_luaEngine, -1 ) ) );
+
+} // ScriptsExecutor::printErrorMessage
 
 
 /*---------------------------------------------------------------------------*/

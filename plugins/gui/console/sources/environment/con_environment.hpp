@@ -33,7 +33,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void executeCommand( const QString& _commandName ) const;
+	/*virtual*/ void executeScript( const QString& _script ) const;
 
 /*---------------------------------------------------------------------------*/
 

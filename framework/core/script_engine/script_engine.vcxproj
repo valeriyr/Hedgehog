@@ -31,8 +31,8 @@
     <ClCompile Include="sources\scripts_executor\se_scripts_executor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="h\se_data_exporter.hpp" />
     <ClInclude Include="h\se_plugin_id.hpp" />
-    <ClInclude Include="h\se_register.hpp" />
     <ClInclude Include="ih\se_iscripts_executor.hpp" />
     <ClInclude Include="sources\environment\se_environment.hpp" />
     <ClInclude Include="sources\environment\se_ienvironment.hpp" />

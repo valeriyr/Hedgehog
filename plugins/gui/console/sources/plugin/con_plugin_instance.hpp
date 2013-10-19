@@ -11,19 +11,19 @@
 
 namespace Framework
 {
+	namespace Core
+	{
+		namespace ScriptEngine
+		{
+			struct IScriptsExecutor;
+		}
+	}
+
 	namespace GUI
 	{
 		namespace WindowManager
 		{
 			 struct IWindowManager;
-		}
-	}
-
-	namespace Core
-	{
-		namespace CommandsManager
-		{
-			struct ICommandExecutor;
 		}
 	}
 }
@@ -83,8 +83,8 @@ public:
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		getWindowManager() const;
 
-	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
-		getCommandExecutor() const;
+	boost::intrusive_ptr< Framework::Core::ScriptEngine::IScriptsExecutor >
+		getScriptsExecutor() const;
 
 /*---------------------------------------------------------------------------*/
 

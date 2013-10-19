@@ -56,9 +56,6 @@
     <ClInclude Include="sources\scripts_executor\se_scripts_executor.hpp">
       <Filter>Scripts Executor</Filter>
     </ClInclude>
-    <ClInclude Include="h\se_register.hpp">
-      <Filter>External Headers</Filter>
-    </ClInclude>
     <ClInclude Include="sources\environment\se_environment.hpp">
       <Filter>Environment</Filter>
     </ClInclude>
@@ -67,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="sources\resources\se_internal_resources.hpp">
       <Filter>Internal Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="h\se_data_exporter.hpp">
+      <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

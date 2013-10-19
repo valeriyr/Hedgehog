@@ -15,6 +15,10 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+	extern const char* const ScripterMessageFormat;
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace ScriptEngine
 } // namespace Core

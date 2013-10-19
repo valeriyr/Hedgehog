@@ -15,7 +15,7 @@ namespace Resources {
 
 	const char* const ConsoleViewTitle = "Console";
 
-	const char* const ConsolePlaceHolderText = "You can enter some commands here. To see the list of all commands enter 'cm.commands.list'.";
+	const char* const ConsolePlaceHolderText = "You can enter some commands or any lua code here. To see the list of all commands enter 'cm.commands.list'.";
 
 /*---------------------------------------------------------------------------*/
 

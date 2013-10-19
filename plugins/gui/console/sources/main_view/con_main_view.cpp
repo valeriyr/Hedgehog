@@ -141,8 +141,8 @@ MainView::onCommandWasEntered( const QString& _command )
 {
 	try
 	{
-		m_environment.executeCommand( _command );
 		printMessage( _command );
+		m_environment.executeScript( _command );
 	}
 	catch( const Framework::Core::CommandsManager::IException& _exception )
 	{

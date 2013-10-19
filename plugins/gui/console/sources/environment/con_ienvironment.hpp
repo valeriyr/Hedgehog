@@ -19,7 +19,7 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void executeCommand( const QString& _commandName ) const = 0;
+	virtual void executeScript( const QString& _script ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
