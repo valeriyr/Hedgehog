@@ -23,6 +23,11 @@ namespace MultithreadingManager {
 			,	m_taskId( _taskId )
 		{}
 
+		bool isValid() const
+		{
+			return !m_taskId.isEmpty();
+		}
+
 		QString m_threadName;
 		QString m_taskId;
 	};
