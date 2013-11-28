@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{d346cf84-1029-4b9b-8628-15e84de4de2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{8f4466e9-401e-40a6-b4a4-fab93e7a838d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event Manager">
+      <UniqueIdentifier>{adc71e75-8857-4d2b-9054-ad43ce74296c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{b9cd7a99-ad58-4538-8b5e-4b6b8acaffc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{cccb5905-41f7-4043-9c10-3d2a3cb4868c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\ph\em_ph.cpp">
+      <Filter>Precompiled Header</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\plugin\em_plugin_instance.cpp">
+      <Filter>Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\event_manager\em_event_manager.cpp">
+      <Filter>Event Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\environment\em_environment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sources\ph\em_ph.hpp">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\plugin\em_plugin_instance.hpp">
+      <Filter>Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\em_ievent_manager.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\event_manager\em_event_manager.hpp">
+      <Filter>Event Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="h\em_plugin_id.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="h\em_event.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\em_environment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\em_ienvironment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="h\em_subscriber.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,48 +1,49 @@
 
-#ifndef __MM_IMULTITHREADING_MANAGER_HPP__
-#define __MM_IMULTITHREADING_MANAGER_HPP__
+#ifndef __SM_IEVENT_MANAGER_HPP__
+#define __SM_IEVENT_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
 
-#include "multithreading_manager/h/mm_runnable_function.hpp"
-#include "multithreading_manager/h/mm_task_handle.hpp"
+#include "event_manager/h/em_event.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
 namespace Core {
-namespace MultithreadingManager {
+namespace EventManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_MULTITHREADING_MANAGER = 0;
+	const unsigned int IID_EVENT_MANAGER = 0;
 
 /*---------------------------------------------------------------------------*/
 
-struct IMultithreadingManager
+struct IEventManager
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void startThread( const QString& _threadName ) = 0;
+	typedef
+		boost::function< void ( const Event& ) >
+		ProcessingFunction;
 
-	virtual void stopThread( const QString& _threadName ) = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual void run( RunnableFunction _function ) = 0;
+	typedef QString ConnectionId;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual TaskHandle pushTask(
-			const QString& _threadName
-		,	RunnableFunction _function
-		,	const qint64 _period ) = 0;
+	virtual void raise( const Event& _event ) = 0;
 
-	virtual void removeTask( const TaskHandle& _taskHandle ) = 0;
+/*---------------------------------------------------------------------------*/
+
+	virtual ConnectionId
+		subscribe(		const QString& _threadForProcessing
+					,	const QString& _eventType
+					,	const ProcessingFunction& _function ) = 0;
+
+	virtual void unsubscribe( const ConnectionId& _connectionId ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,10 +51,10 @@ struct IMultithreadingManager
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace MultithreadingManager
+} // namespace EventManager
 } // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __MM_IMULTITHREADING_MANAGER_HPP__
+#endif // __SM_IEVENT_MANAGER_HPP__

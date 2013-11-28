@@ -1,48 +1,52 @@
 
-#ifndef __MM_IMULTITHREADING_MANAGER_HPP__
-#define __MM_IMULTITHREADING_MANAGER_HPP__
+#ifndef __EM_ENVIRONMENT_HPP__
+#define __EM_ENVIRONMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
-
-#include "multithreading_manager/h/mm_runnable_function.hpp"
-#include "multithreading_manager/h/mm_task_handle.hpp"
+#include "event_manager/sources/environment/em_ienvironment.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
 namespace Core {
-namespace MultithreadingManager {
+namespace EventManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_MULTITHREADING_MANAGER = 0;
+class PluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
-struct IMultithreadingManager
-	:	public Tools::Core::IBase
+class Environment
+	:	public Tools::Core::BaseWrapper< IEnvironment >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void startThread( const QString& _threadName ) = 0;
-
-	virtual void stopThread( const QString& _threadName ) = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void run( RunnableFunction _function ) = 0;
+	Environment( PluginInstance& _pluginInstance );
+
+	virtual ~Environment();
 
 /*---------------------------------------------------------------------------*/
 
-	virtual TaskHandle pushTask(
-			const QString& _threadName
-		,	RunnableFunction _function
-		,	const qint64 _period ) = 0;
+	/*virtual*/ MultithreadingManager::TaskHandle
+		pushTask(	const QString& _threadName
+				,	const MultithreadingManager::RunnableFunction& _function );
 
-	virtual void removeTask( const TaskHandle& _taskHandle ) = 0;
+	/*virtual*/ void removeTask( const MultithreadingManager::TaskHandle& _taskHandle );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	PluginInstance& m_pluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,10 +54,10 @@ struct IMultithreadingManager
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace MultithreadingManager
+} // namespace EventManager
 } // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __MM_IMULTITHREADING_MANAGER_HPP__
+#endif // __EM_ENVIRONMENT_HPP__
