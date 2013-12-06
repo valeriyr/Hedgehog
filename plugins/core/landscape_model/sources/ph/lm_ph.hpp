@@ -7,6 +7,7 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QDataStream>
 #include <QtCore/QRect>
+#include <QtCore/QMutex>
 
 #include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>

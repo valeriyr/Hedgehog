@@ -24,6 +24,7 @@ LandscapeManager::LandscapeManager(
 	:	m_landscapeSerializer( _landscapeSerializer )
 	,	m_surfaceItemsCache( _surfaceItemsCache )
 	,	m_currentLandscape()
+	,	m_landscapeLocker()
 {
 } // LandscapeManager::LandscapeManager
 
@@ -71,6 +72,17 @@ LandscapeManager::getCurrentLandscape() const
 	return m_currentLandscape;
 
 } // LandscapeManager::getCurrentLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QMutex&
+LandscapeManager::getLandscapeLocker()
+{
+	return m_landscapeLocker;
+
+} // LandscapeManager::getLandscapeLocker
 
 
 /*---------------------------------------------------------------------------*/

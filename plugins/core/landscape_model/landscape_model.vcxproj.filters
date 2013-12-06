@@ -40,6 +40,9 @@
     <Filter Include="Units Cache">
       <UniqueIdentifier>{e3b48cde-4f5e-48e0-beff-0fef7697b4b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Landscape Handle">
+      <UniqueIdentifier>{e09fd8fa-a6df-4196-b5f9-ed81c26a8ee6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -74,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="sources\units_cache\lm_units_cache.cpp">
       <Filter>Units Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_handle\lm_landscape_handle.cpp">
+      <Filter>Landscape Handle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +151,18 @@
     </ClInclude>
     <ClInclude Include="h\lm_point.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_events.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_ilandscape_handle.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_handle\lm_landscape_handle.hpp">
+      <Filter>Landscape Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_manager\lm_ilandscape_manager_internal.hpp">
+      <Filter>Landscape Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,10 +1,10 @@
 
-#ifndef __LM_LANDSCAPE_MANAGER_HPP__
-#define __LM_LANDSCAPE_MANAGER_HPP__
+#ifndef __LM_LANDSCAPE_HANDLE_HPP__
+#define __LM_LANDSCAPE_HANDLE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/sources/landscape_manager/lm_ilandscape_manager_internal.hpp"
+#include "landscape_model/ih/lm_ilandscape_handle.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,13 +14,12 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ISurfaceItemsCache;
-struct ILandscapeSerializer;
+struct ILandscapeManagerInternal;
 
 /*---------------------------------------------------------------------------*/
 
-class LandscapeManager
-	:	public Tools::Core::BaseWrapper< ILandscapeManagerInternal >
+class LandscapeHandle
+	:	public Tools::Core::BaseWrapper< ILandscapeHandle >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -29,25 +28,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeManager(
-			const ILandscapeSerializer& _landscapeSerializer
-		,	const ISurfaceItemsCache& _surfaceItemsCache );
+	LandscapeHandle( ILandscapeManagerInternal& _landscapeManager );
 
-	virtual ~LandscapeManager();
+	virtual ~LandscapeHandle();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initCurrentLandscape ( const QString& _filePath );
-
-	/*virtual*/ void closeCurrentLandscape();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getCurrentLandscape() const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ QMutex& getLandscapeLocker();
+	/*virtual*/ boost::intrusive_ptr< ILandscape > getLandscape() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -55,13 +42,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const ILandscapeSerializer& m_landscapeSerializer;
+	const ILandscapeManagerInternal& m_landscapeManager;
 
-	const ISurfaceItemsCache& m_surfaceItemsCache;
-
-	boost::intrusive_ptr< IEditableLandscape > m_currentLandscape;
-
-	QMutex m_landscapeLocker;
+	QMutexLocker m_lockerHolder;
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,4 +58,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_LANDSCAPE_MANAGER_HPP__
+#endif // __LM_LANDSCAPE_HANDLE_HPP__
