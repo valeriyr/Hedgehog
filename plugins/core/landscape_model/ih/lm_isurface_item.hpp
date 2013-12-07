@@ -1,51 +1,45 @@
 
-#ifndef __LM_EVENTS_HPP__
-#define __LM_EVENTS_HPP__
+#ifndef __LM_ISURFACE_ITEM_HPP__
+#define __LM_ISURFACE_ITEM_HPP__
 
-#include "event_manager/h/em_event.hpp"
+/*---------------------------------------------------------------------------*/
 
+#include "intrusive_base/ib_ibase.hpp"
+
+#include "landscape_model/h/lm_terrain_map_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
-namespace Events {
 
 /*---------------------------------------------------------------------------*/
 
-namespace LandscapeLoaded
+struct ISurfaceItem
+	:	public Tools::Core::IBase
 {
-	const char* const ms_type = "LandscapeLoaded";
+
+/*---------------------------------------------------------------------------*/
+
+	typedef unsigned int IdType;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual IdType getId() const = 0;
+
+	virtual const TerrainMapItems::Enum getTerrainMapValue() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
 };
 
 /*---------------------------------------------------------------------------*/
 
-namespace UnitMoved
-{
-	const char* const ms_type = "UnitMoved";
-
-	const char* const ms_unitIdAttribute = "UnitId";
-	const char* const ms_movingToAttribute = "MovingTo";
-	const char* const ms_movingProgressAttribute = "MovingProgress";
-};
-
-/*---------------------------------------------------------------------------*/
-
-namespace UnitSelected
-{
-	const char* const ms_type = "UnitSelected";
-
-	const char* const ms_unitIdAttribute = "UnitId";
-}
-
-/*---------------------------------------------------------------------------*/
-
-} // namespace Events
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_EVENTS_HPP__
+#endif // __LM_ISURFACE_ITEM_HPP__

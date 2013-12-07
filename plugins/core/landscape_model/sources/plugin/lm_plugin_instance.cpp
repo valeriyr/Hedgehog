@@ -5,6 +5,12 @@
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 
+#include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
+#include "multithreading_manager/h/mm_plugin_id.hpp"
+
+#include "event_manager/ih/em_ievent_manager.hpp"
+#include "event_manager/h/em_plugin_id.hpp"
+
 /*#include "landscape_model/sources/landscape_editor/lm_landscape_editor.hpp"
 #include "landscape_model/sources/landscape_manager/lm_landscape_manager.hpp"
 #include "landscape_model/sources/landscape_serializer/lm_landscape_serializer.hpp"
@@ -77,6 +83,34 @@ PluginInstance::close()
 	m_unitsCache.reset();*/
 
 } // PluginInstance::close
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::MultithreadingManager::IMultithreadingManager >
+PluginInstance::getMultithreadingManager() const
+{
+	return
+		getPluginInterface< Framework::Core::MultithreadingManager::IMultithreadingManager >(
+				Framework::Core::MultithreadingManager::PID_MULTITHREADING_MANAGER
+			,	Framework::Core::MultithreadingManager::IID_MULTITHREADING_MANAGER );
+
+} // PluginInstance::getMultithreadingManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::EventManager::IEventManager >
+PluginInstance::getEventManager() const
+{
+	return
+		getPluginInterface< Framework::Core::EventManager::IEventManager >(
+				Framework::Core::EventManager::PID_EVENT_MANAGER
+			,	Framework::Core::EventManager::IID_EVENT_MANAGER );
+
+} // PluginInstance::getEventManager
 
 
 /*---------------------------------------------------------------------------*/

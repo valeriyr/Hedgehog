@@ -1,51 +1,43 @@
 
-#ifndef __LM_EVENTS_HPP__
-#define __LM_EVENTS_HPP__
+#ifndef __LM_IUNIT_HPP__
+#define __LM_IUNIT_HPP__
 
-#include "event_manager/h/em_event.hpp"
+/*---------------------------------------------------------------------------*/
 
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
-namespace Events {
 
 /*---------------------------------------------------------------------------*/
 
-namespace LandscapeLoaded
+struct IObjectType;
+
+/*---------------------------------------------------------------------------*/
+
+struct IUnit
+	:	public Tools::Core::IBase
 {
-	const char* const ms_type = "LandscapeLoaded";
+
+/*---------------------------------------------------------------------------*/
+
+	virtual boost::intrusive_ptr< IObjectType > getType() const = 0;
+
+	virtual const int getHealth() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
 };
 
 /*---------------------------------------------------------------------------*/
 
-namespace UnitMoved
-{
-	const char* const ms_type = "UnitMoved";
-
-	const char* const ms_unitIdAttribute = "UnitId";
-	const char* const ms_movingToAttribute = "MovingTo";
-	const char* const ms_movingProgressAttribute = "MovingProgress";
-};
-
-/*---------------------------------------------------------------------------*/
-
-namespace UnitSelected
-{
-	const char* const ms_type = "UnitSelected";
-
-	const char* const ms_unitIdAttribute = "UnitId";
-}
-
-/*---------------------------------------------------------------------------*/
-
-} // namespace Events
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_EVENTS_HPP__
+#endif // __LM_ILANDSCAPE_HPP__

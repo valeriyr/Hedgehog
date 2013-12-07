@@ -1,6 +1,10 @@
 
-#ifndef __LM_POINT_HPP__
-#define __LM_POINT_HPP__
+#ifndef __LM_ILANDSCAPE_EDITOR_HPP__
+#define __LM_ILANDSCAPE_EDITOR_HPP__
+
+/*---------------------------------------------------------------------------*/
+
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -10,48 +14,31 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct Point
+	const unsigned int IID_LANDSCAPE_EDITOR = 1;
+
+/*---------------------------------------------------------------------------*/
+
+struct ILandscape;
+struct IEditableLandscape;
+
+/*---------------------------------------------------------------------------*/
+
+struct ILandscapeEditor
+	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	Point( unsigned int _x = 0, unsigned int _y = 0 )
-		:	m_x( _x )
-		,	m_y( _y )
-	{}
+	virtual boost::intrusive_ptr< IEditableLandscape >
+		createLandscape(
+			const unsigned int _width
+		,	const unsigned int _height ) const = 0;
 
-	Point( const Point& _point )
-	{
-		*this = _point;
-	}
+	virtual boost::intrusive_ptr< IEditableLandscape > loadLandscape( const QString& _filePath ) const = 0;
 
-/*---------------------------------------------------------------------------*/
-
-	Point& operator = ( const Point& _point )
-	{
-		m_x = _point.m_x;
-		m_y = _point.m_y;
-
-		return *this;
-	}
-
-/*---------------------------------------------------------------------------*/
-
-	bool operator == ( const Point& _point ) const
-	{
-		return m_x == _point.m_x && m_y == _point.m_y;
-	}
-
-	bool operator < ( const Point& _point ) const
-	{
-		return m_x < _point.m_x || m_y < _point.m_y;
-	}
-
-/*---------------------------------------------------------------------------*/
-
-	unsigned int m_x;
-
-	unsigned int m_y;
+	virtual void saveLandscape(
+			const ILandscape& _landscape
+		,	const QString& _filePath ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -65,4 +52,4 @@ struct Point
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_POINT_HPP__
+#endif // __LM_ILANDSCAPE_EDITOR_HPP__

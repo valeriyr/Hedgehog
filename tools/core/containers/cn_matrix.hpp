@@ -105,17 +105,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int getWidth()
+	const unsigned int getWidth() const
 	{
 		return m_width;
 	}
 
-	const unsigned int getHeight()
+	const unsigned int getHeight() const
 	{
 		return m_height;
 	}
 
-	const _TElementType& getElement( const unsigned int _x, const unsigned int _y )
+	const _TElementType& getElement( const unsigned int _x, const unsigned int _y ) const
 	{
 		assert( m_width > 0 );
 		assert( m_height > 0 );

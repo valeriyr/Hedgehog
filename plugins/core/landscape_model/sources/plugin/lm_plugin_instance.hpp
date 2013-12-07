@@ -9,6 +9,24 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Framework
+{
+	namespace Core
+	{
+		namespace MultithreadingManager
+		{
+			struct IMultithreadingManager;
+		}
+
+		namespace EventManager
+		{
+			struct IEventManager;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
@@ -46,6 +64,14 @@ public:
 	/*virtual*/ void initialize();
 
 	/*virtual*/ void close();
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< Framework::Core::MultithreadingManager::IMultithreadingManager >
+		getMultithreadingManager() const;
+
+	boost::intrusive_ptr< Framework::Core::EventManager::IEventManager >
+		getEventManager() const;
 
 /*---------------------------------------------------------------------------*/
 

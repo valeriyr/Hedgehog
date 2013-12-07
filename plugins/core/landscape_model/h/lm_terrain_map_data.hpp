@@ -14,9 +14,29 @@ struct TerrainMapItems
 {
 	enum Enum
 	{
-			Unit		= 1000
-		,	Building	= 1001
+			NotAvailable = 0
+		,	Ground
+		,	Water
 	};
+};
+
+/*---------------------------------------------------------------------------*/
+
+struct TerrainMapData
+{
+	TerrainMapData(
+			const TerrainMapItems::Enum _terrainMapItem
+		,	const bool _engagedWithGround
+		,	const bool _engagedWithAir
+		)
+		:	m_terrainMapItem( _terrainMapItem )
+		,	m_engagedWithGround( _engagedWithGround )
+		,	m_engagedWithAir( _engagedWithAir )
+	{}
+
+	TerrainMapItems::Enum m_terrainMapItem;
+	bool m_engagedWithGround;
+	bool m_engagedWithAir;
 };
 
 /*---------------------------------------------------------------------------*/
