@@ -1,21 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{aab3f69b-cdcd-43b4-b5d0-f27c6b9b2667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{bb2d0617-d126-4e9b-81a5-110411d8de68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{0da3fcb7-cb52-455c-83c8-47c0dbb4c5da}</UniqueIdentifier>
+    </Filter>
     <Filter Include="External Headers">
       <UniqueIdentifier>{f77ed0ab-ab5b-42e5-b3b9-4f975c4b9cf6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Internal Resources">
+      <UniqueIdentifier>{67963bc5-d418-4d1a-a3a0-e2a01366fd18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\ph\lm_ph.cpp">
+      <Filter>Precompiled Header</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\plugin\lm_plugin_instance.cpp">
+      <Filter>Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp">
+      <Filter>Internal Resources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sources\ph\lm_ph.hpp">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\plugin\lm_plugin_instance.hpp">
+      <Filter>Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp">
+      <Filter>Internal Resources</Filter>
+    </ClInclude>
     <ClInclude Include="h\lm_plugin_id.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
     <ClInclude Include="h\lm_terrain_map_items.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
-    <ClInclude Include="h\lm_events.hpp">
+    <ClInclude Include="h\lm_point.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
-    <ClInclude Include="h\lm_resources.hpp">
+    <ClInclude Include="h\lm_events.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>

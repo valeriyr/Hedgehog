@@ -1,30 +1,25 @@
 
-#ifndef __LM_TERRAIN_MAP_ITEMS_HPP__
-#define __LM_TERRAIN_MAP_ITEMS_HPP__
+#ifndef __LM_INTERNAL_RESOURCES_HPP__
+#define __LM_INTERNAL_RESOURCES_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
+namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-struct TerrainMapItems
-{
-	enum Enum
-	{
-			Unit		= 1000
-		,	Building	= 1001
-	};
-};
+	extern const float LandscapeVersion;
 
 /*---------------------------------------------------------------------------*/
 
+} // namespace Resources
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_TERRAIN_MAP_ITEMS_HPP__
+#endif // __LM_INTERNAL_RESOURCES_HPP__

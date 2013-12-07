@@ -19,10 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp" />
+    <ClCompile Include="sources\ph\lm_ph.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="sources\plugin\lm_plugin_instance.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="h\lm_events.hpp" />
     <ClInclude Include="h\lm_plugin_id.hpp" />
-    <ClInclude Include="h\lm_resources.hpp" />
+    <ClInclude Include="h\lm_point.hpp" />
     <ClInclude Include="h\lm_terrain_map_items.hpp" />
+    <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp" />
+    <ClInclude Include="sources\ph\lm_ph.hpp" />
+    <ClInclude Include="sources\plugin\lm_plugin_instance.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4AA8342B-324C-4FE2-97AB-34F55A2D45F5}</ProjectGuid>

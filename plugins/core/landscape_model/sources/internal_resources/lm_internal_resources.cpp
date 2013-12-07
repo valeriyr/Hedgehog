@@ -1,6 +1,8 @@
 
-#ifndef __LM_RESOURCES_HPP__
-#define __LM_RESOURCES_HPP__
+#include "landscape_model/sources/ph/lm_ph.hpp"
+
+#include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -11,7 +13,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ModelThreadName = "ModelThread";
+	const float LandscapeVersion = 1.0f;
 
 /*---------------------------------------------------------------------------*/
 
@@ -21,5 +23,3 @@ namespace Resources {
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LM_RESOURCES_HPP__
