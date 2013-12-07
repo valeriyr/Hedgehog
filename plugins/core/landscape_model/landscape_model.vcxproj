@@ -32,6 +32,7 @@
     <ClInclude Include="h\lm_events.hpp" />
     <ClInclude Include="h\lm_plugin_id.hpp" />
     <ClInclude Include="h\lm_point.hpp" />
+    <ClInclude Include="h\lm_resources.hpp" />
     <ClInclude Include="h\lm_terrain_map_items.hpp" />
     <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp" />
     <ClInclude Include="sources\ph\lm_ph.hpp" />

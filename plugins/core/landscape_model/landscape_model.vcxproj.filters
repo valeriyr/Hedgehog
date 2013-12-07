@@ -50,5 +50,8 @@
     <ClInclude Include="h\lm_events.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
+    <ClInclude Include="h\lm_resources.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
