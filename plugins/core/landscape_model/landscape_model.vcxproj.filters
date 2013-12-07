@@ -1,168 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Plugin">
-      <UniqueIdentifier>{aab3f69b-cdcd-43b4-b5d0-f27c6b9b2667}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Precompiled Header">
-      <UniqueIdentifier>{bb2d0617-d126-4e9b-81a5-110411d8de68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Interfaces">
-      <UniqueIdentifier>{0da3fcb7-cb52-455c-83c8-47c0dbb4c5da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Landscape">
-      <UniqueIdentifier>{117e5df4-0575-4022-a792-e83bbef58fe8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Landscape Editor">
-      <UniqueIdentifier>{506f2bef-9630-49a0-b050-eaffd268f76e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="External Headers">
       <UniqueIdentifier>{f77ed0ab-ab5b-42e5-b3b9-4f975c4b9cf6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Landscape Manager">
-      <UniqueIdentifier>{ba5ab976-d333-4aa1-93cc-e00bf119f9ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Landscape Serializer">
-      <UniqueIdentifier>{900b817d-1fec-43fd-a8a0-41044286689a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Internal Resources">
-      <UniqueIdentifier>{67963bc5-d418-4d1a-a3a0-e2a01366fd18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Surface Item">
-      <UniqueIdentifier>{6890ec01-3281-477e-b8c8-e8c20474d421}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Surface Items Cache">
-      <UniqueIdentifier>{fbb3fb56-2742-4afd-9c1d-12772103462c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Unit">
-      <UniqueIdentifier>{2645f18c-2fdf-4cc2-a4e0-1451aba88d26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Units Cache">
-      <UniqueIdentifier>{e3b48cde-4f5e-48e0-beff-0fef7697b4b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Landscape Handle">
-      <UniqueIdentifier>{e09fd8fa-a6df-4196-b5f9-ed81c26a8ee6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sources\ph\lm_ph.cpp">
-      <Filter>Precompiled Header</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\plugin\lm_plugin_instance.cpp">
-      <Filter>Plugin</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\landscape\lm_landscape.cpp">
-      <Filter>Landscape</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\landscape_editor\lm_landscape_editor.cpp">
-      <Filter>Landscape Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\landscape_manager\lm_landscape_manager.cpp">
-      <Filter>Landscape Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp">
-      <Filter>Landscape Serializer</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp">
-      <Filter>Internal Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\surface_item\lm_surface_item.cpp">
-      <Filter>Surface Item</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp">
-      <Filter>Surface Items Cache</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\unit\lm_unit.cpp">
-      <Filter>Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\units_cache\lm_units_cache.cpp">
-      <Filter>Units Cache</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\landscape_handle\lm_landscape_handle.cpp">
-      <Filter>Landscape Handle</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="sources\ph\lm_ph.hpp">
-      <Filter>Precompiled Header</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\plugin\lm_plugin_instance.hpp">
-      <Filter>Plugin</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\lm_ieditable_landscape.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\lm_ilandscape.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\lm_ilandscape_editor.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\lm_ilandscape_manager.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape\lm_landscape.hpp">
-      <Filter>Landscape</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp">
-      <Filter>Landscape Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_manager\lm_landscape_manager.hpp">
-      <Filter>Landscape Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_serializer\lm_ilandscape_serializer.hpp">
-      <Filter>Landscape Serializer</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp">
-      <Filter>Landscape Serializer</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp">
-      <Filter>Internal Resources</Filter>
-    </ClInclude>
     <ClInclude Include="h\lm_plugin_id.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ih\lm_isurface_item.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\surface_item\lm_surface_item.hpp">
-      <Filter>Surface Item</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp">
-      <Filter>Surface Items Cache</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\lm_isurface_items_cache.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\lm_iunit.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\unit\lm_unit.hpp">
-      <Filter>Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\units_cache\lm_units_cache.hpp">
-      <Filter>Units Cache</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\lm_iunits_cache.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="h\lm_terrain_map_items.hpp">
-      <Filter>External Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="h\lm_point.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
     <ClInclude Include="h\lm_events.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ih\lm_ilandscape_handle.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_handle\lm_landscape_handle.hpp">
-      <Filter>Landscape Handle</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_manager\lm_ilandscape_manager_internal.hpp">
-      <Filter>Landscape Manager</Filter>
+    <ClInclude Include="h\lm_resources.hpp">
+      <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

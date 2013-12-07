@@ -14,8 +14,9 @@ struct TerrainMapItems
 {
 	enum Enum
 	{
-			Unit		= 1000
-		,	Building	= 1001
+			NotAvailable = 0
+		,	Ground
+		,	Water
 	};
 };
 
