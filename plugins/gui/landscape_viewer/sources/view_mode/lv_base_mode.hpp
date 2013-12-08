@@ -47,9 +47,7 @@ protected:
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasOpened(
-			const QString& _filePath
-		,	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > _landscape );
+	void landscapeWasOpened( const QString& _filePath );
 
 	void landscapeWasClosed();
 
@@ -62,8 +60,6 @@ protected:
 	const IEnvironment& m_environment;
 
 	boost::shared_ptr< ViewsMediator > m_viewsMediator;
-
-	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > m_landscape;
 
 	QString m_landscapeFilePath;
 

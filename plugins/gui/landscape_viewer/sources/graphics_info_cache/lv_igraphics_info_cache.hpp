@@ -1,10 +1,11 @@
 
-#ifndef __LV_ILANDSCAPE_VIEWER_HPP__
-#define __LV_ILANDSCAPE_VIEWER_HPP__
+#ifndef __LV_IGRAPHICS_INFO_CACHE_HPP__
+#define __LV_IGRAPHICS_INFO_CACHE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,35 +15,40 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct IViewMode;
+struct ISurfaceItemGraphicsInfo;
+struct IObjectGraphicsInfo;
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeViewer
+struct IGraphicsInfoCache
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual bool isPlayingMode() const = 0;
+	virtual void regSurfaceItemGraphicsInfo(
+			const QString& _skinId
+		,	const Core::LandscapeModel::ISurfaceItem::IdType& _id
+		,	const QString& _atlasName
+		,	const QRect _frameRect ) = 0;
 
-	virtual bool isEditingMode() const = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual void ensureLandscapeEditingMode() = 0;
-
-	virtual void ensurePlayingMode() = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual QString getLandscapeFilePath() const = 0;
+	virtual void regObjectGraphicsInfo(
+			const QString& _skinId
+		,	const QString& _objectName
+		,	const QString& _atlasName
+		,	const QRect _frameRect ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void openLandscape( const QString& _filePath ) = 0;
+	virtual boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
+		getSurfaceItemGraphicsInfo(
+				const QString& _skinId
+			,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const = 0;
 
-	virtual void closeLandscape() = 0;
+	virtual boost::intrusive_ptr< IObjectGraphicsInfo >
+		getObjectGraphicsInfo(
+				const QString& _skinId
+			,	const QString& _objectName ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,4 +62,4 @@ struct ILandscapeViewer
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ILANDSCAPE_VIEWER_HPP__
+#endif // __LV_IGRAPHICS_INFO_CACHE_HPP__

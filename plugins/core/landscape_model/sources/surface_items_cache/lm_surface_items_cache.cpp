@@ -71,7 +71,7 @@ SurfaceItemsCache::getDefaultSurfaceItem() const
 
 
 void
-SurfaceItemsCache::addSurfaceItem(
+SurfaceItemsCache::regSurfaceItem(
 		const ISurfaceItem::IdType _id
 	,	const TerrainMapItem::Enum _terrainMapItem )
 {
@@ -80,7 +80,7 @@ SurfaceItemsCache::addSurfaceItem(
 				_id
 			,	boost::intrusive_ptr< ISurfaceItem >( new SurfaceItem( _id, _terrainMapItem ) ) ) );
 
-} // SurfaceItemsCache::addSurfaceItem
+} // SurfaceItemsCache::regSurfaceItem
 
 
 /*---------------------------------------------------------------------------*/

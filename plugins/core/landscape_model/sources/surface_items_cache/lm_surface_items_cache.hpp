@@ -37,7 +37,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void addSurfaceItem(
+	/*virtual*/ void regSurfaceItem(
 			const ISurfaceItem::IdType _id
 		,	const TerrainMapItem::Enum _terrainMapItem );
 

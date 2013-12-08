@@ -68,6 +68,18 @@ ActionsQueue::processAction( const unsigned int _deltaTime )
 
 /*---------------------------------------------------------------------------*/
 
+
+void
+ActionsQueue::clear()
+{
+	QMutexLocker locker( &m_actionsQueueLocker );
+	m_actionsCollection.clear();
+
+} // ActionsQueue::clear
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

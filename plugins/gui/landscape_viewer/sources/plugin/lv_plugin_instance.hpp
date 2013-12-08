@@ -40,10 +40,8 @@ namespace Plugins
 	{
 		namespace LandscapeModel
 		{
-			struct ILandscapeManager;
+			struct ILandscapeModel;
 			struct ILandscapeEditor;
-			struct ISurfaceItemsCache;
-			struct IUnitsCache;
 		}
 
 		namespace GameManager
@@ -64,6 +62,7 @@ namespace LandscapeViewer {
 struct IEnvironment;
 struct ILandscapeViewer;
 struct ICommandsExecutor;
+struct IGraphicsInfoCache;
 
 /*---------------------------------------------------------------------------*/
 
@@ -107,22 +106,11 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
-		getLandscapeManager() const;
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeModel >
+		getLandscapeModel() const;
 
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
 		getLandscapeEditor() const;
-
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
-		getSurfaceItemsCache() const;
-
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnitsCache >
-		getUnitsCache() const;
-
-/*---------------------------------------------------------------------------*/
-
-	boost::intrusive_ptr< Plugins::Core::GameManager::IGameManager >
-		getGameManager() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -145,6 +133,8 @@ private:
 	boost::intrusive_ptr< ILandscapeViewer > m_landscapeViewer;
 
 	boost::intrusive_ptr< ICommandsExecutor > m_commandsExecutor;
+
+	boost::intrusive_ptr< IGraphicsInfoCache > m_graphicsInfoCache;
 
 /*---------------------------------------------------------------------------*/
 

@@ -84,17 +84,6 @@ LandscapeViewer::ensurePlayingMode()
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-LandscapeViewer::getCurrentLandscape() const
-{
-	return m_viewMode->getCurrentLandscape();
-
-} // LandscapeViewer::getCurrentLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
 QString
 LandscapeViewer::getLandscapeFilePath() const
 {

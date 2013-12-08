@@ -1,21 +1,21 @@
 
-#ifndef __LM_ACTIONS_QUEUE_HPP__
-#define __LM_ACTIONS_QUEUE_HPP__
+#ifndef __LV_SURFACE_ITEM_GRAPHICS_INFO_HPP__
+#define __LV_SURFACE_ITEM_GRAPHICS_INFO_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/sources/actions_queue/lm_iactions_queue.hpp"
+#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
-namespace Core {
-namespace LandscapeModel {
+namespace GUI {
+namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-class ActionsQueue
-	:	public Tools::Core::BaseWrapper< IActionsQueue >
+class SurfaceItemGraphicsInfo
+	:	public Tools::Core::BaseWrapper< ISurfaceItemGraphicsInfo >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,17 +24,22 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ActionsQueue();
+	SurfaceItemGraphicsInfo(
+			const Core::LandscapeModel::ISurfaceItem::IdType& _id
+		,	const QString& _atlasName
+		,	const QRect _frameRect );
 
-	virtual ~ActionsQueue();
+	virtual ~SurfaceItemGraphicsInfo();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void pushAction( boost::intrusive_ptr< IAction > _action );
+	/*virtual*/ const Core::LandscapeModel::ISurfaceItem::IdType getId() const;
 
-	/*virtual*/ void processAction( const unsigned int _deltaTime );
+/*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void clear();
+	/*virtual*/ const QString& getAtlasName() const;
+
+	/*virtual*/ const QRect& getFrameRect() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,15 +47,11 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		std::vector< boost::intrusive_ptr< IAction > >
-		ActionsCollection;
-	typedef ActionsCollection::iterator ActionsCollectionIterator;
+	const Core::LandscapeModel::ISurfaceItem::IdType m_id;
 
-/*---------------------------------------------------------------------------*/
+	const QString m_atlasName;
 
-	ActionsCollection m_actionsCollection;
-	QMutex m_actionsQueueLocker;
+	const QRect m_frameRect;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,10 +59,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeModel
-} // namespace Core
+} // namespace LandscapeViewer
+} // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ACTIONS_QUEUE_HPP__
+#endif // __LV_SURFACE_ITEM_GRAPHICS_INFO_HPP__

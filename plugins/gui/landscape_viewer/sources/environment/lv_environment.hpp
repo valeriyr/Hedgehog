@@ -53,10 +53,12 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		initializeLandscapeManager( const QString& _fileName ) const;
+	/*virtual*/ void initializeLandscapeModel( const QString& _fileName ) const;
 
-	/*virtual*/ void resetLandscapeManager() const;
+	/*virtual*/ void resetLandscapeModel() const;
+
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle >
+		getCurrentLandscape () const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -72,25 +74,11 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-		getSurfaceItem( const unsigned int _index ) const;
-
-	/*virtual*/ boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-		getDefaultSurfaceItem() const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void runGameManager() const;
-
-	/*virtual*/ void stopGameManager() const;
-
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ void selectItemsInModel(
-			const Core::LandscapeModel::Point& _from
-		,	const Core::LandscapeModel::Point& _to ) const;
+			const QPoint& _from
+		,	const QPoint& _to ) const;
 
-	/*virtual*/ void moveSelectedItems( const Core::LandscapeModel::Point& _to ) const;
+	/*virtual*/ void moveSelectedItems( const QPoint& _to ) const;
 
 /*---------------------------------------------------------------------------*/
 

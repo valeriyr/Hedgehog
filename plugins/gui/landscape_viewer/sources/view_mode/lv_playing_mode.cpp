@@ -82,13 +82,12 @@ PlayingMode::isEditingMode() const
 void
 PlayingMode::openLandscape( const QString& _filePath )
 {
-	landscapeWasOpened( _filePath, m_environment.initializeLandscapeManager( _filePath ) );
+	m_environment.initializeLandscapeModel( _filePath );
+	landscapeWasOpened( _filePath, m_environment.initializeLandscapeModel( _filePath ) );
 
 	m_descriptionView->landscapeWasOpened( *m_landscape, _filePath );
 	m_minimapView->landscapeWasOpened( m_landscape );
 	m_landscapeView->landscapeWasOpened( m_landscape );
-
-	m_environment.runGameManager();
 
 	m_timer.start( ms_updatePeriod );
 
@@ -103,13 +102,11 @@ PlayingMode::closeLandscape()
 {
 	m_timer.stop();
 
-	m_environment.stopGameManager();
-
 	m_landscapeView->landscapeWasClosed();
 	m_minimapView->landscapeWasClosed();
 	m_descriptionView->landscapeWasClosed();
 
-	m_environment.resetLandscapeManager();
+	m_environment.resetLandscapeModel();
 
 	landscapeWasClosed();
 

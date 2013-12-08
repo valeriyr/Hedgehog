@@ -34,6 +34,15 @@
     <Filter Include="Views\Views Mediator">
       <UniqueIdentifier>{322492f8-5b4a-4045-b70b-7259b6439177}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics Info Cache">
+      <UniqueIdentifier>{f2093f24-71b5-4925-aea9-7f8f68cc867c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Surface Item Graphics Info">
+      <UniqueIdentifier>{f1333970-26ce-41a7-a18d-fb33aa3c008e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Graphics Info">
+      <UniqueIdentifier>{bd3a144d-1598-4cf1-a5be-dc966d37bcdc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lv_ph.cpp">
@@ -99,6 +108,15 @@
     <ClCompile Include="sources\views\views_mediator\lv_views_mediator.cpp">
       <Filter>Views\Views Mediator</Filter>
     </ClCompile>
+    <ClCompile Include="sources\graphics_info_cache\lv_graphics_info_cache.cpp">
+      <Filter>Graphics Info Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\surface_item_graphics_info\lv_surface_item_graphics_info.cpp">
+      <Filter>Surface Item Graphics Info</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\object_graphics_info\lv_object_graphics_info.cpp">
+      <Filter>Object Graphics Info</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lv_ph.hpp">
@@ -157,6 +175,24 @@
     </ClInclude>
     <ClInclude Include="sources\views\lv_minimap_view.hpp">
       <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\graphics_info_cache\lv_graphics_info_cache.hpp">
+      <Filter>Graphics Info Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\graphics_info_cache\lv_igraphics_info_cache.hpp">
+      <Filter>Graphics Info Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\surface_item_graphics_info\lv_isurface_item_graphics_info.hpp">
+      <Filter>Surface Item Graphics Info</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\surface_item_graphics_info\lv_surface_item_graphics_info.hpp">
+      <Filter>Surface Item Graphics Info</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\object_graphics_info\lv_iobject_graphics_info.hpp">
+      <Filter>Object Graphics Info</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\object_graphics_info\lv_object_graphics_info.hpp">
+      <Filter>Object Graphics Info</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

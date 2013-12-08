@@ -1,11 +1,7 @@
 
 #include "landscape_viewer/sources/ph/lv_ph.hpp"
 
-#include "landscape_viewer/sources/view_mode/lv_base_mode.hpp"
-
-#include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
-
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
+#include "landscape_viewer/sources/object_graphics_info/lv_object_graphics_info.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -17,53 +13,57 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-BaseMode::BaseMode( const IEnvironment& _environment )
-	:	m_environment( _environment )
-	,	m_viewsMediator( new ViewsMediator() )
-	,	m_landscapeFilePath()
+ObjectGraphicsInfo::ObjectGraphicsInfo(
+		const QString& _name
+	,	const QString& _atlasName
+	,	const QRect _frameRect
+	)
+	:	m_name( _name )
+	,	m_atlasName( _atlasName )
+	,	m_frameRect( _frameRect )
 {
-} // BaseMode::BaseMode
+} // ObjectGraphicsInfo::ObjectGraphicsInfo
 
 
 /*---------------------------------------------------------------------------*/
 
 
-BaseMode::~BaseMode()
+ObjectGraphicsInfo::~ObjectGraphicsInfo()
 {
-} // BaseMode::~BaseMode
+} // ObjectGraphicsInfo::~ObjectGraphicsInfo
 
 
 /*---------------------------------------------------------------------------*/
 
 
-QString
-BaseMode::getLandscapeFilePath() const
+const QString&
+ObjectGraphicsInfo::getName() const
 {
-	return m_landscapeFilePath;
+	return m_name;
 
-} // BaseMode::getLandscapeFilePath
+} // SurfaceItemGraphicsInfo::getName
 
 
 /*---------------------------------------------------------------------------*/
 
 
-void
-BaseMode::landscapeWasOpened( const QString& _filePath )
+const QString&
+ObjectGraphicsInfo::getAtlasName() const
 {
-	m_landscapeFilePath = _filePath;
+	return m_atlasName;
 
-} // BaseMode::landscapeWasOpened
+} // ObjectGraphicsInfo::getAtlasName
 
 
 /*---------------------------------------------------------------------------*/
 
 
-void
-BaseMode::landscapeWasClosed()
+const QRect&
+ObjectGraphicsInfo::getFrameRect() const
 {
-	m_landscapeFilePath.clear();
+	return m_frameRect;
 
-} // BaseMode::landscapeWasClosed
+} // ObjectGraphicsInfo::getFrameRect
 
 
 /*---------------------------------------------------------------------------*/

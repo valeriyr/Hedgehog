@@ -1,34 +1,33 @@
 
-#ifndef __LM_IACTIONS_QUEUE_HPP__
-#define __LM_IACTIONS_QUEUE_HPP__
+#ifndef __LV_IOBJECT_GRAPHICS_INFO_HPP__
+#define __LV_IOBJECT_GRAPHICS_INFO_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
-namespace Core {
-namespace LandscapeModel {
+namespace GUI {
+namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct IAction;
-
-/*---------------------------------------------------------------------------*/
-
-struct IActionsQueue
+struct IObjectGraphicsInfo
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void pushAction( boost::intrusive_ptr< IAction > _action ) = 0;
+	virtual const QString& getName() const = 0;
 
-	virtual void processAction( const unsigned int _deltaTime ) = 0;
+/*---------------------------------------------------------------------------*/
 
-	virtual void clear() = 0;
+	virtual const QString& getAtlasName() const = 0;
+
+	virtual const QRect& getFrameRect() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,10 +35,10 @@ struct IActionsQueue
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeModel
-} // namespace Core
+} // namespace LandscapeViewer
+} // namespace GUI
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IACTIONS_QUEUE_HPP__
+#endif // __LV_IOBJECT_GRAPHICS_INFO_HPP__

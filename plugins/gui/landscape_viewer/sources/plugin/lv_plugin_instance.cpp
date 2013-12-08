@@ -13,13 +13,14 @@
 #include "landscape_viewer/sources/commands/lv_commands.hpp"
 #include "landscape_viewer/sources/commands_executor/lv_commands_executor.hpp"
 
+#include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
+
 #include "window_manager/ih/wm_iwindow_manager.hpp"
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 #include "window_manager/h/wm_plugin_id.hpp"
 
-#include "landscape_model/ih/lm_ilandscape_manager.hpp"
+#include "landscape_model/ih/lm_ilandscape_model.hpp"
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
-#include "landscape_model/ih/lm_iunits_cache.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/h/lm_plugin_id.hpp"
@@ -70,6 +71,8 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	m_graphicsInfoCache.reset( new GraphicsInfoCache() );
+
 	fillSurfaceItemsCache();
 	fillUnitsCache();
 
@@ -141,6 +144,8 @@ PluginInstance::close()
 	m_landscapeViewer.reset();
 	m_environment.reset();
 
+	m_graphicsInfoCache.reset();
+
 } // PluginInstance::close
 
 
@@ -203,15 +208,15 @@ PluginInstance::getCommandsManager() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeManager >
-PluginInstance::getLandscapeManager() const
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeModel >
+PluginInstance::getLandscapeModel() const
 {
 	return
-		getPluginInterface< Plugins::Core::LandscapeModel::ILandscapeManager >(
+		getPluginInterface< Plugins::Core::LandscapeModel::ILandscapeModel >(
 				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
-			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_MANAGER );
+			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_MODEL );
 
-} // PluginInstance::getLandscapeManager
+} // PluginInstance::getLandscapeModel
 
 
 /*---------------------------------------------------------------------------*/
@@ -231,102 +236,30 @@ PluginInstance::getLandscapeEditor() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
-PluginInstance::getSurfaceItemsCache() const
-{
-	return
-		getPluginInterface< Plugins::Core::LandscapeModel::ISurfaceItemsCache >(
-				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
-			,	Plugins::Core::LandscapeModel::IID_SURFACE_ITEMS_CACHE );
-
-} // PluginInstance::getSurfaceItemsCache
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnitsCache >
-PluginInstance::getUnitsCache() const
-{
-	return
-		getPluginInterface< Plugins::Core::LandscapeModel::IUnitsCache >(
-				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
-			,	Plugins::Core::LandscapeModel::IID_UNITS_CACHE );
-
-} // PluginInstance::getUnitsCache
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< Plugins::Core::GameManager::IGameManager >
-PluginInstance::getGameManager() const
-{
-	return
-		getPluginInterface< Plugins::Core::GameManager::IGameManager >(
-				Plugins::Core::GameManager::PID_GAME_MANAGER
-			,	Plugins::Core::GameManager::IID_GAME_MANAGER );
-
-} // PluginInstance::getGameManager
-
-
-/*---------------------------------------------------------------------------*/
-
-
 void
 PluginInstance::fillSurfaceItemsCache()
 {
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
-		surfaceItemsCache = getSurfaceItemsCache();
+	// Ground tiles with water borders
 
-	unsigned int counter = 0;
+	// 1 --- 2 --- 3
+	// |     |     |
+	// 4 --- 5 --- 6
+	// |     |     |
+	// 7 --- 8 --- 9
 
-	for ( int i = 0; i < 24; ++i )
-	{
-		for ( int j = 0; j < 16; ++j )
-		{
-			surfaceItemsCache->addSurfaceItem(
-					counter++
-				,	"surface/summer"
-				,	QRect(
-						j * Resources::Landscape::CellSize
-					,	i * Resources::Landscape::CellSize
-					,	Resources::Landscape::CellSize
-					,	Resources::Landscape::CellSize ) );
-		}
-	}
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 1, "surface/summer", QRect( 352, 416, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 2, "surface/summer", QRect( 128, 416, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 3, "surface/summer", QRect( 128, 448, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 4, "surface/summer", QRect( 256, 416, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 5, "surface/summer", QRect( 384, 384, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 6, "surface/summer", QRect( 32, 448, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 7, "surface/summer", QRect( 256, 448, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 8, "surface/summer", QRect( 160, 448, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 9, "surface/summer", QRect( 352, 448, 32, 32 ) );
 
-	for ( int i = 0; i < 24; ++i )
-	{
-		for ( int j = 0; j < 16; ++j )
-		{
-			surfaceItemsCache->addSurfaceItem(
-					counter++
-				,	"surface/winter"
-				,	QRect(
-						j * Resources::Landscape::CellSize
-					,	i * Resources::Landscape::CellSize
-					,	Resources::Landscape::CellSize
-					,	Resources::Landscape::CellSize ) );
-		}
-	}
+	// Water tiles
 
-	for ( int i = 0; i < 24; ++i )
-	{
-		for ( int j = 0; j < 16; ++j )
-		{
-			surfaceItemsCache->addSurfaceItem(
-					counter++
-				,	"surface/wasteland"
-				,	QRect(
-						j * Resources::Landscape::CellSize
-					,	i * Resources::Landscape::CellSize
-					,	Resources::Landscape::CellSize
-					,	Resources::Landscape::CellSize ) );
-		}
-	}
-
-	surfaceItemsCache->setDefaultSurfaceItem( surfaceItemsCache->getSurfaceItem( 269 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 101, "surface/summer", QRect( 256, 640, 32, 32 ) );
 
 } // PluginInstance::fillSurfaceItemsCache
 
@@ -337,10 +270,17 @@ PluginInstance::fillSurfaceItemsCache()
 void
 PluginInstance::fillUnitsCache()
 {
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnitsCache >
-		unitsCache = getUnitsCache();
+	m_graphicsInfoCache->regObjectGraphicsInfo(
+			GraphicsInfoCache::ms_anySkinIdentifier
+		,	"Grunt"
+		,	"units/grunt"
+		,	QRect( 288, 0, 72, 72 ) );
 
-	unitsCache->addUnit( "Grunt", "units/grunt", QRect( 288, 0, 72, 72 ) );
+	m_graphicsInfoCache->regObjectGraphicsInfo(
+			GraphicsInfoCache::ms_anySkinIdentifier
+		,	"Elven Archer"
+		,	"units/elven_archer"
+		,	QRect( 648, 0, 72, 72 ) );
 
 } // PluginInstance::fillUnitsCache
 

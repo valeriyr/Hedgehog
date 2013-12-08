@@ -27,9 +27,9 @@ namespace Plugins
 	{
 		namespace LandscapeModel
 		{
-			struct Point;
 			struct ILandscape;
 			struct IEditableLandscape;
+			struct ILandscapeHandle;
 			struct ISurfaceItem;
 		}
 	}
@@ -68,10 +68,12 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		initializeLandscapeManager( const QString& _fileName ) const = 0;
+	virtual void initializeLandscapeModel( const QString& _fileName ) const = 0;
 
-	virtual void resetLandscapeManager() const = 0;
+	virtual void resetLandscapeModel() const = 0;
+
+	virtual boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle >
+		getCurrentLandscape () const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -87,25 +89,11 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-		getSurfaceItem( const unsigned int _index ) const = 0;
-
-	virtual boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-		getDefaultSurfaceItem() const = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual void runGameManager() const = 0;
-
-	virtual void stopGameManager() const = 0;
-
-/*---------------------------------------------------------------------------*/
-
 	virtual void selectItemsInModel(
-			const Core::LandscapeModel::Point& _from
-		,	const Core::LandscapeModel::Point& _to ) const = 0;
+			const QPoint& _from
+		,	const QPoint& _to ) const = 0;
 
-	virtual void moveSelectedItems( const Core::LandscapeModel::Point& _to ) const = 0;
+	virtual void moveSelectedItems( const QPoint& _to ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -150,19 +150,19 @@ PluginInstance::fillSurfaceItemsCache()
 	// |     |     |
 	// 7 --- 8 --- 9
 
-	m_surfaceItemsCache->addSurfaceItem( 1, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->addSurfaceItem( 2, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->addSurfaceItem( 3, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->addSurfaceItem( 4, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->addSurfaceItem( 5, TerrainMapItem::Ground );
-	m_surfaceItemsCache->addSurfaceItem( 6, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->addSurfaceItem( 7, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->addSurfaceItem( 8, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->addSurfaceItem( 9, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->regSurfaceItem( 1, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->regSurfaceItem( 2, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->regSurfaceItem( 3, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->regSurfaceItem( 4, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->regSurfaceItem( 5, TerrainMapItem::Ground );
+	m_surfaceItemsCache->regSurfaceItem( 6, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->regSurfaceItem( 7, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->regSurfaceItem( 8, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->regSurfaceItem( 9, TerrainMapItem::NotAvailable );
 
 	// Water tiles
 
-	m_surfaceItemsCache->addSurfaceItem( 101, TerrainMapItem::Water );
+	m_surfaceItemsCache->regSurfaceItem( 101, TerrainMapItem::Water );
 
 	//Default surface item
 

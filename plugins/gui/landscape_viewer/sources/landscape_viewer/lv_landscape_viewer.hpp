@@ -46,9 +46,6 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		getCurrentLandscape() const;
-
 	/*virtual*/ QString getLandscapeFilePath() const;
 
 /*---------------------------------------------------------------------------*/

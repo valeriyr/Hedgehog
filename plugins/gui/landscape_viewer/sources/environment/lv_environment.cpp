@@ -11,11 +11,10 @@
 
 #include "images_manager/ih/im_iimages_manager.hpp"
 
-#include "landscape_model/ih/lm_ilandscape_manager.hpp"
+#include "landscape_model/ih/lm_ilandscape_model.hpp"
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
-#include "landscape_model/ih/lm_isurface_items_cache.hpp"
-#include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/ih/lm_ilandscape_handle.hpp"
 
 #include "game_manager/ih/gm_igame_manager.hpp"
 
@@ -102,24 +101,34 @@ Environment::removeFrameworkView( boost::intrusive_ptr< Framework::GUI::WindowMa
 
 /*---------------------------------------------------------------------------*/
 
-boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-Environment::initializeLandscapeManager( const QString& _fileName ) const
+void
+Environment::initializeLandscapeModel( const QString& _fileName ) const
 {
-	m_pluginInstance.getLandscapeManager()->initCurrentLandscape( _fileName );
-	return m_pluginInstance.getLandscapeManager()->getCurrentLandscape();
+	m_pluginInstance.getLandscapeModel()->initCurrentLandscape( _fileName );
 
-} // Environment::initializeLandscape
+} // Environment::initializeLandscapeModel
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Environment::resetLandscapeManager() const
+Environment::resetLandscapeModel() const
 {
-	m_pluginInstance.getLandscapeManager()->closeCurrentLandscape();
+	m_pluginInstance.getLandscapeModel()->closeCurrentLandscape();
 
-} // Environment::closeLandscape
+} // Environment::resetLandscapeModel
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle >
+Environment::getCurrentLandscape() const
+{
+	return m_pluginInstance.getLandscapeModel()->getCurrentLandscape();
+
+} // Environment::getCurrentLandscape
 
 
 /*---------------------------------------------------------------------------*/
@@ -160,56 +169,12 @@ Environment::tryToOpenLandscape( const QString& _landscapePath ) const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-Environment::getSurfaceItem( const unsigned int _index ) const
-{
-	return m_pluginInstance.getSurfaceItemsCache()->getSurfaceItem( _index );
-
-} // Environment::getSurfaceItem
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-Environment::getDefaultSurfaceItem() const
-{
-	return m_pluginInstance.getSurfaceItemsCache()->getDefaultSurfaceItem();
-
-} // Environment::getDefaultSurfaceItem
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Environment::runGameManager() const
-{
-	m_pluginInstance.getGameManager()->run();
-
-} // Environment::runGameManager
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Environment::stopGameManager() const
-{
-	m_pluginInstance.getGameManager()->stop();
-
-} // Environment::stopGameManager
-
-
-/*---------------------------------------------------------------------------*/
-
-
 void
 Environment::selectItemsInModel(
-		const Core::LandscapeModel::Point& _from
-	,	const Core::LandscapeModel::Point& _to ) const
+		const QPoint& _from
+	,	const QPoint& _to ) const
 {
-	m_pluginInstance.getGameManager()->pushSelectAction( _from, _to );
+	//m_pluginInstance.getLandscapeModel()->pushSelectAction( _from, _to );
 
 } // Environment::selectItemsInModel
 
@@ -218,9 +183,9 @@ Environment::selectItemsInModel(
 
 
 void
-Environment::moveSelectedItems( const Core::LandscapeModel::Point& _to ) const
+Environment::moveSelectedItems( const QPoint& _to ) const
 {
-	m_pluginInstance.getGameManager()->pushMoveAction( _to );
+	//m_pluginInstance.getLandscapeModel()->pushMoveAction( _to );
 
 } // Environment::moveSelectedItems
 

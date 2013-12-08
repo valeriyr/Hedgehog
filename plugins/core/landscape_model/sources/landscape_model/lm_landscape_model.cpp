@@ -79,6 +79,7 @@ LandscapeModel::initCurrentLandscape ( const QString& _filePath )
 void
 LandscapeModel::closeCurrentLandscape()
 {
+	m_actionsQueue->clear();
 	m_currentLandscape.reset();
 
 } // LandscapeModel::closeCurrentLandscape
