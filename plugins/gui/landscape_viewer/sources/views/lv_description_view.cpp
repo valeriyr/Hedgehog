@@ -73,16 +73,13 @@ DescriptionView::viewWasClosed()
 
 
 void
-DescriptionView::landscapeWasOpened(
-		const Plugins::Core::LandscapeModel::ILandscape& _landscape
-	,	const QString& _landscapeFilePath
-	)
+DescriptionView::landscapeWasOpened( const QSize& _size, const QString& _landscapeFilePath )
 {
 	m_descriptionView->setHtml(
 		QString( Resources::Views::LandscapeDescriptionFormat )
 			.arg( _landscapeFilePath )
-			.arg( _landscape.getWidth() )
-			.arg( _landscape.getHeight() )
+			.arg( _size.width() )
+			.arg( _size.height() )
 		);
 
 } // DescriptionView::landscapeWasOpened

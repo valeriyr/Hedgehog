@@ -164,10 +164,6 @@ PluginInstance::fillSurfaceItemsCache()
 
 	m_surfaceItemsCache->regSurfaceItem( 101, TerrainMapItem::Water );
 
-	//Default surface item
-
-	m_surfaceItemsCache->setDefaultSurfaceItem( 5 );
-
 } // PluginInstance::fillSurfaceItemsCache
 
 

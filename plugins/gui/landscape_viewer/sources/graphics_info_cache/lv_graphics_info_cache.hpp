@@ -64,6 +64,16 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void fetchSurfaceItemGraphicsInfos(
+			const QString& _skinId
+		,	SurfaceItemGraphicsInfoCollection& _collection ) const;
+
+	/*virtual*/ void fetchObjectsGraphicsInfos(
+			const QString& _skinId
+		,	ObjectGraphicsInfoCollection& _collection ) const;
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/

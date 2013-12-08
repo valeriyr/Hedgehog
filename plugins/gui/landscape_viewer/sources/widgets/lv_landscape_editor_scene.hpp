@@ -75,8 +75,7 @@ public slots:
 
 /*---------------------------------------------------------------------------*/
 
-	void onChangeSurfaceItem(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > _surfaceItem );
+	void onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id );
 
 	void onMousePossitionWasChanged( const QPointF& _point );
 

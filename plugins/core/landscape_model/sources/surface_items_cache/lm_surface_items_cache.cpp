@@ -33,43 +33,6 @@ SurfaceItemsCache::~SurfaceItemsCache()
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ISurfaceItem >
-SurfaceItemsCache::getSurfaceItem( const ISurfaceItem::IdType _id ) const
-{
-	SurfaceItemsCollectionIterator iterator( m_surfaceItemsCollection.find( _id ) );
-
-	if ( iterator != m_surfaceItemsCollection.end() )
-		return iterator->second;
-
-	return boost::intrusive_ptr< ISurfaceItem >();
-
-} // SurfaceItemsCache::getSurfaceItem
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< ISurfaceItem >
-SurfaceItemsCache::getDefaultSurfaceItem() const
-{
-	if ( m_defaultSurfaceItem )
-	{
-		return m_defaultSurfaceItem;
-	}
-
-	if ( !m_surfaceItemsCollection.empty() )
-	{
-		return m_surfaceItemsCollection.begin()->second;
-	}
-
-	return boost::intrusive_ptr< ISurfaceItem >();
-
-} // SurfaceItemsCache::getDefaultSurfaceItem
-
-
-/*---------------------------------------------------------------------------*/
-
-
 void
 SurfaceItemsCache::regSurfaceItem(
 		const ISurfaceItem::IdType _id
@@ -86,17 +49,17 @@ SurfaceItemsCache::regSurfaceItem(
 /*---------------------------------------------------------------------------*/
 
 
-void
-SurfaceItemsCache::setDefaultSurfaceItem( const ISurfaceItem::IdType _id )
+boost::intrusive_ptr< ISurfaceItem >
+SurfaceItemsCache::getSurfaceItem( const ISurfaceItem::IdType _id ) const
 {
 	SurfaceItemsCollectionIterator iterator( m_surfaceItemsCollection.find( _id ) );
 
 	if ( iterator != m_surfaceItemsCollection.end() )
-		m_defaultSurfaceItem = iterator->second;
+		return iterator->second;
 
-	m_defaultSurfaceItem.reset();
+	return boost::intrusive_ptr< ISurfaceItem >();
 
-} // SurfaceItemsCache::setDefaultSurfaceItem
+} // SurfaceItemsCache::getSurfaceItem
 
 
 /*---------------------------------------------------------------------------*/

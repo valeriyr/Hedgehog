@@ -6,6 +6,8 @@
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
+#include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
+#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
@@ -23,11 +25,13 @@ namespace LandscapeViewer {
 
 ObjectsView::ObjectsView(
 		const IEnvironment& _environment
+	,	const IGraphicsInfoCache& _graphicsInfoCache
 	,	const ViewsMediator& _viewsMediator
 	,	QObject* _parent
 	)
 	:	QObject( _parent )
 	,	m_environment( _environment )
+	,	m_graphicsInfoCache( _graphicsInfoCache )
 	,	m_viewsMediator( _viewsMediator )
 	,	m_objectsView( new QTreeWidget() )
 	,	m_viewTitle( Resources::Views::ObjectsViewTitle )
@@ -45,41 +49,9 @@ ObjectsView::ObjectsView(
 	QTreeWidgetItem* wastelandSurface = new QTreeWidgetItem();
 	wastelandSurface->setText( 0, "Wasteland" );
 
-	for ( int i = 0; i < 384; ++i )
-	{
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-			surfaceItem = _environment.getSurfaceItem( i );
-
-		QTreeWidgetItem* summerItem = new QTreeWidgetItem();
-		summerItem->setText( 0, QString( "%1" ).arg( surfaceItem->getIndex() ) );
-		summerItem->setIcon( 0, QIcon( _environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) ) );
-
-		summerSurface->addChild( summerItem );
-	}
-
-	for ( int i = 384; i < 768; ++i )
-	{
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-			surfaceItem = _environment.getSurfaceItem( i );
-
-		QTreeWidgetItem* winterItem = new QTreeWidgetItem();
-		winterItem->setText( 0, QString( "%1" ).arg( surfaceItem->getIndex() ) );
-		winterItem->setIcon( 0, QIcon( _environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) ) );
-
-		winterSurface->addChild( winterItem );
-	}
-
-	for ( int i = 768; i < 1152; ++i )
-	{
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-			surfaceItem = _environment.getSurfaceItem( i );
-
-		QTreeWidgetItem* wastelandItem = new QTreeWidgetItem();
-		wastelandItem->setText( 0, QString( "%1" ).arg( surfaceItem->getIndex() ) );
-		wastelandItem->setIcon( 0, QIcon( _environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) ) );
-
-		wastelandSurface->addChild( wastelandItem );
-	}
+	fillWithSurfaceItems( "summer", summerSurface );
+	fillWithSurfaceItems( "winter", winterSurface );
+	fillWithSurfaceItems( "wasteland", wastelandSurface );
 
 	m_objectsView->addTopLevelItem( summerSurface );
 	m_objectsView->addTopLevelItem( winterSurface );
@@ -87,7 +59,7 @@ ObjectsView::ObjectsView(
 
 	QList< QTreeWidgetItem* > items
 		= m_objectsView->findItems(
-		QString( "%1" ).arg( _environment.getDefaultSurfaceItem()->getIndex() )
+				QString( "%1" ).arg( Resources::Landscape::DefaultSurfaceItem )
 			,	Qt::MatchFixedString | Qt::MatchRecursive );
 
 	m_objectsView->setCurrentItem( items.first() );
@@ -100,9 +72,9 @@ ObjectsView::ObjectsView(
 
 	QObject::connect(
 			this
-		,	SIGNAL( currentSurfaceItemWasChanged( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) )
+		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) )
 		,	&m_viewsMediator
-		,	SIGNAL( currentSurfaceItemWasChanged( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) ) );
+		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) ) );
 
 } // ObjectsView::ObjectsView
 
@@ -120,9 +92,9 @@ ObjectsView::~ObjectsView()
 
 	QObject::disconnect(
 			this
-		,	SIGNAL( currentSurfaceItemWasChanged( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) )
+		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) )
 		,	&m_viewsMediator
-		,	SIGNAL( currentSurfaceItemWasChanged( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) ) );
+		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) ) );
 
 } // ObjectsView::~ObjectsView
 
@@ -184,9 +156,34 @@ ObjectsView::landscapeWasClosed()
 void
 ObjectsView::onCurrentItemChanged( QTreeWidgetItem* _current, QTreeWidgetItem* _previous )
 {
-	emit currentSurfaceItemWasChanged( m_environment.getSurfaceItem( _current->text( 0 ).toUInt() ) );
+	emit currentSurfaceItemWasChanged( _current->text( 0 ).toUInt() );
 
 } // ObjectsView::onCurrentItemChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectsView::fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _parentNode )
+{
+	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection collection;
+	m_graphicsInfoCache.fetchSurfaceItemGraphicsInfos( _skinId, collection );
+
+	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollectionIterator
+			begin = collection.begin()
+		,	end = collection.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		QTreeWidgetItem* item = new QTreeWidgetItem();
+		item->setText( 0, QString( "%1" ).arg( ( *begin )->getId() ) );
+		item->setIcon( 0, QIcon( m_environment.getPixmap( ( *begin )->getAtlasName(), ( *begin )->getFrameRect() ) ) );
+
+		_parentNode->addChild( item );
+	}
+
+} // ObjectsView::fillWithSurfaceItems
 
 
 /*---------------------------------------------------------------------------*/

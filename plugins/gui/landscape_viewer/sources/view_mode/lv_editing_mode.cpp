@@ -22,12 +22,16 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-EditingMode::EditingMode( const IEnvironment& _environment )
+EditingMode::EditingMode(
+		const IEnvironment& _environment
+	,	const IGraphicsInfoCache& _graphicsInfoCache
+	)
 	:	BaseMode( _environment )
+	,	m_landscape()
 	,	m_descriptionView( new DescriptionView() )
 	,	m_editorView( new EditorView( _environment, *m_viewsMediator ) )
 	,	m_minimapView( new MinimapView( _environment, *m_viewsMediator ) )
-	,	m_objectsView( new ObjectsView( _environment, *m_viewsMediator ) )
+	,	m_objectsView( new ObjectsView( _environment, _graphicsInfoCache, *m_viewsMediator ) )
 {
 	m_environment.addFrameworkView( m_objectsView, Framework::GUI::WindowManager::ViewPosition::Left );
 	m_environment.addFrameworkView( m_editorView, Framework::GUI::WindowManager::ViewPosition::Center );
@@ -78,18 +82,17 @@ EditingMode::isEditingMode() const
 void
 EditingMode::openLandscape( const QString& _filePath )
 {
-	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > landscape
-		= m_environment.tryToOpenLandscape( _filePath );
+	m_landscape = m_environment.tryToOpenLandscape( _filePath );
 
-	if ( !landscape )
-		landscape = m_environment.createLandscape( 300, 300 );
+	if ( !m_landscape )
+		m_landscape = m_environment.createLandscape( 300, 300 );
 
-	landscapeWasOpened( _filePath, landscape );
+	landscapeWasOpened( _filePath );
 
-	m_descriptionView->landscapeWasOpened( *m_landscape, m_landscapeFilePath );
+	m_descriptionView->landscapeWasOpened( QSize( m_landscape->getWidth(), m_landscape->getHeight() ), m_landscapeFilePath );
 	m_objectsView->landscapeWasOpened();
-	m_minimapView->landscapeWasOpened( m_landscape );
-	m_editorView->landscapeWasOpened( m_landscape );
+	m_minimapView->landscapeWasOpened();
+	m_editorView->landscapeWasOpened();
 
 } // EditingMode::openLandscape
 
@@ -106,6 +109,8 @@ EditingMode::closeLandscape()
 	m_editorView->landscapeWasClosed();
 
 	landscapeWasClosed();
+
+	m_landscape.reset();
 
 } // EditingMode::closeLandscape
 

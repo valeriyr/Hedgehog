@@ -15,6 +15,7 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
+struct IGraphicsInfoCache;
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +29,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeViewer( const IEnvironment& _environment );
+	LandscapeViewer(
+			const IEnvironment& _environment
+		,	const IGraphicsInfoCache& _graphicsInfoCache );
 
 	virtual ~LandscapeViewer();
 
@@ -61,6 +64,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	const IGraphicsInfoCache& m_graphicsInfoCache;
 
 	boost::intrusive_ptr< IViewMode > m_viewMode;
 

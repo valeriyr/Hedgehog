@@ -61,9 +61,9 @@ EditorView::EditorView( const IEnvironment& _environment, const ViewsMediator& _
 
 	QObject::connect(
 			&m_viewsMediator
-		,	SIGNAL( currentSurfaceItemWasChanged( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) )
+		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) )
 		,	m_landscapeScene.get()
-		,	SLOT( onChangeSurfaceItem( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) ) );
+		,	SLOT( onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) ) );
 
 } // EditorView::EditorView
 
@@ -105,9 +105,9 @@ EditorView::~EditorView()
 
 	QObject::disconnect(
 			&m_viewsMediator
-		,	SIGNAL( currentSurfaceItemWasChanged( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) )
+		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) )
 		,	m_landscapeScene.get()
-		,	SLOT( onChangeSurfaceItem( boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > ) ) );
+		,	SLOT( onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) ) );
 
 } // EditorView::~EditorView
 

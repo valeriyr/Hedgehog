@@ -56,8 +56,7 @@ signals:
 
 	void visibilityRectChangedPosition( const float _visibleWidth, const float _visibleHeight );
 
-	void currentSurfaceItemWasChanged(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > _surfaceItem );
+	void currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id );
 
 	void updateTimerFired();
 

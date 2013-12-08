@@ -8,19 +8,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct IEditableLandscape;
-		}
-	}
-}
-
-/*---------------------------------------------------------------------------*/
-
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -38,9 +25,6 @@ struct IViewMode
 	virtual bool isEditingMode() const = 0;
 
 /*---------------------------------------------------------------------------*/
-
-	virtual boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		getCurrentLandscape() const = 0;
 
 	virtual QString getLandscapeFilePath() const = 0;
 

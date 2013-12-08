@@ -8,11 +8,26 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct IEditableLandscape;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
+
+struct IGraphicsInfoCache;
 
 class DescriptionView;
 class EditorView;
@@ -31,7 +46,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	EditingMode( const IEnvironment& _environment );
+	EditingMode(
+			const IEnvironment& _environment
+		,	const IGraphicsInfoCache& _graphicsInfoCache );
 
 	virtual ~EditingMode();
 
@@ -52,6 +69,8 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > m_landscape;
 
 	boost::intrusive_ptr< DescriptionView > m_descriptionView;
 	boost::intrusive_ptr< EditorView > m_editorView;

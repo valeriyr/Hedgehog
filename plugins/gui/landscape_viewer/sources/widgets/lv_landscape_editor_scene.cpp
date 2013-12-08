@@ -51,7 +51,7 @@ LandscapeEditorScene::landscapeWasOpened(
 	m_landscape = _landscape;
 	regenerate();
 
-	onChangeSurfaceItem( m_environment.getDefaultSurfaceItem() );
+	onChangeSurfaceItem( Resources::Landscape::DefaultSurfaceItem );
 
 } // LandscapeEditorScene::landscapeWasOpened
 
@@ -116,8 +116,7 @@ LandscapeEditorScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 
 
 void
-LandscapeEditorScene::onChangeSurfaceItem(
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > _surfaceItem )
+LandscapeEditorScene::onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id )
 {
 	m_surfaceItem = _surfaceItem;
 

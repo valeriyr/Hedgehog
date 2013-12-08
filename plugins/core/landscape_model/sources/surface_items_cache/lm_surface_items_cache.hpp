@@ -30,18 +30,12 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< ISurfaceItem >
-		getSurfaceItem( const ISurfaceItem::IdType _id ) const;
-
-	/*virtual*/ boost::intrusive_ptr< ISurfaceItem > getDefaultSurfaceItem() const;
-
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ void regSurfaceItem(
 			const ISurfaceItem::IdType _id
 		,	const TerrainMapItem::Enum _terrainMapItem );
 
-	/*virtual*/ void setDefaultSurfaceItem( const ISurfaceItem::IdType _id );
+	/*virtual*/ boost::intrusive_ptr< ISurfaceItem >
+		getSurfaceItem( const ISurfaceItem::IdType _id ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,8 +53,6 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	SurfaceItemsCollection m_surfaceItemsCollection;
-
-	boost::intrusive_ptr< ISurfaceItem > m_defaultSurfaceItem;
 
 /*---------------------------------------------------------------------------*/
 

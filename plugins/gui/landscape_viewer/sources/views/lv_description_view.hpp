@@ -53,9 +53,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasOpened(
-			const Plugins::Core::LandscapeModel::ILandscape& _landscape
-		,	const QString& _landscapeFilePath );
+	void landscapeWasOpened( const QSize& _size, const QString& _landscapeFilePath );
 
 	void landscapeWasClosed();
 

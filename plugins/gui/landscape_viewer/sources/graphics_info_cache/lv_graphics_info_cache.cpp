@@ -140,6 +140,60 @@ GraphicsInfoCache::getObjectGraphicsInfo(
 
 /*---------------------------------------------------------------------------*/
 
+
+void
+GraphicsInfoCache::fetchSurfaceItemGraphicsInfos(
+		const QString& _skinId
+	,	SurfaceItemGraphicsInfoCollection& _collection ) const
+{
+	_collection.clear();
+
+	GraphicsInfoCollectionConstIterator graphicsInfoIterator = m_graphicsInfoCollection.find( _skinId );
+
+	if ( graphicsInfoIterator == m_graphicsInfoCollection.end() )
+		return;
+
+	GraphicsInfo::SurfaceItemGraphicsInfoCollectionIterator
+			begin = graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.begin()
+		,	end = graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		_collection.push_back( begin->second );
+	}
+
+} // GraphicsInfoCache::fetchSurfaceItemGraphicsInfos
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+GraphicsInfoCache::fetchObjectsGraphicsInfos(
+		const QString& _skinId
+	,	ObjectGraphicsInfoCollection& _collection ) const
+{
+	_collection.clear();
+
+	GraphicsInfoCollectionConstIterator graphicsInfoIterator = m_graphicsInfoCollection.find( _skinId );
+
+	if ( graphicsInfoIterator == m_graphicsInfoCollection.end() )
+		return;
+
+	GraphicsInfo::ObjectGraphicsInfoCollectionIterator
+			begin = graphicsInfoIterator->second.m_objectGraphicsInfo.begin()
+		,	end = graphicsInfoIterator->second.m_objectGraphicsInfo.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		_collection.push_back( begin->second );
+	}
+
+} // GraphicsInfoCache::fetchObjectsGraphicsInfos
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins

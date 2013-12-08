@@ -25,18 +25,12 @@ struct ISurfaceItemsCache
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< ISurfaceItem >
-		getSurfaceItem( const ISurfaceItem::IdType _id ) const = 0;
-
-	virtual boost::intrusive_ptr< ISurfaceItem > getDefaultSurfaceItem() const = 0;
-
-/*---------------------------------------------------------------------------*/
-
 	virtual void regSurfaceItem(
 			const ISurfaceItem::IdType _id
 		,	const TerrainMapItem::Enum _terrainMapItem ) = 0;
 
-	virtual void setDefaultSurfaceItem( const ISurfaceItem::IdType _id ) = 0;
+	virtual boost::intrusive_ptr< ISurfaceItem >
+		getSurfaceItem( const ISurfaceItem::IdType _id ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

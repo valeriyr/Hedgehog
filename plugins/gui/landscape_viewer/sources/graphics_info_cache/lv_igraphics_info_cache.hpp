@@ -26,6 +26,22 @@ struct IGraphicsInfoCache
 
 /*---------------------------------------------------------------------------*/
 
+	typedef
+		std::vector< boost::intrusive_ptr< ISurfaceItemGraphicsInfo > >
+		SurfaceItemGraphicsInfoCollection;
+	typedef
+		SurfaceItemGraphicsInfoCollection::iterator
+		SurfaceItemGraphicsInfoCollectionIterator;
+
+	typedef
+		std::vector< boost::intrusive_ptr< IObjectGraphicsInfo > >
+		ObjectGraphicsInfoCollection;
+	typedef
+		ObjectGraphicsInfoCollection::iterator
+		ObjectGraphicsInfoCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual void regSurfaceItemGraphicsInfo(
 			const QString& _skinId
 		,	const Core::LandscapeModel::ISurfaceItem::IdType& _id
@@ -49,6 +65,16 @@ struct IGraphicsInfoCache
 		getObjectGraphicsInfo(
 				const QString& _skinId
 			,	const QString& _objectName ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void fetchSurfaceItemGraphicsInfos(
+			const QString& _skinId
+		,	SurfaceItemGraphicsInfoCollection& _collection ) const = 0;
+
+	virtual void fetchObjectsGraphicsInfos(
+			const QString& _skinId
+		,	ObjectGraphicsInfoCollection& _collection ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

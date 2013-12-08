@@ -5,19 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "window_manager/ih/wm_iview.hpp"
-
-/*---------------------------------------------------------------------------*/
-
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct ISurfaceItem;
-		}
-	}
-}
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,6 +16,7 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
+struct IGraphicsInfoCache;
 
 class ViewsMediator;
 
@@ -50,6 +39,7 @@ public:
 
 	ObjectsView(
 			const IEnvironment& _environment
+		,	const IGraphicsInfoCache& _graphicsInfoCache
 		,	const ViewsMediator& _viewsMediator
 		,	QObject* _parent = NULL );
 
@@ -77,8 +67,7 @@ signals:
 
 /*---------------------------------------------------------------------------*/
 
-	void currentSurfaceItemWasChanged(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > _surfaceItem );
+	void currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id );
 
 /*---------------------------------------------------------------------------*/
 
@@ -94,7 +83,17 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _parentNode );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
 	const IEnvironment& m_environment;
+
+	const IGraphicsInfoCache& m_graphicsInfoCache;
 
 	const ViewsMediator& m_viewsMediator;
 

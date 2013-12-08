@@ -6,6 +6,7 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
+#include "landscape_model/ih/lm_ilandscape_handle.hpp"
 
 #include "landscape_viewer/sources/views/lv_description_view.hpp"
 #include "landscape_viewer/sources/views/lv_landscape_view.hpp"
@@ -83,11 +84,14 @@ void
 PlayingMode::openLandscape( const QString& _filePath )
 {
 	m_environment.initializeLandscapeModel( _filePath );
-	landscapeWasOpened( _filePath, m_environment.initializeLandscapeModel( _filePath ) );
+	landscapeWasOpened( _filePath );
 
-	m_descriptionView->landscapeWasOpened( *m_landscape, _filePath );
-	m_minimapView->landscapeWasOpened( m_landscape );
-	m_landscapeView->landscapeWasOpened( m_landscape );
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
+
+	m_descriptionView->landscapeWasOpened( QSize( handle->getLandscape()->getWidth(), handle->getLandscape()->getHeight() ), _filePath );
+	m_minimapView->landscapeWasOpened();
+	m_landscapeView->landscapeWasOpened();
 
 	m_timer.start( ms_updatePeriod );
 

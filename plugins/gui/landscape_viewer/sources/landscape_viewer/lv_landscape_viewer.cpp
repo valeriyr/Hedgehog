@@ -18,8 +18,12 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
+LandscapeViewer::LandscapeViewer(
+		const IEnvironment& _environment
+	,	const IGraphicsInfoCache& _graphicsInfoCache
+	)
 	:	m_environment( _environment )
+	,	m_graphicsInfoCache( _graphicsInfoCache )
 	,	m_viewMode()
 {
 	ensurePlayingMode();
@@ -64,7 +68,7 @@ void
 LandscapeViewer::ensureLandscapeEditingMode()
 {
 	if ( !m_viewMode || !m_viewMode->isEditingMode() )
-		m_viewMode = boost::intrusive_ptr< IViewMode >( new EditingMode( m_environment ) );
+		m_viewMode = boost::intrusive_ptr< IViewMode >( new EditingMode( m_environment, m_graphicsInfoCache ) );
 
 } // LandscapeViewer::ensureLandscapeEditingMode
 
