@@ -1,10 +1,10 @@
 
-#ifndef __LM_LANDSCAPE_HANDLE_HPP__
-#define __LM_LANDSCAPE_HANDLE_HPP__
+#ifndef __LM_ACTIONS_QUEUE_HPP__
+#define __LM_ACTIONS_QUEUE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/sources/actions_queue/lm_iactions_queue.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,12 +14,8 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeModelInternal;
-
-/*---------------------------------------------------------------------------*/
-
-class LandscapeHandle
-	:	public Tools::Core::BaseWrapper< ILandscapeHandle >
+class ActionsQueue
+	:	public Tools::Core::BaseWrapper< IActionsQueue >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,13 +24,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeHandle( ILandscapeModelInternal& _landscapeModel );
+	ActionsQueue();
 
-	virtual ~LandscapeHandle();
+	virtual ~ActionsQueue();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getLandscape() const;
+	/*virtual*/ void pushAction( boost::intrusive_ptr< IAction > _action );
+
+	/*virtual*/ void processAction( const unsigned int _deltaTime );
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,9 +40,15 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const ILandscapeModelInternal& m_landscapeModel;
+	typedef
+		std::vector< boost::intrusive_ptr< IAction > >
+		ActionsCollection;
+	typedef ActionsCollection::iterator ActionsCollectionIterator;
 
-	QMutexLocker m_lockerHolder;
+/*---------------------------------------------------------------------------*/
+
+	ActionsCollection m_actionsCollection;
+	QMutex m_actionsQueueLocker;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,4 +62,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_LANDSCAPE_HANDLE_HPP__
+#endif // __LM_ACTIONS_QUEUE_HPP__

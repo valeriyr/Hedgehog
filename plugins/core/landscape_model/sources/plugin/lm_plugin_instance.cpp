@@ -3,7 +3,10 @@
 
 #include "landscape_model/sources/plugin/lm_plugin_instance.hpp"
 
+#include "messenger/ms_imessenger.hpp"
+
 #include "plugins_manager/h/pm_plugin_factory.hpp"
+#include "plugins_manager/h/pm_plugin_id.hpp"
 
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 #include "multithreading_manager/h/mm_plugin_id.hpp"
@@ -11,6 +14,7 @@
 #include "event_manager/ih/em_ievent_manager.hpp"
 #include "event_manager/h/em_plugin_id.hpp"
 
+#include "landscape_model/sources/environment/lm_environment.hpp"
 #include "landscape_model/sources/landscape_editor/lm_landscape_editor.hpp"
 #include "landscape_model/sources/landscape_model/lm_landscape_model.hpp"
 #include "landscape_model/sources/landscape_serializer/lm_landscape_serializer.hpp"
@@ -61,11 +65,12 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	m_environment.reset( new Environment( *this ) );
 	m_objectTypesCache.reset( new ObjectTypesCache() );
 	m_surfaceItemsCache.reset( new SurfaceItemsCache() );
 	m_landscapeSerializer.reset( new LandscapeSerializer() );
 	m_landscapeEditor.reset( new LandscapeEditor( *m_landscapeSerializer, *m_surfaceItemsCache, *m_objectTypesCache ) );
-	m_landscapeModel.reset( new LandscapeModel( *m_landscapeSerializer, *m_surfaceItemsCache, *m_objectTypesCache ) );
+	m_landscapeModel.reset( new LandscapeModel( *m_environment, *m_landscapeSerializer, *m_surfaceItemsCache, *m_objectTypesCache ) );
 
 } // PluginInstance::initialize
 
@@ -81,8 +86,23 @@ PluginInstance::close()
 	m_landscapeSerializer.reset();
 	m_surfaceItemsCache.reset();
 	m_objectTypesCache.reset();
+	m_environment.reset();
 
 } // PluginInstance::close
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Tools::Core::IMessenger >
+PluginInstance::getSystemMessenger() const
+{
+	return
+		getPluginInterface< Tools::Core::IMessenger >(
+				Framework::Core::PluginsManager::PID_PLUGINS_MANAGER
+			,	Tools::Core::IID_MESSENGER );
+
+} // PluginInstance::getSystemMessenger
 
 
 /*---------------------------------------------------------------------------*/

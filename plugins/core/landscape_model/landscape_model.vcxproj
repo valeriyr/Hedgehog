@@ -19,6 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\actions\lm_base_action.cpp" />
+    <ClCompile Include="sources\actions\lm_move_items_action.cpp" />
+    <ClCompile Include="sources\actions\lm_select_items_action.cpp" />
+    <ClCompile Include="sources\actions_queue\lm_actions_queue.cpp" />
+    <ClCompile Include="sources\environment\lm_environment.cpp" />
     <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp" />
     <ClCompile Include="sources\landscape\lm_landscape.cpp" />
     <ClCompile Include="sources\landscape_editor\lm_landscape_editor.cpp" />
@@ -53,6 +58,14 @@
     <ClInclude Include="ih\lm_isurface_item.hpp" />
     <ClInclude Include="ih\lm_isurface_items_cache.hpp" />
     <ClInclude Include="ih\lm_iunit.hpp" />
+    <ClInclude Include="sources\actions\lm_base_action.hpp" />
+    <ClInclude Include="sources\actions\lm_iaction.hpp" />
+    <ClInclude Include="sources\actions\lm_move_items_action.hpp" />
+    <ClInclude Include="sources\actions\lm_select_items_action.hpp" />
+    <ClInclude Include="sources\actions_queue\lm_actions_queue.hpp" />
+    <ClInclude Include="sources\actions_queue\lm_iactions_queue.hpp" />
+    <ClInclude Include="sources\environment\lm_environment.hpp" />
+    <ClInclude Include="sources\environment\lm_ienvironment.hpp" />
     <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
     <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp" />

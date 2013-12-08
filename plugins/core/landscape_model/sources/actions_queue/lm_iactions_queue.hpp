@@ -1,10 +1,10 @@
 
-#ifndef __LM_ILANDSCAPE_HANDLE_HPP__
-#define __LM_ILANDSCAPE_HANDLE_HPP__
+#ifndef __LM_IACTIONS_QUEUE_HPP__
+#define __LM_IACTIONS_QUEUE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,10 +14,22 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeHandle
+struct IAction;
+
+/*---------------------------------------------------------------------------*/
+
+struct IActionsQueue
 	:	public Tools::Core::IBase
 {
-	virtual boost::intrusive_ptr< IEditableLandscape > getLandscape() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void pushAction( boost::intrusive_ptr< IAction > _action ) = 0;
+
+	virtual void processAction( const unsigned int _deltaTime ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
 };
 
 /*---------------------------------------------------------------------------*/
@@ -28,4 +40,4 @@ struct ILandscapeHandle
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_HANDLE_HPP__
+#endif // __LM_IACTIONS_QUEUE_HPP__

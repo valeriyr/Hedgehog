@@ -1,11 +1,10 @@
 
-#ifndef __LM_IEDITABLE_LANDSCAPE_HPP__
-#define __LM_IEDITABLE_LANDSCAPE_HPP__
+#include "landscape_model/sources/ph/lm_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "landscape_model/sources/actions/lm_move_items_action.hpp"
 
-#include "landscape_model/ih/lm_ilandscape.hpp"
-#include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/sources/environment/lm_ienvironment.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,35 +14,54 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEditableLandscape
-	:	public ILandscape
+
+MoveAction::MoveAction(
+		const IEnvironment& _environment
+	,	ILandscapeModel& _landscapeModel
+	,	const QPoint& _to
+	)
+	:	BaseAction( _environment, _landscapeModel )
+	,	m_to( _to )
 {
+} // MoveAction::MoveAction
+
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setSize(
-			const unsigned int _width
-		,	const unsigned int _height ) = 0;
+
+MoveAction::~MoveAction()
+{
+} // MoveAction::~MoveAction
+
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setSurfaceItem(
-			const QPoint& _point
-		,	const ISurfaceItem::IdType& _surfaceItemId ) = 0;
+
+void
+MoveAction::processAction( const unsigned int _deltaTime )
+{
+} // MoveAction::processAction
+
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void createUnit(
-			const QRect& _rect
-		,	const QString& _unitName ) = 0;
 
-	virtual void selectUnits( const QRect& _rect ) = 0;
+void
+MoveAction::unprocessAction( const unsigned int _deltaTime )
+{
+} // MoveAction::unprocessAction
 
-	virtual void unselectUnits() = 0;
 
 /*---------------------------------------------------------------------------*/
 
-};
+
+bool
+MoveAction::hasFinished() const
+{
+	return true;
+
+} // MoveAction::hasFinished
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -52,5 +70,3 @@ struct IEditableLandscape
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LM_IEDITABLE_LANDSCAPE_HPP__

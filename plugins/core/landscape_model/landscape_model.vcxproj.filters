@@ -46,6 +46,15 @@
     <Filter Include="Object Types Cache">
       <UniqueIdentifier>{31feb3a4-194a-4b11-a22a-ea7d9cf91da4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{fbf08fa7-b1bd-450a-9c00-c08e8e433b85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actions">
+      <UniqueIdentifier>{86241734-2789-48bf-9575-33d71c35b90d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Action Queue">
+      <UniqueIdentifier>{f28a99d3-a8cb-42d4-95a2-3b0b6e18e5ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -86,6 +95,21 @@
     </ClCompile>
     <ClCompile Include="sources\landscape_handle\lm_landscape_handle.cpp">
       <Filter>Landscape Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\environment\lm_environment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\actions\lm_base_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\actions\lm_move_items_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\actions\lm_select_items_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\actions_queue\lm_actions_queue.cpp">
+      <Filter>Action Queue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +199,30 @@
     </ClInclude>
     <ClInclude Include="sources\landscape_handle\lm_landscape_handle.hpp">
       <Filter>Landscape Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\lm_environment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\lm_ienvironment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_base_action.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_iaction.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_move_items_action.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_select_items_action.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions_queue\lm_actions_queue.hpp">
+      <Filter>Action Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions_queue\lm_iactions_queue.hpp">
+      <Filter>Action Queue</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

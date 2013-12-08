@@ -1,10 +1,8 @@
 
-#ifndef __LM_ILANDSCAPE_HANDLE_HPP__
-#define __LM_ILANDSCAPE_HANDLE_HPP__
+#include "landscape_model/sources/ph/lm_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "landscape_model/sources/actions/lm_base_action.hpp"
 
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,11 +12,24 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeHandle
-	:	public Tools::Core::IBase
+
+BaseAction::BaseAction(
+		const IEnvironment& _environment
+	,	ILandscapeModel& _landscapeModel
+	)
+	:	m_environment( _environment )
+	,	m_landscapeModel( _landscapeModel )
 {
-	virtual boost::intrusive_ptr< IEditableLandscape > getLandscape() const = 0;
-};
+} // BaseAction::BaseAction
+
+
+/*---------------------------------------------------------------------------*/
+
+
+BaseAction::~BaseAction()
+{
+} // BaseAction::~BaseAction
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,5 +38,3 @@ struct ILandscapeHandle
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LM_ILANDSCAPE_HANDLE_HPP__

@@ -1,10 +1,10 @@
 
-#ifndef __LM_LANDSCAPE_HANDLE_HPP__
-#define __LM_LANDSCAPE_HANDLE_HPP__
+#ifndef __LM_ENVIRONMENT_HPP__
+#define __LM_ENVIRONMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,12 +14,12 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeModelInternal;
+class PluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
-class LandscapeHandle
-	:	public Tools::Core::BaseWrapper< ILandscapeHandle >
+class Environment
+	:	public Tools::Core::BaseWrapper< IEnvironment >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,13 +28,25 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeHandle( ILandscapeModelInternal& _landscapeModel );
+	Environment( PluginInstance& _pluginInstance );
 
-	virtual ~LandscapeHandle();
+	virtual ~Environment();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getLandscape() const;
+	/*virtual*/ void startThread( const QString& _threadName ) const;
+
+	/*virtual*/ void stopThread( const QString& _threadName ) const;
+
+	/*virtual*/ Framework::Core::MultithreadingManager::TaskHandle
+		pushTask(
+				const QString& _threadName
+			,	Framework::Core::MultithreadingManager::RunnableFunction _function
+			,	const qint64 _period ) const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void printMessage( const QString& _message ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,9 +54,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const ILandscapeModelInternal& m_landscapeModel;
-
-	QMutexLocker m_lockerHolder;
+	PluginInstance& m_pluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,4 +68,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_LANDSCAPE_HANDLE_HPP__
+#endif // __LM_ENVIRONMENT_HPP__

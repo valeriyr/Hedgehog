@@ -1,10 +1,10 @@
 
-#ifndef __LM_LANDSCAPE_HANDLE_HPP__
-#define __LM_LANDSCAPE_HANDLE_HPP__
+#ifndef __GM_SELECT_ITEMS_ACTION_HPP__
+#define __GM_SELECT_ITEMS_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/sources/actions/lm_base_action.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,12 +14,8 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeModelInternal;
-
-/*---------------------------------------------------------------------------*/
-
-class LandscapeHandle
-	:	public Tools::Core::BaseWrapper< ILandscapeHandle >
+class SelectAction
+	:	public BaseAction
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,13 +24,20 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeHandle( ILandscapeModelInternal& _landscapeModel );
+	SelectAction(
+			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel
+		,	const QRect& _rect );
 
-	virtual ~LandscapeHandle();
+	virtual ~SelectAction();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getLandscape() const;
+	/*virtual*/ void processAction( const unsigned int _deltaTime );
+
+	/*virtual*/ void unprocessAction( const unsigned int _deltaTime );
+
+	/*virtual*/ bool hasFinished() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,9 +45,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const ILandscapeModelInternal& m_landscapeModel;
-
-	QMutexLocker m_lockerHolder;
+	const QRect m_rect;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,4 +59,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_LANDSCAPE_HANDLE_HPP__
+#endif // __GM_SELECT_ITEMS_ACTION_HPP__

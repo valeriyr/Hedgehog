@@ -223,7 +223,7 @@ Landscape::createUnit( const QRect& _rect, const QString& _unitName )
 void
 Landscape::selectUnits( const QRect& _rect )
 {
-	m_selectedUnits.clear();
+	unselectUnits();
 
 	ILandscape::UnitsCollectionIterator
 			begin = m_units.begin()
@@ -238,6 +238,17 @@ Landscape::selectUnits( const QRect& _rect )
 	}
 
 } // Landscape::selectUnits
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Landscape::unselectUnits()
+{
+	m_selectedUnits.clear();
+
+} // Landscape::unselectUnits
 
 
 /*---------------------------------------------------------------------------*/

@@ -1,10 +1,10 @@
 
-#ifndef __LM_LANDSCAPE_HANDLE_HPP__
-#define __LM_LANDSCAPE_HANDLE_HPP__
+#ifndef __LM_BASE_ACTION_HPP__
+#define __LM_BASE_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/sources/actions/lm_iaction.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,12 +14,13 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeModelInternal;
+struct IEnvironment;
+struct ILandscapeModel;
 
 /*---------------------------------------------------------------------------*/
 
-class LandscapeHandle
-	:	public Tools::Core::BaseWrapper< ILandscapeHandle >
+class BaseAction
+	:	public Tools::Core::BaseWrapper< IAction >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,23 +29,21 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeHandle( ILandscapeModelInternal& _landscapeModel );
+	BaseAction(
+			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel );
 
-	virtual ~LandscapeHandle();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getLandscape() const;
+	virtual ~BaseAction();
 
 /*---------------------------------------------------------------------------*/
 
-private:
+protected:
 
 /*---------------------------------------------------------------------------*/
 
-	const ILandscapeModelInternal& m_landscapeModel;
+	const IEnvironment& m_environment;
 
-	QMutexLocker m_lockerHolder;
+	ILandscapeModel& m_landscapeModel;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,4 +57,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_LANDSCAPE_HANDLE_HPP__
+#endif // __LM_BASE_ACTION_HPP__

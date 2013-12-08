@@ -1,11 +1,13 @@
 
-#ifndef __LM_IEDITABLE_LANDSCAPE_HPP__
-#define __LM_IEDITABLE_LANDSCAPE_HPP__
+#ifndef __LM_IENVIRONMENT_HPP__
+#define __LM_IENVIRONMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape.hpp"
-#include "landscape_model/ih/lm_isurface_item.hpp"
+#include "intrusive_base/ib_ibase.hpp"
+
+#include "multithreading_manager/h/mm_runnable_function.hpp"
+#include "multithreading_manager/h/mm_task_handle.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,31 +17,25 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEditableLandscape
-	:	public ILandscape
+struct IEnvironment
+	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setSize(
-			const unsigned int _width
-		,	const unsigned int _height ) = 0;
+	virtual void startThread( const QString& _threadName ) const = 0;
+
+	virtual void stopThread( const QString& _threadName ) const = 0;
+
+	virtual Framework::Core::MultithreadingManager::TaskHandle
+		pushTask(
+			const QString& _threadName
+		,	Framework::Core::MultithreadingManager::RunnableFunction _function
+		,	const qint64 _period ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setSurfaceItem(
-			const QPoint& _point
-		,	const ISurfaceItem::IdType& _surfaceItemId ) = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual void createUnit(
-			const QRect& _rect
-		,	const QString& _unitName ) = 0;
-
-	virtual void selectUnits( const QRect& _rect ) = 0;
-
-	virtual void unselectUnits() = 0;
+	virtual void printMessage( const QString& _message ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,10 +43,10 @@ struct IEditableLandscape
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeModel
+} // namespace GameManager
 } // namespace Core
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IEDITABLE_LANDSCAPE_HPP__
+#endif // __LM_IENVIRONMENT_HPP__

@@ -9,6 +9,14 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Tools
+{
+	namespace Core
+	{
+		struct IMessenger;
+	}
+}
+
 namespace Framework
 {
 	namespace Core
@@ -33,6 +41,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct IEnvironment;
 struct ILandscapeSerializer;
 struct ILandscapeEditor;
 struct ISurfaceItemsCache;
@@ -67,6 +76,8 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	boost::intrusive_ptr< Tools::Core::IMessenger > getSystemMessenger() const;
+
 	boost::intrusive_ptr< Framework::Core::MultithreadingManager::IMultithreadingManager >
 		getMultithreadingManager() const;
 
@@ -78,6 +89,8 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< IEnvironment > m_environment;
 
 	boost::intrusive_ptr< IObjectTypesCache > m_objectTypesCache;
 

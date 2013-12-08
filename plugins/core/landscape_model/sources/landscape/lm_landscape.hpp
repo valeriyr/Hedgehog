@@ -79,6 +79,8 @@ public:
 
 	/*virtual*/ void selectUnits( const QRect& _rect );
 
+	/*virtual*/ void unselectUnits();
+
 /*---------------------------------------------------------------------------*/
 
 private:

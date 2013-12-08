@@ -14,11 +14,13 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct IEnvironment;
 struct ISurfaceItemsCache;
 struct IObjectTypesCache;
 struct ILandscapeSerializer;
 struct IEditableLandscape;
 struct ILandscapeHandle;
+struct IActionsQueue;
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,7 +35,8 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	LandscapeModel(
-			const ILandscapeSerializer& _landscapeSerializer
+			const IEnvironment& _environment
+		,	const ILandscapeSerializer& _landscapeSerializer
 		,	const ISurfaceItemsCache& _surfaceItemsCache
 		,	const IObjectTypesCache& _objectTypesCache );
 
@@ -47,7 +50,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< ILandscape > getCurrentLandscapeInternal() const;
+	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getCurrentLandscapeInternal() const;
 
 	/*virtual*/ boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape();
 
@@ -61,15 +64,35 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void runActionsProcessing();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	static const int ms_actionsProcessPerisod = 100;
+
+/*---------------------------------------------------------------------------*/
+
+	const IEnvironment& m_environment;
+
 	const ILandscapeSerializer& m_landscapeSerializer;
 
 	const ISurfaceItemsCache& m_surfaceItemsCache;
 
 	const IObjectTypesCache& m_objectTypesCache;
 
+/*---------------------------------------------------------------------------*/
+
 	boost::intrusive_ptr< IEditableLandscape > m_currentLandscape;
 
 	QMutex m_landscapeLocker;
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< IActionsQueue > m_actionsQueue;
 
 /*---------------------------------------------------------------------------*/
 
