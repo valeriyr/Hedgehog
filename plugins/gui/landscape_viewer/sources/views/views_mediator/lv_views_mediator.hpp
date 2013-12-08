@@ -2,19 +2,9 @@
 #ifndef __LV_VIEWS_MEDIATOR_HPP__
 #define __LV_VIEWS_MEDIATOR_HPP__
 
-
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct ISurfaceItem;
-		}
-	}
-}
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 /*---------------------------------------------------------------------------*/
 

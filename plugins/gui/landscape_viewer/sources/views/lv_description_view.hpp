@@ -8,19 +8,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct ILandscape;
-		}
-	}
-}
-
-/*---------------------------------------------------------------------------*/
-
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {

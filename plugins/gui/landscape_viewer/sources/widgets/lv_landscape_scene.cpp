@@ -210,7 +210,7 @@ LandscapeScene::generateLandscape()
 			for ( unsigned int j = 0; j < m_landscape->getHeight(); ++j )
 			{
 				boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-					surfaceItem = m_landscape->getSurfaceItem( Plugins::Core::LandscapeModel::Point( i, j ) );
+					surfaceItem = m_landscape->getSurfaceItem( QPoint( i, j ) );
 
 				QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
 				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
@@ -247,10 +247,10 @@ LandscapeScene::updatePosition(
 		boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnit > _unit
 	,	QGraphicsPixmapItem* _graphicsItem )
 {
-	Plugins::Core::LandscapeModel::Point position = m_landscape->getUnitPosition( _unit );
+	QPoint position = m_landscape->getUnitPosition( _unit );
 
-	qreal posByX = position.m_x * Resources::Landscape::CellSize;
-	qreal posByY = position.m_y * Resources::Landscape::CellSize;
+	qreal posByX = position.x() * Resources::Landscape::CellSize;
+	qreal posByY = position.y() * Resources::Landscape::CellSize;
 
 	if ( static_cast< unsigned int >( _unit->getRectInBundle().width() ) > Resources::Landscape::CellSize )
 	{
@@ -270,11 +270,11 @@ LandscapeScene::updatePosition(
 /*---------------------------------------------------------------------------*/
 
 
-Core::LandscapeModel::Point
+QPoint
 LandscapeScene::convertFromScenePosition( const QPointF& _scenePosition )
 {
 	return
-		Plugins::Core::LandscapeModel::Point(
+		QPoint(
 				_scenePosition.x() / Resources::Landscape::CellSize
 			,	_scenePosition.y() / Resources::Landscape::CellSize );
 

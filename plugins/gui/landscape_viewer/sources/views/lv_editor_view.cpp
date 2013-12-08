@@ -150,9 +150,9 @@ EditorView::viewWasClosed()
 
 
 void
-EditorView::landscapeWasOpened( boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > _landscape )
+EditorView::landscapeWasOpened()
 {
-	m_landscapeScene->landscapeWasOpened( _landscape );
+	m_landscapeScene->landscapeWasOpened();
 	m_landscapeWidget->wasResized();
 
 } // EditorView::landscapeWasOpened

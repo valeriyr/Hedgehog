@@ -6,20 +6,6 @@
 
 #include "window_manager/ih/wm_iview.hpp"
 
-
-/*---------------------------------------------------------------------------*/
-
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct ILandscape;
-		}
-	}
-}
-
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -61,8 +47,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasOpened(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape );
+	void landscapeWasOpened();
 
 	void landscapeWasClosed();
 

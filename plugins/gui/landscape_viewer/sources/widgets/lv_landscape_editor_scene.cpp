@@ -191,7 +191,7 @@ LandscapeEditorScene::regenerateSurfaceLayer()
 			for ( unsigned int j = 0; j < m_landscape->getHeight(); ++j )
 			{
 				boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-					surfaceItem = m_landscape->getSurfaceItem( Plugins::Core::LandscapeModel::Point( i, j ) );
+					surfaceItem = m_landscape->getSurfaceItem( QPoint( i, j ) );
 
 				QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
 				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
@@ -219,7 +219,7 @@ LandscapeEditorScene::regenerateObjectsLayer()
 			QGraphicsPixmapItem* item = addPixmap(
 				m_environment.getPixmap( unitsIterator->current()->getBundlePath(), unitsIterator->current()->getRectInBundle() ) );
 
-			Plugins::Core::LandscapeModel::Point position = m_landscape->getUnitPosition( unitsIterator->current() );
+			QPoint position = m_landscape->getUnitPosition( unitsIterator->current() );
 
 			qreal posByX = position.m_x * Resources::Landscape::CellSize;
 			qreal posByY = position.m_y * Resources::Landscape::CellSize;
@@ -281,7 +281,7 @@ LandscapeEditorScene::setNewItemInPosition( const QPointF& _position )
 		removeItem( items[0] );
 
 		m_landscape->setSurfaceItem(
-				Plugins::Core::LandscapeModel::Point( itemPos.x() / Resources::Landscape::CellSize, itemPos.y() / Resources::Landscape::CellSize )
+				QPoint( itemPos.x() / Resources::Landscape::CellSize, itemPos.y() / Resources::Landscape::CellSize )
 			,	m_surfaceItem );
 
 		QGraphicsPixmapItem* newItem = addPixmap( m_environment.getPixmap( m_surfaceItem->getBundlePath(), m_surfaceItem->getRectInBundle() ) );

@@ -9,8 +9,6 @@
 #include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 
-#include "landscape_model/ih/lm_isurface_item.hpp"
-
 #include "lv_objects_view.moc"
 
 

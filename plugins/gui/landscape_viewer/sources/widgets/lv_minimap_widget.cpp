@@ -249,7 +249,7 @@ MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape
 		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
 		{
 			boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-				surfaceItem = _landscape.getSurfaceItem( Plugins::Core::LandscapeModel::Point( i, j ) );
+				surfaceItem = _landscape.getSurfaceItem( QPoint( i, j ) );
 
 			painter.drawPixmap(
 				QRect(
@@ -288,10 +288,10 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 
 	while ( unitsIterator->isValid() )
 	{
-		Plugins::Core::LandscapeModel::Point position = _landscape.getUnitPosition( unitsIterator->current() );
+		QPoint position = _landscape.getUnitPosition( unitsIterator->current() );
 
-		qreal posByX = position.m_x * Resources::Landscape::CellSize;
-		qreal posByY = position.m_y * Resources::Landscape::CellSize;
+		qreal posByX = position.x() * Resources::Landscape::CellSize;
+		qreal posByY = position.y() * Resources::Landscape::CellSize;
 
 		if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().width() ) > Resources::Landscape::CellSize )
 		{

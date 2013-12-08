@@ -10,8 +10,6 @@
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -126,10 +124,9 @@ LandscapeView::viewWasClosed()
 
 
 void
-LandscapeView::landscapeWasOpened(
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape )
+LandscapeView::landscapeWasOpened()
 {
-	m_landscapeScene->landscapeWasOpened( _landscape );
+	m_landscapeScene->landscapeWasOpened();
 	m_landscapeWidget->wasResized();
 
 } // LandscapeView::landscapeWasOpened

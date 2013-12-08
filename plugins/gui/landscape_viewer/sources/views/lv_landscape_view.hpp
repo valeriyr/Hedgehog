@@ -8,19 +8,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct ILandscape;
-		}
-	}
-}
-
-/*---------------------------------------------------------------------------*/
-
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -61,8 +48,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasOpened(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape );
+	void landscapeWasOpened();
 
 	void landscapeWasClosed();
 

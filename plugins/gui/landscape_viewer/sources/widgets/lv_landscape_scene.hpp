@@ -10,7 +10,6 @@ namespace Plugins
 	{
 		namespace LandscapeModel
 		{
-			struct Point;
 			struct ILandscape;
 			struct IUnit;
 		}
@@ -84,7 +83,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	static Core::LandscapeModel::Point convertFromScenePosition( const QPointF& _scenePosition );
+	static QPoint convertFromScenePosition( const QPointF& _scenePosition );
 
 /*---------------------------------------------------------------------------*/
 

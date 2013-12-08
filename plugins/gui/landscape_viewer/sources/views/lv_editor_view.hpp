@@ -5,19 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "window_manager/ih/wm_iview.hpp"
-
-/*---------------------------------------------------------------------------*/
-
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct IEditableLandscape;
-		}
-	}
-}
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -62,8 +50,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasOpened(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > _landscape );
+	void landscapeWasOpened();
 
 	void landscapeWasClosed();
 

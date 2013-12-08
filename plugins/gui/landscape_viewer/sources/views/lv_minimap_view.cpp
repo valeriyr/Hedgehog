@@ -8,8 +8,6 @@
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -134,10 +132,9 @@ MinimapView::viewWasClosed()
 
 
 void
-MinimapView::landscapeWasOpened(
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape )
+MinimapView::landscapeWasOpened()
 {
-	m_minimapWidget->landscapeWasOpened( _landscape );
+	m_minimapWidget->landscapeWasOpened();
 
 } // MinimapView::landscapeWasOpened
 
