@@ -22,16 +22,13 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-EditingMode::EditingMode(
-		const IEnvironment& _environment
-	,	const IGraphicsInfoCache& _graphicsInfoCache
-	)
+EditingMode::EditingMode( const IEnvironment& _environment )
 	:	BaseMode( _environment )
 	,	m_landscape()
 	,	m_descriptionView( new DescriptionView() )
 	,	m_editorView( new EditorView( _environment, *m_viewsMediator ) )
 	,	m_minimapView( new MinimapView( _environment, *m_viewsMediator ) )
-	,	m_objectsView( new ObjectsView( _environment, _graphicsInfoCache, *m_viewsMediator ) )
+	,	m_objectsView( new ObjectsView( _environment, *m_viewsMediator ) )
 {
 	m_environment.addFrameworkView( m_objectsView, Framework::GUI::WindowManager::ViewPosition::Left );
 	m_environment.addFrameworkView( m_editorView, Framework::GUI::WindowManager::ViewPosition::Center );
@@ -85,14 +82,14 @@ EditingMode::openLandscape( const QString& _filePath )
 	m_landscape = m_environment.tryToOpenLandscape( _filePath );
 
 	if ( !m_landscape )
-		m_landscape = m_environment.createLandscape( 300, 300 );
+		m_landscape = m_environment.createLandscape( 50, 50 );
 
 	landscapeWasOpened( _filePath );
 
 	m_descriptionView->landscapeWasOpened( QSize( m_landscape->getWidth(), m_landscape->getHeight() ), m_landscapeFilePath );
 	m_objectsView->landscapeWasOpened();
-	m_minimapView->landscapeWasOpened();
-	m_editorView->landscapeWasOpened();
+	m_minimapView->landscapeWasOpenedInEditor( m_landscape );
+	m_editorView->landscapeWasOpened( m_landscape );
 
 } // EditingMode::openLandscape
 
@@ -113,6 +110,17 @@ EditingMode::closeLandscape()
 	m_landscape.reset();
 
 } // EditingMode::closeLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+EditingMode::getEditingLandscape() const
+{
+	return m_landscape;
+
+} // EditingMode::getEditingLandscape
 
 
 /*---------------------------------------------------------------------------*/

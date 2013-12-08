@@ -16,7 +16,6 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
-struct IGraphicsInfoCache;
 
 class ViewsMediator;
 
@@ -39,7 +38,6 @@ public:
 
 	ObjectsView(
 			const IEnvironment& _environment
-		,	const IGraphicsInfoCache& _graphicsInfoCache
 		,	const ViewsMediator& _viewsMediator
 		,	QObject* _parent = NULL );
 
@@ -92,8 +90,6 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
-
-	const IGraphicsInfoCache& m_graphicsInfoCache;
 
 	const ViewsMediator& m_viewsMediator;
 

@@ -11,7 +11,6 @@ namespace Plugins
 		namespace LandscapeModel
 		{
 			struct IEditableLandscape;
-			struct ISurfaceItem;
 		}
 	}
 }
@@ -104,7 +103,7 @@ private:
 
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > m_landscape;
 
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem > m_surfaceItem;
+	Plugins::Core::LandscapeModel::ISurfaceItem::IdType m_surfaceItemId;
 
 	QGraphicsPixmapItem* m_surfaceGraphicsItem;
 

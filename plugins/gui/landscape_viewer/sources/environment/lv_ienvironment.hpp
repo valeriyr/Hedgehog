@@ -8,6 +8,10 @@
 
 #include "window_manager/h/wm_view_position.hpp"
 
+#include "landscape_model/ih/lm_isurface_item.hpp"
+
+#include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework
@@ -30,7 +34,6 @@ namespace Plugins
 			struct ILandscape;
 			struct IEditableLandscape;
 			struct ILandscapeHandle;
-			struct ISurfaceItem;
 		}
 	}
 }
@@ -94,6 +97,22 @@ struct IEnvironment
 		,	const QPoint& _to ) const = 0;
 
 	virtual void moveSelectedItems( const QPoint& _to ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual const Core::LandscapeModel::ISurfaceItem::IdType
+		getDefaultSurfaceItemId() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void fetchSurfaceItemGraphicsInfos(
+			const QString& _skinId
+		,	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection& _collection ) const = 0;
+
+	virtual boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
+		getSurfaceItemGraphicsInfo(
+				const QString& _skinId
+			,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

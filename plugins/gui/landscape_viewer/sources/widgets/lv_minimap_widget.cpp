@@ -5,6 +5,7 @@
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
+#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
@@ -31,7 +32,6 @@ const QSize MinimapWidget::ms_fixedWidgetSize = QSize( 300, 200 );
 MinimapWidget::MinimapWidget( const IEnvironment& _environment,	QWidget* _parent )
 	:	QWidget( _parent )
 	,	m_environment( _environment )
-	,	m_landscape()
 	,	m_surfaceLayer( ms_fixedWidgetSize )
 	,	m_objectsLayer( ms_fixedWidgetSize )
 	,	m_visibleArea( 0, 0, 0, 0 )
@@ -56,14 +56,18 @@ MinimapWidget::~MinimapWidget()
 
 
 void
-MinimapWidget::landscapeWasOpened(
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape )
+MinimapWidget::landscapeWasOpened()
 {
-	m_landscape = _landscape;
-
 	onUpdateView();
 
 } // MinimapWidget::landscapeWasOpened
+
+
+void
+MinimapWidget::landscapeWasOpenedInEditor(
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > _landscape )
+{
+} // MinimapWidget::landscapeWasOpenedInEditor
 
 
 /*---------------------------------------------------------------------------*/
@@ -76,8 +80,6 @@ MinimapWidget::landscapeWasClosed()
 	m_objectsLayer.fill(Qt::transparent);
 
 	m_visibleArea = QRect();
-
-	m_landscape.reset();
 
 	update();
 
@@ -120,13 +122,10 @@ MinimapWidget::onChangeVisibilityRectPosition( const float _visibleWidth, const 
 void
 MinimapWidget::onUpdateView()
 {
-	if ( m_landscape )
-	{
-		renderSurface( *m_landscape );
-		renderObjects( *m_landscape );
+	//renderSurface( *m_landscape );
+	//renderObjects( *m_landscape );
 
-		update();
-	}
+	update();
 
 } // MinimapWidget::onUpdateView
 
@@ -137,11 +136,8 @@ MinimapWidget::onUpdateView()
 void
 MinimapWidget::onUpdateTimerFired()
 {
-	if ( m_landscape )
-	{
-		renderObjects( *m_landscape );
-		update();
-	}
+	//renderObjects( *m_landscape );
+	update();
 
 } // MinimapWidget::onUpdateTimerFired
 
@@ -251,13 +247,16 @@ MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape
 			boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
 				surfaceItem = _landscape.getSurfaceItem( QPoint( i, j ) );
 
+			boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
+				surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, surfaceItem->getId() );
+
 			painter.drawPixmap(
 				QRect(
 						i * Resources::Landscape::CellSize
 					,	j * Resources::Landscape::CellSize
 					,	Resources::Landscape::CellSize
 					,	Resources::Landscape::CellSize )
-					,	m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
+					,	m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
 		}
 	}
 
@@ -272,7 +271,7 @@ MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape
 void
 MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape )
 {
-	QPixmap objectsLayer
+	/*QPixmap objectsLayer
 		= QPixmap( QSize(
 				_landscape.getWidth() * Resources::Landscape::CellSize
 			,	_landscape.getHeight() * Resources::Landscape::CellSize ) );
@@ -314,7 +313,7 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 		unitsIterator->next();
 	}
 
-	m_objectsLayer = objectsLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+	m_objectsLayer = objectsLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );*/
 
 } // MinimapWidget::renderObjects
 

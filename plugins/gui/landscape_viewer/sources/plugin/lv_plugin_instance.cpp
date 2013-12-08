@@ -77,7 +77,7 @@ PluginInstance::initialize()
 	fillUnitsCache();
 
 	m_environment.reset( new Environment( *this ) );
-	m_landscapeViewer.reset( new LandscapeViewer( *m_environment, *m_graphicsInfoCache ) );
+	m_landscapeViewer.reset( new LandscapeViewer( *m_environment ) );
 
 	m_commandsExecutor.reset( new CommandsExecutor( *m_environment, *m_landscapeViewer ) );
 
@@ -231,6 +231,31 @@ PluginInstance::getLandscapeEditor() const
 			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_EDITOR );
 
 } // PluginInstance::getLandscapeEditor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
+PluginInstance::getSurfaceItemsCache() const
+{
+	return
+		getPluginInterface< Plugins::Core::LandscapeModel::ISurfaceItemsCache >(
+				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
+			,	Plugins::Core::LandscapeModel::IID_SURFACE_ITEMS_CACHE );
+
+} // PluginInstance::getSurfaceItemsCache
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IGraphicsInfoCache >
+PluginInstance::getGraphicsInfoCache() const
+{
+	return m_graphicsInfoCache;
+
+} // PluginInstance::getGraphicsInfoCache
 
 
 /*---------------------------------------------------------------------------*/

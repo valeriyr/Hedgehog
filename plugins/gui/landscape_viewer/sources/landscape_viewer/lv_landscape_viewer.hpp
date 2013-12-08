@@ -29,9 +29,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeViewer(
-			const IEnvironment& _environment
-		,	const IGraphicsInfoCache& _graphicsInfoCache );
+	LandscapeViewer( const IEnvironment& _environment );
 
 	virtual ~LandscapeViewer();
 
@@ -59,13 +57,16 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+		getEditingLandscape() const;
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
-
-	const IGraphicsInfoCache& m_graphicsInfoCache;
 
 	boost::intrusive_ptr< IViewMode > m_viewMode;
 

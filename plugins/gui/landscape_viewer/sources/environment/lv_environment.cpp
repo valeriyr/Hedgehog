@@ -4,6 +4,7 @@
 #include "landscape_viewer/sources/environment/lv_environment.hpp"
 
 #include "landscape_viewer/sources/plugin/lv_plugin_instance.hpp"
+#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 #include "window_manager/ih/wm_iwindow_manager.hpp"
@@ -15,6 +16,7 @@
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/ih/lm_isurface_items_cache.hpp"
 
 #include "game_manager/ih/gm_igame_manager.hpp"
 
@@ -188,6 +190,40 @@ Environment::moveSelectedItems( const QPoint& _to ) const
 	//m_pluginInstance.getLandscapeModel()->pushMoveAction( _to );
 
 } // Environment::moveSelectedItems
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const Core::LandscapeModel::ISurfaceItem::IdType
+Environment::getDefaultSurfaceItemId() const
+{
+	return m_pluginInstance.getSurfaceItemsCache()->getDefaultSurfaceItem()->getId();
+
+} // Environment::getDefaultSurfaceItemId
+
+
+void
+Environment::fetchSurfaceItemGraphicsInfos(
+		const QString& _skinId
+	,	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection& _collection ) const
+{
+	m_pluginInstance.getGraphicsInfoCache()->fetchSurfaceItemGraphicsInfos( _skinId, _collection );
+
+} // Environment::fetchSurfaceItemGraphicsInfos
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
+Environment::getSurfaceItemGraphicsInfo(
+		const QString& _skinId
+	,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const
+{
+	return m_pluginInstance.getGraphicsInfoCache()->getSurfaceItemGraphicsInfo( _skinId, _id );
+
+} // Environment::getSurfaceItemGraphicsInfo
 
 
 /*---------------------------------------------------------------------------*/

@@ -68,7 +68,7 @@ namespace Landscape {
 
 	const unsigned int CellSize = 32;
 
-	const unsigned int DefaultSurfaceItem = 5;
+	const char* const SkinId = "summer";
 
 /*---------------------------------------------------------------------------*/
 

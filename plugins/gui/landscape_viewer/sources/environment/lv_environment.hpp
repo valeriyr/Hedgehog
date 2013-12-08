@@ -82,6 +82,22 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ const Core::LandscapeModel::ISurfaceItem::IdType
+		getDefaultSurfaceItemId() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void fetchSurfaceItemGraphicsInfos(
+			const QString& _skinId
+		,	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection& _collection ) const;
+
+	/*virtual*/ boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
+		getSurfaceItemGraphicsInfo(
+				const QString& _skinId
+			,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const;
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/

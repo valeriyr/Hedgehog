@@ -8,6 +8,19 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct IEditableLandscape;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -48,6 +61,8 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	void landscapeWasOpened();
+
+	void landscapeWasOpenedInEditor( boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > _landscape );
 
 	void landscapeWasClosed();
 

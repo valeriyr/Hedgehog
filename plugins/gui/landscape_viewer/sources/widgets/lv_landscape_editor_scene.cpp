@@ -4,12 +4,10 @@
 #include "landscape_viewer/sources/widgets/lv_landscape_scene.hpp"
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
-
+#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
-#include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
 
 #include "lv_landscape_editor_scene.moc"
 
@@ -27,7 +25,7 @@ LandscapeEditorScene::LandscapeEditorScene( const IEnvironment& _environment, QO
 	:	QGraphicsScene( _parent )
 	,	m_environment( _environment )
 	,	m_landscape()
-	,	m_surfaceItem()
+	,	m_surfaceItemId()
 	,	m_surfaceGraphicsItem( NULL )
 {
 } // LandscapeEditorScene::LandscapeEditorScene
@@ -51,7 +49,7 @@ LandscapeEditorScene::landscapeWasOpened(
 	m_landscape = _landscape;
 	regenerate();
 
-	onChangeSurfaceItem( Resources::Landscape::DefaultSurfaceItem );
+	onChangeSurfaceItem( m_environment.getDefaultSurfaceItemId() );
 
 } // LandscapeEditorScene::landscapeWasOpened
 
@@ -118,13 +116,19 @@ LandscapeEditorScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 void
 LandscapeEditorScene::onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id )
 {
-	m_surfaceItem = _surfaceItem;
+	boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
+		surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, _id );
+
+	if ( !surfaceItemGraphicsInfo )
+		return;
+
+	m_surfaceItemId = _id;
 
 	if ( m_surfaceGraphicsItem )
 		delete m_surfaceGraphicsItem;
 
 	m_surfaceGraphicsItem
-		= new QGraphicsPixmapItem( m_environment.getPixmap( m_surfaceItem->getBundlePath(), m_surfaceItem->getRectInBundle() ) );
+		= new QGraphicsPixmapItem( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
 
 	QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
 	opacityEffect->setOpacity( 0.5 );
@@ -193,7 +197,10 @@ LandscapeEditorScene::regenerateSurfaceLayer()
 				boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
 					surfaceItem = m_landscape->getSurfaceItem( QPoint( i, j ) );
 
-				QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
+				boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
+					surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, surfaceItem->getId() );
+
+				QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
 				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
 				item->setZValue( 0 );
 			}
@@ -209,7 +216,7 @@ LandscapeEditorScene::regenerateSurfaceLayer()
 void
 LandscapeEditorScene::regenerateObjectsLayer()
 {
-	if ( m_landscape )
+	/*if ( m_landscape )
 	{
 		Plugins::Core::LandscapeModel::ILandscape::UnitsIteratorPtr
 			unitsIterator = m_landscape->getUnitsIterator();
@@ -239,7 +246,7 @@ LandscapeEditorScene::regenerateObjectsLayer()
 
 			unitsIterator->next();
 		}
-	}
+	}*/
 
 } // LandscapeEditorScene::regenerateObjectsLayer
 
@@ -282,9 +289,12 @@ LandscapeEditorScene::setNewItemInPosition( const QPointF& _position )
 
 		m_landscape->setSurfaceItem(
 				QPoint( itemPos.x() / Resources::Landscape::CellSize, itemPos.y() / Resources::Landscape::CellSize )
-			,	m_surfaceItem );
+			,	m_surfaceItemId );
 
-		QGraphicsPixmapItem* newItem = addPixmap( m_environment.getPixmap( m_surfaceItem->getBundlePath(), m_surfaceItem->getRectInBundle() ) );
+		boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
+			surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, m_surfaceItemId );
+
+		QGraphicsPixmapItem* newItem = addPixmap( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
 		newItem->setPos( itemPos );
 		newItem->setZValue( 0 );
 	}

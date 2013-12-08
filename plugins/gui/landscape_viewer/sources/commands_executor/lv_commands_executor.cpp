@@ -69,7 +69,7 @@ CommandsExecutor::newLandscape()
 {
 	m_landscapeViewer.ensureLandscapeEditingMode();
 
-	if ( m_landscapeViewer.getCurrentLandscape() )
+	if ( m_landscapeViewer.getEditingLandscape() )
 		m_landscapeViewer.closeLandscape();
 
 	m_landscapeViewer.openLandscape( "c:/temp/new.hmap" );
@@ -89,7 +89,7 @@ CommandsExecutor::openLandscape()
 	{
 		m_landscapeViewer.ensureLandscapeEditingMode();
 
-		if ( m_landscapeViewer.getCurrentLandscape() )
+		if ( m_landscapeViewer.getEditingLandscape() )
 			m_landscapeViewer.closeLandscape();
 
 		m_landscapeViewer.openLandscape( landscapeFilePath );
@@ -115,10 +115,10 @@ CommandsExecutor::closeLandscape()
 void
 CommandsExecutor::saveLandscape()
 {
-	if ( m_landscapeViewer.getCurrentLandscape() )
+	if ( m_landscapeViewer.getEditingLandscape() )
 		m_environment.saveLandscape(
 				m_landscapeViewer.getLandscapeFilePath()
-			,	*m_landscapeViewer.getCurrentLandscape() );
+			,	*m_landscapeViewer.getEditingLandscape() );
 
 } // CommandsExecutor::saveLandscape
 
@@ -132,7 +132,7 @@ CommandsExecutor::saveAsLandscape()
 	QString landscapeFilePath = m_environment.showSaveFileDialog();
 	m_environment.saveLandscape(
 			m_landscapeViewer.getLandscapeFilePath()
-		,	*m_landscapeViewer.getCurrentLandscape() );
+		,	*m_landscapeViewer.getEditingLandscape() );
 
 } // CommandsExecutor::saveAsLandscape
 

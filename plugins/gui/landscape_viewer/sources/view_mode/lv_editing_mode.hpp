@@ -27,8 +27,6 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct IGraphicsInfoCache;
-
 class DescriptionView;
 class EditorView;
 class MinimapView;
@@ -46,9 +44,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	EditingMode(
-			const IEnvironment& _environment
-		,	const IGraphicsInfoCache& _graphicsInfoCache );
+	EditingMode( const IEnvironment& _environment );
 
 	virtual ~EditingMode();
 
@@ -63,6 +59,11 @@ public:
 	/*virtual*/ void openLandscape( const QString& _filePath );
 
 	/*virtual*/ void closeLandscape();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+		getEditingLandscape() const;
 
 /*---------------------------------------------------------------------------*/
 

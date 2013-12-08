@@ -4,12 +4,11 @@
 #include "landscape_viewer/sources/widgets/lv_landscape_scene.hpp"
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
-
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
+#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
-#include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_ilandscape_handle.hpp"
 
 #include "lv_landscape_scene.moc"
 
@@ -28,7 +27,7 @@ LandscapeScene::LandscapeScene( const IEnvironment& _environment, QObject* _pare
 	,	m_environment( _environment )
 	,	m_startSelectionPoint()
 	,	m_selectionItem( NULL )
-	,	m_unitsCollection()
+	//,	m_unitsCollection()
 {
 } // LandscapeScene::LandscapeScene
 
@@ -144,11 +143,8 @@ LandscapeScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 
 
 void
-LandscapeScene::landscapeWasOpened(
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape )
+LandscapeScene::landscapeWasOpened()
 {
-	m_landscape = _landscape;
-
 	generateLandscape();
 
 } // LandscapeScene::landscapeWasOpened
@@ -163,8 +159,6 @@ LandscapeScene::landscapeWasClosed()
 	clear();
 	setSceneRect( 0, 0, 0, 0 );
 
-	m_landscape.reset();
-
 } // LandscapeScene::landscapeWasClosed
 
 
@@ -174,7 +168,7 @@ LandscapeScene::landscapeWasClosed()
 void
 LandscapeScene::onUpdateTimerFired()
 {
-	UnitsCollectionIterator
+	/*UnitsCollectionIterator
 			begin = m_unitsCollection.begin()
 		,	end = m_unitsCollection.end();
 
@@ -192,7 +186,7 @@ LandscapeScene::onUpdateTimerFired()
 		assert( iterator != m_unitsCollection.end() );
 
 		iterator->second->setGraphicsEffect( new QGraphicsColorizeEffect() );
-	}
+	}*/
 
 } // LandscapeScene::onUpdateTimerFired
 
@@ -203,22 +197,28 @@ LandscapeScene::onUpdateTimerFired()
 void
 LandscapeScene::generateLandscape()
 {
-	if ( m_landscape )
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
+
+	if ( handle->getLandscape() )
 	{
-		for ( unsigned int i = 0; i < m_landscape->getWidth(); ++i )
+		for ( unsigned int i = 0; i < handle->getLandscape()->getWidth(); ++i )
 		{
-			for ( unsigned int j = 0; j < m_landscape->getHeight(); ++j )
+			for ( unsigned int j = 0; j < handle->getLandscape()->getHeight(); ++j )
 			{
 				boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-					surfaceItem = m_landscape->getSurfaceItem( QPoint( i, j ) );
+					surfaceItem = handle->getLandscape()->getSurfaceItem( QPoint( i, j ) );
 
-				QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItem->getBundlePath(), surfaceItem->getRectInBundle() ) );
+				boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
+					surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, surfaceItem->getId() );
+
+				QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
 				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
 				item->setZValue( 0 );
 			}
 		}
 
-		Plugins::Core::LandscapeModel::ILandscape::UnitsIteratorPtr
+		/*Plugins::Core::LandscapeModel::ILandscape::UnitsIteratorPtr
 			unitsIterator = m_landscape->getUnitsIterator();
 
 		while ( unitsIterator->isValid() )
@@ -233,7 +233,7 @@ LandscapeScene::generateLandscape()
 			m_unitsCollection.insert( std::make_pair( unitsIterator->current(), item ) );
 
 			unitsIterator->next();
-		}
+		}*/
 	}
 
 } // LandscapeScene::generateLandscape
@@ -241,7 +241,7 @@ LandscapeScene::generateLandscape()
 
 /*---------------------------------------------------------------------------*/
 
-
+/*
 void
 LandscapeScene::updatePosition(
 		boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnit > _unit
@@ -265,7 +265,7 @@ LandscapeScene::updatePosition(
 	_graphicsItem->setPos( posByX, posByY );
 
 } // LandscapeScene::updatePosition
-
+*/
 
 /*---------------------------------------------------------------------------*/
 

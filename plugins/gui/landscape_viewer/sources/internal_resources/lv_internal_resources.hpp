@@ -45,7 +45,7 @@ namespace Landscape {
 
 	extern const unsigned int CellSize;
 
-	extern const unsigned int DefaultSurfaceItem;
+	extern const char* const SkinId;
 
 /*---------------------------------------------------------------------------*/
 

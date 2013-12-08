@@ -164,6 +164,10 @@ PluginInstance::fillSurfaceItemsCache()
 
 	m_surfaceItemsCache->regSurfaceItem( 101, TerrainMapItem::Water );
 
+	//Default surface item
+
+	m_surfaceItemsCache->setDefaultSurfaceItem( 5 );
+
 } // PluginInstance::fillSurfaceItemsCache
 
 
@@ -173,8 +177,8 @@ PluginInstance::fillSurfaceItemsCache()
 void
 PluginInstance::fillUnitsCache()
 {
-	m_objectTypesCache->regObjectType( "Elven Archer", 100, QSize( 1, 1 ), TerrainMapItem::Ground, 2 );
-	m_objectTypesCache->regObjectType( "Grunt", 200, QSize( 1, 1 ), TerrainMapItem::Ground, 1 );
+	m_objectTypesCache->regObjectType( "Elven Archer", 100, QSize( 1, 1 ), TerrainMapItem::Ground, 2000 );
+	m_objectTypesCache->regObjectType( "Grunt", 200, QSize( 1, 1 ), TerrainMapItem::Ground, 1000 );
 
 } // PluginInstance::fillUnitsCache
 

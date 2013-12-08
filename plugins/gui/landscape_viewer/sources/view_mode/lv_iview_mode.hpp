@@ -8,6 +8,19 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct IEditableLandscape;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -33,6 +46,11 @@ struct IViewMode
 	virtual void openLandscape( const QString& _filePath ) = 0;
 
 	virtual void closeLandscape() = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+		getEditingLandscape() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

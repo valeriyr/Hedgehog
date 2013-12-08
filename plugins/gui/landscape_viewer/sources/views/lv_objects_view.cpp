@@ -6,7 +6,6 @@
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
-#include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 
 #include "lv_objects_view.moc"
@@ -23,13 +22,11 @@ namespace LandscapeViewer {
 
 ObjectsView::ObjectsView(
 		const IEnvironment& _environment
-	,	const IGraphicsInfoCache& _graphicsInfoCache
 	,	const ViewsMediator& _viewsMediator
 	,	QObject* _parent
 	)
 	:	QObject( _parent )
 	,	m_environment( _environment )
-	,	m_graphicsInfoCache( _graphicsInfoCache )
 	,	m_viewsMediator( _viewsMediator )
 	,	m_objectsView( new QTreeWidget() )
 	,	m_viewTitle( Resources::Views::ObjectsViewTitle )
@@ -57,7 +54,7 @@ ObjectsView::ObjectsView(
 
 	QList< QTreeWidgetItem* > items
 		= m_objectsView->findItems(
-				QString( "%1" ).arg( Resources::Landscape::DefaultSurfaceItem )
+				QString( "%1" ).arg( m_environment.getDefaultSurfaceItemId() )
 			,	Qt::MatchFixedString | Qt::MatchRecursive );
 
 	m_objectsView->setCurrentItem( items.first() );
@@ -166,7 +163,7 @@ void
 ObjectsView::fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _parentNode )
 {
 	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection collection;
-	m_graphicsInfoCache.fetchSurfaceItemGraphicsInfos( _skinId, collection );
+	m_environment.fetchSurfaceItemGraphicsInfos( _skinId, collection );
 
 	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollectionIterator
 			begin = collection.begin()

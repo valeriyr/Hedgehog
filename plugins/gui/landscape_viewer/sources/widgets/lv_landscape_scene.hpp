@@ -4,20 +4,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct ILandscape;
-			struct IUnit;
-		}
-	}
-}
-
-/*---------------------------------------------------------------------------*/
-
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -56,8 +42,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasOpened(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > _landscape );
+	void landscapeWasOpened();
 
 	void landscapeWasClosed();
 
@@ -77,9 +62,9 @@ private:
 
 	void generateLandscape();
 
-	void updatePosition(
+	/*void updatePosition(
 			boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnit > _unit
-		,	QGraphicsPixmapItem* _graphicsItem );
+		,	QGraphicsPixmapItem* _graphicsItem );*/
 
 /*---------------------------------------------------------------------------*/
 
@@ -91,25 +76,23 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
+	/*typedef
 		std::map<
 				boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnit >
 			,	QGraphicsPixmapItem*
 			>
 		UnitsCollection;
 
-	typedef UnitsCollection::iterator UnitsCollectionIterator;
+	typedef UnitsCollection::iterator UnitsCollectionIterator;*/
 
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
 
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscape > m_landscape;
-
 	QPointF m_startSelectionPoint;
 	QGraphicsRectItem* m_selectionItem;
 
-	UnitsCollection m_unitsCollection;
+	//UnitsCollection m_unitsCollection;
 
 /*---------------------------------------------------------------------------*/
 

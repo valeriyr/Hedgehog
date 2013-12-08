@@ -8,6 +8,8 @@
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
+#include "landscape_model/ih/lm_ieditable_landscape.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -137,6 +139,17 @@ MinimapView::landscapeWasOpened()
 	m_minimapWidget->landscapeWasOpened();
 
 } // MinimapView::landscapeWasOpened
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MinimapView::landscapeWasOpenedInEditor( boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > _landscape )
+{
+	m_minimapWidget->landscapeWasOpenedInEditor( _landscape );
+
+} // MinimapView::landscapeWasOpenedInEditor
 
 
 /*---------------------------------------------------------------------------*/

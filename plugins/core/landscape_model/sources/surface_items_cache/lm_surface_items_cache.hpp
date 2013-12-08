@@ -39,6 +39,12 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ boost::intrusive_ptr< ISurfaceItem > getDefaultSurfaceItem() const;
+
+	/*virtual*/ void setDefaultSurfaceItem( const ISurfaceItem::IdType _id );
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
@@ -53,6 +59,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	SurfaceItemsCollection m_surfaceItemsCollection;
+
+	boost::intrusive_ptr< ISurfaceItem > m_defaultSurfaceItem;
 
 /*---------------------------------------------------------------------------*/
 

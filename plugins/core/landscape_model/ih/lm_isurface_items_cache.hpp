@@ -34,6 +34,12 @@ struct ISurfaceItemsCache
 
 /*---------------------------------------------------------------------------*/
 
+	virtual boost::intrusive_ptr< ISurfaceItem > getDefaultSurfaceItem() const = 0;
+
+	virtual void setDefaultSurfaceItem( const ISurfaceItem::IdType _id ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
 };
 
 /*---------------------------------------------------------------------------*/

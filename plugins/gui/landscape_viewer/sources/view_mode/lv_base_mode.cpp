@@ -47,6 +47,17 @@ BaseMode::getLandscapeFilePath() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+BaseMode::getEditingLandscape() const
+{
+	return boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >();
+
+} // BaseMode::getEditingLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 BaseMode::landscapeWasOpened( const QString& _filePath )
 {
