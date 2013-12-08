@@ -34,7 +34,7 @@ struct IObjectTypesCache
 
 	virtual void regObjectType(
 			const QString& _name
-		,	const const unsigned int _maximumHealth ) = 0;
+		,	const unsigned int _maximumHealth ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -14,9 +14,11 @@ struct TerrainMapItems
 {
 	enum Enum
 	{
-			NotAvailable = 0
-		,	Ground
-		,	Water
+			NotAvailable = 1
+		,	Ground		 = 2
+		,	Water		 = 4
+
+		,	Any			 = NotAvailable | Ground | Water
 	};
 };
 
@@ -24,6 +26,12 @@ struct TerrainMapItems
 
 struct TerrainMapData
 {
+	TerrainMapData()
+		:	m_terrainMapItem( TerrainMapItems::Ground )
+		,	m_engagedWithGround( false )
+		,	m_engagedWithAir( false )
+	{}
+
 	TerrainMapData(
 			const TerrainMapItems::Enum _terrainMapItem
 		,	const bool _engagedWithGround

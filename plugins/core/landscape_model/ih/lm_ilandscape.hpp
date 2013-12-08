@@ -27,18 +27,12 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	struct UnitData
-	{
-		boost::intrusive_ptr< IUnit > m_unit;
-		QRect m_rect;
-	};
-
 	typedef
-		std::vector< UnitData >
-		UnitsDataCollection;
+		std::vector< boost::intrusive_ptr< IUnit > >
+		UnitsCollection;
 	typedef
-		UnitsDataCollection::const_iterator
-		UnitsDataCollectionIterator;
+		UnitsCollection::const_iterator
+		UnitsCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,7 +44,7 @@ struct ILandscape
 
 	virtual boost::intrusive_ptr< ISurfaceItem > getSurfaceItem( const QPoint& _point ) const = 0;
 
-	virtual TerrainMapData getTerrainMapData( const QPoint& _point ) const = 0;
+	virtual const TerrainMapData& getTerrainMapData( const QPoint& _point ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,9 +52,9 @@ struct ILandscape
 
 	virtual unsigned int getUnitsCount() const = 0;
 
-	virtual void fetchUnits( UnitsDataCollection& _collection ) const = 0;
+	virtual void fetchUnits( UnitsCollection& _collection ) const = 0;
 
-	virtual void fetchSelectedUnits( UnitsDataCollection& _collection ) const = 0;
+	virtual void fetchSelectedUnits( UnitsCollection& _collection ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

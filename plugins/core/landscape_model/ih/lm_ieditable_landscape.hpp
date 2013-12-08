@@ -34,12 +34,10 @@ struct IEditableLandscape
 /*---------------------------------------------------------------------------*/
 
 	virtual void createUnit(
-			const QPoint& _point
+			const QRect& _rect
 		,	const QString& _unitName ) = 0;
 
 	virtual void selectUnits( const QRect& _rect ) = 0;
-
-	virtual void moveUnit( boost::intrusive_ptr< IUnit > _unit, const QPoint& _moveTo ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

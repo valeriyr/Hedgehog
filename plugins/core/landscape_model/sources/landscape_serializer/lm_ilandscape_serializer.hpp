@@ -1,12 +1,10 @@
 
-#ifndef __LM_IOBJECT_TYPE_HPP__
-#define __LM_IOBJECT_TYPE_HPP__
+#ifndef __LM_ILANDSCAPE_SERIALIZER_HPP__
+#define __LM_ILANDSCAPE_SERIALIZER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
-
-#include "landscape_model/h/lm_terrain_map_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,19 +14,24 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IObjectType
+struct ILandscape;
+struct IEditableLandscape;
+
+/*---------------------------------------------------------------------------*/
+
+struct ILandscapeSerializer
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const QString& getName() const = 0;
+	virtual void load(
+			IEditableLandscape& _landscape
+		,	const QString& _filePath ) const = 0;
 
-	virtual const int getMaximumHealth() const = 0;
-
-	virtual const QSize& getObjectSize() const = 0;
-
-	virtual const TerrainMapItems::Enum getPassability() const = 0;
+	virtual void save(
+			const ILandscape& _landscape
+		,	const QString& _filePath ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,4 +45,4 @@ struct IObjectType
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IOBJECT_TYPE_HPP__
+#endif // __LM_ILANDSCAPE_SERIALIZER_HPP__

@@ -16,6 +16,15 @@
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{67963bc5-d418-4d1a-a3a0-e2a01366fd18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Landscape">
+      <UniqueIdentifier>{15be8b6a-f018-4899-aaac-571a9147f4b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape Editor">
+      <UniqueIdentifier>{cf7b69a5-e682-4081-816c-414184d8527a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape Serializer">
+      <UniqueIdentifier>{2a5e59fe-b211-498c-b90e-fb63d1927ed4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -26,6 +35,15 @@
     </ClCompile>
     <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape\lm_landscape.cpp">
+      <Filter>Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_editor\lm_landscape_editor.cpp">
+      <Filter>Landscape Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp">
+      <Filter>Landscape Serializer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -41,17 +59,56 @@
     <ClInclude Include="h\lm_plugin_id.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
-    <ClInclude Include="h\lm_terrain_map_items.hpp">
-      <Filter>External Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="h\lm_point.hpp">
-      <Filter>External Headers</Filter>
-    </ClInclude>
     <ClInclude Include="h\lm_events.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
     <ClInclude Include="h\lm_resources.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_ieditable_landscape.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_ilandscape.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_isurface_item.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_isurface_items_cache.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_terrain_map_data.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_iobject_type.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_iobject_types_cache.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_iunit.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_ilandscape_editor.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_ilandscape_handle.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_ilandscape_model.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape\lm_landscape.hpp">
+      <Filter>Landscape</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp">
+      <Filter>Landscape Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_serializer\lm_ilandscape_serializer.hpp">
+      <Filter>Landscape Serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp">
+      <Filter>Landscape Serializer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -28,6 +28,8 @@ struct IUnit
 
 	virtual const int getHealth() const = 0;
 
+	virtual const QRect& getPosition() const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };

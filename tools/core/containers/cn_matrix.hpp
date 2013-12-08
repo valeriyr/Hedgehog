@@ -65,9 +65,6 @@ public:
 
 	void resize( const unsigned int _width, const unsigned int _height )
 	{
-		assert( _width > 0 );
-		assert( _height > 0 );
-
 		if ( m_width != _width || m_height != _height )
 		{
 			clear();
@@ -115,13 +112,16 @@ public:
 		return m_height;
 	}
 
-	const _TElementType& getElement( const unsigned int _x, const unsigned int _y ) const
+	const _TElementType& getConstElement( const unsigned int _x, const unsigned int _y ) const
 	{
-		assert( m_width > 0 );
-		assert( m_height > 0 );
+		assert( _x < m_width );
+		assert( _y < m_height );
 
-		assert( _x >= 0 );
-		assert( _y >= 0 );
+		return m_matrix[ _x ][ _y ];
+	}
+
+	_TElementType& getElement( const unsigned int _x, const unsigned int _y )
+	{
 		assert( _x < m_width );
 		assert( _y < m_height );
 
@@ -130,11 +130,6 @@ public:
 
 	void setElement( const unsigned int _x, const unsigned int _y, const _TElementType& _element )
 	{
-		assert( m_width > 0 );
-		assert( m_height > 0 );
-
-		assert( _x >= 0 );
-		assert( _y >= 0 );
 		assert( _x < m_width );
 		assert( _y < m_height );
 
