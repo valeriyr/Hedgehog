@@ -103,6 +103,9 @@ GraphicsInfoCache::getSurfaceItemGraphicsInfo(
 	if ( iterator != graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.end() )
 		return iterator->second;
 
+	if ( _skinId != ms_anySkinIdentifier )
+		return getSurfaceItemGraphicsInfo( ms_anySkinIdentifier, _id );
+
 	return boost::intrusive_ptr< ISurfaceItemGraphicsInfo >();
 
 } // GraphicsInfoCache::getSurfaceItemGraphicsInfo
@@ -126,6 +129,9 @@ GraphicsInfoCache::getObjectGraphicsInfo(
 
 	if ( iterator != graphicsInfoIterator->second.m_objectGraphicsInfo.end() )
 		return iterator->second;
+
+	if ( _skinId != ms_anySkinIdentifier )
+		return getObjectGraphicsInfo( ms_anySkinIdentifier, _objectName );
 
 	return boost::intrusive_ptr< IObjectGraphicsInfo >();
 
