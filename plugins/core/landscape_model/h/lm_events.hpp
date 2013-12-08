@@ -32,11 +32,9 @@ namespace UnitMoved
 
 /*---------------------------------------------------------------------------*/
 
-namespace UnitSelected
+namespace UnitsSelectionChanged
 {
-	const char* const ms_type = "UnitSelected";
-
-	const char* const ms_unitIdAttribute = "UnitId";
+	const char* const ms_type = "UnitsSelectionChanged";
 }
 
 /*---------------------------------------------------------------------------*/

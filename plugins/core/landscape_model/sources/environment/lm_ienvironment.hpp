@@ -9,6 +9,9 @@
 #include "multithreading_manager/h/mm_runnable_function.hpp"
 #include "multithreading_manager/h/mm_task_handle.hpp"
 
+#include "event_manager/h/em_event.hpp"
+
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -36,6 +39,10 @@ struct IEnvironment
 /*---------------------------------------------------------------------------*/
 
 	virtual void printMessage( const QString& _message ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void riseEvent( const Framework::Core::EventManager::Event& _event ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

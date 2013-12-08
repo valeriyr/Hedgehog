@@ -6,6 +6,7 @@
 #include "landscape_model/sources/plugin/lm_plugin_instance.hpp"
 
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
+#include "event_manager/ih/em_ievent_manager.hpp"
 
 #include "messenger/ms_imessenger.hpp"
 
@@ -78,6 +79,17 @@ Environment::printMessage( const QString& _message ) const
 	m_pluginInstance.getSystemMessenger()->printMessage( _message );
 
 } // Environment::printMessage
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::riseEvent( const Framework::Core::EventManager::Event& _event ) const
+{
+	m_pluginInstance.getEventManager()->raise( _event );
+
+} // Environment::riseEvent
 
 
 /*---------------------------------------------------------------------------*/

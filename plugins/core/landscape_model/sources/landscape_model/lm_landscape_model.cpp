@@ -8,7 +8,9 @@
 #include "landscape_model/sources/landscape_serializer/lm_ilandscape_serializer.hpp"
 #include "landscape_model/sources/landscape_handle/lm_landscape_handle.hpp"
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
+
 #include "landscape_model/sources/actions_queue/lm_actions_queue.hpp"
+#include "landscape_model/sources/actions/lm_select_items_action.hpp"
 
 #include "landscape_model/h/lm_resources.hpp"
 
@@ -119,8 +121,22 @@ LandscapeModel::getLandscapeLocker()
 
 
 void
+LandscapeModel::selectUnits( const QRect& _rect )
+{
+	m_actionsQueue->pushAction(
+		boost::intrusive_ptr< IAction >( new SelectAction( m_environment, *this, _rect ) ) );
+
+} // LandscapeModel::selectUnits
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 LandscapeModel::runActionsProcessing()
 {
+	m_actionsQueue->processAction( ms_actionsProcessPerisod );
+
 } // LandscapeModel::runActionsProcessing
 
 

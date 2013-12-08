@@ -8,6 +8,8 @@
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 
+#include "landscape_model/h/lm_events.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,7 +48,10 @@ SelectAction::processAction( const unsigned int /*_deltaTime*/ )
 	boost::intrusive_ptr< ILandscapeHandle > handle( m_landscapeModel.getCurrentLandscape() );
 
 	if ( handle->getLandscape() )
+	{
 		handle->getLandscape()->selectUnits( m_rect );
+		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::UnitsSelectionChanged::ms_type ) );
+	}
 
 } // SelectAction::processAction
 
@@ -60,7 +65,10 @@ SelectAction::unprocessAction( const unsigned int /*_deltaTime*/ )
 	boost::intrusive_ptr< ILandscapeHandle > handle( m_landscapeModel.getCurrentLandscape() );
 
 	if ( handle->getLandscape() )
+	{
 		handle->getLandscape()->unselectUnits();
+		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::UnitsSelectionChanged::ms_type ) );
+	}
 
 } // SelectAction::unprocessAction
 
