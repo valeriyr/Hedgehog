@@ -72,6 +72,9 @@ PluginInstance::initialize()
 	m_landscapeEditor.reset( new LandscapeEditor( *m_landscapeSerializer, *m_surfaceItemsCache, *m_objectTypesCache ) );
 	m_landscapeModel.reset( new LandscapeModel( *m_environment, *m_landscapeSerializer, *m_surfaceItemsCache, *m_objectTypesCache ) );
 
+	fillSurfaceItemsCache();
+	fillUnitsCache();
+
 } // PluginInstance::initialize
 
 
@@ -131,6 +134,53 @@ PluginInstance::getEventManager() const
 			,	Framework::Core::EventManager::IID_EVENT_MANAGER );
 
 } // PluginInstance::getEventManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::fillSurfaceItemsCache()
+{
+	// Ground tiles with water borders
+
+	// 1 --- 2 --- 3
+	// |     |     |
+	// 4 --- 5 --- 6
+	// |     |     |
+	// 7 --- 8 --- 9
+
+	m_surfaceItemsCache->addSurfaceItem( 1, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->addSurfaceItem( 2, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->addSurfaceItem( 3, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->addSurfaceItem( 4, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->addSurfaceItem( 5, TerrainMapItem::Ground );
+	m_surfaceItemsCache->addSurfaceItem( 6, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->addSurfaceItem( 7, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->addSurfaceItem( 8, TerrainMapItem::NotAvailable );
+	m_surfaceItemsCache->addSurfaceItem( 9, TerrainMapItem::NotAvailable );
+
+	// Water tiles
+
+	m_surfaceItemsCache->addSurfaceItem( 101, TerrainMapItem::Water );
+
+	//Default surface item
+
+	m_surfaceItemsCache->setDefaultSurfaceItem( 5 );
+
+} // PluginInstance::fillSurfaceItemsCache
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::fillUnitsCache()
+{
+	m_objectTypesCache->regObjectType( "Elven Archer", 100, QSize( 1, 1 ), TerrainMapItem::Ground, 2 );
+	m_objectTypesCache->regObjectType( "Grunt", 200, QSize( 1, 1 ), TerrainMapItem::Ground, 1 );
+
+} // PluginInstance::fillUnitsCache
 
 
 /*---------------------------------------------------------------------------*/

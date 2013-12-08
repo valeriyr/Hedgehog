@@ -90,6 +90,16 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void fillSurfaceItemsCache();
+
+	void fillUnitsCache();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
 	boost::intrusive_ptr< IEnvironment > m_environment;
 
 	boost::intrusive_ptr< IObjectTypesCache > m_objectTypesCache;

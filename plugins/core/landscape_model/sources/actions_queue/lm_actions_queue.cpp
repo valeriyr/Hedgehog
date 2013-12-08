@@ -58,6 +58,9 @@ ActionsQueue::processAction( const unsigned int _deltaTime )
 	for ( ; begin != end; ++begin )
 	{
 		( *begin )->processAction( _deltaTime );
+
+		if ( ( *begin )->hasFinished() )
+			begin = m_actionsCollection.erase( begin );
 	}
 
 } // ActionsQueue::processAction
