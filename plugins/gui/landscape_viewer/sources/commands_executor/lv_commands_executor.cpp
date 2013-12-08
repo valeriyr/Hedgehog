@@ -131,7 +131,7 @@ CommandsExecutor::saveAsLandscape()
 {
 	QString landscapeFilePath = m_environment.showSaveFileDialog();
 	m_environment.saveLandscape(
-			m_landscapeViewer.getLandscapeFilePath()
+			landscapeFilePath
 		,	*m_landscapeViewer.getEditingLandscape() );
 
 } // CommandsExecutor::saveAsLandscape
