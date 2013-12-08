@@ -17,7 +17,7 @@ namespace LandscapeModel {
 
 ActionsQueue::ActionsQueue()
 	:	m_actionsCollection()
-	,	m_actionsQueueLocker()
+	,	m_actionsQueueLocker( QMutex::Recursive )
 {
 } // ActionsQueue::ActionsQueue
 

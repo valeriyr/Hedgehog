@@ -35,7 +35,7 @@ LandscapeModel::LandscapeModel(
 	,	m_surfaceItemsCache( _surfaceItemsCache )
 	,	m_objectTypesCache( _objectTypesCache )
 	,	m_currentLandscape()
-	,	m_landscapeLocker()
+	,	m_landscapeLocker( QMutex::Recursive )
 	,	m_actionsQueue( new ActionsQueue() )
 {
 	m_environment.startThread( Resources::ModelThreadName );
