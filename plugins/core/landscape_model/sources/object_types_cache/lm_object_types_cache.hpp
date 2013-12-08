@@ -1,11 +1,10 @@
 
-#ifndef __LM_IOBJECT_TYPES_CACHE_HPP__
-#define __LM_IOBJECT_TYPES_CACHE_HPP__
+#ifndef __LM_OBJECT_TYPES_CACHE_HPP__
+#define __LM_OBJECT_TYPES_CACHE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
-#include "landscape_model/h/lm_terrain_map_data.hpp"
+#include "landscape_model/ih/lm_iobject_types_cache.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,30 +14,50 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_OBJECT_TYPES_CACHE = 3;
-
-/*---------------------------------------------------------------------------*/
-
-struct IObjectType;
-
-/*---------------------------------------------------------------------------*/
-
-struct IObjectTypesCache
-	:	public Tools::Core::IBase
+struct ObjectTypesCache
+	:	public Tools::Core::BaseWrapper< IObjectTypesCache >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< IObjectType > getObjectType( const QString& _name ) const = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void regObjectType(
+	ObjectTypesCache();
+
+	virtual ~ObjectTypesCache();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< IObjectType >
+		getObjectType( const QString& _name ) const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void regObjectType(
 			const QString& _name
 		,	const unsigned int _maximumHealth
 		,	const QSize& _objectSize
 		,	const TerrainMapItem::MaskType _passability
-		,	const unsigned int _movingSpeed ) = 0;
+		,	const unsigned int _movingSpeed );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	typedef
+		std::map< QString, boost::intrusive_ptr< IObjectType > >
+		TypesCollection;
+	typedef
+		TypesCollection::const_iterator
+		TypesCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
+	TypesCollection m_typesCollection;
 
 /*---------------------------------------------------------------------------*/
 
@@ -52,4 +71,4 @@ struct IObjectTypesCache
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IOBJECT_TYPES_CACHE_HPP__
+#endif // __LM_OBJECT_TYPES_CACHE_HPP__

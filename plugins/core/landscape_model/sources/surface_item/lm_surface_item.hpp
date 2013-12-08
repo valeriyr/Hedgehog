@@ -1,10 +1,10 @@
 
-#ifndef __LM_ILANDSCAPE_MODEL_HPP__
-#define __LM_ILANDSCAPE_MODEL_HPP__
+#ifndef __LM_SURFACE_ITEM_HPP__
+#define __LM_SURFACE_ITEM_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,27 +14,37 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_LANDSCAPE_MODEL = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeHandle;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeModel
-	:	public Tools::Core::IBase
+class SurfaceItem
+	:	public Tools::Core::BaseWrapper< ISurfaceItem >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initCurrentLandscape ( const QString& _filePath ) = 0;
-
-	virtual void closeCurrentLandscape() = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape() = 0;
+	SurfaceItem(
+			const ISurfaceItem::IdType _id
+		,	const TerrainMapItem::Enum _terrainMapItem );
+
+	virtual ~SurfaceItem();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ ISurfaceItem::IdType getId() const;
+
+	/*virtual*/ const TerrainMapItem::Enum getTerrainMapValue() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const ISurfaceItem::IdType m_id;
+
+	const TerrainMapItem::Enum m_terrainMapItem;
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,4 +58,4 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_MANAGER_HPP__
+#endif // __LM_SURFACE_ITEM_HPP__

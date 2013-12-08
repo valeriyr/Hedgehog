@@ -1,10 +1,10 @@
 
-#ifndef __LM_ILANDSCAPE_MODEL_HPP__
-#define __LM_ILANDSCAPE_MODEL_HPP__
+#include "landscape_model/sources/ph/lm_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "landscape_model/sources/unit/lm_unit.hpp"
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/ih/lm_iobject_type.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,31 +14,58 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_LANDSCAPE_MODEL = 0;
 
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeHandle;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeModel
-	:	public Tools::Core::IBase
+Unit::Unit(
+		boost::intrusive_ptr< IObjectType > _type
+	,	const QRect& _possition
+	)
+	:	m_type( _type )
+	,	m_health( m_type->getMaximumHealth() )
+	,	m_possition( _possition )
 {
+} // Unit::Unit
+
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initCurrentLandscape ( const QString& _filePath ) = 0;
 
-	virtual void closeCurrentLandscape() = 0;
+Unit::~Unit()
+{
+} // Unit::Unit
 
-/*---------------------------------------------------------------------------*/
-
-	virtual boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape() = 0;
 
 /*---------------------------------------------------------------------------*/
 
-};
+
+boost::intrusive_ptr< IObjectType >
+Unit::getType() const
+{
+	return m_type;
+
+} // Unit::getType
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const int
+Unit::getHealth() const
+{
+	return m_health;
+
+} // Unit::getHealth
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QRect&
+Unit::getPosition() const
+{
+	return m_possition;
+
+} // Unit::getPosition
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,5 +74,3 @@ struct ILandscapeModel
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LM_ILANDSCAPE_MANAGER_HPP__

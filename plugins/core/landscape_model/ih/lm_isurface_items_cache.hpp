@@ -5,6 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/ih/lm_isurface_item.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -18,10 +19,6 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ISurfaceItem;
-
-/*---------------------------------------------------------------------------*/
-
 struct ISurfaceItemsCache
 	:	public Tools::Core::IBase
 {
@@ -29,15 +26,17 @@ struct ISurfaceItemsCache
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< ISurfaceItem >
-		getSurfaceItem( const unsigned int _id ) const = 0;
+		getSurfaceItem( const ISurfaceItem::IdType _id ) const = 0;
 
 	virtual boost::intrusive_ptr< ISurfaceItem > getDefaultSurfaceItem() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void addSurfaceItem( const unsigned int _id ) = 0;
+	virtual void addSurfaceItem(
+			const ISurfaceItem::IdType _id
+		,	const TerrainMapItem::Enum _terrainMapItem ) = 0;
 
-	virtual void setDefaultSurfaceItem( const unsigned int _id ) = 0;
+	virtual void setDefaultSurfaceItem( const ISurfaceItem::IdType _id ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

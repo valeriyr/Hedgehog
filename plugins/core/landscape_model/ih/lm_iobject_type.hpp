@@ -28,7 +28,9 @@ struct IObjectType
 
 	virtual const QSize& getObjectSize() const = 0;
 
-	virtual const TerrainMapItems::Enum getPassability() const = 0;
+	virtual const TerrainMapItem::MaskType getPassability() const = 0;
+
+	virtual const unsigned int getMovingSpeed() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

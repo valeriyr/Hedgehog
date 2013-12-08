@@ -1,10 +1,10 @@
 
-#ifndef __LM_ILANDSCAPE_MODEL_HPP__
-#define __LM_ILANDSCAPE_MODEL_HPP__
+#ifndef __LM_UNIT_HPP__
+#define __LM_UNIT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/ih/lm_iobject_type.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,27 +14,51 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_LANDSCAPE_MODEL = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeHandle;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeModel
-	:	public Tools::Core::IBase
+class ObjectType
+	:	public Tools::Core::BaseWrapper< IObjectType >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initCurrentLandscape ( const QString& _filePath ) = 0;
-
-	virtual void closeCurrentLandscape() = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape() = 0;
+	ObjectType(	const QString& _name
+			,	const int _maximumHealth
+			,	const QSize& _objectSize
+			,	const TerrainMapItem::MaskType _passability
+			,	const unsigned int _movingSpeed );
+
+	virtual ~ObjectType();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ const QString& getName() const;
+
+	/*virtual*/ const int getMaximumHealth() const;
+
+	/*virtual*/ const QSize& getObjectSize() const;
+
+	/*virtual*/ const TerrainMapItem::MaskType getPassability() const;
+
+	/*virtual*/ const unsigned int getMovingSpeed() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const QString m_name;
+
+	const int m_maximumHealth;
+
+	const QSize m_objectSize;
+
+	const TerrainMapItem::MaskType m_passability;
+
+	const unsigned int m_movingSpeed;
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,4 +72,4 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_MANAGER_HPP__
+#endif // __LM_UNIT_HPP__

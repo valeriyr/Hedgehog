@@ -1,11 +1,10 @@
 
-#ifndef __LM_ISURFACE_ITEM_HPP__
-#define __LM_ISURFACE_ITEM_HPP__
+#ifndef __LM_ILANDSCAPE_MODEL_INTERNAL_HPP__
+#define __LM_ILANDSCAPE_MODEL_INTERNAL_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
-#include "landscape_model/h/lm_terrain_map_data.hpp"
+#include "landscape_model/ih/lm_ilandscape_model.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,19 +14,19 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ISurfaceItem
-	:	public Tools::Core::IBase
+	struct ILandscape;
+
+/*---------------------------------------------------------------------------*/
+
+struct ILandscapeModelInternal
+	:	public ILandscapeModel
 {
 
 /*---------------------------------------------------------------------------*/
 
-	typedef unsigned int IdType;
+	virtual boost::intrusive_ptr< ILandscape > getCurrentLandscapeInternal() const = 0;
 
-/*---------------------------------------------------------------------------*/
-
-	virtual IdType getId() const = 0;
-
-	virtual const TerrainMapItem::Enum getTerrainMapValue() const = 0;
+	virtual QMutex& getLandscapeLocker() = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,4 +40,4 @@ struct ISurfaceItem
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ISURFACE_ITEM_HPP__
+#endif // __LM_ILANDSCAPE_MODEL_INTERNAL_HPP__

@@ -1,11 +1,8 @@
 
-#ifndef __LM_ISURFACE_ITEM_HPP__
-#define __LM_ISURFACE_ITEM_HPP__
+#include "landscape_model/sources/ph/lm_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "landscape_model/sources/surface_item/lm_surface_item.hpp"
 
-#include "intrusive_base/ib_ibase.hpp"
-#include "landscape_model/h/lm_terrain_map_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,23 +12,46 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ISurfaceItem
-	:	public Tools::Core::IBase
+
+SurfaceItem::SurfaceItem(
+		const ISurfaceItem::IdType _id
+	,	const TerrainMapItem::Enum _terrainMapItem
+	)
+	:	m_id( _id )
+	,	m_terrainMapItem( _terrainMapItem )
 {
+} // SurfaceItem::SurfaceItem
+
 
 /*---------------------------------------------------------------------------*/
 
-	typedef unsigned int IdType;
+
+SurfaceItem::~SurfaceItem()
+{
+} // SurfaceItem::~SurfaceItem
+
 
 /*---------------------------------------------------------------------------*/
 
-	virtual IdType getId() const = 0;
 
-	virtual const TerrainMapItem::Enum getTerrainMapValue() const = 0;
+ISurfaceItem::IdType
+SurfaceItem::getId() const
+{
+	return m_id;
+
+} // SurfaceItem::getId
+
 
 /*---------------------------------------------------------------------------*/
 
-};
+
+const TerrainMapItem::Enum
+SurfaceItem::getTerrainMapValue() const
+{
+	return m_terrainMapItem;
+
+} // SurfaceItem::getTerrainMapValue
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,5 +60,3 @@ struct ISurfaceItem
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LM_ISURFACE_ITEM_HPP__

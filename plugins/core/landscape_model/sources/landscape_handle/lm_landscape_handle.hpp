@@ -1,10 +1,10 @@
 
-#ifndef __LM_ILANDSCAPE_MODEL_HPP__
-#define __LM_ILANDSCAPE_MODEL_HPP__
+#ifndef __LM_LANDSCAPE_HANDLE_HPP__
+#define __LM_LANDSCAPE_HANDLE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/ih/lm_ilandscape_handle.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,27 +14,37 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_LANDSCAPE_MODEL = 0;
+struct ILandscapeModelInternal;
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeHandle;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeModel
-	:	public Tools::Core::IBase
+class LandscapeHandle
+	:	public Tools::Core::BaseWrapper< ILandscapeHandle >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initCurrentLandscape ( const QString& _filePath ) = 0;
-
-	virtual void closeCurrentLandscape() = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape() = 0;
+	LandscapeHandle( ILandscapeModelInternal& _landscapeModel );
+
+	virtual ~LandscapeHandle();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< ILandscape > getLandscape() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const ILandscapeModelInternal& m_landscapeModel;
+
+	QMutexLocker m_lockerHolder;
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,4 +58,4 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_MANAGER_HPP__
+#endif // __LM_LANDSCAPE_HANDLE_HPP__

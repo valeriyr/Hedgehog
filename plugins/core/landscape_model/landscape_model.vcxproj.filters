@@ -25,6 +25,27 @@
     <Filter Include="Landscape Serializer">
       <UniqueIdentifier>{2a5e59fe-b211-498c-b90e-fb63d1927ed4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Surface Item">
+      <UniqueIdentifier>{87feb657-545f-40fd-9acd-9235a8184488}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Surface Items Cache">
+      <UniqueIdentifier>{8e049fe2-eb17-4576-90e2-599722e3ef55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit">
+      <UniqueIdentifier>{6c2a2694-99d9-422e-8e07-6075e0f44bc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Type">
+      <UniqueIdentifier>{aea91c96-8014-4da2-af47-433886d460d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape Model">
+      <UniqueIdentifier>{5321bf5e-646e-46ce-8e19-8e9c73a70332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape Handle">
+      <UniqueIdentifier>{5ba58ded-4e19-4c40-b18d-54710cefc11e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Types Cache">
+      <UniqueIdentifier>{31feb3a4-194a-4b11-a22a-ea7d9cf91da4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -44,6 +65,27 @@
     </ClCompile>
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp">
       <Filter>Landscape Serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\surface_item\lm_surface_item.cpp">
+      <Filter>Surface Item</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp">
+      <Filter>Surface Items Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\unit\lm_unit.cpp">
+      <Filter>Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\object_type\lm_object_type.cpp">
+      <Filter>Object Type</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\object_types_cache\lm_object_types_cache.cpp">
+      <Filter>Object Types Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp">
+      <Filter>Landscape Model</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_handle\lm_landscape_handle.cpp">
+      <Filter>Landscape Handle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +151,30 @@
     </ClInclude>
     <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp">
       <Filter>Landscape Serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\surface_item\lm_surface_item.hpp">
+      <Filter>Surface Item</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp">
+      <Filter>Surface Items Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\unit\lm_unit.hpp">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\object_type\lm_object_type.hpp">
+      <Filter>Object Type</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\object_types_cache\lm_object_types_cache.hpp">
+      <Filter>Object Types Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_model\lm_ilandscape_model_internal.hpp">
+      <Filter>Landscape Model</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_model\lm_landscape_model.hpp">
+      <Filter>Landscape Model</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_handle\lm_landscape_handle.hpp">
+      <Filter>Landscape Handle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

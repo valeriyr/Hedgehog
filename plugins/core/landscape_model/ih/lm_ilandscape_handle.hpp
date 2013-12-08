@@ -15,6 +15,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct ILandscapeHandle
+	:	public Tools::Core::IBase
 {
 	virtual boost::intrusive_ptr< ILandscape > getLandscape() const = 0;
 };

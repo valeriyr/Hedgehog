@@ -1,11 +1,10 @@
 
-#ifndef __LM_ISURFACE_ITEM_HPP__
-#define __LM_ISURFACE_ITEM_HPP__
+#ifndef __LM_UNIT_HPP__
+#define __LM_UNIT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
-#include "landscape_model/h/lm_terrain_map_data.hpp"
+#include "landscape_model/ih/lm_iunit.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,19 +14,40 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ISurfaceItem
-	:	public Tools::Core::IBase
+class Unit
+	:	public Tools::Core::BaseWrapper< IUnit>
 {
 
 /*---------------------------------------------------------------------------*/
 
-	typedef unsigned int IdType;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual IdType getId() const = 0;
+	Unit(	boost::intrusive_ptr< IObjectType > _type
+		,	const QRect& _possition );
 
-	virtual const TerrainMapItem::Enum getTerrainMapValue() const = 0;
+	virtual ~Unit();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< IObjectType > getType() const;
+
+	/*virtual*/ const int getHealth() const;
+
+	/*virtual*/ const QRect& getPosition() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< IObjectType > m_type;
+
+	int m_health;
+
+	QRect m_possition;
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,4 +61,4 @@ struct ISurfaceItem
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ISURFACE_ITEM_HPP__
+#endif // __LM_UNIT_HPP__

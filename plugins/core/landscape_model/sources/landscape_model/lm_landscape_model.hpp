@@ -1,29 +1,10 @@
 
-#ifndef __LM_PLUGIN_INSTANCE_HPP__
-#define __LM_PLUGIN_INSTANCE_HPP__
+#ifndef __LM_LANDSCAPE_MODEL_HPP__
+#define __LM_LANDSCAPE_MODEL_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "plugins_manager/h/pm_base_plugin.hpp"
-#include "plugins_manager/h/pm_interface_map.hpp"
-
-/*---------------------------------------------------------------------------*/
-
-namespace Framework
-{
-	namespace Core
-	{
-		namespace MultithreadingManager
-		{
-			struct IMultithreadingManager;
-		}
-
-		namespace EventManager
-		{
-			struct IEventManager;
-		}
-	}
-}
+#include "landscape_model/sources/landscape_model/lm_ilandscape_model_internal.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,16 +14,16 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeSerializer;
-struct ILandscapeEditor;
 struct ISurfaceItemsCache;
-struct ILandscapeModel;
 struct IObjectTypesCache;
+struct ILandscapeSerializer;
+struct IEditableLandscape;
+struct ILandscapeHandle;
 
 /*---------------------------------------------------------------------------*/
 
-class PluginInstance
-	:	public Framework::Core::PluginsManager::BasePlugin
+class LandscapeModel
+	:	public Tools::Core::BaseWrapper< ILandscapeModelInternal >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -51,27 +32,28 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PluginInstance();
+	LandscapeModel(
+			const ILandscapeSerializer& _landscapeSerializer
+		,	const ISurfaceItemsCache& _surfaceItemsCache
+		,	const IObjectTypesCache& _objectTypesCache );
 
-	virtual ~PluginInstance();
-
-/*---------------------------------------------------------------------------*/
-
-	INTERFACE_MAP_DECLARATION()
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void initialize();
-
-	/*virtual*/ void close();
+	virtual ~LandscapeModel();
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Framework::Core::MultithreadingManager::IMultithreadingManager >
-		getMultithreadingManager() const;
+	/*virtual*/ void initCurrentLandscape ( const QString& _filePath );
 
-	boost::intrusive_ptr< Framework::Core::EventManager::IEventManager >
-		getEventManager() const;
+	/*virtual*/ void closeCurrentLandscape();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< ILandscape > getCurrentLandscapeInternal() const;
+
+	/*virtual*/ boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ QMutex& getLandscapeLocker();
 
 /*---------------------------------------------------------------------------*/
 
@@ -79,15 +61,15 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< IObjectTypesCache > m_objectTypesCache;
+	const ILandscapeSerializer& m_landscapeSerializer;
 
-	boost::intrusive_ptr< ISurfaceItemsCache > m_surfaceItemsCache;
+	const ISurfaceItemsCache& m_surfaceItemsCache;
 
-	boost::intrusive_ptr< ILandscapeSerializer > m_landscapeSerializer;
+	const IObjectTypesCache& m_objectTypesCache;
 
-	boost::intrusive_ptr< ILandscapeEditor > m_landscapeEditor;
+	boost::intrusive_ptr< IEditableLandscape > m_currentLandscape;
 
-	boost::intrusive_ptr< ILandscapeModel > m_landscapeModel;
+	QMutex m_landscapeLocker;
 
 /*---------------------------------------------------------------------------*/
 
@@ -101,4 +83,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_PLUGIN_INSTANCE_HPP__
+#endif // __LM_LANDSCAPE_MODEL_HPP__
