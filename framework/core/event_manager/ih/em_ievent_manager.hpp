@@ -1,6 +1,6 @@
 
-#ifndef __SM_IEVENT_MANAGER_HPP__
-#define __SM_IEVENT_MANAGER_HPP__
+#ifndef __EM_IEVENT_MANAGER_HPP__
+#define __EM_IEVENT_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -57,4 +57,4 @@ struct IEventManager
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SM_IEVENT_MANAGER_HPP__
+#endif // __EM_IEVENT_MANAGER_HPP__

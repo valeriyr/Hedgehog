@@ -17,7 +17,7 @@ namespace Events {
 namespace LandscapeLoaded
 {
 	const char* const ms_type = "LandscapeLoaded";
-};
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +28,7 @@ namespace UnitMoved
 	const char* const ms_unitIdAttribute = "UnitId";
 	const char* const ms_movingToAttribute = "MovingTo";
 	const char* const ms_movingProgressAttribute = "MovingProgress";
-};
+}
 
 /*---------------------------------------------------------------------------*/
 
