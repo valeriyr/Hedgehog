@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{d346cf84-1029-4b9b-8628-15e84de4de2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{8f4466e9-401e-40a6-b4a4-fab93e7a838d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{6cd0b37f-14f5-4aea-8bd5-c051af4b883e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{adc71e75-8857-4d2b-9054-ad43ce74296c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{b9cd7a99-ad58-4538-8b5e-4b6b8acaffc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{cccb5905-41f7-4043-9c10-3d2a3cb4868c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\ph\st_ph.cpp">
+      <Filter>Precompiled Header</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\plugin\st_plugin_instance.cpp">
+      <Filter>Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\settings\st_settings.cpp">
+      <Filter>Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\environment\st_environment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sources\ph\st_ph.hpp">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\plugin\st_plugin_instance.hpp">
+      <Filter>Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="h\st_plugin_id.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="h\st_events.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\st_environment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\st_ienvironment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\st_isettings.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\settings\st_settings.hpp">
+      <Filter>Settings</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
