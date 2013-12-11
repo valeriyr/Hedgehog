@@ -21,6 +21,7 @@ SettingsView::SettingsView()
 	,	m_viewTitle( Resources::Views::SettingsViewTitle )
 {
 	QVBoxLayout* mainLayout = new QVBoxLayout();
+	mainLayout->setAlignment( Qt::AlignTop );
 
 	mainLayout->addWidget( m_tarrainMapVisibility );
 
