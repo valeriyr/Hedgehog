@@ -4,9 +4,8 @@
 #include <QtCore/QTimer>
 
 #include <QtWidgets/QTextEdit>
-
 #include <QtWidgets/QTreeWidget>
-
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QScrollBar>
 
 #include <QtWidgets/QGraphicsView>
@@ -14,6 +13,8 @@
 #include <QtWidgets/QGraphicsPixmapItem>
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 #include <QtWidgets/QGraphicsEffect>
+
+#include <QtWidgets/QVBoxLayout>
 
 #include <QtGui/QMouseEvent>
 

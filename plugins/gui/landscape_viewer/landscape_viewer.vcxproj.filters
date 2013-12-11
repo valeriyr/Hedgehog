@@ -117,6 +117,9 @@
     <ClCompile Include="sources\object_graphics_info\lv_object_graphics_info.cpp">
       <Filter>Object Graphics Info</Filter>
     </ClCompile>
+    <ClCompile Include="sources\views\lv_settings_view.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lv_ph.hpp">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="sources\object_graphics_info\lv_object_graphics_info.hpp">
       <Filter>Object Graphics Info</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\lv_settings_view.hpp">
+      <Filter>Views</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

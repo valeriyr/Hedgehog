@@ -11,6 +11,7 @@
 #include "landscape_viewer/sources/views/lv_editor_view.hpp"
 #include "landscape_viewer/sources/views/lv_minimap_view.hpp"
 #include "landscape_viewer/sources/views/lv_objects_view.hpp"
+#include "landscape_viewer/sources/views/lv_settings_view.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -26,6 +27,7 @@ EditingMode::EditingMode( const IEnvironment& _environment )
 	:	BaseMode( _environment )
 	,	m_landscape()
 	,	m_descriptionView( new DescriptionView() )
+	,	m_settingsView( new SettingsView() )
 	,	m_editorView( new EditorView( _environment, *m_viewsMediator ) )
 	,	m_minimapView( new MinimapView( _environment, *m_viewsMediator ) )
 	,	m_objectsView( new ObjectsView( _environment, *m_viewsMediator ) )
@@ -34,6 +36,7 @@ EditingMode::EditingMode( const IEnvironment& _environment )
 	m_environment.addFrameworkView( m_editorView, Framework::GUI::WindowManager::ViewPosition::Center );
 	m_environment.addFrameworkView( m_minimapView, Framework::GUI::WindowManager::ViewPosition::Right );
 	m_environment.addFrameworkView( m_descriptionView, Framework::GUI::WindowManager::ViewPosition::Right );
+	m_environment.addFrameworkView( m_settingsView, Framework::GUI::WindowManager::ViewPosition::Right );
 
 } // EditingMode::EditingMode
 
@@ -43,6 +46,7 @@ EditingMode::EditingMode( const IEnvironment& _environment )
 
 EditingMode::~EditingMode()
 {
+	m_environment.removeFrameworkView( m_settingsView );
 	m_environment.removeFrameworkView( m_descriptionView );
 	m_environment.removeFrameworkView( m_minimapView );
 	m_environment.removeFrameworkView( m_editorView );

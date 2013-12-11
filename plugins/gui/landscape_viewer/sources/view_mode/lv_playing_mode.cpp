@@ -9,6 +9,7 @@
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 
 #include "landscape_viewer/sources/views/lv_description_view.hpp"
+#include "landscape_viewer/sources/views/lv_settings_view.hpp"
 #include "landscape_viewer/sources/views/lv_landscape_view.hpp"
 #include "landscape_viewer/sources/views/lv_minimap_view.hpp"
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
@@ -28,6 +29,7 @@ namespace LandscapeViewer {
 PlayingMode::PlayingMode( const IEnvironment& _environment )
 	:	BaseMode( _environment )
 	,	m_descriptionView( new DescriptionView() )
+	,	m_settingsView( new SettingsView() )
 	,	m_landscapeView( new LandscapeView( _environment, *m_viewsMediator ) )
 	,	m_minimapView( new MinimapView( _environment, *m_viewsMediator ) )
 	,	m_timer()
@@ -35,6 +37,7 @@ PlayingMode::PlayingMode( const IEnvironment& _environment )
 	m_environment.addFrameworkView( m_landscapeView, Framework::GUI::WindowManager::ViewPosition::Center );
 	m_environment.addFrameworkView( m_minimapView, Framework::GUI::WindowManager::ViewPosition::Right );
 	m_environment.addFrameworkView( m_descriptionView, Framework::GUI::WindowManager::ViewPosition::Right );
+	m_environment.addFrameworkView( m_settingsView, Framework::GUI::WindowManager::ViewPosition::Right );
 
 	QObject::connect( &m_timer, SIGNAL( timeout() ), m_viewsMediator.get(), SIGNAL( updateTimerFired() ) );
 
@@ -48,6 +51,7 @@ PlayingMode::~PlayingMode()
 {
 	QObject::disconnect( &m_timer, SIGNAL( timeout() ), m_viewsMediator.get(), SIGNAL( updateTimerFired() ) );
 
+	m_environment.removeFrameworkView( m_settingsView );
 	m_environment.removeFrameworkView( m_descriptionView );
 	m_environment.removeFrameworkView( m_minimapView );
 	m_environment.removeFrameworkView( m_landscapeView );
@@ -86,10 +90,13 @@ PlayingMode::openLandscape( const QString& _filePath )
 	m_environment.initializeLandscapeModel( _filePath );
 	landscapeWasOpened( _filePath );
 
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
+	{
+		boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+			= m_environment.getCurrentLandscape();
 
-	m_descriptionView->landscapeWasOpened( QSize( handle->getLandscape()->getWidth(), handle->getLandscape()->getHeight() ), _filePath );
+		m_descriptionView->landscapeWasOpened( QSize( handle->getLandscape()->getWidth(), handle->getLandscape()->getHeight() ), _filePath );
+	}
+
 	m_minimapView->landscapeWasOpened();
 	m_landscapeView->landscapeWasOpened();
 

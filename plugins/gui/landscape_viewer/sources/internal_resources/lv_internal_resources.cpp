@@ -27,7 +27,11 @@ namespace Views {
 
 	const char* const DescriptionViewTitle = "Landscape Description";
 
+	const char* const SettingsViewTitle = "Settings";
+
 	const char* const EditorViewDefaultTitle = "Landscape Editor";
+
+	const char* const TarrainMapVisibilityCheckboxName = "Show tarrain map";
 
 /*---------------------------------------------------------------------------*/
 

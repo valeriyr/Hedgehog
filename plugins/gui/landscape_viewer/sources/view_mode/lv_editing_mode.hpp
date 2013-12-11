@@ -28,6 +28,7 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 class DescriptionView;
+class SettingsView;
 class EditorView;
 class MinimapView;
 class ObjectsView;
@@ -74,6 +75,7 @@ private:
 	boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > m_landscape;
 
 	boost::intrusive_ptr< DescriptionView > m_descriptionView;
+	boost::intrusive_ptr< SettingsView > m_settingsView;
 	boost::intrusive_ptr< EditorView > m_editorView;
 	boost::intrusive_ptr< MinimapView > m_minimapView;
 	boost::intrusive_ptr< ObjectsView > m_objectsView;

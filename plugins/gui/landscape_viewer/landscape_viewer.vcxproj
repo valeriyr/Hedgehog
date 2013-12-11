@@ -40,6 +40,7 @@
     <ClCompile Include="sources\views\lv_landscape_view.cpp" />
     <ClCompile Include="sources\views\lv_minimap_view.cpp" />
     <ClCompile Include="sources\views\lv_objects_view.cpp" />
+    <ClCompile Include="sources\views\lv_settings_view.cpp" />
     <ClCompile Include="sources\views\views_mediator\lv_views_mediator.cpp" />
     <ClCompile Include="sources\view_mode\lv_base_mode.cpp" />
     <ClCompile Include="sources\view_mode\lv_editing_mode.cpp" />
@@ -141,6 +142,7 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
     </CustomBuild>
+    <ClInclude Include="sources\views\lv_settings_view.hpp" />
     <ClInclude Include="sources\view_mode\lv_base_mode.hpp" />
     <ClInclude Include="sources\view_mode\lv_editing_mode.hpp" />
     <ClInclude Include="sources\view_mode\lv_iview_mode.hpp" />

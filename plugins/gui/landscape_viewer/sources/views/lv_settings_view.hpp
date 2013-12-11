@@ -1,10 +1,10 @@
 
-#ifndef __LV_PLAYING_MODE_HPP__
-#define __LV_PLAYING_MODE_HPP__
+#ifndef __LV_SETTINGS_VIEW_HPP__
+#define __LV_SETTINGS_VIEW_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_viewer/sources/view_mode/lv_base_mode.hpp"
+#include "window_manager/ih/wm_iview.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,17 +14,8 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEnvironment;
-
-class DescriptionView;
-class SettingsView;
-class LandscapeView;
-class MinimapView;
-
-/*---------------------------------------------------------------------------*/
-
-class PlayingMode
-	:	public BaseMode
+class SettingsView
+	:	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -33,21 +24,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	PlayingMode( const IEnvironment& _environment );
+	SettingsView();
 
-	virtual ~PlayingMode();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ bool isPlayingMode() const;
-
-	/*virtual*/ bool isEditingMode() const;
+	virtual ~SettingsView();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void openLandscape( const QString& _filePath );
+	/*virtual*/ const QString& getViewTitle() const;
 
-	/*virtual*/ void closeLandscape();
+	/*virtual*/ QWidget* getViewWidget();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void viewWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
@@ -55,16 +44,11 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< DescriptionView > m_descriptionView;
-	boost::intrusive_ptr< SettingsView > m_settingsView;
-	boost::intrusive_ptr< LandscapeView > m_landscapeView;
-	boost::intrusive_ptr< MinimapView > m_minimapView;
+	boost::shared_ptr< QWidget > m_mainWidget;
 
-	QTimer m_timer;
+	QCheckBox* m_tarrainMapVisibility;
 
-/*---------------------------------------------------------------------------*/
-
-	static const int ms_updatePeriod = 10;
+	QString m_viewTitle;
 
 /*---------------------------------------------------------------------------*/
 
@@ -78,4 +62,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_PLAYING_MODE_HPP__
+#endif // __LV_SETTINGS_VIEW_HPP__
