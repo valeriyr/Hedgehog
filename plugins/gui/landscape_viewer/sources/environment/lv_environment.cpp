@@ -18,7 +18,7 @@
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 
-#include "game_manager/ih/gm_igame_manager.hpp"
+#include "settings/ih/st_isettings.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -224,6 +224,50 @@ Environment::getSurfaceItemGraphicsInfo(
 	return m_pluginInstance.getGraphicsInfoCache()->getSurfaceItemGraphicsInfo( _skinId, _id );
 
 } // Environment::getSurfaceItemGraphicsInfo
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::regBool( const QString& _key, const bool _defaultValue ) const
+{
+	m_pluginInstance.getSettings()->regBool( _key, _defaultValue );
+
+} // Environment::regBool
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::unregProperty( const QString& _key ) const
+{
+	m_pluginInstance.getSettings()->unregProperty( _key );
+
+} // Environment::unregProperty
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::setBool( const QString& _key, const bool _value ) const
+{
+	m_pluginInstance.getSettings()->setBool( _key, _value );
+
+} // Environment::setBool
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+Environment::getBool( const QString& _key ) const
+{
+	return m_pluginInstance.getSettings()->getBool( _key );
+
+} // Environment::getBool
 
 
 /*---------------------------------------------------------------------------*/

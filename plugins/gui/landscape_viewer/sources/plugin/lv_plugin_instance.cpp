@@ -31,8 +31,8 @@
 #include "images_manager/ih/im_iimages_manager.hpp"
 #include "images_manager/h/im_plugin_id.hpp"
 
-#include "game_manager/ih/gm_igame_manager.hpp"
-#include "game_manager/h/gm_plugin_id.hpp"
+#include "settings/ih/st_isettings.hpp"
+#include "settings/h/st_plugin_id.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -75,6 +75,8 @@ PluginInstance::initialize()
 
 	fillSurfaceItemsCache();
 	fillUnitsCache();
+
+	getSettings()->regBool( Resources::Properties::TerrainMapVisibility, false );
 
 	m_environment.reset( new Environment( *this ) );
 	m_landscapeViewer.reset( new LandscapeViewer( *m_environment ) );
@@ -144,6 +146,8 @@ PluginInstance::close()
 	m_landscapeViewer.reset();
 	m_environment.reset();
 
+	getSettings()->unregProperty( Resources::Properties::TerrainMapVisibility );
+
 	m_graphicsInfoCache.reset();
 
 } // PluginInstance::close
@@ -203,6 +207,20 @@ PluginInstance::getCommandsManager() const
 			,	Framework::Core::CommandsManager::IID_COMMANDS_REGISTRY );
 
 } // PluginInstance::getCommandsManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::Settings::ISettings >
+PluginInstance::getSettings() const
+{
+	return
+		getPluginInterface< Framework::Core::Settings::ISettings >(
+				Framework::Core::Settings::PID_SETTINGS
+			,	Framework::Core::Settings::IID_SETTINGS );
+
+} // PluginInstance::getSettings
 
 
 /*---------------------------------------------------------------------------*/

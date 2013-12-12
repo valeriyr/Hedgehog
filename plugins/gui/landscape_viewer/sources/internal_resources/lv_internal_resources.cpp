@@ -104,6 +104,18 @@ namespace Commands {
 
 /*---------------------------------------------------------------------------*/
 
+namespace Properties {
+
+/*---------------------------------------------------------------------------*/
+
+	const char* const TerrainMapVisibility = "TerrainMapVisibilityProperty";
+
+/*---------------------------------------------------------------------------*/
+
+} // namespace Properties
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace LandscapeViewer
 } // namespace GUI

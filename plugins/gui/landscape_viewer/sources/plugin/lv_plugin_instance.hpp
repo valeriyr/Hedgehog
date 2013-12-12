@@ -31,6 +31,11 @@ namespace Framework
 		{
 			struct ICommandsRegistry;
 		}
+
+		namespace Settings
+		{
+			struct ISettings;
+		}
 	}
 }
 
@@ -104,6 +109,9 @@ public:
 
 	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
 		getCommandsManager() const;
+
+	boost::intrusive_ptr< Framework::Core::Settings::ISettings >
+		getSettings() const;
 
 /*---------------------------------------------------------------------------*/
 

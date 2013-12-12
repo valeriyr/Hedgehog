@@ -48,6 +48,8 @@ public:
 
 	/*virtual*/ bool hasProperty( const QString& _key ) const;
 
+	/*virtual*/ void unregProperty( const QString& _key );
+
 /*---------------------------------------------------------------------------*/
 
 private:

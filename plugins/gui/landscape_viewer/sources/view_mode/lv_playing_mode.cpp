@@ -29,7 +29,7 @@ namespace LandscapeViewer {
 PlayingMode::PlayingMode( const IEnvironment& _environment )
 	:	BaseMode( _environment )
 	,	m_descriptionView( new DescriptionView() )
-	,	m_settingsView( new SettingsView() )
+	,	m_settingsView( new SettingsView( _environment ) )
 	,	m_landscapeView( new LandscapeView( _environment, *m_viewsMediator ) )
 	,	m_minimapView( new MinimapView( _environment, *m_viewsMediator ) )
 	,	m_timer()

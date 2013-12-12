@@ -81,6 +81,17 @@ Settings::hasProperty( const QString& _key ) const
 /*---------------------------------------------------------------------------*/
 
 
+void
+Settings::unregProperty( const QString& _key )
+{
+	m_settings.erase( _key );
+
+} // Settings::unregProperty
+
+
+/*---------------------------------------------------------------------------*/
+
+
 template< typename _TPropertyType >
 void
 Settings::regProperty( const QString& _key, const _TPropertyType& _defaultValue )

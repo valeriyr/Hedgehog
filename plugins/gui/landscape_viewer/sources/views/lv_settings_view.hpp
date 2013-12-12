@@ -14,9 +14,18 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
+struct IEnvironment;
+
+/*---------------------------------------------------------------------------*/
+
 class SettingsView
-	:	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
+	:	public QObject
+	,	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
+
+/*---------------------------------------------------------------------------*/
+
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -24,7 +33,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	SettingsView();
+	SettingsView( const IEnvironment& _environment );
 
 	virtual ~SettingsView();
 
@@ -40,9 +49,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+private slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void onTarrainMapVisibilityChanged( bool _visibility );
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	const IEnvironment& m_environment;
 
 	boost::shared_ptr< QWidget > m_mainWidget;
 

@@ -5,6 +5,10 @@
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 
+#include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
+
+#include "lv_settings_view.moc"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,8 +19,9 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-SettingsView::SettingsView()
-	:	m_mainWidget( new QWidget() )
+SettingsView::SettingsView( const IEnvironment& _environment )
+	:	m_environment( _environment )
+	,	m_mainWidget( new QWidget() )
 	,	m_tarrainMapVisibility( new QCheckBox( Resources::Views::TarrainMapVisibilityCheckboxName ) )
 	,	m_viewTitle( Resources::Views::SettingsViewTitle )
 {
@@ -27,6 +32,10 @@ SettingsView::SettingsView()
 
 	m_mainWidget->setLayout( mainLayout );
 
+	m_tarrainMapVisibility->setChecked( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) );
+
+	QObject::connect( m_tarrainMapVisibility, SIGNAL( clicked(bool) ), this, SLOT( onTarrainMapVisibilityChanged(bool) ) );
+
 } // SettingsView::SettingsView
 
 
@@ -35,6 +44,8 @@ SettingsView::SettingsView()
 
 SettingsView::~SettingsView()
 {
+	QObject::disconnect( m_tarrainMapVisibility, SIGNAL( clicked(bool) ), this, SLOT( onTarrainMapVisibilityChanged(bool) ) );
+
 } // SettingsView::~SettingsView
 
 
@@ -69,6 +80,17 @@ SettingsView::viewWasClosed()
 	m_mainWidget.reset();
 
 } // SettingsView::viewWasClosed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+SettingsView::onTarrainMapVisibilityChanged( bool _visibility )
+{
+	m_environment.setBool( Resources::Properties::TerrainMapVisibility, _visibility );
+
+} // SettingsView::onTarrainMapVisibilityChanged
 
 
 /*---------------------------------------------------------------------------*/

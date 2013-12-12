@@ -38,6 +38,8 @@ struct ISettings
 
 	virtual bool hasProperty( const QString& _key ) const = 0;
 
+	virtual void unregProperty( const QString& _key ) = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };
