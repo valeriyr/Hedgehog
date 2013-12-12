@@ -69,9 +69,9 @@ Settings::setBool( const QString& _key, const bool _value )
 	EventManager::Event settingChangedEvent( Events::SettingChanged::ms_type );
 	settingChangedEvent.pushAttribute( Events::SettingChanged::ms_value, _value );
 
-	m_environment.riseEvent( settingChangedEvent );
-
 	iterator->second.setValue( _value );
+
+	m_environment.riseEvent( settingChangedEvent );
 
 } // Settings::setBool
 
