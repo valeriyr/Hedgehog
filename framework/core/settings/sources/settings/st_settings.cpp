@@ -62,16 +62,7 @@ Settings::getBool( const QString& _key ) const
 void
 Settings::setBool( const QString& _key, const bool _value )
 {
-	assert( hasProperty( _key ) );
-
-	SettingsCollectionIterator iterator = m_settings.find( _key );
-
-	EventManager::Event settingChangedEvent( Events::SettingChanged::ms_type );
-	settingChangedEvent.pushAttribute( Events::SettingChanged::ms_value, _value );
-
-	iterator->second.setValue( _value );
-
-	m_environment.riseEvent( settingChangedEvent );
+	setProperty( _key, _value );
 
 } // Settings::setBool
 
@@ -99,6 +90,27 @@ Settings::regProperty( const QString& _key, const _TPropertyType& _defaultValue 
 	m_settings.insert( std::make_pair( _key, QVariant( _defaultValue ) ) );
 
 } // Settings::regProperty
+
+
+/*---------------------------------------------------------------------------*/
+
+
+template< typename _TPropertyType >
+void
+Settings::setProperty( const QString& _key, const _TPropertyType& _value )
+{
+	assert( hasProperty( _key ) );
+
+	SettingsCollectionIterator iterator = m_settings.find( _key );
+
+	EventManager::Event settingChangedEvent( Events::SettingChanged::ms_type );
+	settingChangedEvent.pushAttribute( Events::SettingChanged::ms_value, _value );
+
+	iterator->second.setValue( _value );
+
+	m_environment.riseEvent( settingChangedEvent );
+
+} // Settings::setProperty
 
 
 /*---------------------------------------------------------------------------*/

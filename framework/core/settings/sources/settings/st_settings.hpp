@@ -58,7 +58,7 @@ private:
 	void regProperty( const QString& _key, const _TPropertyType& _defaultValue );
 
 	template< typename _TPropertyType >
-	const _TPropertyType& getProperty( const QString& _key ) const;
+	void setProperty( const QString& _key, const _TPropertyType& _value );
 
 /*---------------------------------------------------------------------------*/
 
