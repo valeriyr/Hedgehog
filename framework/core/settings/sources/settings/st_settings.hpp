@@ -34,11 +34,50 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void regBool( const QString& _key, const bool _defaultValue );
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool getBool( const QString& _key ) const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void setBool( const QString& _key, const bool _value );
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool hasProperty( const QString& _key ) const;
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
 
+	template< typename _TPropertyType >
+	void regProperty( const QString& _key, const _TPropertyType& _defaultValue );
+
+	template< typename _TPropertyType >
+	const _TPropertyType& getProperty( const QString& _key ) const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	typedef
+		std::map< QString, QVariant >
+		SettingsCollection;
+	typedef
+		SettingsCollection::iterator
+		SettingsCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
 	IEnvironment& m_environment;
+
+	SettingsCollection m_settings;
 
 /*---------------------------------------------------------------------------*/
 

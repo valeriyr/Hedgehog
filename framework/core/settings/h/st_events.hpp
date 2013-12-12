@@ -12,9 +12,11 @@ namespace Events {
 
 /*---------------------------------------------------------------------------*/
 
-namespace SettingsChanged
+namespace SettingChanged
 {
-	const char* const ms_type = "SettingsChanged";
+	const char* const ms_type = "SettingChanged";
+
+	const char* const ms_value = "SettingValue";
 }
 
 /*---------------------------------------------------------------------------*/

@@ -6,6 +6,8 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
+#include "event_manager/h/em_event.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -20,6 +22,7 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
+	virtual void riseEvent( const Framework::Core::EventManager::Event& _event ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
