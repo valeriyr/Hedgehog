@@ -116,6 +116,8 @@ private:
 
 	const IEnvironment& m_environment;
 
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > m_editableLandscape;
+
 	QPixmap m_surfaceLayer;
 
 	QPixmap m_objectsLayer;

@@ -44,8 +44,6 @@ SettingsView::SettingsView( const IEnvironment& _environment )
 
 SettingsView::~SettingsView()
 {
-	QObject::disconnect( m_tarrainMapVisibility, SIGNAL( clicked(bool) ), this, SLOT( onTarrainMapVisibilityChanged(bool) ) );
-
 } // SettingsView::~SettingsView
 
 
@@ -77,6 +75,9 @@ SettingsView::getViewWidget()
 void
 SettingsView::viewWasClosed()
 {
+	QObject::disconnect( m_tarrainMapVisibility, SIGNAL( clicked(bool) ), this, SLOT( onTarrainMapVisibilityChanged(bool) ) );
+	m_tarrainMapVisibility = NULL;
+
 	m_mainWidget.reset();
 
 } // SettingsView::viewWasClosed

@@ -7,6 +7,7 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 
+#include "landscape_model/ih/lm_ilandscape_handle.hpp"
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/ih/lm_iunit.hpp"
@@ -32,6 +33,7 @@ const QSize MinimapWidget::ms_fixedWidgetSize = QSize( 300, 200 );
 MinimapWidget::MinimapWidget( const IEnvironment& _environment,	QWidget* _parent )
 	:	QWidget( _parent )
 	,	m_environment( _environment )
+	,	m_editableLandscape()
 	,	m_surfaceLayer( ms_fixedWidgetSize )
 	,	m_objectsLayer( ms_fixedWidgetSize )
 	,	m_visibleArea( 0, 0, 0, 0 )
@@ -67,6 +69,9 @@ void
 MinimapWidget::landscapeWasOpenedInEditor(
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > _landscape )
 {
+	m_editableLandscape = _landscape;
+	landscapeWasOpened();
+
 } // MinimapWidget::landscapeWasOpenedInEditor
 
 
@@ -122,8 +127,19 @@ MinimapWidget::onChangeVisibilityRectPosition( const float _visibleWidth, const 
 void
 MinimapWidget::onUpdateView()
 {
-	//renderSurface( *m_landscape );
-	//renderObjects( *m_landscape );
+	if ( m_editableLandscape )
+	{
+		renderSurface( *m_editableLandscape );
+		renderObjects( *m_editableLandscape );
+	}
+	else
+	{
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
+			= m_environment.getCurrentLandscape();
+
+		renderSurface( *handle->getLandscape() );
+		renderObjects( *handle->getLandscape() );
+	}
 
 	update();
 
@@ -136,7 +152,18 @@ MinimapWidget::onUpdateView()
 void
 MinimapWidget::onUpdateTimerFired()
 {
-	//renderObjects( *m_landscape );
+	if ( m_editableLandscape )
+	{
+		renderObjects( *m_editableLandscape );
+	}
+	else
+	{
+		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
+			= m_environment.getCurrentLandscape();
+
+		renderObjects( *handle->getLandscape() );
+	}
+
 	update();
 
 } // MinimapWidget::onUpdateTimerFired
