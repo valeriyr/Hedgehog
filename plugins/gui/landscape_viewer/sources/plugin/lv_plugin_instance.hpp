@@ -36,6 +36,11 @@ namespace Framework
 		{
 			struct ISettings;
 		}
+
+		namespace EventManager
+		{
+			struct IEventManager;
+		}
 	}
 }
 
@@ -112,6 +117,9 @@ public:
 
 	boost::intrusive_ptr< Framework::Core::Settings::ISettings >
 		getSettings() const;
+
+	boost::intrusive_ptr< Framework::Core::EventManager::IEventManager >
+		getEventManager() const;
 
 /*---------------------------------------------------------------------------*/
 

@@ -34,6 +34,9 @@
 #include "settings/ih/st_isettings.hpp"
 #include "settings/h/st_plugin_id.hpp"
 
+#include "event_manager/ih/em_ievent_manager.hpp"
+#include "event_manager/h/em_plugin_id.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -221,6 +224,20 @@ PluginInstance::getSettings() const
 			,	Framework::Core::Settings::IID_SETTINGS );
 
 } // PluginInstance::getSettings
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::EventManager::IEventManager >
+PluginInstance::getEventManager() const
+{
+	return
+		getPluginInterface< Framework::Core::EventManager::IEventManager >(
+				Framework::Core::EventManager::PID_EVENT_MANAGER
+			,	Framework::Core::EventManager::IID_EVENT_MANAGER );
+
+} // PluginInstance::getEventManager
 
 
 /*---------------------------------------------------------------------------*/

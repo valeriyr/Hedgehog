@@ -12,6 +12,8 @@
 
 #include "images_manager/ih/im_iimages_manager.hpp"
 
+#include "event_manager/h/em_subscriber.hpp"
+
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 #include "landscape_model/ih/lm_ilandscape_editor.hpp"
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
@@ -268,6 +270,17 @@ Environment::getBool( const QString& _key ) const
 	return m_pluginInstance.getSettings()->getBool( _key );
 
 } // Environment::getBool
+
+
+/*---------------------------------------------------------------------------*/
+
+
+Framework::Core::EventManager::Subscriber
+Environment::createSubscriber() const
+{
+	return Framework::Core::EventManager::Subscriber( *m_pluginInstance.getEventManager() );
+
+} // Environment::createSubscriber
 
 
 /*---------------------------------------------------------------------------*/

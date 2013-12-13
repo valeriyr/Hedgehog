@@ -23,6 +23,14 @@ namespace Framework
 			struct IView;
 		}
 	}
+
+	namespace Core
+	{
+		namespace EventManager
+		{
+			class Subscriber;
+		}
+	}
 }
 
 namespace Plugins
@@ -123,6 +131,10 @@ struct IEnvironment
 	virtual void setBool( const QString& _key, const bool _value ) const = 0;
 
 	virtual bool getBool( const QString& _key ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual Framework::Core::EventManager::Subscriber createSubscriber() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

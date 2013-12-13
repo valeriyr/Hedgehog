@@ -86,7 +86,7 @@ EditingMode::openLandscape( const QString& _filePath )
 	m_landscape = m_environment.tryToOpenLandscape( _filePath );
 
 	if ( !m_landscape )
-		m_landscape = m_environment.createLandscape( 50, 50 );
+		m_landscape = m_environment.createLandscape( 20, 20 );
 
 	landscapeWasOpened( _filePath );
 

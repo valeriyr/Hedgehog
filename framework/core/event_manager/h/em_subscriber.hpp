@@ -22,7 +22,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Subscriber( const IEventManager& _eventManager )
+	Subscriber( IEventManager& _eventManager )
 		:	m_eventManager( _eventManager )
 		,	m_connectionsCollection()
 	{}
@@ -50,7 +50,7 @@ public:
 		for ( ; begin != end; ++begin )
 			m_eventManager.unsubscribe( *begin );
 
-		m_eventManager.clear();
+		m_connectionsCollection.clear();
 	}
 
 /*---------------------------------------------------------------------------*/
@@ -68,7 +68,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const IEventManager& m_eventManager;
+	IEventManager& m_eventManager;
 
 	ConnectionsCollection m_connectionsCollection;
 

@@ -4,6 +4,11 @@
 
 /*---------------------------------------------------------------------------*/
 
+#include "event_manager/h/em_subscriber.hpp"
+#include "event_manager/h/em_event.hpp"
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins
 {
 	namespace Core
@@ -95,13 +100,32 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void onSettingChanged( const Framework::Core::EventManager::Event& _event );
+
+/*---------------------------------------------------------------------------*/
+
 private:
+
+/*---------------------------------------------------------------------------*/
+
+	struct ObjectZValue
+	{
+		enum Enum
+		{
+				Surface             = 0
+			,	CurrentSurfaceItem  = 1
+			,	Terrain             = 2
+			,	Object              = 3
+		};
+	};
 
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
 
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > m_landscape;
+
+	Framework::Core::EventManager::Subscriber m_subscriber;
 
 	Plugins::Core::LandscapeModel::ISurfaceItem::IdType m_surfaceItemId;
 
