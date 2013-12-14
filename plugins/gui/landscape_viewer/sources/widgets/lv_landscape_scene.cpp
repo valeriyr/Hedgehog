@@ -10,6 +10,9 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 
+#include "multithreading_manager/h/mm_external_resources.hpp"
+#include "settings/h/st_events.hpp"
+
 #include "lv_landscape_scene.moc"
 
 
@@ -25,6 +28,7 @@ namespace LandscapeViewer {
 LandscapeScene::LandscapeScene( const IEnvironment& _environment, QObject* _parent )
 	:	QGraphicsScene( _parent )
 	,	m_environment( _environment )
+	,	m_subscriber( _environment.createSubscriber() )
 	,	m_startSelectionPoint()
 	,	m_selectionItem( NULL )
 	//,	m_unitsCollection()
@@ -54,7 +58,7 @@ LandscapeScene::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 	{
 		m_selectionItem = addRect( 0, 0, 0, 0 );
 		m_selectionItem->setPos( _mouseEvent->scenePos().x(), _mouseEvent->scenePos().y() );
-		m_selectionItem->setZValue( 3 );
+		m_selectionItem->setZValue( ObjectZValue::SelectionRect );
 		m_startSelectionPoint = _mouseEvent->scenePos();
 	}
 
@@ -147,6 +151,10 @@ LandscapeScene::landscapeWasOpened()
 {
 	generateLandscape();
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Framework::Core::Settings::Events::SettingChanged::ms_type
+							,	boost::bind( &LandscapeScene::onSettingChanged, this, _1 ) );
+
 } // LandscapeScene::landscapeWasOpened
 
 
@@ -156,6 +164,8 @@ LandscapeScene::landscapeWasOpened()
 void
 LandscapeScene::landscapeWasClosed()
 {
+	m_subscriber.unsubscribe();
+
 	clear();
 	setSceneRect( 0, 0, 0, 0 );
 
@@ -195,8 +205,22 @@ LandscapeScene::onUpdateTimerFired()
 
 
 void
+LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _event )
+{
+	clear();
+	generateLandscape();
+
+} // LandscapeScene::onSettingChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 LandscapeScene::generateLandscape()
 {
+	bool showTarrain = m_environment.getBool( Resources::Properties::TerrainMapVisibility );
+
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
 		= m_environment.getCurrentLandscape();
 
@@ -214,7 +238,55 @@ LandscapeScene::generateLandscape()
 
 				QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
 				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
-				item->setZValue( 0 );
+				item->setZValue( ObjectZValue::Surface );
+
+				if ( showTarrain )
+				{
+					Plugins::Core::LandscapeModel::TerrainMapData
+						terrainMapData = handle->getLandscape()->getTerrainMapData( QPoint( i, j ) );
+
+					QColor color;
+
+					if ( terrainMapData.m_engagedWithGround )
+					{
+						color = QColor( 255, 0, 255 );
+					}
+					else if ( terrainMapData.m_engagedWithAir )
+					{
+						color = QColor( 0, 255, 255 );
+					}
+					else if ( terrainMapData.m_terrainMapItem == Plugins::Core::LandscapeModel::TerrainMapItem::Ground )
+					{
+						color = QColor( 0, 255, 0 );
+					}
+					else if ( terrainMapData.m_terrainMapItem == Plugins::Core::LandscapeModel::TerrainMapItem::NotAvailable )
+					{
+						color = QColor( 255, 0, 0 );
+					}
+					else if ( terrainMapData.m_terrainMapItem == Plugins::Core::LandscapeModel::TerrainMapItem::Water )
+					{
+						color = QColor( 0, 0, 255 );
+					}
+					else
+					{
+						assert( !"Unknown terrain map item!" );
+					}
+
+					QPixmap pixmap( QSize( Resources::Landscape::CellSize, Resources::Landscape::CellSize ) );
+					pixmap.fill( color );
+
+					QGraphicsPixmapItem* item = new QGraphicsPixmapItem( pixmap );
+
+					item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
+					item->setZValue( ObjectZValue::Terrain );
+
+					QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
+					opacityEffect->setOpacity( 0.4 );
+
+					item->setGraphicsEffect( opacityEffect );
+
+					addItem( item );
+				}
 			}
 		}
 
@@ -228,7 +300,7 @@ LandscapeScene::generateLandscape()
 
 			updatePosition( unitsIterator->current(), item );
 
-			item->setZValue( 1 );
+			item->setZValue( ObjectZValue::Object );
 
 			m_unitsCollection.insert( std::make_pair( unitsIterator->current(), item ) );
 

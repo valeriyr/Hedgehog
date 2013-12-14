@@ -4,6 +4,11 @@
 
 /*---------------------------------------------------------------------------*/
 
+#include "event_manager/h/em_subscriber.hpp"
+#include "event_manager/h/em_event.hpp"
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -60,6 +65,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void onSettingChanged( const Framework::Core::EventManager::Event& _event );
+
+/*---------------------------------------------------------------------------*/
+
 	void generateLandscape();
 
 	/*void updatePosition(
@@ -76,6 +85,19 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	struct ObjectZValue
+	{
+		enum Enum
+		{
+				Surface             = 0
+			,	Terrain             = 1
+			,	Object              = 2
+			,	SelectionRect       = 3
+		};
+	};
+
+/*---------------------------------------------------------------------------*/
+
 	/*typedef
 		std::map<
 				boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnit >
@@ -88,6 +110,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	Framework::Core::EventManager::Subscriber m_subscriber;
 
 	QPointF m_startSelectionPoint;
 	QGraphicsRectItem* m_selectionItem;
