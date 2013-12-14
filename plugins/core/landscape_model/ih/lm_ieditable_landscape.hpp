@@ -33,9 +33,9 @@ struct IEditableLandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void createUnit(
+	virtual void createObject(
 			const QRect& _rect
-		,	const QString& _unitName ) = 0;
+		,	const QString& _objectName ) = 0;
 
 	virtual void selectUnits( const QRect& _rect ) = 0;
 

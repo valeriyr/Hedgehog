@@ -81,6 +81,8 @@ public slots:
 
 	void onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id );
 
+	void onChangeObject( const QString& _name );
+
 	void onMousePossitionWasChanged( const QPointF& _point );
 
 /*---------------------------------------------------------------------------*/
@@ -129,7 +131,9 @@ private:
 
 	Plugins::Core::LandscapeModel::ISurfaceItem::IdType m_surfaceItemId;
 
-	QGraphicsPixmapItem* m_surfaceGraphicsItem;
+	QString m_objectName;
+
+	QGraphicsPixmapItem* m_currentEditorItem;
 
 /*---------------------------------------------------------------------------*/
 

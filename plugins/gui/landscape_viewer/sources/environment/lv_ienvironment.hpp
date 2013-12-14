@@ -126,6 +126,11 @@ struct IEnvironment
 				const QString& _skinId
 			,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const = 0;
 
+	virtual boost::intrusive_ptr< IObjectGraphicsInfo >
+		getObjectGraphicsInfo(
+				const QString& _skinId
+			,	const QString& _name ) const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual void regBool( const QString& _key, const bool _defaultValue ) const = 0;

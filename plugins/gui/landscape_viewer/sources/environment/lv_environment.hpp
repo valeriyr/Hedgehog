@@ -100,6 +100,11 @@ public:
 				const QString& _skinId
 			,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const;
 
+	/*virtual*/ boost::intrusive_ptr< IObjectGraphicsInfo >
+		getObjectGraphicsInfo(
+				const QString& _skinId
+			,	const QString& _name ) const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void regBool( const QString& _key, const bool _defaultValue ) const;

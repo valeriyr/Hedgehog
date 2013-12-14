@@ -9,7 +9,7 @@
 #include "landscape_model/ih/lm_iobject_type.hpp"
 #include "landscape_model/ih/lm_iobject_types_cache.hpp"
 
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/sources/unit/lm_unit.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -150,6 +150,28 @@ Landscape::fetchSelectedUnits( ILandscape::UnitsCollection& _collection ) const
 /*---------------------------------------------------------------------------*/
 
 
+bool
+Landscape::canCreateObject(
+		const QRect& _rect
+	,	const QString& _objectName ) const
+{
+	boost::intrusive_ptr< IObjectType > objectType = m_objectTypesCache.getObjectType( _objectName );
+	assert( objectType );
+
+	if (	( objectType->getPassability() & m_terrainMap.getConstElement( _rect.x(), _rect.y() ).m_terrainMapItem )
+		&&	!m_terrainMap.getConstElement( _rect.x(), _rect.y() ).m_engagedWithGround )
+	{
+		return true;
+	}
+
+	return false;
+
+} // Landscape::canCreateObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 Landscape::setSize( const unsigned int _width, const unsigned int _height )
 {
@@ -195,26 +217,18 @@ Landscape::setSurfaceItem(
 
 
 void
-Landscape::createUnit( const QRect& _rect, const QString& _unitName )
+Landscape::createObject( const QRect& _rect, const QString& _objectName )
 {
-	/*boost::intrusive_ptr< IObjectType > objectType = m_objectTypesCache.getObjectType( _unitName );
+	boost::intrusive_ptr< IObjectType > objectType = m_objectTypesCache.getObjectType( _objectName );
 	assert( objectType );
 
-	if (	objectType->getPassability() == TerrainMapItems::Any
-		&&	m_terrainMap.getElement( _point.x(), _point.y() ).m_engagedWithAir )
-		return;
+	if ( canCreateObject( _rect, _objectName ) )
+	{
+		m_units.push_back( boost::intrusive_ptr< IUnit >( new Unit( objectType, _rect ) ) );
+		m_terrainMap.getElement( _rect.x(), _rect.y() ).m_engagedWithGround = true;
+	}
 
-	if ( m_terrainMap.getElement( _point.x(), _point.y() ).m_terrainMapItem == TerrainMapItems::NotAvailable )
-		return;
-
-	if (	( objectType->getPassability() & TerrainMapItems::Ground
-		||	objectType->getPassability() & TerrainMapItems::Water )
-		&&	m_terrainMap.getElement( _point.x(), _point.y() ).m_engagedWithGround )
-		return;*/
-
-	// insert unit here
-
-} // Landscape::createUnit
+} // Landscape::createObject
 
 
 /*---------------------------------------------------------------------------*/

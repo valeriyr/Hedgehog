@@ -21,6 +21,36 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
+struct TreeWidgetType
+{
+	enum Enum
+	{
+			Surface = 0
+		,	Object
+	};
+};
+
+class TreeWidgetItem
+	:	public QTreeWidgetItem
+{
+
+public:
+
+	TreeWidgetItem( const TreeWidgetType::Enum _type )
+		:	QTreeWidgetItem()
+		,	m_type( _type )
+	{}
+
+	const TreeWidgetType::Enum getTreeWidgetType() { return m_type; }
+
+private:
+
+	const TreeWidgetType::Enum m_type;
+};
+
+
+/*---------------------------------------------------------------------------*/
+
 
 ObjectsView::ObjectsView(
 		const IEnvironment& _environment
@@ -100,6 +130,12 @@ ObjectsView::ObjectsView(
 		,	&m_viewsMediator
 		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) ) );
 
+	QObject::connect(
+			this
+		,	SIGNAL( currentObjectWasChanged( const QString& ) )
+		,	&m_viewsMediator
+		,	SIGNAL( currentObjectWasChanged( const QString& ) ) );
+
 } // ObjectsView::ObjectsView
 
 
@@ -119,6 +155,12 @@ ObjectsView::~ObjectsView()
 		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) )
 		,	&m_viewsMediator
 		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) ) );
+
+	QObject::disconnect(
+			this
+		,	SIGNAL( currentObjectWasChanged( const QString& ) )
+		,	&m_viewsMediator
+		,	SIGNAL( currentObjectWasChanged( const QString& ) ) );
 
 } // ObjectsView::~ObjectsView
 
@@ -180,7 +222,22 @@ ObjectsView::landscapeWasClosed()
 void
 ObjectsView::onCurrentItemChanged( QTreeWidgetItem* _current, QTreeWidgetItem* _previous )
 {
-	emit currentSurfaceItemWasChanged( _current->text( 0 ).toUInt() );
+	TreeWidgetItem* item = dynamic_cast< TreeWidgetItem* >( _current );
+	if ( item )
+	{
+		switch( item->getTreeWidgetType() )
+		{
+		case TreeWidgetType::Surface:
+			emit currentSurfaceItemWasChanged( _current->text( 0 ).toUInt() );
+			break;
+		case TreeWidgetType::Object:
+			emit currentObjectWasChanged( _current->text( 0 ) );
+			break;
+		default:
+			assert( !"Unsupported tree widget type!" );
+			break;
+		}
+	}
 
 } // ObjectsView::onCurrentItemChanged
 
@@ -200,7 +257,7 @@ ObjectsView::fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _par
 
 	for ( ; begin != end; ++begin )
 	{
-		QTreeWidgetItem* item = new QTreeWidgetItem();
+		TreeWidgetItem* item = new TreeWidgetItem( TreeWidgetType::Surface );
 		item->setText( 0, QString( "%1" ).arg( ( *begin )->getId() ) );
 		item->setIcon( 0, QIcon( m_environment.getPixmap( ( *begin )->getAtlasName(), ( *begin )->getFrameRect() ) ) );
 
@@ -225,7 +282,7 @@ ObjectsView::fillWithObjectItems( const QString& _skinId, QTreeWidgetItem* _pare
 
 	for ( ; begin != end; ++begin )
 	{
-		QTreeWidgetItem* item = new QTreeWidgetItem();
+		TreeWidgetItem* item = new TreeWidgetItem( TreeWidgetType::Object );
 		item->setText( 0, ( *begin )->getName() );
 		item->setIcon( 0, QIcon( m_environment.getPixmap( ( *begin )->getAtlasName(), ( *begin )->getFrameRect() ) ) );
 

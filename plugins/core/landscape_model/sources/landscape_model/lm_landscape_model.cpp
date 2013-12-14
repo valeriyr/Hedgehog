@@ -11,6 +11,7 @@
 
 #include "landscape_model/sources/actions_queue/lm_actions_queue.hpp"
 #include "landscape_model/sources/actions/lm_select_items_action.hpp"
+#include "landscape_model/sources/actions/lm_create_object_action.hpp"
 
 #include "landscape_model/h/lm_resources.hpp"
 
@@ -128,6 +129,20 @@ LandscapeModel::selectUnits( const QRect& _rect )
 		boost::intrusive_ptr< IAction >( new SelectAction( m_environment, *this, _rect ) ) );
 
 } // LandscapeModel::selectUnits
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::createObject(
+		const QRect& _rect
+	,	const QString& _objectName )
+{
+	m_actionsQueue->pushAction(
+		boost::intrusive_ptr< IAction >( new CreateObjectAction( m_environment, *this, _rect, _objectName ) ) );
+
+} // LandscapeModel::createObject
 
 
 /*---------------------------------------------------------------------------*/

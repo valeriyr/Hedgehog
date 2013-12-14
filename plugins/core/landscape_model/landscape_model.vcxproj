@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\actions\lm_base_action.cpp" />
+    <ClCompile Include="sources\actions\lm_create_object_action.cpp" />
     <ClCompile Include="sources\actions\lm_move_items_action.cpp" />
     <ClCompile Include="sources\actions\lm_select_items_action.cpp" />
     <ClCompile Include="sources\actions_queue\lm_actions_queue.cpp" />
@@ -59,6 +60,7 @@
     <ClInclude Include="ih\lm_isurface_items_cache.hpp" />
     <ClInclude Include="ih\lm_iunit.hpp" />
     <ClInclude Include="sources\actions\lm_base_action.hpp" />
+    <ClInclude Include="sources\actions\lm_create_object_action.hpp" />
     <ClInclude Include="sources\actions\lm_iaction.hpp" />
     <ClInclude Include="sources\actions\lm_move_items_action.hpp" />
     <ClInclude Include="sources\actions\lm_select_items_action.hpp" />

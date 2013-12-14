@@ -48,6 +48,8 @@ signals:
 
 	void currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id );
 
+	void currentObjectWasChanged( const QString& _name );
+
 	void updateTimerFired();
 
 /*---------------------------------------------------------------------------*/

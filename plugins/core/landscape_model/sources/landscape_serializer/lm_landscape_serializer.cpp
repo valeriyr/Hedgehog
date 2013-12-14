@@ -77,19 +77,19 @@ LandscapeSerializer::load(
 
 	for ( unsigned int i = 0; i < unitsCount; ++i )
 	{
-		QString unitName;
+		QString objectName;
 		unsigned int left = 0;
 		unsigned int right = 0;
 		unsigned int bottom = 0;
 		unsigned int top = 0;
 
-		fileStream >> unitName;
+		fileStream >> objectName;
 		fileStream >> left;
 		fileStream >> right;
 		fileStream >> bottom;
 		fileStream >> top;
 
-		_landscape.createUnit( QRect( QPoint( left, top ), QPoint( right, bottom ) ), unitName );
+		_landscape.createObject( QRect( QPoint( left, top ), QPoint( right, bottom ) ), objectName );
 	}
 
 } // LandscapeSerializer::load

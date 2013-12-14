@@ -1,10 +1,10 @@
 
-#ifndef __LM_ILANDSCAPE_MODEL_HPP__
-#define __LM_ILANDSCAPE_MODEL_HPP__
+#ifndef __GM_CREATE_OBJECT_ACTION_HPP__
+#define __GM_CREATE_OBJECT_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/sources/actions/lm_base_action.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,35 +14,41 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_LANDSCAPE_MODEL = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeHandle;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeModel
-	:	public Tools::Core::IBase
+class CreateObjectAction
+	:	public BaseAction
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initCurrentLandscape ( const QString& _filePath ) = 0;
-
-	virtual void closeCurrentLandscape() = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape() = 0;
+	CreateObjectAction(
+			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel
+		,	const QRect& _rect
+		,	const QString& _objectName );
+
+	virtual ~CreateObjectAction();
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void selectUnits( const QRect& _rect ) = 0;
+	/*virtual*/ void processAction( const unsigned int _deltaTime );
 
-	virtual void createObject(
-			const QRect& _rect
-		,	const QString& _objectName ) = 0;
+	/*virtual*/ void unprocessAction( const unsigned int _deltaTime );
+
+	/*virtual*/ bool hasFinished() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const QRect m_rect;
+
+	const QString& m_objectName;
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,4 +62,4 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_MANAGER_HPP__
+#endif // __GM_CREATE_OBJECT_ACTION_HPP__

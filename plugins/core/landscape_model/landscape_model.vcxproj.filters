@@ -111,6 +111,9 @@
     <ClCompile Include="sources\actions_queue\lm_actions_queue.cpp">
       <Filter>Action Queue</Filter>
     </ClCompile>
+    <ClCompile Include="sources\actions\lm_create_object_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="sources\actions_queue\lm_iactions_queue.hpp">
       <Filter>Action Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_create_object_action.hpp">
+      <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

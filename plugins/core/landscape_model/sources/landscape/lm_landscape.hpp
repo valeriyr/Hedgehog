@@ -61,6 +61,12 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ bool canCreateObject(
+			const QRect& _rect
+		,	const QString& _objectName ) const;
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ void setSize(
 			const unsigned int _width
 		,	const unsigned int _height );
@@ -73,9 +79,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void createUnit(
+	/*virtual*/ void createObject(
 			const QRect& _rect
-		,	const QString& _unitName );
+		,	const QString& _objectName );
 
 	/*virtual*/ void selectUnits( const QRect& _rect );
 

@@ -23,6 +23,8 @@ struct ISurfaceItem
 
 	typedef unsigned int IdType;
 
+	static const IdType ms_invalidTypeId = UINT_MAX;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual IdType getId() const = 0;

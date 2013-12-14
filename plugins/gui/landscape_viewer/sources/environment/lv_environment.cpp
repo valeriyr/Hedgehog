@@ -5,6 +5,7 @@
 
 #include "landscape_viewer/sources/plugin/lv_plugin_instance.hpp"
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
+#include "landscape_viewer/sources/object_graphics_info/lv_iobject_graphics_info.hpp"
 
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 #include "window_manager/ih/wm_iwindow_manager.hpp"
@@ -242,6 +243,19 @@ Environment::getSurfaceItemGraphicsInfo(
 	return m_pluginInstance.getGraphicsInfoCache()->getSurfaceItemGraphicsInfo( _skinId, _id );
 
 } // Environment::getSurfaceItemGraphicsInfo
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IObjectGraphicsInfo >
+Environment::getObjectGraphicsInfo(
+		const QString& _skinId
+	,	const QString& _name ) const
+{
+	return m_pluginInstance.getGraphicsInfoCache()->getObjectGraphicsInfo( _skinId, _name );
+
+} // Environment::getObjectGraphicsInfo
 
 
 /*---------------------------------------------------------------------------*/
