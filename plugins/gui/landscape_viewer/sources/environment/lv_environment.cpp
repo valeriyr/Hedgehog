@@ -205,6 +205,9 @@ Environment::getDefaultSurfaceItemId() const
 } // Environment::getDefaultSurfaceItemId
 
 
+/*---------------------------------------------------------------------------*/
+
+
 void
 Environment::fetchSurfaceItemGraphicsInfos(
 		const QString& _skinId
@@ -213,6 +216,19 @@ Environment::fetchSurfaceItemGraphicsInfos(
 	m_pluginInstance.getGraphicsInfoCache()->fetchSurfaceItemGraphicsInfos( _skinId, _collection );
 
 } // Environment::fetchSurfaceItemGraphicsInfos
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::fetchObjectsGraphicsInfos(
+		const QString& _skinId
+	,	IGraphicsInfoCache::ObjectGraphicsInfoCollection& _collection ) const
+{
+	m_pluginInstance.getGraphicsInfoCache()->fetchObjectsGraphicsInfos( _skinId, _collection );
+
+} // Environment::fetchObjectsGraphicsInfos
 
 
 /*---------------------------------------------------------------------------*/

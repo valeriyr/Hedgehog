@@ -7,6 +7,8 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
+#include "landscape_viewer/sources/object_graphics_info/lv_iobject_graphics_info.hpp"
+#include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
 
 #include "lv_objects_view.moc"
 
@@ -36,21 +38,48 @@ ObjectsView::ObjectsView(
 	m_objectsView->setIconSize( QSize( Resources::Landscape::CellSize, Resources::Landscape::CellSize ) );
 
 	QTreeWidgetItem* summerSurface = new QTreeWidgetItem();
-	summerSurface->setText( 0, "Summer" );
+	summerSurface->setText( 0, "Summer surface" );
 
 	QTreeWidgetItem* winterSurface = new QTreeWidgetItem();
-	winterSurface->setText( 0, "Winter" );
+	winterSurface->setText( 0, "Winter surface" );
 
 	QTreeWidgetItem* wastelandSurface = new QTreeWidgetItem();
-	wastelandSurface->setText( 0, "Wasteland" );
+	wastelandSurface->setText( 0, "Wasteland surface" );
+
+	QTreeWidgetItem* anySurface = new QTreeWidgetItem();
+	anySurface->setText( 0, "Any surface" );
 
 	fillWithSurfaceItems( "summer", summerSurface );
 	fillWithSurfaceItems( "winter", winterSurface );
 	fillWithSurfaceItems( "wasteland", wastelandSurface );
+	fillWithSurfaceItems( GraphicsInfoCache::ms_anySkinIdentifier, anySurface );
+
+	QTreeWidgetItem* summerObjects = new QTreeWidgetItem();
+	summerObjects->setText( 0, "Summer objects" );
+
+	QTreeWidgetItem* winterObjects = new QTreeWidgetItem();
+	winterObjects->setText( 0, "Winter objects" );
+
+	QTreeWidgetItem* wastelandObjects = new QTreeWidgetItem();
+	wastelandObjects->setText( 0, "Wasteland objects" );
+
+	QTreeWidgetItem* anyObjects = new QTreeWidgetItem();
+	anyObjects->setText( 0, "Any objects" );
+
+	fillWithObjectItems( "summer", summerObjects );
+	fillWithObjectItems( "winter", winterObjects );
+	fillWithObjectItems( "wasteland", wastelandObjects );
+	fillWithObjectItems( GraphicsInfoCache::ms_anySkinIdentifier, anyObjects );
 
 	m_objectsView->addTopLevelItem( summerSurface );
 	m_objectsView->addTopLevelItem( winterSurface );
 	m_objectsView->addTopLevelItem( wastelandSurface );
+	m_objectsView->addTopLevelItem( anySurface );
+
+	m_objectsView->addTopLevelItem( summerObjects );
+	m_objectsView->addTopLevelItem( winterObjects );
+	m_objectsView->addTopLevelItem( wastelandObjects );
+	m_objectsView->addTopLevelItem( anyObjects );
 
 	QList< QTreeWidgetItem* > items
 		= m_objectsView->findItems(
@@ -179,6 +208,31 @@ ObjectsView::fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _par
 	}
 
 } // ObjectsView::fillWithSurfaceItems
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectsView::fillWithObjectItems( const QString& _skinId, QTreeWidgetItem* _parentNode )
+{
+	IGraphicsInfoCache::ObjectGraphicsInfoCollection collection;
+	m_environment.fetchObjectsGraphicsInfos( _skinId, collection );
+
+	IGraphicsInfoCache::ObjectGraphicsInfoCollectionIterator
+			begin = collection.begin()
+		,	end = collection.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		QTreeWidgetItem* item = new QTreeWidgetItem();
+		item->setText( 0, ( *begin )->getName() );
+		item->setIcon( 0, QIcon( m_environment.getPixmap( ( *begin )->getAtlasName(), ( *begin )->getFrameRect() ) ) );
+
+		_parentNode->addChild( item );
+	}
+
+} // ObjectsView::fillWithObjectItems
 
 
 /*---------------------------------------------------------------------------*/

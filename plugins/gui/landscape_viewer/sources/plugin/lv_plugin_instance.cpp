@@ -77,7 +77,7 @@ PluginInstance::initialize()
 	m_graphicsInfoCache.reset( new GraphicsInfoCache() );
 
 	fillSurfaceItemsCache();
-	fillUnitsCache();
+	fillObjectsCache();
 
 	getSettings()->regBool( Resources::Properties::TerrainMapVisibility, false );
 
@@ -328,7 +328,7 @@ PluginInstance::fillSurfaceItemsCache()
 
 
 void
-PluginInstance::fillUnitsCache()
+PluginInstance::fillObjectsCache()
 {
 	m_graphicsInfoCache->regObjectGraphicsInfo(
 			GraphicsInfoCache::ms_anySkinIdentifier
@@ -340,9 +340,9 @@ PluginInstance::fillUnitsCache()
 			GraphicsInfoCache::ms_anySkinIdentifier
 		,	"Elven Archer"
 		,	"units/elven_archer"
-		,	QRect( 648, 0, 72, 72 ) );
+		,	QRect( 288, 0, 72, 72 ) );
 
-} // PluginInstance::fillUnitsCache
+} // PluginInstance::fillObjectsCache
 
 
 /*---------------------------------------------------------------------------*/

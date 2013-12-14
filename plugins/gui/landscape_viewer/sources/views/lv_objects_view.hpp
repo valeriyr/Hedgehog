@@ -83,6 +83,8 @@ private:
 
 	void fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _parentNode );
 
+	void fillWithObjectItems( const QString& _skinId, QTreeWidgetItem* _parentNode );
+
 /*---------------------------------------------------------------------------*/
 
 private:

@@ -117,6 +117,10 @@ struct IEnvironment
 			const QString& _skinId
 		,	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection& _collection ) const = 0;
 
+	virtual void fetchObjectsGraphicsInfos(
+			const QString& _skinId
+		,	IGraphicsInfoCache::ObjectGraphicsInfoCollection& _collection ) const = 0;
+
 	virtual boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 		getSurfaceItemGraphicsInfo(
 				const QString& _skinId
