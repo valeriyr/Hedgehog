@@ -123,6 +123,9 @@ LandscapeEditorScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 void
 LandscapeEditorScene::onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id )
 {
+	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
+		return;
+
 	boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 		surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, _id );
 
@@ -257,7 +260,7 @@ LandscapeEditorScene::regenerateSurfaceLayer()
 					item->setZValue( ObjectZValue::Terrain );
 
 					QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
-					opacityEffect->setOpacity( 0.5 );
+					opacityEffect->setOpacity( 0.4 );
 
 					item->setGraphicsEffect( opacityEffect );
 
@@ -337,12 +340,13 @@ LandscapeEditorScene::setNewItemInPosition( const QPointF& _position )
 {
 	if ( m_landscape )
 	{
+		if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
+			return;
+
 		QList< QGraphicsItem* > items = this->items( _position, Qt::ContainsItemShape, Qt::AscendingOrder );
 
 		if ( items.isEmpty() )
-		{
 			return;
-		}
 
 		QPointF itemPos = items[ObjectZValue::Surface]->scenePos();
 		removeItem( items[ObjectZValue::Surface] );
