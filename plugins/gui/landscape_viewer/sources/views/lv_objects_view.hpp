@@ -69,6 +69,8 @@ signals:
 
 	void currentObjectWasChanged( const QString& _name );
 
+	void controlItemSelected();
+
 /*---------------------------------------------------------------------------*/
 
 private slots:

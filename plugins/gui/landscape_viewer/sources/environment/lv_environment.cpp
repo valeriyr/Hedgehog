@@ -150,17 +150,6 @@ Environment::saveLandscape( const QString& _fileName ) const
 
 
 void
-Environment::createLandscape( const unsigned int _width, const unsigned int _height ) const
-{
-	m_pluginInstance.getLandscapeModel()->createLandscape( _width, _height );
-
-} // Environment::saveLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
 Environment::selectItemsInModel(
 		const QPoint& _from
 	,	const QPoint& _to ) const

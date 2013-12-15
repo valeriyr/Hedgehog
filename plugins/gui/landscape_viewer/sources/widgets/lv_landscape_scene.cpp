@@ -6,12 +6,17 @@
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
+#include "landscape_viewer/sources/object_graphics_info/lv_iobject_graphics_info.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
 #include "settings/h/st_events.hpp"
+
+#include "landscape_viewer/sources/widgets/landscape_scene_states/lv_landscape_scene_states.hpp"
 
 #include "lv_landscape_scene.moc"
 
@@ -29,8 +34,7 @@ LandscapeScene::LandscapeScene( const IEnvironment& _environment, QObject* _pare
 	:	QGraphicsScene( _parent )
 	,	m_environment( _environment )
 	,	m_subscriber( _environment.createSubscriber() )
-	,	m_startSelectionPoint()
-	,	m_selectionItem( NULL )
+	,	m_landscapeSceneState( new LandscapeSceneGameState( _environment, *this ) )
 	//,	m_unitsCollection()
 {
 } // LandscapeScene::LandscapeScene
@@ -50,17 +54,7 @@ LandscapeScene::~LandscapeScene()
 void
 LandscapeScene::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	if (	_mouseEvent->buttons() == Qt::LeftButton
-		&&	_mouseEvent->scenePos().x() >= 0
-		&&	_mouseEvent->scenePos().y() >= 0
-		&&	_mouseEvent->scenePos().x() <= width()
-		&&	_mouseEvent->scenePos().y() <= height() )
-	{
-		m_selectionItem = addRect( 0, 0, 0, 0 );
-		m_selectionItem->setPos( _mouseEvent->scenePos().x(), _mouseEvent->scenePos().y() );
-		m_selectionItem->setZValue( ObjectZValue::SelectionRect );
-		m_startSelectionPoint = _mouseEvent->scenePos();
-	}
+	m_landscapeSceneState->mousePressEvent( _mouseEvent );
 
 	QGraphicsScene::mousePressEvent( _mouseEvent );
 
@@ -73,43 +67,7 @@ LandscapeScene::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 void
 LandscapeScene::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	if ( m_selectionItem )
-	{
-		qreal posByX = m_startSelectionPoint.x();
-		qreal posByY = m_startSelectionPoint.y();
-
-		qreal mounsePosByX = _mouseEvent->scenePos().x() < 0 ? 0 : _mouseEvent->scenePos().x();
-		qreal mounsePosByY = _mouseEvent->scenePos().y() < 0 ? 0 : _mouseEvent->scenePos().y();
-
-		qreal width = mounsePosByX - m_startSelectionPoint.x();
-		qreal height = mounsePosByY - m_startSelectionPoint.y();
-
-		if ( width < 0 )
-		{
-			posByX += width;
-			width = -width;
-		}
-
-		if ( height < 0 )
-		{
-			posByY += height;
-			height = -height;
-		}
-
-		if ( posByX + width >= this->width() )
-		{
-			width = this->width() - posByX - 1;
-		}
-
-		if ( posByY + height >= this->height() )
-		{
-			height = this->height() - posByY - 1;
-		}
-
-		m_selectionItem->setPos( posByX, posByY );
-
-		m_selectionItem->setRect( 0, 0, width, height );
-	}
+	m_landscapeSceneState->mouseMoveEvent( _mouseEvent );
 
 	QGraphicsScene::mouseMoveEvent( _mouseEvent );
 
@@ -122,21 +80,7 @@ LandscapeScene::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 void
 LandscapeScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	if ( m_selectionItem )
-	{
-		m_environment.selectItemsInModel(
-				LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() )
-			,	LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() ) );
-
-		removeItem( m_selectionItem );
-		delete m_selectionItem;
-		m_selectionItem = NULL;
-		m_startSelectionPoint = QPointF();
-	}
-	else
-	{
-		m_environment.moveSelectedItems( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ) );
-	}
+	m_landscapeSceneState->mouseReleaseEvent( _mouseEvent );
 
 	QGraphicsScene::mouseMoveEvent( _mouseEvent );
 
@@ -208,33 +152,7 @@ LandscapeScene::onUpdateTimerFired()
 void
 LandscapeScene::onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id )
 {
-	/*if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
-		return;
-
-	boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-		surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, _id );
-
-	if ( !surfaceItemGraphicsInfo )
-		return;
-
-	m_surfaceItemId = _id;
-	m_objectName.clear();
-
-	if ( m_currentEditorItem )
-		delete m_currentEditorItem;
-
-	m_currentEditorItem
-		= new QGraphicsPixmapItem( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
-
-	QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
-	opacityEffect->setOpacity( 0.5 );
-
-	m_currentEditorItem->setGraphicsEffect( opacityEffect );
-
-	addItem( m_currentEditorItem );
-
-	m_currentEditorItem->setZValue( ObjectZValue::CurrentSurfaceItem );
-	m_currentEditorItem->setPos( 0, 0 );*/
+	m_landscapeSceneState.reset( new LandscapeSurfaceItemEditingState( m_environment, *this, _id ) );
 
 } // LandscapeScene::onChangeSurfaceItem
 
@@ -245,33 +163,7 @@ LandscapeScene::onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfa
 void
 LandscapeScene::onChangeObject( const QString& _name )
 {
-	/*if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
-		return;
-
-	boost::intrusive_ptr< IObjectGraphicsInfo >
-		objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, _name );
-
-	if ( !objectGraphicsInfo )
-		return;
-
-	m_objectName = _name;
-	m_surfaceItemId = Plugins::Core::LandscapeModel::ISurfaceItem::ms_invalidTypeId;
-
-	if ( m_currentEditorItem )
-		delete m_currentEditorItem;
-
-	m_currentEditorItem
-		= new QGraphicsPixmapItem( m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) );
-
-	QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
-	opacityEffect->setOpacity( 0.5 );
-
-	m_currentEditorItem->setGraphicsEffect( opacityEffect );
-
-	addItem( m_currentEditorItem );
-
-	m_currentEditorItem->setZValue( ObjectZValue::CurrentSurfaceItem );
-	m_currentEditorItem->setPos( 0, 0 );*/
+	m_landscapeSceneState.reset( new LandscapeObjectEditingState( m_environment, *this, _name ) );
 
 } // LandscapeScene::onChangeObject
 
@@ -280,48 +172,20 @@ LandscapeScene::onChangeObject( const QString& _name )
 
 
 void
+LandscapeScene::onControlItemSelected()
+{
+	m_landscapeSceneState.reset( new LandscapeSceneGameState( m_environment, *this ) );
+
+} // LandscapeScene::onControlItemSelected
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 LandscapeScene::onMousePossitionWasChanged( const QPointF& _point )
 {
-	/*if ( m_currentEditorItem )
-	{
-		qreal xpos = _point.x() < 0 ? 0 : ( static_cast< int >( _point.x() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
-		qreal ypos = _point.y() < 0 ? 0 : ( static_cast< int >( _point.y() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
-
-		if ( m_objectName.isEmpty() )
-		{
-			if ( xpos > width() - Resources::Landscape::CellSize )
-				xpos = width() - Resources::Landscape::CellSize;
-
-			if ( ypos > height() - Resources::Landscape::CellSize )
-				ypos = height() - Resources::Landscape::CellSize;
-		}
-		else
-		{
-			boost::intrusive_ptr< IObjectGraphicsInfo >
-				objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, m_objectName );
-
-			if ( !objectGraphicsInfo )
-				return;
-
-			if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().width() ) > Resources::Landscape::CellSize )
-			{
-				xpos -= ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
-			}
-
-			if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().height() ) > Resources::Landscape::CellSize )
-			{
-				ypos -= ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
-			}
-
-			if ( xpos > width() - objectGraphicsInfo->getFrameRect().width() )
-				xpos = width() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
-
-			if ( ypos > height() - objectGraphicsInfo->getFrameRect().height() )
-				ypos = height() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
-		}
-
-		m_currentEditorItem->setPos( xpos, ypos );
-	}*/
+	m_landscapeSceneState->onMousePossitionWasChanged( _point );
 
 } // LandscapeScene::onMousePossitionWasChanged
 
@@ -415,22 +279,39 @@ LandscapeScene::generateLandscape()
 			}
 		}
 
-		/*Plugins::Core::LandscapeModel::ILandscape::UnitsIteratorPtr
-			unitsIterator = m_landscape->getUnitsIterator();
+		Plugins::Core::LandscapeModel::ILandscape::UnitsCollection unitsCollection;
+		handle->getLandscape()->fetchUnits( unitsCollection );
 
-		while ( unitsIterator->isValid() )
+		Plugins::Core::LandscapeModel::ILandscape::UnitsCollectionIterator
+				begin = unitsCollection.begin()
+			,	end = unitsCollection.end();
+
+		for ( ; begin != end; ++begin )
 		{
+			boost::intrusive_ptr< IObjectGraphicsInfo >
+				objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, ( *begin )->getType()->getName() );
+
 			QGraphicsPixmapItem* item = addPixmap(
-				m_environment.getPixmap( unitsIterator->current()->getBundlePath(), unitsIterator->current()->getRectInBundle() ) );
+				m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) );
 
-			updatePosition( unitsIterator->current(), item );
+			QRect position = ( *begin )->getPosition();
 
+			qreal posByX = position.x() * Resources::Landscape::CellSize;
+			qreal posByY = position.y() * Resources::Landscape::CellSize;
+
+			if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().width() ) > Resources::Landscape::CellSize )
+			{
+				posByX -= ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+			}
+
+			if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().height() ) > Resources::Landscape::CellSize )
+			{
+				posByY -= ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
+			}
+
+			item->setPos( posByX, posByY );
 			item->setZValue( ObjectZValue::Object );
-
-			m_unitsCollection.insert( std::make_pair( unitsIterator->current(), item ) );
-
-			unitsIterator->next();
-		}*/
+		}
 	}
 
 } // LandscapeScene::generateLandscape

@@ -67,7 +67,15 @@ LandscapeModel::initCurrentLandscape ( const QString& _filePath )
 	boost::intrusive_ptr< IEditableLandscape >
 		landscape( new Landscape( m_surfaceItemsCache, m_objectTypesCache ) );
 
-	m_landscapeSerializer.load( *landscape, _filePath );
+	try
+	{
+		m_landscapeSerializer.load( *landscape, _filePath );
+	}
+	catch( ... )
+	{
+		landscape.reset( new Landscape( m_surfaceItemsCache, m_objectTypesCache ) );
+		landscape->setSize( 20, 20 );
+	}
 
 	m_currentLandscape = landscape;
 
@@ -84,23 +92,6 @@ LandscapeModel::closeCurrentLandscape()
 	m_currentLandscape.reset();
 
 } // LandscapeModel::closeCurrentLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::createLandscape(
-		const unsigned int _width
-	,	const unsigned int _height )
-{
-	boost::intrusive_ptr< IEditableLandscape > newLandscape( new Landscape( m_surfaceItemsCache, m_objectTypesCache ) );
-
-	newLandscape->setSize( _width, _height );
-
-	m_currentLandscape = newLandscape;
-
-} // LandscapeModel::createLandscape
 
 
 /*---------------------------------------------------------------------------*/

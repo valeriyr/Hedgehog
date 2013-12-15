@@ -40,6 +40,12 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, const ViewsMedia
 		,	SIGNAL( landscapeViewWasResized( const float, const float ) ) );
 
 	QObject::connect(
+			m_landscapeWidget.get()
+		,	SIGNAL( mousePossitionWasChanged( const QPointF& ) )
+		,	m_landscapeScene.get()
+		,	SLOT( onMousePossitionWasChanged( const QPointF& ) ) );
+
+	QObject::connect(
 			&m_viewsMediator
 		,	SIGNAL( visibilityRectChangedPosition( const float, const float ) )
 		,	m_landscapeWidget.get()
@@ -56,6 +62,12 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, const ViewsMedia
 		,	SIGNAL( currentObjectWasChanged( const QString& ) )
 		,	m_landscapeScene.get()
 		,	SLOT( onChangeObject( const QString& ) ) );
+
+	QObject::connect(
+			&m_viewsMediator
+		,	SIGNAL( controlItemSelected() )
+		,	m_landscapeScene.get()
+		,	SLOT( onControlItemSelected() ) );
 
 	QObject::connect(
 			&m_viewsMediator
@@ -84,6 +96,12 @@ LandscapeView::~LandscapeView()
 		,	SIGNAL( landscapeViewWasResized( const float, const float ) ) );
 
 	QObject::disconnect(
+			m_landscapeWidget.get()
+		,	SIGNAL( mousePossitionWasChanged( const QPointF& ) )
+		,	m_landscapeScene.get()
+		,	SLOT( onMousePossitionWasChanged( const QPointF& ) ) );
+
+	QObject::disconnect(
 			&m_viewsMediator
 		,	SIGNAL( visibilityRectChangedPosition( const float, const float ) )
 		,	m_landscapeWidget.get()
@@ -100,6 +118,12 @@ LandscapeView::~LandscapeView()
 		,	SIGNAL( currentObjectWasChanged( const QString& ) )
 		,	m_landscapeScene.get()
 		,	SLOT( onChangeObject( const QString& ) ) );
+
+	QObject::disconnect(
+			&m_viewsMediator
+		,	SIGNAL( controlItemSelected() )
+		,	m_landscapeScene.get()
+		,	SLOT( onControlItemSelected() ) );
 
 	QObject::disconnect(
 			&m_viewsMediator

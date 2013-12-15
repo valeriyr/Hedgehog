@@ -7,6 +7,8 @@
 #include "event_manager/h/em_subscriber.hpp"
 #include "event_manager/h/em_event.hpp"
 
+#include "landscape_model/ih/lm_isurface_item.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -16,6 +18,7 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
+struct ILandscapeSceneState;
 
 /*---------------------------------------------------------------------------*/
 
@@ -30,6 +33,20 @@ class LandscapeScene
 /*---------------------------------------------------------------------------*/
 
 public:
+
+/*---------------------------------------------------------------------------*/
+
+	struct ObjectZValue
+	{
+		enum Enum
+		{
+				Surface             = 0
+			,	Terrain             = 1
+			,	EditorSurfaceItem   = 2
+			,	Object              = 3
+			,	SelectionRect       = 4
+		};
+	};
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,6 +70,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	static QPoint convertFromScenePosition( const QPointF& _scenePosition );
+
+/*---------------------------------------------------------------------------*/
+
 public slots:
 
 /*---------------------------------------------------------------------------*/
@@ -62,6 +83,8 @@ public slots:
 	void onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id );
 
 	void onChangeObject( const QString& _name );
+
+	void onControlItemSelected();
 
 	void onMousePossitionWasChanged( const QPointF& _point );
 
@@ -83,24 +106,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	static QPoint convertFromScenePosition( const QPointF& _scenePosition );
-
-/*---------------------------------------------------------------------------*/
-
 private:
-
-/*---------------------------------------------------------------------------*/
-
-	struct ObjectZValue
-	{
-		enum Enum
-		{
-				Surface             = 0
-			,	Terrain             = 1
-			,	Object              = 2
-			,	SelectionRect       = 3
-		};
-	};
 
 /*---------------------------------------------------------------------------*/
 
@@ -119,8 +125,7 @@ private:
 
 	Framework::Core::EventManager::Subscriber m_subscriber;
 
-	QPointF m_startSelectionPoint;
-	QGraphicsRectItem* m_selectionItem;
+	boost::intrusive_ptr< ILandscapeSceneState > m_landscapeSceneState;
 
 	//UnitsCollection m_unitsCollection;
 

@@ -27,6 +27,7 @@ struct TreeWidgetType
 	{
 			Surface = 0
 		,	Object
+		,	Control
 	};
 };
 
@@ -67,6 +68,9 @@ ObjectsView::ObjectsView(
 
 	m_objectsView->setIconSize( QSize( Resources::Landscape::CellSize, Resources::Landscape::CellSize ) );
 
+	TreeWidgetItem* controlItem = new TreeWidgetItem( TreeWidgetType::Control );
+	controlItem->setText( 0, "Control" );
+
 	QTreeWidgetItem* summerSurface = new QTreeWidgetItem();
 	summerSurface->setText( 0, "Summer surface" );
 
@@ -101,6 +105,7 @@ ObjectsView::ObjectsView(
 	fillWithObjectItems( "wasteland", wastelandObjects );
 	fillWithObjectItems( GraphicsInfoCache::ms_anySkinIdentifier, anyObjects );
 
+	m_objectsView->addTopLevelItem( controlItem );
 	m_objectsView->addTopLevelItem( summerSurface );
 	m_objectsView->addTopLevelItem( winterSurface );
 	m_objectsView->addTopLevelItem( wastelandSurface );
@@ -136,6 +141,12 @@ ObjectsView::ObjectsView(
 		,	&m_viewsMediator
 		,	SIGNAL( currentObjectWasChanged( const QString& ) ) );
 
+	QObject::connect(
+			this
+		,	SIGNAL( controlItemSelected() )
+		,	&m_viewsMediator
+		,	SIGNAL( controlItemSelected() ) );
+
 } // ObjectsView::ObjectsView
 
 
@@ -161,6 +172,12 @@ ObjectsView::~ObjectsView()
 		,	SIGNAL( currentObjectWasChanged( const QString& ) )
 		,	&m_viewsMediator
 		,	SIGNAL( currentObjectWasChanged( const QString& ) ) );
+
+	QObject::disconnect(
+			this
+		,	SIGNAL( controlItemSelected() )
+		,	&m_viewsMediator
+		,	SIGNAL( controlItemSelected() ) );
 
 } // ObjectsView::~ObjectsView
 
@@ -232,6 +249,9 @@ ObjectsView::onCurrentItemChanged( QTreeWidgetItem* _current, QTreeWidgetItem* _
 			break;
 		case TreeWidgetType::Object:
 			emit currentObjectWasChanged( _current->text( 0 ) );
+			break;
+		case TreeWidgetType::Control:
+			emit controlItemSelected();
 			break;
 		default:
 			assert( !"Unsupported tree widget type!" );

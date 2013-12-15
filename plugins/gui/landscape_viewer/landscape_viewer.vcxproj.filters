@@ -40,6 +40,9 @@
     <Filter Include="Object Graphics Info">
       <UniqueIdentifier>{bd3a144d-1598-4cf1-a5be-dc966d37bcdc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Widgets\Landscape Scene States">
+      <UniqueIdentifier>{bf8cbd10-9a46-47f2-a5b8-e3981aa557fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lv_ph.cpp">
@@ -72,9 +75,6 @@
     <ClCompile Include="sources\views\lv_objects_view.cpp">
       <Filter>Views</Filter>
     </ClCompile>
-    <ClCompile Include="sources\widgets\lv_landscape_editor_scene.cpp">
-      <Filter>Widgets</Filter>
-    </ClCompile>
     <ClCompile Include="sources\widgets\lv_landscape_scene.cpp">
       <Filter>Widgets</Filter>
     </ClCompile>
@@ -104,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="sources\views\lv_settings_view.cpp">
       <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\widgets\landscape_scene_states\lv_landscape_scene_states.cpp">
+      <Filter>Widgets\Landscape Scene States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -167,12 +170,15 @@
     <ClInclude Include="sources\object_graphics_info\lv_object_graphics_info.hpp">
       <Filter>Object Graphics Info</Filter>
     </ClInclude>
+    <ClInclude Include="sources\widgets\landscape_scene_states\lv_ilandscape_scene_state.hpp">
+      <Filter>Widgets\Landscape Scene States</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\widgets\landscape_scene_states\lv_landscape_scene_states.hpp">
+      <Filter>Widgets\Landscape Scene States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="sources\widgets\lv_minimap_widget.hpp">
-      <Filter>Widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="sources\widgets\lv_landscape_editor_scene.hpp">
       <Filter>Widgets</Filter>
     </CustomBuild>
     <CustomBuild Include="sources\views\lv_objects_view.hpp">

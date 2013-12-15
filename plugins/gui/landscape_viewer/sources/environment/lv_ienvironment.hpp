@@ -86,8 +86,6 @@ struct IEnvironment
 	virtual boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle >
 		getCurrentLandscape () const = 0;
 
-	virtual void createLandscape( const unsigned int _width, const unsigned int _height ) const = 0;
-
 	virtual void saveLandscape( const QString& _fileName ) const = 0;
 
 /*---------------------------------------------------------------------------*/
