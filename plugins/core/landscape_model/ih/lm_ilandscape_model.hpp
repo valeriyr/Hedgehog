@@ -32,6 +32,12 @@ struct ILandscapeModel
 
 	virtual void closeCurrentLandscape() = 0;
 
+	virtual void createLandscape(
+			const unsigned int _width
+		,	const unsigned int _height ) = 0;
+
+	virtual void saveLandscape( const QString& _filePath ) const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape() = 0;

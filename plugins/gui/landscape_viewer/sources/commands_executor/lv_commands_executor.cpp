@@ -37,41 +37,9 @@ CommandsExecutor::~CommandsExecutor()
 
 
 void
-CommandsExecutor::runGame()
-{
-	QString fileName = m_environment.showOpenFileDialog();
-
-	if ( !fileName.isEmpty() )
-	{
-		m_landscapeViewer.ensurePlayingMode();
-		m_landscapeViewer.openLandscape( fileName );
-	}
-
-} // CommandsExecutor::runGame
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-CommandsExecutor::stopGame()
-{
-	m_landscapeViewer.closeLandscape();
-
-} // CommandsExecutor::stopGame
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
 CommandsExecutor::newLandscape()
 {
-	m_landscapeViewer.ensureLandscapeEditingMode();
-
-	if ( m_landscapeViewer.getEditingLandscape() )
-		m_landscapeViewer.closeLandscape();
-
+	m_landscapeViewer.closeLandscape();
 	m_landscapeViewer.openLandscape( "c:/temp/new.hmap" );
 
 } // CommandsExecutor::newLandscape
@@ -87,11 +55,7 @@ CommandsExecutor::openLandscape()
 
 	if ( !landscapeFilePath.isEmpty() )
 	{
-		m_landscapeViewer.ensureLandscapeEditingMode();
-
-		if ( m_landscapeViewer.getEditingLandscape() )
-			m_landscapeViewer.closeLandscape();
-
+		m_landscapeViewer.closeLandscape();
 		m_landscapeViewer.openLandscape( landscapeFilePath );
 	}
 
@@ -115,10 +79,7 @@ CommandsExecutor::closeLandscape()
 void
 CommandsExecutor::saveLandscape()
 {
-	if ( m_landscapeViewer.getEditingLandscape() )
-		m_environment.saveLandscape(
-				m_landscapeViewer.getLandscapeFilePath()
-			,	*m_landscapeViewer.getEditingLandscape() );
+	m_environment.saveLandscape( m_landscapeViewer.getLandscapeFilePath() );
 
 } // CommandsExecutor::saveLandscape
 
@@ -129,10 +90,7 @@ CommandsExecutor::saveLandscape()
 void
 CommandsExecutor::saveAsLandscape()
 {
-	QString landscapeFilePath = m_environment.showSaveFileDialog();
-	m_environment.saveLandscape(
-			landscapeFilePath
-		,	*m_landscapeViewer.getEditingLandscape() );
+	m_environment.saveLandscape( m_environment.showSaveFileDialog() );
 
 } // CommandsExecutor::saveAsLandscape
 

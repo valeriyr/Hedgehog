@@ -20,12 +20,6 @@ struct ICommandsExecutor
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void runGame() = 0;
-
-	virtual void stopGame() = 0;
-
-/*---------------------------------------------------------------------------*/
-
 	virtual void newLandscape() = 0;
 
 	virtual void openLandscape() = 0;

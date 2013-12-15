@@ -27,7 +27,6 @@
     <ClCompile Include="sources\environment\lm_environment.cpp" />
     <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp" />
     <ClCompile Include="sources\landscape\lm_landscape.cpp" />
-    <ClCompile Include="sources\landscape_editor\lm_landscape_editor.cpp" />
     <ClCompile Include="sources\landscape_handle\lm_landscape_handle.cpp" />
     <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp" />
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp" />
@@ -51,7 +50,6 @@
     <ClInclude Include="h\lm_terrain_map_data.hpp" />
     <ClInclude Include="ih\lm_ieditable_landscape.hpp" />
     <ClInclude Include="ih\lm_ilandscape.hpp" />
-    <ClInclude Include="ih\lm_ilandscape_editor.hpp" />
     <ClInclude Include="ih\lm_ilandscape_handle.hpp" />
     <ClInclude Include="ih\lm_ilandscape_model.hpp" />
     <ClInclude Include="ih\lm_iobject_type.hpp" />
@@ -70,7 +68,6 @@
     <ClInclude Include="sources\environment\lm_ienvironment.hpp" />
     <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
-    <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp" />
     <ClInclude Include="sources\landscape_handle\lm_landscape_handle.hpp" />
     <ClInclude Include="sources\landscape_model\lm_ilandscape_model_internal.hpp" />
     <ClInclude Include="sources\landscape_model\lm_landscape_model.hpp" />

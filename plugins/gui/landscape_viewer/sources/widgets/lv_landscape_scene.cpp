@@ -201,6 +201,131 @@ LandscapeScene::onUpdateTimerFired()
 } // LandscapeScene::onUpdateTimerFired
 
 
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id )
+{
+	/*if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
+		return;
+
+	boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
+		surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, _id );
+
+	if ( !surfaceItemGraphicsInfo )
+		return;
+
+	m_surfaceItemId = _id;
+	m_objectName.clear();
+
+	if ( m_currentEditorItem )
+		delete m_currentEditorItem;
+
+	m_currentEditorItem
+		= new QGraphicsPixmapItem( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
+
+	QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
+	opacityEffect->setOpacity( 0.5 );
+
+	m_currentEditorItem->setGraphicsEffect( opacityEffect );
+
+	addItem( m_currentEditorItem );
+
+	m_currentEditorItem->setZValue( ObjectZValue::CurrentSurfaceItem );
+	m_currentEditorItem->setPos( 0, 0 );*/
+
+} // LandscapeScene::onChangeSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onChangeObject( const QString& _name )
+{
+	/*if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
+		return;
+
+	boost::intrusive_ptr< IObjectGraphicsInfo >
+		objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, _name );
+
+	if ( !objectGraphicsInfo )
+		return;
+
+	m_objectName = _name;
+	m_surfaceItemId = Plugins::Core::LandscapeModel::ISurfaceItem::ms_invalidTypeId;
+
+	if ( m_currentEditorItem )
+		delete m_currentEditorItem;
+
+	m_currentEditorItem
+		= new QGraphicsPixmapItem( m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) );
+
+	QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
+	opacityEffect->setOpacity( 0.5 );
+
+	m_currentEditorItem->setGraphicsEffect( opacityEffect );
+
+	addItem( m_currentEditorItem );
+
+	m_currentEditorItem->setZValue( ObjectZValue::CurrentSurfaceItem );
+	m_currentEditorItem->setPos( 0, 0 );*/
+
+} // LandscapeScene::onChangeObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onMousePossitionWasChanged( const QPointF& _point )
+{
+	/*if ( m_currentEditorItem )
+	{
+		qreal xpos = _point.x() < 0 ? 0 : ( static_cast< int >( _point.x() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
+		qreal ypos = _point.y() < 0 ? 0 : ( static_cast< int >( _point.y() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
+
+		if ( m_objectName.isEmpty() )
+		{
+			if ( xpos > width() - Resources::Landscape::CellSize )
+				xpos = width() - Resources::Landscape::CellSize;
+
+			if ( ypos > height() - Resources::Landscape::CellSize )
+				ypos = height() - Resources::Landscape::CellSize;
+		}
+		else
+		{
+			boost::intrusive_ptr< IObjectGraphicsInfo >
+				objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, m_objectName );
+
+			if ( !objectGraphicsInfo )
+				return;
+
+			if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().width() ) > Resources::Landscape::CellSize )
+			{
+				xpos -= ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+			}
+
+			if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().height() ) > Resources::Landscape::CellSize )
+			{
+				ypos -= ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
+			}
+
+			if ( xpos > width() - objectGraphicsInfo->getFrameRect().width() )
+				xpos = width() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+
+			if ( ypos > height() - objectGraphicsInfo->getFrameRect().height() )
+				ypos = height() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+		}
+
+		m_currentEditorItem->setPos( xpos, ypos );
+	}*/
+
+} // LandscapeScene::onMousePossitionWasChanged
+
+
 /*---------------------------------------------------------------------------*/
 
 

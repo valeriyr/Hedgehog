@@ -40,9 +40,6 @@ DEFINE_COMMAND( CloseLandscapeCommand, closeLandscape )
 DEFINE_COMMAND( SaveLandscapeCommand, saveLandscape )
 DEFINE_COMMAND( SaveAsLandscapeCommand, saveAsLandscape )
 
-DEFINE_COMMAND( RunGameCommand, runGame )
-DEFINE_COMMAND( StopGameCommand, stopGame )
-
 /*---------------------------------------------------------------------------*/
 
 } // namespace LandscapeViewer

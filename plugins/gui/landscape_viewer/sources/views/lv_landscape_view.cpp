@@ -47,6 +47,18 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, const ViewsMedia
 
 	QObject::connect(
 			&m_viewsMediator
+		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) )
+		,	m_landscapeScene.get()
+		,	SLOT( onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) ) );
+
+	QObject::connect(
+			&m_viewsMediator
+		,	SIGNAL( currentObjectWasChanged( const QString& ) )
+		,	m_landscapeScene.get()
+		,	SLOT( onChangeObject( const QString& ) ) );
+
+	QObject::connect(
+			&m_viewsMediator
 		,	SIGNAL( updateTimerFired() )
 		,	m_landscapeScene.get()
 		,	SLOT( onUpdateTimerFired() ) );
@@ -76,6 +88,18 @@ LandscapeView::~LandscapeView()
 		,	SIGNAL( visibilityRectChangedPosition( const float, const float ) )
 		,	m_landscapeWidget.get()
 		,	SLOT( onChangeVisibleRect( const float, const float ) ) );
+
+	QObject::disconnect(
+			&m_viewsMediator
+		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) )
+		,	m_landscapeScene.get()
+		,	SLOT( onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) ) );
+
+	QObject::disconnect(
+			&m_viewsMediator
+		,	SIGNAL( currentObjectWasChanged( const QString& ) )
+		,	m_landscapeScene.get()
+		,	SLOT( onChangeObject( const QString& ) ) );
 
 	QObject::disconnect(
 			&m_viewsMediator

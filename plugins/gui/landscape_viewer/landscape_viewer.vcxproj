@@ -36,15 +36,11 @@
     <ClCompile Include="sources\plugin\lv_plugin_instance.cpp" />
     <ClCompile Include="sources\surface_item_graphics_info\lv_surface_item_graphics_info.cpp" />
     <ClCompile Include="sources\views\lv_description_view.cpp" />
-    <ClCompile Include="sources\views\lv_editor_view.cpp" />
     <ClCompile Include="sources\views\lv_landscape_view.cpp" />
     <ClCompile Include="sources\views\lv_minimap_view.cpp" />
     <ClCompile Include="sources\views\lv_objects_view.cpp" />
     <ClCompile Include="sources\views\lv_settings_view.cpp" />
     <ClCompile Include="sources\views\views_mediator\lv_views_mediator.cpp" />
-    <ClCompile Include="sources\view_mode\lv_base_mode.cpp" />
-    <ClCompile Include="sources\view_mode\lv_editing_mode.cpp" />
-    <ClCompile Include="sources\view_mode\lv_playing_mode.cpp" />
     <ClCompile Include="sources\widgets\lv_landscape_editor_scene.cpp" />
     <ClCompile Include="sources\widgets\lv_landscape_scene.cpp" />
     <ClCompile Include="sources\widgets\lv_landscape_widget.cpp" />
@@ -69,24 +65,6 @@
     <ClInclude Include="sources\surface_item_graphics_info\lv_isurface_item_graphics_info.hpp" />
     <ClInclude Include="sources\surface_item_graphics_info\lv_surface_item_graphics_info.hpp" />
     <ClInclude Include="sources\views\lv_description_view.hpp" />
-    <ClInclude Include="sources\views\lv_editor_view.hpp">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc'ing %(Filename).hpp ...</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc'ing %(Filename).hpp ...</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc'ing %(Filename).hpp ...</Message>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc'ing %(Filename).hpp ...</Message>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
-    </ClInclude>
     <ClInclude Include="sources\views\lv_landscape_view.hpp" />
     <ClInclude Include="sources\views\lv_minimap_view.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
@@ -160,10 +138,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
     </CustomBuild>
-    <ClInclude Include="sources\view_mode\lv_base_mode.hpp" />
-    <ClInclude Include="sources\view_mode\lv_editing_mode.hpp" />
-    <ClInclude Include="sources\view_mode\lv_iview_mode.hpp" />
-    <ClInclude Include="sources\view_mode\lv_playing_mode.hpp" />
     <CustomBuild Include="sources\widgets\lv_landscape_editor_scene.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(FullPath) -o $(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>

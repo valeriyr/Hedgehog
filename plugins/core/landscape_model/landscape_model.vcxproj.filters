@@ -19,9 +19,6 @@
     <Filter Include="Landscape">
       <UniqueIdentifier>{15be8b6a-f018-4899-aaac-571a9147f4b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Landscape Editor">
-      <UniqueIdentifier>{cf7b69a5-e682-4081-816c-414184d8527a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Landscape Serializer">
       <UniqueIdentifier>{2a5e59fe-b211-498c-b90e-fb63d1927ed4}</UniqueIdentifier>
     </Filter>
@@ -68,9 +65,6 @@
     </ClCompile>
     <ClCompile Include="sources\landscape\lm_landscape.cpp">
       <Filter>Landscape</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\landscape_editor\lm_landscape_editor.cpp">
-      <Filter>Landscape Editor</Filter>
     </ClCompile>
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp">
       <Filter>Landscape Serializer</Filter>
@@ -158,9 +152,6 @@
     <ClInclude Include="ih\lm_iunit.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="ih\lm_ilandscape_editor.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="ih\lm_ilandscape_handle.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -169,9 +160,6 @@
     </ClInclude>
     <ClInclude Include="sources\landscape\lm_landscape.hpp">
       <Filter>Landscape</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_editor\lm_landscape_editor.hpp">
-      <Filter>Landscape Editor</Filter>
     </ClInclude>
     <ClInclude Include="sources\landscape_serializer\lm_ilandscape_serializer.hpp">
       <Filter>Landscape Serializer</Filter>

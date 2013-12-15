@@ -33,7 +33,6 @@ const QSize MinimapWidget::ms_fixedWidgetSize = QSize( 300, 200 );
 MinimapWidget::MinimapWidget( const IEnvironment& _environment,	QWidget* _parent )
 	:	QWidget( _parent )
 	,	m_environment( _environment )
-	,	m_editableLandscape()
 	,	m_surfaceLayer( ms_fixedWidgetSize )
 	,	m_objectsLayer( ms_fixedWidgetSize )
 	,	m_visibleArea( 0, 0, 0, 0 )
@@ -63,16 +62,6 @@ MinimapWidget::landscapeWasOpened()
 	onUpdateView();
 
 } // MinimapWidget::landscapeWasOpened
-
-
-void
-MinimapWidget::landscapeWasOpenedInEditor(
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > _landscape )
-{
-	m_editableLandscape = _landscape;
-	landscapeWasOpened();
-
-} // MinimapWidget::landscapeWasOpenedInEditor
 
 
 /*---------------------------------------------------------------------------*/
@@ -127,19 +116,11 @@ MinimapWidget::onChangeVisibilityRectPosition( const float _visibleWidth, const 
 void
 MinimapWidget::onUpdateView()
 {
-	if ( m_editableLandscape )
-	{
-		renderSurface( *m_editableLandscape );
-		renderObjects( *m_editableLandscape );
-	}
-	else
-	{
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
-			= m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
 
-		renderSurface( *handle->getLandscape() );
-		renderObjects( *handle->getLandscape() );
-	}
+	renderSurface( *handle->getLandscape() );
+	renderObjects( *handle->getLandscape() );
 
 	update();
 
@@ -152,17 +133,10 @@ MinimapWidget::onUpdateView()
 void
 MinimapWidget::onUpdateTimerFired()
 {
-	if ( m_editableLandscape )
-	{
-		renderObjects( *m_editableLandscape );
-	}
-	else
-	{
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
-			= m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
 
-		renderObjects( *handle->getLandscape() );
-	}
+	renderObjects( *handle->getLandscape() );
 
 	update();
 

@@ -12,7 +12,6 @@ namespace Plugins
 		namespace LandscapeModel
 		{
 			struct ILandscape;
-			struct IEditableLandscape;
 		}
 	}
 }
@@ -50,9 +49,6 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	void landscapeWasOpened();
-
-	void landscapeWasOpenedInEditor(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > _landscape );
 
 	void landscapeWasClosed();
 
@@ -115,8 +111,6 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
-
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > m_editableLandscape;
 
 	QPixmap m_surfaceLayer;
 

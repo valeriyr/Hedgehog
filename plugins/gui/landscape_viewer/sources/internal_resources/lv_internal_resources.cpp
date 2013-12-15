@@ -84,10 +84,6 @@ namespace Commands {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const RunGameCommandName = "lv.game.run";
-
-	const char* const StopGameCommandName = "lv.game.stop";
-
 	const char* const NewLandscapeCommandName = "lv.landscape.new";
 
 	const char* const OpenLandscapeCommandName = "lv.landscape.open";

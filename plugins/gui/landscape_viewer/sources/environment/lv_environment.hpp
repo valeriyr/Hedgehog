@@ -60,17 +60,9 @@ public:
 	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle >
 		getCurrentLandscape () const;
 
-/*---------------------------------------------------------------------------*/
+	/*virtual*/ void createLandscape( const unsigned int _width, const unsigned int _height ) const;
 
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		createLandscape( const unsigned int _width, const unsigned int _height ) const;
-
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		tryToOpenLandscape( const QString& _landscapePath ) const;
-
-	/*virtual*/ void saveLandscape(
-			const QString& _fileName
-		,	const Core::LandscapeModel::ILandscape& _landscape ) const;
+	/*virtual*/ void saveLandscape( const QString& _fileName ) const;
 
 /*---------------------------------------------------------------------------*/
 

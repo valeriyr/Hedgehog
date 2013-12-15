@@ -145,17 +145,6 @@ MinimapView::landscapeWasOpened()
 
 
 void
-MinimapView::landscapeWasOpenedInEditor( boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > _landscape )
-{
-	m_minimapWidget->landscapeWasOpenedInEditor( _landscape );
-
-} // MinimapView::landscapeWasOpenedInEditor
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
 MinimapView::landscapeWasClosed()
 {
 	m_minimapWidget->landscapeWasClosed();

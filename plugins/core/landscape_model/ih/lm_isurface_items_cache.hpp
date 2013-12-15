@@ -15,7 +15,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_SURFACE_ITEMS_CACHE = 2;
+	const unsigned int IID_SURFACE_ITEMS_CACHE = 1;
 
 /*---------------------------------------------------------------------------*/
 

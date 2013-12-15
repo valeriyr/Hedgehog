@@ -35,12 +35,6 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void runGame();
-
-	/*virtual*/ void stopGame();
-
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ void newLandscape();
 
 	/*virtual*/ void openLandscape();

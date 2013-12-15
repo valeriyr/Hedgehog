@@ -89,6 +89,35 @@ LandscapeModel::closeCurrentLandscape()
 /*---------------------------------------------------------------------------*/
 
 
+void
+LandscapeModel::createLandscape(
+		const unsigned int _width
+	,	const unsigned int _height )
+{
+	boost::intrusive_ptr< IEditableLandscape > newLandscape( new Landscape( m_surfaceItemsCache, m_objectTypesCache ) );
+
+	newLandscape->setSize( _width, _height );
+
+	m_currentLandscape = newLandscape;
+
+} // LandscapeModel::createLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::saveLandscape( const QString& _filePath ) const
+{
+	if ( m_currentLandscape )
+		m_landscapeSerializer.save( *m_currentLandscape, _filePath );
+
+} // LandscapeModel::saveLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< IEditableLandscape >
 LandscapeModel::getCurrentLandscapeInternal() const
 {

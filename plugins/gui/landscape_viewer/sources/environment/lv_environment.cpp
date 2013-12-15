@@ -16,7 +16,6 @@
 #include "event_manager/h/em_subscriber.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
-#include "landscape_model/ih/lm_ilandscape_editor.hpp"
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
@@ -140,11 +139,9 @@ Environment::getCurrentLandscape() const
 
 
 void
-Environment::saveLandscape(
-		const QString& _fileName
-	,	const Core::LandscapeModel::ILandscape& _landscape ) const
+Environment::saveLandscape( const QString& _fileName ) const
 {
-	m_pluginInstance.getLandscapeEditor()->saveLandscape( _landscape, _fileName );
+	m_pluginInstance.getLandscapeModel()->saveLandscape( _fileName );
 
 } // Environment::saveLandscape
 
@@ -152,21 +149,10 @@ Environment::saveLandscape(
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
+void
 Environment::createLandscape( const unsigned int _width, const unsigned int _height ) const
 {
-	return m_pluginInstance.getLandscapeEditor()->createLandscape( _width, _height );
-
-} // Environment::saveLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-Environment::tryToOpenLandscape( const QString& _landscapePath ) const
-{
-	return m_pluginInstance.getLandscapeEditor()->loadLandscape( _landscapePath );
+	m_pluginInstance.getLandscapeModel()->createLandscape( _width, _height );
 
 } // Environment::saveLandscape
 

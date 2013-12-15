@@ -61,10 +61,6 @@ namespace Commands {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const RunGameCommandName;
-
-	extern const char* const StopGameCommandName;
-
 	extern const char* const NewLandscapeCommandName;
 
 	extern const char* const OpenLandscapeCommandName;

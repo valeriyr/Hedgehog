@@ -25,9 +25,6 @@
     <Filter Include="Commands Executor">
       <UniqueIdentifier>{0697837a-3a07-4410-96c5-d695e8c8ff04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="View Mode">
-      <UniqueIdentifier>{550dd4ae-e190-45df-bffa-27b883d1f803}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Landscape Viewer">
       <UniqueIdentifier>{a88b0280-8e57-41d5-98e1-ad694c0477c3}</UniqueIdentifier>
     </Filter>
@@ -66,9 +63,6 @@
     <ClCompile Include="sources\views\lv_description_view.cpp">
       <Filter>Views</Filter>
     </ClCompile>
-    <ClCompile Include="sources\views\lv_editor_view.cpp">
-      <Filter>Views</Filter>
-    </ClCompile>
     <ClCompile Include="sources\views\lv_landscape_view.cpp">
       <Filter>Views</Filter>
     </ClCompile>
@@ -93,17 +87,8 @@
     <ClCompile Include="sources\commands\lv_commands.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="sources\view_mode\lv_editing_mode.cpp">
-      <Filter>View Mode</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\view_mode\lv_playing_mode.cpp">
-      <Filter>View Mode</Filter>
-    </ClCompile>
     <ClCompile Include="sources\commands_executor\lv_commands_executor.cpp">
       <Filter>Commands Executor</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\view_mode\lv_base_mode.cpp">
-      <Filter>View Mode</Filter>
     </ClCompile>
     <ClCompile Include="sources\views\views_mediator\lv_views_mediator.cpp">
       <Filter>Views\Views Mediator</Filter>
@@ -158,23 +143,8 @@
     <ClInclude Include="sources\commands\lv_commands.hpp">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="sources\view_mode\lv_editing_mode.hpp">
-      <Filter>View Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\view_mode\lv_iview_mode.hpp">
-      <Filter>View Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\view_mode\lv_playing_mode.hpp">
-      <Filter>View Mode</Filter>
-    </ClInclude>
     <ClInclude Include="sources\commands_executor\lv_commands_executor.hpp">
       <Filter>Commands Executor</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\view_mode\lv_base_mode.hpp">
-      <Filter>View Mode</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\views\lv_editor_view.hpp">
-      <Filter>Views</Filter>
     </ClInclude>
     <ClInclude Include="sources\views\lv_minimap_view.hpp">
       <Filter>Views</Filter>

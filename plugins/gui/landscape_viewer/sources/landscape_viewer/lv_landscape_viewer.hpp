@@ -17,6 +17,14 @@ namespace LandscapeViewer {
 struct IEnvironment;
 struct IGraphicsInfoCache;
 
+class DescriptionView;
+class SettingsView;
+class LandscapeView;
+class MinimapView;
+class ObjectsView;
+
+class ViewsMediator;
+
 /*---------------------------------------------------------------------------*/
 
 class LandscapeViewer
@@ -35,18 +43,6 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ bool isPlayingMode() const;
-
-	/*virtual*/ bool isEditingMode() const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void ensureLandscapeEditingMode();
-
-	/*virtual*/ void ensurePlayingMode();
-
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ QString getLandscapeFilePath() const;
 
 /*---------------------------------------------------------------------------*/
@@ -57,18 +53,27 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		getEditingLandscape() const;
-
-/*---------------------------------------------------------------------------*/
-
 private:
 
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
 
-	boost::intrusive_ptr< IViewMode > m_viewMode;
+	boost::shared_ptr< ViewsMediator > m_viewsMediator;
+
+	boost::intrusive_ptr< DescriptionView > m_descriptionView;
+	boost::intrusive_ptr< SettingsView > m_settingsView;
+	boost::intrusive_ptr< LandscapeView > m_LandscapeView;
+	boost::intrusive_ptr< MinimapView > m_minimapView;
+	boost::intrusive_ptr< ObjectsView > m_objectsView;
+
+	QString m_landscapeFilePath;
+
+	QTimer m_timer;
+
+/*---------------------------------------------------------------------------*/
+
+	static const int ms_updatePeriod = 10;
 
 /*---------------------------------------------------------------------------*/
 

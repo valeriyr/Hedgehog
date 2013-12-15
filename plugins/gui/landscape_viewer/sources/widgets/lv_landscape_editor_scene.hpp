@@ -46,16 +46,6 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeEditorScene( const IEnvironment& _environment, QObject* _parent = NULL );
-
-	virtual ~LandscapeEditorScene();
-
-/*---------------------------------------------------------------------------*/
-
-	void landscapeWasOpened(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::IEditableLandscape > _landscape );
-
-	void landscapeWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
@@ -79,11 +69,7 @@ public slots:
 
 /*---------------------------------------------------------------------------*/
 
-	void onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id );
 
-	void onChangeObject( const QString& _name );
-
-	void onMousePossitionWasChanged( const QPointF& _point );
 
 /*---------------------------------------------------------------------------*/
 

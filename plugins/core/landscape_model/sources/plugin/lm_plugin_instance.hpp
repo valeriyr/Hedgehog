@@ -43,7 +43,6 @@ namespace LandscapeModel {
 
 struct IEnvironment;
 struct ILandscapeSerializer;
-struct ILandscapeEditor;
 struct ISurfaceItemsCache;
 struct ILandscapeModel;
 struct IObjectTypesCache;
@@ -107,9 +106,7 @@ private:
 	boost::intrusive_ptr< ISurfaceItemsCache > m_surfaceItemsCache;
 
 	boost::intrusive_ptr< ILandscapeSerializer > m_landscapeSerializer;
-
-	boost::intrusive_ptr< ILandscapeEditor > m_landscapeEditor;
-
+	
 	boost::intrusive_ptr< ILandscapeModel > m_landscapeModel;
 
 /*---------------------------------------------------------------------------*/

@@ -20,7 +20,6 @@
 #include "window_manager/h/wm_plugin_id.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
-#include "landscape_model/ih/lm_ilandscape_editor.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/h/lm_plugin_id.hpp"
@@ -87,12 +86,7 @@ PluginInstance::initialize()
 	m_commandsExecutor.reset( new CommandsExecutor( *m_environment, *m_landscapeViewer ) );
 
 	using namespace Framework::Core::CommandsManager;
-	getCommandsManager()->registerCommand(
-			Resources::Commands::RunGameCommandName
-		,	boost::intrusive_ptr< ICommand >( new RunGameCommand( *m_commandsExecutor ) ) );
-	getCommandsManager()->registerCommand(
-			Resources::Commands::StopGameCommandName
-		,	boost::intrusive_ptr< ICommand >( new StopGameCommand( *m_commandsExecutor ) ) );
+
 	getCommandsManager()->registerCommand(
 			Resources::Commands::NewLandscapeCommandName
 		,	boost::intrusive_ptr< ICommand >( new NewLandscapeCommand( *m_commandsExecutor ) ) );
@@ -115,9 +109,6 @@ PluginInstance::initialize()
 	getWindowManager()->addCommandToMenu( "File/Save", Resources::Commands::SaveLandscapeCommandName );
 	getWindowManager()->addCommandToMenu( "File/Save As", Resources::Commands::SaveAsLandscapeCommandName );
 
-	getWindowManager()->addCommandToMenu( "Game/Run", Resources::Commands::RunGameCommandName );
-	getWindowManager()->addCommandToMenu( "Game/Stop", Resources::Commands::StopGameCommandName );
-
 } // PluginInstance::initialize
 
 
@@ -127,9 +118,6 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
-	getWindowManager()->removeCommandFromMenu( "Game/Stop" );
-	getWindowManager()->removeCommandFromMenu( "Game/Run" );
-
 	getWindowManager()->removeCommandFromMenu( "File/Save As" );
 	getWindowManager()->removeCommandFromMenu( "File/Save" );
 	getWindowManager()->removeCommandFromMenu( "File/Close" );
@@ -141,9 +129,6 @@ PluginInstance::close()
 	getCommandsManager()->unregisterCommand( Resources::Commands::CloseLandscapeCommandName );
 	getCommandsManager()->unregisterCommand( Resources::Commands::OpenLandscapeCommandName );
 	getCommandsManager()->unregisterCommand( Resources::Commands::NewLandscapeCommandName );
-
-	getCommandsManager()->unregisterCommand( Resources::Commands::StopGameCommandName );
-	getCommandsManager()->unregisterCommand( Resources::Commands::RunGameCommandName );
 
 	m_commandsExecutor.reset();
 	m_landscapeViewer.reset();
@@ -253,19 +238,6 @@ PluginInstance::getLandscapeModel() const
 
 } // PluginInstance::getLandscapeModel
 
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
-PluginInstance::getLandscapeEditor() const
-{
-	return
-		getPluginInterface< Plugins::Core::LandscapeModel::ILandscapeEditor >(
-				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
-			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_EDITOR );
-
-} // PluginInstance::getLandscapeEditor
 
 
 /*---------------------------------------------------------------------------*/

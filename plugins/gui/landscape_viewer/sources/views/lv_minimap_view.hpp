@@ -62,8 +62,6 @@ public:
 
 	void landscapeWasOpened();
 
-	void landscapeWasOpenedInEditor( boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape > _landscape );
-
 	void landscapeWasClosed();
 
 /*---------------------------------------------------------------------------*/

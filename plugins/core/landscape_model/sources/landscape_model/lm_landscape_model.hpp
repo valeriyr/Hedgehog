@@ -48,6 +48,12 @@ public:
 
 	/*virtual*/ void closeCurrentLandscape();
 
+	/*virtual*/ void createLandscape(
+			const unsigned int _width
+		,	const unsigned int _height );
+
+	/*virtual*/ void saveLandscape( const QString& _filePath ) const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getCurrentLandscapeInternal() const;

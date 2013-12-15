@@ -126,9 +126,6 @@ public:
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeModel >
 		getLandscapeModel() const;
 
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeEditor >
-		getLandscapeEditor() const;
-
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
 		getSurfaceItemsCache() const;
 

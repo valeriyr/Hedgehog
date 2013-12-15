@@ -15,7 +15,6 @@
 #include "event_manager/h/em_plugin_id.hpp"
 
 #include "landscape_model/sources/environment/lm_environment.hpp"
-#include "landscape_model/sources/landscape_editor/lm_landscape_editor.hpp"
 #include "landscape_model/sources/landscape_model/lm_landscape_model.hpp"
 #include "landscape_model/sources/landscape_serializer/lm_landscape_serializer.hpp"
 #include "landscape_model/sources/surface_items_cache/lm_surface_items_cache.hpp"
@@ -35,7 +34,6 @@ namespace LandscapeModel {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE_DECLARATION( IID_LANDSCAPE_EDITOR, m_landscapeEditor.get() )
 	INTERFACE_DECLARATION( IID_LANDSCAPE_MODEL, m_landscapeModel.get() )
 	INTERFACE_DECLARATION( IID_SURFACE_ITEMS_CACHE, m_surfaceItemsCache.get() )
 	INTERFACE_DECLARATION( IID_OBJECT_TYPES_CACHE, m_objectTypesCache.get() )
@@ -69,7 +67,6 @@ PluginInstance::initialize()
 	m_objectTypesCache.reset( new ObjectTypesCache() );
 	m_surfaceItemsCache.reset( new SurfaceItemsCache() );
 	m_landscapeSerializer.reset( new LandscapeSerializer() );
-	m_landscapeEditor.reset( new LandscapeEditor( *m_landscapeSerializer, *m_surfaceItemsCache, *m_objectTypesCache ) );
 	m_landscapeModel.reset( new LandscapeModel( *m_environment, *m_landscapeSerializer, *m_surfaceItemsCache, *m_objectTypesCache ) );
 
 	fillSurfaceItemsCache();
@@ -85,7 +82,6 @@ void
 PluginInstance::close()
 {
 	m_landscapeModel.reset();
-	m_landscapeEditor.reset();
 	m_landscapeSerializer.reset();
 	m_surfaceItemsCache.reset();
 	m_objectTypesCache.reset();

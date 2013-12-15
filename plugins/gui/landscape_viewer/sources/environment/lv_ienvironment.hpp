@@ -86,17 +86,9 @@ struct IEnvironment
 	virtual boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle >
 		getCurrentLandscape () const = 0;
 
-/*---------------------------------------------------------------------------*/
+	virtual void createLandscape( const unsigned int _width, const unsigned int _height ) const = 0;
 
-	virtual boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		createLandscape( const unsigned int _width, const unsigned int _height ) const = 0;
-
-	virtual boost::intrusive_ptr< Core::LandscapeModel::IEditableLandscape >
-		tryToOpenLandscape( const QString& _landscapePath ) const = 0;
-
-	virtual void saveLandscape(
-			const QString& _fileName
-		,	const Core::LandscapeModel::ILandscape& _landscape ) const = 0;
+	virtual void saveLandscape( const QString& _fileName ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
