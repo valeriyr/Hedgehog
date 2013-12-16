@@ -37,7 +37,7 @@ LandscapeScene::LandscapeScene( const IEnvironment& _environment, QObject* _pare
 	,	m_environment( _environment )
 	,	m_subscriber( _environment.createSubscriber() )
 	,	m_landscapeSceneState( new LandscapeSceneGameState( _environment, *this ) )
-	//,	m_unitsCollection()
+	,	m_unitsCollection()
 {
 } // LandscapeScene::LandscapeScene
 
@@ -110,6 +110,10 @@ LandscapeScene::landscapeWasOpened()
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_type
 							,	boost::bind( &LandscapeScene::onSurfaceItemChanged, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::UnitsSelectionChanged::ms_type
+							,	boost::bind( &LandscapeScene::onUnitsSelectionChanged, this, _1 ) );
 
 } // LandscapeScene::landscapeWasOpened
 
@@ -232,6 +236,8 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 
 	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectNameAttribute ).toString();
 	const QPoint objectPosition = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectPositionAttribute ).toPoint();
+	const Plugins::Core::LandscapeModel::IUnit::IdType id
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectUniqueIdAttribute ).toInt();
 
 	if ( handle->getLandscape() )
 	{
@@ -260,6 +266,8 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 		QGraphicsPixmapItem* newItem = addPixmap( m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) );
 		newItem->setPos( QPoint( xpos, ypos ) );
 		newItem->setZValue( LandscapeScene::ObjectZValue::Object );
+
+		unitWasAdded( id, newItem );
 	}
 
 } // LandscapeScene::onObjectCreated
@@ -302,6 +310,45 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 	}
 
 } // LandscapeScene::onSurfaceItemChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event )
+{
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
+
+	if ( handle->getLandscape() )
+	{
+		UnitsCollectionIterator
+				unitsBegin = m_unitsCollection.begin()
+			,	unitsEnd = m_unitsCollection.end();
+
+		for ( ; unitsBegin != unitsEnd; ++unitsBegin )
+		{
+			unitsBegin->second->setGraphicsEffect( NULL );
+		}
+
+		Plugins::Core::LandscapeModel::ILandscape::UnitsCollection selectedUnitsCollection;
+		handle->getLandscape()->fetchSelectedUnits( selectedUnitsCollection );
+
+		Plugins::Core::LandscapeModel::ILandscape::UnitsCollectionIterator
+				selectedUnitsBegin = selectedUnitsCollection.begin()
+			,	selectedUnitsEnd = selectedUnitsCollection.end();
+
+		for ( ; selectedUnitsBegin != selectedUnitsEnd; ++selectedUnitsBegin )
+		{
+			UnitsCollectionIterator iterator = m_unitsCollection.find( ( *selectedUnitsBegin )->getUniqueId() );
+			assert( iterator != m_unitsCollection.end() );
+
+			iterator->second->setGraphicsEffect( new QGraphicsColorizeEffect() );
+		}
+	}
+
+} // LandscapeScene::onUnitsSelectionChanged
 
 
 /*---------------------------------------------------------------------------*/
@@ -413,6 +460,8 @@ LandscapeScene::generateLandscape()
 
 			item->setPos( posByX, posByY );
 			item->setZValue( ObjectZValue::Object );
+
+			unitWasAdded( ( *begin )->getUniqueId(), item );
 		}
 	}
 
@@ -438,6 +487,18 @@ LandscapeScene::setCorrectSceneSize()
 	}
 
 } // LandscapeScene::setCorrectSceneSize
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::unitWasAdded( const Plugins::Core::LandscapeModel::IUnit::IdType& _id, QGraphicsPixmapItem* _item )
+{
+	assert( m_unitsCollection.find( _id ) == m_unitsCollection.end() );
+	m_unitsCollection.insert( std::make_pair( _id, _item ) );
+
+} // LandscapeScene::unitWasAdded
 
 
 /*---------------------------------------------------------------------------*/

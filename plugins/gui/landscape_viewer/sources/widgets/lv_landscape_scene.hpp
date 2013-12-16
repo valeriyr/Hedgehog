@@ -8,6 +8,7 @@
 #include "event_manager/h/em_event.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/ih/lm_iunit.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -102,12 +103,15 @@ private:
 
 	void onSurfaceItemChanged( const Framework::Core::EventManager::Event& _event );
 
+	void onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 	void generateLandscape();
 
 	void setCorrectSceneSize();
 
+	void unitWasAdded( const Plugins::Core::LandscapeModel::IUnit::IdType& _id, QGraphicsPixmapItem* _item );
 	/*void updatePosition(
 			boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnit > _unit
 		,	QGraphicsPixmapItem* _graphicsItem );*/
@@ -118,14 +122,14 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	/*typedef
+	typedef
 		std::map<
-				boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnit >
+				Plugins::Core::LandscapeModel::IUnit::IdType
 			,	QGraphicsPixmapItem*
 			>
 		UnitsCollection;
 
-	typedef UnitsCollection::iterator UnitsCollectionIterator;*/
+	typedef UnitsCollection::iterator UnitsCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -135,7 +139,7 @@ private:
 
 	boost::intrusive_ptr< ILandscapeSceneState > m_landscapeSceneState;
 
-	//UnitsCollection m_unitsCollection;
+	UnitsCollection m_unitsCollection;
 
 /*---------------------------------------------------------------------------*/
 

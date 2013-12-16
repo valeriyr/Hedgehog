@@ -90,9 +90,7 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void selectItemsInModel(
-			const QPoint& _from
-		,	const QPoint& _to ) const = 0;
+	virtual void selectItemsInModel( const QRect& _rect ) const = 0;
 
 	virtual void moveSelectedItems( const QPoint& _to ) const = 0;
 

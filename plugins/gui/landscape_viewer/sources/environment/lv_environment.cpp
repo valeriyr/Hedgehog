@@ -150,11 +150,9 @@ Environment::saveLandscape( const QString& _fileName ) const
 
 
 void
-Environment::selectItemsInModel(
-		const QPoint& _from
-	,	const QPoint& _to ) const
+Environment::selectItemsInModel( const QRect& _rect ) const
 {
-	//m_pluginInstance.getLandscapeModel()->pushSelectAction( _from, _to );
+	m_pluginInstance.getLandscapeModel()->selectUnits( _rect );
 
 } // Environment::selectItemsInModel
 

@@ -118,9 +118,11 @@ LandscapeSceneGameState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEven
 {
 	if ( m_selectionItem )
 	{
-		m_environment.selectItemsInModel(
-				LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() )
-			,	LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() ) );
+		QPoint pos1 = LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() );
+		QPoint pos2 = LandscapeScene::convertFromScenePosition( QPoint(		m_selectionItem->scenePos().x() + m_selectionItem->rect().width()
+																		,	m_selectionItem->scenePos().y() + m_selectionItem->rect().height() ) );
+
+		m_environment.selectItemsInModel( QRect( pos1, pos2 ) );
 
 		removeSceneObjects();
 	}

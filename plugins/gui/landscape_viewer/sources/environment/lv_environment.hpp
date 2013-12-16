@@ -64,9 +64,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void selectItemsInModel(
-			const QPoint& _from
-		,	const QPoint& _to ) const;
+	/*virtual*/ void selectItemsInModel( const QRect& _rect ) const;
 
 	/*virtual*/ void moveSelectedItems( const QPoint& _to ) const;
 
