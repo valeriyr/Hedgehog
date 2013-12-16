@@ -93,6 +93,8 @@ LandscapeScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 void
 LandscapeScene::landscapeWasOpened()
 {
+	setCorrectSceneSize();
+
 	generateLandscape();
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
@@ -111,7 +113,7 @@ LandscapeScene::landscapeWasClosed()
 	m_subscriber.unsubscribe();
 
 	clear();
-	setSceneRect( 0, 0, 0, 0 );
+	setCorrectSceneSize();
 
 } // LandscapeScene::landscapeWasClosed
 
@@ -196,6 +198,7 @@ LandscapeScene::onMousePossitionWasChanged( const QPointF& _point )
 void
 LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _event )
 {
+	m_landscapeSceneState->setSceneObjectsVisibility( !m_environment.getBool( Resources::Properties::TerrainMapVisibility ) );
 	clear();
 	generateLandscape();
 
@@ -315,6 +318,27 @@ LandscapeScene::generateLandscape()
 	}
 
 } // LandscapeScene::generateLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::setCorrectSceneSize()
+{
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
+
+	if ( handle->getLandscape() )
+	{
+		setSceneRect( 0, 0, handle->getLandscape()->getWidth() * Resources::Landscape::CellSize, handle->getLandscape()->getHeight() * Resources::Landscape::CellSize );
+	}
+	else
+	{
+		setSceneRect( 0, 0, 0, 0 );
+	}
+
+} // LandscapeScene::setCorrectSceneSize
 
 
 /*---------------------------------------------------------------------------*/

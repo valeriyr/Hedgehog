@@ -37,7 +37,7 @@ LandscapeSceneGameState::LandscapeSceneGameState( const IEnvironment& _environme
 
 LandscapeSceneGameState::~LandscapeSceneGameState()
 {
-	removeSelectionItem();
+	removeSceneObjects();
 
 } // LandscapeSceneGameState::~LandscapeSceneGameState
 
@@ -122,7 +122,7 @@ LandscapeSceneGameState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEven
 				LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() )
 			,	LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() ) );
 
-		removeSelectionItem();
+		removeSceneObjects();
 	}
 	else
 	{
@@ -145,7 +145,7 @@ LandscapeSceneGameState::onMousePossitionWasChanged( const QPointF& _point )
 
 
 void
-LandscapeSceneGameState::removeSelectionItem()
+LandscapeSceneGameState::removeSceneObjects()
 {
 	if ( m_selectionItem )
 	{
@@ -155,7 +155,16 @@ LandscapeSceneGameState::removeSelectionItem()
 		m_startSelectionPoint = QPointF();
 	}
 
-} // LandscapeSceneGameState::removeSelectionItem
+} // LandscapeSceneGameState::removeSceneObjects
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeSceneGameState::setSceneObjectsVisibility( const bool _visibility )
+{
+} // LandscapeSceneGameState::setSceneObjectsVisibility
 
 
 /*---------------------------------------------------------------------------*/
@@ -179,8 +188,6 @@ LandscapeSurfaceItemEditingState::LandscapeSurfaceItemEditingState(	const IEnvir
 	if ( !surfaceItemGraphicsInfo )
 		return;
 
-	removeEditorItem();
-
 	m_currentEditorItem
 		= new QGraphicsPixmapItem( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
 
@@ -202,7 +209,7 @@ LandscapeSurfaceItemEditingState::LandscapeSurfaceItemEditingState(	const IEnvir
 
 LandscapeSurfaceItemEditingState::~LandscapeSurfaceItemEditingState()
 {
-	removeEditorItem();
+	removeSceneObjects();
 
 } // LandscapeSurfaceItemEditingState::~LandscapeSurfaceItemEditingState
 
@@ -269,7 +276,7 @@ LandscapeSurfaceItemEditingState::onMousePossitionWasChanged( const QPointF& _po
 
 
 void
-LandscapeSurfaceItemEditingState::removeEditorItem()
+LandscapeSurfaceItemEditingState::removeSceneObjects()
 {
 	if ( m_currentEditorItem )
 	{
@@ -277,7 +284,21 @@ LandscapeSurfaceItemEditingState::removeEditorItem()
 		m_currentEditorItem = NULL;
 	}
 
-} // LandscapeSurfaceItemEditingState::removeEditorItem
+} // LandscapeSurfaceItemEditingState::removeSceneObjects
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeSurfaceItemEditingState::setSceneObjectsVisibility( const bool _visibility )
+{
+	if ( m_currentEditorItem )
+	{
+		m_currentEditorItem->setVisible( _visibility );
+	}
+
+} // LandscapeSurfaceItemEditingState::setSceneObjectsVisibility
 
 
 /*---------------------------------------------------------------------------*/
@@ -337,8 +358,6 @@ LandscapeObjectEditingState::LandscapeObjectEditingState(	const IEnvironment& _e
 	if ( !objectGraphicsInfo )
 		return;
 
-	removeEditorItem();
-
 	m_currentEditorItem
 		= new QGraphicsPixmapItem( m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) );
 
@@ -360,7 +379,7 @@ LandscapeObjectEditingState::LandscapeObjectEditingState(	const IEnvironment& _e
 
 LandscapeObjectEditingState::~LandscapeObjectEditingState()
 {
-	removeEditorItem();
+	removeSceneObjects();
 
 } // LandscapeObjectEditingState::~LandscapeObjectEditingState
 
@@ -411,11 +430,23 @@ LandscapeObjectEditingState::onMousePossitionWasChanged( const QPointF& _point )
 		qreal xpos = _point.x() < 0 ? 0 : ( static_cast< int >( _point.x() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
 		qreal ypos = _point.y() < 0 ? 0 : ( static_cast< int >( _point.y() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
 
+		boost::intrusive_ptr< IObjectGraphicsInfo >
+			objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, m_name );
+
+		if ( !objectGraphicsInfo )
+			return;
+
 		if ( xpos > m_scene.width() - Resources::Landscape::CellSize )
 			xpos = m_scene.width() - Resources::Landscape::CellSize;
 
 		if ( ypos > m_scene.height() - Resources::Landscape::CellSize )
 			ypos = m_scene.height() - Resources::Landscape::CellSize;
+
+		if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().width() ) > Resources::Landscape::CellSize )
+			xpos -= ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+
+		if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().height() ) > Resources::Landscape::CellSize )
+			ypos -= ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
 
 		m_currentEditorItem->setPos( xpos, ypos );
 	}
@@ -427,7 +458,7 @@ LandscapeObjectEditingState::onMousePossitionWasChanged( const QPointF& _point )
 
 
 void
-LandscapeObjectEditingState::removeEditorItem()
+LandscapeObjectEditingState::removeSceneObjects()
 {
 	if ( m_currentEditorItem )
 	{
@@ -435,7 +466,7 @@ LandscapeObjectEditingState::removeEditorItem()
 		m_currentEditorItem = NULL;
 	}
 
-} // LandscapeObjectEditingState::removeEditorItem
+} // LandscapeObjectEditingState::removeSceneObjects
 
 
 /*---------------------------------------------------------------------------*/
@@ -479,7 +510,7 @@ LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 				xpos = m_scene.width() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
 
 			if ( ypos > m_scene.height() - objectGraphicsInfo->getFrameRect().height() )
-				ypos = m_scene.height() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+				ypos = m_scene.height() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
 
 			QGraphicsPixmapItem* newItem = m_scene.addPixmap( m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) );
 			newItem->setPos( QPoint( xpos, ypos ) );
@@ -488,6 +519,20 @@ LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 	}
 
 } // LandscapeObjectEditingState::setNewItemInPosition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeObjectEditingState::setSceneObjectsVisibility( const bool _visibility )
+{
+	if ( m_currentEditorItem )
+	{
+		m_currentEditorItem->setVisible( _visibility );
+	}
+
+} // LandscapeObjectEditingState::setSceneObjectsVisibility
 
 
 /*---------------------------------------------------------------------------*/

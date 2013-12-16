@@ -68,6 +68,8 @@ public:
 
 	void landscapeWasClosed();
 
+	QPoint getObjectPosition( const QString& _skinId, const QString& _objectName, const QPointF& _mousePosition );
+
 /*---------------------------------------------------------------------------*/
 
 	static QPoint convertFromScenePosition( const QPointF& _scenePosition );
@@ -99,6 +101,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	void generateLandscape();
+
+	void setCorrectSceneSize();
 
 	/*void updatePosition(
 			boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnit > _unit

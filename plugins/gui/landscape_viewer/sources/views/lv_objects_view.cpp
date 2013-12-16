@@ -116,12 +116,7 @@ ObjectsView::ObjectsView(
 	m_objectsView->addTopLevelItem( wastelandObjects );
 	m_objectsView->addTopLevelItem( anyObjects );
 
-	QList< QTreeWidgetItem* > items
-		= m_objectsView->findItems(
-				QString( "%1" ).arg( m_environment.getDefaultSurfaceItemId() )
-			,	Qt::MatchFixedString | Qt::MatchRecursive );
-
-	m_objectsView->setCurrentItem( items.first() );
+	m_objectsView->setCurrentItem( controlItem );
 
 	QObject::connect(
 			m_objectsView.get()

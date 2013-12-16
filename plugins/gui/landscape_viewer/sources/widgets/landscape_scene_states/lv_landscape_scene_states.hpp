@@ -46,11 +46,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-private:
+	/*virtual*/ void removeSceneObjects();
 
-/*---------------------------------------------------------------------------*/
-
-	void removeSelectionItem();
+	/*virtual*/ void setSceneObjectsVisibility( const bool _visibility );
 
 /*---------------------------------------------------------------------------*/
 
@@ -100,11 +98,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-private:
+	/*virtual*/ void removeSceneObjects();
+
+	/*virtual*/ void setSceneObjectsVisibility( const bool _visibility );
 
 /*---------------------------------------------------------------------------*/
 
-	void removeEditorItem();
+private:
+
+/*---------------------------------------------------------------------------*/
 
 	void setNewItemInPosition( const QPointF& _point );
 
@@ -157,11 +159,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-private:
+	/*virtual*/ void removeSceneObjects();
+
+	/*virtual*/ void setSceneObjectsVisibility( const bool _visibility );
 
 /*---------------------------------------------------------------------------*/
 
-	void removeEditorItem();
+private:
+
+/*---------------------------------------------------------------------------*/
 
 	void setNewItemInPosition( const QPointF& _point );
 
@@ -175,7 +181,7 @@ private:
 
 	LandscapeScene& m_scene;
 
-	const QString& m_name;
+	const QString m_name;
 
 	QGraphicsPixmapItem* m_currentEditorItem;
 
