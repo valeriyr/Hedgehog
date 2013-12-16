@@ -6,6 +6,7 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/ih/lm_iunit.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,7 +34,7 @@ struct IEditableLandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void createObject(
+	virtual IUnit::IdType createObject(
 			const QPoint& _position
 		,	const QString& _objectName ) = 0;
 

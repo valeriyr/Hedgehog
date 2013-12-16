@@ -31,7 +31,7 @@ struct ILandscapeSceneState
 
 	virtual void removeSceneObjects() = 0;
 
-	virtual void setSceneObjectsVisibility( const bool _visibility ) = 0;
+	virtual void addSceneObjects() = 0;
 
 /*---------------------------------------------------------------------------*/
 

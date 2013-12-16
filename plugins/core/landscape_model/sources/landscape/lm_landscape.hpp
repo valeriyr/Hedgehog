@@ -79,7 +79,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void createObject(
+	/*virtual*/ IUnit::IdType createObject(
 			const QPoint& _position
 		,	const QString& _objectName );
 

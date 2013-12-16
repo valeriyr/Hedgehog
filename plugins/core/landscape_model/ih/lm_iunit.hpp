@@ -24,11 +24,18 @@ struct IUnit
 
 /*---------------------------------------------------------------------------*/
 
+	typedef int IdType;
+	static const IdType ms_wrongId = -1;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual boost::intrusive_ptr< IObjectType > getType() const = 0;
 
 	virtual const int getHealth() const = 0;
 
 	virtual const QRect& getPosition() const = 0;
+
+	virtual const IdType& getUniqueId() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

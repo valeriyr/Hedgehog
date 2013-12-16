@@ -216,7 +216,7 @@ Landscape::setSurfaceItem(
 /*---------------------------------------------------------------------------*/
 
 
-void
+IUnit::IdType
 Landscape::createObject( const QPoint& _position, const QString& _objectName )
 {
 	boost::intrusive_ptr< IObjectType > objectType = m_objectTypesCache.getObjectType( _objectName );
@@ -226,9 +226,15 @@ Landscape::createObject( const QPoint& _position, const QString& _objectName )
 
 	if ( canCreateObject( _position, _objectName ) )
 	{
-		m_units.push_back( boost::intrusive_ptr< IUnit >( new Unit( objectType, objectRect ) ) );
+		boost::intrusive_ptr< IUnit > unit( new Unit( objectType, objectRect ) );
+
+		m_units.push_back( unit );
 		m_terrainMap.getElement( objectRect.x(), objectRect.y() ).m_engagedWithGround = true;
+
+		return unit->getUniqueId();
 	}
+
+	return IUnit::ms_wrongId;
 
 } // Landscape::createObject
 

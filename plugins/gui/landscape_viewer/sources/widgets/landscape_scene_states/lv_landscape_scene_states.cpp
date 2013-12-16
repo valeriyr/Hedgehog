@@ -162,9 +162,9 @@ LandscapeSceneGameState::removeSceneObjects()
 
 
 void
-LandscapeSceneGameState::setSceneObjectsVisibility( const bool _visibility )
+LandscapeSceneGameState::addSceneObjects()
 {
-} // LandscapeSceneGameState::setSceneObjectsVisibility
+} // LandscapeSceneGameState::addSceneObjects
 
 
 /*---------------------------------------------------------------------------*/
@@ -182,24 +182,7 @@ LandscapeSurfaceItemEditingState::LandscapeSurfaceItemEditingState(	const IEnvir
 	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
 		return;
 
-	boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-		surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, _id );
-
-	if ( !surfaceItemGraphicsInfo )
-		return;
-
-	m_currentEditorItem
-		= new QGraphicsPixmapItem( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
-
-	QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
-	opacityEffect->setOpacity( 0.5 );
-
-	m_currentEditorItem->setGraphicsEffect( opacityEffect );
-
-	m_scene.addItem( m_currentEditorItem );
-
-	m_currentEditorItem->setZValue( LandscapeScene::ObjectZValue::EditorSurfaceItem );
-	m_currentEditorItem->setPos( 0, 0 );
+	addSceneObjects();
 
 } // LandscapeSurfaceItemEditingState::LandscapeSurfaceItemEditingState
 
@@ -291,14 +274,28 @@ LandscapeSurfaceItemEditingState::removeSceneObjects()
 
 
 void
-LandscapeSurfaceItemEditingState::setSceneObjectsVisibility( const bool _visibility )
+LandscapeSurfaceItemEditingState::addSceneObjects()
 {
-	if ( m_currentEditorItem )
+	if ( !m_currentEditorItem )
 	{
-		m_currentEditorItem->setVisible( _visibility );
+		boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
+			surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, m_id );
+
+		m_currentEditorItem
+			= new QGraphicsPixmapItem( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
+
+		QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
+		opacityEffect->setOpacity( 0.5 );
+
+		m_currentEditorItem->setGraphicsEffect( opacityEffect );
+
+		m_scene.addItem( m_currentEditorItem );
+
+		m_currentEditorItem->setZValue( LandscapeScene::ObjectZValue::EditorSurfaceItem );
+		m_currentEditorItem->setPos( 0, 0 );
 	}
 
-} // LandscapeSurfaceItemEditingState::setSceneObjectsVisibility
+} // LandscapeSurfaceItemEditingState::addSceneObjects
 
 
 /*---------------------------------------------------------------------------*/
@@ -333,24 +330,7 @@ LandscapeObjectEditingState::LandscapeObjectEditingState(	const IEnvironment& _e
 	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
 		return;
 
-	boost::intrusive_ptr< IObjectGraphicsInfo >
-		objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, _name );
-
-	if ( !objectGraphicsInfo )
-		return;
-
-	m_currentEditorItem
-		= new QGraphicsPixmapItem( m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) );
-
-	QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
-	opacityEffect->setOpacity( 0.5 );
-
-	m_currentEditorItem->setGraphicsEffect( opacityEffect );
-
-	m_scene.addItem( m_currentEditorItem );
-
-	m_currentEditorItem->setZValue( LandscapeScene::ObjectZValue::Object );
-	m_currentEditorItem->setPos( 0, 0 );
+	addSceneObjects();
 
 } // LandscapeObjectEditingState::LandscapeObjectEditingState
 
@@ -454,6 +434,34 @@ LandscapeObjectEditingState::removeSceneObjects()
 
 
 void
+LandscapeObjectEditingState::addSceneObjects()
+{
+	if ( !m_currentEditorItem )
+	{
+		boost::intrusive_ptr< IObjectGraphicsInfo >
+			objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, m_name );
+
+		m_currentEditorItem
+			= new QGraphicsPixmapItem( m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) );
+
+		QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
+		opacityEffect->setOpacity( 0.5 );
+
+		m_currentEditorItem->setGraphicsEffect( opacityEffect );
+
+		m_scene.addItem( m_currentEditorItem );
+
+		m_currentEditorItem->setZValue( LandscapeScene::ObjectZValue::Object );
+		m_currentEditorItem->setPos( 0, 0 );
+	}
+
+} // LandscapeObjectEditingState::addSceneObjects
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 {
 	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
@@ -465,20 +473,6 @@ LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 	m_environment.createObject( QPoint( xpos, ypos ), m_name );
 
 } // LandscapeObjectEditingState::setNewItemInPosition
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeObjectEditingState::setSceneObjectsVisibility( const bool _visibility )
-{
-	if ( m_currentEditorItem )
-	{
-		m_currentEditorItem->setVisible( _visibility );
-	}
-
-} // LandscapeObjectEditingState::setSceneObjectsVisibility
 
 
 /*---------------------------------------------------------------------------*/

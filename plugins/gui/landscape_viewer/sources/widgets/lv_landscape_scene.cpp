@@ -208,9 +208,16 @@ LandscapeScene::onMousePossitionWasChanged( const QPointF& _point )
 void
 LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _event )
 {
-	m_landscapeSceneState->setSceneObjectsVisibility( !m_environment.getBool( Resources::Properties::TerrainMapVisibility ) );
+	const bool terrainMapVisibility = m_environment.getBool( Resources::Properties::TerrainMapVisibility );
+
+	if ( terrainMapVisibility )
+		m_landscapeSceneState->removeSceneObjects();
+
 	clear();
 	generateLandscape();
+
+	if ( !terrainMapVisibility )
+		m_landscapeSceneState->addSceneObjects();
 
 } // LandscapeScene::onSettingChanged
 

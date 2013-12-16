@@ -22,6 +22,7 @@ Unit::Unit(
 	:	m_type( _type )
 	,	m_health( m_type->getMaximumHealth() )
 	,	m_possition( _possition )
+	,	m_id( rand() )
 {
 } // Unit::Unit
 
@@ -65,6 +66,17 @@ Unit::getPosition() const
 	return m_possition;
 
 } // Unit::getPosition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const IUnit::IdType&
+Unit::getUniqueId() const
+{
+	return m_id;
+
+} // Unit::getUniqueId
 
 
 /*---------------------------------------------------------------------------*/

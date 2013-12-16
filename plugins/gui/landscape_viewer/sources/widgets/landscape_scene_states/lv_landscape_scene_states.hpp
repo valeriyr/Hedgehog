@@ -48,7 +48,7 @@ public:
 
 	/*virtual*/ void removeSceneObjects();
 
-	/*virtual*/ void setSceneObjectsVisibility( const bool _visibility );
+	/*virtual*/ void addSceneObjects();
 
 /*---------------------------------------------------------------------------*/
 
@@ -100,7 +100,7 @@ public:
 
 	/*virtual*/ void removeSceneObjects();
 
-	/*virtual*/ void setSceneObjectsVisibility( const bool _visibility );
+	/*virtual*/ void addSceneObjects();
 
 /*---------------------------------------------------------------------------*/
 
@@ -161,7 +161,7 @@ public:
 
 	/*virtual*/ void removeSceneObjects();
 
-	/*virtual*/ void setSceneObjectsVisibility( const bool _visibility );
+	/*virtual*/ void addSceneObjects();
 
 /*---------------------------------------------------------------------------*/
 

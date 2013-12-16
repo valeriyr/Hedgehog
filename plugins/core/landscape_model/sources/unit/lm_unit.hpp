@@ -15,7 +15,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 class Unit
-	:	public Tools::Core::BaseWrapper< IUnit>
+	:	public Tools::Core::BaseWrapper< IUnit >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -37,6 +37,8 @@ public:
 
 	/*virtual*/ const QRect& getPosition() const;
 
+	/*virtual*/ const IUnit::IdType& getUniqueId() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -48,6 +50,8 @@ private:
 	int m_health;
 
 	QRect m_possition;
+
+	const IUnit::IdType m_id;
 
 /*---------------------------------------------------------------------------*/
 
