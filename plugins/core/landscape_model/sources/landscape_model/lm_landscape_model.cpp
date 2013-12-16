@@ -156,11 +156,11 @@ LandscapeModel::selectUnits( const QRect& _rect )
 
 void
 LandscapeModel::createObject(
-		const QRect& _rect
+		const QPoint& _position
 	,	const QString& _objectName )
 {
 	m_actionsQueue->pushAction(
-		boost::intrusive_ptr< IAction >( new CreateObjectAction( m_environment, *this, _rect, _objectName ) ) );
+		boost::intrusive_ptr< IAction >( new CreateObjectAction( m_environment, *this, _position, _objectName ) ) );
 
 } // LandscapeModel::createObject
 

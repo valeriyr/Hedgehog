@@ -96,6 +96,8 @@ struct IEnvironment
 
 	virtual void moveSelectedItems( const QPoint& _to ) const = 0;
 
+	virtual void createObject( const QPoint& _position, const QString& _name ) const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual const Core::LandscapeModel::ISurfaceItem::IdType

@@ -70,6 +70,8 @@ public:
 
 	/*virtual*/ void moveSelectedItems( const QPoint& _to ) const;
 
+	/*virtual*/ void createObject( const QPoint& _position, const QString& _name ) const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ const Core::LandscapeModel::ISurfaceItem::IdType

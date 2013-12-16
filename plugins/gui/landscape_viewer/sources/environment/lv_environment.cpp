@@ -173,6 +173,17 @@ Environment::moveSelectedItems( const QPoint& _to ) const
 /*---------------------------------------------------------------------------*/
 
 
+void
+Environment::createObject( const QPoint& _position, const QString& _name ) const
+{
+	m_pluginInstance.getLandscapeModel()->createObject( _position, _name );
+
+} // Environment::createObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
 const Core::LandscapeModel::ISurfaceItem::IdType
 Environment::getDefaultSurfaceItemId() const
 {

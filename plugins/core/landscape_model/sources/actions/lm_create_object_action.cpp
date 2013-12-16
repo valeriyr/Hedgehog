@@ -23,11 +23,11 @@ namespace LandscapeModel {
 CreateObjectAction::CreateObjectAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	const QRect& _rect
+	,	const QPoint& _position
 	,	const QString& _objectName
 	)
 	:	BaseAction( _environment, _landscapeModel )
-	,	m_rect( _rect )
+	,	m_position( _position )
 	,	m_objectName( _objectName )
 {
 } // CreateObjectAction::CreateObjectAction
@@ -51,11 +51,11 @@ CreateObjectAction::processAction( const unsigned int /*_deltaTime*/ )
 
 	if ( handle->getLandscape() )
 	{
-		handle->getLandscape()->createObject( m_rect, m_objectName );
+		handle->getLandscape()->createObject( m_position, m_objectName );
 
 		Framework::Core::EventManager::Event objectCreatedEvent( Events::ObjectCreated::ms_type );
 		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectNameAttribute, m_objectName );
-		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectRectAttribute, m_rect );
+		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectPositionAttribute, m_position );
 
 		m_environment.riseEvent( objectCreatedEvent );
 	}

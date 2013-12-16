@@ -59,7 +59,7 @@ struct ILandscape
 /*---------------------------------------------------------------------------*/
 
 	virtual bool canCreateObject(
-			const QRect& _rect
+			const QPoint& _position
 		,	const QString& _objectName ) const = 0;
 
 /*---------------------------------------------------------------------------*/

@@ -27,7 +27,7 @@ public:
 	CreateObjectAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
-		,	const QRect& _rect
+		,	const QPoint& _position
 		,	const QString& _objectName );
 
 	virtual ~CreateObjectAction();
@@ -46,9 +46,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const QRect m_rect;
+	const QPoint m_position;
 
-	const QString& m_objectName;
+	const QString m_objectName;
 
 /*---------------------------------------------------------------------------*/
 

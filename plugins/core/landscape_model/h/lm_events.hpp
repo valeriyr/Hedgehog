@@ -26,7 +26,7 @@ namespace ObjectCreated
 	const char* const ms_type = "ObjectCreated";
 
 	const char* const ms_objectNameAttribute = "ObjectName";
-	const char* const ms_objectRectAttribute = "ObjectRect";
+	const char* const ms_objectPositionAttribute = "ObjectPosition";
 }
 
 /*---------------------------------------------------------------------------*/

@@ -65,7 +65,7 @@ public:
 	/*virtual*/ void selectUnits( const QRect& _rect );
 
 	/*virtual*/ void createObject(
-			const QRect& _rect
+			const QPoint& _position
 		,	const QString& _objectName );
 
 /*---------------------------------------------------------------------------*/

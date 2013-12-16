@@ -152,14 +152,14 @@ Landscape::fetchSelectedUnits( ILandscape::UnitsCollection& _collection ) const
 
 bool
 Landscape::canCreateObject(
-		const QRect& _rect
+		const QPoint& _position
 	,	const QString& _objectName ) const
 {
 	boost::intrusive_ptr< IObjectType > objectType = m_objectTypesCache.getObjectType( _objectName );
 	assert( objectType );
 
-	if (	( objectType->getPassability() & m_terrainMap.getConstElement( _rect.x(), _rect.y() ).m_terrainMapItem )
-		&&	!m_terrainMap.getConstElement( _rect.x(), _rect.y() ).m_engagedWithGround )
+	if (	( objectType->getPassability() & m_terrainMap.getConstElement( _position.x(), _position.y() ).m_terrainMapItem )
+		&&	!m_terrainMap.getConstElement( _position.x(), _position.y() ).m_engagedWithGround )
 	{
 		return true;
 	}
@@ -217,15 +217,17 @@ Landscape::setSurfaceItem(
 
 
 void
-Landscape::createObject( const QRect& _rect, const QString& _objectName )
+Landscape::createObject( const QPoint& _position, const QString& _objectName )
 {
 	boost::intrusive_ptr< IObjectType > objectType = m_objectTypesCache.getObjectType( _objectName );
 	assert( objectType );
 
-	if ( canCreateObject( _rect, _objectName ) )
+	QRect objectRect( _position, objectType->getObjectSize() );
+
+	if ( canCreateObject( _position, _objectName ) )
 	{
-		m_units.push_back( boost::intrusive_ptr< IUnit >( new Unit( objectType, _rect ) ) );
-		m_terrainMap.getElement( _rect.x(), _rect.y() ).m_engagedWithGround = true;
+		m_units.push_back( boost::intrusive_ptr< IUnit >( new Unit( objectType, objectRect ) ) );
+		m_terrainMap.getElement( objectRect.x(), objectRect.y() ).m_engagedWithGround = true;
 	}
 
 } // Landscape::createObject

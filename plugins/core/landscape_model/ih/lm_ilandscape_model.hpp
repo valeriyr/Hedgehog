@@ -43,7 +43,7 @@ struct ILandscapeModel
 	virtual void selectUnits( const QRect& _rect ) = 0;
 
 	virtual void createObject(
-			const QRect& _rect
+			const QPoint& _position
 		,	const QString& _objectName ) = 0;
 
 /*---------------------------------------------------------------------------*/

@@ -475,48 +475,13 @@ LandscapeObjectEditingState::removeSceneObjects()
 void
 LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 {
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle = m_environment.getCurrentLandscape();
+	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
+		return;
 
-	if ( handle->getLandscape() )
-	{
-		if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
-			return;
+	qreal xpos = _point.x() < 0 ? 0 : static_cast< int >( _point.x() / Resources::Landscape::CellSize );
+	qreal ypos = _point.y() < 0 ? 0 : static_cast< int >( _point.y() / Resources::Landscape::CellSize );
 
-		qreal xpos = _point.x() < 0 ? 0 : ( static_cast< int >( _point.x() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
-		qreal ypos = _point.y() < 0 ? 0 : ( static_cast< int >( _point.y() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
-
-		QRect objectRect( xpos / Resources::Landscape::CellSize, ypos / Resources::Landscape::CellSize, 1, 1 );
-
-		if ( handle->getLandscape()->canCreateObject( objectRect, m_name ) )
-		{
-			handle->getLandscape()->createObject(
-					QRect( xpos / Resources::Landscape::CellSize, ypos / Resources::Landscape::CellSize, 1, 1 )
-				,	m_name );
-
-			boost::intrusive_ptr< IObjectGraphicsInfo >
-				objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, m_name );
-
-			if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().width() ) > Resources::Landscape::CellSize )
-			{
-				xpos -= ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
-			}
-
-			if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().height() ) > Resources::Landscape::CellSize )
-			{
-				ypos -= ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
-			}
-
-			if ( xpos > m_scene.width() - objectGraphicsInfo->getFrameRect().width() )
-				xpos = m_scene.width() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
-
-			if ( ypos > m_scene.height() - objectGraphicsInfo->getFrameRect().height() )
-				ypos = m_scene.height() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
-
-			QGraphicsPixmapItem* newItem = m_scene.addPixmap( m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) );
-			newItem->setPos( QPoint( xpos, ypos ) );
-			newItem->setZValue( LandscapeScene::ObjectZValue::Object );
-		}
-	}
+	m_environment.createObject( QPoint( xpos, ypos ), m_name );
 
 } // LandscapeObjectEditingState::setNewItemInPosition
 

@@ -89,7 +89,7 @@ LandscapeSerializer::load(
 		fileStream >> bottom;
 		fileStream >> top;
 
-		_landscape.createObject( QRect( QPoint( left, top ), QPoint( right, bottom ) ), objectName );
+		_landscape.createObject( QPoint( left, top ), objectName );
 	}
 
 } // LandscapeSerializer::load

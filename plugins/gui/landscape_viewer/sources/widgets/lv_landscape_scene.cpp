@@ -13,6 +13,8 @@
 #include "landscape_model/ih/lm_iunit.hpp"
 #include "landscape_model/ih/lm_iobject_type.hpp"
 
+#include "landscape_model/h/lm_events.hpp"
+
 #include "multithreading_manager/h/mm_external_resources.hpp"
 #include "settings/h/st_events.hpp"
 
@@ -100,6 +102,10 @@ LandscapeScene::landscapeWasOpened()
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Framework::Core::Settings::Events::SettingChanged::ms_type
 							,	boost::bind( &LandscapeScene::onSettingChanged, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_type
+							,	boost::bind( &LandscapeScene::onObjectCreated, this, _1 ) );
 
 } // LandscapeScene::landscapeWasOpened
 
@@ -203,6 +209,49 @@ LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _e
 	generateLandscape();
 
 } // LandscapeScene::onSettingChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _event )
+{
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle = m_environment.getCurrentLandscape();
+
+	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectNameAttribute ).toString();
+	const QPoint objectPosition = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectPositionAttribute ).toPoint();
+
+	if ( handle->getLandscape() )
+	{
+		boost::intrusive_ptr< IObjectGraphicsInfo >
+			objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, objectName );
+
+		qreal xpos = objectPosition.x() * Resources::Landscape::CellSize;
+		qreal ypos = objectPosition.y() * Resources::Landscape::CellSize;
+
+		if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().width() ) > Resources::Landscape::CellSize )
+		{
+			xpos -= ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+		}
+
+		if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().height() ) > Resources::Landscape::CellSize )
+		{
+			ypos -= ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
+		}
+
+		if ( xpos > width() - objectGraphicsInfo->getFrameRect().width() )
+			xpos = width() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+
+		if ( ypos > height() - objectGraphicsInfo->getFrameRect().height() )
+			ypos = height() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
+
+		QGraphicsPixmapItem* newItem = addPixmap( m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) );
+		newItem->setPos( QPoint( xpos, ypos ) );
+		newItem->setZValue( LandscapeScene::ObjectZValue::Object );
+	}
+
+} // LandscapeScene::onObjectCreated
 
 
 /*---------------------------------------------------------------------------*/
