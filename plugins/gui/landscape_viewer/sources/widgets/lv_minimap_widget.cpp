@@ -272,49 +272,44 @@ MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape
 void
 MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape )
 {
-	/*QPixmap objectsLayer
-		= QPixmap( QSize(
-				_landscape.getWidth() * Resources::Landscape::CellSize
-			,	_landscape.getHeight() * Resources::Landscape::CellSize ) );
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
 
-	objectsLayer.fill( Qt::transparent );
-
-	QPainter painter;
-	painter.begin( &objectsLayer );
-	painter.setRenderHint( QPainter::Antialiasing );
-
-	Plugins::Core::LandscapeModel::ILandscape::UnitsIteratorPtr
-		unitsIterator = _landscape.getUnitsIterator();
-
-	while ( unitsIterator->isValid() )
+	if ( handle->getLandscape() )
 	{
-		QPoint position = _landscape.getUnitPosition( unitsIterator->current() );
+		QPixmap objectsLayer
+			= QPixmap( QSize(
+					_landscape.getWidth() * Resources::Landscape::CellSize
+				,	_landscape.getHeight() * Resources::Landscape::CellSize ) );
 
-		qreal posByX = position.x() * Resources::Landscape::CellSize;
-		qreal posByY = position.y() * Resources::Landscape::CellSize;
+		objectsLayer.fill( Qt::transparent );
 
-		if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().width() ) > Resources::Landscape::CellSize )
+		QPainter painter;
+		painter.begin( &objectsLayer );
+		painter.setRenderHint( QPainter::Antialiasing );
+
+		Plugins::Core::LandscapeModel::ILandscape::UnitsCollection unitsCollection;
+		handle->getLandscape()->fetchUnits( unitsCollection );
+
+		Plugins::Core::LandscapeModel::ILandscape::UnitsCollectionIterator
+				begin = unitsCollection.begin()
+			,	end = unitsCollection.end();
+
+		for ( ; begin != end; ++begin )
 		{
-			posByX -= ( unitsIterator->current()->getRectInBundle().width() - Resources::Landscape::CellSize ) / 2;
+			qreal posByX = ( *begin )->getPosition().x() * Resources::Landscape::CellSize;
+			qreal posByY = ( *begin )->getPosition().y() * Resources::Landscape::CellSize;
+
+			QPixmap pixmap( QSize( Resources::Landscape::CellSize, Resources::Landscape::CellSize ) );
+			pixmap.fill( QColor( 0, 255, 0 ) );
+
+			painter.drawPixmap(
+					QRect( posByX, posByY, Resources::Landscape::CellSize, Resources::Landscape::CellSize )
+				,	pixmap );
 		}
 
-		if ( static_cast< unsigned int >( unitsIterator->current()->getRectInBundle().height() ) > Resources::Landscape::CellSize )
-		{
-			posByY -= ( unitsIterator->current()->getRectInBundle().height() - Resources::Landscape::CellSize ) / 2;
-		}
-
-		painter.drawPixmap(
-			QRect(
-					posByX
-				,	posByY
-				,	unitsIterator->current()->getRectInBundle().width()
-				,	unitsIterator->current()->getRectInBundle().height() )
-				,	m_environment.getPixmap( unitsIterator->current()->getBundlePath(), unitsIterator->current()->getRectInBundle() ) );
-
-		unitsIterator->next();
+		m_objectsLayer = objectsLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 	}
-
-	m_objectsLayer = objectsLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );*/
 
 } // MinimapWidget::renderObjects
 
