@@ -64,6 +64,8 @@ public:
 
 	/*virtual*/ void selectUnits( const QRect& _rect );
 
+	/*virtual*/ void moveSelectedUnits( const QPoint& _to );
+
 	/*virtual*/ void createObject(
 			const QPoint& _position
 		,	const QString& _objectName );

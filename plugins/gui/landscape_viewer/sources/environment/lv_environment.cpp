@@ -163,7 +163,7 @@ Environment::selectItemsInModel( const QRect& _rect ) const
 void
 Environment::moveSelectedItems( const QPoint& _to ) const
 {
-	//m_pluginInstance.getLandscapeModel()->pushMoveAction( _to );
+	m_pluginInstance.getLandscapeModel()->moveSelectedUnits( _to );
 
 } // Environment::moveSelectedItems
 
