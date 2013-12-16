@@ -232,8 +232,8 @@ LandscapeSurfaceItemEditingState::mousePressEvent( QGraphicsSceneMouseEvent* _mo
 void
 LandscapeSurfaceItemEditingState::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	if ( _mouseEvent->buttons() & Qt::LeftButton )
-		setNewItemInPosition( _mouseEvent->scenePos() );
+	/*if ( _mouseEvent->buttons() & Qt::LeftButton )
+		setNewItemInPosition( _mouseEvent->scenePos() );*/
 
 } // LandscapeSurfaceItemEditingState::mouseMoveEvent
 
@@ -307,32 +307,13 @@ LandscapeSurfaceItemEditingState::setSceneObjectsVisibility( const bool _visibil
 void
 LandscapeSurfaceItemEditingState::setNewItemInPosition( const QPointF& _point )
 {
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle = m_environment.getCurrentLandscape();
+	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
+		return;
 
-	if ( handle->getLandscape() )
-	{
-		if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
-			return;
+	qreal xpos = _point.x() < 0 ? 0 : static_cast< int >( _point.x() / Resources::Landscape::CellSize );
+	qreal ypos = _point.y() < 0 ? 0 : static_cast< int >( _point.y() / Resources::Landscape::CellSize );
 
-		QList< QGraphicsItem* > items = m_scene.items( _point, Qt::ContainsItemShape, Qt::AscendingOrder );
-
-		if ( items.isEmpty() )
-			return;
-
-		QPointF itemPos = items[LandscapeScene::ObjectZValue::Surface]->scenePos();
-		m_scene.removeItem( items[LandscapeScene::ObjectZValue::Surface] );
-
-		handle->getLandscape()->setSurfaceItem(
-				QPoint( itemPos.x() / Resources::Landscape::CellSize, itemPos.y() / Resources::Landscape::CellSize )
-			,	m_id );
-
-		boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-			surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, m_id );
-
-		QGraphicsPixmapItem* newItem = m_scene.addPixmap( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
-		newItem->setPos( itemPos );
-		newItem->setZValue( LandscapeScene::ObjectZValue::Surface );
-	}
+	m_environment.setSurfaceItem( QPoint( xpos, ypos ), m_id );
 
 } // LandscapeSurfaceItemEditingState::setNewItemInPosition
 
@@ -402,8 +383,8 @@ LandscapeObjectEditingState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEv
 void
 LandscapeObjectEditingState::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	if ( _mouseEvent->buttons() & Qt::LeftButton )
-		setNewItemInPosition( _mouseEvent->scenePos() );
+	/*if ( _mouseEvent->buttons() & Qt::LeftButton )
+		setNewItemInPosition( _mouseEvent->scenePos() );*/
 
 } // LandscapeObjectEditingState::mouseMoveEvent
 

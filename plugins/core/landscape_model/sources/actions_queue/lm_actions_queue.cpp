@@ -17,7 +17,7 @@ namespace LandscapeModel {
 
 ActionsQueue::ActionsQueue()
 	:	m_actionsCollection()
-	,	m_actionsQueueLocker( QMutex::Recursive )
+	,	m_actionsQueueLocker()
 {
 } // ActionsQueue::ActionsQueue
 
@@ -51,16 +51,16 @@ ActionsQueue::processAction( const unsigned int _deltaTime )
 {
 	QMutexLocker locker( &m_actionsQueueLocker );
 
-	ActionsCollectionIterator
-			begin = m_actionsCollection.begin()
-		,	end = m_actionsCollection.end();
+	ActionsCollectionIterator begin = m_actionsCollection.begin();
 
-	for ( ; begin != end; ++begin )
+	while ( begin != m_actionsCollection.end() )
 	{
 		( *begin )->processAction( _deltaTime );
 
 		if ( ( *begin )->hasFinished() )
 			begin = m_actionsCollection.erase( begin );
+		else
+			++begin;
 	}
 
 } // ActionsQueue::processAction

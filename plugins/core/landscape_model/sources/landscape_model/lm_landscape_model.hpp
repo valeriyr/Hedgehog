@@ -68,6 +68,10 @@ public:
 			const QPoint& _position
 		,	const QString& _objectName );
 
+	/*virtual*/ void setSurfaceItem(
+			const QPoint& _position
+		,	const Core::LandscapeModel::ISurfaceItem::IdType& _id );
+
 /*---------------------------------------------------------------------------*/
 
 private:

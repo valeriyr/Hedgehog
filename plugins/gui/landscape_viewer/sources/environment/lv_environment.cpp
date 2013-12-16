@@ -184,6 +184,17 @@ Environment::createObject( const QPoint& _position, const QString& _name ) const
 /*---------------------------------------------------------------------------*/
 
 
+void
+Environment::setSurfaceItem( const QPoint& _position, const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const
+{
+	m_pluginInstance.getLandscapeModel()->setSurfaceItem( _position, _id );
+
+} // Environment::setSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
 const Core::LandscapeModel::ISurfaceItem::IdType
 Environment::getDefaultSurfaceItemId() const
 {

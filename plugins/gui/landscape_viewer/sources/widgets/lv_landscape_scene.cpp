@@ -107,6 +107,10 @@ LandscapeScene::landscapeWasOpened()
 							,	Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_type
 							,	boost::bind( &LandscapeScene::onObjectCreated, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_type
+							,	boost::bind( &LandscapeScene::onSurfaceItemChanged, this, _1 ) );
+
 } // LandscapeScene::landscapeWasOpened
 
 
@@ -252,6 +256,45 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 	}
 
 } // LandscapeScene::onObjectCreated
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event& _event )
+{
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle = m_environment.getCurrentLandscape();
+
+	const Plugins::Core::LandscapeModel::ISurfaceItem::IdType id
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_surfaceItemIdAttribute ).toUInt();
+	const QPoint position
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_surfaceItemPositionAttribute ).toPoint();
+
+	if ( handle->getLandscape() )
+	{
+		if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
+			return;
+
+		QPoint scenePosition( position.x() * Resources::Landscape::CellSize, position.y() * Resources::Landscape::CellSize );
+
+		QList< QGraphicsItem* > itemsList = items( scenePosition, Qt::ContainsItemShape, Qt::AscendingOrder );
+
+		if ( itemsList.isEmpty() )
+			return;
+
+		QPointF itemPos = itemsList[LandscapeScene::ObjectZValue::Surface]->scenePos();
+		removeItem( itemsList[LandscapeScene::ObjectZValue::Surface] );
+
+		boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
+			surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, id );
+
+		QGraphicsPixmapItem* newItem = addPixmap( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
+		newItem->setPos( itemPos );
+		newItem->setZValue( LandscapeScene::ObjectZValue::Surface );
+	}
+
+} // LandscapeScene::onSurfaceItemChanged
 
 
 /*---------------------------------------------------------------------------*/

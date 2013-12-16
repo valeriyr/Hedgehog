@@ -1,11 +1,10 @@
 
-#ifndef __LM_ILANDSCAPE_MODEL_HPP__
-#define __LM_ILANDSCAPE_MODEL_HPP__
+#ifndef __GM_SET_SURFACE_ITEM_ACTION_HPP__
+#define __GM_SET_SURFACE_ITEM_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
-
+#include "landscape_model/sources/actions/lm_base_action.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -16,41 +15,41 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_LANDSCAPE_MODEL = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeHandle;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeModel
-	:	public Tools::Core::IBase
+class SetSurfaceItemAction
+	:	public BaseAction
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initCurrentLandscape ( const QString& _filePath ) = 0;
-
-	virtual void closeCurrentLandscape() = 0;
-
-	virtual void saveLandscape( const QString& _filePath ) const = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape() = 0;
+	SetSurfaceItemAction(
+			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel
+		,	const QPoint& _position
+		,	const Core::LandscapeModel::ISurfaceItem::IdType& _id );
+
+	virtual ~SetSurfaceItemAction();
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void selectUnits( const QRect& _rect ) = 0;
+	/*virtual*/ void processAction( const unsigned int _deltaTime );
 
-	virtual void createObject(
-			const QPoint& _position
-		,	const QString& _objectName ) = 0;
+	/*virtual*/ void unprocessAction( const unsigned int _deltaTime );
 
-	virtual void setSurfaceItem(
-			const QPoint& _position
-		,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) = 0;
+	/*virtual*/ bool hasFinished() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const QPoint m_position;
+
+	const Core::LandscapeModel::ISurfaceItem::IdType m_id;
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,4 +63,4 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_MANAGER_HPP__
+#endif // __GM_SET_SURFACE_ITEM_ACTION_HPP__

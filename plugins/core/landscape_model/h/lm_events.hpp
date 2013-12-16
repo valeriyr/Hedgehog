@@ -49,6 +49,16 @@ namespace UnitsSelectionChanged
 
 /*---------------------------------------------------------------------------*/
 
+namespace SurfaceItemChanged
+{
+	const char* const ms_type = "SurfaceItemChanged";
+
+	const char* const ms_surfaceItemIdAttribute = "SurfaceItemId";
+	const char* const ms_surfaceItemPositionAttribute = "SurfaceItemPosition";
+}
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Events
 } // namespace LandscapeModel
 } // namespace Core

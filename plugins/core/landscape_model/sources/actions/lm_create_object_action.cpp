@@ -47,18 +47,20 @@ CreateObjectAction::~CreateObjectAction()
 void
 CreateObjectAction::processAction( const unsigned int /*_deltaTime*/ )
 {
-	boost::intrusive_ptr< ILandscapeHandle > handle( m_landscapeModel.getCurrentLandscape() );
-
-	if ( handle->getLandscape() )
 	{
-		handle->getLandscape()->createObject( m_position, m_objectName );
+		boost::intrusive_ptr< ILandscapeHandle > handle( m_landscapeModel.getCurrentLandscape() );
 
-		Framework::Core::EventManager::Event objectCreatedEvent( Events::ObjectCreated::ms_type );
-		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectNameAttribute, m_objectName );
-		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectPositionAttribute, m_position );
-
-		m_environment.riseEvent( objectCreatedEvent );
+		if ( handle->getLandscape() )
+		{
+			handle->getLandscape()->createObject( m_position, m_objectName );
+		}
 	}
+
+	Framework::Core::EventManager::Event objectCreatedEvent( Events::ObjectCreated::ms_type );
+	objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectNameAttribute, m_objectName );
+	objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectPositionAttribute, m_position );
+
+	m_environment.riseEvent( objectCreatedEvent );
 
 } // CreateObjectAction::processAction
 
@@ -69,14 +71,6 @@ CreateObjectAction::processAction( const unsigned int /*_deltaTime*/ )
 void
 CreateObjectAction::unprocessAction( const unsigned int /*_deltaTime*/ )
 {
-	/*boost::intrusive_ptr< ILandscapeHandle > handle( m_landscapeModel.getCurrentLandscape() );
-
-	if ( handle->getLandscape() )
-	{
-		handle->getLandscape()->unselectUnits();
-		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::UnitsSelectionChanged::ms_type ) );
-	}*/
-
 } // CreateObjectAction::unprocessAction
 
 

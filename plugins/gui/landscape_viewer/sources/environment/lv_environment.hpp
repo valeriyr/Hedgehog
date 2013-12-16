@@ -72,6 +72,8 @@ public:
 
 	/*virtual*/ void createObject( const QPoint& _position, const QString& _name ) const;
 
+	/*virtual*/ void setSurfaceItem( const QPoint& _position, const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ const Core::LandscapeModel::ISurfaceItem::IdType

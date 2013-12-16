@@ -108,6 +108,9 @@
     <ClCompile Include="sources\actions\lm_create_object_action.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
+    <ClCompile Include="sources\actions\lm_set_surface_item_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -216,6 +219,9 @@
       <Filter>Action Queue</Filter>
     </ClInclude>
     <ClInclude Include="sources\actions\lm_create_object_action.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_set_surface_item_action.hpp">
       <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>
