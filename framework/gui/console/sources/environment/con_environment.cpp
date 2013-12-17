@@ -7,6 +7,9 @@
 
 #include "script_engine/ih/se_iscripts_executor.hpp"
 
+#include "commands_manager/ih/cm_icommand_executor.hpp"
+#include "commands_manager/ih/cm_icommands_registry.hpp"
+#include "commands_manager/ih/cm_icommand.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,6 +43,28 @@ Environment::executeScript( const QString& _script ) const
 	m_pluginInstance.getScriptsExecutor()->executeScript( _script );
 
 } // Environment::executeCommand
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+Environment::hasInternalCommand( const QString& _command ) const
+{
+	return m_pluginInstance.getCommandRegistry()->getCommand( _command );
+
+} // Environment::hasInternalCommand
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::executeInternalCommand( const QString& _command ) const
+{
+	m_pluginInstance.getCommandExecutor()->executeCommand( _command );
+
+} // Environment::executeInternalCommand
 
 
 /*---------------------------------------------------------------------------*/

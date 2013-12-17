@@ -37,6 +37,12 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ bool hasInternalCommand( const QString& _command ) const;
+
+	/*virtual*/ void executeInternalCommand( const QString& _command ) const;
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/

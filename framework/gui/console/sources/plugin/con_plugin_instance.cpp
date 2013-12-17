@@ -15,6 +15,10 @@
 #include "script_engine/ih/se_iscripts_executor.hpp"
 #include "script_engine/h/se_plugin_id.hpp"
 
+#include "commands_manager/ih/cm_icommand_executor.hpp"
+#include "commands_manager/ih/cm_icommands_registry.hpp"
+#include "commands_manager/h/cm_plugin_id.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -108,7 +112,35 @@ PluginInstance::getScriptsExecutor() const
 				Framework::Core::ScriptEngine::PID_SCRIPT_ENGINE
 			,	Framework::Core::ScriptEngine::IID_SCRIPTS_EXECUTOR );
 
+} // PluginInstance::getScriptsExecutor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
+PluginInstance::getCommandExecutor() const
+{
+	return
+		getPluginInterface< Framework::Core::CommandsManager::ICommandExecutor >(
+				Framework::Core::CommandsManager::PID_COMMANDS_MANAGER
+			,	Framework::Core::CommandsManager::IID_COMMAND_EXECUTOR );
+
 } // PluginInstance::getCommandExecutor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
+PluginInstance::getCommandRegistry() const
+{
+	return
+		getPluginInterface< Framework::Core::CommandsManager::ICommandsRegistry >(
+				Framework::Core::CommandsManager::PID_COMMANDS_MANAGER
+			,	Framework::Core::CommandsManager::IID_COMMANDS_REGISTRY );
+
+} // PluginInstance::getCommandRegistry
 
 
 /*---------------------------------------------------------------------------*/

@@ -139,16 +139,23 @@ MainView::printMessage( const QString& _message )
 void
 MainView::onCommandWasEntered( const QString& _command )
 {
-	try
+	if ( m_environment.hasInternalCommand( _command ) )
+	{
+		try
+		{
+			m_environment.executeInternalCommand( _command );
+		}
+		catch( const Framework::Core::CommandsManager::IException& _exception )
+		{
+			printMessage(
+					Tools::Core::IMessenger::MessegeLevel::Error
+				,	_exception.what() );
+		}
+	}
+	else
 	{
 		printMessage( _command );
 		m_environment.executeScript( _command );
-	}
-	catch( const Framework::Core::CommandsManager::IException& _exception )
-	{
-		printMessage(
-				Tools::Core::IMessenger::MessegeLevel::Error
-			,	_exception.what() );
 	}
 
 } // MainView::onCommandWasEntered

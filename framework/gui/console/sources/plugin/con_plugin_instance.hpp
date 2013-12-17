@@ -17,6 +17,12 @@ namespace Framework
 		{
 			struct IScriptsExecutor;
 		}
+
+		namespace CommandsManager
+		{
+			struct ICommandExecutor;
+			struct ICommandsRegistry;
+		}
 	}
 
 	namespace GUI
@@ -85,6 +91,12 @@ public:
 
 	boost::intrusive_ptr< Framework::Core::ScriptEngine::IScriptsExecutor >
 		getScriptsExecutor() const;
+
+	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandExecutor >
+		getCommandExecutor() const;
+
+	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
+		getCommandRegistry() const;
 
 /*---------------------------------------------------------------------------*/
 

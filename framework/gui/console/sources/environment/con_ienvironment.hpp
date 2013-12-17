@@ -23,6 +23,12 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
+	virtual bool hasInternalCommand( const QString& _command ) const = 0;
+
+	virtual void executeInternalCommand( const QString& _command ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
 };
 
 /*---------------------------------------------------------------------------*/
