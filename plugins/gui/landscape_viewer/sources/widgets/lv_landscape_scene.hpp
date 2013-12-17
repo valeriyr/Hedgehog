@@ -116,6 +116,8 @@ private:
 			boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnit > _unit
 		,	QGraphicsPixmapItem* _graphicsItem );*/
 
+	void markSelectedUnits();
+
 /*---------------------------------------------------------------------------*/
 
 private:

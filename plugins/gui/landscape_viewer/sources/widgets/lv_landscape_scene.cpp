@@ -217,8 +217,11 @@ LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _e
 	if ( terrainMapVisibility )
 		m_landscapeSceneState->removeSceneObjects();
 
+	m_unitsCollection.clear();
 	clear();
+
 	generateLandscape();
+	markSelectedUnits();
 
 	if ( !terrainMapVisibility )
 		m_landscapeSceneState->addSceneObjects();
@@ -318,35 +321,7 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 void
 LandscapeScene::onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event )
 {
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
-
-	if ( handle->getLandscape() )
-	{
-		UnitsCollectionIterator
-				unitsBegin = m_unitsCollection.begin()
-			,	unitsEnd = m_unitsCollection.end();
-
-		for ( ; unitsBegin != unitsEnd; ++unitsBegin )
-		{
-			unitsBegin->second->setGraphicsEffect( NULL );
-		}
-
-		Plugins::Core::LandscapeModel::ILandscape::UnitsCollection selectedUnitsCollection;
-		handle->getLandscape()->fetchSelectedUnits( selectedUnitsCollection );
-
-		Plugins::Core::LandscapeModel::ILandscape::UnitsCollectionIterator
-				selectedUnitsBegin = selectedUnitsCollection.begin()
-			,	selectedUnitsEnd = selectedUnitsCollection.end();
-
-		for ( ; selectedUnitsBegin != selectedUnitsEnd; ++selectedUnitsBegin )
-		{
-			UnitsCollectionIterator iterator = m_unitsCollection.find( ( *selectedUnitsBegin )->getUniqueId() );
-			assert( iterator != m_unitsCollection.end() );
-
-			iterator->second->setGraphicsEffect( new QGraphicsColorizeEffect() );
-		}
-	}
+	markSelectedUnits();
 
 } // LandscapeScene::onUnitsSelectionChanged
 
@@ -499,6 +474,45 @@ LandscapeScene::unitWasAdded( const Plugins::Core::LandscapeModel::IUnit::IdType
 	m_unitsCollection.insert( std::make_pair( _id, _item ) );
 
 } // LandscapeScene::unitWasAdded
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::markSelectedUnits()
+{
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
+
+	if ( handle->getLandscape() )
+	{
+		UnitsCollectionIterator
+				unitsBegin = m_unitsCollection.begin()
+			,	unitsEnd = m_unitsCollection.end();
+
+		for ( ; unitsBegin != unitsEnd; ++unitsBegin )
+		{
+			unitsBegin->second->setGraphicsEffect( NULL );
+		}
+
+		Plugins::Core::LandscapeModel::ILandscape::UnitsCollection selectedUnitsCollection;
+		handle->getLandscape()->fetchSelectedUnits( selectedUnitsCollection );
+
+		Plugins::Core::LandscapeModel::ILandscape::UnitsCollectionIterator
+				selectedUnitsBegin = selectedUnitsCollection.begin()
+			,	selectedUnitsEnd = selectedUnitsCollection.end();
+
+		for ( ; selectedUnitsBegin != selectedUnitsEnd; ++selectedUnitsBegin )
+		{
+			UnitsCollectionIterator iterator = m_unitsCollection.find( ( *selectedUnitsBegin )->getUniqueId() );
+			assert( iterator != m_unitsCollection.end() );
+
+			iterator->second->setGraphicsEffect( new QGraphicsColorizeEffect() );
+		}
+	}
+
+} // LandscapeScene::markSelectedUnits
 
 
 /*---------------------------------------------------------------------------*/
