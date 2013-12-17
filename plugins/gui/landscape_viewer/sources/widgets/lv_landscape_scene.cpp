@@ -115,6 +115,10 @@ LandscapeScene::landscapeWasOpened()
 							,	Plugins::Core::LandscapeModel::Events::UnitsSelectionChanged::ms_type
 							,	boost::bind( &LandscapeScene::onUnitsSelectionChanged, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::UnitMoved::ms_type
+							,	boost::bind( &LandscapeScene::onUnitMoved, this, _1 ) );
+
 } // LandscapeScene::landscapeWasOpened
 
 
@@ -138,6 +142,7 @@ LandscapeScene::landscapeWasClosed()
 void
 LandscapeScene::onUpdateTimerFired()
 {
+	//( *views().begin() )->update();
 	/*UnitsCollectionIterator
 			begin = m_unitsCollection.begin()
 		,	end = m_unitsCollection.end();
@@ -330,6 +335,15 @@ LandscapeScene::onUnitsSelectionChanged( const Framework::Core::EventManager::Ev
 
 
 void
+LandscapeScene::onUnitMoved( const Framework::Core::EventManager::Event& _event )
+{
+} // LandscapeScene::onUnitMoved
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 LandscapeScene::generateLandscape()
 {
 	bool showTarrain = m_environment.getBool( Resources::Properties::TerrainMapVisibility );
@@ -514,34 +528,6 @@ LandscapeScene::markSelectedUnits()
 
 } // LandscapeScene::markSelectedUnits
 
-
-/*---------------------------------------------------------------------------*/
-
-/*
-void
-LandscapeScene::updatePosition(
-		boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnit > _unit
-	,	QGraphicsPixmapItem* _graphicsItem )
-{
-	QPoint position = m_landscape->getUnitPosition( _unit );
-
-	qreal posByX = position.x() * Resources::Landscape::CellSize;
-	qreal posByY = position.y() * Resources::Landscape::CellSize;
-
-	if ( static_cast< unsigned int >( _unit->getRectInBundle().width() ) > Resources::Landscape::CellSize )
-	{
-		posByX -= ( _unit->getRectInBundle().width() - Resources::Landscape::CellSize ) / 2;
-	}
-
-	if ( static_cast< unsigned int >( _unit->getRectInBundle().height() ) > Resources::Landscape::CellSize )
-	{
-		posByY -= ( _unit->getRectInBundle().height() - Resources::Landscape::CellSize ) / 2;
-	}
-
-	_graphicsItem->setPos( posByX, posByY );
-
-} // LandscapeScene::updatePosition
-*/
 
 /*---------------------------------------------------------------------------*/
 

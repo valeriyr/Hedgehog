@@ -105,6 +105,8 @@ private:
 
 	void onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event );
 
+	void onUnitMoved( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 	void generateLandscape();
@@ -112,9 +114,6 @@ private:
 	void setCorrectSceneSize();
 
 	void unitWasAdded( const Plugins::Core::LandscapeModel::IUnit::IdType& _id, QGraphicsPixmapItem* _item );
-	/*void updatePosition(
-			boost::intrusive_ptr< Plugins::Core::LandscapeModel::IUnit > _unit
-		,	QGraphicsPixmapItem* _graphicsItem );*/
 
 	void markSelectedUnits();
 
