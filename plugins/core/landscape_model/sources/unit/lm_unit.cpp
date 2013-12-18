@@ -81,6 +81,17 @@ Unit::getUniqueId() const
 
 /*---------------------------------------------------------------------------*/
 
+
+void
+Unit::setPosition( const QRect& _position )
+{
+	m_possition = _position;
+
+} // Unit::setPosition
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

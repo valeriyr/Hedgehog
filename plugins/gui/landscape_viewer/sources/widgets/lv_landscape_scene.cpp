@@ -337,6 +337,41 @@ LandscapeScene::onUnitsSelectionChanged( const Framework::Core::EventManager::Ev
 void
 LandscapeScene::onUnitMoved( const Framework::Core::EventManager::Event& _event )
 {
+	const QString unitName
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_unitNameAttribute ).toString();
+	const Plugins::Core::LandscapeModel::ISurfaceItem::IdType unitId
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_unitIdAttribute ).toInt();
+	const QPoint movedFrom
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_movingFromAttribute ).toPoint();
+	const QPoint movedTo
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_movingToAttribute ).toPoint();
+	const float progress
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_movingProgressAttribute ).toFloat();
+
+	UnitsCollectionIterator iterator = m_unitsCollection.find( unitId );
+	assert( iterator != m_unitsCollection.end() );
+
+	const QPoint movedFromInScene( movedFrom.x() * Resources::Landscape::CellSize, movedFrom.y() * Resources::Landscape::CellSize );
+	const QPoint movedToInScene( movedTo.x() * Resources::Landscape::CellSize, movedTo.y() * Resources::Landscape::CellSize );
+
+	int xpos = movedFromInScene.x() + ( ( movedToInScene.x() - movedFromInScene.x() ) * progress );
+	int ypos = movedFromInScene.y() + ( ( movedToInScene.y() - movedFromInScene.y() ) * progress );
+
+	boost::intrusive_ptr< IObjectGraphicsInfo >
+		objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, unitName );
+
+	if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().width() ) > Resources::Landscape::CellSize )
+	{
+		xpos -= ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+	}
+
+	if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().height() ) > Resources::Landscape::CellSize )
+	{
+		ypos -= ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
+	}
+
+	iterator->second->setPos( QPoint( xpos, ypos ) );
+
 } // LandscapeScene::onUnitMoved
 
 

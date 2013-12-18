@@ -123,7 +123,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		}
 	}
 
-	_pointsCollection.push_front( startPoint );
+	//_pointsCollection.push_front( startPoint );
 
 } // JumpPointSearch::findPath
 
