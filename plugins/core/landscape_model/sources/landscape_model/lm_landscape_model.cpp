@@ -15,6 +15,8 @@
 #include "landscape_model/sources/actions/lm_set_surface_item_action.hpp"
 #include "landscape_model/sources/actions/lm_move_items_action.hpp"
 
+#include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
+
 #include "landscape_model/h/lm_resources.hpp"
 
 
@@ -160,7 +162,10 @@ void
 LandscapeModel::moveSelectedUnits( const QPoint& _to )
 {
 	m_actionsQueue->pushAction(
-		boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, _to ) ) );
+		boost::intrusive_ptr< IAction >( new MoveAction(	m_environment
+														,	*this
+														,	boost::intrusive_ptr< IPathFinder >( new JumpPointSearch() )
+														,	_to ) ) );
 
 } // LandscapeModel::moveSelectedUnits
 

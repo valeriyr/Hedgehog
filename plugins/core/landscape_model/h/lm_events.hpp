@@ -36,7 +36,8 @@ namespace UnitMoved
 {
 	const char* const ms_type = "UnitMoved";
 
-	const char* const ms_unitNameAttribute = "UnitName";
+	const char* const ms_unitIdAttribute = "UnitId";
+	const char* const ms_movingFromAttribute = "MovingFrom";
 	const char* const ms_movingToAttribute = "MovingTo";
 	const char* const ms_movingProgressAttribute = "MovingProgress";
 }

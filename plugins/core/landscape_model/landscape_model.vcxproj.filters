@@ -52,6 +52,9 @@
     <Filter Include="Action Queue">
       <UniqueIdentifier>{f28a99d3-a8cb-42d4-95a2-3b0b6e18e5ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Path Finders">
+      <UniqueIdentifier>{ac68a0d0-40e2-4c33-9279-30845348c204}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -110,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="sources\actions\lm_set_surface_item_action.cpp">
       <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\path_finders\lm_jump_point_search.cpp">
+      <Filter>Path Finders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +229,12 @@
     </ClInclude>
     <ClInclude Include="sources\actions\lm_set_surface_item_action.hpp">
       <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\path_finders\lm_ipath_finder.hpp">
+      <Filter>Path Finders</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\path_finders\lm_jump_point_search.hpp">
+      <Filter>Path Finders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -53,6 +53,8 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< IUnit > getUnit( const QPoint& _point ) const;
 
+	/*virtual*/ boost::intrusive_ptr< IUnit > getUnit( const IUnit::IdType& _id ) const;
+
 	/*virtual*/ unsigned int getUnitsCount() const;
 
 	/*virtual*/ void fetchUnits( ILandscape::UnitsCollection& _collection ) const;

@@ -7,6 +7,7 @@
 #include "intrusive_base/ib_ibase.hpp"
 
 #include "landscape_model/h/lm_terrain_map_data.hpp"
+#include "landscape_model/ih/lm_iunit.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,7 +18,6 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct ISurfaceItem;
-struct IUnit;
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,6 +49,8 @@ struct ILandscape
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< IUnit > getUnit( const QPoint& _point ) const = 0;
+
+	virtual boost::intrusive_ptr< IUnit > getUnit( const IUnit::IdType& _id ) const = 0;
 
 	virtual unsigned int getUnitsCount() const = 0;
 

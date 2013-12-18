@@ -117,6 +117,27 @@ Landscape::getUnit( const QPoint& _point ) const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< IUnit >
+Landscape::getUnit( const IUnit::IdType& _id ) const
+{
+	ILandscape::UnitsCollectionIterator
+			begin = m_units.begin()
+		,	end = m_units.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( ( *begin )->getUniqueId() == _id )
+			return *begin;
+	}
+
+	return boost::intrusive_ptr< IUnit >();
+
+} // Landscape::getUnit
+
+
+/*---------------------------------------------------------------------------*/
+
+
 unsigned int
 Landscape::getUnitsCount() const
 {

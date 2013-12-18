@@ -33,6 +33,7 @@
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp" />
     <ClCompile Include="sources\object_types_cache\lm_object_types_cache.cpp" />
     <ClCompile Include="sources\object_type\lm_object_type.cpp" />
+    <ClCompile Include="sources\path_finders\lm_jump_point_search.cpp" />
     <ClCompile Include="sources\ph\lm_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -77,6 +78,8 @@
     <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp" />
     <ClInclude Include="sources\object_types_cache\lm_object_types_cache.hpp" />
     <ClInclude Include="sources\object_type\lm_object_type.hpp" />
+    <ClInclude Include="sources\path_finders\lm_ipath_finder.hpp" />
+    <ClInclude Include="sources\path_finders\lm_jump_point_search.hpp" />
     <ClInclude Include="sources\ph\lm_ph.hpp" />
     <ClInclude Include="sources\plugin\lm_plugin_instance.hpp" />
     <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp" />

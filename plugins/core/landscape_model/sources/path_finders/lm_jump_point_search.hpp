@@ -1,12 +1,8 @@
 
-#ifndef __LM_MOVE_ITEMS_ACTION_HPP__
-#define __LM_MOVE_ITEMS_ACTION_HPP__
+#ifndef __LM_JUMP_POINT_SEARCH_HPP__
+#define __LM_JUMP_POINT_SEARCH_HPP__
 
 /*---------------------------------------------------------------------------*/
-
-#include "landscape_model/sources/actions/lm_base_action.hpp"
-
-#include "landscape_model/ih/lm_iunit.hpp"
 
 #include "landscape_model/sources/path_finders/lm_ipath_finder.hpp"
 
@@ -18,29 +14,9 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class MoveAction
-	:	public BaseAction
+class JumpPointSearch
+	:	public Tools::Core::BaseWrapper< IPathFinder >
 {
-
-/*---------------------------------------------------------------------------*/
-
-	struct MovingData
-	{
-		MovingData()
-			:	m_unitPath()
-			,	m_movingProgress( 0.0 )
-		{}
-
-		IPathFinder::PointsCollection m_unitPath;
-		float m_movingProgress;
-	};
-
-	typedef
-		std::map< IUnit::IdType, MovingData >
-		MovingDataCollection;
-	typedef
-		MovingDataCollection::iterator
-		MovingDataCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,21 +24,16 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	MoveAction(
-			const IEnvironment& _environment
-		,	ILandscapeModel& _landscapeModel
-		,	boost::intrusive_ptr< IPathFinder > _pathFinder
-		,	const QPoint& _to );
+	JumpPointSearch();
 
-	virtual ~MoveAction();
+	virtual ~JumpPointSearch();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void processAction( const unsigned int _deltaTime );
-
-	/*virtual*/ void unprocessAction( const unsigned int _deltaTime );
-
-	/*virtual*/ bool hasFinished() const;
+	/*virtual*/ void findPath(	PointsCollection& _pointsCollection
+							 ,	const ILandscape& _landscape
+							 ,	const IUnit& _forUnit
+							 ,	const QPoint& _toPoint );
 
 /*---------------------------------------------------------------------------*/
 
@@ -70,11 +41,6 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< IPathFinder > m_pathFinder;
-
-	const QPoint m_to;
-
-	MovingDataCollection m_movingData;
 
 /*---------------------------------------------------------------------------*/
 
@@ -88,4 +54,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_MOVE_ITEMS_ACTION_HPP__
+#endif // __LM_JUMP_POINT_SEARCH_HPP__
