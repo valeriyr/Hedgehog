@@ -140,37 +140,6 @@ LandscapeScene::landscapeWasClosed()
 
 
 void
-LandscapeScene::onUpdateTimerFired()
-{
-	//( *views().begin() )->update();
-	/*UnitsCollectionIterator
-			begin = m_unitsCollection.begin()
-		,	end = m_unitsCollection.end();
-
-	for ( ; begin != end; ++begin )
-	{
-		updatePosition( begin->first, begin->second );
-		begin->second->setGraphicsEffect( NULL );
-	}
-
-	if ( m_landscape->getSelectedUnit() )
-	{
-		UnitsCollectionIterator iterator
-			= m_unitsCollection.find( m_landscape->getSelectedUnit() );
-
-		assert( iterator != m_unitsCollection.end() );
-
-		iterator->second->setGraphicsEffect( new QGraphicsColorizeEffect() );
-	}*/
-
-} // LandscapeScene::onUpdateTimerFired
-
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
 LandscapeScene::onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id )
 {
 	m_landscapeSceneState.reset( new LandscapeSurfaceItemEditingState( m_environment, *this, _id ) );

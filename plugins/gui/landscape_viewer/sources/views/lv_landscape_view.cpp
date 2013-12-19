@@ -69,12 +69,6 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, const ViewsMedia
 		,	m_landscapeScene.get()
 		,	SLOT( onControlItemSelected() ) );
 
-	QObject::connect(
-			&m_viewsMediator
-		,	SIGNAL( updateTimerFired() )
-		,	m_landscapeScene.get()
-		,	SLOT( onUpdateTimerFired() ) );
-
 } // LandscapeView::LandscapeView
 
 
@@ -124,12 +118,6 @@ LandscapeView::~LandscapeView()
 		,	SIGNAL( controlItemSelected() )
 		,	m_landscapeScene.get()
 		,	SLOT( onControlItemSelected() ) );
-
-	QObject::disconnect(
-			&m_viewsMediator
-		,	SIGNAL( updateTimerFired() )
-		,	m_landscapeScene.get()
-		,	SLOT( onUpdateTimerFired() ) );
 
 } // LandscapeView::~LandscapeView
 

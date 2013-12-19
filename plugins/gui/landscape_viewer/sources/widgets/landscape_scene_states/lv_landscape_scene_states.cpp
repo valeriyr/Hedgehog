@@ -229,8 +229,6 @@ LandscapeSurfaceItemEditingState::mouseMoveEvent( QGraphicsSceneMouseEvent* _mou
 void
 LandscapeSurfaceItemEditingState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	// emit landscapeWasChanged();
-
 } // LandscapeSurfaceItemEditingState::mouseReleaseEvent
 
 
@@ -377,8 +375,6 @@ LandscapeObjectEditingState::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEve
 void
 LandscapeObjectEditingState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	// emit landscapeWasChanged();
-
 } // LandscapeObjectEditingState::mouseReleaseEvent
 
 

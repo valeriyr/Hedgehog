@@ -81,8 +81,6 @@ public slots:
 
 /*---------------------------------------------------------------------------*/
 
-	void onUpdateTimerFired();
-
 	void onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id );
 
 	void onChangeObject( const QString& _name );

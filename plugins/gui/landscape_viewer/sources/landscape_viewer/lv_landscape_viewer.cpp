@@ -35,15 +35,12 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 	,	m_minimapView( new MinimapView( _environment, *m_viewsMediator ) )
 	,	m_objectsView( new ObjectsView( _environment, *m_viewsMediator ) )
 	,	m_landscapeFilePath()
-	,	m_timer()
 {
 	m_environment.addFrameworkView( m_objectsView, Framework::GUI::WindowManager::ViewPosition::Left );
 	m_environment.addFrameworkView( m_LandscapeView, Framework::GUI::WindowManager::ViewPosition::Center );
 	m_environment.addFrameworkView( m_minimapView, Framework::GUI::WindowManager::ViewPosition::Right );
 	m_environment.addFrameworkView( m_descriptionView, Framework::GUI::WindowManager::ViewPosition::Right );
 	m_environment.addFrameworkView( m_settingsView, Framework::GUI::WindowManager::ViewPosition::Right );
-
-	QObject::connect( &m_timer, SIGNAL( timeout() ), m_viewsMediator.get(), SIGNAL( updateTimerFired() ) );
 
 } // LandscapeViewer::LandscapeViewer
 
@@ -53,8 +50,6 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 
 LandscapeViewer::~LandscapeViewer()
 {
-	QObject::disconnect( &m_timer, SIGNAL( timeout() ), m_viewsMediator.get(), SIGNAL( updateTimerFired() ) );
-
 	m_environment.removeFrameworkView( m_settingsView );
 	m_environment.removeFrameworkView( m_descriptionView );
 	m_environment.removeFrameworkView( m_minimapView );
@@ -94,8 +89,6 @@ LandscapeViewer::openLandscape( const QString& _filePath )
 	m_minimapView->landscapeWasOpened();
 	m_LandscapeView->landscapeWasOpened();
 
-	m_timer.start( ms_updatePeriod );
-
 } // LandscapeViewer::openLandscape
 
 
@@ -105,8 +98,6 @@ LandscapeViewer::openLandscape( const QString& _filePath )
 void
 LandscapeViewer::closeLandscape()
 {
-	m_timer.stop();
-
 	m_LandscapeView->landscapeWasClosed();
 	m_minimapView->landscapeWasClosed();
 	m_descriptionView->landscapeWasClosed();

@@ -38,8 +38,6 @@ signals:
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasChanged();
-
 	void visibleRectOfLandscapeViewWasChanged( const float _visibleWidth, const float _visibleHeight );
 
 	void landscapeViewWasResized( const float _visibleWidth, const float _visibleHeight );
@@ -51,8 +49,6 @@ signals:
 	void currentObjectWasChanged( const QString& _name );
 
 	void controlItemSelected();
-
-	void updateTimerFired();
 
 /*---------------------------------------------------------------------------*/
 
