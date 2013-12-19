@@ -6,6 +6,9 @@
 
 #include "window_manager/ih/wm_iview.hpp"
 
+#include "event_manager/h/em_subscriber.hpp"
+#include "event_manager/h/em_event.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -49,6 +52,8 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	void landscapeWasOpened();
+
 	void landscapeWasClosed();
 
 /*---------------------------------------------------------------------------*/
@@ -57,7 +62,17 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
 	const IEnvironment& m_environment;
+
+	Framework::Core::EventManager::Subscriber m_subscriber;
 
 	QString m_viewTitle;
 

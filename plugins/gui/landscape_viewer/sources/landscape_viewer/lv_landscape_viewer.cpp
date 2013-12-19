@@ -92,6 +92,7 @@ LandscapeViewer::openLandscape( const QString& _filePath )
 
 	m_minimapView->landscapeWasOpened();
 	m_LandscapeView->landscapeWasOpened();
+	m_selectionView->landscapeWasOpened();
 
 } // LandscapeViewer::openLandscape
 
