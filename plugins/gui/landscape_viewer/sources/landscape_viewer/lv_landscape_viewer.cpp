@@ -8,6 +8,7 @@
 #include "landscape_viewer/sources/views/lv_minimap_view.hpp"
 #include "landscape_viewer/sources/views/lv_objects_view.hpp"
 #include "landscape_viewer/sources/views/lv_settings_view.hpp"
+#include "landscape_viewer/sources/views/lv_selection_view.hpp"
 
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
 
@@ -34,9 +35,11 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 	,	m_LandscapeView( new LandscapeView( _environment, *m_viewsMediator ) )
 	,	m_minimapView( new MinimapView( _environment, *m_viewsMediator ) )
 	,	m_objectsView( new ObjectsView( _environment, *m_viewsMediator ) )
+	,	m_selectionView( new SelectionView( _environment ) )
 	,	m_landscapeFilePath()
 {
 	m_environment.addFrameworkView( m_objectsView, Framework::GUI::WindowManager::ViewPosition::Left );
+	m_environment.addFrameworkView( m_selectionView, Framework::GUI::WindowManager::ViewPosition::Left );
 	m_environment.addFrameworkView( m_LandscapeView, Framework::GUI::WindowManager::ViewPosition::Center );
 	m_environment.addFrameworkView( m_minimapView, Framework::GUI::WindowManager::ViewPosition::Right );
 	m_environment.addFrameworkView( m_descriptionView, Framework::GUI::WindowManager::ViewPosition::Right );
@@ -54,6 +57,7 @@ LandscapeViewer::~LandscapeViewer()
 	m_environment.removeFrameworkView( m_descriptionView );
 	m_environment.removeFrameworkView( m_minimapView );
 	m_environment.removeFrameworkView( m_LandscapeView );
+	m_environment.removeFrameworkView( m_selectionView );
 	m_environment.removeFrameworkView( m_objectsView );
 
 } // LandscapeViewer::~LandscapeViewer
@@ -101,6 +105,7 @@ LandscapeViewer::closeLandscape()
 	m_LandscapeView->landscapeWasClosed();
 	m_minimapView->landscapeWasClosed();
 	m_descriptionView->landscapeWasClosed();
+	m_selectionView->landscapeWasClosed();
 
 	m_environment.resetLandscapeModel();
 

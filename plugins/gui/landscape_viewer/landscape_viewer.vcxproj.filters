@@ -108,6 +108,9 @@
     <ClCompile Include="sources\widgets\landscape_scene_states\lv_landscape_scene_states.cpp">
       <Filter>Widgets\Landscape Scene States</Filter>
     </ClCompile>
+    <ClCompile Include="sources\views\lv_selection_view.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lv_ph.hpp">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="sources\widgets\landscape_scene_states\lv_landscape_scene_states.hpp">
       <Filter>Widgets\Landscape Scene States</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\lv_selection_view.hpp">
+      <Filter>Views</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,7 @@
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QScrollBar>
+#include <QtWidgets/QListWidget>
 
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGraphicsScene>

@@ -1,10 +1,10 @@
 
-#ifndef __LV_LANDSCAPE_VIEWER_HPP__
-#define __LV_LANDSCAPE_VIEWER_HPP__
+#ifndef __LV_SELECTION_VIEW_HPP__
+#define __LV_SELECTION_VIEW_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
+#include "window_manager/ih/wm_iview.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,22 +15,17 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
-struct IGraphicsInfoCache;
-
-class DescriptionView;
-class SettingsView;
-class LandscapeView;
-class MinimapView;
-class ObjectsView;
-class SelectionView;
-
-class ViewsMediator;
 
 /*---------------------------------------------------------------------------*/
 
-class LandscapeViewer
-	:	public Tools::Core::BaseWrapper< ILandscapeViewer >
+class SelectionView
+	:	public QObject
+	,	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
+
+/*---------------------------------------------------------------------------*/
+
+	//Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,19 +33,23 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeViewer( const IEnvironment& _environment );
+	SelectionView( const IEnvironment& _environment );
 
-	virtual ~LandscapeViewer();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ QString getLandscapeFilePath() const;
+	virtual ~SelectionView();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void openLandscape( const QString& _filePath );
+	/*virtual*/ const QString& getViewTitle() const;
 
-	/*virtual*/ void closeLandscape();
+	/*virtual*/ QWidget* getViewWidget();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void viewWasClosed();
+
+/*---------------------------------------------------------------------------*/
+
+	void landscapeWasClosed();
 
 /*---------------------------------------------------------------------------*/
 
@@ -60,16 +59,9 @@ private:
 
 	const IEnvironment& m_environment;
 
-	boost::shared_ptr< ViewsMediator > m_viewsMediator;
+	QString m_viewTitle;
 
-	boost::intrusive_ptr< DescriptionView > m_descriptionView;
-	boost::intrusive_ptr< SettingsView > m_settingsView;
-	boost::intrusive_ptr< LandscapeView > m_LandscapeView;
-	boost::intrusive_ptr< MinimapView > m_minimapView;
-	boost::intrusive_ptr< ObjectsView > m_objectsView;
-	boost::intrusive_ptr< SelectionView > m_selectionView;
-
-	QString m_landscapeFilePath;
+	boost::shared_ptr< QListWidget > m_mainWidget;
 
 /*---------------------------------------------------------------------------*/
 
@@ -83,4 +75,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ILANDSCAPE_VIEWER_HPP__
+#endif // __LV_SELECTION_VIEW_HPP__

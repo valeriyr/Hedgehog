@@ -27,6 +27,8 @@ namespace Views {
 
 	extern const char* const SettingsViewTitle;
 
+	extern const char* const SelectionViewTitle;
+
 	extern const char* const EditorViewDefaultTitle;
 
 	extern const char* const TarrainMapVisibilityCheckboxName;
