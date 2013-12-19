@@ -21,6 +21,7 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
+
 struct TreeWidgetType
 {
 	enum Enum

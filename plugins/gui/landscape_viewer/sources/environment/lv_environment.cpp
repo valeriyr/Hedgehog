@@ -161,6 +161,17 @@ Environment::selectItemsInModel( const QRect& _rect ) const
 
 
 void
+Environment::selectItemModel( const Core::LandscapeModel::IUnit::IdType& _id ) const
+{
+	m_pluginInstance.getLandscapeModel()->selectUnit( _id );
+
+} // Environment::selectItemModel
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 Environment::moveSelectedItems( const QPoint& _to ) const
 {
 	m_pluginInstance.getLandscapeModel()->moveSelectedUnits( _to );

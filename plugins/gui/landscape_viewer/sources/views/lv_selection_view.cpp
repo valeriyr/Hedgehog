@@ -9,13 +9,14 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/ih/lm_iunit.hpp"
 #include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
 
-//#include "lv_selection_view.moc"
+#include "lv_selection_view.moc"
 
 
 /*---------------------------------------------------------------------------*/
@@ -27,6 +28,26 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
+class SelectionViewItem
+	:	public QListWidgetItem
+{
+
+public:
+
+	SelectionViewItem( const Core::LandscapeModel::IUnit::IdType& _type )
+		:	m_type( _type )
+	{}
+
+	const Core::LandscapeModel::IUnit::IdType& getUniqueUnitId() const { return m_type; }
+
+private:
+
+	const Core::LandscapeModel::IUnit::IdType m_type;
+};
+
+
+/*---------------------------------------------------------------------------*/
+
 SelectionView::SelectionView( const IEnvironment& _environment )
 	:	m_environment( _environment )
 	,	m_subscriber( _environment.createSubscriber() )
@@ -34,6 +55,12 @@ SelectionView::SelectionView( const IEnvironment& _environment )
 	,	m_mainWidget( new QListWidget() )
 {
 	m_mainWidget->setViewMode( QListView::ViewMode::IconMode );
+
+	QObject::connect(
+			m_mainWidget.get()
+		,	SIGNAL( itemClicked( QListWidgetItem* ) )
+		,	this
+		,	SLOT( onItemClicked( QListWidgetItem* ) ) );
 
 } // SelectionView::SelectionView
 
@@ -108,6 +135,20 @@ SelectionView::landscapeWasClosed()
 
 
 void
+SelectionView::onItemClicked( QListWidgetItem* _item )
+{
+	SelectionViewItem* listItem = dynamic_cast< SelectionViewItem* >( _item );
+	assert( listItem );
+
+	m_environment.selectItemModel( listItem->getUniqueUnitId() );
+
+} // SelectionView::onItemClicked
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 SelectionView::onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event )
 {
 	m_mainWidget->clear();
@@ -130,7 +171,7 @@ SelectionView::onUnitsSelectionChanged( const Framework::Core::EventManager::Eve
 				objectGraphicsInfo = m_environment.getObjectGraphicsInfo(	Resources::Landscape::SkinId
 																		,	( *selectedUnitsBegin )->getType()->getName() );
 
-			QListWidgetItem* listItem = new QListWidgetItem();
+			SelectionViewItem* listItem = new SelectionViewItem( ( *selectedUnitsBegin )->getUniqueId() );
 
 			listItem->setText( ( *selectedUnitsBegin )->getType()->getName() );
 			listItem->setIcon( QIcon( m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) ) );

@@ -22,7 +22,8 @@
     <ClCompile Include="sources\actions\lm_base_action.cpp" />
     <ClCompile Include="sources\actions\lm_create_object_action.cpp" />
     <ClCompile Include="sources\actions\lm_move_items_action.cpp" />
-    <ClCompile Include="sources\actions\lm_select_items_action.cpp" />
+    <ClCompile Include="sources\actions\lm_select_by_id_action.cpp" />
+    <ClCompile Include="sources\actions\lm_select_in_rect_action.cpp" />
     <ClCompile Include="sources\actions\lm_set_surface_item_action.cpp" />
     <ClCompile Include="sources\actions_queue\lm_actions_queue.cpp" />
     <ClCompile Include="sources\environment\lm_environment.cpp" />
@@ -63,7 +64,8 @@
     <ClInclude Include="sources\actions\lm_create_object_action.hpp" />
     <ClInclude Include="sources\actions\lm_iaction.hpp" />
     <ClInclude Include="sources\actions\lm_move_items_action.hpp" />
-    <ClInclude Include="sources\actions\lm_select_items_action.hpp" />
+    <ClInclude Include="sources\actions\lm_select_by_id_action.hpp" />
+    <ClInclude Include="sources\actions\lm_select_in_rect_action.hpp" />
     <ClInclude Include="sources\actions\lm_set_surface_item_action.hpp" />
     <ClInclude Include="sources\actions_queue\lm_actions_queue.hpp" />
     <ClInclude Include="sources\actions_queue\lm_iactions_queue.hpp" />

@@ -287,6 +287,30 @@ Landscape::selectUnits( const QRect& _rect )
 
 
 void
+Landscape::selectUnit( const IUnit::IdType& _id )
+{
+	unselectUnits();
+
+	ILandscape::UnitsCollectionIterator
+			begin = m_units.begin()
+		,	end = m_units.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( ( *begin )->getUniqueId() == _id )
+		{
+			m_selectedUnits.push_back( *begin );
+			break;
+		}
+	}
+
+} // Landscape::selectUnit
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 Landscape::unselectUnits()
 {
 	m_selectedUnits.clear();

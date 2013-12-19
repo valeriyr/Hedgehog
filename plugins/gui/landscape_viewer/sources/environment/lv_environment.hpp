@@ -66,6 +66,8 @@ public:
 
 	/*virtual*/ void selectItemsInModel( const QRect& _rect ) const;
 
+	/*virtual*/ void selectItemModel( const Core::LandscapeModel::IUnit::IdType& _id ) const;
+
 	/*virtual*/ void moveSelectedItems( const QPoint& _to ) const;
 
 	/*virtual*/ void createObject( const QPoint& _position, const QString& _name ) const;

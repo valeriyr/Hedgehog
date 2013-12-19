@@ -1,12 +1,10 @@
 
-#ifndef __LM_ILANDSCAPE_MODEL_HPP__
-#define __LM_ILANDSCAPE_MODEL_HPP__
+#ifndef __GM_SELECT_BY_ID_ACTION_HPP__
+#define __GM_SELECT_BY_ID_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
-
-#include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/sources/actions/lm_base_action.hpp"
 #include "landscape_model/ih/lm_iunit.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -17,45 +15,38 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_LANDSCAPE_MODEL = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeHandle;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeModel
-	:	public Tools::Core::IBase
+class SelectByIdAction
+	:	public BaseAction
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initCurrentLandscape ( const QString& _filePath ) = 0;
-
-	virtual void closeCurrentLandscape() = 0;
-
-	virtual void saveLandscape( const QString& _filePath ) const = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape() = 0;
+	SelectByIdAction(
+			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel
+		,	const IUnit::IdType& _id );
+
+	virtual ~SelectByIdAction();
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void selectUnits( const QRect& _rect ) = 0;
+	/*virtual*/ void processAction( const unsigned int _deltaTime );
 
-	virtual void selectUnit( const IUnit::IdType& _id ) = 0;
+	/*virtual*/ void unprocessAction( const unsigned int _deltaTime );
 
-	virtual void moveSelectedUnits( const QPoint& _to ) = 0;
+	/*virtual*/ bool hasFinished() const;
 
-	virtual void createObject(
-			const QPoint& _position
-		,	const QString& _objectName ) = 0;
+/*---------------------------------------------------------------------------*/
 
-	virtual void setSurfaceItem(
-			const QPoint& _position
-		,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) = 0;
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const IUnit::IdType m_id;
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,4 +60,4 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_MANAGER_HPP__
+#endif // __GM_SELECT_BY_ID_ACTION_HPP__

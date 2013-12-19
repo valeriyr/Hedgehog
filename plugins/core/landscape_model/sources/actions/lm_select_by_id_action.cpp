@@ -1,7 +1,7 @@
 
 #include "landscape_model/sources/ph/lm_ph.hpp"
 
-#include "landscape_model/sources/actions/lm_select_items_action.hpp"
+#include "landscape_model/sources/actions/lm_select_by_id_action.hpp"
 
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
@@ -20,74 +20,63 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-SelectAction::SelectAction(
+SelectByIdAction::SelectByIdAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	const QRect& _rect
+	,	const IUnit::IdType& _id
 	)
 	:	BaseAction( _environment, _landscapeModel )
-	,	m_rect( _rect )
+	,	m_id( _id )
 {
-} // SelectAction::SelectAction
+} // SelectByIdAction::SelectByIdAction
 
 
 /*---------------------------------------------------------------------------*/
 
 
-SelectAction::~SelectAction()
+SelectByIdAction::~SelectByIdAction()
 {
-} // SelectAction::~SelectAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-SelectAction::processAction( const unsigned int /*_deltaTime*/ )
-{
-	{
-		boost::intrusive_ptr< ILandscapeHandle > handle( m_landscapeModel.getCurrentLandscape() );
-
-		if ( handle->getLandscape() )
-		{
-			handle->getLandscape()->selectUnits( m_rect );
-		}
-	}
-
-	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::UnitsSelectionChanged::ms_type ) );
-
-} // SelectAction::processAction
+} // SelectByIdAction::~SelectByIdAction
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-SelectAction::unprocessAction( const unsigned int /*_deltaTime*/ )
+SelectByIdAction::processAction( const unsigned int /*_deltaTime*/ )
 {
 	{
 		boost::intrusive_ptr< ILandscapeHandle > handle( m_landscapeModel.getCurrentLandscape() );
 
 		if ( handle->getLandscape() )
 		{
-			handle->getLandscape()->unselectUnits();
+			handle->getLandscape()->selectUnit( m_id );
 		}
 	}
 
 	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::UnitsSelectionChanged::ms_type ) );
 
-} // SelectAction::unprocessAction
+} // SelectByIdAction::processAction
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+SelectByIdAction::unprocessAction( const unsigned int /*_deltaTime*/ )
+{
+} // SelectByIdAction::unprocessAction
 
 
 /*---------------------------------------------------------------------------*/
 
 
 bool
-SelectAction::hasFinished() const
+SelectByIdAction::hasFinished() const
 {
 	return true;
 
-} // SelectAction::hasFinished
+} // SelectByIdAction::hasFinished
 
 
 /*---------------------------------------------------------------------------*/

@@ -102,9 +102,6 @@
     <ClCompile Include="sources\actions\lm_move_items_action.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="sources\actions\lm_select_items_action.cpp">
-      <Filter>Actions</Filter>
-    </ClCompile>
     <ClCompile Include="sources\actions_queue\lm_actions_queue.cpp">
       <Filter>Action Queue</Filter>
     </ClCompile>
@@ -116,6 +113,12 @@
     </ClCompile>
     <ClCompile Include="sources\path_finders\lm_jump_point_search.cpp">
       <Filter>Path Finders</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\actions\lm_select_by_id_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\actions\lm_select_in_rect_action.cpp">
+      <Filter>Actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -215,9 +218,6 @@
     <ClInclude Include="sources\actions\lm_move_items_action.hpp">
       <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="sources\actions\lm_select_items_action.hpp">
-      <Filter>Actions</Filter>
-    </ClInclude>
     <ClInclude Include="sources\actions_queue\lm_actions_queue.hpp">
       <Filter>Action Queue</Filter>
     </ClInclude>
@@ -235,6 +235,12 @@
     </ClInclude>
     <ClInclude Include="sources\path_finders\lm_jump_point_search.hpp">
       <Filter>Path Finders</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_select_by_id_action.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_select_in_rect_action.hpp">
+      <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

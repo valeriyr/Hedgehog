@@ -10,7 +10,8 @@
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
 #include "landscape_model/sources/actions_queue/lm_actions_queue.hpp"
-#include "landscape_model/sources/actions/lm_select_items_action.hpp"
+#include "landscape_model/sources/actions/lm_select_in_rect_action.hpp"
+#include "landscape_model/sources/actions/lm_select_by_id_action.hpp"
 #include "landscape_model/sources/actions/lm_create_object_action.hpp"
 #include "landscape_model/sources/actions/lm_set_surface_item_action.hpp"
 #include "landscape_model/sources/actions/lm_move_items_action.hpp"
@@ -150,9 +151,21 @@ void
 LandscapeModel::selectUnits( const QRect& _rect )
 {
 	m_actionsQueue->pushAction(
-		boost::intrusive_ptr< IAction >( new SelectAction( m_environment, *this, _rect ) ) );
+		boost::intrusive_ptr< IAction >( new SelectInRectAction( m_environment, *this, _rect ) ) );
 
 } // LandscapeModel::selectUnits
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::selectUnit( const IUnit::IdType& _id )
+{
+	m_actionsQueue->pushAction(
+		boost::intrusive_ptr< IAction >( new SelectByIdAction( m_environment, *this, _id ) ) );
+
+} // LandscapeModel::selectUnit
 
 
 /*---------------------------------------------------------------------------*/

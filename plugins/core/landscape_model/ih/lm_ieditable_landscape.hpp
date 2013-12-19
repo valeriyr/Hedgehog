@@ -40,6 +40,8 @@ struct IEditableLandscape
 
 	virtual void selectUnits( const QRect& _rect ) = 0;
 
+	virtual void selectUnit( const IUnit::IdType& _id ) = 0;
+
 	virtual void unselectUnits() = 0;
 
 /*---------------------------------------------------------------------------*/

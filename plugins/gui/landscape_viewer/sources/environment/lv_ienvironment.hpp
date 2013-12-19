@@ -9,6 +9,7 @@
 #include "window_manager/h/wm_view_position.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/ih/lm_iunit.hpp"
 
 #include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
 
@@ -91,6 +92,8 @@ struct IEnvironment
 /*---------------------------------------------------------------------------*/
 
 	virtual void selectItemsInModel( const QRect& _rect ) const = 0;
+
+	virtual void selectItemModel( const Core::LandscapeModel::IUnit::IdType& _id ) const = 0;
 
 	virtual void moveSelectedItems( const QPoint& _to ) const = 0;
 

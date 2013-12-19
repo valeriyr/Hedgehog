@@ -87,6 +87,8 @@ public:
 
 	/*virtual*/ void selectUnits( const QRect& _rect );
 
+	/*virtual*/ void selectUnit( const IUnit::IdType& _id );
+
 	/*virtual*/ void unselectUnits();
 
 /*---------------------------------------------------------------------------*/

@@ -1,6 +1,6 @@
 
-#ifndef __GM_SELECT_ITEMS_ACTION_HPP__
-#define __GM_SELECT_ITEMS_ACTION_HPP__
+#ifndef __GM_SELECT_IN_RECT_ACTION_HPP__
+#define __GM_SELECT_IN_RECT_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,7 +14,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class SelectAction
+class SelectInRectAction
 	:	public BaseAction
 {
 
@@ -24,12 +24,12 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	SelectAction(
+	SelectInRectAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
 		,	const QRect& _rect );
 
-	virtual ~SelectAction();
+	virtual ~SelectInRectAction();
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,4 +59,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __GM_SELECT_ITEMS_ACTION_HPP__
+#endif // __GM_SELECT_IN_RECT_ACTION_HPP__
