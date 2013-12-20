@@ -91,7 +91,7 @@ public:
 		if ( m_matrix )
 		{
 			for ( unsigned int i = 0; i < m_width; ++i )
-				delete m_matrix[ i ];
+				delete [] m_matrix[ i ];
 			delete [] m_matrix;
 
 			m_matrix = NULL;
