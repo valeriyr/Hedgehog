@@ -35,10 +35,12 @@
     </ClCompile>
     <ClCompile Include="sources\plugin\lv_plugin_instance.cpp" />
     <ClCompile Include="sources\surface_item_graphics_info\lv_surface_item_graphics_info.cpp" />
+    <ClCompile Include="sources\views\lv_action_panel_view.cpp" />
     <ClCompile Include="sources\views\lv_description_view.cpp" />
     <ClCompile Include="sources\views\lv_landscape_view.cpp" />
     <ClCompile Include="sources\views\lv_minimap_view.cpp" />
     <ClCompile Include="sources\views\lv_objects_view.cpp" />
+    <ClCompile Include="sources\views\lv_object_info_view.cpp" />
     <ClCompile Include="sources\views\lv_selection_view.cpp" />
     <ClCompile Include="sources\views\lv_settings_view.cpp" />
     <ClCompile Include="sources\views\views_mediator\lv_views_mediator.cpp" />
@@ -65,6 +67,7 @@
     <ClInclude Include="sources\plugin\lv_plugin_instance.hpp" />
     <ClInclude Include="sources\surface_item_graphics_info\lv_isurface_item_graphics_info.hpp" />
     <ClInclude Include="sources\surface_item_graphics_info\lv_surface_item_graphics_info.hpp" />
+    <ClInclude Include="sources\views\lv_action_panel_view.hpp" />
     <ClInclude Include="sources\views\lv_description_view.hpp" />
     <ClInclude Include="sources\views\lv_landscape_view.hpp" />
     <ClInclude Include="sources\views\lv_minimap_view.hpp">
@@ -103,6 +106,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
     </CustomBuild>
+    <ClInclude Include="sources\views\lv_object_info_view.hpp" />
     <ClInclude Include="sources\widgets\landscape_scene_states\lv_ilandscape_scene_state.hpp" />
     <ClInclude Include="sources\widgets\landscape_scene_states\lv_landscape_scene_states.hpp" />
     <CustomBuild Include="sources\views\lv_objects_view.hpp">

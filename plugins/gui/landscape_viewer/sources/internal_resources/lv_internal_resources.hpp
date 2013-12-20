@@ -29,6 +29,10 @@ namespace Views {
 
 	extern const char* const SelectionViewTitle;
 
+	extern const char* const ActionPanelViewTitle;
+
+	extern const char* const ObjectInfoViewTitle;
+
 	extern const char* const EditorViewDefaultTitle;
 
 	extern const char* const TarrainMapVisibilityCheckboxName;
@@ -38,6 +42,12 @@ namespace Views {
 	extern const char* const LandscapeDescriptionDefaultText;
 
 	extern const char* const LandscapeDescriptionFormat;
+
+/*---------------------------------------------------------------------------*/
+
+	extern const char* const ObjectInfoDefaultText;
+
+	extern const char* const ObjectInfoFormat;
 
 /*---------------------------------------------------------------------------*/
 

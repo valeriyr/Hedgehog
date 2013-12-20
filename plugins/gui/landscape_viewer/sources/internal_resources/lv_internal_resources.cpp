@@ -31,6 +31,10 @@ namespace Views {
 
 	const char* const SelectionViewTitle = "Selection";
 
+	const char* const ActionPanelViewTitle = "Actions";
+
+	const char* const ObjectInfoViewTitle = "Object Information";
+
 	const char* const EditorViewDefaultTitle = "Landscape Editor";
 
 	const char* const TarrainMapVisibilityCheckboxName = "Show tarrain map";
@@ -61,6 +65,37 @@ namespace Views {
 			"</html>																	";
 
 /*---------------------------------------------------------------------------*/
+
+	const char* const ObjectInfoDefaultText
+		=	"<html>																				"	\
+			"	<head></head>																	"	\
+			"	<body>																			"	\
+			"		<font><center><i>															"	\
+			"			You should select some object on the landscape to see its information.	"	\
+			"		</i></center></font>														"	\
+			"	</body>																			"	\
+			"</html>																			";
+
+	const char* const ObjectInfoFormat
+		=	"<html>																			"	\
+			"	<head></head>																"	\
+			"	<body>																		"	\
+			"		<font><center><b>%1</b></center></font>									"	\
+			"		<br>																	"	\
+			"		<br>																	"	\
+			"		<div>																	"	\
+			"			<b>Health:</b> %2 / %3												"	\
+			"			<br>																"	\
+			"			<b>Moving speed:</b> %4												"	\
+			"			<br>																"	\
+			"			<b>Position:</b> ( %5, %6 )											"	\
+			"			<br>																"	\
+			"			<b>Size:</b> ( %7, %8 )												"	\
+			"			<br>																"	\
+			"			<b>Unique Id:</b> %9												"	\
+			"		</div>																	"	\
+			"	</body>																		"	\
+			"</html>																		";
 
 /*---------------------------------------------------------------------------*/
 

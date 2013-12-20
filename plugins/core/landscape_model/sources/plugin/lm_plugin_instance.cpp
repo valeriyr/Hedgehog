@@ -173,8 +173,8 @@ PluginInstance::fillSurfaceItemsCache()
 void
 PluginInstance::fillUnitsCache()
 {
-	m_objectTypesCache->regObjectType( "Elven Archer", 100, QSize( 1, 1 ), TerrainMapItem::Ground, 2000 );
-	m_objectTypesCache->regObjectType( "Grunt", 200, QSize( 1, 1 ), TerrainMapItem::Ground, 1000 );
+	m_objectTypesCache->regObjectType( "Elven Archer", 100, QSize( 1, 1 ), TerrainMapItem::Ground, 1000 );
+	m_objectTypesCache->regObjectType( "Grunt", 200, QSize( 1, 1 ), TerrainMapItem::Ground, 2000 );
 
 } // PluginInstance::fillUnitsCache
 
