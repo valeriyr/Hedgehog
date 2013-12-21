@@ -73,51 +73,53 @@ MoveAction::processAction( const unsigned int _deltaTime )
 {
 	std::vector< Framework::Core::EventManager::Event > events;
 
-	boost::intrusive_ptr< ILandscapeHandle > handle( m_landscapeModel.getCurrentLandscape() );
-
-	if ( handle->getLandscape() )
 	{
-		MovingDataCollectionIterator begin = m_movingData.begin();
+		boost::intrusive_ptr< ILandscapeHandle > handle( m_landscapeModel.getCurrentLandscape() );
 
-		while ( begin != m_movingData.end() )
+		if ( handle->getLandscape() )
 		{
-			boost::intrusive_ptr< IUnit > unit = handle->getLandscape()->getUnit( begin->first );
+			MovingDataCollectionIterator begin = m_movingData.begin();
 
-			assert( begin->second.m_movingProgress < 1.0 );
-			assert( !begin->second.m_unitPath.empty() );
-
-			float movingDelta = ( static_cast< float >( _deltaTime ) / unit->getType()->getMovingSpeed() );
-			begin->second.m_movingProgress += movingDelta;
-
-			while ( begin->second.m_movingProgress >= 1.0 )
+			while ( begin != m_movingData.end() )
 			{
-				begin->second.m_movingProgress = begin->second.m_movingProgress - 1.0;
-				unit->setPosition( QRect( begin->second.m_unitPath.front().x(), begin->second.m_unitPath.front().y(), 1, 1 ) );
-				begin->second.m_unitPath.pop_front();
+				boost::intrusive_ptr< IUnit > unit = handle->getLandscape()->getUnit( begin->first );
+
+				assert( begin->second.m_movingProgress < 1.0 );
+				assert( !begin->second.m_unitPath.empty() );
+
+				float movingDelta = ( static_cast< float >( _deltaTime ) / unit->getType()->getMovingSpeed() );
+				begin->second.m_movingProgress += movingDelta;
+
+				while ( begin->second.m_movingProgress >= 1.0 )
+				{
+					begin->second.m_movingProgress = begin->second.m_movingProgress - 1.0;
+					unit->setPosition( QRect( begin->second.m_unitPath.front().x(), begin->second.m_unitPath.front().y(), 1, 1 ) );
+					begin->second.m_unitPath.pop_front();
+
+					if ( begin->second.m_unitPath.empty() )
+						break;
+				}
 
 				if ( begin->second.m_unitPath.empty() )
-					break;
+				{
+					MovingDataCollectionIterator temp = ++begin;
+					--begin;
+					m_movingData.erase( begin );
+					begin = temp;
+					continue;
+				}
+
+				Framework::Core::EventManager::Event unitMovedEvent( Events::UnitMoved::ms_type );
+				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_unitNameAttribute, unit->getType()->getName() );
+				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_unitIdAttribute, begin->first );
+				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingFromAttribute, QPoint( unit->getPosition().x(), unit->getPosition().y() ) );
+				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingToAttribute, begin->second.m_unitPath.front() );
+				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingProgressAttribute, begin->second.m_movingProgress );
+
+				events.push_back( unitMovedEvent );
+
+				++begin;
 			}
-
-			if ( begin->second.m_unitPath.empty() )
-			{
-				MovingDataCollectionIterator temp = ++begin;
-				--begin;
-				m_movingData.erase( begin );
-				begin = temp;
-				continue;
-			}
-
-			Framework::Core::EventManager::Event unitMovedEvent( Events::UnitMoved::ms_type );
-			unitMovedEvent.pushAttribute( Events::UnitMoved::ms_unitNameAttribute, unit->getType()->getName() );
-			unitMovedEvent.pushAttribute( Events::UnitMoved::ms_unitIdAttribute, begin->first );
-			unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingFromAttribute, QPoint( unit->getPosition().x(), unit->getPosition().y() ) );
-			unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingToAttribute, begin->second.m_unitPath.front() );
-			unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingProgressAttribute, begin->second.m_movingProgress );
-
-			events.push_back( unitMovedEvent );
-
-			++begin;
 		}
 	}
 
