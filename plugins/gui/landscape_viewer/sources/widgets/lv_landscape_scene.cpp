@@ -339,6 +339,19 @@ LandscapeScene::onUnitMoved( const Framework::Core::EventManager::Event& _event 
 		ypos -= ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
 	}
 
+	/*QTimeLine *timer = new QTimeLine(5000);
+    timer->setFrameRange(0, 100);
+
+	QGraphicsItemAnimation *animation = new QGraphicsItemAnimation();
+
+	animation->setItem( iterator->second );
+    animation->setTimeLine( timer );
+
+	for (int x = movedFromInScene.x(); x < movedToInScene.x(); ++x)
+        animation->setPosAt(movedFromInScene.x() / movedToInScene.x(), QPointF(x, movedFromInScene.y()));
+
+	timer->start();*/
+
 	iterator->second->setPos( QPoint( xpos, ypos ) );
 
 } // LandscapeScene::onUnitMoved

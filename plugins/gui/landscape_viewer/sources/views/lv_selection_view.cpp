@@ -54,7 +54,7 @@ SelectionView::SelectionView( const IEnvironment& _environment )
 	,	m_viewTitle( Resources::Views::SelectionViewTitle )
 	,	m_mainWidget( new QListWidget() )
 {
-	m_mainWidget->setViewMode( QListView::ViewMode::IconMode );
+	m_mainWidget->setViewMode( QListView::IconMode );
 
 	QObject::connect(
 			m_mainWidget.get()
