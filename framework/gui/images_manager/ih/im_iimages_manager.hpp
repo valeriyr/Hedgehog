@@ -24,9 +24,37 @@ struct IImagesManager
 
 /*---------------------------------------------------------------------------*/
 
+	struct TransformationData
+	{
+		explicit TransformationData( const QRect& _rect )
+			:	m_rect( _rect )
+			,	m_mirroredByVertical( false )
+			,	m_mirroredByHorizontal( false )
+		{}
+
+		TransformationData(
+				const QRect& _rect
+			,	const bool _mirroredByVertical
+			,	const bool _mirroredByHorizontal
+			)
+			:	m_rect( _rect )
+			,	m_mirroredByVertical( _mirroredByVertical )
+			,	m_mirroredByHorizontal( _mirroredByHorizontal )
+		{}
+
+		const QRect m_rect;
+
+		const bool m_mirroredByVertical;
+		const bool m_mirroredByHorizontal;
+	};
+
+/*---------------------------------------------------------------------------*/
+
 	virtual const QPixmap& getPixmap( const QString& _resourcePath ) = 0;
 
-	virtual const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) = 0;
+	virtual const QPixmap& getPixmap(
+			const QString& _resourcePath
+		,	const TransformationData& _transformationData ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

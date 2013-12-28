@@ -32,7 +32,9 @@ public:
 
 	/*virtual*/ const QPixmap& getPixmap( const QString& _resourcePath );
 
-	/*virtual*/ const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect );
+	/*virtual*/ const QPixmap& getPixmap(
+			const QString& _resourcePath
+		,	const IImagesManager::TransformationData& _transformationData );
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,7 +42,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	static QString generatePathForPixmapWithRect( const QString& _resourcePath, const QRect& _rect );
+	static QString generatePathForPixmapWithRect(
+			const QString& _resourcePath
+		,	const IImagesManager::TransformationData& _transformationData );
 
 /*---------------------------------------------------------------------------*/
 

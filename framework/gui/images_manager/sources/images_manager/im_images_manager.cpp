@@ -64,19 +64,31 @@ ImagesManager::getPixmap( const QString& _resourcePath )
 
 
 const QPixmap&
-ImagesManager::getPixmap( const QString& _resourcePath, const QRect& _rect )
+ImagesManager::getPixmap( const QString& _resourcePath, const IImagesManager::TransformationData& _transformationData )
 {
-	QString path = generatePathForPixmapWithRect( _resourcePath, _rect );
+	QString path = generatePathForPixmapWithRect( _resourcePath, _transformationData );
 
 	PixmapsCollectionIteratorType iterator = m_pixmapsCollection.find( path );
 	if ( iterator != m_pixmapsCollection.end() )
 		return *iterator->second;
 
-	boost::shared_ptr< QPixmap > pixmap( new QPixmap( getPixmap( _resourcePath ).copy( _rect ) ) );
+	boost::shared_ptr< QPixmap > resultPixmap;
 
-	m_pixmapsCollection.insert( std::make_pair( path, pixmap ) );
+	if ( _transformationData.m_mirroredByHorizontal || _transformationData.m_mirroredByVertical )
+	{
+		QPixmap pixmap( getPixmap( _resourcePath ).copy( _transformationData.m_rect ) );
+		resultPixmap.reset(
+			new QPixmap( QPixmap::fromImage( pixmap.toImage().mirrored(	_transformationData.m_mirroredByHorizontal
+																	,	_transformationData.m_mirroredByVertical ) ) ) );
+	}
+	else
+	{
+		resultPixmap.reset( new QPixmap( getPixmap( _resourcePath ).copy( _transformationData.m_rect ) ) );
+	}
 
-	return *pixmap;
+	m_pixmapsCollection.insert( std::make_pair( path, resultPixmap ) );
+
+	return *resultPixmap;
 
 } // ImagesManager::getPixmap
 
@@ -85,15 +97,17 @@ ImagesManager::getPixmap( const QString& _resourcePath, const QRect& _rect )
 
 
 QString
-ImagesManager::generatePathForPixmapWithRect( const QString& _resourcePath, const QRect& _rect )
+ImagesManager::generatePathForPixmapWithRect( const QString& _resourcePath, const IImagesManager::TransformationData& _transformationData )
 {
 	return
 		QString( Resources::ImageWithRectPathFormat )
 			.arg( _resourcePath )
-			.arg( _rect.x() )
-			.arg( _rect.y() )
-			.arg( _rect.right() )
-			.arg( _rect.bottom() );
+			.arg( _transformationData.m_rect.x() )
+			.arg( _transformationData.m_rect.y() )
+			.arg( _transformationData.m_rect.right() )
+			.arg( _transformationData.m_rect.bottom() )
+			.arg( _transformationData.m_mirroredByHorizontal ? "true" : "false" )
+			.arg( _transformationData.m_mirroredByVertical ? "true" : "false" );
 
 } // ImagesManager::generatePathForPixmapWithRect
 

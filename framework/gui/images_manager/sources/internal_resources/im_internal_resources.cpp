@@ -17,7 +17,7 @@ namespace Resources {
 
 	const char* const ImageDefaultExtension = ".png";
 
-	const char* const ImageWithRectPathFormat = "%1(rect:%2,%3,%4,%5)";
+	const char* const ImageWithRectPathFormat = "%1(rect:%2,%3,%4,%5)(hor:%6, vert:%7)";
 
 /*---------------------------------------------------------------------------*/
 
