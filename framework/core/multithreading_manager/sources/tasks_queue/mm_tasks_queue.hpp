@@ -19,31 +19,29 @@ namespace MultithreadingManager {
 
 		TaskData()
 			:	m_function()
-			,	m_period()
+			,	m_time( 0 )
 			,	m_isInitialized( false )
 		{}
 
 		TaskData(
 				RunnableFunction _function
-			,	const qint64 _period
+			,	const qint64 _time
 			)
 			:	m_function( _function )
-			,	m_period( _period )
+			,	m_time( _time )
 			,	m_lastStart( 0 )
 			,	m_isInitialized( true )
 		{}
 
 		TaskData( RunnableFunction _function )
 			:	m_function( _function )
-			,	m_period( 0 )
+			,	m_time( 0 )
 			,	m_lastStart( 0 )
 			,	m_isInitialized( true )
 		{}
 
-		bool isPeriodical() { return m_period > 0; }
-
 		RunnableFunction m_function;
-		qint64 m_period;
+		qint64 m_time;
 		qint64 m_lastStart;
 
 		const bool m_isInitialized;
@@ -66,7 +64,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	QString pushTask( RunnableFunction _function, const qint64 _period );
+	QString pushTask( RunnableFunction _function );
+
+	QString pushPeriodicalTask( RunnableFunction _function, const qint64 _period );
+
+	QString pushDelayedTask( RunnableFunction _function, const qint64 _dalay );
+
+/*---------------------------------------------------------------------------*/
 
 	void removeTask( const QString& _taskId );
 
@@ -76,7 +80,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	unsigned int refreshPeriodicalTasks();
+	unsigned int refreshTasks();
 
 /*---------------------------------------------------------------------------*/
 
@@ -95,6 +99,7 @@ private:
 
 	TasksCollection m_readyTasksCollection;
 	TasksCollection m_periodicalTasksCollection;
+	TasksCollection m_delayedTasksCollection;
 
 	QMutex m_taskQueueLocker;
 

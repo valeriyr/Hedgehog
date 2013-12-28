@@ -36,7 +36,7 @@ MultithreadingManager::TaskHandle
 Environment::pushTask(	const QString& _threadName
 					,	const MultithreadingManager::RunnableFunction& _function )
 {
-	return m_pluginInstance.getMultithreadingManager()->pushTask( _threadName, _function, 100 );
+	return m_pluginInstance.getMultithreadingManager()->pushPeriodicalTask( _threadName, _function, 100 );
 
 } // Environment::pushTask
 

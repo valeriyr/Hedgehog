@@ -25,7 +25,7 @@ MultithreadingManager::MultithreadingManager()
 	,	m_mainThreadWorker( new MainThreadWorker() )
 {
 	m_mainThreadWorker->start();
-	m_mainThreadWorker->pushTask( boost::bind( &MultithreadingManager::refreshPeriodicalTasks, this ), MainThreadWorker::ms_period - 10 );
+	m_mainThreadWorker->pushPeriodicalTask( boost::bind( &MultithreadingManager::refreshTasks, this ), MainThreadWorker::ms_period - 10 );
 
 } // MultithreadingManager::MultithreadingManager
 
@@ -106,26 +106,72 @@ MultithreadingManager::run( RunnableFunction _function )
 
 
 TaskHandle
-MultithreadingManager::pushTask(
-			const QString& _threadName
-		,	RunnableFunction _function
-		,	const qint64 _period
-		)
+MultithreadingManager::pushTask( const QString& _threadName, RunnableFunction _function )
 {
 	if ( _threadName == Resources::MainThreadName )
 	{
-		return TaskHandle( _threadName, m_mainThreadWorker->pushTask( _function, _period ) );
+		return TaskHandle( _threadName, m_mainThreadWorker->pushTask( _function ) );
 	}
 	else
 	{
 		ThreadsCollectionIterator iterator = m_threadsCollection.find( _threadName );
 
 		return		iterator != m_threadsCollection.end()
-				?	TaskHandle( _threadName, iterator->second.m_worker->pushTask( _function, _period ) )
+				?	TaskHandle( _threadName, iterator->second.m_worker->pushTask( _function ) )
 				:	TaskHandle();
 	}
 
 } // MultithreadingManager::pushTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
+TaskHandle
+MultithreadingManager::pushPeriodicalTask(
+		const QString& _threadName
+	,	RunnableFunction _function
+	,	const qint64 _period )
+{
+	if ( _threadName == Resources::MainThreadName )
+	{
+		return TaskHandle( _threadName, m_mainThreadWorker->pushPeriodicalTask( _function, _period ) );
+	}
+	else
+	{
+		ThreadsCollectionIterator iterator = m_threadsCollection.find( _threadName );
+
+		return		iterator != m_threadsCollection.end()
+				?	TaskHandle( _threadName, iterator->second.m_worker->pushPeriodicalTask( _function, _period ) )
+				:	TaskHandle();
+	}
+
+} // MultithreadingManager::pushPeriodicalTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
+TaskHandle
+MultithreadingManager::pushDelayedTask(
+		const QString& _threadName
+	,	RunnableFunction _function
+	,	const qint64 _delay )
+{
+	if ( _threadName == Resources::MainThreadName )
+	{
+		return TaskHandle( _threadName, m_mainThreadWorker->pushDelayedTask( _function, _delay ) );
+	}
+	else
+	{
+		ThreadsCollectionIterator iterator = m_threadsCollection.find( _threadName );
+
+		return		iterator != m_threadsCollection.end()
+				?	TaskHandle( _threadName, iterator->second.m_worker->pushDelayedTask( _function, _delay ) )
+				:	TaskHandle();
+	}
+
+} // MultithreadingManager::pushDelayedTask
 
 
 /*---------------------------------------------------------------------------*/
@@ -155,7 +201,7 @@ MultithreadingManager::removeTask( const TaskHandle& _taskHandle )
 
 
 void
-MultithreadingManager::refreshPeriodicalTasks()
+MultithreadingManager::refreshTasks()
 {
 	ThreadsCollectionIterator
 			begin = m_threadsCollection.begin()
@@ -163,10 +209,10 @@ MultithreadingManager::refreshPeriodicalTasks()
 
 	for ( ; begin != end ; ++begin )
 	{
-		begin->second.m_worker->refreshPeriodicalTasks();
+		begin->second.m_worker->refreshTasks();
 	}
 
-} // MultithreadingManager::refreshPeriodicalTasks
+} // MultithreadingManager::refreshTasks
 
 
 /*---------------------------------------------------------------------------*/

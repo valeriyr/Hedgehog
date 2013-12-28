@@ -35,15 +35,41 @@ Worker::~Worker()
 
 
 QString
-Worker::pushTask( RunnableFunction _function, const qint64 _period )
+Worker::pushTask( RunnableFunction _function )
 {
-	const QString taskId( m_tasksQueue.pushTask( _function, _period ) );
+	const QString taskId( m_tasksQueue.pushTask( _function ) );
 
 	m_semaphore.release( 1 );
 
 	return taskId;
 
 } // Worker::pushTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+Worker::pushPeriodicalTask( RunnableFunction _function, const qint64 _period )
+{
+	const QString taskId( m_tasksQueue.pushPeriodicalTask( _function, _period ) );
+
+	m_semaphore.release( 1 );
+
+	return taskId;
+
+} // Worker::pushPeriodicalTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+Worker::pushDelayedTask( RunnableFunction _function, const qint64 _delay )
+{
+	return m_tasksQueue.pushDelayedTask( _function, _delay );
+
+} // Worker::pushDelayedTask
 
 
 /*---------------------------------------------------------------------------*/
@@ -61,11 +87,11 @@ Worker::removeTask( const QString& _taskId )
 
 
 void
-Worker::refreshPeriodicalTasks()
+Worker::refreshTasks()
 {
-	m_semaphore.release( m_tasksQueue.refreshPeriodicalTasks() );
+	m_semaphore.release( m_tasksQueue.refreshTasks() );
 
-} // Worker::refreshPeriodicalTasks
+} // Worker::refreshTasks
 
 
 /*---------------------------------------------------------------------------*/

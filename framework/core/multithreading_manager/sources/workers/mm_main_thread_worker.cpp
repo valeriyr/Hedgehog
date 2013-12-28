@@ -39,11 +39,33 @@ MainThreadWorker::~MainThreadWorker()
 
 
 QString
-MainThreadWorker::pushTask( RunnableFunction _function, const qint64 _period )
+MainThreadWorker::pushTask( RunnableFunction _function )
 {
-	return m_tasksQueue.pushTask( _function, _period );
+	return m_tasksQueue.pushTask( _function );
 
 } // MainThreadWorker::pushTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+MainThreadWorker::pushPeriodicalTask( RunnableFunction _function, const qint64 _period )
+{
+	return m_tasksQueue.pushPeriodicalTask( _function, _period );
+
+} // MainThreadWorker::pushPeriodicalTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+MainThreadWorker::pushDelayedTask( RunnableFunction _function, const qint64 _delay )
+{
+	return m_tasksQueue.pushDelayedTask( _function, _delay );
+
+} // MainThreadWorker::pushDelayedTask
 
 
 /*---------------------------------------------------------------------------*/
@@ -87,7 +109,7 @@ MainThreadWorker::doWork()
 {
 	const qint64 startTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
-	m_tasksQueue.refreshPeriodicalTasks();
+	m_tasksQueue.refreshTasks();
 
 	do
 	{

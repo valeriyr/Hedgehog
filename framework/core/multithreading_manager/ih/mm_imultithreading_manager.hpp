@@ -37,10 +37,13 @@ struct IMultithreadingManager
 
 /*---------------------------------------------------------------------------*/
 
-	virtual TaskHandle pushTask(
-			const QString& _threadName
-		,	RunnableFunction _function
-		,	const qint64 _period ) = 0;
+	virtual TaskHandle pushTask( const QString& _threadName, RunnableFunction _function ) = 0;
+
+	virtual TaskHandle pushPeriodicalTask( const QString& _threadName, RunnableFunction _function, const qint64 _period ) = 0;
+
+	virtual TaskHandle pushDelayedTask( const QString& _threadName, RunnableFunction _function, const qint64 _delay ) = 0;
+
+/*---------------------------------------------------------------------------*/
 
 	virtual void removeTask( const TaskHandle& _taskHandle ) = 0;
 

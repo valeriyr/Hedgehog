@@ -1,5 +1,6 @@
 
 #include <map>
+#include <vector>
 
 #include <QtCore/QThreadPool>
 #include <QtCore/QTimer>

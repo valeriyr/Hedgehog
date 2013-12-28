@@ -39,13 +39,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	QString pushTask( RunnableFunction _function, const qint64 _period );
+	QString pushTask( RunnableFunction _function );
+
+	QString pushPeriodicalTask( RunnableFunction _function, const qint64 _period );
+
+	QString pushDelayedTask( RunnableFunction _function, const qint64 _delay );
+
+/*---------------------------------------------------------------------------*/
 
 	void removeTask( const QString& _taskId );
 
 	void clear();
 
-	void refreshPeriodicalTasks();
+	void refreshTasks();
 
 /*---------------------------------------------------------------------------*/
 
