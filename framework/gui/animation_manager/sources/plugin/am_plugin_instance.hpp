@@ -37,7 +37,9 @@ namespace AnimationManager {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
+
 struct IAnimationManager;
+struct IAnimationsCache;
 
 /*---------------------------------------------------------------------------*/
 
@@ -86,6 +88,8 @@ private:
 	boost::intrusive_ptr< IEnvironment > m_environment;
 
 	boost::intrusive_ptr< IAnimationManager > m_animationManager;
+
+	boost::intrusive_ptr< IAnimationsCache > m_animationsCache;
 
 /*---------------------------------------------------------------------------*/
 

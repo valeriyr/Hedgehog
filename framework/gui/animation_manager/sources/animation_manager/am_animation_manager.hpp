@@ -17,6 +17,7 @@ namespace AnimationManager {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
+struct IAnimationsCache;
 
 /*---------------------------------------------------------------------------*/
 
@@ -30,19 +31,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	AnimationManager( const IEnvironment& _environment );
+	AnimationManager( const IEnvironment& _environment, const IAnimationsCache& _animationCache );
 
 	virtual ~AnimationManager();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void regAnimation( const AnimationInfo& _animationInfo );
-
-	/*virtual*/ void unregAnimation( const AnimationInfo& _animationInfo );
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void startAnimation( IAnimateObject& _animateObject, const QString& _animationName );
+	/*virtual*/ void playAnimation( IAnimateObject& _animateObject, const QString& _animationName );
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,7 +51,40 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	struct AnimationData
+	{
+		AnimationData( const AnimationInfo& _animationInfo )
+			:	m_animationInfo( _animationInfo )
+			,	m_frameIndex( 0 )
+		{}
+
+		const AnimationInfo& m_animationInfo;
+
+		unsigned int m_frameIndex;
+	};
+
+/*---------------------------------------------------------------------------*/
+
+	typedef
+		std::map< IAnimateObject*, AnimationData >
+		AnimationsDataCollection;
+	typedef
+		AnimationsDataCollection::iterator
+		AnimationsDataCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
 	const IEnvironment& m_environment;
+
+	const IAnimationsCache& m_animationCache;
+
+	AnimationsDataCollection m_animationsDataCollection;
 
 /*---------------------------------------------------------------------------*/
 

@@ -12,8 +12,10 @@ namespace AnimationManager {
 
 /*---------------------------------------------------------------------------*/
 
-AnimationManager::AnimationManager( const IEnvironment& _environment )
+AnimationManager::AnimationManager( const IEnvironment& _environment, const IAnimationsCache& _animationCache )
 	:	m_environment( _environment )
+	,	m_animationCache( _animationCache )
+	,	m_animationsDataCollection()
 {
 } // AnimationManager::AnimationManager
 
@@ -23,6 +25,8 @@ AnimationManager::AnimationManager( const IEnvironment& _environment )
 
 AnimationManager::~AnimationManager()
 {
+	assert( m_animationsDataCollection.empty() && "All animations should be stopped at this moment!" );
+
 } // AnimationManager::~AnimationManager
 
 
@@ -30,27 +34,9 @@ AnimationManager::~AnimationManager()
 
 
 void
-AnimationManager::regAnimation( const AnimationInfo& _animationInfo )
+AnimationManager::playAnimation( IAnimateObject& _animateObject, const QString& _animationName )
 {
-} // AnimationManager::regAnimation
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-AnimationManager::unregAnimation( const AnimationInfo& _animationInfo )
-{
-} // AnimationManager::unregAnimation
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-AnimationManager::startAnimation( IAnimateObject& _animateObject, const QString& _animationName )
-{
-} // AnimationManager::startAnimation
+} // AnimationManager::playAnimation
 
 
 /*---------------------------------------------------------------------------*/

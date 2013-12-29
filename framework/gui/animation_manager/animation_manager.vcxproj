@@ -22,7 +22,9 @@
     <ClInclude Include="h\am_animation_info.hpp" />
     <ClInclude Include="h\am_plugin_id.hpp" />
     <ClInclude Include="ih\am_ianimate_object.hpp" />
+    <ClInclude Include="ih\am_ianimations_cache.hpp" />
     <ClInclude Include="ih\am_ianimation_manager.hpp" />
+    <ClInclude Include="sources\animations_cache\am_animations_cache.hpp" />
     <ClInclude Include="sources\environment\am_environment.hpp" />
     <ClInclude Include="sources\environment\am_ienvironment.hpp" />
     <ClInclude Include="sources\ph\am_ph.hpp" />
@@ -30,6 +32,7 @@
     <ClInclude Include="sources\animation_manager\am_animation_manager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\animations_cache\am_animations_cache.cpp" />
     <ClCompile Include="sources\environment\am_environment.cpp" />
     <ClCompile Include="sources\ph\am_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

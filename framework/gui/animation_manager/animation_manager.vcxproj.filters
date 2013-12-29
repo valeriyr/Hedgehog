@@ -19,6 +19,9 @@
     <Filter Include="Environment">
       <UniqueIdentifier>{41ca6bae-4327-45ff-891d-c8ae1bcedef9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Animations Cache">
+      <UniqueIdentifier>{dd3ec3c6-a2a6-4ddc-a618-a4efd0d6f897}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\am_plugin_id.hpp">
@@ -48,6 +51,12 @@
     <ClInclude Include="ih\am_ianimate_object.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="ih\am_ianimations_cache.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\animations_cache\am_animations_cache.hpp">
+      <Filter>Animations Cache</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\plugin\am_plugin_instance.cpp">
@@ -61,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="sources\environment\am_environment.cpp">
       <Filter>Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\animations_cache\am_animations_cache.cpp">
+      <Filter>Animations Cache</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

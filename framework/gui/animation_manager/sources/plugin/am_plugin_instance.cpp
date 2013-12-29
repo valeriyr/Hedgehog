@@ -4,6 +4,7 @@
 #include "animation_manager/sources/plugin/am_plugin_instance.hpp"
 
 #include "animation_manager/sources/animation_manager/am_animation_manager.hpp"
+#include "animation_manager/sources/animations_cache/am_animations_cache.hpp"
 
 #include "animation_manager/sources/environment/am_environment.hpp"
 
@@ -28,6 +29,7 @@ namespace AnimationManager {
 BEGIN_INTERFACE_MAP( PluginInstance )
 
 	INTERFACE_DECLARATION( IID_ANIMATION_MANAGER, m_animationManager.get() )
+	INTERFACE_DECLARATION( IID_ANIMATIONS_CACHE, m_animationsCache.get() )
 
 END_INTERFACE_MAP()
 
@@ -55,7 +57,8 @@ void
 PluginInstance::initialize()
 {
 	m_environment.reset( new Environment( *this ) );
-	m_animationManager.reset( new AnimationManager( *m_environment ) );
+	m_animationsCache.reset( new AnimationsCache() );
+	m_animationManager.reset( new AnimationManager( *m_environment, *m_animationsCache ) );
 
 } // PluginInstance::initialize
 
@@ -67,6 +70,7 @@ void
 PluginInstance::close()
 {
 	m_animationManager.reset();
+	m_animationsCache.reset();
 	m_environment.reset();
 
 } // PluginInstance::close
