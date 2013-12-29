@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{5b77639a-1749-4df0-bc3e-84fa192e3a4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{1e123293-2906-4221-8be3-b8aa1043b567}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Headers">
+      <UniqueIdentifier>{5766bb9f-d48a-4887-a79c-5e9db1346eb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{8361510c-6dbb-459b-9fe6-e723dd5676ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation Manager">
+      <UniqueIdentifier>{35525250-e21b-41c0-8d09-7ab2c5f9db31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{41ca6bae-4327-45ff-891d-c8ae1bcedef9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="h\am_plugin_id.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\plugin\am_plugin_instance.hpp">
+      <Filter>Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ph\am_ph.hpp">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\am_ianimation_manager.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\animation_manager\am_animation_manager.hpp">
+      <Filter>Animation Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\am_environment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\am_ienvironment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sources\plugin\am_plugin_instance.cpp">
+      <Filter>Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ph\am_ph.cpp">
+      <Filter>Precompiled Header</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\animation_manager\am_animation_manager.cpp">
+      <Filter>Animation Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\environment\am_environment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
