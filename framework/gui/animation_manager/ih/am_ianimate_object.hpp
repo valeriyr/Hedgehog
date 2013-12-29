@@ -1,21 +1,17 @@
 
-#ifndef __LV_IANIMATE_OBJECT_HPP__
-#define __LV_IANIMATE_OBJECT_HPP__
+#ifndef __AM_IANIMATE_OBJECT_HPP__
+#define __AM_IANIMATE_OBJECT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
+namespace Framework {
 namespace GUI {
-namespace LandscapeViewer {
+namespace AnimationManager {
 
 /*---------------------------------------------------------------------------*/
 
 struct IAnimateObject
 {
-
-/*---------------------------------------------------------------------------*/
-
-	virtual const QString& getName() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,10 +23,10 @@ struct IAnimateObject
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeViewer
+} // namespace AnimationManager
 } // namespace GUI
-} // namespace Plugins
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_IANIMATE_OBJECT_HPP__
+#endif // __AM_IANIMATE_OBJECT_HPP__

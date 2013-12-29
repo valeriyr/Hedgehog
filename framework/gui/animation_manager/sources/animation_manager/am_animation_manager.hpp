@@ -6,6 +6,8 @@
 
 #include "animation_manager/ih/am_ianimation_manager.hpp"
 
+#include "animation_manager/h/am_animation_info.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -34,7 +36,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void startAnimation( const IAnimateObject& _animateObject );
+	/*virtual*/ void regAnimation( const AnimationInfo& _animationInfo );
+
+	/*virtual*/ void unregAnimation( const AnimationInfo& _animationInfo );
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void startAnimation( IAnimateObject& _animateObject, const QString& _animationName );
 
 /*---------------------------------------------------------------------------*/
 

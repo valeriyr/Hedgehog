@@ -30,7 +30,25 @@ AnimationManager::~AnimationManager()
 
 
 void
-AnimationManager::startAnimation( const IAnimateObject& _animateObject )
+AnimationManager::regAnimation( const AnimationInfo& _animationInfo )
+{
+} // AnimationManager::regAnimation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+AnimationManager::unregAnimation( const AnimationInfo& _animationInfo )
+{
+} // AnimationManager::unregAnimation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+AnimationManager::startAnimation( IAnimateObject& _animateObject, const QString& _animationName )
 {
 } // AnimationManager::startAnimation
 

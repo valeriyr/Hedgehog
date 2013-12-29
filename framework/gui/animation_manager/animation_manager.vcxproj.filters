@@ -42,6 +42,12 @@
     <ClInclude Include="sources\environment\am_ienvironment.hpp">
       <Filter>Environment</Filter>
     </ClInclude>
+    <ClInclude Include="h\am_animation_info.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\am_ianimate_object.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\plugin\am_plugin_instance.cpp">

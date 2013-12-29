@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="h\am_animation_info.hpp" />
     <ClInclude Include="h\am_plugin_id.hpp" />
+    <ClInclude Include="ih\am_ianimate_object.hpp" />
     <ClInclude Include="ih\am_ianimation_manager.hpp" />
     <ClInclude Include="sources\environment\am_environment.hpp" />
     <ClInclude Include="sources\environment\am_ienvironment.hpp" />

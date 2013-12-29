@@ -19,6 +19,7 @@ namespace AnimationManager {
 /*---------------------------------------------------------------------------*/
 
 struct IAnimateObject;
+struct AnimationInfo;
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +29,13 @@ struct IAnimationManager
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void startAnimation( const IAnimateObject& _animateObject ) = 0;
+	virtual void regAnimation( const AnimationInfo& _animationInfo ) = 0;
+
+	virtual void unregAnimation( const AnimationInfo& _animationInfo ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void startAnimation( IAnimateObject& _animateObject, const QString& _animationName ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

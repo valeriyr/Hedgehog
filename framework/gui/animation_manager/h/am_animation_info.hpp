@@ -1,36 +1,61 @@
 
-#ifndef __LV_ANIMATION_INFO_HPP__
-#define __LV_ANIMATION_INFO_HPP__
+#ifndef __AM_ANIMATION_INFO_HPP__
+#define __AM_ANIMATION_INFO_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
+namespace Framework {
 namespace GUI {
-namespace LandscapeViewer {
+namespace AnimationManager {
+
+/*---------------------------------------------------------------------------*/
+
+struct FrameInfo
+{
+	FrameInfo( const qint64 _period, const QRect& _frame, const bool _mirrored = false )
+		:	m_period( _period )
+		,	m_frame( _frame )
+		,	m_mirrored( _mirrored )
+	{}
+
+	const qint64 m_period;
+	const QRect m_frame;
+	const bool m_mirrored;
+};
 
 /*---------------------------------------------------------------------------*/
 
 struct AnimationInfo
 {
+	typedef
+		std::vector< FrameInfo >
+		FramesCollection;
+	typedef
+		FramesCollection::const_iterator
+		FramesCollectionIterator;
 
-/*---------------------------------------------------------------------------*/
+	AnimationInfo(
+			const QString& _animationName
+		,	const QString& _atlasName
+		,	const FramesCollection& _frames
+		)
+		:	m_animationName( _animationName )
+		,	m_atlasName( _atlasName )
+		,	m_frames( _frames )
+	{}
 
-	virtual const QString& getName() const = 0;
+	const QString m_animationName;
+	const QString m_atlasName;
 
-/*---------------------------------------------------------------------------*/
-
-	virtual void setSprite( const QPixmap& _sprite ) = 0;
-
-/*---------------------------------------------------------------------------*/
-
+	const FramesCollection m_frames;
 };
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeViewer
+} // namespace AnimationManager
 } // namespace GUI
-} // namespace Plugins
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ANIMATION_INFO_HPP__
+#endif // __AM_ANIMATION_INFO_HPP__
