@@ -33,12 +33,12 @@ Environment::~Environment()
 
 
 MultithreadingManager::TaskHandle
-Environment::pushTask(	const QString& _threadName
+Environment::pushPeriodicalTask(	const QString& _threadName
 					,	const MultithreadingManager::RunnableFunction& _function )
 {
 	return m_pluginInstance.getMultithreadingManager()->pushPeriodicalTask( _threadName, _function, 100 );
 
-} // Environment::pushTask
+} // Environment::pushPeriodicalTask
 
 
 /*---------------------------------------------------------------------------*/

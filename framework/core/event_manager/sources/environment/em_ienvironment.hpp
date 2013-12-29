@@ -22,7 +22,8 @@ struct IEnvironment
 /*---------------------------------------------------------------------------*/
 
 	virtual MultithreadingManager::TaskHandle
-		pushTask(	const QString& _threadName
+		pushPeriodicalTask(
+					const QString& _threadName
 				,	const MultithreadingManager::RunnableFunction& _function ) = 0;
 
 	virtual void removeTask( const MultithreadingManager::TaskHandle& _taskHandle ) = 0;

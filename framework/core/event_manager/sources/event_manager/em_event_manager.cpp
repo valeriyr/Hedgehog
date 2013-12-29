@@ -65,7 +65,7 @@ EventManager::subscribe(	const QString& _threadForProcessing
 		subscribersIterator
 			= m_subscribersCollection.insert( std::make_pair( _threadForProcessing, SubscribersData() ) ).first;
 		subscribersIterator->second.m_taskHandle
-			= m_environment.pushTask( _threadForProcessing, boost::bind( &EventManager::task, this, _threadForProcessing ) );
+			= m_environment.pushPeriodicalTask( _threadForProcessing, boost::bind( &EventManager::task, this, _threadForProcessing ) );
 
 		assert( subscribersIterator->second.m_taskHandle.isValid() && "Task handle should be valid!" );
 	}

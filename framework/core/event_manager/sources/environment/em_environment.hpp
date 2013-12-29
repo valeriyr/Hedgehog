@@ -35,7 +35,8 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ MultithreadingManager::TaskHandle
-		pushTask(	const QString& _threadName
+		pushPeriodicalTask(
+					const QString& _threadName
 				,	const MultithreadingManager::RunnableFunction& _function );
 
 	/*virtual*/ void removeTask( const MultithreadingManager::TaskHandle& _taskHandle );
