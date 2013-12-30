@@ -69,10 +69,6 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-private:
-
-/*---------------------------------------------------------------------------*/
-
 	boost::intrusive_ptr< Core::MultithreadingManager::IMultithreadingManager >
 		getMultithreadingManager() const;
 

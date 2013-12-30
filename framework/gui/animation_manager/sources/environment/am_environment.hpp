@@ -34,6 +34,18 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ Core::MultithreadingManager::TaskHandle
+		pushPeriodicalTask(
+					const QString& _threadName
+				,	const Core::MultithreadingManager::RunnableFunction& _function ) const;
+
+	/*virtual*/ void removeTask( const Core::MultithreadingManager::TaskHandle& _taskHandle ) const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ const QPixmap& getPixmap(
+			const QString& _resourcePath
+		,	const Framework::GUI::ImagesManager::IImagesManager::TransformationData& _transformationData ) const;
 
 /*---------------------------------------------------------------------------*/
 

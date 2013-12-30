@@ -33,7 +33,7 @@ struct IAnimationManager
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void stopAnimation( const IAnimateObject& _animateObject ) = 0;
+	virtual void stopAnimation( IAnimateObject& _animateObject ) = 0;
 
 	virtual void stopAllAnimations() = 0;
 

@@ -8,6 +8,8 @@
 
 #include "animation_manager/h/am_animation_info.hpp"
 
+#include "multithreading_manager/h/mm_task_handle.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -41,7 +43,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void stopAnimation( const IAnimateObject& _animateObject );
+	/*virtual*/ void stopAnimation( IAnimateObject& _animateObject );
 
 	/*virtual*/ void stopAllAnimations();
 
@@ -50,6 +52,8 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	void animationsProcessingTask();
 
 /*---------------------------------------------------------------------------*/
 
@@ -62,17 +66,20 @@ private:
 		AnimationData( const AnimationInfo& _animationInfo )
 			:	m_animationInfo( _animationInfo )
 			,	m_frameIndex( 0 )
+			,	m_lastFrameSwitchTime( 0 )
 		{}
 
 		const AnimationInfo& m_animationInfo;
 
 		unsigned int m_frameIndex;
+
+		qint64 m_lastFrameSwitchTime;
 	};
 
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< IAnimateObject*, AnimationData >
+		std::map< IAnimateObject*, boost::shared_ptr< AnimationData > >
 		AnimationsDataCollection;
 	typedef
 		AnimationsDataCollection::iterator
@@ -85,6 +92,10 @@ private:
 	const IAnimationsCache& m_animationCache;
 
 	AnimationsDataCollection m_animationsDataCollection;
+
+	Core::MultithreadingManager::TaskHandle m_animationsProcessingTaskHandle;
+
+	// QMutex m_locker;
 
 /*---------------------------------------------------------------------------*/
 
