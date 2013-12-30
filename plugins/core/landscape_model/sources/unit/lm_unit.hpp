@@ -39,9 +39,17 @@ public:
 
 	/*virtual*/ const IUnit::IdType& getUniqueId() const;
 
+	/*virtual*/ const ObjectState::Enum getState() const;
+
+	/*virtual*/ const Direction::Enum getDirection() const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void setPosition( const QRect& _position );
+
+	/*virtual*/ void setState( const ObjectState::Enum _state );
+
+	/*virtual*/ void setDirection( const Direction::Enum _direction );
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,6 +62,10 @@ private:
 	int m_health;
 
 	QRect m_possition;
+
+	ObjectState::Enum m_state;
+
+	Direction::Enum m_direction;
 
 	const IUnit::IdType m_id;
 

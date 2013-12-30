@@ -6,6 +6,9 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
+#include "landscape_model/h/lm_directions.hpp"
+#include "landscape_model/h/lm_object_states.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -37,9 +40,17 @@ struct IUnit
 
 	virtual const IdType& getUniqueId() const = 0;
 
+	virtual const ObjectState::Enum getState() const = 0;
+
+	virtual const Direction::Enum getDirection() const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual void setPosition( const QRect& _position ) = 0;
+
+	virtual void setState( const ObjectState::Enum _state ) = 0;
+
+	virtual void setDirection( const Direction::Enum _direction ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

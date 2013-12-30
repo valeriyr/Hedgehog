@@ -22,6 +22,8 @@ Unit::Unit(
 	:	m_type( _type )
 	,	m_health( m_type->getMaximumHealth() )
 	,	m_possition( _possition )
+	,	m_state( ObjectState::Standing )
+	,	m_direction( Direction::Down )
 	,	m_id( rand() )
 {
 } // Unit::Unit
@@ -82,12 +84,55 @@ Unit::getUniqueId() const
 /*---------------------------------------------------------------------------*/
 
 
+const ObjectState::Enum
+Unit::getState() const
+{
+	return m_state;
+
+} // Unit::getState
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const Direction::Enum
+Unit::getDirection() const
+{
+	return m_direction;
+
+} // Unit::getDirection
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 Unit::setPosition( const QRect& _position )
 {
 	m_possition = _position;
 
 } // Unit::setPosition
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Unit::setState( const ObjectState::Enum _state )
+{
+	m_state = _state;
+
+} // Unit::setState
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Unit::setDirection( const Direction::Enum _direction )
+{
+	m_direction = _direction;
+
+} // Unit::setDirection
 
 
 /*---------------------------------------------------------------------------*/

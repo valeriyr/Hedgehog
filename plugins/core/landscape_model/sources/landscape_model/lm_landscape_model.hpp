@@ -6,6 +6,8 @@
 
 #include "landscape_model/sources/landscape_model/lm_ilandscape_model_internal.hpp"
 
+#include "multithreading_manager/h/mm_task_handle.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -103,6 +105,8 @@ private:
 	const IObjectTypesCache& m_objectTypesCache;
 
 /*---------------------------------------------------------------------------*/
+
+	Framework::Core::MultithreadingManager::TaskHandle m_actionsProcessingTaskHandle;
 
 	boost::intrusive_ptr< IEditableLandscape > m_currentLandscape;
 

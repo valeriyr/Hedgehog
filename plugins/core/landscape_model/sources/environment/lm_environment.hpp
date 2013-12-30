@@ -39,10 +39,12 @@ public:
 	/*virtual*/ void stopThread( const QString& _threadName ) const;
 
 	/*virtual*/ Framework::Core::MultithreadingManager::TaskHandle
-		pushTask(
+		pushPeriodicalTask(
 				const QString& _threadName
 			,	Framework::Core::MultithreadingManager::RunnableFunction _function
 			,	const qint64 _period ) const;
+
+	/*virtual*/ void removeTask( const Framework::Core::MultithreadingManager::TaskHandle& _handle ) const;
 
 /*---------------------------------------------------------------------------*/
 

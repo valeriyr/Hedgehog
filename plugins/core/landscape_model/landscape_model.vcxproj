@@ -47,7 +47,9 @@
     <ClCompile Include="sources\unit\lm_unit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="h\lm_directions.hpp" />
     <ClInclude Include="h\lm_events.hpp" />
+    <ClInclude Include="h\lm_object_states.hpp" />
     <ClInclude Include="h\lm_plugin_id.hpp" />
     <ClInclude Include="h\lm_resources.hpp" />
     <ClInclude Include="h\lm_terrain_map_data.hpp" />

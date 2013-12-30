@@ -60,14 +60,25 @@ Environment::stopThread( const QString& _threadName ) const
 
 
 Framework::Core::MultithreadingManager::TaskHandle
-Environment::pushTask(
+Environment::pushPeriodicalTask(
 		const QString& _threadName
 	,	Framework::Core::MultithreadingManager::RunnableFunction _function
 	,	const qint64 _period ) const
 {
-	return m_pluginInstance.getMultithreadingManager()->pushTask( _threadName, _function, _period );
+	return m_pluginInstance.getMultithreadingManager()->pushPeriodicalTask( _threadName, _function, _period );
 
-} // Environment::pushTask
+} // Environment::pushPeriodicalTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::removeTask( const Framework::Core::MultithreadingManager::TaskHandle& _handle ) const
+{
+	return m_pluginInstance.getMultithreadingManager()->removeTask( _handle );
+
+} // Environment::removeTask
 
 
 /*---------------------------------------------------------------------------*/

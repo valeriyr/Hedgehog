@@ -50,7 +50,9 @@ MoveAction::MoveAction(
 			m_pathFinder->findPath( movingData.m_unitPath, *handle->getLandscape(), **begin, m_to );
 
 			if ( !movingData.m_unitPath.empty() )
+			{
 				m_movingData.insert( std::make_pair( ( *begin )->getUniqueId(), movingData ) );
+			}
 		}
 	}
 
@@ -78,9 +80,13 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 		if ( handle->getLandscape() )
 		{
-			MovingDataCollectionIterator begin = m_movingData.begin();
+			std::vector< IUnit::IdType > unitsToDelete;
 
-			while ( begin != m_movingData.end() )
+			MovingDataCollectionIterator
+					begin = m_movingData.begin()
+				,	end = m_movingData.end();
+
+			for ( ; begin != end; ++begin )
 			{
 				boost::intrusive_ptr< IUnit > unit = handle->getLandscape()->getUnit( begin->first );
 
@@ -93,6 +99,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 				while ( begin->second.m_movingProgress >= 1.0 )
 				{
 					begin->second.m_movingProgress = begin->second.m_movingProgress - 1.0;
+
 					unit->setPosition( QRect( begin->second.m_unitPath.front().x(), begin->second.m_unitPath.front().y(), 1, 1 ) );
 					begin->second.m_unitPath.pop_front();
 
@@ -102,11 +109,51 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 				if ( begin->second.m_unitPath.empty() )
 				{
-					MovingDataCollectionIterator temp = ++begin;
-					--begin;
-					m_movingData.erase( begin );
-					begin = temp;
+					unit->setState( ObjectState::Standing );
+
+					Framework::Core::EventManager::Event unitStateChangedEvent( Events::UnitStateChanged::ms_type );
+					unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitNameAttribute, unit->getType()->getName() );
+					unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitIdAttribute, begin->first );
+					unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitState, unit->getState() );
+
+					events.push_back( unitStateChangedEvent );
+
+					unitsToDelete.push_back( begin->first );
 					continue;
+				}
+				else
+				{
+					Direction::Enum currentUnitDirection = unit->getDirection();
+					Direction::Enum nextUnitDirection = Direction::Down;
+
+					QPoint unitCurrentPosition( unit->getPosition().x(), unit->getPosition().y() );
+					QPoint nextPosition = begin->second.m_unitPath.front();
+
+					if ( nextPosition.y() > unitCurrentPosition.y() )
+						nextUnitDirection = Direction::Up;
+					else if ( nextPosition.y() < unitCurrentPosition.y() )
+						nextUnitDirection = Direction::Down;
+					else if ( nextPosition.x() < unitCurrentPosition.x() )
+						nextUnitDirection = Direction::Left;
+					else if ( nextPosition.x() > unitCurrentPosition.x() )
+						nextUnitDirection = Direction::Right;
+
+					ObjectState::Enum currentUnitState = unit->getState();
+					ObjectState::Enum nextUnitState = ObjectState::Moving;
+
+					if ( currentUnitDirection != nextUnitDirection || currentUnitState != nextUnitState )
+					{
+						unit->setDirection( nextUnitDirection );
+						unit->setState( nextUnitState );
+
+						Framework::Core::EventManager::Event unitStateChangedEvent( Events::UnitStateChanged::ms_type );
+						unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitNameAttribute, unit->getType()->getName() );
+						unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitIdAttribute, begin->first );
+						unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitState, unit->getState() );
+						unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitDirection, unit->getDirection() );
+
+						events.push_back( unitStateChangedEvent );
+					}
 				}
 
 				Framework::Core::EventManager::Event unitMovedEvent( Events::UnitMoved::ms_type );
@@ -117,9 +164,14 @@ MoveAction::processAction( const unsigned int _deltaTime )
 				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingProgressAttribute, begin->second.m_movingProgress );
 
 				events.push_back( unitMovedEvent );
-
-				++begin;
 			}
+
+			std::vector< IUnit::IdType >::const_iterator
+					unitsToDeleteBegin = unitsToDelete.begin()
+				,	unitsToDeleteEnd = unitsToDelete.end();
+
+			for ( ; unitsToDeleteBegin != unitsToDeleteEnd; ++unitsToDeleteBegin )
+				m_movingData.erase( *unitsToDeleteBegin );
 		}
 	}
 

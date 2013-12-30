@@ -45,7 +45,7 @@ LandscapeModel::LandscapeModel(
 	,	m_actionsQueue( new ActionsQueue() )
 {
 	m_environment.startThread( Resources::ModelThreadName );
-	m_environment.pushTask(
+	m_actionsProcessingTaskHandle = m_environment.pushPeriodicalTask(
 			Resources::ModelThreadName
 		,	boost::bind( &LandscapeModel::runActionsProcessing, this )
 		,	ms_actionsProcessPerisod );
@@ -58,6 +58,7 @@ LandscapeModel::LandscapeModel(
 
 LandscapeModel::~LandscapeModel()
 {
+	m_environment.removeTask( m_actionsProcessingTaskHandle );
 	m_environment.stopThread( Resources::ModelThreadName );
 
 } // LandscapeModel::~LandscapeModel

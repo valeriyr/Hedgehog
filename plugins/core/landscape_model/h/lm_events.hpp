@@ -45,6 +45,18 @@ namespace UnitMoved
 
 /*---------------------------------------------------------------------------*/
 
+namespace UnitStateChanged
+{
+	const char* const ms_type = "UnitStateChanged";
+
+	const char* const ms_unitNameAttribute = "UnitName";
+	const char* const ms_unitIdAttribute = "UnitId";
+	const char* const ms_unitState = "UnitState";
+	const char* const ms_unitDirection = "UnitDirection";
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace UnitsSelectionChanged
 {
 	const char* const ms_type = "UnitsSelectionChanged";

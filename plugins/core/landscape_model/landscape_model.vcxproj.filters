@@ -242,5 +242,11 @@
     <ClInclude Include="sources\actions\lm_select_in_rect_action.hpp">
       <Filter>Actions</Filter>
     </ClInclude>
+    <ClInclude Include="h\lm_directions.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_object_states.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
