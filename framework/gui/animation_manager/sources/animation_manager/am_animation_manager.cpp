@@ -73,8 +73,8 @@ AnimationManager::playAnimation( IAnimateObject& _animateObject, const QString& 
 		m_environment.getPixmap(
 				animationInfo.m_atlasName
 			,	ImagesManager::IImagesManager::TransformationData(
-						animationInfo.m_frames[0].m_frame
-					,	animationInfo.m_frames[0].m_mirrored
+						animationInfo.m_frames[ animationData->m_frameIndex ].m_frame
+					,	animationInfo.m_frames[ animationData->m_frameIndex ].m_mirrored
 					,	false ) ) );
 
 } // AnimationManager::playAnimation
