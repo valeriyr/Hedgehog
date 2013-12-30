@@ -5,7 +5,6 @@
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
-#include "landscape_viewer/sources/object_graphics_info/lv_iobject_graphics_info.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"

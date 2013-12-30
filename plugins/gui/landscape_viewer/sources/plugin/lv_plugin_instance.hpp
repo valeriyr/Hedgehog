@@ -23,6 +23,12 @@ namespace Framework
 		{
 			struct IImagesManager;
 		}
+
+		namespace AnimationManager
+		{
+			struct IAnimationManager;
+			struct IAnimationsCache;
+		}
 	}
 
 	namespace Core
@@ -40,6 +46,11 @@ namespace Framework
 		namespace EventManager
 		{
 			struct IEventManager;
+		}
+
+		namespace MultithreadingManager
+		{
+			struct IMultithreadingManager;
 		}
 	}
 }
@@ -112,6 +123,12 @@ public:
 	boost::intrusive_ptr< Framework::GUI::ImagesManager::IImagesManager >
 		getImagesManager() const;
 
+	boost::intrusive_ptr< Framework::GUI::AnimationManager::IAnimationManager >
+		getAnimationManager() const;
+
+	boost::intrusive_ptr< Framework::GUI::AnimationManager::IAnimationsCache >
+		getAnimationsCache() const;
+
 	boost::intrusive_ptr< Framework::Core::CommandsManager::ICommandsRegistry >
 		getCommandsManager() const;
 
@@ -120,6 +137,9 @@ public:
 
 	boost::intrusive_ptr< Framework::Core::EventManager::IEventManager >
 		getEventManager() const;
+
+	boost::intrusive_ptr< Framework::Core::MultithreadingManager::IMultithreadingManager >
+		getMultithreadingManager() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -142,6 +162,8 @@ private:
 	void fillSurfaceItemsCache();
 
 	void fillObjectsCache();
+
+	void clearObjectsCache();
 
 /*---------------------------------------------------------------------------*/
 

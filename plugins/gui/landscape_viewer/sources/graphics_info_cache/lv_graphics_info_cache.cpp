@@ -4,7 +4,6 @@
 #include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
 
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_surface_item_graphics_info.hpp"
-#include "landscape_viewer/sources/object_graphics_info/lv_object_graphics_info.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -61,32 +60,6 @@ GraphicsInfoCache::regSurfaceItemGraphicsInfo(
 /*---------------------------------------------------------------------------*/
 
 
-void
-GraphicsInfoCache::regObjectGraphicsInfo(
-		const QString& _skinId
-	,	const QString& _objectName
-	,	const QString& _atlasName
-	,	const QRect _frameRect )
-{
-	GraphicsInfoCollectionIterator graphicsInfoIterator = m_graphicsInfoCollection.find( _skinId );
-
-	if ( graphicsInfoIterator == m_graphicsInfoCollection.end() )
-		graphicsInfoIterator = m_graphicsInfoCollection.insert( std::make_pair( _skinId, GraphicsInfo() ) ).first;
-
-	assert(	graphicsInfoIterator->second.m_objectGraphicsInfo.find( _objectName )
-		==	graphicsInfoIterator->second.m_objectGraphicsInfo.end() );
-
-	graphicsInfoIterator->second.m_objectGraphicsInfo.insert(
-		std::make_pair(
-				_objectName
-			,	boost::intrusive_ptr< IObjectGraphicsInfo >( new ObjectGraphicsInfo( _objectName, _atlasName, _frameRect ) ) ) );
-
-} // GraphicsInfoCache::regObjectGraphicsInfo
-
-
-/*---------------------------------------------------------------------------*/
-
-
 boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 GraphicsInfoCache::getSurfaceItemGraphicsInfo(
 		const QString& _skinId
@@ -114,33 +87,6 @@ GraphicsInfoCache::getSurfaceItemGraphicsInfo(
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IObjectGraphicsInfo >
-GraphicsInfoCache::getObjectGraphicsInfo(
-		const QString& _skinId
-	,	const QString& _objectName ) const
-{
-	GraphicsInfoCollectionConstIterator graphicsInfoIterator = m_graphicsInfoCollection.find( _skinId );
-
-	if ( graphicsInfoIterator == m_graphicsInfoCollection.end() )
-		return boost::intrusive_ptr< IObjectGraphicsInfo >();
-
-	GraphicsInfo::ObjectGraphicsInfoCollectionIterator iterator
-		= graphicsInfoIterator->second.m_objectGraphicsInfo.find( _objectName );
-
-	if ( iterator != graphicsInfoIterator->second.m_objectGraphicsInfo.end() )
-		return iterator->second;
-
-	if ( _skinId != ms_anySkinIdentifier )
-		return getObjectGraphicsInfo( ms_anySkinIdentifier, _objectName );
-
-	return boost::intrusive_ptr< IObjectGraphicsInfo >();
-
-} // GraphicsInfoCache::getObjectGraphicsInfo
-
-
-/*---------------------------------------------------------------------------*/
-
-
 void
 GraphicsInfoCache::fetchSurfaceItemGraphicsInfos(
 		const QString& _skinId
@@ -163,33 +109,6 @@ GraphicsInfoCache::fetchSurfaceItemGraphicsInfos(
 	}
 
 } // GraphicsInfoCache::fetchSurfaceItemGraphicsInfos
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-GraphicsInfoCache::fetchObjectsGraphicsInfos(
-		const QString& _skinId
-	,	ObjectGraphicsInfoCollection& _collection ) const
-{
-	_collection.clear();
-
-	GraphicsInfoCollectionConstIterator graphicsInfoIterator = m_graphicsInfoCollection.find( _skinId );
-
-	if ( graphicsInfoIterator == m_graphicsInfoCollection.end() )
-		return;
-
-	GraphicsInfo::ObjectGraphicsInfoCollectionIterator
-			begin = graphicsInfoIterator->second.m_objectGraphicsInfo.begin()
-		,	end = graphicsInfoIterator->second.m_objectGraphicsInfo.end();
-
-	for ( ; begin != end; ++begin )
-	{
-		_collection.push_back( begin->second );
-	}
-
-} // GraphicsInfoCache::fetchObjectsGraphicsInfos
 
 
 /*---------------------------------------------------------------------------*/

@@ -37,11 +37,11 @@
     <Filter Include="Surface Item Graphics Info">
       <UniqueIdentifier>{f1333970-26ce-41a7-a18d-fb33aa3c008e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object Graphics Info">
-      <UniqueIdentifier>{bd3a144d-1598-4cf1-a5be-dc966d37bcdc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Widgets\Landscape Scene States">
       <UniqueIdentifier>{bf8cbd10-9a46-47f2-a5b8-e3981aa557fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animations">
+      <UniqueIdentifier>{b0f88bf5-f256-4a0c-a05a-402aba85ef21}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,9 +99,6 @@
     <ClCompile Include="sources\surface_item_graphics_info\lv_surface_item_graphics_info.cpp">
       <Filter>Surface Item Graphics Info</Filter>
     </ClCompile>
-    <ClCompile Include="sources\object_graphics_info\lv_object_graphics_info.cpp">
-      <Filter>Object Graphics Info</Filter>
-    </ClCompile>
     <ClCompile Include="sources\views\lv_settings_view.cpp">
       <Filter>Views</Filter>
     </ClCompile>
@@ -116,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="sources\views\lv_object_info_view.cpp">
       <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\animations\lv_animation_name_generator.cpp">
+      <Filter>Animations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,12 +173,6 @@
     <ClInclude Include="sources\surface_item_graphics_info\lv_surface_item_graphics_info.hpp">
       <Filter>Surface Item Graphics Info</Filter>
     </ClInclude>
-    <ClInclude Include="sources\object_graphics_info\lv_iobject_graphics_info.hpp">
-      <Filter>Object Graphics Info</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\object_graphics_info\lv_object_graphics_info.hpp">
-      <Filter>Object Graphics Info</Filter>
-    </ClInclude>
     <ClInclude Include="sources\widgets\landscape_scene_states\lv_ilandscape_scene_state.hpp">
       <Filter>Widgets\Landscape Scene States</Filter>
     </ClInclude>
@@ -190,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="sources\views\lv_object_info_view.hpp">
       <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\animations\lv_animation_name_generator.hpp">
+      <Filter>Animations</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

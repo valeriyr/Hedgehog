@@ -5,13 +5,18 @@
 
 #include "landscape_viewer/sources/plugin/lv_plugin_instance.hpp"
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
-#include "landscape_viewer/sources/object_graphics_info/lv_iobject_graphics_info.hpp"
+
+#include "animation_manager/ih/am_ianimation_manager.hpp"
+#include "animation_manager/ih/am_ianimations_cache.hpp"
+#include "animation_manager/h/am_animation_info.hpp"
+
+#include "landscape_viewer/sources/animations/lv_animation_name_generator.hpp"
+
+#include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
 
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 #include "window_manager/ih/wm_iwindow_manager.hpp"
 #include "window_manager/ih/wm_iview.hpp"
-
-#include "images_manager/ih/im_iimages_manager.hpp"
 
 #include "event_manager/h/em_subscriber.hpp"
 
@@ -72,9 +77,34 @@ Environment::showSaveFileDialog() const
 
 
 const QPixmap&
-Environment::getPixmap( const QString& _resourcePath, const QRect& _rect ) const
+Environment::getPixmap(
+		const QString& _resourcePath
+	,	const Framework::GUI::ImagesManager::IImagesManager::TransformationData& _transformationData ) const
 {
-	return m_pluginInstance.getImagesManager()->getPixmap( _resourcePath, _rect );
+	return m_pluginInstance.getImagesManager()->getPixmap( _resourcePath, _transformationData );
+
+} // Environment::getPixmap
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QPixmap&
+Environment::getPixmap( const QString& _unitName ) const
+{
+	QString animationName(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	_unitName
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Down ) );
+
+	const Framework::GUI::AnimationManager::AnimationInfo& animationInfo
+		= m_pluginInstance.getAnimationsCache()->getAnimation( animationName );
+
+	Framework::GUI::ImagesManager::IImagesManager::TransformationData transformationData( animationInfo.m_frames[ 0 ].m_frame );
+
+	return m_pluginInstance.getImagesManager()->getPixmap( animationInfo.m_atlasName, transformationData );
 
 } // Environment::getPixmap
 
@@ -228,19 +258,6 @@ Environment::fetchSurfaceItemGraphicsInfos(
 /*---------------------------------------------------------------------------*/
 
 
-void
-Environment::fetchObjectsGraphicsInfos(
-		const QString& _skinId
-	,	IGraphicsInfoCache::ObjectGraphicsInfoCollection& _collection ) const
-{
-	m_pluginInstance.getGraphicsInfoCache()->fetchObjectsGraphicsInfos( _skinId, _collection );
-
-} // Environment::fetchObjectsGraphicsInfos
-
-
-/*---------------------------------------------------------------------------*/
-
-
 boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 Environment::getSurfaceItemGraphicsInfo(
 		const QString& _skinId
@@ -254,14 +271,36 @@ Environment::getSurfaceItemGraphicsInfo(
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IObjectGraphicsInfo >
-Environment::getObjectGraphicsInfo(
-		const QString& _skinId
-	,	const QString& _name ) const
+void
+Environment::playAnimation(
+		Framework::GUI::AnimationManager::IAnimateObject& _animateObject
+	,	const QString& _animationName ) const
 {
-	return m_pluginInstance.getGraphicsInfoCache()->getObjectGraphicsInfo( _skinId, _name );
+	return m_pluginInstance.getAnimationManager()->playAnimation( _animateObject, _animationName );
 
-} // Environment::getObjectGraphicsInfo
+} // Environment::playAnimation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::stopAnimation( Framework::GUI::AnimationManager::IAnimateObject& _animateObject ) const
+{
+	return m_pluginInstance.getAnimationManager()->stopAnimation( _animateObject );
+
+} // Environment::stopAnimation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::stopAllAnimations() const
+{
+	return m_pluginInstance.getAnimationManager()->stopAllAnimations();
+
+} // Environment::stopAllAnimations
 
 
 /*---------------------------------------------------------------------------*/

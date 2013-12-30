@@ -6,7 +6,9 @@
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
-#include "landscape_viewer/sources/object_graphics_info/lv_iobject_graphics_info.hpp"
+#include "landscape_viewer/sources/widgets/landscape_scene_states/lv_landscape_scene_states.hpp"
+#include "landscape_viewer/sources/animations/lv_animation_name_generator.hpp"
+#include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
@@ -18,7 +20,7 @@
 #include "multithreading_manager/h/mm_external_resources.hpp"
 #include "settings/h/st_events.hpp"
 
-#include "landscape_viewer/sources/widgets/landscape_scene_states/lv_landscape_scene_states.hpp"
+#include "animation_manager/ih/am_ianimate_object.hpp"
 
 #include "lv_landscape_scene.moc"
 
@@ -28,6 +30,25 @@
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
+
+/*---------------------------------------------------------------------------*/
+
+class ObjectGraphicsItem
+	:	public QGraphicsPixmapItem
+	,	public Framework::GUI::AnimationManager::IAnimateObject
+{
+
+public:
+
+	ObjectGraphicsItem( const QPixmap& _pixmap, QGraphicsItem* _parent = NULL )
+		:	QGraphicsPixmapItem( _pixmap, _parent )
+	{}
+
+	virtual void setSprite( const QPixmap& _sprite )
+	{
+		setPixmap( _sprite );
+	}
+};
 
 /*---------------------------------------------------------------------------*/
 
@@ -119,6 +140,10 @@ LandscapeScene::landscapeWasOpened()
 							,	Plugins::Core::LandscapeModel::Events::UnitMoved::ms_type
 							,	boost::bind( &LandscapeScene::onUnitMoved, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::UnitStateChanged::ms_type
+							,	boost::bind( &LandscapeScene::onUnitStateChanged, this, _1 ) );
+
 } // LandscapeScene::landscapeWasOpened
 
 
@@ -130,7 +155,9 @@ LandscapeScene::landscapeWasClosed()
 {
 	m_subscriber.unsubscribe();
 
+	removeAllObjects();
 	clear();
+
 	setCorrectSceneSize();
 
 } // LandscapeScene::landscapeWasClosed
@@ -191,7 +218,7 @@ LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _e
 	if ( terrainMapVisibility )
 		m_landscapeSceneState->removeSceneObjects();
 
-	m_unitsCollection.clear();
+	removeAllObjects();
 	clear();
 
 	generateLandscape();
@@ -218,33 +245,42 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 
 	if ( handle->getLandscape() )
 	{
-		boost::intrusive_ptr< IObjectGraphicsInfo >
-			objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, objectName );
+		const QPixmap& objectPixmap = m_environment.getPixmap( objectName );
 
 		qreal xpos = objectPosition.x() * Resources::Landscape::CellSize;
 		qreal ypos = objectPosition.y() * Resources::Landscape::CellSize;
 
-		if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().width() ) > Resources::Landscape::CellSize )
+		if ( static_cast< unsigned int >( objectPixmap.width() ) > Resources::Landscape::CellSize )
 		{
-			xpos -= ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+			xpos -= ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
 		}
 
-		if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().height() ) > Resources::Landscape::CellSize )
+		if ( static_cast< unsigned int >( objectPixmap.height() ) > Resources::Landscape::CellSize )
 		{
-			ypos -= ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
+			ypos -= ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
 		}
 
-		if ( xpos > width() - objectGraphicsInfo->getFrameRect().width() )
-			xpos = width() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+		if ( xpos > width() - objectPixmap.width() )
+			xpos = width() - Resources::Landscape::CellSize - ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
 
-		if ( ypos > height() - objectGraphicsInfo->getFrameRect().height() )
-			ypos = height() - Resources::Landscape::CellSize - ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
+		if ( ypos > height() - objectPixmap.height() )
+			ypos = height() - Resources::Landscape::CellSize - ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
 
-		QGraphicsPixmapItem* newItem = addPixmap( m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) );
+		ObjectGraphicsItem* newItem = new ObjectGraphicsItem( objectPixmap );
+		addItem( newItem );
+
 		newItem->setPos( QPoint( xpos, ypos ) );
 		newItem->setZValue( LandscapeScene::ObjectZValue::Object );
 
 		unitWasAdded( id, newItem );
+
+		m_environment.playAnimation(
+				*newItem
+			,	generateAnimationName(
+						GraphicsInfoCache::ms_anySkinIdentifier
+					,	objectName
+					,	Core::LandscapeModel::ObjectState::Standing
+					,	Core::LandscapeModel::Direction::Down ) );
 	}
 
 } // LandscapeScene::onObjectCreated
@@ -281,7 +317,11 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 		boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 			surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, id );
 
-		QGraphicsPixmapItem* newItem = addPixmap( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
+		QGraphicsPixmapItem* newItem
+			= addPixmap( m_environment.getPixmap(
+					surfaceItemGraphicsInfo->getAtlasName()
+				,	Framework::GUI::ImagesManager::IImagesManager::TransformationData( surfaceItemGraphicsInfo->getFrameRect() ) ) );
+
 		newItem->setPos( itemPos );
 		newItem->setZValue( LandscapeScene::ObjectZValue::Surface );
 	}
@@ -308,7 +348,7 @@ LandscapeScene::onUnitMoved( const Framework::Core::EventManager::Event& _event 
 {
 	const QString unitName
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_unitNameAttribute ).toString();
-	const Plugins::Core::LandscapeModel::ISurfaceItem::IdType unitId
+	const Plugins::Core::LandscapeModel::IUnit::IdType unitId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_unitIdAttribute ).toInt();
 	const QPoint movedFrom
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_movingFromAttribute ).toPoint();
@@ -326,17 +366,16 @@ LandscapeScene::onUnitMoved( const Framework::Core::EventManager::Event& _event 
 	int xpos = movedFromInScene.x() + ( ( movedToInScene.x() - movedFromInScene.x() ) * progress );
 	int ypos = movedFromInScene.y() + ( ( movedToInScene.y() - movedFromInScene.y() ) * progress );
 
-	boost::intrusive_ptr< IObjectGraphicsInfo >
-		objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, unitName );
+	const QPixmap& objectPixmap = m_environment.getPixmap( unitName );
 
-	if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().width() ) > Resources::Landscape::CellSize )
+	if ( static_cast< unsigned int >( objectPixmap.width() ) > Resources::Landscape::CellSize )
 	{
-		xpos -= ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+		xpos -= ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
 	}
 
-	if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().height() ) > Resources::Landscape::CellSize )
+	if ( static_cast< unsigned int >( objectPixmap.height() ) > Resources::Landscape::CellSize )
 	{
-		ypos -= ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
+		ypos -= ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
 	}
 
 	/*QTimeLine *timer = new QTimeLine(5000);
@@ -355,6 +394,37 @@ LandscapeScene::onUnitMoved( const Framework::Core::EventManager::Event& _event 
 	iterator->second->setPos( QPoint( xpos, ypos ) );
 
 } // LandscapeScene::onUnitMoved
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onUnitStateChanged( const Framework::Core::EventManager::Event& _event )
+{
+	const QString unitName
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitStateChanged::ms_unitNameAttribute ).toString();
+	const Plugins::Core::LandscapeModel::IUnit::IdType unitId
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitStateChanged::ms_unitIdAttribute ).toInt();
+	const Plugins::Core::LandscapeModel::ObjectState::Enum unitState
+		= static_cast< Plugins::Core::LandscapeModel::ObjectState::Enum >(
+			_event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitStateChanged::ms_unitState ).toInt() );
+	const Plugins::Core::LandscapeModel::Direction::Enum unitDirection
+		= static_cast< Plugins::Core::LandscapeModel::Direction::Enum >(
+			_event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitStateChanged::ms_unitDirection ).toInt() );
+
+	UnitsCollectionIterator iterator = m_unitsCollection.find( unitId );
+	assert( iterator != m_unitsCollection.end() );
+
+	m_environment.playAnimation(
+			*iterator->second
+		,	generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	unitName
+				,	unitState
+				,	unitDirection ) );
+
+} // LandscapeScene::onUnitStateChanged
 
 
 /*---------------------------------------------------------------------------*/
@@ -380,7 +450,11 @@ LandscapeScene::generateLandscape()
 				boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 					surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, surfaceItem->getId() );
 
-				QGraphicsPixmapItem* item = addPixmap( m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
+				QGraphicsPixmapItem* item
+					= addPixmap( m_environment.getPixmap(
+							surfaceItemGraphicsInfo->getAtlasName()
+						,	Framework::GUI::ImagesManager::IImagesManager::TransformationData( surfaceItemGraphicsInfo->getFrameRect() ) ) );
+
 				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
 				item->setZValue( ObjectZValue::Surface );
 
@@ -443,31 +517,38 @@ LandscapeScene::generateLandscape()
 
 		for ( ; begin != end; ++begin )
 		{
-			boost::intrusive_ptr< IObjectGraphicsInfo >
-				objectGraphicsInfo = m_environment.getObjectGraphicsInfo( Resources::Landscape::SkinId, ( *begin )->getType()->getName() );
+			const QPixmap& objectPixmap = m_environment.getPixmap( ( *begin )->getType()->getName() );
 
-			QGraphicsPixmapItem* item = addPixmap(
-				m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) );
+			ObjectGraphicsItem* newItem = new ObjectGraphicsItem( objectPixmap );
+			addItem( newItem );
 
 			QRect position = ( *begin )->getPosition();
 
 			qreal posByX = position.x() * Resources::Landscape::CellSize;
 			qreal posByY = position.y() * Resources::Landscape::CellSize;
 
-			if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().width() ) > Resources::Landscape::CellSize )
+			if ( static_cast< unsigned int >( objectPixmap.width() ) > Resources::Landscape::CellSize )
 			{
-				posByX -= ( objectGraphicsInfo->getFrameRect().width() - Resources::Landscape::CellSize ) / 2;
+				posByX -= ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
 			}
 
-			if ( static_cast< unsigned int >( objectGraphicsInfo->getFrameRect().height() ) > Resources::Landscape::CellSize )
+			if ( static_cast< unsigned int >( objectPixmap.height() ) > Resources::Landscape::CellSize )
 			{
-				posByY -= ( objectGraphicsInfo->getFrameRect().height() - Resources::Landscape::CellSize ) / 2;
+				posByY -= ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
 			}
 
-			item->setPos( posByX, posByY );
-			item->setZValue( ObjectZValue::Object );
+			newItem->setPos( posByX, posByY );
+			newItem->setZValue( ObjectZValue::Object );
 
-			unitWasAdded( ( *begin )->getUniqueId(), item );
+			unitWasAdded( ( *begin )->getUniqueId(), newItem );
+
+			m_environment.playAnimation(
+					*newItem
+				,	generateAnimationName(
+							GraphicsInfoCache::ms_anySkinIdentifier
+						,	( *begin )->getType()->getName()
+						,	Core::LandscapeModel::ObjectState::Standing
+						,	Core::LandscapeModel::Direction::Down ) );
 		}
 	}
 
@@ -499,7 +580,7 @@ LandscapeScene::setCorrectSceneSize()
 
 
 void
-LandscapeScene::unitWasAdded( const Plugins::Core::LandscapeModel::IUnit::IdType& _id, QGraphicsPixmapItem* _item )
+LandscapeScene::unitWasAdded( const Plugins::Core::LandscapeModel::IUnit::IdType& _id, ObjectGraphicsItem* _item )
 {
 	assert( m_unitsCollection.find( _id ) == m_unitsCollection.end() );
 	m_unitsCollection.insert( std::make_pair( _id, _item ) );
@@ -558,6 +639,26 @@ LandscapeScene::convertFromScenePosition( const QPointF& _scenePosition )
 			,	_scenePosition.y() / Resources::Landscape::CellSize );
 
 } // LandscapeScene::convertFromScenePosition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::removeAllObjects()
+{
+	UnitsCollectionIterator
+			unitsBegin = m_unitsCollection.begin()
+		,	unitsEnd = m_unitsCollection.end();
+
+	for ( ; unitsBegin != unitsEnd; ++unitsBegin )
+	{
+		m_environment.stopAnimation( *unitsBegin->second );
+	}
+
+	m_unitsCollection.clear();
+
+} // LandscapeScene::removeAllObjects
 
 
 /*---------------------------------------------------------------------------*/

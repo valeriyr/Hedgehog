@@ -44,9 +44,9 @@ AnimationsCache::regAnimation( const AnimationInfo& _animationInfo )
 
 
 void
-AnimationsCache::unregAnimation( const AnimationInfo& _animationInfo )
+AnimationsCache::unregAnimation( const QString& _animationName )
 {
-	m_animationsInfoCollection.erase( _animationInfo.m_animationName );
+	m_animationsInfoCollection.erase( _animationName );
 
 } // AnimationsCache::unregAnimation
 

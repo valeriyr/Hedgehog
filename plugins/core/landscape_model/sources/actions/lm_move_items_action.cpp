@@ -115,6 +115,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitNameAttribute, unit->getType()->getName() );
 					unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitIdAttribute, begin->first );
 					unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitState, unit->getState() );
+					unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitDirection, unit->getDirection() );
 
 					events.push_back( unitStateChangedEvent );
 
@@ -130,13 +131,13 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					QPoint nextPosition = begin->second.m_unitPath.front();
 
 					if ( nextPosition.y() > unitCurrentPosition.y() )
-						nextUnitDirection = Direction::Up;
-					else if ( nextPosition.y() < unitCurrentPosition.y() )
 						nextUnitDirection = Direction::Down;
+					else if ( nextPosition.y() < unitCurrentPosition.y() )
+						nextUnitDirection = Direction::Up;
 					else if ( nextPosition.x() < unitCurrentPosition.x() )
-						nextUnitDirection = Direction::Left;
-					else if ( nextPosition.x() > unitCurrentPosition.x() )
 						nextUnitDirection = Direction::Right;
+					else if ( nextPosition.x() > unitCurrentPosition.x() )
+						nextUnitDirection = Direction::Left;
 
 					ObjectState::Enum currentUnitState = unit->getState();
 					ObjectState::Enum nextUnitState = ObjectState::Moving;

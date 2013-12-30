@@ -34,7 +34,7 @@ public:
 
 	/*virtual*/ void regAnimation( const AnimationInfo& _animationInfo );
 
-	/*virtual*/ void unregAnimation( const AnimationInfo& _animationInfo );
+	/*virtual*/ void unregAnimation( const QString& _animationName );
 
 /*---------------------------------------------------------------------------*/
 

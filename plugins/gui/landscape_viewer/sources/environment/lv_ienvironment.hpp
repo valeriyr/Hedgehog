@@ -13,6 +13,8 @@
 
 #include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
 
+#include "images_manager/ih/im_iimages_manager.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework
@@ -22,6 +24,11 @@ namespace Framework
 		namespace WindowManager
 		{
 			struct IView;
+		}
+
+		namespace AnimationManager
+		{
+			struct IAnimateObject;
 		}
 	}
 
@@ -55,6 +62,10 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
+struct IAnimateObject;
+
+/*---------------------------------------------------------------------------*/
+
 struct IEnvironment
 	:	public Tools::Core::IBase
 {
@@ -67,7 +78,11 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) const = 0;
+	virtual const QPixmap& getPixmap(
+			const QString& _resourcePath
+		,	const Framework::GUI::ImagesManager::IImagesManager::TransformationData& _transformationData ) const = 0;
+
+	virtual const QPixmap& getPixmap( const QString& _unitName ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -112,19 +127,20 @@ struct IEnvironment
 			const QString& _skinId
 		,	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection& _collection ) const = 0;
 
-	virtual void fetchObjectsGraphicsInfos(
-			const QString& _skinId
-		,	IGraphicsInfoCache::ObjectGraphicsInfoCollection& _collection ) const = 0;
-
 	virtual boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 		getSurfaceItemGraphicsInfo(
 				const QString& _skinId
 			,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const = 0;
 
-	virtual boost::intrusive_ptr< IObjectGraphicsInfo >
-		getObjectGraphicsInfo(
-				const QString& _skinId
-			,	const QString& _name ) const = 0;
+/*---------------------------------------------------------------------------*/
+
+	virtual void playAnimation(
+			Framework::GUI::AnimationManager::IAnimateObject& _animateObject
+		,	const QString& _animationName ) const = 0;
+
+	virtual void stopAnimation( Framework::GUI::AnimationManager::IAnimateObject& _animateObject ) const = 0;
+
+	virtual void stopAllAnimations() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

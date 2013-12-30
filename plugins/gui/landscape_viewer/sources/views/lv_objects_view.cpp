@@ -7,7 +7,6 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
-#include "landscape_viewer/sources/object_graphics_info/lv_iobject_graphics_info.hpp"
 #include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
 
 #include "lv_objects_view.moc"
@@ -275,7 +274,11 @@ ObjectsView::fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _par
 	{
 		TreeWidgetItem* item = new TreeWidgetItem( TreeWidgetType::Surface );
 		item->setText( 0, QString( "%1" ).arg( ( *begin )->getId() ) );
-		item->setIcon( 0, QIcon( m_environment.getPixmap( ( *begin )->getAtlasName(), ( *begin )->getFrameRect() ) ) );
+		item->setIcon(
+				0
+			,	QIcon( m_environment.getPixmap(
+						( *begin )->getAtlasName()
+					,	Framework::GUI::ImagesManager::IImagesManager::TransformationData( ( *begin )->getFrameRect() ) ) ) );
 
 		_parentNode->addChild( item );
 	}
@@ -289,7 +292,7 @@ ObjectsView::fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _par
 void
 ObjectsView::fillWithObjectItems( const QString& _skinId, QTreeWidgetItem* _parentNode )
 {
-	IGraphicsInfoCache::ObjectGraphicsInfoCollection collection;
+	/*IGraphicsInfoCache::ObjectGraphicsInfoCollection collection;
 	m_environment.fetchObjectsGraphicsInfos( _skinId, collection );
 
 	IGraphicsInfoCache::ObjectGraphicsInfoCollectionIterator
@@ -300,10 +303,14 @@ ObjectsView::fillWithObjectItems( const QString& _skinId, QTreeWidgetItem* _pare
 	{
 		TreeWidgetItem* item = new TreeWidgetItem( TreeWidgetType::Object );
 		item->setText( 0, ( *begin )->getName() );
-		item->setIcon( 0, QIcon( m_environment.getPixmap( ( *begin )->getAtlasName(), ( *begin )->getFrameRect() ) ) );
+		item->setIcon(
+				0
+			,	QIcon( m_environment.getPixmap(
+						( *begin )->getAtlasName()
+					,	Framework::GUI::ImagesManager::IImagesManager::TransformationData( ( *begin )->getFrameRect() ) ) ) );
 
 		_parentNode->addChild( item );
-	}
+	}*/
 
 } // ObjectsView::fillWithObjectItems
 

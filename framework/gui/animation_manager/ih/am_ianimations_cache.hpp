@@ -30,7 +30,7 @@ struct IAnimationsCache
 
 	virtual void regAnimation( const AnimationInfo& _animationInfo ) = 0;
 
-	virtual void unregAnimation( const AnimationInfo& _animationInfo ) = 0;
+	virtual void unregAnimation( const QString& _animationName ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

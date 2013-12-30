@@ -10,6 +10,8 @@
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 
+#include "landscape_viewer/sources/animations/lv_animation_name_generator.hpp"
+
 #include "landscape_viewer/sources/commands/lv_commands.hpp"
 #include "landscape_viewer/sources/commands_executor/lv_commands_executor.hpp"
 
@@ -30,11 +32,19 @@
 #include "images_manager/ih/im_iimages_manager.hpp"
 #include "images_manager/h/im_plugin_id.hpp"
 
+#include "animation_manager/ih/am_ianimation_manager.hpp"
+#include "animation_manager/ih/am_ianimations_cache.hpp"
+#include "animation_manager/h/am_plugin_id.hpp"
+#include "animation_manager/h/am_animation_info.hpp"
+
 #include "settings/ih/st_isettings.hpp"
 #include "settings/h/st_plugin_id.hpp"
 
 #include "event_manager/ih/em_ievent_manager.hpp"
 #include "event_manager/h/em_plugin_id.hpp"
+
+#include "multithreading_manager/h/mm_plugin_id.hpp"
+#include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -73,14 +83,15 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
-	m_graphicsInfoCache.reset( new GraphicsInfoCache() );
-
-	fillSurfaceItemsCache();
 	fillObjectsCache();
+
+	m_graphicsInfoCache.reset( new GraphicsInfoCache() );
+	fillSurfaceItemsCache();
 
 	getSettings()->regBool( Resources::Properties::TerrainMapVisibility, false );
 
 	m_environment.reset( new Environment( *this ) );
+
 	m_landscapeViewer.reset( new LandscapeViewer( *m_environment ) );
 
 	m_commandsExecutor.reset( new CommandsExecutor( *m_environment, *m_landscapeViewer ) );
@@ -138,6 +149,8 @@ PluginInstance::close()
 
 	m_graphicsInfoCache.reset();
 
+	clearObjectsCache();
+
 } // PluginInstance::close
 
 
@@ -181,6 +194,34 @@ PluginInstance::getImagesManager() const
 			,	Framework::GUI::ImagesManager::IID_IMAGES_MANAGER );
 
 } // PluginInstance::getImageManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::GUI::AnimationManager::IAnimationManager >
+PluginInstance::getAnimationManager() const
+{
+	return
+		getPluginInterface< Framework::GUI::AnimationManager::IAnimationManager >(
+				Framework::GUI::AnimationManager::PID_ANIMATION_MANAGER
+			,	Framework::GUI::AnimationManager::IID_ANIMATION_MANAGER );
+
+} // PluginInstance::getAnimationManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::GUI::AnimationManager::IAnimationsCache >
+PluginInstance::getAnimationsCache() const
+{
+	return
+		getPluginInterface< Framework::GUI::AnimationManager::IAnimationsCache >(
+				Framework::GUI::AnimationManager::PID_ANIMATION_MANAGER
+			,	Framework::GUI::AnimationManager::IID_ANIMATIONS_CACHE );
+
+} // PluginInstance::getAnimationsCache
 
 
 /*---------------------------------------------------------------------------*/
@@ -238,6 +279,19 @@ PluginInstance::getLandscapeModel() const
 
 } // PluginInstance::getLandscapeModel
 
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::MultithreadingManager::IMultithreadingManager >
+PluginInstance::getMultithreadingManager() const
+{
+	return
+		getPluginInterface< Framework::Core::MultithreadingManager::IMultithreadingManager >(
+				Framework::Core::MultithreadingManager::PID_MULTITHREADING_MANAGER
+			,	Framework::Core::MultithreadingManager::IID_MULTITHREADING_MANAGER );
+
+} // PluginInstance::getMultithreadingManager
 
 
 /*---------------------------------------------------------------------------*/
@@ -302,19 +356,426 @@ PluginInstance::fillSurfaceItemsCache()
 void
 PluginInstance::fillObjectsCache()
 {
-	m_graphicsInfoCache->regObjectGraphicsInfo(
-			GraphicsInfoCache::ms_anySkinIdentifier
-		,	"Grunt"
-		,	"units/grunt"
-		,	QRect( 288, 0, 72, 72 ) );
+	boost::intrusive_ptr< Framework::GUI::AnimationManager::IAnimationsCache >
+		animationsCache = getAnimationsCache();
 
-	m_graphicsInfoCache->regObjectGraphicsInfo(
-			GraphicsInfoCache::ms_anySkinIdentifier
-		,	"Elven Archer"
-		,	"units/elven_archer"
-		,	QRect( 288, 0, 72, 72 ) );
+	// Grant graphic info
+
+	{
+		// Grant standing up animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Grunt"
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Up ) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 10000, QRect( 0, 0, 72, 72 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/grunt", animationFrames ) );
+	}
+
+	{
+		// Grant standing down animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Grunt"
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Down) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 10000, QRect( 288, 0, 72, 72 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/grunt", animationFrames ) );
+	}
+
+	{
+		// Grant standing left animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Grunt"
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Left) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 10000, QRect( 144, 0, 72, 72 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/grunt", animationFrames ) );
+	}
+
+	{
+		// Grant standing right animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Grunt"
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Right) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 10000, QRect( 144, 0, 72, 72 ), true ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/grunt", animationFrames ) );
+	}
+
+	{
+		// Grant moving up animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Grunt"
+				,	Core::LandscapeModel::ObjectState::Moving
+				,	Core::LandscapeModel::Direction::Up ) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0,  72, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0, 144, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0, 216, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0, 288, 72, 72 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/grunt", animationFrames ) );
+	}
+
+	{
+		// Grant moving down animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Grunt"
+				,	Core::LandscapeModel::ObjectState::Moving
+				,	Core::LandscapeModel::Direction::Down) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288,  72, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288, 144, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288, 216, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288, 288, 72, 72 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/grunt", animationFrames ) );
+	}
+
+	{
+		// Grant moving left animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Grunt"
+				,	Core::LandscapeModel::ObjectState::Moving
+				,	Core::LandscapeModel::Direction::Left) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144,  72, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 144, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 216, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 288, 72, 72 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/grunt", animationFrames ) );
+	}
+
+	{
+		// Grant moving right animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Grunt"
+				,	Core::LandscapeModel::ObjectState::Moving
+				,	Core::LandscapeModel::Direction::Right) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144,  72, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 144, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 216, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 288, 72, 72 ), true ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/grunt", animationFrames ) );
+	}
+
+	// Elven Archer graphic info
+
+	{
+		// Elven Archer standing up animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Elven Archer"
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Up ) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 10000, QRect( 0, 0, 72, 72 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/elven_archer", animationFrames ) );
+	}
+
+	{
+		// Elven Archer standing down animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Elven Archer"
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Down) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 10000, QRect( 288, 0, 72, 72 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/elven_archer", animationFrames ) );
+	}
+
+	{
+		// Elven Archer standing left animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Elven Archer"
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Left) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 10000, QRect( 144, 0, 72, 72 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/elven_archer", animationFrames ) );
+	}
+
+	{
+		// Elven Archer standing right animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Elven Archer"
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Right) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 10000, QRect( 144, 0, 72, 72 ), true ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/elven_archer", animationFrames ) );
+	}
+
+	{
+		// Elven Archer moving up animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Elven Archer"
+				,	Core::LandscapeModel::ObjectState::Moving
+				,	Core::LandscapeModel::Direction::Up ) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0,  72, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0, 144, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0, 216, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0, 288, 72, 72 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/elven_archer", animationFrames ) );
+	}
+
+	{
+		// Elven Archer moving down animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Elven Archer"
+				,	Core::LandscapeModel::ObjectState::Moving
+				,	Core::LandscapeModel::Direction::Down) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288,  72, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288, 144, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288, 216, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288, 288, 72, 72 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/elven_archer", animationFrames ) );
+	}
+
+	{
+		// Elven Archer moving left animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Elven Archer"
+				,	Core::LandscapeModel::ObjectState::Moving
+				,	Core::LandscapeModel::Direction::Left) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144,  72, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 144, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 216, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 288, 72, 72 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/elven_archer", animationFrames ) );
+	}
+
+	{
+		// Elven Archer moving right animation
+		QString animationName(
+			generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	"Elven Archer"
+				,	Core::LandscapeModel::ObjectState::Moving
+				,	Core::LandscapeModel::Direction::Right) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144,  72, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 144, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 216, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 288, 72, 72 ), true ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/elven_archer", animationFrames ) );
+	}
 
 } // PluginInstance::fillObjectsCache
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::clearObjectsCache()
+{
+	boost::intrusive_ptr< Framework::GUI::AnimationManager::IAnimationsCache >
+		animationsCache = getAnimationsCache();
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Grunt"
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Up ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Grunt"
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Down ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Grunt"
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Left ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Grunt"
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Right ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Grunt"
+			,	Core::LandscapeModel::ObjectState::Moving
+			,	Core::LandscapeModel::Direction::Up ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Grunt"
+			,	Core::LandscapeModel::ObjectState::Moving
+			,	Core::LandscapeModel::Direction::Down ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Grunt"
+			,	Core::LandscapeModel::ObjectState::Moving
+			,	Core::LandscapeModel::Direction::Left ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Grunt"
+			,	Core::LandscapeModel::ObjectState::Moving
+			,	Core::LandscapeModel::Direction::Right ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Elven Archer"
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Up ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Elven Archer"
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Down ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Elven Archer"
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Left ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Elven Archer"
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Right ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Elven Archer"
+			,	Core::LandscapeModel::ObjectState::Moving
+			,	Core::LandscapeModel::Direction::Up ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Elven Archer"
+			,	Core::LandscapeModel::ObjectState::Moving
+			,	Core::LandscapeModel::Direction::Down ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Elven Archer"
+			,	Core::LandscapeModel::ObjectState::Moving
+			,	Core::LandscapeModel::Direction::Left ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				GraphicsInfoCache::ms_anySkinIdentifier
+			,	"Elven Archer"
+			,	Core::LandscapeModel::ObjectState::Moving
+			,	Core::LandscapeModel::Direction::Right ) );
+
+} // PluginInstance::clearObjectsCache
 
 
 /*---------------------------------------------------------------------------*/

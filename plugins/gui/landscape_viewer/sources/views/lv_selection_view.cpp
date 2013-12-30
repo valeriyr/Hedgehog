@@ -5,7 +5,6 @@
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
-#include "landscape_viewer/sources/object_graphics_info/lv_iobject_graphics_info.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
@@ -167,14 +166,10 @@ SelectionView::onUnitsSelectionChanged( const Framework::Core::EventManager::Eve
 
 		for ( ; selectedUnitsBegin != selectedUnitsEnd; ++selectedUnitsBegin )
 		{
-			boost::intrusive_ptr< IObjectGraphicsInfo >
-				objectGraphicsInfo = m_environment.getObjectGraphicsInfo(	Resources::Landscape::SkinId
-																		,	( *selectedUnitsBegin )->getType()->getName() );
-
 			SelectionViewItem* listItem = new SelectionViewItem( ( *selectedUnitsBegin )->getUniqueId() );
 
 			listItem->setText( ( *selectedUnitsBegin )->getType()->getName() );
-			listItem->setIcon( QIcon( m_environment.getPixmap( objectGraphicsInfo->getAtlasName(), objectGraphicsInfo->getFrameRect() ) ) );
+			listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedUnitsBegin )->getType()->getName() ) ) );
 
 			m_mainWidget->addItem( listItem );
 		}

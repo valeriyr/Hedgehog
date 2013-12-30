@@ -288,7 +288,9 @@ MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape
 					,	j * Resources::Landscape::CellSize
 					,	Resources::Landscape::CellSize
 					,	Resources::Landscape::CellSize )
-					,	m_environment.getPixmap( surfaceItemGraphicsInfo->getAtlasName(), surfaceItemGraphicsInfo->getFrameRect() ) );
+					,	m_environment.getPixmap(
+								surfaceItemGraphicsInfo->getAtlasName()
+							,	Framework::GUI::ImagesManager::IImagesManager::TransformationData( surfaceItemGraphicsInfo->getFrameRect() ) ) );
 		}
 	}
 

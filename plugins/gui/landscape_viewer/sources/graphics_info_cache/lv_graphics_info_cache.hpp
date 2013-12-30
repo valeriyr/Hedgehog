@@ -44,12 +44,6 @@ public:
 		,	const QString& _atlasName
 		,	const QRect _frameRect );
 
-	/*virtual*/ void regObjectGraphicsInfo(
-			const QString& _skinId
-		,	const QString& _objectName
-		,	const QString& _atlasName
-		,	const QRect _frameRect );
-
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
@@ -57,20 +51,11 @@ public:
 				const QString& _skinId
 			,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const;
 
-	/*virtual*/ boost::intrusive_ptr< IObjectGraphicsInfo >
-		getObjectGraphicsInfo(
-				const QString& _skinId
-			,	const QString& _objectName ) const;
-
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void fetchSurfaceItemGraphicsInfos(
 			const QString& _skinId
 		,	SurfaceItemGraphicsInfoCollection& _collection ) const;
-
-	/*virtual*/ void fetchObjectsGraphicsInfos(
-			const QString& _skinId
-		,	ObjectGraphicsInfoCollection& _collection ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -87,15 +72,7 @@ private:
 			SurfaceItemGraphicsInfoCollection::const_iterator
 			SurfaceItemGraphicsInfoCollectionIterator;
 
-		typedef
-			std::map< QString, boost::intrusive_ptr< IObjectGraphicsInfo > >
-			ObjectGraphicsInfoCollection;
-		typedef
-			ObjectGraphicsInfoCollection::const_iterator
-			ObjectGraphicsInfoCollectionIterator;
-
 		SurfaceItemGraphicsInfoCollection m_surfaceItemGraphicsInfos;
-		ObjectGraphicsInfoCollection m_objectGraphicsInfo;
 	};
 
 /*---------------------------------------------------------------------------*/

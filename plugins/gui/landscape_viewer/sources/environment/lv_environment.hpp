@@ -40,7 +40,11 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const QPixmap& getPixmap( const QString& _resourcePath, const QRect& _rect ) const;
+	/*virtual*/ const QPixmap& getPixmap(
+			const QString& _resourcePath
+		,	const Framework::GUI::ImagesManager::IImagesManager::TransformationData& _transformationData ) const;
+
+	/*virtual*/ const QPixmap& getPixmap( const QString& _unitName ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -85,19 +89,20 @@ public:
 			const QString& _skinId
 		,	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection& _collection ) const;
 
-	/*virtual*/ void fetchObjectsGraphicsInfos(
-			const QString& _skinId
-		,	IGraphicsInfoCache::ObjectGraphicsInfoCollection& _collection ) const;
-
 	/*virtual*/ boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 		getSurfaceItemGraphicsInfo(
 				const QString& _skinId
 			,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const;
 
-	/*virtual*/ boost::intrusive_ptr< IObjectGraphicsInfo >
-		getObjectGraphicsInfo(
-				const QString& _skinId
-			,	const QString& _name ) const;
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void playAnimation(
+			Framework::GUI::AnimationManager::IAnimateObject& _animateObject
+		,	const QString& _animationName ) const;
+
+	/*virtual*/ void stopAnimation( Framework::GUI::AnimationManager::IAnimateObject& _animateObject ) const;
+
+	/*virtual*/ void stopAllAnimations() const;
 
 /*---------------------------------------------------------------------------*/
 

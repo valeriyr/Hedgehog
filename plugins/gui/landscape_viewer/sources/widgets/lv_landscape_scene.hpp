@@ -21,6 +21,8 @@ namespace LandscapeViewer {
 struct IEnvironment;
 struct ILandscapeSceneState;
 
+class ObjectGraphicsItem;
+
 /*---------------------------------------------------------------------------*/
 
 class LandscapeScene
@@ -105,15 +107,19 @@ private:
 
 	void onUnitMoved( const Framework::Core::EventManager::Event& _event );
 
+	void onUnitStateChanged( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 	void generateLandscape();
 
 	void setCorrectSceneSize();
 
-	void unitWasAdded( const Plugins::Core::LandscapeModel::IUnit::IdType& _id, QGraphicsPixmapItem* _item );
+	void unitWasAdded( const Plugins::Core::LandscapeModel::IUnit::IdType& _id, ObjectGraphicsItem* _item );
 
 	void markSelectedUnits();
+
+	void removeAllObjects();
 
 /*---------------------------------------------------------------------------*/
 
@@ -124,7 +130,7 @@ private:
 	typedef
 		std::map<
 				Plugins::Core::LandscapeModel::IUnit::IdType
-			,	QGraphicsPixmapItem*
+			,	ObjectGraphicsItem*
 			>
 		UnitsCollection;
 

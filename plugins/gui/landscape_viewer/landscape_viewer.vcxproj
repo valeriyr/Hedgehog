@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\animations\lv_animation_name_generator.cpp" />
     <ClCompile Include="sources\commands\lv_base_command.cpp" />
     <ClCompile Include="sources\commands\lv_commands.cpp" />
     <ClCompile Include="sources\commands_executor\lv_commands_executor.cpp" />
@@ -26,7 +27,6 @@
     <ClCompile Include="sources\graphics_info_cache\lv_graphics_info_cache.cpp" />
     <ClCompile Include="sources\internal_resources\lv_internal_resources.cpp" />
     <ClCompile Include="sources\landscape_viewer\lv_landscape_viewer.cpp" />
-    <ClCompile Include="sources\object_graphics_info\lv_object_graphics_info.cpp" />
     <ClCompile Include="sources\ph\lv_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -50,6 +50,7 @@
     <ClCompile Include="sources\widgets\lv_minimap_widget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="sources\animations\lv_animation_name_generator.hpp" />
     <ClInclude Include="sources\commands\lv_base_command.hpp" />
     <ClInclude Include="sources\commands\lv_commands.hpp" />
     <ClInclude Include="sources\commands_executor\lv_commands_executor.hpp" />
@@ -61,8 +62,6 @@
     <ClInclude Include="sources\internal_resources\lv_internal_resources.hpp" />
     <ClInclude Include="sources\landscape_viewer\lv_ilandscape_viewer.hpp" />
     <ClInclude Include="sources\landscape_viewer\lv_landscape_viewer.hpp" />
-    <ClInclude Include="sources\object_graphics_info\lv_iobject_graphics_info.hpp" />
-    <ClInclude Include="sources\object_graphics_info\lv_object_graphics_info.hpp" />
     <ClInclude Include="sources\ph\lv_ph.hpp" />
     <ClInclude Include="sources\plugin\lv_plugin_instance.hpp" />
     <ClInclude Include="sources\surface_item_graphics_info\lv_isurface_item_graphics_info.hpp" />
