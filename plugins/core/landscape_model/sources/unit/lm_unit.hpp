@@ -45,6 +45,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ bool canPassCell( const TerrainMapData& _terrainMapData ) const;
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ void setPosition( const QRect& _position );
 
 	/*virtual*/ void setState( const ObjectState::Enum _state );

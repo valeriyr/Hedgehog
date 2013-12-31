@@ -18,6 +18,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct IObjectType;
+struct TerrainMapData;
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,6 +44,10 @@ struct IUnit
 	virtual const ObjectState::Enum getState() const = 0;
 
 	virtual const Direction::Enum getDirection() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual bool canPassCell( const TerrainMapData& _terrainMapData ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -54,8 +54,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		{
 			int cellValue = engagedCell;
 
-			if (	( _forUnit.getType()->getPassability() & _landscape.getTerrainMapData( QPoint( i, j ) ).m_terrainMapItem )
-				&&	 !_landscape.getTerrainMapData( QPoint( i, j ) ).m_engagedWithGround )
+			if ( _forUnit.canPassCell( _landscape.getTerrainMapData( QPoint( i, j ) ) ) )
 			{
 				cellValue = freeCell;
 			}

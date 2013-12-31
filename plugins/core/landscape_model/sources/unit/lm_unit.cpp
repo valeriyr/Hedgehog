@@ -110,6 +110,18 @@ Unit::getDirection() const
 /*---------------------------------------------------------------------------*/
 
 
+bool
+Unit::canPassCell( const TerrainMapData& _terrainMapData ) const
+{
+	return	( getType()->getPassability() & _terrainMapData.m_terrainMapItem )
+		&&	!_terrainMapData.m_engagedWithGround;
+
+} // Unit::canPassCell
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 Unit::setPosition( const QRect& _position )
 {

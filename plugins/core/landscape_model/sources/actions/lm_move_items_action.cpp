@@ -99,7 +99,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 				while ( begin->second.m_movingProgress >= 1.0 )
 				{
 					begin->second.m_movingProgress = begin->second.m_movingProgress - 1.0;
-
+					
 					unit->setPosition( QRect( begin->second.m_unitPath.front().x(), begin->second.m_unitPath.front().y(), 1, 1 ) );
 					begin->second.m_unitPath.pop_front();
 
