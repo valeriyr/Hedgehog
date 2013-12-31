@@ -10,6 +10,7 @@
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject_types_cache.hpp"
 
 #include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
 
@@ -82,7 +83,7 @@ struct IEnvironment
 			const QString& _resourcePath
 		,	const Framework::GUI::ImagesManager::IImagesManager::TransformationData& _transformationData ) const = 0;
 
-	virtual const QPixmap& getPixmap( const QString& _unitName ) const = 0;
+	virtual const QPixmap& getPixmap( const QString& _unitName, const QString& _skinId ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -120,6 +121,10 @@ struct IEnvironment
 
 	virtual const Core::LandscapeModel::ISurfaceItem::IdType
 		getDefaultSurfaceItemId() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void fetchTypes( Core::LandscapeModel::IObjectTypesCache::TypesCollection& _collection ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

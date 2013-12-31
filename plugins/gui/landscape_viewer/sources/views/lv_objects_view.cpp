@@ -9,6 +9,8 @@
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 #include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
 
+#include "landscape_model/ih/lm_iobject_type.hpp"
+
 #include "lv_objects_view.moc"
 
 
@@ -88,21 +90,21 @@ ObjectsView::ObjectsView(
 	fillWithSurfaceItems( "wasteland", wastelandSurface );
 	fillWithSurfaceItems( GraphicsInfoCache::ms_anySkinIdentifier, anySurface );
 
-	QTreeWidgetItem* summerObjects = new QTreeWidgetItem();
+	/*QTreeWidgetItem* summerObjects = new QTreeWidgetItem();
 	summerObjects->setText( 0, "Summer objects" );
 
 	QTreeWidgetItem* winterObjects = new QTreeWidgetItem();
 	winterObjects->setText( 0, "Winter objects" );
 
 	QTreeWidgetItem* wastelandObjects = new QTreeWidgetItem();
-	wastelandObjects->setText( 0, "Wasteland objects" );
+	wastelandObjects->setText( 0, "Wasteland objects" );*/
 
 	QTreeWidgetItem* anyObjects = new QTreeWidgetItem();
 	anyObjects->setText( 0, "Any objects" );
 
-	fillWithObjectItems( "summer", summerObjects );
+	/*fillWithObjectItems( "summer", summerObjects );
 	fillWithObjectItems( "winter", winterObjects );
-	fillWithObjectItems( "wasteland", wastelandObjects );
+	fillWithObjectItems( "wasteland", wastelandObjects );*/
 	fillWithObjectItems( GraphicsInfoCache::ms_anySkinIdentifier, anyObjects );
 
 	m_objectsView->addTopLevelItem( controlItem );
@@ -111,9 +113,9 @@ ObjectsView::ObjectsView(
 	m_objectsView->addTopLevelItem( wastelandSurface );
 	m_objectsView->addTopLevelItem( anySurface );
 
-	m_objectsView->addTopLevelItem( summerObjects );
+	/*m_objectsView->addTopLevelItem( summerObjects );
 	m_objectsView->addTopLevelItem( winterObjects );
-	m_objectsView->addTopLevelItem( wastelandObjects );
+	m_objectsView->addTopLevelItem( wastelandObjects );*/
 	m_objectsView->addTopLevelItem( anyObjects );
 
 	m_objectsView->setCurrentItem( controlItem );
@@ -292,10 +294,10 @@ ObjectsView::fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _par
 void
 ObjectsView::fillWithObjectItems( const QString& _skinId, QTreeWidgetItem* _parentNode )
 {
-	/*IGraphicsInfoCache::ObjectGraphicsInfoCollection collection;
-	m_environment.fetchObjectsGraphicsInfos( _skinId, collection );
+	Core::LandscapeModel::IObjectTypesCache::TypesCollection collection;
+	m_environment.fetchTypes( collection );
 
-	IGraphicsInfoCache::ObjectGraphicsInfoCollectionIterator
+	Core::LandscapeModel::IObjectTypesCache::TypesCollectionIterator
 			begin = collection.begin()
 		,	end = collection.end();
 
@@ -305,12 +307,10 @@ ObjectsView::fillWithObjectItems( const QString& _skinId, QTreeWidgetItem* _pare
 		item->setText( 0, ( *begin )->getName() );
 		item->setIcon(
 				0
-			,	QIcon( m_environment.getPixmap(
-						( *begin )->getAtlasName()
-					,	Framework::GUI::ImagesManager::IImagesManager::TransformationData( ( *begin )->getFrameRect() ) ) ) );
+			,	QIcon( m_environment.getPixmap( ( *begin )->getName(), _skinId ) ) );
 
 		_parentNode->addChild( item );
-	}*/
+	}
 
 } // ObjectsView::fillWithObjectItems
 

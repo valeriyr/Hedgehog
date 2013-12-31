@@ -245,7 +245,7 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 
 	if ( handle->getLandscape() )
 	{
-		const QPixmap& objectPixmap = m_environment.getPixmap( objectName );
+		const QPixmap& objectPixmap = m_environment.getPixmap( objectName, GraphicsInfoCache::ms_anySkinIdentifier );
 
 		qreal xpos = objectPosition.x() * Resources::Landscape::CellSize;
 		qreal ypos = objectPosition.y() * Resources::Landscape::CellSize;
@@ -366,7 +366,7 @@ LandscapeScene::onUnitMoved( const Framework::Core::EventManager::Event& _event 
 	int xpos = movedFromInScene.x() + ( ( movedToInScene.x() - movedFromInScene.x() ) * progress );
 	int ypos = movedFromInScene.y() + ( ( movedToInScene.y() - movedFromInScene.y() ) * progress );
 
-	const QPixmap& objectPixmap = m_environment.getPixmap( unitName );
+	const QPixmap& objectPixmap = m_environment.getPixmap( unitName, GraphicsInfoCache::ms_anySkinIdentifier );
 
 	if ( static_cast< unsigned int >( objectPixmap.width() ) > Resources::Landscape::CellSize )
 	{
@@ -517,7 +517,7 @@ LandscapeScene::generateLandscape()
 
 		for ( ; begin != end; ++begin )
 		{
-			const QPixmap& objectPixmap = m_environment.getPixmap( ( *begin )->getType()->getName() );
+			const QPixmap& objectPixmap = m_environment.getPixmap( ( *begin )->getType()->getName(), GraphicsInfoCache::ms_anySkinIdentifier );
 
 			ObjectGraphicsItem* newItem = new ObjectGraphicsItem( objectPixmap );
 			addItem( newItem );

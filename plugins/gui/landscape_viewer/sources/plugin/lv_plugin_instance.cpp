@@ -23,6 +23,7 @@
 
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
+#include "landscape_model/ih/lm_iobject_types_cache.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/h/lm_plugin_id.hpp"
 
@@ -306,6 +307,20 @@ PluginInstance::getSurfaceItemsCache() const
 			,	Plugins::Core::LandscapeModel::IID_SURFACE_ITEMS_CACHE );
 
 } // PluginInstance::getSurfaceItemsCache
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::IObjectTypesCache >
+PluginInstance::getObjectTypesCache() const
+{
+	return
+		getPluginInterface< Plugins::Core::LandscapeModel::IObjectTypesCache >(
+				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
+			,	Plugins::Core::LandscapeModel::IID_OBJECT_TYPES_CACHE );
+
+} // PluginInstance::getObjectTypesCache
 
 
 /*---------------------------------------------------------------------------*/

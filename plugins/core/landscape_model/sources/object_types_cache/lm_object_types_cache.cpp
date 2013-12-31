@@ -47,6 +47,26 @@ ObjectTypesCache::getObjectType( const QString& _name ) const
 
 /*---------------------------------------------------------------------------*/
 
+
+void
+ObjectTypesCache::fetchTypes( IObjectTypesCache::TypesCollection& _collection ) const
+{
+	_collection.clear();
+
+	TypesCollectionIterator
+			begin = m_typesCollection.begin()
+		,	end = m_typesCollection.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		_collection.push_back( begin->second );
+	}
+
+} // ObjectTypesCache::fetchTypes
+
+
+/*---------------------------------------------------------------------------*/
+
 void
 ObjectTypesCache::regObjectType(
 		const QString& _name

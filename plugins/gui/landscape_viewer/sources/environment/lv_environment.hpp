@@ -44,7 +44,7 @@ public:
 			const QString& _resourcePath
 		,	const Framework::GUI::ImagesManager::IImagesManager::TransformationData& _transformationData ) const;
 
-	/*virtual*/ const QPixmap& getPixmap( const QString& _unitName ) const;
+	/*virtual*/ const QPixmap& getPixmap( const QString& _unitName, const QString& _skinId ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -82,6 +82,10 @@ public:
 
 	/*virtual*/ const Core::LandscapeModel::ISurfaceItem::IdType
 		getDefaultSurfaceItemId() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void fetchTypes( Core::LandscapeModel::IObjectTypesCache::TypesCollection& _collection ) const;
 
 /*---------------------------------------------------------------------------*/
 

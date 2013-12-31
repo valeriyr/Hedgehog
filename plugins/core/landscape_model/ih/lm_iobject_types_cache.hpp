@@ -29,7 +29,18 @@ struct IObjectTypesCache
 
 /*---------------------------------------------------------------------------*/
 
+	typedef
+		std::vector< boost::intrusive_ptr< IObjectType > >
+		TypesCollection;
+	typedef
+		TypesCollection::const_iterator
+		TypesCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual boost::intrusive_ptr< IObjectType > getObjectType( const QString& _name ) const = 0;
+
+	virtual void fetchTypes( TypesCollection& _collection ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

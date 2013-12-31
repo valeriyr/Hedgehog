@@ -7,6 +7,7 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
+#include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
@@ -390,7 +391,7 @@ LandscapeObjectEditingState::onMousePossitionWasChanged( const QPointF& _point )
 		qreal xpos = _point.x() < 0 ? 0 : ( static_cast< int >( _point.x() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
 		qreal ypos = _point.y() < 0 ? 0 : ( static_cast< int >( _point.y() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
 
-		const QPixmap& objectPixmap = m_environment.getPixmap( m_name );
+		const QPixmap& objectPixmap = m_environment.getPixmap( m_name, GraphicsInfoCache::ms_anySkinIdentifier );
 
 		if ( xpos > m_scene.width() - Resources::Landscape::CellSize )
 			xpos = m_scene.width() - Resources::Landscape::CellSize;
@@ -433,7 +434,7 @@ LandscapeObjectEditingState::addSceneObjects()
 {
 	if ( !m_currentEditorItem )
 	{
-		m_currentEditorItem = new QGraphicsPixmapItem( m_environment.getPixmap( m_name ) );
+		m_currentEditorItem = new QGraphicsPixmapItem( m_environment.getPixmap( m_name, GraphicsInfoCache::ms_anySkinIdentifier ) );
 
 		QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
 		opacityEffect->setOpacity( 0.5 );

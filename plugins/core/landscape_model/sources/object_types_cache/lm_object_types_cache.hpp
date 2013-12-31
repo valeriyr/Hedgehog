@@ -33,6 +33,8 @@ public:
 	/*virtual*/ boost::intrusive_ptr< IObjectType >
 		getObjectType( const QString& _name ) const;
 
+	/*virtual*/ void fetchTypes( IObjectTypesCache::TypesCollection& _collection ) const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void regObjectType(

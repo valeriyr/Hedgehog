@@ -90,11 +90,11 @@ Environment::getPixmap(
 
 
 const QPixmap&
-Environment::getPixmap( const QString& _unitName ) const
+Environment::getPixmap( const QString& _unitName, const QString& _skinId ) const
 {
 	QString animationName(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				_skinId
 			,	_unitName
 			,	Core::LandscapeModel::ObjectState::Standing
 			,	Core::LandscapeModel::Direction::Down ) );
@@ -240,6 +240,17 @@ Environment::getDefaultSurfaceItemId() const
 	return m_pluginInstance.getSurfaceItemsCache()->getDefaultSurfaceItem()->getId();
 
 } // Environment::getDefaultSurfaceItemId
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::fetchTypes( Core::LandscapeModel::IObjectTypesCache::TypesCollection& _collection ) const
+{
+	m_pluginInstance.getObjectTypesCache()->fetchTypes( _collection );
+
+} // Environment::fetchTypes
 
 
 /*---------------------------------------------------------------------------*/
