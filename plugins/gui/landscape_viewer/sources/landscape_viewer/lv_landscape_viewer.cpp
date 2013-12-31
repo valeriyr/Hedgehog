@@ -59,6 +59,8 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 
 LandscapeViewer::~LandscapeViewer()
 {
+	closeLandscape();
+
 	m_environment.removeFrameworkView( m_selectionView );
 	m_environment.removeFrameworkView( m_actionPanelView );
 	m_environment.removeFrameworkView( m_objectInfoView );
