@@ -14,6 +14,10 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+static unsigned int g_unitsCounter = 0;
+
+/*---------------------------------------------------------------------------*/
+
 
 Unit::Unit(
 		boost::intrusive_ptr< IObjectType > _type
@@ -24,7 +28,7 @@ Unit::Unit(
 	,	m_possition( _possition )
 	,	m_state( ObjectState::Standing )
 	,	m_direction( Direction::Down )
-	,	m_id( rand() )
+	,	m_id( g_unitsCounter++ )
 {
 } // Unit::Unit
 
