@@ -53,8 +53,8 @@ MoveAction::MoveAction(
 			{
 				m_movingData.insert( std::make_pair( ( *begin )->getUniqueId(), movingData ) );
 
-				/*handle->getLandscape()->setEngagedWithGroungItem( QPoint( ( *begin )->getPosition().x(), ( *begin )->getPosition().y() ), false );
-				handle->getLandscape()->setEngagedWithGroungItem( movingData.m_unitPath.front(), true );*/
+				handle->getLandscape()->setEngagedWithGroungItem( QPoint( ( *begin )->getPosition().x(), ( *begin )->getPosition().y() ), false );
+				handle->getLandscape()->setEngagedWithGroungItem( movingData.m_unitPath.front(), true );
 			}
 		}
 	}
@@ -102,9 +102,37 @@ MoveAction::processAction( const unsigned int _deltaTime )
 				while ( begin->second.m_movingProgress >= 1.0 )
 				{
 					begin->second.m_movingProgress = begin->second.m_movingProgress - 1.0;
-					
-					unit->setPosition( QRect( begin->second.m_unitPath.front().x(), begin->second.m_unitPath.front().y(), 1, 1 ) );
+
+					QPoint unitPosition( QPoint( begin->second.m_unitPath.front().x(), begin->second.m_unitPath.front().y() ) );
+
+					unit->setPosition( QRect( unitPosition.x(), unitPosition.y(), 1, 1 ) );
+
 					begin->second.m_unitPath.pop_front();
+
+					if ( !begin->second.m_unitPath.empty() )
+					{
+						if ( unit->canPassCell( handle->getLandscape()->getTerrainMapData( begin->second.m_unitPath.front() ) ) )
+						{
+							handle->getLandscape()->setEngagedWithGroungItem( unitPosition, false );
+							handle->getLandscape()->setEngagedWithGroungItem( begin->second.m_unitPath.front(), true );
+						}
+						else
+						{
+							MovingData movingData;
+							m_pathFinder->findPath( movingData.m_unitPath, *handle->getLandscape(), *unit, begin->second.m_unitPath.back() );
+
+							if ( !movingData.m_unitPath.empty() )
+							{
+								begin->second = movingData;
+								handle->getLandscape()->setEngagedWithGroungItem( unitPosition, false );
+								handle->getLandscape()->setEngagedWithGroungItem( movingData.m_unitPath.front(), true );
+							}
+							else
+							{
+								begin->second.m_unitPath.clear();
+							}
+						}
+					}
 
 					if ( begin->second.m_unitPath.empty() )
 						break;
