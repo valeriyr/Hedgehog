@@ -54,7 +54,7 @@ LandscapeSceneGameState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent 
 		&&	_mouseEvent->scenePos().x() <= m_scene.width()
 		&&	_mouseEvent->scenePos().y() <= m_scene.height() )
 	{
-		m_selectionItem = m_scene.addRect( 0, 0, 0, 0 );
+		m_selectionItem = m_scene.addRect( 0, 0, 0, 0, QPen( QColor( 0, 255, 0 ) ) );
 		m_selectionItem->setPos( _mouseEvent->scenePos().x(), _mouseEvent->scenePos().y() );
 		m_selectionItem->setZValue( LandscapeScene::ObjectZValue::SelectionRect );
 		m_startSelectionPoint = _mouseEvent->scenePos();
