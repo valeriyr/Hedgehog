@@ -29,10 +29,11 @@ ObjectInfoView::ObjectInfoView( const IEnvironment& _environment )
 	,	m_subscriber( _environment.createSubscriber() )
 	,	m_viewTitle( Resources::Views::ObjectInfoViewTitle )
 	,	m_mainWidget( new QTextEdit() )
+	,	m_showingUnitId( Core::LandscapeModel::IUnit::ms_wrongId )
 {
 	m_mainWidget->setReadOnly( true );
 
-	setDefaultDescription();
+	setDescriptionForUnit( Core::LandscapeModel::IUnit::ms_wrongId );
 
 } // ObjectInfoView::ObjectInfoView
 
@@ -88,6 +89,10 @@ ObjectInfoView::landscapeWasOpened()
 							,	Plugins::Core::LandscapeModel::Events::UnitsSelectionChanged::ms_type
 							,	boost::bind( &ObjectInfoView::onUnitsSelectionChanged, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::UnitMoved::ms_type
+							,	boost::bind( &ObjectInfoView::onUnitMoved, this, _1 ) );
+
 } // ObjectInfoView::landscapeWasOpened
 
 
@@ -98,7 +103,7 @@ void
 ObjectInfoView::landscapeWasClosed()
 {
 	m_subscriber.unsubscribe();
-	setDefaultDescription();
+	setDescriptionForUnit( Core::LandscapeModel::IUnit::ms_wrongId );
 
 } // ObjectInfoView::landscapeWasClosed
 
@@ -109,23 +114,62 @@ ObjectInfoView::landscapeWasClosed()
 void
 ObjectInfoView::onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event )
 {
-	m_mainWidget->clear();
+	Plugins::Core::LandscapeModel::ILandscape::UnitsCollection selectedUnitsCollection;
+
+	{
+		boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+			= m_environment.getCurrentLandscape();
+
+		if ( handle->getLandscape() )
+		{
+			handle->getLandscape()->fetchSelectedUnits( selectedUnitsCollection );
+		}
+	}
+
+	setDescriptionForUnit(
+			selectedUnitsCollection.empty()
+		?	Core::LandscapeModel::IUnit::ms_wrongId
+		:	selectedUnitsCollection.front()->getUniqueId() );
+
+} // ObjectInfoView::onUnitsSelectionChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectInfoView::onUnitMoved( const Framework::Core::EventManager::Event& _event )
+{
+	const Plugins::Core::LandscapeModel::IUnit::IdType unitId
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_unitIdAttribute ).toInt();
+
+	if ( m_showingUnitId == unitId )
+	{
+		setDescriptionForUnit( unitId );
+	}
+
+} // ObjectInfoView::onUnitMoved
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectInfoView::setDescriptionForUnit( const Core::LandscapeModel::IUnit::IdType& _unitId )
+{
+	m_showingUnitId = Core::LandscapeModel::IUnit::ms_wrongId;
 
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
 		= m_environment.getCurrentLandscape();
 
 	if ( handle->getLandscape() )
 	{
-		Plugins::Core::LandscapeModel::ILandscape::UnitsCollection selectedUnitsCollection;
-		handle->getLandscape()->fetchSelectedUnits( selectedUnitsCollection );
+		boost::intrusive_ptr< Core::LandscapeModel::IUnit > unit = handle->getLandscape()->getUnit( _unitId );
 
-		if ( selectedUnitsCollection.empty() )
+		if ( unit )
 		{
-			setDefaultDescription();
-		}
-		else
-		{
-			boost::intrusive_ptr< Core::LandscapeModel::IUnit > unit = *selectedUnitsCollection.begin();
+			m_showingUnitId = unit->getUniqueId();
+
 			m_mainWidget->setHtml(
 				QString( Resources::Views::ObjectInfoFormat )
 					.arg( unit->getType()->getName() )
@@ -140,18 +184,12 @@ ObjectInfoView::onUnitsSelectionChanged( const Framework::Core::EventManager::Ev
 		}
 	}
 
-} // ObjectInfoView::onUnitsSelectionChanged
+	if ( m_showingUnitId == Core::LandscapeModel::IUnit::ms_wrongId )
+	{
+		m_mainWidget->setHtml( Resources::Views::ObjectInfoDefaultText );
+	}
 
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-ObjectInfoView::setDefaultDescription()
-{
-	m_mainWidget->setHtml( Resources::Views::ObjectInfoDefaultText );
-
-} // ObjectInfoView::setDefaultDescription
+} // ObjectInfoView::setDescriptionForUnit
 
 
 /*---------------------------------------------------------------------------*/

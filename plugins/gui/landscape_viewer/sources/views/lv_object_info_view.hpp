@@ -9,6 +9,8 @@
 #include "event_manager/h/em_subscriber.hpp"
 #include "event_manager/h/em_event.hpp"
 
+#include "landscape_model/ih/lm_iunit.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -59,9 +61,11 @@ private:
 
 	void onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event );
 
+	void onUnitMoved( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
-	void setDefaultDescription();
+	void setDescriptionForUnit( const Core::LandscapeModel::IUnit::IdType& _unitId );
 
 /*---------------------------------------------------------------------------*/
 
@@ -76,6 +80,8 @@ private:
 	QString m_viewTitle;
 
 	boost::shared_ptr< QTextEdit > m_mainWidget;
+
+	Core::LandscapeModel::IUnit::IdType m_showingUnitId;
 
 /*---------------------------------------------------------------------------*/
 
