@@ -78,18 +78,14 @@ LandscapeSerializer::load(
 	for ( unsigned int i = 0; i < unitsCount; ++i )
 	{
 		QString objectName;
-		unsigned int left = 0;
-		unsigned int right = 0;
-		unsigned int bottom = 0;
-		unsigned int top = 0;
+		unsigned int x = 0;
+		unsigned int y = 0;
 
 		fileStream >> objectName;
-		fileStream >> left;
-		fileStream >> right;
-		fileStream >> bottom;
-		fileStream >> top;
+		fileStream >> x;
+		fileStream >> y;
 
-		_landscape.createObject( QPoint( left, top ), objectName );
+		_landscape.createObject( QPoint( x, y ), objectName );
 	}
 
 } // LandscapeSerializer::load
@@ -135,10 +131,8 @@ LandscapeSerializer::save(
 	for ( ; begin != end; ++begin )
 	{
 		fileStream << ( *begin )->getType()->getName();
-		fileStream << ( *begin )->getPosition().left();
-		fileStream << ( *begin )->getPosition().right();
-		fileStream << ( *begin )->getPosition().bottom();
-		fileStream << ( *begin )->getPosition().top();
+		fileStream << ( *begin )->getPosition().x();
+		fileStream << ( *begin )->getPosition().y();
 	}
 
 } // LandscapeSerializer::save

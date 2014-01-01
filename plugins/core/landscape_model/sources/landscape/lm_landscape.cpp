@@ -105,7 +105,7 @@ Landscape::getUnit( const QPoint& _point ) const
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( ( *begin )->getPosition().contains( _point ) )
+		if ( ( *begin )->getRect().contains( _point ) )
 			return *begin;
 	}
 
@@ -172,22 +172,25 @@ Landscape::fetchSelectedUnits( ILandscape::UnitsCollection& _collection ) const
 
 
 bool
-Landscape::canCreateObject(
+Landscape::canObjectBePlaced(
 		const QPoint& _position
-	,	const QString& _objectName ) const
+	,	boost::intrusive_ptr< IObjectType > _objectType ) const
 {
-	boost::intrusive_ptr< IObjectType > objectType = m_objectTypesCache.getObjectType( _objectName );
-	assert( objectType );
-
-	if (	( objectType->getPassability() & m_terrainMap.getConstElement( _position.x(), _position.y() ).m_terrainMapItem )
-		&&	!m_terrainMap.getConstElement( _position.x(), _position.y() ).m_engagedWithGround )
+	for ( int x = _position.x(); x < _position.x() + _objectType->getSize().width(); ++x )
 	{
-		return true;
+		for ( int y = _position.y(); y < _position.y() + _objectType->getSize().height(); ++y )
+		{
+			if (	!( _objectType->getPassability() & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
+				||	m_terrainMap.getConstElement( x, y ).m_engagedWithGround )
+			{
+				return false;
+			}
+		}
 	}
 
-	return false;
+	return true;
 
-} // Landscape::canCreateObject
+} // Landscape::canObjectBePlaced
 
 
 /*---------------------------------------------------------------------------*/
@@ -254,14 +257,20 @@ Landscape::createObject( const QPoint& _position, const QString& _objectName )
 	boost::intrusive_ptr< IObjectType > objectType = m_objectTypesCache.getObjectType( _objectName );
 	assert( objectType );
 
-	QRect objectRect( _position, objectType->getObjectSize() );
-
-	if ( canCreateObject( _position, _objectName ) )
+	if ( canObjectBePlaced( _position, objectType ) )
 	{
-		boost::intrusive_ptr< IUnit > unit( new Unit( objectType, objectRect ) );
-
+		boost::intrusive_ptr< IUnit > unit( new Unit( objectType, _position ) );
 		m_units.push_back( unit );
-		m_terrainMap.getElement( objectRect.x(), objectRect.y() ).m_engagedWithGround = true;
+
+		QRect objectRect( unit->getRect() );
+
+		for ( int x = objectRect.x(); x < objectRect.x() + objectRect.width(); ++x )
+		{
+			for ( int y = objectRect.y(); y < objectRect.y() + objectRect.height(); ++y )
+			{
+				m_terrainMap.getElement( objectRect.x(), objectRect.y() ).m_engagedWithGround = true;
+			}
+		}
 
 		return unit->getUniqueId();
 	}
@@ -285,7 +294,7 @@ Landscape::selectUnits( const QRect& _rect )
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( ( *begin )->getPosition().intersects( _rect ) )
+		if ( ( *begin )->getRect().intersects( _rect ) )
 		{
 			m_selectedUnits.push_back( *begin );
 		}

@@ -16,13 +16,13 @@ namespace LandscapeModel {
 ObjectType::ObjectType(
 		const QString& _name
 	,	const int _maximumHealth
-	,	const QSize& _objectSize
+	,	const QSize& _size
 	,	const TerrainMapItem::MaskType _passability
 	,	const unsigned int _movingSpeed
 	)
 	:	m_name( _name )
 	,	m_maximumHealth( _maximumHealth )
-	,	m_objectSize( _objectSize )
+	,	m_size( _size )
 	,	m_passability( _passability )
 	,	m_movingSpeed( _movingSpeed )
 {
@@ -63,11 +63,11 @@ ObjectType::getMaximumHealth() const
 
 
 const QSize&
-ObjectType::getObjectSize() const
+ObjectType::getSize() const
 {
-	return m_objectSize;
+	return m_size;
 
-} // ObjectType::getObjectSize
+} // ObjectType::getSize
 
 
 /*---------------------------------------------------------------------------*/

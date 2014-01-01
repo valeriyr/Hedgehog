@@ -60,9 +60,9 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual bool canCreateObject(
+	virtual bool canObjectBePlaced(
 			const QPoint& _position
-		,	const QString& _objectName ) const = 0;
+		,	boost::intrusive_ptr< IObjectType > _objectType ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

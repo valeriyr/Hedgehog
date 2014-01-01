@@ -178,8 +178,8 @@ ObjectInfoView::setDescriptionForUnit( const Core::LandscapeModel::IUnit::IdType
 					.arg( unit->getType()->getMovingSpeed() )
 					.arg( unit->getPosition().x() )
 					.arg( unit->getPosition().y() )
-					.arg( unit->getType()->getObjectSize().width() )
-					.arg( unit->getType()->getObjectSize().height() )
+					.arg( unit->getType()->getSize().width() )
+					.arg( unit->getType()->getSize().height() )
 					.arg( unit->getUniqueId() ) );
 		}
 	}

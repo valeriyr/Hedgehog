@@ -26,7 +26,7 @@ struct IObjectType
 
 	virtual const int getMaximumHealth() const = 0;
 
-	virtual const QSize& getObjectSize() const = 0;
+	virtual const QSize& getSize() const = 0;
 
 	virtual const TerrainMapItem::MaskType getPassability() const = 0;
 

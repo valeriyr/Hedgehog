@@ -37,7 +37,9 @@ struct IUnit
 
 	virtual const int getHealth() const = 0;
 
-	virtual const QRect& getPosition() const = 0;
+	virtual const QPoint& getPosition() const = 0;
+
+	virtual const QRect getRect() const = 0;
 
 	virtual const IdType& getUniqueId() const = 0;
 
@@ -47,11 +49,7 @@ struct IUnit
 
 /*---------------------------------------------------------------------------*/
 
-	virtual bool canPassCell( const TerrainMapData& _terrainMapData ) const = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual void setPosition( const QRect& _position ) = 0;
+	virtual void setPosition( const QPoint& _position ) = 0;
 
 	virtual void setState( const ObjectState::Enum _state ) = 0;
 

@@ -40,7 +40,7 @@ public:
 	/*virtual*/ void regObjectType(
 			const QString& _name
 		,	const unsigned int _maximumHealth
-		,	const QSize& _objectSize
+		,	const QSize& _size
 		,	const TerrainMapItem::MaskType _passability
 		,	const unsigned int _movingSpeed );
 

@@ -63,9 +63,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ bool canCreateObject(
+	/*virtual*/ bool canObjectBePlaced(
 			const QPoint& _position
-		,	const QString& _objectName ) const;
+		,	boost::intrusive_ptr< IObjectType > _objectType ) const;
 
 /*---------------------------------------------------------------------------*/
 

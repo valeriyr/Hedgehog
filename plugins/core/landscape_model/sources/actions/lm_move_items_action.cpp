@@ -53,7 +53,7 @@ MoveAction::MoveAction(
 			{
 				m_movingData.insert( std::make_pair( ( *begin )->getUniqueId(), movingData ) );
 
-				handle->getLandscape()->setEngagedWithGroungItem( QPoint( ( *begin )->getPosition().x(), ( *begin )->getPosition().y() ), false );
+				handle->getLandscape()->setEngagedWithGroungItem( ( *begin )->getPosition(), false );
 				handle->getLandscape()->setEngagedWithGroungItem( movingData.m_unitPath.front(), true );
 			}
 		}
@@ -105,13 +105,13 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 					QPoint unitPosition( QPoint( begin->second.m_unitPath.front().x(), begin->second.m_unitPath.front().y() ) );
 
-					unit->setPosition( QRect( unitPosition.x(), unitPosition.y(), 1, 1 ) );
+					unit->setPosition( QPoint( unitPosition.x(), unitPosition.y() ) );
 
 					begin->second.m_unitPath.pop_front();
 
 					if ( !begin->second.m_unitPath.empty() )
 					{
-						if ( unit->canPassCell( handle->getLandscape()->getTerrainMapData( begin->second.m_unitPath.front() ) ) )
+						if ( handle->getLandscape()->canObjectBePlaced( begin->second.m_unitPath.front(), unit->getType() ) )
 						{
 							handle->getLandscape()->setEngagedWithGroungItem( unitPosition, false );
 							handle->getLandscape()->setEngagedWithGroungItem( begin->second.m_unitPath.front(), true );
@@ -158,7 +158,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					Direction::Enum currentUnitDirection = unit->getDirection();
 					Direction::Enum nextUnitDirection = Direction::Down;
 
-					QPoint unitCurrentPosition( unit->getPosition().x(), unit->getPosition().y() );
+					QPoint unitCurrentPosition( unit->getPosition() );
 					QPoint nextPosition = begin->second.m_unitPath.front();
 
 					if ( nextPosition.y() > unitCurrentPosition.y() )
@@ -191,7 +191,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 				Framework::Core::EventManager::Event unitMovedEvent( Events::UnitMoved::ms_type );
 				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_unitNameAttribute, unit->getType()->getName() );
 				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_unitIdAttribute, begin->first );
-				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingFromAttribute, QPoint( unit->getPosition().x(), unit->getPosition().y() ) );
+				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingFromAttribute, unit->getPosition() );
 				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingToAttribute, begin->second.m_unitPath.front() );
 				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingProgressAttribute, begin->second.m_movingProgress );
 

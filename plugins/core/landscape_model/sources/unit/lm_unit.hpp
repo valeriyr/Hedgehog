@@ -25,7 +25,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	Unit(	boost::intrusive_ptr< IObjectType > _type
-		,	const QRect& _possition );
+		,	const QPoint& _possition );
 
 	virtual ~Unit();
 
@@ -35,7 +35,9 @@ public:
 
 	/*virtual*/ const int getHealth() const;
 
-	/*virtual*/ const QRect& getPosition() const;
+	/*virtual*/ const QPoint& getPosition() const;
+
+	/*virtual*/ const QRect getRect() const;
 
 	/*virtual*/ const IUnit::IdType& getUniqueId() const;
 
@@ -45,11 +47,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ bool canPassCell( const TerrainMapData& _terrainMapData ) const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void setPosition( const QRect& _position );
+	/*virtual*/ void setPosition( const QPoint& _position );
 
 	/*virtual*/ void setState( const ObjectState::Enum _state );
 
@@ -65,7 +63,7 @@ private:
 
 	int m_health;
 
-	QRect m_possition;
+	QPoint m_possition;
 
 	ObjectState::Enum m_state;
 

@@ -54,7 +54,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		{
 			int cellValue = engagedCell;
 
-			if ( _forUnit.canPassCell( _landscape.getTerrainMapData( QPoint( i, j ) ) ) )
+			if ( _landscape.canObjectBePlaced( QPoint( i, j ), _forUnit.getType() ) )
 			{
 				cellValue = freeCell;
 			}
@@ -63,7 +63,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		}
 	}
 
-	QPoint startPoint( _forUnit.getPosition().x(), _forUnit.getPosition().y() );
+	QPoint startPoint( _forUnit.getPosition() );
 	QPoint finishPoint = _toPoint;
 
 	int dx[4] = {1, 0, -1, 0};

@@ -21,7 +21,7 @@ static unsigned int g_unitsCounter = 0;
 
 Unit::Unit(
 		boost::intrusive_ptr< IObjectType > _type
-	,	const QRect& _possition
+	,	const QPoint& _possition
 	)
 	:	m_type( _type )
 	,	m_health( m_type->getMaximumHealth() )
@@ -66,12 +66,23 @@ Unit::getHealth() const
 /*---------------------------------------------------------------------------*/
 
 
-const QRect&
+const QPoint&
 Unit::getPosition() const
 {
 	return m_possition;
 
 } // Unit::getPosition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QRect
+Unit::getRect() const
+{
+	return QRect( getPosition(), getType()->getSize() );
+
+} // Unit::getRect
 
 
 /*---------------------------------------------------------------------------*/
@@ -110,20 +121,8 @@ Unit::getDirection() const
 /*---------------------------------------------------------------------------*/
 
 
-bool
-Unit::canPassCell( const TerrainMapData& _terrainMapData ) const
-{
-	return	( getType()->getPassability() & _terrainMapData.m_terrainMapItem )
-		&&	!_terrainMapData.m_engagedWithGround;
-
-} // Unit::canPassCell
-
-
-/*---------------------------------------------------------------------------*/
-
-
 void
-Unit::setPosition( const QRect& _position )
+Unit::setPosition( const QPoint& _position )
 {
 	m_possition = _position;
 

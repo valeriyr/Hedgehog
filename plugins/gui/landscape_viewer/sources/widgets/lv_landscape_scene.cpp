@@ -468,7 +468,7 @@ LandscapeScene::generateLandscape()
 			ObjectGraphicsItem* newItem = new ObjectGraphicsItem( objectPixmap );
 			addItem( newItem );
 
-			QRect position = ( *begin )->getPosition();
+			QPoint position = ( *begin )->getPosition();
 
 			qreal posByX = position.x() * Resources::Landscape::CellSize;
 			qreal posByY = position.y() * Resources::Landscape::CellSize;

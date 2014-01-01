@@ -26,7 +26,7 @@ public:
 
 	ObjectType(	const QString& _name
 			,	const int _maximumHealth
-			,	const QSize& _objectSize
+			,	const QSize& _size
 			,	const TerrainMapItem::MaskType _passability
 			,	const unsigned int _movingSpeed );
 
@@ -38,7 +38,7 @@ public:
 
 	/*virtual*/ const int getMaximumHealth() const;
 
-	/*virtual*/ const QSize& getObjectSize() const;
+	/*virtual*/ const QSize& getSize() const;
 
 	/*virtual*/ const TerrainMapItem::MaskType getPassability() const;
 
@@ -54,7 +54,7 @@ private:
 
 	const int m_maximumHealth;
 
-	const QSize m_objectSize;
+	const QSize m_size;
 
 	const TerrainMapItem::MaskType m_passability;
 
