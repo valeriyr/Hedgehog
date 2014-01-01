@@ -49,10 +49,7 @@ void
 LandscapeSceneGameState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
 	if (	_mouseEvent->buttons() == Qt::LeftButton
-		&&	_mouseEvent->scenePos().x() >= 0
-		&&	_mouseEvent->scenePos().y() >= 0
-		&&	_mouseEvent->scenePos().x() <= m_scene.width()
-		&&	_mouseEvent->scenePos().y() <= m_scene.height() )
+		&&	isInSceneRect( _mouseEvent->scenePos() ) )
 	{
 		m_selectionItem = m_scene.addRect( 0, 0, 0, 0, QPen( QColor( 0, 255, 0 ) ) );
 		m_selectionItem->setPos( _mouseEvent->scenePos().x(), _mouseEvent->scenePos().y() );
@@ -116,19 +113,22 @@ LandscapeSceneGameState::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 void
 LandscapeSceneGameState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	if ( m_selectionItem )
+	if ( isInSceneRect( _mouseEvent->scenePos() ) )
 	{
-		QPoint pos1 = LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() );
-		QPoint pos2 = LandscapeScene::convertFromScenePosition( QPoint(		m_selectionItem->scenePos().x() + m_selectionItem->rect().width()
-																		,	m_selectionItem->scenePos().y() + m_selectionItem->rect().height() ) );
+		if ( m_selectionItem )
+		{
+			QPoint pos1 = LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() );
+			QPoint pos2 = LandscapeScene::convertFromScenePosition( QPoint(		m_selectionItem->scenePos().x() + m_selectionItem->rect().width()
+																			,	m_selectionItem->scenePos().y() + m_selectionItem->rect().height() ) );
 
-		m_environment.selectItemsInModel( QRect( pos1, pos2 ) );
+			m_environment.selectItemsInModel( QRect( pos1, pos2 ) );
 
-		removeSceneObjects();
-	}
-	else
-	{
-		m_environment.moveSelectedItems( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ) );
+			removeSceneObjects();
+		}
+		else
+		{
+			m_environment.moveSelectedItems( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ) );
+		}
 	}
 
 } // LandscapeSceneGameState::mouseReleaseEvent
@@ -167,6 +167,21 @@ void
 LandscapeSceneGameState::addSceneObjects()
 {
 } // LandscapeSceneGameState::addSceneObjects
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+LandscapeSceneGameState::isInSceneRect( const QPointF& _point ) const
+{
+	return
+			_point.x() >= 0
+		&&	_point.y() >= 0
+		&&	_point.x() < m_scene.width()
+		&&	_point.y() < m_scene.height();
+
+} // LandscapeSceneGameState::isInSceneRect
 
 
 /*---------------------------------------------------------------------------*/
