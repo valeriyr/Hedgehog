@@ -40,7 +40,7 @@ TasksQueue::pushTask( RunnableFunction _function )
 
 	const QString taskId( QUuid::createUuid().toString() );
 
-	m_readyTasksCollection.insert( std::make_pair( taskId, TaskData( _function ) ) );
+	m_readyTasksCollection.push_back( std::make_pair( taskId, TaskData( _function ) ) );
 
 	return taskId;
 
@@ -62,7 +62,7 @@ TasksQueue::pushPeriodicalTask( RunnableFunction _function, const qint64 _period
 
 	m_periodicalTasksCollection.insert( std::make_pair( taskId, taskData ) );
 
-	m_readyTasksCollection.insert( std::make_pair( taskId, taskData ) );
+	m_readyTasksCollection.push_back( std::make_pair( taskId, taskData ) );
 
 	return taskId;
 
@@ -100,7 +100,19 @@ TasksQueue::removeTask( const QString& _taskId )
 
 	m_delayedTasksCollection.erase( _taskId );
 	m_periodicalTasksCollection.erase( _taskId );
-	m_readyTasksCollection.erase( _taskId );
+
+	ReadyTasksCollectionIterator
+			begin = m_readyTasksCollection.begin()
+		,	end = m_readyTasksCollection.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( begin->first == _taskId )
+		{
+			m_readyTasksCollection.erase( begin );
+			break;
+		}
+	}
 
 } // TasksQueue::removeTask
 
@@ -159,11 +171,20 @@ TasksQueue::refreshTasks()
 
 		if ( currentTime - beginPeriodical->second.m_lastStart >= beginPeriodical->second.m_time )
 		{
-			if ( m_readyTasksCollection.find( beginPeriodical->first ) != m_readyTasksCollection.end() )
-				continue;
+			ReadyTasksCollectionIterator
+					beginReady = m_readyTasksCollection.begin()
+				,	endReady = m_readyTasksCollection.end();
+
+			for ( ; beginReady != endReady; ++beginReady )
+			{
+				if ( beginReady->first == beginPeriodical->first )
+				{
+					continue;
+				}
+			}
 
 			beginPeriodical->second.m_lastStart = currentTime;
-			m_readyTasksCollection.insert( std::make_pair( beginPeriodical->first, beginPeriodical->second ) );
+			m_readyTasksCollection.push_back( *beginPeriodical );
 			++tasksCount;
 		}
 	}
@@ -178,9 +199,20 @@ TasksQueue::refreshTasks()
 
 		if ( currentTime - beginDeleyed->second.m_lastStart >= beginDeleyed->second.m_time )
 		{
-			assert( m_readyTasksCollection.find( beginDeleyed->first ) == m_readyTasksCollection.end() );
+			ReadyTasksCollectionIterator
+					beginReady = m_readyTasksCollection.begin()
+				,	endReady = m_readyTasksCollection.end();
 
-			m_readyTasksCollection.insert( std::make_pair( beginDeleyed->first, beginDeleyed->second ) );
+			for ( ; beginReady != endReady; ++beginReady )
+			{
+				if ( beginReady->first == beginDeleyed->first )
+				{
+					assert( !"Task should not be presented in the ready collection!" );
+					continue;
+				}
+			}
+
+			m_readyTasksCollection.push_back( *beginDeleyed );
 			++tasksCount;
 
 			delayedTasksToRemove.push_back( beginDeleyed->first );

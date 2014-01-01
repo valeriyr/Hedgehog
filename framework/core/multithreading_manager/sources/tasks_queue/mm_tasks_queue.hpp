@@ -44,7 +44,7 @@ namespace MultithreadingManager {
 		qint64 m_time;
 		qint64 m_lastStart;
 
-		const bool m_isInitialized;
+		bool m_isInitialized;
 	};
 
 /*---------------------------------------------------------------------------*/
@@ -95,9 +95,17 @@ private:
 		TasksCollection::iterator
 		TasksCollectionIterator;
 
+	typedef
+		std::vector< std::pair< QString, TaskData > >
+		ReadyTasksCollection;
+	typedef
+		ReadyTasksCollection::iterator
+		ReadyTasksCollectionIterator;
+
 /*---------------------------------------------------------------------------*/
 
-	TasksCollection m_readyTasksCollection;
+	ReadyTasksCollection m_readyTasksCollection;
+
 	TasksCollection m_periodicalTasksCollection;
 	TasksCollection m_delayedTasksCollection;
 
