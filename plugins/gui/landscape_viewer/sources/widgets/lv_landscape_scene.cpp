@@ -738,6 +738,8 @@ LandscapeScene::fillScene()
 	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
 		generateTerrainMapLayer();
 
+	m_landscapeSceneState->addSceneObjects();
+
 } // LandscapeScene::fillScene
 
 
