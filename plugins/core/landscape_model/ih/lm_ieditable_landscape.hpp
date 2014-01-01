@@ -34,6 +34,10 @@ struct IEditableLandscape
 
 /*---------------------------------------------------------------------------*/
 
+	virtual void setEngagedWithGroungItem( const QPoint& _point, const bool _isEngaged ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual IUnit::IdType createObject(
 			const QPoint& _position
 		,	const QString& _objectName ) = 0;

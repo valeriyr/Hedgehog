@@ -237,6 +237,22 @@ Landscape::setSurfaceItem(
 /*---------------------------------------------------------------------------*/
 
 
+void
+Landscape::setEngagedWithGroungItem( const QPoint& _point, const bool _isEngaged )
+{
+	TerrainMapData& data = m_terrainMap.getElement( _point.x(), _point.y() );
+
+	assert( _isEngaged && !data.m_engagedWithGround );
+	assert( !_isEngaged && data.m_engagedWithGround );
+
+	data.m_engagedWithGround = _isEngaged;
+
+} // Landscape::setEngagedWithGroungItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
 IUnit::IdType
 Landscape::createObject( const QPoint& _position, const QString& _objectName )
 {

@@ -52,6 +52,9 @@ MoveAction::MoveAction(
 			if ( !movingData.m_unitPath.empty() )
 			{
 				m_movingData.insert( std::make_pair( ( *begin )->getUniqueId(), movingData ) );
+
+				/*handle->getLandscape()->setEngagedWithGroungItem( QPoint( ( *begin )->getPosition().x(), ( *begin )->getPosition().y() ), false );
+				handle->getLandscape()->setEngagedWithGroungItem( movingData.m_unitPath.front(), true );*/
 			}
 		}
 	}

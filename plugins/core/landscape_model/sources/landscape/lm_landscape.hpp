@@ -81,6 +81,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void setEngagedWithGroungItem( const QPoint& _point, const bool _isEngaged );
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ IUnit::IdType createObject(
 			const QPoint& _position
 		,	const QString& _objectName );

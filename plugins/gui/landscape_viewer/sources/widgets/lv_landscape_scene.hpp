@@ -46,8 +46,10 @@ public:
 				Surface             = 0
 			,	Terrain             = 1
 			,	EditorSurfaceItem   = 2
+
 			,	Object              = 3
-			,	SelectionRect       = 4
+
+			,	SelectionRect       = 1000000
 		};
 	};
 
@@ -112,6 +114,12 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	void generateLandscape();
+
+	void generateTerrainMapLayer();
+
+	void clearTerrainMapLayer();
+
+	void regenerateTerrainMapLayer();
 
 	void setCorrectSceneSize();
 

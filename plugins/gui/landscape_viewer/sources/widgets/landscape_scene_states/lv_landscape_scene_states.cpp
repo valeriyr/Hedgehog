@@ -148,7 +148,6 @@ LandscapeSceneGameState::removeSceneObjects()
 {
 	if ( m_selectionItem )
 	{
-		m_scene.removeItem( m_selectionItem );
 		delete m_selectionItem;
 		m_selectionItem = NULL;
 		m_startSelectionPoint = QPointF();
@@ -193,9 +192,6 @@ LandscapeSurfaceItemEditingState::LandscapeSurfaceItemEditingState(	const IEnvir
 	,	m_id( _id )
 	,	m_currentEditorItem( NULL )
 {
-	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
-		return;
-
 	addSceneObjects();
 
 } // LandscapeSurfaceItemEditingState::LandscapeSurfaceItemEditingState
@@ -318,9 +314,6 @@ LandscapeSurfaceItemEditingState::addSceneObjects()
 void
 LandscapeSurfaceItemEditingState::setNewItemInPosition( const QPointF& _point )
 {
-	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
-		return;
-
 	qreal xpos = _point.x() < 0 ? 0 : static_cast< int >( _point.x() / Resources::Landscape::CellSize );
 	qreal ypos = _point.y() < 0 ? 0 : static_cast< int >( _point.y() / Resources::Landscape::CellSize );
 
@@ -341,9 +334,6 @@ LandscapeObjectEditingState::LandscapeObjectEditingState(	const IEnvironment& _e
 	,	m_name( _name )
 	,	m_currentEditorItem( NULL )
 {
-	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
-		return;
-
 	addSceneObjects();
 
 } // LandscapeObjectEditingState::LandscapeObjectEditingState
@@ -468,9 +458,6 @@ LandscapeObjectEditingState::addSceneObjects()
 void
 LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 {
-	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
-		return;
-
 	qreal xpos = _point.x() < 0 ? 0 : static_cast< int >( _point.x() / Resources::Landscape::CellSize );
 	qreal ypos = _point.y() < 0 ? 0 : static_cast< int >( _point.y() / Resources::Landscape::CellSize );
 

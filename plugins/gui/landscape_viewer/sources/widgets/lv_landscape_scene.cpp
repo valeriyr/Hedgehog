@@ -120,6 +120,9 @@ LandscapeScene::landscapeWasOpened()
 
 	generateLandscape();
 
+	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
+		generateTerrainMapLayer();
+
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Framework::Core::Settings::Events::SettingChanged::ms_type
 							,	boost::bind( &LandscapeScene::onSettingChanged, this, _1 ) );
@@ -215,17 +218,12 @@ LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _e
 {
 	const bool terrainMapVisibility = m_environment.getBool( Resources::Properties::TerrainMapVisibility );
 
+	clearTerrainMapLayer();
+
 	if ( terrainMapVisibility )
-		m_landscapeSceneState->removeSceneObjects();
-
-	removeAllObjects();
-	clear();
-
-	generateLandscape();
-	markSelectedUnits();
-
-	if ( !terrainMapVisibility )
-		m_landscapeSceneState->addSceneObjects();
+	{
+		generateTerrainMapLayer();
+	}
 
 } // LandscapeScene::onSettingChanged
 
@@ -278,6 +276,8 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 				,	Core::LandscapeModel::ObjectState::Standing
 				,	Core::LandscapeModel::Direction::Down ) );
 
+	regenerateTerrainMapLayer();
+
 } // LandscapeScene::onObjectCreated
 
 
@@ -296,9 +296,6 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 
 	if ( handle->getLandscape() )
 	{
-		if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
-			return;
-
 		QPoint scenePosition( position.x() * Resources::Landscape::CellSize, position.y() * Resources::Landscape::CellSize );
 
 		QList< QGraphicsItem* > itemsList = items( scenePosition, Qt::ContainsItemShape, Qt::AscendingOrder );
@@ -307,7 +304,7 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 			return;
 
 		QPointF itemPos = itemsList[LandscapeScene::ObjectZValue::Surface]->scenePos();
-		removeItem( itemsList[LandscapeScene::ObjectZValue::Surface] );
+		delete itemsList[LandscapeScene::ObjectZValue::Surface];
 
 		boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 			surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, id );
@@ -320,6 +317,8 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 		newItem->setPos( itemPos );
 		newItem->setZValue( LandscapeScene::ObjectZValue::Surface );
 	}
+
+	regenerateTerrainMapLayer();
 
 } // LandscapeScene::onSurfaceItemChanged
 
@@ -388,6 +387,8 @@ LandscapeScene::onUnitMoved( const Framework::Core::EventManager::Event& _event 
 
 	iterator->second->setPos( QPoint( xpos, ypos ) );
 
+	regenerateTerrainMapLayer();
+
 } // LandscapeScene::onUnitMoved
 
 
@@ -428,8 +429,6 @@ LandscapeScene::onUnitStateChanged( const Framework::Core::EventManager::Event& 
 void
 LandscapeScene::generateLandscape()
 {
-	bool showTarrain = m_environment.getBool( Resources::Properties::TerrainMapVisibility );
-
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
 		= m_environment.getCurrentLandscape();
 
@@ -452,54 +451,6 @@ LandscapeScene::generateLandscape()
 
 				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
 				item->setZValue( ObjectZValue::Surface );
-
-				if ( showTarrain )
-				{
-					Plugins::Core::LandscapeModel::TerrainMapData
-						terrainMapData = handle->getLandscape()->getTerrainMapData( QPoint( i, j ) );
-
-					QColor color;
-
-					if ( terrainMapData.m_engagedWithGround )
-					{
-						color = QColor( 255, 0, 255 );
-					}
-					else if ( terrainMapData.m_engagedWithAir )
-					{
-						color = QColor( 0, 255, 255 );
-					}
-					else if ( terrainMapData.m_terrainMapItem == Plugins::Core::LandscapeModel::TerrainMapItem::Ground )
-					{
-						color = QColor( 0, 255, 0 );
-					}
-					else if ( terrainMapData.m_terrainMapItem == Plugins::Core::LandscapeModel::TerrainMapItem::NotAvailable )
-					{
-						color = QColor( 255, 0, 0 );
-					}
-					else if ( terrainMapData.m_terrainMapItem == Plugins::Core::LandscapeModel::TerrainMapItem::Water )
-					{
-						color = QColor( 0, 0, 255 );
-					}
-					else
-					{
-						assert( !"Unknown terrain map item!" );
-					}
-
-					QPixmap pixmap( QSize( Resources::Landscape::CellSize, Resources::Landscape::CellSize ) );
-					pixmap.fill( color );
-
-					QGraphicsPixmapItem* item = new QGraphicsPixmapItem( pixmap );
-
-					item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
-					item->setZValue( ObjectZValue::Terrain );
-
-					QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
-					opacityEffect->setOpacity( 0.4 );
-
-					item->setGraphicsEffect( opacityEffect );
-
-					addItem( item );
-				}
 			}
 		}
 
@@ -548,6 +499,104 @@ LandscapeScene::generateLandscape()
 	}
 
 } // LandscapeScene::generateLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::generateTerrainMapLayer()
+{
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
+
+	if ( handle->getLandscape() )
+	{
+		for ( unsigned int i = 0; i < handle->getLandscape()->getWidth(); ++i )
+		{
+			for ( unsigned int j = 0; j < handle->getLandscape()->getHeight(); ++j )
+			{
+				Plugins::Core::LandscapeModel::TerrainMapData
+					terrainMapData = handle->getLandscape()->getTerrainMapData( QPoint( i, j ) );
+
+				QColor color;
+
+				if ( terrainMapData.m_engagedWithGround )
+				{
+					color = QColor( 255, 0, 255 );
+				}
+				else if ( terrainMapData.m_engagedWithAir )
+				{
+					color = QColor( 0, 255, 255 );
+				}
+				else if ( terrainMapData.m_terrainMapItem == Plugins::Core::LandscapeModel::TerrainMapItem::Ground )
+				{
+					color = QColor( 0, 255, 0 );
+				}
+				else if ( terrainMapData.m_terrainMapItem == Plugins::Core::LandscapeModel::TerrainMapItem::NotAvailable )
+				{
+					color = QColor( 255, 0, 0 );
+				}
+				else if ( terrainMapData.m_terrainMapItem == Plugins::Core::LandscapeModel::TerrainMapItem::Water )
+				{
+					color = QColor( 0, 0, 255 );
+				}
+				else
+				{
+					assert( !"Unknown terrain map item!" );
+				}
+
+				QPixmap pixmap( QSize( Resources::Landscape::CellSize, Resources::Landscape::CellSize ) );
+				pixmap.fill( color );
+
+				QGraphicsPixmapItem* item = new QGraphicsPixmapItem( pixmap );
+
+				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
+				item->setZValue( ObjectZValue::Terrain );
+
+				QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
+				opacityEffect->setOpacity( 0.4 );
+
+				item->setGraphicsEffect( opacityEffect );
+
+				addItem( item );
+			}
+		}
+	}
+
+} // LandscapeScene::generateTerrainMapLayer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::clearTerrainMapLayer()
+{
+	QList< QGraphicsItem* > items( items() );
+
+	for ( int i = 0; i < items.size(); ++i )
+	{
+		if ( items[ i ]->zValue() == ObjectZValue::Terrain )
+			delete items[ i ];
+	}
+
+} // LandscapeScene::clearTerrainMapLayer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::regenerateTerrainMapLayer()
+{
+	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
+	{
+		clearTerrainMapLayer();
+		generateTerrainMapLayer();
+	}
+
+} // LandscapeScene::regenerateTerrainMapLayer
 
 
 /*---------------------------------------------------------------------------*/
