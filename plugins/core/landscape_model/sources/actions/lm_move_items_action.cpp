@@ -105,7 +105,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 					QPoint unitPosition( QPoint( begin->second.m_unitPath.front().x(), begin->second.m_unitPath.front().y() ) );
 
-					unit->setPosition( QPoint( unitPosition.x(), unitPosition.y() ) );
+					unit->setPosition( unitPosition );
 
 					begin->second.m_unitPath.pop_front();
 
