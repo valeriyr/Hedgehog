@@ -46,6 +46,17 @@ Settings::regBool( const QString& _key, const bool _defaultValue )
 /*---------------------------------------------------------------------------*/
 
 
+void
+Settings::regString( const QString& _key, const QString& _defaultValue )
+{
+	regProperty( _key, _defaultValue );
+
+} // Settings::regString
+
+
+/*---------------------------------------------------------------------------*/
+
+
 bool
 Settings::getBool( const QString& _key ) const
 {
@@ -59,12 +70,36 @@ Settings::getBool( const QString& _key ) const
 /*---------------------------------------------------------------------------*/
 
 
+QString
+Settings::getString( const QString& _key ) const
+{
+	assert( hasProperty( _key ) );
+
+	return m_settings.find( _key )->second.toString();
+
+} // Settings::getString
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 Settings::setBool( const QString& _key, const bool _value )
 {
 	setProperty( _key, _value );
 
 } // Settings::setBool
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Settings::setString( const QString& _key, const QString& _value )
+{
+	setProperty( _key, _value );
+
+} // Settings::setString
 
 
 /*---------------------------------------------------------------------------*/
@@ -115,6 +150,7 @@ Settings::setProperty( const QString& _key, const _TPropertyType& _value )
 	SettingsCollectionIterator iterator = m_settings.find( _key );
 
 	EventManager::Event settingChangedEvent( Events::SettingChanged::ms_type );
+	settingChangedEvent.pushAttribute( Events::SettingChanged::ms_key, _key );
 	settingChangedEvent.pushAttribute( Events::SettingChanged::ms_value, _value );
 
 	iterator->second.setValue( _value );

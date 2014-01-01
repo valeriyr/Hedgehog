@@ -11,6 +11,9 @@
 
 #include "landscape_model/ih/lm_iobject_type.hpp"
 
+#include "multithreading_manager/h/mm_external_resources.hpp"
+#include "settings/h/st_events.hpp"
+
 #include "lv_objects_view.moc"
 
 
@@ -63,62 +66,14 @@ ObjectsView::ObjectsView(
 	:	QObject( _parent )
 	,	m_environment( _environment )
 	,	m_viewsMediator( _viewsMediator )
+	,	m_subscriber( _environment.createSubscriber() )
 	,	m_objectsView( new QTreeWidget() )
 	,	m_viewTitle( Resources::Views::ObjectsViewTitle )
 {
 	m_objectsView->setHeaderLabel( Resources::Views::ObjectsViewColumnName );
-
 	m_objectsView->setIconSize( QSize( Resources::Landscape::CellSize, Resources::Landscape::CellSize ) );
 
-	TreeWidgetItem* controlItem = new TreeWidgetItem( TreeWidgetType::Control );
-	controlItem->setText( 0, "Control" );
-
-	QTreeWidgetItem* summerSurface = new QTreeWidgetItem();
-	summerSurface->setText( 0, "Summer surface" );
-
-	QTreeWidgetItem* winterSurface = new QTreeWidgetItem();
-	winterSurface->setText( 0, "Winter surface" );
-
-	QTreeWidgetItem* wastelandSurface = new QTreeWidgetItem();
-	wastelandSurface->setText( 0, "Wasteland surface" );
-
-	QTreeWidgetItem* anySurface = new QTreeWidgetItem();
-	anySurface->setText( 0, "Any surface" );
-
-	fillWithSurfaceItems( "summer", summerSurface );
-	fillWithSurfaceItems( "winter", winterSurface );
-	fillWithSurfaceItems( "wasteland", wastelandSurface );
-	fillWithSurfaceItems( GraphicsInfoCache::ms_anySkinIdentifier, anySurface );
-
-	/*QTreeWidgetItem* summerObjects = new QTreeWidgetItem();
-	summerObjects->setText( 0, "Summer objects" );
-
-	QTreeWidgetItem* winterObjects = new QTreeWidgetItem();
-	winterObjects->setText( 0, "Winter objects" );
-
-	QTreeWidgetItem* wastelandObjects = new QTreeWidgetItem();
-	wastelandObjects->setText( 0, "Wasteland objects" );*/
-
-	QTreeWidgetItem* anyObjects = new QTreeWidgetItem();
-	anyObjects->setText( 0, "Any objects" );
-
-	/*fillWithObjectItems( "summer", summerObjects );
-	fillWithObjectItems( "winter", winterObjects );
-	fillWithObjectItems( "wasteland", wastelandObjects );*/
-	fillWithObjectItems( GraphicsInfoCache::ms_anySkinIdentifier, anyObjects );
-
-	m_objectsView->addTopLevelItem( controlItem );
-	m_objectsView->addTopLevelItem( summerSurface );
-	m_objectsView->addTopLevelItem( winterSurface );
-	m_objectsView->addTopLevelItem( wastelandSurface );
-	m_objectsView->addTopLevelItem( anySurface );
-
-	/*m_objectsView->addTopLevelItem( summerObjects );
-	m_objectsView->addTopLevelItem( winterObjects );
-	m_objectsView->addTopLevelItem( wastelandObjects );*/
-	m_objectsView->addTopLevelItem( anyObjects );
-
-	m_objectsView->setCurrentItem( controlItem );
+	fill();
 
 	QObject::connect(
 			m_objectsView.get()
@@ -144,6 +99,10 @@ ObjectsView::ObjectsView(
 		,	&m_viewsMediator
 		,	SIGNAL( controlItemSelected() ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Framework::Core::Settings::Events::SettingChanged::ms_type
+							,	boost::bind( &ObjectsView::onSettingChanged, this, _1 ) );
+
 } // ObjectsView::ObjectsView
 
 
@@ -152,6 +111,8 @@ ObjectsView::ObjectsView(
 
 ObjectsView::~ObjectsView()
 {
+	m_subscriber.unsubscribe();
+
 	QObject::disconnect(
 			m_objectsView.get()
 		,	SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) )
@@ -263,6 +224,22 @@ ObjectsView::onCurrentItemChanged( QTreeWidgetItem* _current, QTreeWidgetItem* _
 
 
 void
+ObjectsView::onSettingChanged( const Framework::Core::EventManager::Event& _event )
+{
+	if (	_event.getAttribute( Framework::Core::Settings::Events::SettingChanged::ms_key ).toString()
+		==	Resources::Properties::SkinId)
+	{
+		m_objectsView->clear();
+		fill();
+	}
+
+} // ObjectsView::onSettingChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 ObjectsView::fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _parentNode )
 {
 	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection collection;
@@ -313,6 +290,36 @@ ObjectsView::fillWithObjectItems( const QString& _skinId, QTreeWidgetItem* _pare
 	}
 
 } // ObjectsView::fillWithObjectItems
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectsView::fill()
+{
+	TreeWidgetItem* controlItem = new TreeWidgetItem( TreeWidgetType::Control );
+	controlItem->setText( 0, "Control" );
+
+	QTreeWidgetItem* surfaceItem = new QTreeWidgetItem();
+	surfaceItem->setText( 0, "Surface" );
+
+	fillWithSurfaceItems( m_environment.getString( Resources::Properties::SkinId ), surfaceItem );
+
+	QTreeWidgetItem* objectsItem = new QTreeWidgetItem();
+	objectsItem->setText( 0, "Objects" );
+
+	fillWithObjectItems( GraphicsInfoCache::ms_anySkinIdentifier, objectsItem );
+
+	m_objectsView->addTopLevelItem( controlItem );
+	m_objectsView->addTopLevelItem( surfaceItem );
+	m_objectsView->addTopLevelItem( objectsItem );
+
+	m_objectsView->setCurrentItem( controlItem );
+
+	m_objectsView->expandAll();
+
+} // ObjectsView::fill
 
 
 /*---------------------------------------------------------------------------*/

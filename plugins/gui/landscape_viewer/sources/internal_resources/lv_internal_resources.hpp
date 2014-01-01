@@ -37,6 +37,8 @@ namespace Views {
 
 	extern const char* const TarrainMapVisibilityCheckboxName;
 
+	extern const char* const SkinIdLabel;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const LandscapeDescriptionDefaultText;
@@ -73,8 +75,6 @@ namespace Landscape {
 
 	extern const unsigned int CellSize;
 
-	extern const char* const SkinId;
-
 /*---------------------------------------------------------------------------*/
 
 } // namespace Landscape
@@ -106,6 +106,8 @@ namespace Properties {
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const TerrainMapVisibility;
+
+	extern const char* const SkinId;
 
 /*---------------------------------------------------------------------------*/
 

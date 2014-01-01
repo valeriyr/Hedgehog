@@ -6,8 +6,10 @@
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QCheckBox>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QScrollBar>
 #include <QtWidgets/QListWidget>
+#include <QtWidgets/QLabel>
 
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGraphicsScene>

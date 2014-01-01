@@ -110,13 +110,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void regBool( const QString& _key, const bool _defaultValue ) const;
-
-	/*virtual*/ void unregProperty( const QString& _key ) const;
-
 	/*virtual*/ void setBool( const QString& _key, const bool _value ) const;
 
 	/*virtual*/ bool getBool( const QString& _key ) const;
+
+	/*virtual*/ void setString( const QString& _key, const QString& _value ) const;
+
+	/*virtual*/ QString getString( const QString& _key ) const;
 
 /*---------------------------------------------------------------------------*/
 

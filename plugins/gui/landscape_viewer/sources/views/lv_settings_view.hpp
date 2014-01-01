@@ -55,6 +55,8 @@ private slots:
 
 	void onTarrainMapVisibilityChanged( bool _visibility );
 
+	void onSkinIdChanged( const QString& _skinId );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -66,6 +68,8 @@ private:
 	boost::shared_ptr< QWidget > m_mainWidget;
 
 	QCheckBox* m_tarrainMapVisibility;
+
+	QComboBox* m_skinId;
 
 	QString m_viewTitle;
 

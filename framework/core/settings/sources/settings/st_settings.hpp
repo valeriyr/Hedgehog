@@ -36,13 +36,19 @@ public:
 
 	/*virtual*/ void regBool( const QString& _key, const bool _defaultValue );
 
+	/*virtual*/ void regString( const QString& _key, const QString& _defaultValue );
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ bool getBool( const QString& _key ) const;
 
+	/*virtual*/ QString getString( const QString& _key ) const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void setBool( const QString& _key, const bool _value );
+
+	/*virtual*/ void setString( const QString& _key, const QString& _value );
 
 /*---------------------------------------------------------------------------*/
 

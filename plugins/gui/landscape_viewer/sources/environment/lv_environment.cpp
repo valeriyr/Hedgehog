@@ -318,28 +318,6 @@ Environment::stopAllAnimations() const
 
 
 void
-Environment::regBool( const QString& _key, const bool _defaultValue ) const
-{
-	m_pluginInstance.getSettings()->regBool( _key, _defaultValue );
-
-} // Environment::regBool
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Environment::unregProperty( const QString& _key ) const
-{
-	m_pluginInstance.getSettings()->unregProperty( _key );
-
-} // Environment::unregProperty
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
 Environment::setBool( const QString& _key, const bool _value ) const
 {
 	m_pluginInstance.getSettings()->setBool( _key, _value );
@@ -356,6 +334,28 @@ Environment::getBool( const QString& _key ) const
 	return m_pluginInstance.getSettings()->getBool( _key );
 
 } // Environment::getBool
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::setString( const QString& _key, const QString& _value ) const
+{
+	m_pluginInstance.getSettings()->setString( _key, _value );
+
+} // Environment::setString
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+Environment::getString( const QString& _key ) const
+{
+	return m_pluginInstance.getSettings()->getString( _key );
+
+} // Environment::getString
 
 
 /*---------------------------------------------------------------------------*/

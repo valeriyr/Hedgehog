@@ -129,6 +129,10 @@ private:
 
 	void removeAllObjects();
 
+	void clearScene();
+
+	void fillScene();
+
 /*---------------------------------------------------------------------------*/
 
 private:

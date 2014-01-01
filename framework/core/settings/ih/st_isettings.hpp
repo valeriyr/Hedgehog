@@ -26,13 +26,19 @@ struct ISettings
 
 	virtual void regBool( const QString& _key, const bool _defaultValue ) = 0;
 
+	virtual void regString( const QString& _key, const QString& _defaultValue ) = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual bool getBool( const QString& _key ) const = 0;
 
+	virtual QString getString( const QString& _key ) const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual void setBool( const QString& _key, const bool _value ) = 0;
+
+	virtual void setString( const QString& _key, const QString& _value ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

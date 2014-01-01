@@ -7,6 +7,9 @@
 #include "window_manager/ih/wm_iview.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
+#include "event_manager/h/em_subscriber.hpp"
+#include "event_manager/h/em_event.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -85,9 +88,15 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void onSettingChanged( const Framework::Core::EventManager::Event& _event );
+
+/*---------------------------------------------------------------------------*/
+
 	void fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _parentNode );
 
 	void fillWithObjectItems( const QString& _skinId, QTreeWidgetItem* _parentNode );
+
+	void fill();
 
 /*---------------------------------------------------------------------------*/
 
@@ -98,6 +107,8 @@ private:
 	const IEnvironment& m_environment;
 
 	const ViewsMediator& m_viewsMediator;
+
+	Framework::Core::EventManager::Subscriber m_subscriber;
 
 	boost::shared_ptr< QTreeWidget > m_objectsView;
 

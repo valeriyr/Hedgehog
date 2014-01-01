@@ -90,6 +90,7 @@ PluginInstance::initialize()
 	fillSurfaceItemsCache();
 
 	getSettings()->regBool( Resources::Properties::TerrainMapVisibility, false );
+	getSettings()->regString( Resources::Properties::SkinId, "summer" );
 
 	m_environment.reset( new Environment( *this ) );
 
@@ -146,6 +147,7 @@ PluginInstance::close()
 	m_landscapeViewer.reset();
 	m_environment.reset();
 
+	getSettings()->unregProperty( Resources::Properties::SkinId );
 	getSettings()->unregProperty( Resources::Properties::TerrainMapVisibility );
 
 	m_graphicsInfoCache.reset();
@@ -353,14 +355,38 @@ PluginInstance::fillSurfaceItemsCache()
 	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 3, "surface", QRect( 128, 448, 32, 32 ) );
 	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 4, "surface", QRect( 256, 416, 32, 32 ) );
 	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 5, "surface", QRect( 384, 384, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 6, "surface", QRect( 32, 448, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 6, "surface", QRect(  32, 448, 32, 32 ) );
 	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 7, "surface", QRect( 256, 448, 32, 32 ) );
 	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 8, "surface", QRect( 160, 448, 32, 32 ) );
 	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 9, "surface", QRect( 352, 448, 32, 32 ) );
 
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 1, "surface", QRect(  64, 544, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 2, "surface", QRect( 224, 512, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 3, "surface", QRect( 352, 544, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 4, "surface", QRect( 416, 512, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 5, "surface", QRect(  64, 512, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 6, "surface", QRect( 224, 544, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 7, "surface", QRect(   0, 576, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 8, "surface", QRect( 448, 544, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 9, "surface", QRect(  64, 576, 32, 32 ) );
+
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 1, "surface", QRect( 192, 416, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 2, "surface", QRect( 416, 384, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 3, "surface", QRect( 448, 416, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 4, "surface", QRect(  96, 416, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 5, "surface", QRect(  32, 352, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 6, "surface", QRect( 384, 416, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 7, "surface", QRect(  96, 448, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 8, "surface", QRect(   0, 448, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 9, "surface", QRect( 160, 448, 32, 32 ) );
+
 	// Water tiles
 
 	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 101, "surface", QRect( 256, 640, 32, 32 ) );
+
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 101, "surface", QRect( 352, 640, 32, 32 ) );
+
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 101, "surface", QRect( 0, 608, 32, 32 ) );
 
 } // PluginInstance::fillSurfaceItemsCache
 

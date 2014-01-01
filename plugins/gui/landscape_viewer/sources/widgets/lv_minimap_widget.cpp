@@ -15,6 +15,7 @@
 #include "landscape_model/h/lm_events.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
+#include "settings/h/st_events.hpp"
 
 #include "lv_minimap_widget.moc"
 
@@ -65,6 +66,10 @@ void
 MinimapWidget::landscapeWasOpened()
 {
 	regenerate();
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Framework::Core::Settings::Events::SettingChanged::ms_type
+							,	boost::bind( &MinimapWidget::onSettingChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_type
@@ -176,6 +181,21 @@ MinimapWidget::mouseMoveEvent ( QMouseEvent* _event )
 
 
 void
+MinimapWidget::onSettingChanged( const Framework::Core::EventManager::Event& _event )
+{
+	if (	_event.getAttribute( Framework::Core::Settings::Events::SettingChanged::ms_key ).toString()
+		==	Resources::Properties::SkinId )
+	{
+		regenerate();
+	}
+
+} // MinimapWidget::onSettingChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 MinimapWidget::onObjectCreated( const Framework::Core::EventManager::Event& _event )
 {
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
@@ -281,7 +301,9 @@ MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape
 				surfaceItem = _landscape.getSurfaceItem( QPoint( i, j ) );
 
 			boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-				surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, surfaceItem->getId() );
+				surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo(
+						m_environment.getString( Resources::Properties::SkinId )
+					,	surfaceItem->getId() );
 
 			painter.drawPixmap(
 				QRect(

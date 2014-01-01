@@ -118,10 +118,7 @@ LandscapeScene::landscapeWasOpened()
 {
 	setCorrectSceneSize();
 
-	generateLandscape();
-
-	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
-		generateTerrainMapLayer();
+	fillScene();
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Framework::Core::Settings::Events::SettingChanged::ms_type
@@ -158,8 +155,7 @@ LandscapeScene::landscapeWasClosed()
 {
 	m_subscriber.unsubscribe();
 
-	removeAllObjects();
-	clear();
+	clearScene();
 
 	setCorrectSceneSize();
 
@@ -216,13 +212,23 @@ LandscapeScene::onMousePossitionWasChanged( const QPointF& _point )
 void
 LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const bool terrainMapVisibility = m_environment.getBool( Resources::Properties::TerrainMapVisibility );
-
-	clearTerrainMapLayer();
-
-	if ( terrainMapVisibility )
+	if (	_event.getAttribute( Framework::Core::Settings::Events::SettingChanged::ms_key ).toString()
+		==	Resources::Properties::TerrainMapVisibility )
 	{
-		generateTerrainMapLayer();
+		const bool terrainMapVisibility = m_environment.getBool( Resources::Properties::TerrainMapVisibility );
+
+		clearTerrainMapLayer();
+
+		if ( terrainMapVisibility )
+		{
+			generateTerrainMapLayer();
+		}
+	}
+	else if (	_event.getAttribute( Framework::Core::Settings::Events::SettingChanged::ms_key ).toString()
+			==	Resources::Properties::SkinId )
+	{
+		clearScene();
+		fillScene();
 	}
 
 } // LandscapeScene::onSettingChanged
@@ -307,7 +313,7 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 		delete itemsList[LandscapeScene::ObjectZValue::Surface];
 
 		boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-			surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, id );
+			surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( m_environment.getString( Resources::Properties::SkinId ), id );
 
 		QGraphicsPixmapItem* newItem
 			= addPixmap( m_environment.getPixmap(
@@ -442,7 +448,9 @@ LandscapeScene::generateLandscape()
 					surfaceItem = handle->getLandscape()->getSurfaceItem( QPoint( i, j ) );
 
 				boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-					surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( Resources::Landscape::SkinId, surfaceItem->getId() );
+					surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo(
+							m_environment.getString( Resources::Properties::SkinId )
+						,	surfaceItem->getId() );
 
 				QGraphicsPixmapItem* item
 					= addPixmap( m_environment.getPixmap(
@@ -703,6 +711,34 @@ LandscapeScene::removeAllObjects()
 	m_unitsCollection.clear();
 
 } // LandscapeScene::removeAllObjects
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::clearScene()
+{
+	m_landscapeSceneState->removeSceneObjects();
+
+	removeAllObjects();
+	clear();
+
+} // LandscapeScene::clearScene
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::fillScene()
+{
+	generateLandscape();
+
+	if ( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) )
+		generateTerrainMapLayer();
+
+} // LandscapeScene::fillScene
 
 
 /*---------------------------------------------------------------------------*/

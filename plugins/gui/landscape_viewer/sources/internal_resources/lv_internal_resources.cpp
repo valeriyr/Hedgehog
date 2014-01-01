@@ -39,6 +39,8 @@ namespace Views {
 
 	const char* const TarrainMapVisibilityCheckboxName = "Show tarrain map";
 
+	const char* const SkinIdLabel = "Skin Id:";
+
 /*---------------------------------------------------------------------------*/
 
 	const char* const LandscapeDescriptionDefaultText
@@ -121,8 +123,6 @@ namespace Landscape {
 
 	const unsigned int CellSize = 32;
 
-	const char* const SkinId = "summer";
-
 /*---------------------------------------------------------------------------*/
 
 } // namespace Landscape
@@ -154,6 +154,8 @@ namespace Properties {
 /*---------------------------------------------------------------------------*/
 
 	const char* const TerrainMapVisibility = "TerrainMapVisibilityProperty";
+
+	const char* const SkinId = "SkinIdProperty";
 
 /*---------------------------------------------------------------------------*/
 

@@ -23,18 +23,35 @@ SettingsView::SettingsView( const IEnvironment& _environment )
 	:	m_environment( _environment )
 	,	m_mainWidget( new QWidget() )
 	,	m_tarrainMapVisibility( new QCheckBox( Resources::Views::TarrainMapVisibilityCheckboxName ) )
+	,	m_skinId( new QComboBox() )
 	,	m_viewTitle( Resources::Views::SettingsViewTitle )
 {
 	QVBoxLayout* mainLayout = new QVBoxLayout();
 	mainLayout->setAlignment( Qt::AlignTop );
 
+	QHBoxLayout* skinIdLayout = new QHBoxLayout();
+
+	m_skinId->addItem( "summer" );
+	m_skinId->addItem( "winter" );
+	m_skinId->addItem( "wasteland" );
+
+	m_skinId->setCurrentText( m_environment.getString( Resources::Properties::SkinId ) );
+
+	QLabel* skinIdLabel = new QLabel( Resources::Views::SkinIdLabel );
+	skinIdLabel->setSizePolicy( QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ) );
+
+	skinIdLayout->addWidget( skinIdLabel );
+	skinIdLayout->addWidget( m_skinId );
+
 	mainLayout->addWidget( m_tarrainMapVisibility );
+	mainLayout->addLayout( skinIdLayout );
 
 	m_mainWidget->setLayout( mainLayout );
 
 	m_tarrainMapVisibility->setChecked( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) );
 
 	QObject::connect( m_tarrainMapVisibility, SIGNAL( clicked(bool) ), this, SLOT( onTarrainMapVisibilityChanged(bool) ) );
+	QObject::connect( m_skinId, SIGNAL( currentIndexChanged(const QString&) ), this, SLOT( onSkinIdChanged(const QString&) ) );
 
 } // SettingsView::SettingsView
 
@@ -76,7 +93,10 @@ void
 SettingsView::viewWasClosed()
 {
 	QObject::disconnect( m_tarrainMapVisibility, SIGNAL( clicked(bool) ), this, SLOT( onTarrainMapVisibilityChanged(bool) ) );
+	QObject::disconnect( m_skinId, SIGNAL( currentIndexChanged(const QString&) ), this, SLOT( onSkinIdChanged(const QString&) ) );
+
 	m_tarrainMapVisibility = NULL;
+	m_skinId = NULL;
 
 	m_mainWidget.reset();
 
@@ -92,6 +112,17 @@ SettingsView::onTarrainMapVisibilityChanged( bool _visibility )
 	m_environment.setBool( Resources::Properties::TerrainMapVisibility, _visibility );
 
 } // SettingsView::onTarrainMapVisibilityChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+SettingsView::onSkinIdChanged( const QString& _skinId )
+{
+	m_environment.setString( Resources::Properties::SkinId, _skinId );
+
+} // SettingsView::onSkinIdChanged
 
 
 /*---------------------------------------------------------------------------*/
