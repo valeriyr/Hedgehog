@@ -348,19 +348,19 @@ PluginInstance::fillSurfaceItemsCache()
 	// |     |     |
 	// 7 --- 8 --- 9
 
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 1, "surface/summer", QRect( 352, 416, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 2, "surface/summer", QRect( 128, 416, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 3, "surface/summer", QRect( 128, 448, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 4, "surface/summer", QRect( 256, 416, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 5, "surface/summer", QRect( 384, 384, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 6, "surface/summer", QRect( 32, 448, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 7, "surface/summer", QRect( 256, 448, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 8, "surface/summer", QRect( 160, 448, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 9, "surface/summer", QRect( 352, 448, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 1, "surface", QRect( 352, 416, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 2, "surface", QRect( 128, 416, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 3, "surface", QRect( 128, 448, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 4, "surface", QRect( 256, 416, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 5, "surface", QRect( 384, 384, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 6, "surface", QRect( 32, 448, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 7, "surface", QRect( 256, 448, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 8, "surface", QRect( 160, 448, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 9, "surface", QRect( 352, 448, 32, 32 ) );
 
 	// Water tiles
 
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 101, "surface/summer", QRect( 256, 640, 32, 32 ) );
+	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 101, "surface", QRect( 256, 640, 32, 32 ) );
 
 } // PluginInstance::fillSurfaceItemsCache
 

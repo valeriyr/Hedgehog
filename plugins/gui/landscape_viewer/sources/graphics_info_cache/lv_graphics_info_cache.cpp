@@ -52,7 +52,7 @@ GraphicsInfoCache::regSurfaceItemGraphicsInfo(
 	graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.insert(
 		std::make_pair(
 				_id
-			,	boost::intrusive_ptr< ISurfaceItemGraphicsInfo >( new SurfaceItemGraphicsInfo( _id, _atlasName, _frameRect ) ) ) );
+			,	boost::intrusive_ptr< ISurfaceItemGraphicsInfo >( new SurfaceItemGraphicsInfo( _id, QString( "skins" ) + "/" + _skinId + "/" + _atlasName, _frameRect ) ) ) );
 
 } // GraphicsInfoCache::regSurfaceItemGraphicsInfo
 
