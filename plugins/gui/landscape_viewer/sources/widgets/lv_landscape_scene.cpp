@@ -236,52 +236,47 @@ LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _e
 void
 LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _event )
 {
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle = m_environment.getCurrentLandscape();
-
 	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectNameAttribute ).toString();
 	const QPoint objectPosition = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectPositionAttribute ).toPoint();
 	const Plugins::Core::LandscapeModel::IUnit::IdType id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectUniqueIdAttribute ).toInt();
 
-	if ( handle->getLandscape() )
+	const QPixmap& objectPixmap = m_environment.getPixmap( objectName, GraphicsInfoCache::ms_anySkinIdentifier );
+
+	qreal xpos = objectPosition.x() * Resources::Landscape::CellSize;
+	qreal ypos = objectPosition.y() * Resources::Landscape::CellSize;
+
+	if ( static_cast< unsigned int >( objectPixmap.width() ) > Resources::Landscape::CellSize )
 	{
-		const QPixmap& objectPixmap = m_environment.getPixmap( objectName, GraphicsInfoCache::ms_anySkinIdentifier );
-
-		qreal xpos = objectPosition.x() * Resources::Landscape::CellSize;
-		qreal ypos = objectPosition.y() * Resources::Landscape::CellSize;
-
-		if ( static_cast< unsigned int >( objectPixmap.width() ) > Resources::Landscape::CellSize )
-		{
-			xpos -= ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
-		}
-
-		if ( static_cast< unsigned int >( objectPixmap.height() ) > Resources::Landscape::CellSize )
-		{
-			ypos -= ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
-		}
-
-		if ( xpos > width() - objectPixmap.width() )
-			xpos = width() - Resources::Landscape::CellSize - ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
-
-		if ( ypos > height() - objectPixmap.height() )
-			ypos = height() - Resources::Landscape::CellSize - ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
-
-		ObjectGraphicsItem* newItem = new ObjectGraphicsItem( objectPixmap );
-		addItem( newItem );
-
-		newItem->setPos( QPoint( xpos, ypos ) );
-		newItem->setZValue( LandscapeScene::ObjectZValue::Object );
-
-		unitWasAdded( id, newItem );
-
-		m_environment.playAnimation(
-				*newItem
-			,	generateAnimationName(
-						GraphicsInfoCache::ms_anySkinIdentifier
-					,	objectName
-					,	Core::LandscapeModel::ObjectState::Standing
-					,	Core::LandscapeModel::Direction::Down ) );
+		xpos -= ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
 	}
+
+	if ( static_cast< unsigned int >( objectPixmap.height() ) > Resources::Landscape::CellSize )
+	{
+		ypos -= ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
+	}
+
+	if ( xpos > width() - objectPixmap.width() )
+		xpos = width() - Resources::Landscape::CellSize - ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
+
+	if ( ypos > height() - objectPixmap.height() )
+		ypos = height() - Resources::Landscape::CellSize - ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
+
+	ObjectGraphicsItem* newItem = new ObjectGraphicsItem( objectPixmap );
+	addItem( newItem );
+
+	newItem->setPos( QPoint( xpos, ypos ) );
+	newItem->setZValue( LandscapeScene::ObjectZValue::Object );
+
+	unitWasAdded( id, newItem );
+
+	m_environment.playAnimation(
+			*newItem
+		,	generateAnimationName(
+					GraphicsInfoCache::ms_anySkinIdentifier
+				,	objectName
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Down ) );
 
 } // LandscapeScene::onObjectCreated
 
@@ -547,8 +542,8 @@ LandscapeScene::generateLandscape()
 				,	generateAnimationName(
 							GraphicsInfoCache::ms_anySkinIdentifier
 						,	( *begin )->getType()->getName()
-						,	Core::LandscapeModel::ObjectState::Standing
-						,	Core::LandscapeModel::Direction::Down ) );
+						,	( *begin )->getState()
+						,	( *begin )->getDirection() ) );
 		}
 	}
 
