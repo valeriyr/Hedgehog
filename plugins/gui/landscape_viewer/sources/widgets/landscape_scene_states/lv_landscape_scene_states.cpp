@@ -113,22 +113,19 @@ LandscapeSceneGameState::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 void
 LandscapeSceneGameState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	if ( isInSceneRect( _mouseEvent->scenePos() ) )
+	if ( m_selectionItem )
 	{
-		if ( m_selectionItem )
-		{
-			QPoint pos1 = LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() );
-			QPoint pos2 = LandscapeScene::convertFromScenePosition( QPoint(		m_selectionItem->scenePos().x() + m_selectionItem->rect().width()
-																			,	m_selectionItem->scenePos().y() + m_selectionItem->rect().height() ) );
+		QPoint pos1 = LandscapeScene::convertFromScenePosition( m_selectionItem->scenePos() );
+		QPoint pos2 = LandscapeScene::convertFromScenePosition( QPoint(		m_selectionItem->scenePos().x() + m_selectionItem->rect().width()
+																		,	m_selectionItem->scenePos().y() + m_selectionItem->rect().height() ) );
 
-			m_environment.selectItemsInModel( QRect( pos1, pos2 ) );
+		m_environment.selectItemsInModel( QRect( pos1, pos2 ) );
 
-			removeSceneObjects();
-		}
-		else
-		{
-			m_environment.moveSelectedItems( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ) );
-		}
+		removeSceneObjects();
+	}
+	else if ( isInSceneRect( _mouseEvent->scenePos() ) )
+	{
+		m_environment.moveSelectedItems( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ) );
 	}
 
 } // LandscapeSceneGameState::mouseReleaseEvent
