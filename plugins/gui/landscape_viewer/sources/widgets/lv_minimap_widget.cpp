@@ -142,6 +142,7 @@ MinimapWidget::paintEvent( QPaintEvent* _event )
 	painter.drawPixmap( 0, 0, m_surfaceLayer );
 	painter.drawPixmap( 0, 0, m_objectsLayer );
 
+	painter.setPen( QPen( QColor( 0, 184, 217 ) ) );
 	painter.drawRect( m_visibleArea );
 
 } // MinimapWidget::paintEvent
