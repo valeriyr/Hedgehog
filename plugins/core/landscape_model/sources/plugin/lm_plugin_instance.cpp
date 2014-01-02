@@ -22,6 +22,8 @@
 
 #include "landscape_model/sources/surface_item/lm_surface_item.hpp"
 
+#include "landscape_model/ih/lm_iobject_type.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -176,9 +178,15 @@ PluginInstance::fillObjectsCache()
 	m_objectTypesCache->regObjectType( "Elven Archer", 100, QSize( 1, 1 ), TerrainMapItem::Ground, 1000 );
 	m_objectTypesCache->regObjectType( "Grunt", 200, QSize( 1, 1 ), TerrainMapItem::Ground, 2000 );
 
-	m_objectTypesCache->regObjectType( "Orc Barracks", 1000, QSize( 3, 3 ), TerrainMapItem::Ground, 0 );
+	IObjectType::ObjectToCreateDataCollection orcBarracksUnits;
+	orcBarracksUnits.push_back( IObjectType::ObjectToCreateData( 3000, "Grunt" ) );
 
-	m_objectTypesCache->regObjectType( "Human Barracks", 1000, QSize( 3, 3 ), TerrainMapItem::Ground, 0 );
+	m_objectTypesCache->regObjectType( "Orc Barracks", 1000, QSize( 3, 3 ), TerrainMapItem::Ground, 0, orcBarracksUnits );
+
+	IObjectType::ObjectToCreateDataCollection humanBarracksUnits;
+	humanBarracksUnits.push_back( IObjectType::ObjectToCreateData( 4500, "Elven Archer" ) );
+
+	m_objectTypesCache->regObjectType( "Human Barracks", 1000, QSize( 3, 3 ), TerrainMapItem::Ground, 0, humanBarracksUnits );
 
 } // PluginInstance::fillObjectsCache
 

@@ -22,6 +22,30 @@ struct IObjectType
 
 /*---------------------------------------------------------------------------*/
 
+	struct ObjectToCreateData
+	{
+		ObjectToCreateData(
+				const unsigned int _creationTime
+			,	const QString& _objectName
+			)
+			:	m_creationTime( _creationTime )
+			,	m_objectName( _objectName )
+		{}
+
+		unsigned int m_creationTime;
+
+		QString m_objectName;
+	};
+
+	typedef
+		std::vector< ObjectToCreateData >
+		ObjectToCreateDataCollection;
+	typedef
+		ObjectToCreateDataCollection::const_iterator
+		ObjectToCreateDataCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual const QString& getName() const = 0;
 
 	virtual const int getMaximumHealth() const = 0;
@@ -31,6 +55,12 @@ struct IObjectType
 	virtual const TerrainMapItem::MaskType getPassability() const = 0;
 
 	virtual const unsigned int getMovingSpeed() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual bool canCreateObjects() const = 0;
+
+	virtual void fetchObjectsThatCanCreate( ObjectToCreateDataCollection& _collection ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

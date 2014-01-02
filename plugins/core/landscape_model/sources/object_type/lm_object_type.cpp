@@ -19,12 +19,14 @@ ObjectType::ObjectType(
 	,	const QSize& _size
 	,	const TerrainMapItem::MaskType _passability
 	,	const unsigned int _movingSpeed
+	,	const IObjectType::ObjectToCreateDataCollection& _objectsToCreate
 	)
 	:	m_name( _name )
 	,	m_maximumHealth( _maximumHealth )
 	,	m_size( _size )
 	,	m_passability( _passability )
 	,	m_movingSpeed( _movingSpeed )
+	,	m_objectsToCreate( _objectsToCreate )
 {
 } // ObjectType::ObjectType
 
@@ -90,6 +92,28 @@ ObjectType::getMovingSpeed() const
 	return m_movingSpeed;
 
 } // ObjectType::getMovingSpeed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+ObjectType::canCreateObjects() const
+{
+	return !m_objectsToCreate.empty();
+
+} // ObjectType::canCreateObjects
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectType::fetchObjectsThatCanCreate( IObjectType::ObjectToCreateDataCollection& _collection ) const
+{
+	_collection = m_objectsToCreate;
+
+} // ObjectType::fetchObjectsThatCanCreate
 
 
 /*---------------------------------------------------------------------------*/

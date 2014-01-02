@@ -33,6 +33,8 @@ namespace Views {
 
 	const char* const ActionPanelViewTitle = "Actions";
 
+	const char* const CreateObjectLabelFormat = "Create '%1'";
+
 	const char* const ObjectInfoViewTitle = "Object Information";
 
 	const char* const EditorViewDefaultTitle = "Landscape Editor";
@@ -121,7 +123,7 @@ namespace Landscape {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int CellSize = 32;
+	const int CellSize = 32;
 
 /*---------------------------------------------------------------------------*/
 

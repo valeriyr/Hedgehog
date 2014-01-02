@@ -44,6 +44,14 @@ public:
 		,	const TerrainMapItem::MaskType _passability
 		,	const unsigned int _movingSpeed );
 
+	/*virtual*/ void regObjectType(
+			const QString& _name
+		,	const unsigned int _maximumHealth
+		,	const QSize& _size
+		,	const TerrainMapItem::MaskType _passability
+		,	const unsigned int _movingSpeed
+		,	const IObjectType::ObjectToCreateDataCollection& _objectsToCreate );
+
 /*---------------------------------------------------------------------------*/
 
 private:

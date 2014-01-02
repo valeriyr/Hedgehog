@@ -34,15 +34,15 @@ class SelectionViewItem
 
 public:
 
-	SelectionViewItem( const Core::LandscapeModel::IObject::IdType& _type )
-		:	m_type( _type )
+	SelectionViewItem( const Core::LandscapeModel::IObject::IdType& _id )
+		:	m_id( _id )
 	{}
 
-	const Core::LandscapeModel::IObject::IdType& getUniqueId() const { return m_type; }
+	const Core::LandscapeModel::IObject::IdType& getUniqueId() const { return m_id; }
 
 private:
 
-	const Core::LandscapeModel::IObject::IdType m_type;
+	const Core::LandscapeModel::IObject::IdType m_id;
 };
 
 
@@ -153,27 +153,30 @@ SelectionView::onObjectsSelectionChanged( const Framework::Core::EventManager::E
 {
 	m_mainWidget->clear();
 
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
+	Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
 
-	if ( handle->getLandscape() )
 	{
-		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
-		handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
+		boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+			= m_environment.getCurrentLandscape();
 
-		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
-				selectedObjectsBegin = selectedObjectsCollection.begin()
-			,	selectedObjectsEnd = selectedObjectsCollection.end();
-
-		for ( ; selectedObjectsBegin != selectedObjectsEnd; ++selectedObjectsBegin )
+		if ( handle->getLandscape() )
 		{
-			SelectionViewItem* listItem = new SelectionViewItem( ( *selectedObjectsBegin )->getUniqueId() );
-
-			listItem->setText( ( *selectedObjectsBegin )->getType()->getName() );
-			listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedObjectsBegin )->getType()->getName() ) ) );
-
-			m_mainWidget->addItem( listItem );
+			handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 		}
+	}
+
+	Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
+			selectedObjectsBegin = selectedObjectsCollection.begin()
+		,	selectedObjectsEnd = selectedObjectsCollection.end();
+
+	for ( ; selectedObjectsBegin != selectedObjectsEnd; ++selectedObjectsBegin )
+	{
+		SelectionViewItem* listItem = new SelectionViewItem( ( *selectedObjectsBegin )->getUniqueId() );
+
+		listItem->setText( ( *selectedObjectsBegin )->getType()->getName() );
+		listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedObjectsBegin )->getType()->getName() ) ) );
+
+		m_mainWidget->addItem( listItem );
 	}
 
 } // SelectionView::onObjectsSelectionChanged

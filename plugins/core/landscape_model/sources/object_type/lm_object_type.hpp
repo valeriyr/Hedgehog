@@ -28,7 +28,8 @@ public:
 			,	const int _maximumHealth
 			,	const QSize& _size
 			,	const TerrainMapItem::MaskType _passability
-			,	const unsigned int _movingSpeed );
+			,	const unsigned int _movingSpeed
+			,	const IObjectType::ObjectToCreateDataCollection& _objectsToCreate = IObjectType::ObjectToCreateDataCollection() );
 
 	virtual ~ObjectType();
 
@@ -46,6 +47,12 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ bool canCreateObjects() const;
+
+	/*virtual*/ void fetchObjectsThatCanCreate( IObjectType::ObjectToCreateDataCollection& _collection ) const;
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
@@ -59,6 +66,8 @@ private:
 	const TerrainMapItem::MaskType m_passability;
 
 	const unsigned int m_movingSpeed;
+
+	IObjectType::ObjectToCreateDataCollection m_objectsToCreate;
 
 /*---------------------------------------------------------------------------*/
 

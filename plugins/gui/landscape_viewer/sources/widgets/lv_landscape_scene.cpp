@@ -705,10 +705,10 @@ LandscapeScene::correctSceneObjectPosition(
 	if ( correctedPosition.y() > _sceneHeight - ( objectSize.height() * Resources::Landscape::CellSize ) )
 		correctedPosition.setY( _sceneHeight - ( objectSize.height() * Resources::Landscape::CellSize ) );
 
-	if ( static_cast< unsigned int >( objectPixmap.width() ) > ( objectSize.width() * Resources::Landscape::CellSize ) )
+	if ( objectPixmap.width() > ( objectSize.width() * Resources::Landscape::CellSize ) )
 		correctedPosition.setX( correctedPosition.x() - ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2 );
 
-	if ( static_cast< unsigned int >( objectPixmap.height() ) > ( objectSize.height() * Resources::Landscape::CellSize ) )
+	if ( objectPixmap.height() > ( objectSize.height() * Resources::Landscape::CellSize ) )
 		correctedPosition.setY( correctedPosition.y() - ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2 );
 
 	return correctedPosition;

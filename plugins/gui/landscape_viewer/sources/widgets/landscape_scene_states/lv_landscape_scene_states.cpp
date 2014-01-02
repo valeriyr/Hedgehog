@@ -366,10 +366,10 @@ LandscapeObjectEditingState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEv
 
 		const QPixmap& objectPixmap = m_environment.getPixmap( m_name );
 
-		if ( static_cast< unsigned int >( objectPixmap.width() ) > ( objectSize.width() * Resources::Landscape::CellSize ) )
+		if ( objectPixmap.width() > ( objectSize.width() * Resources::Landscape::CellSize ) )
 			xpos += ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2;
 
-		if ( static_cast< unsigned int >( objectPixmap.height() ) > ( objectSize.height() * Resources::Landscape::CellSize ) )
+		if ( objectPixmap.height() > ( objectSize.height() * Resources::Landscape::CellSize ) )
 			ypos += ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2;
 
 		setNewItemInPosition( QPointF( xpos, ypos ) );

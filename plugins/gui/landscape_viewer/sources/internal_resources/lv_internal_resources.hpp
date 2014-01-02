@@ -31,6 +31,8 @@ namespace Views {
 
 	extern const char* const ActionPanelViewTitle;
 
+	extern const char* const CreateObjectLabelFormat;
+
 	extern const char* const ObjectInfoViewTitle;
 
 	extern const char* const EditorViewDefaultTitle;
@@ -73,7 +75,7 @@ namespace Landscape {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const unsigned int CellSize;
+	extern const int CellSize;
 
 /*---------------------------------------------------------------------------*/
 

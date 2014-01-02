@@ -75,11 +75,28 @@ ObjectTypesCache::regObjectType(
 	,	const TerrainMapItem::MaskType _passability
 	,	const unsigned int _movingSpeed )
 {
+	regObjectType( _name, _maximumHealth, _size, _passability, _movingSpeed, IObjectType::ObjectToCreateDataCollection() );
+
+} // ObjectTypesCache::regObjectType
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectTypesCache::regObjectType(
+		const QString& _name
+	,	const unsigned int _maximumHealth
+	,	const QSize& _size
+	,	const TerrainMapItem::MaskType _passability
+	,	const unsigned int _movingSpeed
+	,	const IObjectType::ObjectToCreateDataCollection& _objectsToCreate )
+{
 	m_typesCollection.insert(
 		std::make_pair(
 				_name
 			,	boost::intrusive_ptr< IObjectType >(
-					new ObjectType( _name, _maximumHealth, _size, _passability, _movingSpeed ) ) ) );
+					new ObjectType( _name, _maximumHealth, _size, _passability, _movingSpeed, _objectsToCreate ) ) ) );
 
 } // ObjectTypesCache::regObjectType
 
