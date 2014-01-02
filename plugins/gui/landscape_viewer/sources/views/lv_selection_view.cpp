@@ -170,7 +170,7 @@ SelectionView::onObjectsSelectionChanged( const Framework::Core::EventManager::E
 			SelectionViewItem* listItem = new SelectionViewItem( ( *selectedObjectsBegin )->getUniqueId() );
 
 			listItem->setText( ( *selectedObjectsBegin )->getType()->getName() );
-			listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedObjectsBegin )->getType()->getName(), IGraphicsInfoCache::ms_anySkinIdentifier ) ) );
+			listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedObjectsBegin )->getType()->getName() ) ) );
 
 			m_mainWidget->addItem( listItem );
 		}

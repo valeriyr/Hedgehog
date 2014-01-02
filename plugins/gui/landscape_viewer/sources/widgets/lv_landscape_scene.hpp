@@ -12,6 +12,21 @@
 
 /*---------------------------------------------------------------------------*/
 
+
+namespace Framework
+{
+	namespace GUI
+	{
+		namespace AnimationManager
+		{
+			struct IAnimateObject;
+		}
+	}
+}
+
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -132,6 +147,15 @@ private:
 	void clearScene();
 
 	void fillScene();
+
+/*---------------------------------------------------------------------------*/
+
+	void playAnimation(
+			Framework::GUI::AnimationManager::IAnimateObject& _animateObject
+		,	const QString& _skinId
+		,	const QString& _typeName
+		,	const Core::LandscapeModel::ObjectState::Enum _state
+		,	const Core::LandscapeModel::Direction::Enum _direction );
 
 /*---------------------------------------------------------------------------*/
 

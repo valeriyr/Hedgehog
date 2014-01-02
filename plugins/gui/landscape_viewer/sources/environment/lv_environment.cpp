@@ -14,6 +14,8 @@
 
 #include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
 
+#include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
+
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 #include "window_manager/ih/wm_iwindow_manager.hpp"
 #include "window_manager/ih/wm_iview.hpp"
@@ -99,12 +101,30 @@ Environment::getPixmap( const QString& _objectName, const QString& _skinId ) con
 			,	Core::LandscapeModel::ObjectState::Standing
 			,	Core::LandscapeModel::Direction::Down ) );
 
-	const Framework::GUI::AnimationManager::AnimationInfo& animationInfo
-		= m_pluginInstance.getAnimationsCache()->getAnimation( animationName );
+	if ( m_pluginInstance.getAnimationsCache()->hasAnimation( animationName ) )
+	{
+		const Framework::GUI::AnimationManager::AnimationInfo& animationInfo
+			= m_pluginInstance.getAnimationsCache()->getAnimation( animationName );
 
-	Framework::GUI::ImagesManager::IImagesManager::TransformationData transformationData( animationInfo.m_frames[ 0 ].m_frame );
+		Framework::GUI::ImagesManager::IImagesManager::TransformationData transformationData( animationInfo.m_frames[ 0 ].m_frame );
 
-	return m_pluginInstance.getImagesManager()->getPixmap( animationInfo.m_atlasName, transformationData );
+		return m_pluginInstance.getImagesManager()->getPixmap( animationInfo.m_atlasName, transformationData );
+	}
+	else
+	{
+		return getPixmap( _objectName, IGraphicsInfoCache::ms_anySkinIdentifier );
+	}
+
+} // Environment::getPixmap
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QPixmap&
+Environment::getPixmap( const QString& _objectName ) const
+{
+	return getPixmap( _objectName, getString( Resources::Properties::SkinId ) );
 
 } // Environment::getPixmap
 
@@ -287,9 +307,20 @@ Environment::playAnimation(
 		Framework::GUI::AnimationManager::IAnimateObject& _animateObject
 	,	const QString& _animationName ) const
 {
-	return m_pluginInstance.getAnimationManager()->playAnimation( _animateObject, _animationName );
+	m_pluginInstance.getAnimationManager()->playAnimation( _animateObject, _animationName );
 
 } // Environment::playAnimation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+Environment::hasAnimation( const QString& _animationName ) const
+{
+	return m_pluginInstance.getAnimationsCache()->hasAnimation( _animationName );
+
+} // Environment::hasAnimation
 
 
 /*---------------------------------------------------------------------------*/
@@ -298,7 +329,7 @@ Environment::playAnimation(
 void
 Environment::stopAnimation( Framework::GUI::AnimationManager::IAnimateObject& _animateObject ) const
 {
-	return m_pluginInstance.getAnimationManager()->stopAnimation( _animateObject );
+	m_pluginInstance.getAnimationManager()->stopAnimation( _animateObject );
 
 } // Environment::stopAnimation
 
@@ -309,7 +340,7 @@ Environment::stopAnimation( Framework::GUI::AnimationManager::IAnimateObject& _a
 void
 Environment::stopAllAnimations() const
 {
-	return m_pluginInstance.getAnimationManager()->stopAllAnimations();
+	m_pluginInstance.getAnimationManager()->stopAllAnimations();
 
 } // Environment::stopAllAnimations
 

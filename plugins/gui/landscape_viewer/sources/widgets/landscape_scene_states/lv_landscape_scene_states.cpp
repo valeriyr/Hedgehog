@@ -393,7 +393,7 @@ LandscapeObjectEditingState::onMousePossitionWasChanged( const QPointF& _point )
 		qreal xpos = _point.x() < 0 ? 0 : ( static_cast< int >( _point.x() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
 		qreal ypos = _point.y() < 0 ? 0 : ( static_cast< int >( _point.y() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
 
-		const QPixmap& objectPixmap = m_environment.getPixmap( m_name, IGraphicsInfoCache::ms_anySkinIdentifier );
+		const QPixmap& objectPixmap = m_environment.getPixmap( m_name );
 
 		if ( xpos > m_scene.width() - Resources::Landscape::CellSize )
 			xpos = m_scene.width() - Resources::Landscape::CellSize;
@@ -436,7 +436,7 @@ LandscapeObjectEditingState::addSceneObjects()
 {
 	if ( !m_currentEditorItem )
 	{
-		m_currentEditorItem = new QGraphicsPixmapItem( m_environment.getPixmap( m_name, IGraphicsInfoCache::ms_anySkinIdentifier ) );
+		m_currentEditorItem = new QGraphicsPixmapItem( m_environment.getPixmap( m_name ) );
 
 		QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
 		opacityEffect->setOpacity( 0.5 );

@@ -309,7 +309,7 @@ ObjectsView::fill()
 	QTreeWidgetItem* objectsItem = new QTreeWidgetItem();
 	objectsItem->setText( 0, "Objects" );
 
-	fillWithObjectItems( IGraphicsInfoCache::ms_anySkinIdentifier, objectsItem );
+	fillWithObjectItems( m_environment.getString( Resources::Properties::SkinId ), objectsItem );
 
 	m_objectsView->addTopLevelItem( controlItem );
 	m_objectsView->addTopLevelItem( surfaceItem );

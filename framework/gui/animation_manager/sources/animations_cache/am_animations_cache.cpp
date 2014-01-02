@@ -68,6 +68,17 @@ AnimationsCache::getAnimation( const QString& _animationName ) const
 
 /*---------------------------------------------------------------------------*/
 
+
+bool
+AnimationsCache::hasAnimation( const QString& _animationName ) const
+{
+	return m_animationsInfoCollection.find( _animationName ) != m_animationsInfoCollection.end();
+
+} // AnimationsCache::hasAnimation
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace AnimationManager
 } // namespace GUI
 } // namespace Framework

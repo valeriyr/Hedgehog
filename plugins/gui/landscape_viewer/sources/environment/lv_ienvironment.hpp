@@ -85,6 +85,8 @@ struct IEnvironment
 
 	virtual const QPixmap& getPixmap( const QString& _objectName, const QString& _skinId ) const = 0;
 
+	virtual const QPixmap& getPixmap( const QString& _objectName ) const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual void addFrameworkView(
@@ -142,6 +144,8 @@ struct IEnvironment
 	virtual void playAnimation(
 			Framework::GUI::AnimationManager::IAnimateObject& _animateObject
 		,	const QString& _animationName ) const = 0;
+
+	virtual bool hasAnimation( const QString& _animationName ) const = 0;
 
 	virtual void stopAnimation( Framework::GUI::AnimationManager::IAnimateObject& _animateObject ) const = 0;
 

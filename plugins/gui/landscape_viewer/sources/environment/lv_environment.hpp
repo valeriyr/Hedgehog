@@ -46,6 +46,8 @@ public:
 
 	/*virtual*/ const QPixmap& getPixmap( const QString& _objectName, const QString& _skinId ) const;
 
+	/*virtual*/ const QPixmap& getPixmap( const QString& _objectName ) const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void addFrameworkView(
@@ -103,6 +105,8 @@ public:
 	/*virtual*/ void playAnimation(
 			Framework::GUI::AnimationManager::IAnimateObject& _animateObject
 		,	const QString& _animationName ) const;
+
+	/*virtual*/ bool hasAnimation( const QString& _animationName ) const;
 
 	/*virtual*/ void stopAnimation( Framework::GUI::AnimationManager::IAnimateObject& _animateObject ) const;
 
