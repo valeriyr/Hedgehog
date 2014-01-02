@@ -28,9 +28,6 @@
     <Filter Include="Surface Items Cache">
       <UniqueIdentifier>{8e049fe2-eb17-4576-90e2-599722e3ef55}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Unit">
-      <UniqueIdentifier>{6c2a2694-99d9-422e-8e07-6075e0f44bc3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object Type">
       <UniqueIdentifier>{aea91c96-8014-4da2-af47-433886d460d6}</UniqueIdentifier>
     </Filter>
@@ -55,6 +52,9 @@
     <Filter Include="Path Finders">
       <UniqueIdentifier>{ac68a0d0-40e2-4c33-9279-30845348c204}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{90ea15c2-3560-4576-af2a-83b168e050d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -77,9 +77,6 @@
     </ClCompile>
     <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp">
       <Filter>Surface Items Cache</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\unit\lm_unit.cpp">
-      <Filter>Unit</Filter>
     </ClCompile>
     <ClCompile Include="sources\object_type\lm_object_type.cpp">
       <Filter>Object Type</Filter>
@@ -119,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="sources\actions\lm_select_in_rect_action.cpp">
       <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\object\lm_object.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +161,6 @@
     <ClInclude Include="ih\lm_iobject_types_cache.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="ih\lm_iunit.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="ih\lm_ilandscape_handle.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -184,9 +181,6 @@
     </ClInclude>
     <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp">
       <Filter>Surface Items Cache</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\unit\lm_unit.hpp">
-      <Filter>Unit</Filter>
     </ClInclude>
     <ClInclude Include="sources\object_type\lm_object_type.hpp">
       <Filter>Object Type</Filter>
@@ -247,6 +241,12 @@
     </ClInclude>
     <ClInclude Include="h\lm_object_states.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_iobject.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\object\lm_object.hpp">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

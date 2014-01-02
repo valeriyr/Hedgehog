@@ -109,7 +109,7 @@ namespace Animations {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const AnimationNameFormat = "Skin(%1)Unit(Name(%2)State(%3)Direction(%4))";
+	const char* const AnimationNameFormat = "Skin(%1)Object(Name(%2)State(%3)Direction(%4))";
 
 /*---------------------------------------------------------------------------*/
 

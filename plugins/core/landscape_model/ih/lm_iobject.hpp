@@ -1,6 +1,6 @@
 
-#ifndef __LM_IUNIT_HPP__
-#define __LM_IUNIT_HPP__
+#ifndef __LM_IOBJECT_HPP__
+#define __LM_IOBJECT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -22,7 +22,7 @@ struct TerrainMapData;
 
 /*---------------------------------------------------------------------------*/
 
-struct IUnit
+struct IObject
 	:	public Tools::Core::IBase
 {
 
@@ -67,4 +67,4 @@ struct IUnit
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_HPP__
+#endif // __LM_IOBJECT_HPP__

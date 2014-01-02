@@ -10,7 +10,7 @@
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
 
@@ -81,8 +81,8 @@ MinimapWidget::landscapeWasOpened()
 
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::UnitMoved::ms_type
-							,	boost::bind( &MinimapWidget::onUnitMoved, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_type
+							,	boost::bind( &MinimapWidget::onObjectMoved, this, _1 ) );
 
 } // MinimapWidget::landscapeWasOpened
 
@@ -223,7 +223,7 @@ MinimapWidget::onSurfaceItemChanged( const Framework::Core::EventManager::Event&
 
 
 void
-MinimapWidget::onUnitMoved( const Framework::Core::EventManager::Event& _event )
+MinimapWidget::onObjectMoved( const Framework::Core::EventManager::Event& _event )
 {
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
 		= m_environment.getCurrentLandscape();
@@ -232,7 +232,7 @@ MinimapWidget::onUnitMoved( const Framework::Core::EventManager::Event& _event )
 
 	update();
 
-} // MinimapWidget::onUnitMoved
+} // MinimapWidget::onObjectMoved
 
 
 /*---------------------------------------------------------------------------*/
@@ -344,12 +344,12 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 		painter.begin( &objectsLayer );
 		painter.setRenderHint( QPainter::Antialiasing );
 
-		Plugins::Core::LandscapeModel::ILandscape::UnitsCollection unitsCollection;
-		handle->getLandscape()->fetchUnits( unitsCollection );
+		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection objectsCollection;
+		handle->getLandscape()->fetchObjects( objectsCollection );
 
-		Plugins::Core::LandscapeModel::ILandscape::UnitsCollectionIterator
-				begin = unitsCollection.begin()
-			,	end = unitsCollection.end();
+		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
+				begin = objectsCollection.begin()
+			,	end = objectsCollection.end();
 
 		for ( ; begin != end; ++begin )
 		{

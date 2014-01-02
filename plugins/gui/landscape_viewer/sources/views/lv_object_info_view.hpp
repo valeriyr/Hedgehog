@@ -9,7 +9,7 @@
 #include "event_manager/h/em_subscriber.hpp"
 #include "event_manager/h/em_event.hpp"
 
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,13 +59,13 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event );
+	void onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event );
 
-	void onUnitMoved( const Framework::Core::EventManager::Event& _event );
+	void onObjectMoved( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/
 
-	void setDescriptionForUnit( const Core::LandscapeModel::IUnit::IdType& _unitId );
+	void setDescriptionForObject( const Core::LandscapeModel::IObject::IdType& _objectId );
 
 /*---------------------------------------------------------------------------*/
 
@@ -81,7 +81,7 @@ private:
 
 	boost::shared_ptr< QTextEdit > m_mainWidget;
 
-	Core::LandscapeModel::IUnit::IdType m_showingUnitId;
+	Core::LandscapeModel::IObject::IdType m_showingObjectId;
 
 /*---------------------------------------------------------------------------*/
 

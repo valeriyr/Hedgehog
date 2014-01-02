@@ -51,15 +51,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IUnit > getUnit( const QPoint& _point ) const;
+	/*virtual*/ boost::intrusive_ptr< IObject > getObject( const QPoint& _point ) const;
 
-	/*virtual*/ boost::intrusive_ptr< IUnit > getUnit( const IUnit::IdType& _id ) const;
+	/*virtual*/ boost::intrusive_ptr< IObject > getObject( const IObject::IdType& _id ) const;
 
-	/*virtual*/ unsigned int getUnitsCount() const;
+	/*virtual*/ unsigned int getObjectsCount() const;
 
-	/*virtual*/ void fetchUnits( ILandscape::UnitsCollection& _collection ) const;
+	/*virtual*/ void fetchObjects( ILandscape::ObjectsCollection& _collection ) const;
 
-	/*virtual*/ void fetchSelectedUnits( ILandscape::UnitsCollection& _collection ) const;
+	/*virtual*/ void fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -85,15 +85,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ IUnit::IdType createObject(
+	/*virtual*/ IObject::IdType createObject(
 			const QPoint& _position
 		,	const QString& _objectName );
 
-	/*virtual*/ void selectUnits( const QRect& _rect );
+	/*virtual*/ void selectObjects( const QRect& _rect );
 
-	/*virtual*/ void selectUnit( const IUnit::IdType& _id );
+	/*virtual*/ void selectObject( const IObject::IdType& _id );
 
-	/*virtual*/ void unselectUnits();
+	/*virtual*/ void unselectObjects();
 
 /*---------------------------------------------------------------------------*/
 
@@ -106,8 +106,8 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	ILandscape::UnitsCollection m_units;
-	ILandscape::UnitsCollection m_selectedUnits;
+	ILandscape::ObjectsCollection m_objects;
+	ILandscape::ObjectsCollection m_selectedObjects;
 
 	Tools::Core::Containers::Matrix< boost::intrusive_ptr< ISurfaceItem > > m_surfaceItems;
 	Tools::Core::Containers::Matrix< TerrainMapData > m_terrainMap;

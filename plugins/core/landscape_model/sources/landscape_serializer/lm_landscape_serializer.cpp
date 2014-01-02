@@ -8,7 +8,7 @@
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/ih/lm_iobject_type.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -72,10 +72,10 @@ LandscapeSerializer::load(
 		}
 	}
 
-	unsigned int unitsCount = 0;
-	fileStream >> unitsCount;
+	unsigned int objectsCount = 0;
+	fileStream >> objectsCount;
 
-	for ( unsigned int i = 0; i < unitsCount; ++i )
+	for ( unsigned int i = 0; i < objectsCount; ++i )
 	{
 		QString objectName;
 		unsigned int x = 0;
@@ -119,14 +119,14 @@ LandscapeSerializer::save(
 		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
 			fileStream << _landscape.getSurfaceItem( QPoint( i, j ) )->getId();
 
-	fileStream << _landscape.getUnitsCount();
+	fileStream << _landscape.getObjectsCount();
 
-	ILandscape::UnitsCollection unitsCollection;
-	_landscape.fetchUnits( unitsCollection );
+	ILandscape::ObjectsCollection objectsCollection;
+	_landscape.fetchObjects( objectsCollection );
 
-	ILandscape::UnitsCollectionIterator
-			begin = unitsCollection.begin()
-		,	end = unitsCollection.end();
+	ILandscape::ObjectsCollectionIterator
+			begin = objectsCollection.begin()
+		,	end = objectsCollection.end();
 
 	for ( ; begin != end; ++begin )
 	{

@@ -32,12 +32,12 @@ namespace ObjectCreated
 
 /*---------------------------------------------------------------------------*/
 
-namespace UnitMoved
+namespace ObjectMoved
 {
-	const char* const ms_type = "UnitMoved";
+	const char* const ms_type = "ObjectMoved";
 
-	const char* const ms_unitNameAttribute = "UnitName";
-	const char* const ms_unitIdAttribute = "UnitId";
+	const char* const ms_objectNameAttribute = "ObjectName";
+	const char* const ms_objectIdAttribute = "ObjectId";
 	const char* const ms_movingFromAttribute = "MovingFrom";
 	const char* const ms_movingToAttribute = "MovingTo";
 	const char* const ms_movingProgressAttribute = "MovingProgress";
@@ -45,21 +45,21 @@ namespace UnitMoved
 
 /*---------------------------------------------------------------------------*/
 
-namespace UnitStateChanged
+namespace ObjectStateChanged
 {
-	const char* const ms_type = "UnitStateChanged";
+	const char* const ms_type = "ObjectStateChanged";
 
-	const char* const ms_unitNameAttribute = "UnitName";
-	const char* const ms_unitIdAttribute = "UnitId";
-	const char* const ms_unitState = "UnitState";
-	const char* const ms_unitDirection = "UnitDirection";
+	const char* const ms_objectNameAttribute = "ObjectName";
+	const char* const ms_objectIdAttribute = "ObjectId";
+	const char* const ms_objectState = "ObjectState";
+	const char* const ms_objectDirection = "ObjectDirection";
 }
 
 /*---------------------------------------------------------------------------*/
 
-namespace UnitsSelectionChanged
+namespace ObjectsSelectionChanged
 {
-	const char* const ms_type = "UnitsSelectionChanged";
+	const char* const ms_type = "ObjectsSelectionChanged";
 }
 
 /*---------------------------------------------------------------------------*/

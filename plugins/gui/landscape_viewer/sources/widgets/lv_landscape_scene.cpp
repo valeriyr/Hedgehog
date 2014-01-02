@@ -12,7 +12,7 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 #include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
@@ -58,7 +58,7 @@ LandscapeScene::LandscapeScene( const IEnvironment& _environment, QObject* _pare
 	,	m_environment( _environment )
 	,	m_subscriber( _environment.createSubscriber() )
 	,	m_landscapeSceneState( new LandscapeSceneGameState( _environment, *this ) )
-	,	m_unitsCollection()
+	,	m_objectsCollection()
 {
 } // LandscapeScene::LandscapeScene
 
@@ -133,16 +133,16 @@ LandscapeScene::landscapeWasOpened()
 							,	boost::bind( &LandscapeScene::onSurfaceItemChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::UnitsSelectionChanged::ms_type
-							,	boost::bind( &LandscapeScene::onUnitsSelectionChanged, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::ms_type
+							,	boost::bind( &LandscapeScene::onObjectsSelectionChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::UnitMoved::ms_type
-							,	boost::bind( &LandscapeScene::onUnitMoved, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_type
+							,	boost::bind( &LandscapeScene::onObjectMoved, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::UnitStateChanged::ms_type
-							,	boost::bind( &LandscapeScene::onUnitStateChanged, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_type
+							,	boost::bind( &LandscapeScene::onObjectStateChanged, this, _1 ) );
 
 } // LandscapeScene::landscapeWasOpened
 
@@ -242,7 +242,7 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 {
 	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectNameAttribute ).toString();
 	const QPoint objectPosition = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectPositionAttribute ).toPoint();
-	const Plugins::Core::LandscapeModel::IUnit::IdType id
+	const Plugins::Core::LandscapeModel::IObject::IdType id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectUniqueIdAttribute ).toInt();
 
 	const QPixmap& objectPixmap = m_environment.getPixmap( objectName, GraphicsInfoCache::ms_anySkinIdentifier );
@@ -272,7 +272,7 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 	newItem->setPos( QPoint( xpos, ypos ) );
 	newItem->setZValue( LandscapeScene::ObjectZValue::Object );
 
-	unitWasAdded( id, newItem );
+	objectWasAdded( id, newItem );
 
 	m_environment.playAnimation(
 			*newItem
@@ -333,32 +333,32 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 
 
 void
-LandscapeScene::onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event )
+LandscapeScene::onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event )
 {
-	markSelectedUnits();
+	markSelectedObjects();
 
-} // LandscapeScene::onUnitsSelectionChanged
+} // LandscapeScene::onObjectsSelectionChanged
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-LandscapeScene::onUnitMoved( const Framework::Core::EventManager::Event& _event )
+LandscapeScene::onObjectMoved( const Framework::Core::EventManager::Event& _event )
 {
-	const QString unitName
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_unitNameAttribute ).toString();
-	const Plugins::Core::LandscapeModel::IUnit::IdType unitId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_unitIdAttribute ).toInt();
+	const QString name
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectNameAttribute ).toString();
+	const Plugins::Core::LandscapeModel::IObject::IdType id
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectIdAttribute ).toInt();
 	const QPoint movedFrom
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_movingFromAttribute ).toPoint();
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingFromAttribute ).toPoint();
 	const QPoint movedTo
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_movingToAttribute ).toPoint();
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingToAttribute ).toPoint();
 	const float progress
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_movingProgressAttribute ).toFloat();
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingProgressAttribute ).toFloat();
 
-	UnitsCollectionIterator iterator = m_unitsCollection.find( unitId );
-	assert( iterator != m_unitsCollection.end() );
+	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
+	assert( iterator != m_objectsCollection.end() );
 
 	const QPoint movedFromInScene( movedFrom.x() * Resources::Landscape::CellSize, movedFrom.y() * Resources::Landscape::CellSize );
 	const QPoint movedToInScene( movedTo.x() * Resources::Landscape::CellSize, movedTo.y() * Resources::Landscape::CellSize );
@@ -366,7 +366,7 @@ LandscapeScene::onUnitMoved( const Framework::Core::EventManager::Event& _event 
 	int xpos = movedFromInScene.x() + ( ( movedToInScene.x() - movedFromInScene.x() ) * progress );
 	int ypos = movedFromInScene.y() + ( ( movedToInScene.y() - movedFromInScene.y() ) * progress );
 
-	const QPixmap& objectPixmap = m_environment.getPixmap( unitName, GraphicsInfoCache::ms_anySkinIdentifier );
+	const QPixmap& objectPixmap = m_environment.getPixmap( name, GraphicsInfoCache::ms_anySkinIdentifier );
 
 	if ( static_cast< unsigned int >( objectPixmap.width() ) > Resources::Landscape::CellSize )
 	{
@@ -395,38 +395,38 @@ LandscapeScene::onUnitMoved( const Framework::Core::EventManager::Event& _event 
 
 	regenerateTerrainMapLayer();
 
-} // LandscapeScene::onUnitMoved
+} // LandscapeScene::onObjectMoved
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-LandscapeScene::onUnitStateChanged( const Framework::Core::EventManager::Event& _event )
+LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const QString unitName
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitStateChanged::ms_unitNameAttribute ).toString();
-	const Plugins::Core::LandscapeModel::IUnit::IdType unitId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitStateChanged::ms_unitIdAttribute ).toInt();
-	const Plugins::Core::LandscapeModel::ObjectState::Enum unitState
+	const QString name
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectNameAttribute ).toString();
+	const Plugins::Core::LandscapeModel::IObject::IdType id
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute ).toInt();
+	const Plugins::Core::LandscapeModel::ObjectState::Enum state
 		= static_cast< Plugins::Core::LandscapeModel::ObjectState::Enum >(
-			_event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitStateChanged::ms_unitState ).toInt() );
-	const Plugins::Core::LandscapeModel::Direction::Enum unitDirection
+			_event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectState ).toInt() );
+	const Plugins::Core::LandscapeModel::Direction::Enum direction
 		= static_cast< Plugins::Core::LandscapeModel::Direction::Enum >(
-			_event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitStateChanged::ms_unitDirection ).toInt() );
+			_event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectDirection ).toInt() );
 
-	UnitsCollectionIterator iterator = m_unitsCollection.find( unitId );
-	assert( iterator != m_unitsCollection.end() );
+	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
+	assert( iterator != m_objectsCollection.end() );
 
 	m_environment.playAnimation(
 			*iterator->second
 		,	generateAnimationName(
 					GraphicsInfoCache::ms_anySkinIdentifier
-				,	unitName
-				,	unitState
-				,	unitDirection ) );
+				,	name
+				,	state
+				,	direction ) );
 
-} // LandscapeScene::onUnitStateChanged
+} // LandscapeScene::onObjectStateChanged
 
 
 /*---------------------------------------------------------------------------*/
@@ -462,12 +462,12 @@ LandscapeScene::generateLandscape()
 			}
 		}
 
-		Plugins::Core::LandscapeModel::ILandscape::UnitsCollection unitsCollection;
-		handle->getLandscape()->fetchUnits( unitsCollection );
+		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection objectsCollection;
+		handle->getLandscape()->fetchObjects( objectsCollection );
 
-		Plugins::Core::LandscapeModel::ILandscape::UnitsCollectionIterator
-				begin = unitsCollection.begin()
-			,	end = unitsCollection.end();
+		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
+				begin = objectsCollection.begin()
+			,	end = objectsCollection.end();
 
 		for ( ; begin != end; ++begin )
 		{
@@ -494,7 +494,7 @@ LandscapeScene::generateLandscape()
 			newItem->setPos( posByX, posByY );
 			newItem->setZValue( ObjectZValue::Object );
 
-			unitWasAdded( ( *begin )->getUniqueId(), newItem );
+			objectWasAdded( ( *begin )->getUniqueId(), newItem );
 
 			m_environment.playAnimation(
 					*newItem
@@ -632,51 +632,51 @@ LandscapeScene::setCorrectSceneSize()
 
 
 void
-LandscapeScene::unitWasAdded( const Plugins::Core::LandscapeModel::IUnit::IdType& _id, ObjectGraphicsItem* _item )
+LandscapeScene::objectWasAdded( const Plugins::Core::LandscapeModel::IObject::IdType& _id, ObjectGraphicsItem* _item )
 {
-	assert( m_unitsCollection.find( _id ) == m_unitsCollection.end() );
-	m_unitsCollection.insert( std::make_pair( _id, _item ) );
+	assert( m_objectsCollection.find( _id ) == m_objectsCollection.end() );
+	m_objectsCollection.insert( std::make_pair( _id, _item ) );
 
-} // LandscapeScene::unitWasAdded
+} // LandscapeScene::objectWasAdded
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-LandscapeScene::markSelectedUnits()
+LandscapeScene::markSelectedObjects()
 {
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
 		= m_environment.getCurrentLandscape();
 
 	if ( handle->getLandscape() )
 	{
-		UnitsCollectionIterator
-				unitsBegin = m_unitsCollection.begin()
-			,	unitsEnd = m_unitsCollection.end();
+		ObjectsCollectionIterator
+				objectsBegin = m_objectsCollection.begin()
+			,	objectsEnd = m_objectsCollection.end();
 
-		for ( ; unitsBegin != unitsEnd; ++unitsBegin )
+		for ( ; objectsBegin != objectsEnd; ++objectsBegin )
 		{
-			unitsBegin->second->setGraphicsEffect( NULL );
+			objectsBegin->second->setGraphicsEffect( NULL );
 		}
 
-		Plugins::Core::LandscapeModel::ILandscape::UnitsCollection selectedUnitsCollection;
-		handle->getLandscape()->fetchSelectedUnits( selectedUnitsCollection );
+		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
+		handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
-		Plugins::Core::LandscapeModel::ILandscape::UnitsCollectionIterator
-				selectedUnitsBegin = selectedUnitsCollection.begin()
-			,	selectedUnitsEnd = selectedUnitsCollection.end();
+		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
+				selectedObjectsBegin = selectedObjectsCollection.begin()
+			,	selectedObjectsEnd = selectedObjectsCollection.end();
 
-		for ( ; selectedUnitsBegin != selectedUnitsEnd; ++selectedUnitsBegin )
+		for ( ; selectedObjectsBegin != selectedObjectsEnd; ++selectedObjectsBegin )
 		{
-			UnitsCollectionIterator iterator = m_unitsCollection.find( ( *selectedUnitsBegin )->getUniqueId() );
-			assert( iterator != m_unitsCollection.end() );
+			ObjectsCollectionIterator iterator = m_objectsCollection.find( ( *selectedObjectsBegin )->getUniqueId() );
+			assert( iterator != m_objectsCollection.end() );
 
 			iterator->second->setGraphicsEffect( new QGraphicsColorizeEffect() );
 		}
 	}
 
-} // LandscapeScene::markSelectedUnits
+} // LandscapeScene::markSelectedObjects
 
 
 /*---------------------------------------------------------------------------*/
@@ -699,16 +699,16 @@ LandscapeScene::convertFromScenePosition( const QPointF& _scenePosition )
 void
 LandscapeScene::removeAllObjects()
 {
-	UnitsCollectionIterator
-			unitsBegin = m_unitsCollection.begin()
-		,	unitsEnd = m_unitsCollection.end();
+	ObjectsCollectionIterator
+			begin = m_objectsCollection.begin()
+		,	end = m_objectsCollection.end();
 
-	for ( ; unitsBegin != unitsEnd; ++unitsBegin )
+	for ( ; begin != end; ++begin )
 	{
-		m_environment.stopAnimation( *unitsBegin->second );
+		m_environment.stopAnimation( *begin->second );
 	}
 
-	m_unitsCollection.clear();
+	m_objectsCollection.clear();
 
 } // LandscapeScene::removeAllObjects
 

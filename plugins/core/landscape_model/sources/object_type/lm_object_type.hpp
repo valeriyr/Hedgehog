@@ -1,6 +1,6 @@
 
-#ifndef __LM_UNIT_HPP__
-#define __LM_UNIT_HPP__
+#ifndef __LM_OBJECT_TYPE_HPP__
+#define __LM_OBJECT_TYPE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -72,4 +72,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_UNIT_HPP__
+#endif // __LM_OBJECT_TYPE_HPP__

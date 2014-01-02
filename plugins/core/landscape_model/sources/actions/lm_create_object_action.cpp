@@ -47,23 +47,23 @@ CreateObjectAction::~CreateObjectAction()
 void
 CreateObjectAction::processAction( const unsigned int /*_deltaTime*/ )
 {
-	int unitId = IUnit::ms_wrongId;
+	int objectId = IObject::ms_wrongId;
 
 	{
 		boost::intrusive_ptr< ILandscapeHandle > handle( m_landscapeModel.getCurrentLandscape() );
 
 		if ( handle->getLandscape() )
 		{
-			unitId = handle->getLandscape()->createObject( m_position, m_objectName );
+			objectId = handle->getLandscape()->createObject( m_position, m_objectName );
 		}
 	}
 
-	if ( unitId != IUnit::ms_wrongId )
+	if ( objectId != IObject::ms_wrongId )
 	{
 		Framework::Core::EventManager::Event objectCreatedEvent( Events::ObjectCreated::ms_type );
 		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectNameAttribute, m_objectName );
 		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectPositionAttribute, m_position );
-		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectUniqueIdAttribute, unitId );
+		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectUniqueIdAttribute, objectId );
 
 		m_environment.riseEvent( objectCreatedEvent );
 	}

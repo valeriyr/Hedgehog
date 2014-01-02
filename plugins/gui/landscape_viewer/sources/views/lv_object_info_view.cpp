@@ -8,7 +8,7 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 #include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
@@ -29,11 +29,11 @@ ObjectInfoView::ObjectInfoView( const IEnvironment& _environment )
 	,	m_subscriber( _environment.createSubscriber() )
 	,	m_viewTitle( Resources::Views::ObjectInfoViewTitle )
 	,	m_mainWidget( new QTextEdit() )
-	,	m_showingUnitId( Core::LandscapeModel::IUnit::ms_wrongId )
+	,	m_showingObjectId( Core::LandscapeModel::IObject::ms_wrongId )
 {
 	m_mainWidget->setReadOnly( true );
 
-	setDescriptionForUnit( Core::LandscapeModel::IUnit::ms_wrongId );
+	setDescriptionForObject( Core::LandscapeModel::IObject::ms_wrongId );
 
 } // ObjectInfoView::ObjectInfoView
 
@@ -86,12 +86,12 @@ void
 ObjectInfoView::landscapeWasOpened()
 {
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::UnitsSelectionChanged::ms_type
-							,	boost::bind( &ObjectInfoView::onUnitsSelectionChanged, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::ms_type
+							,	boost::bind( &ObjectInfoView::onObjectsSelectionChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::UnitMoved::ms_type
-							,	boost::bind( &ObjectInfoView::onUnitMoved, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_type
+							,	boost::bind( &ObjectInfoView::onObjectMoved, this, _1 ) );
 
 } // ObjectInfoView::landscapeWasOpened
 
@@ -103,7 +103,7 @@ void
 ObjectInfoView::landscapeWasClosed()
 {
 	m_subscriber.unsubscribe();
-	setDescriptionForUnit( Core::LandscapeModel::IUnit::ms_wrongId );
+	setDescriptionForObject( Core::LandscapeModel::IObject::ms_wrongId );
 
 } // ObjectInfoView::landscapeWasClosed
 
@@ -112,9 +112,9 @@ ObjectInfoView::landscapeWasClosed()
 
 
 void
-ObjectInfoView::onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event )
+ObjectInfoView::onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event )
 {
-	Plugins::Core::LandscapeModel::ILandscape::UnitsCollection selectedUnitsCollection;
+	Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
 
 	{
 		boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
@@ -122,74 +122,74 @@ ObjectInfoView::onUnitsSelectionChanged( const Framework::Core::EventManager::Ev
 
 		if ( handle->getLandscape() )
 		{
-			handle->getLandscape()->fetchSelectedUnits( selectedUnitsCollection );
+			handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 		}
 	}
 
-	setDescriptionForUnit(
-			selectedUnitsCollection.empty()
-		?	Core::LandscapeModel::IUnit::ms_wrongId
-		:	selectedUnitsCollection.front()->getUniqueId() );
+	setDescriptionForObject(
+			selectedObjectsCollection.empty()
+		?	Core::LandscapeModel::IObject::ms_wrongId
+		:	selectedObjectsCollection.front()->getUniqueId() );
 
-} // ObjectInfoView::onUnitsSelectionChanged
+} // ObjectInfoView::onObjectsSelectionChanged
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-ObjectInfoView::onUnitMoved( const Framework::Core::EventManager::Event& _event )
+ObjectInfoView::onObjectMoved( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::IUnit::IdType unitId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::UnitMoved::ms_unitIdAttribute ).toInt();
+	const Plugins::Core::LandscapeModel::IObject::IdType objectId
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectIdAttribute ).toInt();
 
-	if ( m_showingUnitId == unitId )
+	if ( m_showingObjectId == objectId )
 	{
-		setDescriptionForUnit( unitId );
+		setDescriptionForObject( objectId );
 	}
 
-} // ObjectInfoView::onUnitMoved
+} // ObjectInfoView::onObjectMoved
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-ObjectInfoView::setDescriptionForUnit( const Core::LandscapeModel::IUnit::IdType& _unitId )
+ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::IObject::IdType& _objectId )
 {
-	m_showingUnitId = Core::LandscapeModel::IUnit::ms_wrongId;
+	m_showingObjectId = Core::LandscapeModel::IObject::ms_wrongId;
 
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
 		= m_environment.getCurrentLandscape();
 
 	if ( handle->getLandscape() )
 	{
-		boost::intrusive_ptr< Core::LandscapeModel::IUnit > unit = handle->getLandscape()->getUnit( _unitId );
+		boost::intrusive_ptr< Core::LandscapeModel::IObject > object = handle->getLandscape()->getObject( _objectId );
 
-		if ( unit )
+		if ( object )
 		{
-			m_showingUnitId = unit->getUniqueId();
+			m_showingObjectId = object->getUniqueId();
 
 			m_mainWidget->setHtml(
 				QString( Resources::Views::ObjectInfoFormat )
-					.arg( unit->getType()->getName() )
-					.arg( unit->getHealth() )
-					.arg( unit->getType()->getMaximumHealth() )
-					.arg( unit->getType()->getMovingSpeed() )
-					.arg( unit->getPosition().x() )
-					.arg( unit->getPosition().y() )
-					.arg( unit->getType()->getSize().width() )
-					.arg( unit->getType()->getSize().height() )
-					.arg( unit->getUniqueId() ) );
+					.arg( object->getType()->getName() )
+					.arg( object->getHealth() )
+					.arg( object->getType()->getMaximumHealth() )
+					.arg( object->getType()->getMovingSpeed() )
+					.arg( object->getPosition().x() )
+					.arg( object->getPosition().y() )
+					.arg( object->getType()->getSize().width() )
+					.arg( object->getType()->getSize().height() )
+					.arg( object->getUniqueId() ) );
 		}
 	}
 
-	if ( m_showingUnitId == Core::LandscapeModel::IUnit::ms_wrongId )
+	if ( m_showingObjectId == Core::LandscapeModel::IObject::ms_wrongId )
 	{
 		m_mainWidget->setHtml( Resources::Views::ObjectInfoDefaultText );
 	}
 
-} // ObjectInfoView::setDescriptionForUnit
+} // ObjectInfoView::setDescriptionForObject
 
 
 /*---------------------------------------------------------------------------*/

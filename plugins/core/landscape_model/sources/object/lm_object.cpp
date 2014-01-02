@@ -1,7 +1,7 @@
 
 #include "landscape_model/sources/ph/lm_ph.hpp"
 
-#include "landscape_model/sources/unit/lm_unit.hpp"
+#include "landscape_model/sources/object/lm_object.hpp"
 
 #include "landscape_model/ih/lm_iobject_type.hpp"
 
@@ -14,12 +14,12 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-static unsigned int g_unitsCounter = 0;
+static unsigned int g_objectsCounter = 0;
 
 /*---------------------------------------------------------------------------*/
 
 
-Unit::Unit(
+Object::Object(
 		boost::intrusive_ptr< IObjectType > _type
 	,	const QPoint& _possition
 	)
@@ -28,126 +28,126 @@ Unit::Unit(
 	,	m_possition( _possition )
 	,	m_state( ObjectState::Standing )
 	,	m_direction( Direction::Down )
-	,	m_id( g_unitsCounter++ )
+	,	m_id( g_objectsCounter++ )
 {
-} // Unit::Unit
+} // Object::Object
 
 
 /*---------------------------------------------------------------------------*/
 
 
-Unit::~Unit()
+Object::~Object()
 {
-} // Unit::Unit
+} // Object::Object
 
 
 /*---------------------------------------------------------------------------*/
 
 
 boost::intrusive_ptr< IObjectType >
-Unit::getType() const
+Object::getType() const
 {
 	return m_type;
 
-} // Unit::getType
+} // Object::getType
 
 
 /*---------------------------------------------------------------------------*/
 
 
 const int
-Unit::getHealth() const
+Object::getHealth() const
 {
 	return m_health;
 
-} // Unit::getHealth
+} // Object::getHealth
 
 
 /*---------------------------------------------------------------------------*/
 
 
 const QPoint&
-Unit::getPosition() const
+Object::getPosition() const
 {
 	return m_possition;
 
-} // Unit::getPosition
+} // Object::getPosition
 
 
 /*---------------------------------------------------------------------------*/
 
 
 const QRect
-Unit::getRect() const
+Object::getRect() const
 {
 	return QRect( getPosition(), getType()->getSize() );
 
-} // Unit::getRect
+} // Object::getRect
 
 
 /*---------------------------------------------------------------------------*/
 
 
-const IUnit::IdType&
-Unit::getUniqueId() const
+const IObject::IdType&
+Object::getUniqueId() const
 {
 	return m_id;
 
-} // Unit::getUniqueId
+} // Object::getUniqueId
 
 
 /*---------------------------------------------------------------------------*/
 
 
 const ObjectState::Enum
-Unit::getState() const
+Object::getState() const
 {
 	return m_state;
 
-} // Unit::getState
+} // Object::getState
 
 
 /*---------------------------------------------------------------------------*/
 
 
 const Direction::Enum
-Unit::getDirection() const
+Object::getDirection() const
 {
 	return m_direction;
 
-} // Unit::getDirection
+} // Object::getDirection
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Unit::setPosition( const QPoint& _position )
+Object::setPosition( const QPoint& _position )
 {
 	m_possition = _position;
 
-} // Unit::setPosition
+} // Object::setPosition
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Unit::setState( const ObjectState::Enum _state )
+Object::setState( const ObjectState::Enum _state )
 {
 	m_state = _state;
 
-} // Unit::setState
+} // Object::setState
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Unit::setDirection( const Direction::Enum _direction )
+Object::setDirection( const Direction::Enum _direction )
 {
 	m_direction = _direction;
 
-} // Unit::setDirection
+} // Object::setDirection
 
 
 /*---------------------------------------------------------------------------*/

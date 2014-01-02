@@ -91,7 +91,7 @@ private:
 
 	void fillSurfaceItemsCache();
 
-	void fillUnitsCache();
+	void fillObjectsCache();
 
 /*---------------------------------------------------------------------------*/
 

@@ -44,7 +44,7 @@ public:
 			const QString& _resourcePath
 		,	const Framework::GUI::ImagesManager::IImagesManager::TransformationData& _transformationData ) const;
 
-	/*virtual*/ const QPixmap& getPixmap( const QString& _unitName, const QString& _skinId ) const;
+	/*virtual*/ const QPixmap& getPixmap( const QString& _objectName, const QString& _skinId ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -70,7 +70,7 @@ public:
 
 	/*virtual*/ void selectItemsInModel( const QRect& _rect ) const;
 
-	/*virtual*/ void selectItemModel( const Core::LandscapeModel::IUnit::IdType& _id ) const;
+	/*virtual*/ void selectItemModel( const Core::LandscapeModel::IObject::IdType& _id ) const;
 
 	/*virtual*/ void moveSelectedItems( const QPoint& _to ) const;
 

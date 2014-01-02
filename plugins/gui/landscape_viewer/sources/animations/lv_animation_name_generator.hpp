@@ -17,7 +17,7 @@ namespace LandscapeViewer {
 
 	QString generateAnimationName(
 			const QString& _skinId
-		,	const QString& _unitName
+		,	const QString& _objectName
 		,	const Core::LandscapeModel::ObjectState::Enum _state
 		,	const Core::LandscapeModel::Direction::Enum _direction );
 

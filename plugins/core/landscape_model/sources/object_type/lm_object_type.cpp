@@ -45,7 +45,7 @@ ObjectType::getName() const
 {
 	return m_name;
 
-} // Unit::getName
+} // ObjectType::getName
 
 
 /*---------------------------------------------------------------------------*/

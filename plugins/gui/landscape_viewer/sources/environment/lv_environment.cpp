@@ -90,12 +90,12 @@ Environment::getPixmap(
 
 
 const QPixmap&
-Environment::getPixmap( const QString& _unitName, const QString& _skinId ) const
+Environment::getPixmap( const QString& _objectName, const QString& _skinId ) const
 {
 	QString animationName(
 		generateAnimationName(
 				_skinId
-			,	_unitName
+			,	_objectName
 			,	Core::LandscapeModel::ObjectState::Standing
 			,	Core::LandscapeModel::Direction::Down ) );
 
@@ -182,7 +182,7 @@ Environment::saveLandscape( const QString& _fileName ) const
 void
 Environment::selectItemsInModel( const QRect& _rect ) const
 {
-	m_pluginInstance.getLandscapeModel()->selectUnits( _rect );
+	m_pluginInstance.getLandscapeModel()->selectObjects( _rect );
 
 } // Environment::selectItemsInModel
 
@@ -191,9 +191,9 @@ Environment::selectItemsInModel( const QRect& _rect ) const
 
 
 void
-Environment::selectItemModel( const Core::LandscapeModel::IUnit::IdType& _id ) const
+Environment::selectItemModel( const Core::LandscapeModel::IObject::IdType& _id ) const
 {
-	m_pluginInstance.getLandscapeModel()->selectUnit( _id );
+	m_pluginInstance.getLandscapeModel()->selectObject( _id );
 
 } // Environment::selectItemModel
 
@@ -204,7 +204,7 @@ Environment::selectItemModel( const Core::LandscapeModel::IUnit::IdType& _id ) c
 void
 Environment::moveSelectedItems( const QPoint& _to ) const
 {
-	m_pluginInstance.getLandscapeModel()->moveSelectedUnits( _to );
+	m_pluginInstance.getLandscapeModel()->moveSelectedObjects( _to );
 
 } // Environment::moveSelectedItems
 

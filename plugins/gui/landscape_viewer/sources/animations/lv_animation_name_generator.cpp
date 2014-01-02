@@ -17,14 +17,14 @@ namespace LandscapeViewer {
 QString
 generateAnimationName(
 		const QString& _skinId
-	,	const QString& _unitName
+	,	const QString& _objectName
 	,	const Core::LandscapeModel::ObjectState::Enum _state
 	,	const Core::LandscapeModel::Direction::Enum _direction )
 {
 	return
 		QString( Resources::Animations::AnimationNameFormat )
 			.arg( _skinId )
-			.arg( _unitName )
+			.arg( _objectName )
 			.arg( _state )
 			.arg( _direction );
 

@@ -6,7 +6,7 @@
 
 #include "landscape_model/sources/actions/lm_base_action.hpp"
 
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 
 #include "landscape_model/sources/path_finders/lm_ipath_finder.hpp"
 
@@ -27,16 +27,16 @@ class MoveAction
 	struct MovingData
 	{
 		MovingData()
-			:	m_unitPath()
+			:	m_path()
 			,	m_movingProgress( 0.0 )
 		{}
 
-		IPathFinder::PointsCollection m_unitPath;
+		IPathFinder::PointsCollection m_path;
 		float m_movingProgress;
 	};
 
 	typedef
-		std::map< IUnit::IdType, MovingData >
+		std::map< IObject::IdType, MovingData >
 		MovingDataCollection;
 	typedef
 		MovingDataCollection::iterator

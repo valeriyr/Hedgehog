@@ -5,7 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/sources/actions/lm_base_action.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +28,7 @@ public:
 	SelectByIdAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
-		,	const IUnit::IdType& _id );
+		,	const IObject::IdType& _id );
 
 	virtual ~SelectByIdAction();
 
@@ -46,7 +46,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const IUnit::IdType m_id;
+	const IObject::IdType m_id;
 
 /*---------------------------------------------------------------------------*/
 

@@ -7,7 +7,7 @@
 #include "intrusive_base/ib_ibase.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,11 +43,11 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void selectUnits( const QRect& _rect ) = 0;
+	virtual void selectObjects( const QRect& _rect ) = 0;
 
-	virtual void selectUnit( const IUnit::IdType& _id ) = 0;
+	virtual void selectObject( const IObject::IdType& _id ) = 0;
 
-	virtual void moveSelectedUnits( const QPoint& _to ) = 0;
+	virtual void moveSelectedObjects( const QPoint& _to ) = 0;
 
 	virtual void createObject(
 			const QPoint& _position

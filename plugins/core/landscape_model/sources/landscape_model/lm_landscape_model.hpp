@@ -64,15 +64,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void selectUnits( const QRect& _rect );
+	/*virtual*/ void selectObjects( const QRect& _rect );
 
-	/*virtual*/ void selectUnit( const IUnit::IdType& _id );
+	/*virtual*/ void selectObject( const IObject::IdType& _id );
 
-	/*virtual*/ void moveSelectedUnits( const QPoint& _to );
+	/*virtual*/ void moveSelectedObjects( const QPoint& _to );
 
-	/*virtual*/ void createObject(
-			const QPoint& _position
-		,	const QString& _objectName );
+	/*virtual*/ void createObject( const QPoint& _position, const QString& _objectName );
 
 	/*virtual*/ void setSurfaceItem(
 			const QPoint& _position

@@ -7,7 +7,7 @@
 
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 #include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
@@ -37,24 +37,24 @@ MoveAction::MoveAction(
 
 	if ( handle->getLandscape() )
 	{
-		ILandscape::UnitsCollection selectedUnits;
-		handle->getLandscape()->fetchSelectedUnits( selectedUnits );
+		ILandscape::ObjectsCollection selectedObjects;
+		handle->getLandscape()->fetchSelectedObjects( selectedObjects );
 
-		ILandscape::UnitsCollectionIterator
-				begin = selectedUnits.begin()
-			,	end = selectedUnits.end();
+		ILandscape::ObjectsCollectionIterator
+				begin = selectedObjects.begin()
+			,	end = selectedObjects.end();
 
 		for ( ; begin != end; ++begin )
 		{
 			MovingData movingData;
-			m_pathFinder->findPath( movingData.m_unitPath, *handle->getLandscape(), **begin, m_to );
+			m_pathFinder->findPath( movingData.m_path, *handle->getLandscape(), **begin, m_to );
 
-			if ( !movingData.m_unitPath.empty() )
+			if ( !movingData.m_path.empty() )
 			{
 				m_movingData.insert( std::make_pair( ( *begin )->getUniqueId(), movingData ) );
 
 				handle->getLandscape()->setEngagedWithGroungItem( ( *begin )->getPosition(), false );
-				handle->getLandscape()->setEngagedWithGroungItem( movingData.m_unitPath.front(), true );
+				handle->getLandscape()->setEngagedWithGroungItem( movingData.m_path.front(), true );
 			}
 		}
 	}
@@ -83,7 +83,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 		if ( handle->getLandscape() )
 		{
-			std::vector< IUnit::IdType > unitsToDelete;
+			std::vector< IObject::IdType > objectsToDelete;
 
 			MovingDataCollectionIterator
 					begin = m_movingData.begin()
@@ -91,119 +91,119 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 			for ( ; begin != end; ++begin )
 			{
-				boost::intrusive_ptr< IUnit > unit = handle->getLandscape()->getUnit( begin->first );
+				boost::intrusive_ptr< IObject > object = handle->getLandscape()->getObject( begin->first );
 
 				assert( begin->second.m_movingProgress < 1.0 );
-				assert( !begin->second.m_unitPath.empty() );
+				assert( !begin->second.m_path.empty() );
 
-				float movingDelta = ( static_cast< float >( _deltaTime ) / unit->getType()->getMovingSpeed() );
+				float movingDelta = ( static_cast< float >( _deltaTime ) / object->getType()->getMovingSpeed() );
 				begin->second.m_movingProgress += movingDelta;
 
 				while ( begin->second.m_movingProgress >= 1.0 )
 				{
 					begin->second.m_movingProgress = begin->second.m_movingProgress - 1.0;
 
-					QPoint unitPosition( QPoint( begin->second.m_unitPath.front().x(), begin->second.m_unitPath.front().y() ) );
+					QPoint position( QPoint( begin->second.m_path.front().x(), begin->second.m_path.front().y() ) );
 
-					unit->setPosition( unitPosition );
+					object->setPosition( position );
 
-					begin->second.m_unitPath.pop_front();
+					begin->second.m_path.pop_front();
 
-					if ( !begin->second.m_unitPath.empty() )
+					if ( !begin->second.m_path.empty() )
 					{
-						if ( handle->getLandscape()->canObjectBePlaced( begin->second.m_unitPath.front(), unit->getType() ) )
+						if ( handle->getLandscape()->canObjectBePlaced( begin->second.m_path.front(), object->getType() ) )
 						{
-							handle->getLandscape()->setEngagedWithGroungItem( unitPosition, false );
-							handle->getLandscape()->setEngagedWithGroungItem( begin->second.m_unitPath.front(), true );
+							handle->getLandscape()->setEngagedWithGroungItem( position, false );
+							handle->getLandscape()->setEngagedWithGroungItem( begin->second.m_path.front(), true );
 						}
 						else
 						{
 							MovingData movingData;
-							m_pathFinder->findPath( movingData.m_unitPath, *handle->getLandscape(), *unit, begin->second.m_unitPath.back() );
+							m_pathFinder->findPath( movingData.m_path, *handle->getLandscape(), *object, begin->second.m_path.back() );
 
-							if ( !movingData.m_unitPath.empty() )
+							if ( !movingData.m_path.empty() )
 							{
 								begin->second = movingData;
-								handle->getLandscape()->setEngagedWithGroungItem( unitPosition, false );
-								handle->getLandscape()->setEngagedWithGroungItem( movingData.m_unitPath.front(), true );
+								handle->getLandscape()->setEngagedWithGroungItem( position, false );
+								handle->getLandscape()->setEngagedWithGroungItem( movingData.m_path.front(), true );
 							}
 							else
 							{
-								begin->second.m_unitPath.clear();
+								begin->second.m_path.clear();
 							}
 						}
 					}
 
-					if ( begin->second.m_unitPath.empty() )
+					if ( begin->second.m_path.empty() )
 						break;
 				}
 
-				if ( begin->second.m_unitPath.empty() )
+				if ( begin->second.m_path.empty() )
 				{
-					unit->setState( ObjectState::Standing );
+					object->setState( ObjectState::Standing );
 
-					Framework::Core::EventManager::Event unitStateChangedEvent( Events::UnitStateChanged::ms_type );
-					unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitNameAttribute, unit->getType()->getName() );
-					unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitIdAttribute, begin->first );
-					unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitState, unit->getState() );
-					unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitDirection, unit->getDirection() );
+					Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, object->getType()->getName() );
+					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, begin->first );
+					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, object->getState() );
+					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, object->getDirection() );
 
-					events.push_back( unitStateChangedEvent );
+					events.push_back( objectStateChangedEvent );
 
-					unitsToDelete.push_back( begin->first );
+					objectsToDelete.push_back( begin->first );
 					continue;
 				}
 				else
 				{
-					Direction::Enum currentUnitDirection = unit->getDirection();
-					Direction::Enum nextUnitDirection = Direction::Down;
+					Direction::Enum currentDirection = object->getDirection();
+					Direction::Enum nextDirection = Direction::Down;
 
-					QPoint unitCurrentPosition( unit->getPosition() );
-					QPoint nextPosition = begin->second.m_unitPath.front();
+					QPoint currentPosition( object->getPosition() );
+					QPoint nextPosition = begin->second.m_path.front();
 
-					if ( nextPosition.y() > unitCurrentPosition.y() )
-						nextUnitDirection = Direction::Down;
-					else if ( nextPosition.y() < unitCurrentPosition.y() )
-						nextUnitDirection = Direction::Up;
-					else if ( nextPosition.x() < unitCurrentPosition.x() )
-						nextUnitDirection = Direction::Right;
-					else if ( nextPosition.x() > unitCurrentPosition.x() )
-						nextUnitDirection = Direction::Left;
+					if ( nextPosition.y() > currentPosition.y() )
+						nextDirection = Direction::Down;
+					else if ( nextPosition.y() < currentPosition.y() )
+						nextDirection = Direction::Up;
+					else if ( nextPosition.x() < currentPosition.x() )
+						nextDirection = Direction::Right;
+					else if ( nextPosition.x() > currentPosition.x() )
+						nextDirection = Direction::Left;
 
-					ObjectState::Enum currentUnitState = unit->getState();
-					ObjectState::Enum nextUnitState = ObjectState::Moving;
+					ObjectState::Enum currentState = object->getState();
+					ObjectState::Enum nextState = ObjectState::Moving;
 
-					if ( currentUnitDirection != nextUnitDirection || currentUnitState != nextUnitState )
+					if ( currentDirection != nextDirection || currentState != nextState )
 					{
-						unit->setDirection( nextUnitDirection );
-						unit->setState( nextUnitState );
+						object->setDirection( nextDirection );
+						object->setState( nextState );
 
-						Framework::Core::EventManager::Event unitStateChangedEvent( Events::UnitStateChanged::ms_type );
-						unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitNameAttribute, unit->getType()->getName() );
-						unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitIdAttribute, begin->first );
-						unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitState, unit->getState() );
-						unitStateChangedEvent.pushAttribute( Events::UnitStateChanged::ms_unitDirection, unit->getDirection() );
+						Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+						objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, object->getType()->getName() );
+						objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, begin->first );
+						objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, object->getState() );
+						objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, object->getDirection() );
 
-						events.push_back( unitStateChangedEvent );
+						events.push_back( objectStateChangedEvent );
 					}
 				}
 
-				Framework::Core::EventManager::Event unitMovedEvent( Events::UnitMoved::ms_type );
-				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_unitNameAttribute, unit->getType()->getName() );
-				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_unitIdAttribute, begin->first );
-				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingFromAttribute, unit->getPosition() );
-				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingToAttribute, begin->second.m_unitPath.front() );
-				unitMovedEvent.pushAttribute( Events::UnitMoved::ms_movingProgressAttribute, begin->second.m_movingProgress );
+				Framework::Core::EventManager::Event objectMovedEvent( Events::ObjectMoved::ms_type );
+				objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_objectNameAttribute, object->getType()->getName() );
+				objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_objectIdAttribute, begin->first );
+				objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingFromAttribute, object->getPosition() );
+				objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingToAttribute, begin->second.m_path.front() );
+				objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingProgressAttribute, begin->second.m_movingProgress );
 
-				events.push_back( unitMovedEvent );
+				events.push_back( objectMovedEvent );
 			}
 
-			std::vector< IUnit::IdType >::const_iterator
-					unitsToDeleteBegin = unitsToDelete.begin()
-				,	unitsToDeleteEnd = unitsToDelete.end();
+			std::vector< IObject::IdType >::const_iterator
+					objectsToDeleteBegin = objectsToDelete.begin()
+				,	objectsToDeleteEnd = objectsToDelete.end();
 
-			for ( ; unitsToDeleteBegin != unitsToDeleteEnd; ++unitsToDeleteBegin )
-				m_movingData.erase( *unitsToDeleteBegin );
+			for ( ; objectsToDeleteBegin != objectsToDeleteEnd; ++objectsToDeleteBegin )
+				m_movingData.erase( *objectsToDeleteBegin );
 		}
 	}
 

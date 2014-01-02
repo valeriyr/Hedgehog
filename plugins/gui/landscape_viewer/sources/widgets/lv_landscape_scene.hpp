@@ -8,7 +8,7 @@
 #include "event_manager/h/em_event.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -105,11 +105,11 @@ private:
 
 	void onSurfaceItemChanged( const Framework::Core::EventManager::Event& _event );
 
-	void onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event );
+	void onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event );
 
-	void onUnitMoved( const Framework::Core::EventManager::Event& _event );
+	void onObjectMoved( const Framework::Core::EventManager::Event& _event );
 
-	void onUnitStateChanged( const Framework::Core::EventManager::Event& _event );
+	void onObjectStateChanged( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/
 
@@ -123,9 +123,9 @@ private:
 
 	void setCorrectSceneSize();
 
-	void unitWasAdded( const Plugins::Core::LandscapeModel::IUnit::IdType& _id, ObjectGraphicsItem* _item );
+	void objectWasAdded( const Plugins::Core::LandscapeModel::IObject::IdType& _id, ObjectGraphicsItem* _item );
 
-	void markSelectedUnits();
+	void markSelectedObjects();
 
 	void removeAllObjects();
 
@@ -141,12 +141,12 @@ private:
 
 	typedef
 		std::map<
-				Plugins::Core::LandscapeModel::IUnit::IdType
+				Plugins::Core::LandscapeModel::IObject::IdType
 			,	ObjectGraphicsItem*
 			>
-		UnitsCollection;
+		ObjectsCollection;
 
-	typedef UnitsCollection::iterator UnitsCollectionIterator;
+	typedef ObjectsCollection::iterator ObjectsCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -156,7 +156,7 @@ private:
 
 	boost::intrusive_ptr< ILandscapeSceneState > m_landscapeSceneState;
 
-	UnitsCollection m_unitsCollection;
+	ObjectsCollection m_objectsCollection;
 
 /*---------------------------------------------------------------------------*/
 

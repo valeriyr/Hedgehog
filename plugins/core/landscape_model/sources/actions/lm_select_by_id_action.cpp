@@ -23,7 +23,7 @@ namespace LandscapeModel {
 SelectByIdAction::SelectByIdAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	const IUnit::IdType& _id
+	,	const IObject::IdType& _id
 	)
 	:	BaseAction( _environment, _landscapeModel )
 	,	m_id( _id )
@@ -50,11 +50,11 @@ SelectByIdAction::processAction( const unsigned int /*_deltaTime*/ )
 
 		if ( handle->getLandscape() )
 		{
-			handle->getLandscape()->selectUnit( m_id );
+			handle->getLandscape()->selectObject( m_id );
 		}
 	}
 
-	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::UnitsSelectionChanged::ms_type ) );
+	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 
 } // SelectByIdAction::processAction
 

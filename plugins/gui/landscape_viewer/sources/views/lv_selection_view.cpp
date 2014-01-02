@@ -9,7 +9,7 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 #include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
@@ -34,15 +34,15 @@ class SelectionViewItem
 
 public:
 
-	SelectionViewItem( const Core::LandscapeModel::IUnit::IdType& _type )
+	SelectionViewItem( const Core::LandscapeModel::IObject::IdType& _type )
 		:	m_type( _type )
 	{}
 
-	const Core::LandscapeModel::IUnit::IdType& getUniqueUnitId() const { return m_type; }
+	const Core::LandscapeModel::IObject::IdType& getUniqueId() const { return m_type; }
 
 private:
 
-	const Core::LandscapeModel::IUnit::IdType m_type;
+	const Core::LandscapeModel::IObject::IdType m_type;
 };
 
 
@@ -113,8 +113,8 @@ void
 SelectionView::landscapeWasOpened()
 {
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::UnitsSelectionChanged::ms_type
-							,	boost::bind( &SelectionView::onUnitsSelectionChanged, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::ms_type
+							,	boost::bind( &SelectionView::onObjectsSelectionChanged, this, _1 ) );
 
 } // SelectionView::landscapeWasOpened
 
@@ -140,7 +140,7 @@ SelectionView::onItemClicked( QListWidgetItem* _item )
 	SelectionViewItem* listItem = dynamic_cast< SelectionViewItem* >( _item );
 	assert( listItem );
 
-	m_environment.selectItemModel( listItem->getUniqueUnitId() );
+	m_environment.selectItemModel( listItem->getUniqueId() );
 
 } // SelectionView::onItemClicked
 
@@ -149,7 +149,7 @@ SelectionView::onItemClicked( QListWidgetItem* _item )
 
 
 void
-SelectionView::onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event )
+SelectionView::onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event )
 {
 	m_mainWidget->clear();
 
@@ -158,25 +158,25 @@ SelectionView::onUnitsSelectionChanged( const Framework::Core::EventManager::Eve
 
 	if ( handle->getLandscape() )
 	{
-		Plugins::Core::LandscapeModel::ILandscape::UnitsCollection selectedUnitsCollection;
-		handle->getLandscape()->fetchSelectedUnits( selectedUnitsCollection );
+		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
+		handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
-		Plugins::Core::LandscapeModel::ILandscape::UnitsCollectionIterator
-				selectedUnitsBegin = selectedUnitsCollection.begin()
-			,	selectedUnitsEnd = selectedUnitsCollection.end();
+		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
+				selectedObjectsBegin = selectedObjectsCollection.begin()
+			,	selectedObjectsEnd = selectedObjectsCollection.end();
 
-		for ( ; selectedUnitsBegin != selectedUnitsEnd; ++selectedUnitsBegin )
+		for ( ; selectedObjectsBegin != selectedObjectsEnd; ++selectedObjectsBegin )
 		{
-			SelectionViewItem* listItem = new SelectionViewItem( ( *selectedUnitsBegin )->getUniqueId() );
+			SelectionViewItem* listItem = new SelectionViewItem( ( *selectedObjectsBegin )->getUniqueId() );
 
-			listItem->setText( ( *selectedUnitsBegin )->getType()->getName() );
-			listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedUnitsBegin )->getType()->getName(), GraphicsInfoCache::ms_anySkinIdentifier ) ) );
+			listItem->setText( ( *selectedObjectsBegin )->getType()->getName() );
+			listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedObjectsBegin )->getType()->getName(), GraphicsInfoCache::ms_anySkinIdentifier ) ) );
 
 			m_mainWidget->addItem( listItem );
 		}
 	}
 
-} // SelectionView::onUnitsSelectionChanged
+} // SelectionView::onObjectsSelectionChanged
 
 
 /*---------------------------------------------------------------------------*/

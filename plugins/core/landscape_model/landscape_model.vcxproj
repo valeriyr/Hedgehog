@@ -32,6 +32,7 @@
     <ClCompile Include="sources\landscape_handle\lm_landscape_handle.cpp" />
     <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp" />
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp" />
+    <ClCompile Include="sources\object\lm_object.cpp" />
     <ClCompile Include="sources\object_types_cache\lm_object_types_cache.cpp" />
     <ClCompile Include="sources\object_type\lm_object_type.cpp" />
     <ClCompile Include="sources\path_finders\lm_jump_point_search.cpp" />
@@ -44,7 +45,6 @@
     <ClCompile Include="sources\plugin\lm_plugin_instance.cpp" />
     <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp" />
     <ClCompile Include="sources\surface_item\lm_surface_item.cpp" />
-    <ClCompile Include="sources\unit\lm_unit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\lm_directions.hpp" />
@@ -57,11 +57,11 @@
     <ClInclude Include="ih\lm_ilandscape.hpp" />
     <ClInclude Include="ih\lm_ilandscape_handle.hpp" />
     <ClInclude Include="ih\lm_ilandscape_model.hpp" />
+    <ClInclude Include="ih\lm_iobject.hpp" />
     <ClInclude Include="ih\lm_iobject_type.hpp" />
     <ClInclude Include="ih\lm_iobject_types_cache.hpp" />
     <ClInclude Include="ih\lm_isurface_item.hpp" />
     <ClInclude Include="ih\lm_isurface_items_cache.hpp" />
-    <ClInclude Include="ih\lm_iunit.hpp" />
     <ClInclude Include="sources\actions\lm_base_action.hpp" />
     <ClInclude Include="sources\actions\lm_create_object_action.hpp" />
     <ClInclude Include="sources\actions\lm_iaction.hpp" />
@@ -80,6 +80,7 @@
     <ClInclude Include="sources\landscape_model\lm_landscape_model.hpp" />
     <ClInclude Include="sources\landscape_serializer\lm_ilandscape_serializer.hpp" />
     <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp" />
+    <ClInclude Include="sources\object\lm_object.hpp" />
     <ClInclude Include="sources\object_types_cache\lm_object_types_cache.hpp" />
     <ClInclude Include="sources\object_type\lm_object_type.hpp" />
     <ClInclude Include="sources\path_finders\lm_ipath_finder.hpp" />
@@ -88,7 +89,6 @@
     <ClInclude Include="sources\plugin\lm_plugin_instance.hpp" />
     <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp" />
     <ClInclude Include="sources\surface_item\lm_surface_item.hpp" />
-    <ClInclude Include="sources\unit\lm_unit.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4AA8342B-324C-4FE2-97AB-34F55A2D45F5}</ProjectGuid>

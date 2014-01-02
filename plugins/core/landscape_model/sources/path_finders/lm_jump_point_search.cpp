@@ -37,7 +37,7 @@ JumpPointSearch::~JumpPointSearch()
 void
 JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 						,	const ILandscape& _landscape
-						,	const IUnit& _forUnit
+						,	const IObject& _forObject
 						,	const QPoint& _toPoint )
 {
 	_pointsCollection.clear();
@@ -54,7 +54,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		{
 			int cellValue = engagedCell;
 
-			if ( _landscape.canObjectBePlaced( QPoint( i, j ), _forUnit.getType() ) )
+			if ( _landscape.canObjectBePlaced( QPoint( i, j ), _forObject.getType() ) )
 			{
 				cellValue = freeCell;
 			}
@@ -63,7 +63,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		}
 	}
 
-	QPoint startPoint( _forUnit.getPosition() );
+	QPoint startPoint( _forObject.getPosition() );
 	QPoint finishPoint = _toPoint;
 
 	int dx[4] = {1, 0, -1, 0};

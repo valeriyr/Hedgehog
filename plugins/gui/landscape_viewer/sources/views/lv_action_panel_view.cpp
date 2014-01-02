@@ -8,7 +8,7 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 #include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
@@ -82,8 +82,8 @@ void
 ActionPanelView::landscapeWasOpened()
 {
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::UnitsSelectionChanged::ms_type
-							,	boost::bind( &ActionPanelView::onUnitsSelectionChanged, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::ms_type
+							,	boost::bind( &ActionPanelView::onObjectsSelectionChanged, this, _1 ) );
 
 } // ActionPanelView::landscapeWasOpened
 
@@ -104,7 +104,7 @@ ActionPanelView::landscapeWasClosed()
 
 
 void
-ActionPanelView::onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event )
+ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event )
 {
 	m_mainWidget->clear();
 
@@ -115,7 +115,7 @@ ActionPanelView::onUnitsSelectionChanged( const Framework::Core::EventManager::E
 	{
 	}
 
-} // ActionPanelView::onUnitsSelectionChanged
+} // ActionPanelView::onObjectsSelectionChanged
 
 
 /*---------------------------------------------------------------------------*/

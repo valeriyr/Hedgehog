@@ -50,11 +50,11 @@ SelectInRectAction::processAction( const unsigned int /*_deltaTime*/ )
 
 		if ( handle->getLandscape() )
 		{
-			handle->getLandscape()->selectUnits( m_rect );
+			handle->getLandscape()->selectObjects( m_rect );
 		}
 	}
 
-	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::UnitsSelectionChanged::ms_type ) );
+	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 
 } // SelectInRectAction::processAction
 
@@ -70,11 +70,11 @@ SelectInRectAction::unprocessAction( const unsigned int /*_deltaTime*/ )
 
 		if ( handle->getLandscape() )
 		{
-			handle->getLandscape()->unselectUnits();
+			handle->getLandscape()->unselectObjects();
 		}
 	}
 
-	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::UnitsSelectionChanged::ms_type ) );
+	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 
 } // SelectInRectAction::unprocessAction
 

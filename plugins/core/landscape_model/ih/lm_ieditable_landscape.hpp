@@ -6,7 +6,6 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,15 +37,15 @@ struct IEditableLandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual IUnit::IdType createObject(
+	virtual IObject::IdType createObject(
 			const QPoint& _position
 		,	const QString& _objectName ) = 0;
 
-	virtual void selectUnits( const QRect& _rect ) = 0;
+	virtual void selectObjects( const QRect& _rect ) = 0;
 
-	virtual void selectUnit( const IUnit::IdType& _id ) = 0;
+	virtual void selectObject( const IObject::IdType& _id ) = 0;
 
-	virtual void unselectUnits() = 0;
+	virtual void unselectObjects() = 0;
 
 /*---------------------------------------------------------------------------*/
 

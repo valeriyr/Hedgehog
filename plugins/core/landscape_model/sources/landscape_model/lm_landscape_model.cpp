@@ -149,31 +149,31 @@ LandscapeModel::getLandscapeLocker()
 
 
 void
-LandscapeModel::selectUnits( const QRect& _rect )
+LandscapeModel::selectObjects( const QRect& _rect )
 {
 	m_actionsQueue->pushAction(
 		boost::intrusive_ptr< IAction >( new SelectInRectAction( m_environment, *this, _rect ) ) );
 
-} // LandscapeModel::selectUnits
+} // LandscapeModel::selectObjects
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-LandscapeModel::selectUnit( const IUnit::IdType& _id )
+LandscapeModel::selectObject( const IObject::IdType& _id )
 {
 	m_actionsQueue->pushAction(
 		boost::intrusive_ptr< IAction >( new SelectByIdAction( m_environment, *this, _id ) ) );
 
-} // LandscapeModel::selectUnit
+} // LandscapeModel::selectObject
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-LandscapeModel::moveSelectedUnits( const QPoint& _to )
+LandscapeModel::moveSelectedObjects( const QPoint& _to )
 {
 	m_actionsQueue->pushAction(
 		boost::intrusive_ptr< IAction >( new MoveAction(	m_environment
@@ -181,7 +181,7 @@ LandscapeModel::moveSelectedUnits( const QPoint& _to )
 														,	boost::intrusive_ptr< IPathFinder >( new JumpPointSearch() )
 														,	_to ) ) );
 
-} // LandscapeModel::moveSelectedUnits
+} // LandscapeModel::moveSelectedObjects
 
 
 /*---------------------------------------------------------------------------*/

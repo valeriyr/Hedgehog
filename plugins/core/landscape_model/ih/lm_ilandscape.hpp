@@ -7,7 +7,7 @@
 #include "intrusive_base/ib_ibase.hpp"
 
 #include "landscape_model/h/lm_terrain_map_data.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,11 +28,11 @@ struct ILandscape
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::vector< boost::intrusive_ptr< IUnit > >
-		UnitsCollection;
+		std::vector< boost::intrusive_ptr< IObject > >
+		ObjectsCollection;
 	typedef
-		UnitsCollection::const_iterator
-		UnitsCollectionIterator;
+		ObjectsCollection::const_iterator
+		ObjectsCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,15 +48,15 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< IUnit > getUnit( const QPoint& _point ) const = 0;
+	virtual boost::intrusive_ptr< IObject > getObject( const QPoint& _point ) const = 0;
 
-	virtual boost::intrusive_ptr< IUnit > getUnit( const IUnit::IdType& _id ) const = 0;
+	virtual boost::intrusive_ptr< IObject > getObject( const IObject::IdType& _id ) const = 0;
 
-	virtual unsigned int getUnitsCount() const = 0;
+	virtual unsigned int getObjectsCount() const = 0;
 
-	virtual void fetchUnits( UnitsCollection& _collection ) const = 0;
+	virtual void fetchObjects( ObjectsCollection& _collection ) const = 0;
 
-	virtual void fetchSelectedUnits( UnitsCollection& _collection ) const = 0;
+	virtual void fetchSelectedObjects( ObjectsCollection& _collection ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

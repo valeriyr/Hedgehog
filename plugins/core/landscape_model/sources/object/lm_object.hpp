@@ -1,10 +1,10 @@
 
-#ifndef __LM_UNIT_HPP__
-#define __LM_UNIT_HPP__
+#ifndef __LM_OBJECT_HPP__
+#define __LM_OBJECT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_iunit.hpp"
+#include "landscape_model/ih/lm_iobject.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,8 +14,8 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class Unit
-	:	public Tools::Core::BaseWrapper< IUnit >
+class Object
+	:	public Tools::Core::BaseWrapper< IObject >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,10 +24,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Unit(	boost::intrusive_ptr< IObjectType > _type
-		,	const QPoint& _possition );
+	Object( boost::intrusive_ptr< IObjectType > _type, const QPoint& _possition );
 
-	virtual ~Unit();
+	virtual ~Object();
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,7 +38,7 @@ public:
 
 	/*virtual*/ const QRect getRect() const;
 
-	/*virtual*/ const IUnit::IdType& getUniqueId() const;
+	/*virtual*/ const IObject::IdType& getUniqueId() const;
 
 	/*virtual*/ const ObjectState::Enum getState() const;
 
@@ -69,7 +68,7 @@ private:
 
 	Direction::Enum m_direction;
 
-	const IUnit::IdType m_id;
+	const IObject::IdType m_id;
 
 /*---------------------------------------------------------------------------*/
 
@@ -83,4 +82,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_UNIT_HPP__
+#endif // __LM_OBJECT_HPP__

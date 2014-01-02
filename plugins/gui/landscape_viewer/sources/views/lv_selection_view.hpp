@@ -70,7 +70,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void onUnitsSelectionChanged( const Framework::Core::EventManager::Event& _event );
+	void onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/
 

@@ -5,7 +5,6 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
-#include "landscape_model/ih/lm_iunit.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,6 +15,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct ILandscape;
+struct IObject;
 
 /*---------------------------------------------------------------------------*/
 
@@ -32,7 +32,7 @@ struct IPathFinder
 
 	virtual void findPath(	PointsCollection& _pointsCollection
 						 ,	const ILandscape& _landscape
-						 ,	const IUnit& _forUnit
+						 ,	const IObject& _forObject
 						 ,	const QPoint& _toPoint ) = 0;
 
 /*---------------------------------------------------------------------------*/

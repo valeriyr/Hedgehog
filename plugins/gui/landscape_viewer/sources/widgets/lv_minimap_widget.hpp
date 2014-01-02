@@ -98,7 +98,7 @@ private:
 
 	void onSurfaceItemChanged( const Framework::Core::EventManager::Event& _event );
 
-	void onUnitMoved( const Framework::Core::EventManager::Event& _event );
+	void onObjectMoved( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/
 

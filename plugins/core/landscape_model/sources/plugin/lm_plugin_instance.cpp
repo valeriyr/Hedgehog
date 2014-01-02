@@ -70,7 +70,7 @@ PluginInstance::initialize()
 	m_landscapeModel.reset( new LandscapeModel( *m_environment, *m_landscapeSerializer, *m_surfaceItemsCache, *m_objectTypesCache ) );
 
 	fillSurfaceItemsCache();
-	fillUnitsCache();
+	fillObjectsCache();
 
 } // PluginInstance::initialize
 
@@ -171,12 +171,12 @@ PluginInstance::fillSurfaceItemsCache()
 
 
 void
-PluginInstance::fillUnitsCache()
+PluginInstance::fillObjectsCache()
 {
 	m_objectTypesCache->regObjectType( "Elven Archer", 100, QSize( 1, 1 ), TerrainMapItem::Ground, 1000 );
 	m_objectTypesCache->regObjectType( "Grunt", 200, QSize( 1, 1 ), TerrainMapItem::Ground, 2000 );
 
-} // PluginInstance::fillUnitsCache
+} // PluginInstance::fillObjectsCache
 
 
 /*---------------------------------------------------------------------------*/

@@ -9,7 +9,7 @@
 #include "landscape_model/ih/lm_iobject_type.hpp"
 #include "landscape_model/ih/lm_iobject_types_cache.hpp"
 
-#include "landscape_model/sources/unit/lm_unit.hpp"
+#include "landscape_model/sources/object/lm_object.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -27,8 +27,8 @@ Landscape::Landscape(
 	)
 	:	m_surfaceItemsCache( _surfaceItemsCache )
 	,	m_objectTypesCache( _objectTypesCache )
-	,	m_units()
-	,	m_selectedUnits()
+	,	m_objects()
+	,	m_selectedObjects()
 	,	m_surfaceItems()
 	,	m_terrainMap()
 {
@@ -96,12 +96,12 @@ Landscape::getTerrainMapData( const QPoint& _point ) const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IUnit >
-Landscape::getUnit( const QPoint& _point ) const
+boost::intrusive_ptr< IObject >
+Landscape::getObject( const QPoint& _point ) const
 {
-	ILandscape::UnitsCollectionIterator
-			begin = m_units.begin()
-		,	end = m_units.end();
+	ILandscape::ObjectsCollectionIterator
+			begin = m_objects.begin()
+		,	end = m_objects.end();
 
 	for ( ; begin != end; ++begin )
 	{
@@ -109,20 +109,20 @@ Landscape::getUnit( const QPoint& _point ) const
 			return *begin;
 	}
 
-	return boost::intrusive_ptr< IUnit >();
+	return boost::intrusive_ptr< IObject >();
 
-} // Landscape::getUnit
+} // Landscape::getObject
 
 
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IUnit >
-Landscape::getUnit( const IUnit::IdType& _id ) const
+boost::intrusive_ptr< IObject >
+Landscape::getObject( const IObject::IdType& _id ) const
 {
-	ILandscape::UnitsCollectionIterator
-			begin = m_units.begin()
-		,	end = m_units.end();
+	ILandscape::ObjectsCollectionIterator
+			begin = m_objects.begin()
+		,	end = m_objects.end();
 
 	for ( ; begin != end; ++begin )
 	{
@@ -130,42 +130,42 @@ Landscape::getUnit( const IUnit::IdType& _id ) const
 			return *begin;
 	}
 
-	return boost::intrusive_ptr< IUnit >();
+	return boost::intrusive_ptr< IObject >();
 
-} // Landscape::getUnit
+} // Landscape::getObject
 
 
 /*---------------------------------------------------------------------------*/
 
 
 unsigned int
-Landscape::getUnitsCount() const
+Landscape::getObjectsCount() const
 {
-	return static_cast< unsigned int >( m_units.size() );
+	return static_cast< unsigned int >( m_objects.size() );
 
-} // Landscape::getUnitsCount
+} // Landscape::getObjectsCount
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Landscape::fetchUnits( ILandscape::UnitsCollection& _collection ) const
+Landscape::fetchObjects( ILandscape::ObjectsCollection& _collection ) const
 {
-	_collection = m_units;
+	_collection = m_objects;
 
-} // Landscape::fetchUnits
+} // Landscape::fetchObjects
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Landscape::fetchSelectedUnits( ILandscape::UnitsCollection& _collection ) const
+Landscape::fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) const
 {
-	_collection = m_selectedUnits;
+	_collection = m_selectedObjects;
 
-} // Landscape::fetchSelectedUnits
+} // Landscape::fetchSelectedObjects
 
 
 /*---------------------------------------------------------------------------*/
@@ -199,8 +199,8 @@ Landscape::canObjectBePlaced(
 void
 Landscape::setSize( const unsigned int _width, const unsigned int _height )
 {
-	m_units.clear();
-	m_selectedUnits.clear();
+	m_objects.clear();
+	m_selectedObjects.clear();
 
 	m_surfaceItems.resize( _width, _height );
 	m_terrainMap.resize( _width, _height );
@@ -251,7 +251,7 @@ Landscape::setEngagedWithGroungItem( const QPoint& _point, const bool _isEngaged
 /*---------------------------------------------------------------------------*/
 
 
-IUnit::IdType
+IObject::IdType
 Landscape::createObject( const QPoint& _position, const QString& _objectName )
 {
 	boost::intrusive_ptr< IObjectType > objectType = m_objectTypesCache.getObjectType( _objectName );
@@ -259,10 +259,10 @@ Landscape::createObject( const QPoint& _position, const QString& _objectName )
 
 	if ( canObjectBePlaced( _position, objectType ) )
 	{
-		boost::intrusive_ptr< IUnit > unit( new Unit( objectType, _position ) );
-		m_units.push_back( unit );
+		boost::intrusive_ptr< IObject > object( new Object( objectType, _position ) );
+		m_objects.push_back( object );
 
-		QRect objectRect( unit->getRect() );
+		QRect objectRect( object->getRect() );
 
 		for ( int x = objectRect.x(); x < objectRect.x() + objectRect.width(); ++x )
 		{
@@ -272,10 +272,10 @@ Landscape::createObject( const QPoint& _position, const QString& _objectName )
 			}
 		}
 
-		return unit->getUniqueId();
+		return object->getUniqueId();
 	}
 
-	return IUnit::ms_wrongId;
+	return IObject::ms_wrongId;
 
 } // Landscape::createObject
 
@@ -284,58 +284,58 @@ Landscape::createObject( const QPoint& _position, const QString& _objectName )
 
 
 void
-Landscape::selectUnits( const QRect& _rect )
+Landscape::selectObjects( const QRect& _rect )
 {
-	unselectUnits();
+	unselectObjects();
 
-	ILandscape::UnitsCollectionIterator
-			begin = m_units.begin()
-		,	end = m_units.end();
+	ILandscape::ObjectsCollectionIterator
+			begin = m_objects.begin()
+		,	end = m_objects.end();
 
 	for ( ; begin != end; ++begin )
 	{
 		if ( ( *begin )->getRect().intersects( _rect ) )
 		{
-			m_selectedUnits.push_back( *begin );
+			m_selectedObjects.push_back( *begin );
 		}
 	}
 
-} // Landscape::selectUnits
+} // Landscape::selectObjects
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Landscape::selectUnit( const IUnit::IdType& _id )
+Landscape::selectObject( const IObject::IdType& _id )
 {
-	unselectUnits();
+	unselectObjects();
 
-	ILandscape::UnitsCollectionIterator
-			begin = m_units.begin()
-		,	end = m_units.end();
+	ILandscape::ObjectsCollectionIterator
+			begin = m_objects.begin()
+		,	end = m_objects.end();
 
 	for ( ; begin != end; ++begin )
 	{
 		if ( ( *begin )->getUniqueId() == _id )
 		{
-			m_selectedUnits.push_back( *begin );
+			m_selectedObjects.push_back( *begin );
 			break;
 		}
 	}
 
-} // Landscape::selectUnit
+} // Landscape::selectObject
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Landscape::unselectUnits()
+Landscape::unselectObjects()
 {
-	m_selectedUnits.clear();
+	m_selectedObjects.clear();
 
-} // Landscape::unselectUnits
+} // Landscape::unselectObjects
 
 
 /*---------------------------------------------------------------------------*/
