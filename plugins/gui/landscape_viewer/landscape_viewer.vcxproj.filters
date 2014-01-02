@@ -117,6 +117,9 @@
     <ClCompile Include="sources\animations\lv_animation_name_generator.cpp">
       <Filter>Animations</Filter>
     </ClCompile>
+    <ClCompile Include="sources\views\lv_object_status_view.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lv_ph.hpp">
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="sources\animations\lv_animation_name_generator.hpp">
       <Filter>Animations</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\views\lv_object_status_view.hpp">
+      <Filter>Views</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

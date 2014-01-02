@@ -33,6 +33,8 @@ namespace Views {
 
 	extern const char* const CreateObjectLabelFormat;
 
+	extern const char* const ObjectStatusViewTitle;
+
 	extern const char* const ObjectInfoViewTitle;
 
 	extern const char* const EditorViewDefaultTitle;

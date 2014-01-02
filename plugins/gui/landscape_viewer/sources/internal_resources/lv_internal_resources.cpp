@@ -35,6 +35,8 @@ namespace Views {
 
 	const char* const CreateObjectLabelFormat = "Create '%1'";
 
+	const char* const ObjectStatusViewTitle = "Status";
+
 	const char* const ObjectInfoViewTitle = "Object Information";
 
 	const char* const EditorViewDefaultTitle = "Landscape Editor";

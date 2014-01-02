@@ -41,6 +41,7 @@
     <ClCompile Include="sources\views\lv_minimap_view.cpp" />
     <ClCompile Include="sources\views\lv_objects_view.cpp" />
     <ClCompile Include="sources\views\lv_object_info_view.cpp" />
+    <ClCompile Include="sources\views\lv_object_status_view.cpp" />
     <ClCompile Include="sources\views\lv_selection_view.cpp" />
     <ClCompile Include="sources\views\lv_settings_view.cpp" />
     <ClCompile Include="sources\views\views_mediator\lv_views_mediator.cpp" />
@@ -106,6 +107,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
     </CustomBuild>
     <ClInclude Include="sources\views\lv_object_info_view.hpp" />
+    <ClInclude Include="sources\views\lv_object_status_view.hpp" />
     <ClInclude Include="sources\widgets\landscape_scene_states\lv_ilandscape_scene_state.hpp" />
     <ClInclude Include="sources\widgets\landscape_scene_states\lv_landscape_scene_states.hpp" />
     <CustomBuild Include="sources\views\lv_objects_view.hpp">
