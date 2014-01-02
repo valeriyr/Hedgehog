@@ -94,6 +94,17 @@ public:
 
 	static QPoint convertFromScenePosition( const QPointF& _scenePosition );
 
+	static QPointF convertToScenePosition( const QPoint& _position );
+
+	static QPointF roundScenePosition( const QPointF& _scenePosition );
+
+	static QPointF correctSceneObjectPosition(
+			const IEnvironment& _environment
+		,	const int _sceneWidth
+		,	const int _sceneHeight
+		,	const QPointF& _roundedPosition
+		,	const QString& _objectName );
+
 /*---------------------------------------------------------------------------*/
 
 public slots:

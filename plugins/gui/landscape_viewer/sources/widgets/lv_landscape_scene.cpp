@@ -245,35 +245,18 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 	const Plugins::Core::LandscapeModel::IObject::IdType id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectUniqueIdAttribute ).toInt();
 
-	const QPixmap& objectPixmap = m_environment.getPixmap( objectName );
+	QPointF correctedPosition(
+		LandscapeScene::correctSceneObjectPosition(
+				m_environment
+			,	width()
+			,	height()
+			,	LandscapeScene::convertToScenePosition( objectPosition )
+			,	objectName ) );
 
-	qreal xpos = objectPosition.x() * Resources::Landscape::CellSize;
-	qreal ypos = objectPosition.y() * Resources::Landscape::CellSize;
-
-	QSize objectSize( 1, 1 );
-
-	boost::intrusive_ptr< Core::LandscapeModel::IObjectType > objectType
-		= m_environment.getType( objectName );
-
-	if ( objectType )
-		objectSize = objectType->getSize();
-
-	if ( xpos > width() - ( objectSize.width() * Resources::Landscape::CellSize ) )
-		xpos = width() - ( objectSize.width() * Resources::Landscape::CellSize );
-
-	if ( ypos > height() - ( objectSize.height() * Resources::Landscape::CellSize ) )
-		ypos = height() - ( objectSize.height() * Resources::Landscape::CellSize );
-
-	if ( static_cast< unsigned int >( objectPixmap.width() ) > ( objectSize.width() * Resources::Landscape::CellSize ) )
-		xpos -= ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2;
-
-	if ( static_cast< unsigned int >( objectPixmap.height() ) > ( objectSize.height() * Resources::Landscape::CellSize ) )
-		ypos -= ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2;
-
-	ObjectGraphicsItem* newItem = new ObjectGraphicsItem( objectPixmap );
+	ObjectGraphicsItem* newItem = new ObjectGraphicsItem( m_environment.getPixmap( objectName ) );
 	addItem( newItem );
 
-	newItem->setPos( QPoint( xpos, ypos ) );
+	newItem->setPos( correctedPosition );
 	newItem->setZValue( LandscapeScene::ObjectZValue::Object );
 
 	objectWasAdded( id, newItem );
@@ -305,7 +288,7 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 
 	if ( handle->getLandscape() )
 	{
-		QPoint scenePosition( position.x() * Resources::Landscape::CellSize, position.y() * Resources::Landscape::CellSize );
+		QPointF scenePosition( LandscapeScene::convertToScenePosition( position ) );
 
 		QList< QGraphicsItem* > itemsList = items( scenePosition, Qt::ContainsItemShape, Qt::AscendingOrder );
 
@@ -363,42 +346,20 @@ LandscapeScene::onObjectMoved( const Framework::Core::EventManager::Event& _even
 	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
 	assert( iterator != m_objectsCollection.end() );
 
-	const QPoint movedFromInScene( movedFrom.x() * Resources::Landscape::CellSize, movedFrom.y() * Resources::Landscape::CellSize );
-	const QPoint movedToInScene( movedTo.x() * Resources::Landscape::CellSize, movedTo.y() * Resources::Landscape::CellSize );
+	const QPointF movedFromInScene( LandscapeScene::convertToScenePosition( movedFrom ) );
+	const QPointF movedToInScene( LandscapeScene::convertToScenePosition( movedTo ) );
 
-	int xpos = movedFromInScene.x() + ( ( movedToInScene.x() - movedFromInScene.x() ) * progress );
-	int ypos = movedFromInScene.y() + ( ( movedToInScene.y() - movedFromInScene.y() ) * progress );
+	QPointF correctedPosition(
+		LandscapeScene::correctSceneObjectPosition(
+				m_environment
+			,	width()
+			,	height()
+			,	QPoint(
+						movedFromInScene.x() + ( ( movedToInScene.x() - movedFromInScene.x() ) * progress )
+					,	movedFromInScene.y() + ( ( movedToInScene.y() - movedFromInScene.y() ) * progress ) )
+			,	name ) );
 
-	const QPixmap& objectPixmap = m_environment.getPixmap( name );
-
-	QSize objectSize( 1, 1 );
-
-	boost::intrusive_ptr< Core::LandscapeModel::IObjectType > objectType
-		= m_environment.getType( name );
-
-	if ( objectType )
-		objectSize = objectType->getSize();
-
-	if ( static_cast< unsigned int >( objectPixmap.width() ) > ( objectSize.width() * Resources::Landscape::CellSize ) )
-		xpos -= ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2;
-
-	if ( static_cast< unsigned int >( objectPixmap.height() ) > ( objectSize.height() * Resources::Landscape::CellSize ) )
-		ypos -= ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2;
-
-	/*QTimeLine *timer = new QTimeLine(5000);
-    timer->setFrameRange(0, 100);
-
-	QGraphicsItemAnimation *animation = new QGraphicsItemAnimation();
-
-	animation->setItem( iterator->second );
-    animation->setTimeLine( timer );
-
-	for (int x = movedFromInScene.x(); x < movedToInScene.x(); ++x)
-        animation->setPosAt(movedFromInScene.x() / movedToInScene.x(), QPointF(x, movedFromInScene.y()));
-
-	timer->start();*/
-
-	iterator->second->setPos( QPoint( xpos, ypos ) );
+	iterator->second->setPos( correctedPosition );
 
 	regenerateTerrainMapLayer();
 
@@ -463,7 +424,7 @@ LandscapeScene::generateLandscape()
 							surfaceItemGraphicsInfo->getAtlasName()
 						,	Framework::GUI::ImagesManager::IImagesManager::TransformationData( surfaceItemGraphicsInfo->getFrameRect() ) ) );
 
-				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
+				item->setPos( LandscapeScene::convertToScenePosition( QPoint( i, j ) ) );
 				item->setZValue( ObjectZValue::Surface );
 			}
 		}
@@ -477,31 +438,19 @@ LandscapeScene::generateLandscape()
 
 		for ( ; begin != end; ++begin )
 		{
-			const QPixmap& objectPixmap = m_environment.getPixmap( ( *begin )->getType()->getName() );
-
-			ObjectGraphicsItem* newItem = new ObjectGraphicsItem( objectPixmap );
+			ObjectGraphicsItem* newItem
+				= new ObjectGraphicsItem( m_environment.getPixmap( ( *begin )->getType()->getName() ) );
 			addItem( newItem );
 
-			QPoint position = ( *begin )->getPosition();
+			QPointF correctedPosition(
+				LandscapeScene::correctSceneObjectPosition(
+						m_environment
+					,	width()
+					,	height()
+					,	LandscapeScene::convertToScenePosition( ( *begin )->getPosition() )
+					,	( *begin )->getType()->getName() ) );
 
-			qreal posByX = position.x() * Resources::Landscape::CellSize;
-			qreal posByY = position.y() * Resources::Landscape::CellSize;
-
-			QSize objectSize( 1, 1 );
-
-			boost::intrusive_ptr< Core::LandscapeModel::IObjectType > objectType
-				= m_environment.getType( ( *begin )->getType()->getName() );
-
-			if ( objectType )
-				objectSize = objectType->getSize();
-
-			if ( static_cast< unsigned int >( objectPixmap.width() ) > ( objectSize.width() * Resources::Landscape::CellSize ) )
-				posByX -= ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2;
-
-			if ( static_cast< unsigned int >( objectPixmap.height() ) > ( objectSize.height() * Resources::Landscape::CellSize ) )
-				posByY -= ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2;
-
-			newItem->setPos( posByX, posByY );
+			newItem->setPos( correctedPosition );
 			newItem->setZValue( ObjectZValue::Object );
 
 			objectWasAdded( ( *begin )->getUniqueId(), newItem );
@@ -568,7 +517,7 @@ LandscapeScene::generateTerrainMapLayer()
 
 				QGraphicsPixmapItem* item = new QGraphicsPixmapItem( pixmap );
 
-				item->setPos( i * Resources::Landscape::CellSize, j * Resources::Landscape::CellSize  );
+				item->setPos( LandscapeScene::convertToScenePosition( QPoint( i, j ) ) );
 				item->setZValue( ObjectZValue::Terrain );
 
 				QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
@@ -696,10 +645,75 @@ LandscapeScene::convertFromScenePosition( const QPointF& _scenePosition )
 {
 	return
 		QPoint(
-				_scenePosition.x() / Resources::Landscape::CellSize
-			,	_scenePosition.y() / Resources::Landscape::CellSize );
+				_scenePosition.x() < 0 ? 0 : static_cast< int >( _scenePosition.x() / Resources::Landscape::CellSize )
+			,	_scenePosition.y() < 0 ? 0 : static_cast< int >( _scenePosition.y() / Resources::Landscape::CellSize ) );
 
 } // LandscapeScene::convertFromScenePosition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QPointF
+LandscapeScene::convertToScenePosition( const QPoint& _position )
+{
+	return QPointF( _position.x() * Resources::Landscape::CellSize, _position.y() * Resources::Landscape::CellSize );
+
+} // LandscapeScene::convertToScenePosition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QPointF
+LandscapeScene::roundScenePosition( const QPointF& _scenePosition )
+{
+	return
+		QPointF(
+				_scenePosition.x() < 0 ? 0 : ( static_cast< int >( _scenePosition.x() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize )
+			,	_scenePosition.y() < 0 ? 0 : ( static_cast< int >( _scenePosition.y() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize ) );
+
+} // LandscapeScene::roundScenePosition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QPointF
+LandscapeScene::correctSceneObjectPosition(
+		const IEnvironment& _environment
+	,	const int _sceneWidth
+	,	const int _sceneHeight
+	,	const QPointF& _roundedPosition
+	,	const QString& _objectName )
+{
+	QPoint correctedPosition( _roundedPosition.x(), _roundedPosition.y() );
+
+	QSize objectSize( 1, 1 );
+
+	boost::intrusive_ptr< Core::LandscapeModel::IObjectType > objectType
+		= _environment.getType( _objectName );
+
+	if ( objectType )
+		objectSize = objectType->getSize();
+
+	const QPixmap& objectPixmap = _environment.getPixmap( _objectName );
+
+	if ( correctedPosition.x() > _sceneWidth - ( objectSize.width() * Resources::Landscape::CellSize ) )
+		correctedPosition.setX( _sceneWidth - ( objectSize.width() * Resources::Landscape::CellSize ) );
+
+	if ( correctedPosition.y() > _sceneHeight - ( objectSize.height() * Resources::Landscape::CellSize ) )
+		correctedPosition.setY( _sceneHeight - ( objectSize.height() * Resources::Landscape::CellSize ) );
+
+	if ( static_cast< unsigned int >( objectPixmap.width() ) > ( objectSize.width() * Resources::Landscape::CellSize ) )
+		correctedPosition.setX( correctedPosition.x() - ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2 );
+
+	if ( static_cast< unsigned int >( objectPixmap.height() ) > ( objectSize.height() * Resources::Landscape::CellSize ) )
+		correctedPosition.setY( correctedPosition.y() - ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2 );
+
+	return correctedPosition;
+
+} // LandscapeScene::correctSceneObjectPosition
 
 
 /*---------------------------------------------------------------------------*/

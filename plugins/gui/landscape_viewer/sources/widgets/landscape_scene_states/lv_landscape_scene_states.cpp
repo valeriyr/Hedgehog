@@ -248,16 +248,15 @@ LandscapeSurfaceItemEditingState::onMousePossitionWasChanged( const QPointF& _po
 {
 	if ( m_currentEditorItem )
 	{
-		qreal xpos = _point.x() < 0 ? 0 : ( static_cast< int >( _point.x() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
-		qreal ypos = _point.y() < 0 ? 0 : ( static_cast< int >( _point.y() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
+		QPointF roundedPosition( LandscapeScene::roundScenePosition( _point ) );
 
-		if ( xpos > m_scene.width() - Resources::Landscape::CellSize )
-			xpos = m_scene.width() - Resources::Landscape::CellSize;
+		if ( roundedPosition.x() > m_scene.width() - Resources::Landscape::CellSize )
+			roundedPosition.setX( m_scene.width() - Resources::Landscape::CellSize );
 
-		if ( ypos > m_scene.height() - Resources::Landscape::CellSize )
-			ypos = m_scene.height() - Resources::Landscape::CellSize;
+		if ( roundedPosition.y() > m_scene.height() - Resources::Landscape::CellSize )
+			roundedPosition.setY( m_scene.height() - Resources::Landscape::CellSize );
 
-		m_currentEditorItem->setPos( xpos, ypos );
+		m_currentEditorItem->setPos( roundedPosition.x(), roundedPosition.y() );
 	}
 
 } // LandscapeSurfaceItemEditingState::onMousePossitionWasChanged
@@ -314,10 +313,7 @@ LandscapeSurfaceItemEditingState::addSceneObjects()
 void
 LandscapeSurfaceItemEditingState::setNewItemInPosition( const QPointF& _point )
 {
-	qreal xpos = _point.x() < 0 ? 0 : static_cast< int >( _point.x() / Resources::Landscape::CellSize );
-	qreal ypos = _point.y() < 0 ? 0 : static_cast< int >( _point.y() / Resources::Landscape::CellSize );
-
-	m_environment.setSurfaceItem( QPoint( xpos, ypos ), m_id );
+	m_environment.setSurfaceItem( LandscapeScene::convertFromScenePosition( _point ), m_id );
 
 } // LandscapeSurfaceItemEditingState::setNewItemInPosition
 
@@ -411,32 +407,15 @@ LandscapeObjectEditingState::onMousePossitionWasChanged( const QPointF& _point )
 {
 	if ( m_currentEditorItem )
 	{
-		qreal xpos = _point.x() < 0 ? 0 : ( static_cast< int >( _point.x() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
-		qreal ypos = _point.y() < 0 ? 0 : ( static_cast< int >( _point.y() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
+		QPointF sceneObjectPosition(
+			LandscapeScene::correctSceneObjectPosition(
+					m_environment
+				,	m_scene.width()
+				,	m_scene.height()
+				,	LandscapeScene::roundScenePosition( _point )
+				,	m_name ) );
 
-		QSize objectSize( 1, 1 );
-
-		boost::intrusive_ptr< Core::LandscapeModel::IObjectType > objectType
-			= m_environment.getType( m_name );
-
-		if ( objectType )
-			objectSize = objectType->getSize();
-
-		const QPixmap& objectPixmap = m_environment.getPixmap( m_name );
-
-		if ( xpos > m_scene.width() - ( objectSize.width() * Resources::Landscape::CellSize ) )
-			xpos = m_scene.width() - ( objectSize.width() * Resources::Landscape::CellSize );
-
-		if ( ypos > m_scene.height() - ( objectSize.height() * Resources::Landscape::CellSize ) )
-			ypos = m_scene.height() - ( objectSize.height() * Resources::Landscape::CellSize );
-
-		if ( static_cast< unsigned int >( objectPixmap.width() ) > ( objectSize.width() * Resources::Landscape::CellSize ) )
-			xpos -= ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2;
-
-		if ( static_cast< unsigned int >( objectPixmap.height() ) > ( objectSize.height() * Resources::Landscape::CellSize ) )
-			ypos -= ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2;
-
-		m_currentEditorItem->setPos( xpos, ypos );
+		m_currentEditorItem->setPos( sceneObjectPosition.x(), sceneObjectPosition.y() );
 	}
 
 } // LandscapeObjectEditingState::onMousePossitionWasChanged
@@ -487,10 +466,7 @@ LandscapeObjectEditingState::addSceneObjects()
 void
 LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 {
-	qreal xpos = _point.x() < 0 ? 0 : static_cast< int >( _point.x() / Resources::Landscape::CellSize );
-	qreal ypos = _point.y() < 0 ? 0 : static_cast< int >( _point.y() / Resources::Landscape::CellSize );
-
-	m_environment.createObject( QPoint( xpos, ypos ), m_name );
+	m_environment.createObject( LandscapeScene::convertFromScenePosition( _point ), m_name );
 
 } // LandscapeObjectEditingState::setNewItemInPosition
 
