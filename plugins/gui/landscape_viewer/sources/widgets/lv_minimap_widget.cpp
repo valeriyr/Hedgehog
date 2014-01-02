@@ -11,6 +11,7 @@
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/ih/lm_iobject.hpp"
+#include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
 
@@ -353,15 +354,21 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 
 		for ( ; begin != end; ++begin )
 		{
-			qreal posByX = ( *begin )->getPosition().x() * Resources::Landscape::CellSize;
-			qreal posByY = ( *begin )->getPosition().y() * Resources::Landscape::CellSize;
+			for ( int x = ( *begin )->getPosition().x(); x < ( *begin )->getPosition().x() + ( *begin )->getType()->getSize().width(); ++x )
+			{
+				for ( int y = ( *begin )->getPosition().y(); y < ( *begin )->getPosition().y() + ( *begin )->getType()->getSize().height(); ++y )
+				{
+					qreal posByX = x * Resources::Landscape::CellSize;
+					qreal posByY = y * Resources::Landscape::CellSize;
 
-			QPixmap pixmap( QSize( Resources::Landscape::CellSize, Resources::Landscape::CellSize ) );
-			pixmap.fill( QColor( 0, 255, 0 ) );
+					QPixmap pixmap( QSize( Resources::Landscape::CellSize, Resources::Landscape::CellSize ) );
+					pixmap.fill( QColor( 0, 255, 0 ) );
 
-			painter.drawPixmap(
-					QRect( posByX, posByY, Resources::Landscape::CellSize, Resources::Landscape::CellSize )
-				,	pixmap );
+					painter.drawPixmap(
+							QRect( posByX, posByY, Resources::Landscape::CellSize, Resources::Landscape::CellSize )
+						,	pixmap );
+				}
+			}
 		}
 
 		m_objectsLayer = objectsLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );

@@ -11,7 +11,7 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
-
+#include "landscape_model/ih/lm_iobject_type.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -355,8 +355,29 @@ LandscapeObjectEditingState::~LandscapeObjectEditingState()
 void
 LandscapeObjectEditingState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
-	if ( _mouseEvent->buttons() & Qt::LeftButton )
-		setNewItemInPosition( _mouseEvent->scenePos() );
+	if ( ( _mouseEvent->buttons() & Qt::LeftButton ) && m_currentEditorItem )
+	{
+		int xpos = m_currentEditorItem->pos().x();
+		int ypos = m_currentEditorItem->pos().y();
+
+		QSize objectSize( 1, 1 );
+
+		boost::intrusive_ptr< Core::LandscapeModel::IObjectType > objectType
+			= m_environment.getType( m_name );
+
+		if ( objectType )
+			objectSize = objectType->getSize();
+
+		const QPixmap& objectPixmap = m_environment.getPixmap( m_name );
+
+		if ( static_cast< unsigned int >( objectPixmap.width() ) > ( objectSize.width() * Resources::Landscape::CellSize ) )
+			xpos += ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2;
+
+		if ( static_cast< unsigned int >( objectPixmap.height() ) > ( objectSize.height() * Resources::Landscape::CellSize ) )
+			ypos += ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2;
+
+		setNewItemInPosition( QPointF( xpos, ypos ) );
+	}
 
 } // LandscapeObjectEditingState::mousePressEvent
 
@@ -393,19 +414,27 @@ LandscapeObjectEditingState::onMousePossitionWasChanged( const QPointF& _point )
 		qreal xpos = _point.x() < 0 ? 0 : ( static_cast< int >( _point.x() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
 		qreal ypos = _point.y() < 0 ? 0 : ( static_cast< int >( _point.y() / Resources::Landscape::CellSize ) * Resources::Landscape::CellSize );
 
+		QSize objectSize( 1, 1 );
+
+		boost::intrusive_ptr< Core::LandscapeModel::IObjectType > objectType
+			= m_environment.getType( m_name );
+
+		if ( objectType )
+			objectSize = objectType->getSize();
+
 		const QPixmap& objectPixmap = m_environment.getPixmap( m_name );
 
-		if ( xpos > m_scene.width() - Resources::Landscape::CellSize )
-			xpos = m_scene.width() - Resources::Landscape::CellSize;
+		if ( xpos > m_scene.width() - ( objectSize.width() * Resources::Landscape::CellSize ) )
+			xpos = m_scene.width() - ( objectSize.width() * Resources::Landscape::CellSize );
 
-		if ( ypos > m_scene.height() - Resources::Landscape::CellSize )
-			ypos = m_scene.height() - Resources::Landscape::CellSize;
+		if ( ypos > m_scene.height() - ( objectSize.height() * Resources::Landscape::CellSize ) )
+			ypos = m_scene.height() - ( objectSize.height() * Resources::Landscape::CellSize );
 
-		if ( static_cast< unsigned int >( objectPixmap.width() ) > Resources::Landscape::CellSize )
-			xpos -= ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
+		if ( static_cast< unsigned int >( objectPixmap.width() ) > ( objectSize.width() * Resources::Landscape::CellSize ) )
+			xpos -= ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2;
 
-		if ( static_cast< unsigned int >( objectPixmap.height() ) > Resources::Landscape::CellSize )
-			ypos -= ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
+		if ( static_cast< unsigned int >( objectPixmap.height() ) > ( objectSize.height() * Resources::Landscape::CellSize ) )
+			ypos -= ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2;
 
 		m_currentEditorItem->setPos( xpos, ypos );
 	}

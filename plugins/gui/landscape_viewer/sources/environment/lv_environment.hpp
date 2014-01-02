@@ -89,6 +89,8 @@ public:
 
 	/*virtual*/ void fetchTypes( Core::LandscapeModel::IObjectTypesCache::TypesCollection& _collection ) const;
 
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IObjectType > getType( const QString& _objectName ) const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void fetchSurfaceItemGraphicsInfos(

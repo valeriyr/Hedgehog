@@ -250,21 +250,25 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 	qreal xpos = objectPosition.x() * Resources::Landscape::CellSize;
 	qreal ypos = objectPosition.y() * Resources::Landscape::CellSize;
 
-	if ( static_cast< unsigned int >( objectPixmap.width() ) > Resources::Landscape::CellSize )
-	{
-		xpos -= ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
-	}
+	QSize objectSize( 1, 1 );
 
-	if ( static_cast< unsigned int >( objectPixmap.height() ) > Resources::Landscape::CellSize )
-	{
-		ypos -= ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
-	}
+	boost::intrusive_ptr< Core::LandscapeModel::IObjectType > objectType
+		= m_environment.getType( objectName );
 
-	if ( xpos > width() - objectPixmap.width() )
-		xpos = width() - Resources::Landscape::CellSize - ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
+	if ( objectType )
+		objectSize = objectType->getSize();
 
-	if ( ypos > height() - objectPixmap.height() )
-		ypos = height() - Resources::Landscape::CellSize - ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
+	if ( xpos > width() - ( objectSize.width() * Resources::Landscape::CellSize ) )
+		xpos = width() - ( objectSize.width() * Resources::Landscape::CellSize );
+
+	if ( ypos > height() - ( objectSize.height() * Resources::Landscape::CellSize ) )
+		ypos = height() - ( objectSize.height() * Resources::Landscape::CellSize );
+
+	if ( static_cast< unsigned int >( objectPixmap.width() ) > ( objectSize.width() * Resources::Landscape::CellSize ) )
+		xpos -= ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2;
+
+	if ( static_cast< unsigned int >( objectPixmap.height() ) > ( objectSize.height() * Resources::Landscape::CellSize ) )
+		ypos -= ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2;
 
 	ObjectGraphicsItem* newItem = new ObjectGraphicsItem( objectPixmap );
 	addItem( newItem );
@@ -367,15 +371,19 @@ LandscapeScene::onObjectMoved( const Framework::Core::EventManager::Event& _even
 
 	const QPixmap& objectPixmap = m_environment.getPixmap( name );
 
-	if ( static_cast< unsigned int >( objectPixmap.width() ) > Resources::Landscape::CellSize )
-	{
-		xpos -= ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
-	}
+	QSize objectSize( 1, 1 );
 
-	if ( static_cast< unsigned int >( objectPixmap.height() ) > Resources::Landscape::CellSize )
-	{
-		ypos -= ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
-	}
+	boost::intrusive_ptr< Core::LandscapeModel::IObjectType > objectType
+		= m_environment.getType( name );
+
+	if ( objectType )
+		objectSize = objectType->getSize();
+
+	if ( static_cast< unsigned int >( objectPixmap.width() ) > ( objectSize.width() * Resources::Landscape::CellSize ) )
+		xpos -= ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2;
+
+	if ( static_cast< unsigned int >( objectPixmap.height() ) > ( objectSize.height() * Resources::Landscape::CellSize ) )
+		ypos -= ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2;
 
 	/*QTimeLine *timer = new QTimeLine(5000);
     timer->setFrameRange(0, 100);
@@ -479,15 +487,19 @@ LandscapeScene::generateLandscape()
 			qreal posByX = position.x() * Resources::Landscape::CellSize;
 			qreal posByY = position.y() * Resources::Landscape::CellSize;
 
-			if ( static_cast< unsigned int >( objectPixmap.width() ) > Resources::Landscape::CellSize )
-			{
-				posByX -= ( objectPixmap.width() - Resources::Landscape::CellSize ) / 2;
-			}
+			QSize objectSize( 1, 1 );
 
-			if ( static_cast< unsigned int >( objectPixmap.height() ) > Resources::Landscape::CellSize )
-			{
-				posByY -= ( objectPixmap.height() - Resources::Landscape::CellSize ) / 2;
-			}
+			boost::intrusive_ptr< Core::LandscapeModel::IObjectType > objectType
+				= m_environment.getType( ( *begin )->getType()->getName() );
+
+			if ( objectType )
+				objectSize = objectType->getSize();
+
+			if ( static_cast< unsigned int >( objectPixmap.width() ) > ( objectSize.width() * Resources::Landscape::CellSize ) )
+				posByX -= ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2;
+
+			if ( static_cast< unsigned int >( objectPixmap.height() ) > ( objectSize.height() * Resources::Landscape::CellSize ) )
+				posByY -= ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2;
 
 			newItem->setPos( posByX, posByY );
 			newItem->setZValue( ObjectZValue::Object );

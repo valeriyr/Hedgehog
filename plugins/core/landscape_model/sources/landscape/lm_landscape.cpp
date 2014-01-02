@@ -268,7 +268,7 @@ Landscape::createObject( const QPoint& _position, const QString& _objectName )
 		{
 			for ( int y = objectRect.y(); y < objectRect.y() + objectRect.height(); ++y )
 			{
-				m_terrainMap.getElement( objectRect.x(), objectRect.y() ).m_engagedWithGround = true;
+				m_terrainMap.getElement( x, y ).m_engagedWithGround = true;
 			}
 		}
 

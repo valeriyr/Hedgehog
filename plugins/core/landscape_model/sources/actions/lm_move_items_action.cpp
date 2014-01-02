@@ -46,15 +46,18 @@ MoveAction::MoveAction(
 
 		for ( ; begin != end; ++begin )
 		{
-			MovingData movingData;
-			m_pathFinder->findPath( movingData.m_path, *handle->getLandscape(), **begin, m_to );
-
-			if ( !movingData.m_path.empty() )
+			if ( ( *begin )->getType()->getMovingSpeed() != 0 )
 			{
-				m_movingData.insert( std::make_pair( ( *begin )->getUniqueId(), movingData ) );
+				MovingData movingData;
+				m_pathFinder->findPath( movingData.m_path, *handle->getLandscape(), **begin, m_to );
 
-				handle->getLandscape()->setEngagedWithGroungItem( ( *begin )->getPosition(), false );
-				handle->getLandscape()->setEngagedWithGroungItem( movingData.m_path.front(), true );
+				if ( !movingData.m_path.empty() )
+				{
+					m_movingData.insert( std::make_pair( ( *begin )->getUniqueId(), movingData ) );
+
+					handle->getLandscape()->setEngagedWithGroungItem( ( *begin )->getPosition(), false );
+					handle->getLandscape()->setEngagedWithGroungItem( movingData.m_path.front(), true );
+				}
 			}
 		}
 	}

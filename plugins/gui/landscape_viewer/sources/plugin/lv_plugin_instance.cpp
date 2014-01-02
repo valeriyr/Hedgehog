@@ -90,7 +90,7 @@ PluginInstance::initialize()
 	fillSurfaceItemsCache();
 
 	getSettings()->regBool( Resources::Properties::TerrainMapVisibility, false );
-	getSettings()->regString( Resources::Properties::SkinId, "summer" );
+	getSettings()->regString( Resources::Properties::SkinId, "winter" );
 
 	m_environment.reset( new Environment( *this ) );
 
@@ -692,6 +692,74 @@ PluginInstance::fillObjectsCache()
 		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/elven_archer", animationFrames ) );
 	}
 
+	// Orc Barracks
+
+	{
+		// Orc Barracks standing down animation
+		QString animationName(
+			generateAnimationName(
+					IGraphicsInfoCache::ms_anySkinIdentifier
+				,	"Orc Barracks"
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Down) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100000, QRect( 0, 0, 92, 92 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "buildings/orc/barracks", animationFrames ) );
+	}
+
+	{
+		// Orc Barracks standing down animation ( winter skin )
+		QString animationName(
+			generateAnimationName(
+					"winter"
+				,	"Orc Barracks"
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Down) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100000, QRect( 0, 0, 92, 92 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "skins/winter/orc/barracks", animationFrames ) );
+	}
+
+	// Human Barracks
+
+	{
+		// Human Barracks standing down animation
+		QString animationName(
+			generateAnimationName(
+					IGraphicsInfoCache::ms_anySkinIdentifier
+				,	"Human Barracks"
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Down) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100000, QRect( 0, 0, 92, 92 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "buildings/human/barracks", animationFrames ) );
+	}
+
+	{
+		// Human Barracks standing down animation ( winter skin )
+		QString animationName(
+			generateAnimationName(
+					"winter"
+				,	"Human Barracks"
+				,	Core::LandscapeModel::ObjectState::Standing
+				,	Core::LandscapeModel::Direction::Down) );
+
+		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
+
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100000, QRect( 0, 0, 92, 92 ) ) );
+
+		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "skins/winter/human/barracks", animationFrames ) );
+	}
+
 } // PluginInstance::fillObjectsCache
 
 
@@ -815,6 +883,34 @@ PluginInstance::clearObjectsCache()
 			,	"Elven Archer"
 			,	Core::LandscapeModel::ObjectState::Moving
 			,	Core::LandscapeModel::Direction::Right ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				IGraphicsInfoCache::ms_anySkinIdentifier
+			,	"Orc Barracks"
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Down ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				"winter"
+			,	"Orc Barracks"
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Down ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				IGraphicsInfoCache::ms_anySkinIdentifier
+			,	"Human Barracks"
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Down ) );
+
+	animationsCache->unregAnimation(
+		generateAnimationName(
+				"winter"
+			,	"Human Barracks"
+			,	Core::LandscapeModel::ObjectState::Standing
+			,	Core::LandscapeModel::Direction::Down ) );
 
 } // PluginInstance::clearObjectsCache
 

@@ -128,6 +128,8 @@ struct IEnvironment
 
 	virtual void fetchTypes( Core::LandscapeModel::IObjectTypesCache::TypesCollection& _collection ) const = 0;
 
+	virtual boost::intrusive_ptr< Core::LandscapeModel::IObjectType > getType( const QString& _objectName ) const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual void fetchSurfaceItemGraphicsInfos(

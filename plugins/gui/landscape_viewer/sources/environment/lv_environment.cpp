@@ -26,6 +26,7 @@
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
+#include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "settings/ih/st_isettings.hpp"
 
@@ -271,6 +272,17 @@ Environment::fetchTypes( Core::LandscapeModel::IObjectTypesCache::TypesCollectio
 	m_pluginInstance.getObjectTypesCache()->fetchTypes( _collection );
 
 } // Environment::fetchTypes
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Core::LandscapeModel::IObjectType >
+Environment::getType( const QString& _objectName ) const
+{
+	return m_pluginInstance.getObjectTypesCache()->getObjectType( _objectName );
+
+} // Environment::getType
 
 
 /*---------------------------------------------------------------------------*/
