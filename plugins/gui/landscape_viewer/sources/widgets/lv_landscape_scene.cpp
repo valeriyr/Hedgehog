@@ -8,7 +8,7 @@
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 #include "landscape_viewer/sources/widgets/landscape_scene_states/lv_landscape_scene_states.hpp"
 #include "landscape_viewer/sources/animations/lv_animation_name_generator.hpp"
-#include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
+#include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
@@ -245,7 +245,7 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 	const Plugins::Core::LandscapeModel::IObject::IdType id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectUniqueIdAttribute ).toInt();
 
-	const QPixmap& objectPixmap = m_environment.getPixmap( objectName, GraphicsInfoCache::ms_anySkinIdentifier );
+	const QPixmap& objectPixmap = m_environment.getPixmap( objectName, IGraphicsInfoCache::ms_anySkinIdentifier );
 
 	qreal xpos = objectPosition.x() * Resources::Landscape::CellSize;
 	qreal ypos = objectPosition.y() * Resources::Landscape::CellSize;
@@ -277,7 +277,7 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 	m_environment.playAnimation(
 			*newItem
 		,	generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	objectName
 				,	Core::LandscapeModel::ObjectState::Standing
 				,	Core::LandscapeModel::Direction::Down ) );
@@ -366,7 +366,7 @@ LandscapeScene::onObjectMoved( const Framework::Core::EventManager::Event& _even
 	int xpos = movedFromInScene.x() + ( ( movedToInScene.x() - movedFromInScene.x() ) * progress );
 	int ypos = movedFromInScene.y() + ( ( movedToInScene.y() - movedFromInScene.y() ) * progress );
 
-	const QPixmap& objectPixmap = m_environment.getPixmap( name, GraphicsInfoCache::ms_anySkinIdentifier );
+	const QPixmap& objectPixmap = m_environment.getPixmap( name, IGraphicsInfoCache::ms_anySkinIdentifier );
 
 	if ( static_cast< unsigned int >( objectPixmap.width() ) > Resources::Landscape::CellSize )
 	{
@@ -421,7 +421,7 @@ LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event
 	m_environment.playAnimation(
 			*iterator->second
 		,	generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	name
 				,	state
 				,	direction ) );
@@ -471,7 +471,7 @@ LandscapeScene::generateLandscape()
 
 		for ( ; begin != end; ++begin )
 		{
-			const QPixmap& objectPixmap = m_environment.getPixmap( ( *begin )->getType()->getName(), GraphicsInfoCache::ms_anySkinIdentifier );
+			const QPixmap& objectPixmap = m_environment.getPixmap( ( *begin )->getType()->getName(), IGraphicsInfoCache::ms_anySkinIdentifier );
 
 			ObjectGraphicsItem* newItem = new ObjectGraphicsItem( objectPixmap );
 			addItem( newItem );
@@ -499,7 +499,7 @@ LandscapeScene::generateLandscape()
 			m_environment.playAnimation(
 					*newItem
 				,	generateAnimationName(
-							GraphicsInfoCache::ms_anySkinIdentifier
+							IGraphicsInfoCache::ms_anySkinIdentifier
 						,	( *begin )->getType()->getName()
 						,	( *begin )->getState()
 						,	( *begin )->getDirection() ) );

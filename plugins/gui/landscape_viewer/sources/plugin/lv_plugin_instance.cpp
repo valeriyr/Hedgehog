@@ -406,7 +406,7 @@ PluginInstance::fillObjectsCache()
 		// Grant standing up animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Grunt"
 				,	Core::LandscapeModel::ObjectState::Standing
 				,	Core::LandscapeModel::Direction::Up ) );
@@ -422,7 +422,7 @@ PluginInstance::fillObjectsCache()
 		// Grant standing down animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Grunt"
 				,	Core::LandscapeModel::ObjectState::Standing
 				,	Core::LandscapeModel::Direction::Down) );
@@ -438,7 +438,7 @@ PluginInstance::fillObjectsCache()
 		// Grant standing left animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Grunt"
 				,	Core::LandscapeModel::ObjectState::Standing
 				,	Core::LandscapeModel::Direction::Left) );
@@ -454,7 +454,7 @@ PluginInstance::fillObjectsCache()
 		// Grant standing right animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Grunt"
 				,	Core::LandscapeModel::ObjectState::Standing
 				,	Core::LandscapeModel::Direction::Right) );
@@ -470,7 +470,7 @@ PluginInstance::fillObjectsCache()
 		// Grant moving up animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Grunt"
 				,	Core::LandscapeModel::ObjectState::Moving
 				,	Core::LandscapeModel::Direction::Up ) );
@@ -490,7 +490,7 @@ PluginInstance::fillObjectsCache()
 		// Grant moving down animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Grunt"
 				,	Core::LandscapeModel::ObjectState::Moving
 				,	Core::LandscapeModel::Direction::Down) );
@@ -510,7 +510,7 @@ PluginInstance::fillObjectsCache()
 		// Grant moving left animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Grunt"
 				,	Core::LandscapeModel::ObjectState::Moving
 				,	Core::LandscapeModel::Direction::Left) );
@@ -530,7 +530,7 @@ PluginInstance::fillObjectsCache()
 		// Grant moving right animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Grunt"
 				,	Core::LandscapeModel::ObjectState::Moving
 				,	Core::LandscapeModel::Direction::Right) );
@@ -552,7 +552,7 @@ PluginInstance::fillObjectsCache()
 		// Elven Archer standing up animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Elven Archer"
 				,	Core::LandscapeModel::ObjectState::Standing
 				,	Core::LandscapeModel::Direction::Up ) );
@@ -568,7 +568,7 @@ PluginInstance::fillObjectsCache()
 		// Elven Archer standing down animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Elven Archer"
 				,	Core::LandscapeModel::ObjectState::Standing
 				,	Core::LandscapeModel::Direction::Down) );
@@ -584,7 +584,7 @@ PluginInstance::fillObjectsCache()
 		// Elven Archer standing left animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Elven Archer"
 				,	Core::LandscapeModel::ObjectState::Standing
 				,	Core::LandscapeModel::Direction::Left) );
@@ -600,7 +600,7 @@ PluginInstance::fillObjectsCache()
 		// Elven Archer standing right animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Elven Archer"
 				,	Core::LandscapeModel::ObjectState::Standing
 				,	Core::LandscapeModel::Direction::Right) );
@@ -616,7 +616,7 @@ PluginInstance::fillObjectsCache()
 		// Elven Archer moving up animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Elven Archer"
 				,	Core::LandscapeModel::ObjectState::Moving
 				,	Core::LandscapeModel::Direction::Up ) );
@@ -636,7 +636,7 @@ PluginInstance::fillObjectsCache()
 		// Elven Archer moving down animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Elven Archer"
 				,	Core::LandscapeModel::ObjectState::Moving
 				,	Core::LandscapeModel::Direction::Down) );
@@ -656,7 +656,7 @@ PluginInstance::fillObjectsCache()
 		// Elven Archer moving left animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Elven Archer"
 				,	Core::LandscapeModel::ObjectState::Moving
 				,	Core::LandscapeModel::Direction::Left) );
@@ -676,7 +676,7 @@ PluginInstance::fillObjectsCache()
 		// Elven Archer moving right animation
 		QString animationName(
 			generateAnimationName(
-					GraphicsInfoCache::ms_anySkinIdentifier
+					IGraphicsInfoCache::ms_anySkinIdentifier
 				,	"Elven Archer"
 				,	Core::LandscapeModel::ObjectState::Moving
 				,	Core::LandscapeModel::Direction::Right) );
@@ -706,112 +706,112 @@ PluginInstance::clearObjectsCache()
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Grunt"
 			,	Core::LandscapeModel::ObjectState::Standing
 			,	Core::LandscapeModel::Direction::Up ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Grunt"
 			,	Core::LandscapeModel::ObjectState::Standing
 			,	Core::LandscapeModel::Direction::Down ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Grunt"
 			,	Core::LandscapeModel::ObjectState::Standing
 			,	Core::LandscapeModel::Direction::Left ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Grunt"
 			,	Core::LandscapeModel::ObjectState::Standing
 			,	Core::LandscapeModel::Direction::Right ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Grunt"
 			,	Core::LandscapeModel::ObjectState::Moving
 			,	Core::LandscapeModel::Direction::Up ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Grunt"
 			,	Core::LandscapeModel::ObjectState::Moving
 			,	Core::LandscapeModel::Direction::Down ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Grunt"
 			,	Core::LandscapeModel::ObjectState::Moving
 			,	Core::LandscapeModel::Direction::Left ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Grunt"
 			,	Core::LandscapeModel::ObjectState::Moving
 			,	Core::LandscapeModel::Direction::Right ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Elven Archer"
 			,	Core::LandscapeModel::ObjectState::Standing
 			,	Core::LandscapeModel::Direction::Up ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Elven Archer"
 			,	Core::LandscapeModel::ObjectState::Standing
 			,	Core::LandscapeModel::Direction::Down ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Elven Archer"
 			,	Core::LandscapeModel::ObjectState::Standing
 			,	Core::LandscapeModel::Direction::Left ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Elven Archer"
 			,	Core::LandscapeModel::ObjectState::Standing
 			,	Core::LandscapeModel::Direction::Right ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Elven Archer"
 			,	Core::LandscapeModel::ObjectState::Moving
 			,	Core::LandscapeModel::Direction::Up ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Elven Archer"
 			,	Core::LandscapeModel::ObjectState::Moving
 			,	Core::LandscapeModel::Direction::Down ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Elven Archer"
 			,	Core::LandscapeModel::ObjectState::Moving
 			,	Core::LandscapeModel::Direction::Left ) );
 
 	animationsCache->unregAnimation(
 		generateAnimationName(
-				GraphicsInfoCache::ms_anySkinIdentifier
+				IGraphicsInfoCache::ms_anySkinIdentifier
 			,	"Elven Archer"
 			,	Core::LandscapeModel::ObjectState::Moving
 			,	Core::LandscapeModel::Direction::Right ) );

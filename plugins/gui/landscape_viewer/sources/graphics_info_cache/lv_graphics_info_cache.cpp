@@ -13,7 +13,7 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-const QString GraphicsInfoCache::ms_anySkinIdentifier = "Any";
+const QString IGraphicsInfoCache::ms_anySkinIdentifier = "Any";
 
 /*---------------------------------------------------------------------------*/
 
@@ -67,17 +67,17 @@ GraphicsInfoCache::getSurfaceItemGraphicsInfo(
 {
 	GraphicsInfoCollectionConstIterator graphicsInfoIterator = m_graphicsInfoCollection.find( _skinId );
 
-	if ( graphicsInfoIterator == m_graphicsInfoCollection.end() )
-		return boost::intrusive_ptr< ISurfaceItemGraphicsInfo >();
+	if ( graphicsInfoIterator != m_graphicsInfoCollection.end() )
+	{
+		GraphicsInfo::SurfaceItemGraphicsInfoCollectionIterator iterator
+			= graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.find( _id );
 
-	GraphicsInfo::SurfaceItemGraphicsInfoCollectionIterator iterator
-		= graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.find( _id );
+		if ( iterator != graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.end() )
+			return iterator->second;
+	}
 
-	if ( iterator != graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.end() )
-		return iterator->second;
-
-	if ( _skinId != ms_anySkinIdentifier )
-		return getSurfaceItemGraphicsInfo( ms_anySkinIdentifier, _id );
+	if ( _skinId != IGraphicsInfoCache::ms_anySkinIdentifier )
+		return getSurfaceItemGraphicsInfo( IGraphicsInfoCache::ms_anySkinIdentifier, _id );
 
 	return boost::intrusive_ptr< ISurfaceItemGraphicsInfo >();
 

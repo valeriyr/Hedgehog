@@ -5,7 +5,7 @@
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
-#include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
+#include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
@@ -170,7 +170,7 @@ SelectionView::onObjectsSelectionChanged( const Framework::Core::EventManager::E
 			SelectionViewItem* listItem = new SelectionViewItem( ( *selectedObjectsBegin )->getUniqueId() );
 
 			listItem->setText( ( *selectedObjectsBegin )->getType()->getName() );
-			listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedObjectsBegin )->getType()->getName(), GraphicsInfoCache::ms_anySkinIdentifier ) ) );
+			listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedObjectsBegin )->getType()->getName(), IGraphicsInfoCache::ms_anySkinIdentifier ) ) );
 
 			m_mainWidget->addItem( listItem );
 		}

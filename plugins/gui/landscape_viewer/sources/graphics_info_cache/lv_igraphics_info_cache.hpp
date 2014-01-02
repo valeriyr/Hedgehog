@@ -25,6 +25,10 @@ struct IGraphicsInfoCache
 
 /*---------------------------------------------------------------------------*/
 
+	static const QString ms_anySkinIdentifier;
+
+/*---------------------------------------------------------------------------*/
+
 	typedef
 		std::vector< boost::intrusive_ptr< ISurfaceItemGraphicsInfo > >
 		SurfaceItemGraphicsInfoCollection;

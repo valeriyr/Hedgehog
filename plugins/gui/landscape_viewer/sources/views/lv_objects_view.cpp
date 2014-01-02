@@ -7,7 +7,7 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
-#include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
+#include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
 
 #include "landscape_model/ih/lm_iobject_type.hpp"
 
@@ -309,7 +309,7 @@ ObjectsView::fill()
 	QTreeWidgetItem* objectsItem = new QTreeWidgetItem();
 	objectsItem->setText( 0, "Objects" );
 
-	fillWithObjectItems( GraphicsInfoCache::ms_anySkinIdentifier, objectsItem );
+	fillWithObjectItems( IGraphicsInfoCache::ms_anySkinIdentifier, objectsItem );
 
 	m_objectsView->addTopLevelItem( controlItem );
 	m_objectsView->addTopLevelItem( surfaceItem );
