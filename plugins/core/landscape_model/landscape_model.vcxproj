@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="sources\actions\lm_base_action.cpp" />
     <ClCompile Include="sources\actions\lm_create_object_action.cpp" />
+    <ClCompile Include="sources\actions\lm_create_object_by_other_action.cpp" />
     <ClCompile Include="sources\actions\lm_move_items_action.cpp" />
     <ClCompile Include="sources\actions\lm_select_by_id_action.cpp" />
     <ClCompile Include="sources\actions\lm_select_in_rect_action.cpp" />
@@ -64,6 +65,7 @@
     <ClInclude Include="ih\lm_isurface_items_cache.hpp" />
     <ClInclude Include="sources\actions\lm_base_action.hpp" />
     <ClInclude Include="sources\actions\lm_create_object_action.hpp" />
+    <ClInclude Include="sources\actions\lm_create_object_by_other_action.hpp" />
     <ClInclude Include="sources\actions\lm_iaction.hpp" />
     <ClInclude Include="sources\actions\lm_move_items_action.hpp" />
     <ClInclude Include="sources\actions\lm_select_by_id_action.hpp" />

@@ -120,6 +120,9 @@
     <ClCompile Include="sources\object\lm_object.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="sources\actions\lm_create_object_by_other_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="sources\object\lm_object.hpp">
       <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_create_object_by_other_action.hpp">
+      <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
