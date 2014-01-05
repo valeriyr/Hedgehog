@@ -334,15 +334,15 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 
 	if ( handle->getLandscape() )
 	{
-		QPixmap objectsLayer
-			= QPixmap( QSize(
-					_landscape.getWidth() * Resources::Landscape::CellSize
-				,	_landscape.getHeight() * Resources::Landscape::CellSize ) );
+		m_objectsLayer = QPixmap( ms_fixedWidgetSize );
 
-		objectsLayer.fill( Qt::transparent );
+		m_objectsLayer.fill( Qt::transparent );
+
+		float scaleByX = static_cast< float >( ms_fixedWidgetSize.width() ) / ( _landscape.getWidth() * Resources::Landscape::CellSize );
+		float scaleByY = static_cast< float >( ms_fixedWidgetSize.height() ) / ( _landscape.getHeight() * Resources::Landscape::CellSize );
 
 		QPainter painter;
-		painter.begin( &objectsLayer );
+		painter.begin( &m_objectsLayer );
 		painter.setRenderHint( QPainter::Antialiasing );
 
 		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection objectsCollection;
@@ -358,20 +358,18 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 			{
 				for ( int y = ( *begin )->getPosition().y(); y < ( *begin )->getPosition().y() + ( *begin )->getType()->getSize().height(); ++y )
 				{
-					qreal posByX = x * Resources::Landscape::CellSize;
-					qreal posByY = y * Resources::Landscape::CellSize;
+					qreal posByX = ( x * Resources::Landscape::CellSize ) * scaleByX;
+					qreal posByY = ( y * Resources::Landscape::CellSize ) * scaleByY;
 
-					QPixmap pixmap( QSize( Resources::Landscape::CellSize, Resources::Landscape::CellSize ) );
+					QPixmap pixmap( QSize( Resources::Landscape::CellSize * scaleByX, Resources::Landscape::CellSize * scaleByY ) );
 					pixmap.fill( QColor( 0, 255, 0 ) );
 
 					painter.drawPixmap(
-							QRect( posByX, posByY, Resources::Landscape::CellSize, Resources::Landscape::CellSize )
+							QRect( posByX, posByY, pixmap.width(), pixmap.height() )
 						,	pixmap );
 				}
 			}
 		}
-
-		m_objectsLayer = objectsLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 	}
 
 } // MinimapWidget::renderObjects
