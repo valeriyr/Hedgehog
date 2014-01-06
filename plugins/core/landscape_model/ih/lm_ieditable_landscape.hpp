@@ -29,7 +29,7 @@ struct IEditableLandscape
 
 	virtual void setSurfaceItem(
 			const QPoint& _point
-		,	const ISurfaceItem::IdType& _surfaceItemId ) = 0;
+		,	const ISurfaceItem::Id& _surfaceItemId ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,13 +37,13 @@ struct IEditableLandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual IObject::IdType createObject(
-			const QPoint& _position
+	virtual Object::UniqueId createObject(
+			const QPoint& _location
 		,	const QString& _objectName ) = 0;
 
 	virtual void selectObjects( const QRect& _rect ) = 0;
 
-	virtual void selectObject( const IObject::IdType& _id ) = 0;
+	virtual void selectObject( const Object::UniqueId& _id ) = 0;
 
 	virtual void unselectObjects() = 0;
 

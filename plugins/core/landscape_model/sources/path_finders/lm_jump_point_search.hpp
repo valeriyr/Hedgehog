@@ -32,7 +32,7 @@ public:
 
 	/*virtual*/ void findPath(	PointsCollection& _pointsCollection
 							 ,	const ILandscape& _landscape
-							 ,	const IObject& _forObject
+							 ,	const ILocateComponent& _forObject
 							 ,	const QPoint& _toPoint );
 
 /*---------------------------------------------------------------------------*/

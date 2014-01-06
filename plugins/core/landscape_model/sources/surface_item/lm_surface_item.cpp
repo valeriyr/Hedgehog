@@ -14,7 +14,7 @@ namespace LandscapeModel {
 
 
 SurfaceItem::SurfaceItem(
-		const ISurfaceItem::IdType _id
+		const ISurfaceItem::Id _id
 	,	const TerrainMapItem::Enum _terrainMapItem
 	)
 	:	m_id( _id )
@@ -34,7 +34,7 @@ SurfaceItem::~SurfaceItem()
 /*---------------------------------------------------------------------------*/
 
 
-ISurfaceItem::IdType
+ISurfaceItem::Id
 SurfaceItem::getId() const
 {
 	return m_id;

@@ -9,7 +9,7 @@
 #include "event_manager/h/em_subscriber.hpp"
 #include "event_manager/h/em_event.hpp"
 
-#include "landscape_model/ih/lm_iobject.hpp"
+#include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -65,7 +65,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void setDescriptionForObject( const Core::LandscapeModel::IObject::IdType& _objectId );
+	void setDescriptionForObject( const Core::LandscapeModel::Object::UniqueId& _objectId );
 
 /*---------------------------------------------------------------------------*/
 
@@ -81,7 +81,7 @@ private:
 
 	boost::shared_ptr< QTextEdit > m_mainWidget;
 
-	Core::LandscapeModel::IObject::IdType m_showingObjectId;
+	Core::LandscapeModel::Object::UniqueId m_showingObjectId;
 
 /*---------------------------------------------------------------------------*/
 

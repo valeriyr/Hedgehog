@@ -1,5 +1,6 @@
 
 #include <map>
+#include <set>
 
 #include <QtCore/QTimer>
 

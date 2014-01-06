@@ -14,6 +14,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct ILandscapeHandleInternal;
 struct IEditableLandscape;
 
 /*---------------------------------------------------------------------------*/
@@ -25,6 +26,10 @@ struct ILandscapeModelInternal
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< IEditableLandscape > getCurrentLandscapeInternal() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual boost::intrusive_ptr< ILandscapeHandleInternal > getCurrentEditableLandscape() = 0;
 
 	virtual QMutex& getLandscapeLocker() = 0;
 

@@ -35,12 +35,23 @@ LandscapeHandle::~LandscapeHandle()
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IEditableLandscape >
+boost::intrusive_ptr< ILandscape >
 LandscapeHandle::getLandscape() const
 {
 	return m_landscapeModel.getCurrentLandscapeInternal();
 
 } // LandscapeHandle::getLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IEditableLandscape >
+LandscapeHandle::getEditableLandscape() const
+{
+	return m_landscapeModel.getCurrentLandscapeInternal();
+
+} // LandscapeHandle::getEditableLandscape
 
 
 /*---------------------------------------------------------------------------*/

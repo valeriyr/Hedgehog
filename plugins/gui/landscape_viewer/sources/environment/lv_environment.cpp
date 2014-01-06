@@ -26,7 +26,6 @@
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
-#include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "settings/ih/st_isettings.hpp"
 
@@ -212,7 +211,7 @@ Environment::selectItemsInModel( const QRect& _rect ) const
 
 
 void
-Environment::selectItemModel( const Core::LandscapeModel::IObject::IdType& _id ) const
+Environment::selectItemModel( const Core::LandscapeModel::Object::UniqueId& _id ) const
 {
 	m_pluginInstance.getLandscapeModel()->selectObject( _id );
 
@@ -234,9 +233,9 @@ Environment::moveSelectedItems( const QPoint& _to ) const
 
 
 void
-Environment::createObject( const QPoint& _position, const QString& _name ) const
+Environment::createObject( const QPoint& _location, const QString& _name ) const
 {
-	m_pluginInstance.getLandscapeModel()->createObject( _position, _name );
+	m_pluginInstance.getLandscapeModel()->createObject( _location, _name );
 
 } // Environment::createObject
 
@@ -245,9 +244,9 @@ Environment::createObject( const QPoint& _position, const QString& _name ) const
 
 
 void
-Environment::setSurfaceItem( const QPoint& _position, const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const
+Environment::setSurfaceItem( const QPoint& _location, const Core::LandscapeModel::ISurfaceItem::Id& _id ) const
 {
-	m_pluginInstance.getLandscapeModel()->setSurfaceItem( _position, _id );
+	m_pluginInstance.getLandscapeModel()->setSurfaceItem( _location, _id );
 
 } // Environment::setSurfaceItem
 
@@ -255,7 +254,7 @@ Environment::setSurfaceItem( const QPoint& _position, const Core::LandscapeModel
 /*---------------------------------------------------------------------------*/
 
 
-const Core::LandscapeModel::ISurfaceItem::IdType
+const Core::LandscapeModel::ISurfaceItem::Id
 Environment::getDefaultSurfaceItemId() const
 {
 	return m_pluginInstance.getSurfaceItemsCache()->getDefaultSurfaceItem()->getId();
@@ -267,9 +266,9 @@ Environment::getDefaultSurfaceItemId() const
 
 
 void
-Environment::fetchTypes( Core::LandscapeModel::IObjectTypesCache::TypesCollection& _collection ) const
+Environment::fetchTypes( Core::LandscapeModel::IStaticData::StaticDataCollection& _collection ) const
 {
-	m_pluginInstance.getObjectTypesCache()->fetchTypes( _collection );
+	m_pluginInstance.getStaticData()->fetchStaticData( _collection );
 
 } // Environment::fetchTypes
 
@@ -277,12 +276,12 @@ Environment::fetchTypes( Core::LandscapeModel::IObjectTypesCache::TypesCollectio
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Core::LandscapeModel::IObjectType >
-Environment::getType( const QString& _objectName ) const
+Core::LandscapeModel::IStaticData::ObjectStaticData
+Environment::getObjectStaticData( const QString& _objectName ) const
 {
-	return m_pluginInstance.getObjectTypesCache()->getObjectType( _objectName );
+	return m_pluginInstance.getStaticData()->getStaticData( _objectName );
 
-} // Environment::getType
+} // Environment::getObjectStaticData
 
 
 /*---------------------------------------------------------------------------*/
@@ -304,7 +303,7 @@ Environment::fetchSurfaceItemGraphicsInfos(
 boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 Environment::getSurfaceItemGraphicsInfo(
 		const QString& _skinId
-	,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const
+	,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const
 {
 	return m_pluginInstance.getGraphicsInfoCache()->getSurfaceItemGraphicsInfo( _skinId, _id );
 

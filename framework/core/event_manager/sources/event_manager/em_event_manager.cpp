@@ -156,23 +156,33 @@ EventManager::unsubscribe( const IEventManager::ConnectionId& _connectionId )
 void
 EventManager::task( const QString& _threadName )
 {
-	QMutexLocker locker( &m_locker );
+	EventsCollection copyOfEventsCollection;
+	SubscribersData subscribersData;
 
-	SubscribersCollectionIterator subscribersIterator = m_subscribersCollection.find( _threadName );
+	{
+		QMutexLocker locker( &m_locker );
 
-	if ( subscribersIterator == m_subscribersCollection.end() )
-		return;
+		copyOfEventsCollection = m_eventsCollection;
+		m_eventsCollection.clear();
+
+		SubscribersCollectionIterator subscribersIterator = m_subscribersCollection.find( _threadName );
+
+		if ( subscribersIterator == m_subscribersCollection.end() )
+			return;
+
+		subscribersData = subscribersIterator->second;
+	}
 
 	EventsCollectionIterator
-			eventsBegin = m_eventsCollection.begin()
-		,	eventsEnd = m_eventsCollection.end();
+			eventsBegin = copyOfEventsCollection.begin()
+		,	eventsEnd = copyOfEventsCollection.end();
 
 	for ( ; eventsBegin != eventsEnd; ++eventsBegin )
 	{
 		SubscribersData::EventSubscribersCollectionIterator eventSubscribersIterator
-			= subscribersIterator->second.m_eventSubscribersCollection.find( eventsBegin->getType() );
+			= subscribersData.m_eventSubscribersCollection.find( eventsBegin->getType() );
 
-		if ( eventSubscribersIterator != subscribersIterator->second.m_eventSubscribersCollection.end() )
+		if ( eventSubscribersIterator != subscribersData.m_eventSubscribersCollection.end() )
 		{
 			EventSubscribersData::ProcessingFunctionsCollectionIterator
 					processingFunctionsBegin = eventSubscribersIterator->second.m_processingFunctionsCollection.begin()
@@ -184,8 +194,6 @@ EventManager::task( const QString& _threadName )
 			}
 		}
 	}
-
-	m_eventsCollection.clear();
 
 } // EventManager::task
 

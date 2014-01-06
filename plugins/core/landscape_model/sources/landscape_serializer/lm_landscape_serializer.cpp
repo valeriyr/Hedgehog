@@ -7,8 +7,6 @@
 
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/ih/lm_iobject_type.hpp"
-#include "landscape_model/ih/lm_iobject.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -130,9 +128,12 @@ LandscapeSerializer::save(
 
 	for ( ; begin != end; ++begin )
 	{
-		fileStream << ( *begin )->getType()->getName();
-		fileStream << ( *begin )->getPosition().x();
-		fileStream << ( *begin )->getPosition().y();
+		boost::intrusive_ptr< ILocateComponent > locateComponent
+			= ( *begin )->getComponent< ILocateComponent >( ComponentId::Locate );
+
+		fileStream << ( *begin )->getName();
+		fileStream << locateComponent->getLocation().x();
+		fileStream << locateComponent->getLocation().y();
 	}
 
 } // LandscapeSerializer::save

@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
+#include "landscape_model/ih/lm_ilandscape.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,7 +17,7 @@ namespace LandscapeModel {
 struct ILandscapeHandle
 	:	public Tools::Core::IBase
 {
-	virtual boost::intrusive_ptr< IEditableLandscape > getLandscape() const = 0;
+	virtual boost::intrusive_ptr< ILandscape > getLandscape() const = 0;
 };
 
 /*---------------------------------------------------------------------------*/

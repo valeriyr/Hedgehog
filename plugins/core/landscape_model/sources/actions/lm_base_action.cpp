@@ -15,10 +15,10 @@ namespace LandscapeModel {
 
 BaseAction::BaseAction(
 		const IEnvironment& _environment
-	,	ILandscapeModel& _landscapeModel
+	,	Object& _object
 	)
 	:	m_environment( _environment )
-	,	m_landscapeModel( _landscapeModel )
+	,	m_object( _object )
 {
 } // BaseAction::BaseAction
 

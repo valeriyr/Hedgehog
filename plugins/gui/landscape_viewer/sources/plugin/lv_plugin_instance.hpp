@@ -64,7 +64,7 @@ namespace Plugins
 			struct ILandscapeModel;
 			struct ILandscapeEditor;
 			struct ISurfaceItemsCache;
-			struct IObjectTypesCache;
+			struct IStaticData;
 		}
 
 		namespace GameManager
@@ -150,8 +150,8 @@ public:
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
 		getSurfaceItemsCache() const;
 
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IObjectTypesCache >
-		getObjectTypesCache() const;
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IStaticData >
+		getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 

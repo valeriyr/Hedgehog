@@ -7,7 +7,7 @@
 #include "intrusive_base/ib_ibase.hpp"
 
 #include "landscape_model/h/lm_terrain_map_data.hpp"
-#include "landscape_model/ih/lm_iobject.hpp"
+#include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +28,7 @@ struct ILandscape
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::vector< boost::intrusive_ptr< IObject > >
+		std::vector< boost::shared_ptr< Object > >
 		ObjectsCollection;
 	typedef
 		ObjectsCollection::const_iterator
@@ -48,9 +48,9 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< IObject > getObject( const QPoint& _point ) const = 0;
+	virtual boost::shared_ptr< Object > getObject( const QPoint& _point ) const = 0;
 
-	virtual boost::intrusive_ptr< IObject > getObject( const IObject::IdType& _id ) const = 0;
+	virtual boost::shared_ptr< Object > getObject( const Object::UniqueId& _id ) const = 0;
 
 	virtual unsigned int getObjectsCount() const = 0;
 
@@ -61,8 +61,8 @@ struct ILandscape
 /*---------------------------------------------------------------------------*/
 
 	virtual bool canObjectBePlaced(
-			const QPoint& _position
-		,	boost::intrusive_ptr< IObjectType > _objectType ) const = 0;
+			const QPoint& _location
+		,	const LocateComponentStaticData& _data ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -21,13 +21,13 @@ struct ISurfaceItem
 
 /*---------------------------------------------------------------------------*/
 
-	typedef unsigned int IdType;
+	typedef unsigned int Id;
 
-	static const IdType ms_invalidTypeId = UINT_MAX;
+	static const Id ms_invalidId = UINT_MAX;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual IdType getId() const = 0;
+	virtual Id getId() const = 0;
 
 	virtual const TerrainMapItem::Enum getTerrainMapValue() const = 0;
 

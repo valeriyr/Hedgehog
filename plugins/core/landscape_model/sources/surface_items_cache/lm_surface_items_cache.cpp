@@ -35,7 +35,7 @@ SurfaceItemsCache::~SurfaceItemsCache()
 
 void
 SurfaceItemsCache::regSurfaceItem(
-		const ISurfaceItem::IdType _id
+		const ISurfaceItem::Id _id
 	,	const TerrainMapItem::Enum _terrainMapItem )
 {
 	m_surfaceItemsCollection.insert(
@@ -50,7 +50,7 @@ SurfaceItemsCache::regSurfaceItem(
 
 
 boost::intrusive_ptr< ISurfaceItem >
-SurfaceItemsCache::getSurfaceItem( const ISurfaceItem::IdType _id ) const
+SurfaceItemsCache::getSurfaceItem( const ISurfaceItem::Id _id ) const
 {
 	SurfaceItemsCollectionIterator iterator( m_surfaceItemsCollection.find( _id ) );
 
@@ -87,11 +87,11 @@ SurfaceItemsCache::getDefaultSurfaceItem() const
 
 
 void
-SurfaceItemsCache::setDefaultSurfaceItem( const ISurfaceItem::IdType _id )
+SurfaceItemsCache::setDefaultSurfaceItem( const ISurfaceItem::Id _id )
 {
 	SurfaceItemsCollectionIterator iterator( m_surfaceItemsCollection.find( _id ) );
 
-	if ( iterator != m_surfaceItemsCollection.end() );
+	if ( iterator != m_surfaceItemsCollection.end() )
 		m_defaultSurfaceItem = iterator->second;
 
 } // SurfaceItemsCache::setDefaultSurfaceItem

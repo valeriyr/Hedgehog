@@ -18,11 +18,9 @@
 #include "landscape_model/sources/landscape_model/lm_landscape_model.hpp"
 #include "landscape_model/sources/landscape_serializer/lm_landscape_serializer.hpp"
 #include "landscape_model/sources/surface_items_cache/lm_surface_items_cache.hpp"
-#include "landscape_model/sources/object_types_cache/lm_object_types_cache.hpp"
+#include "landscape_model/sources/static_data/lm_static_data.hpp"
 
 #include "landscape_model/sources/surface_item/lm_surface_item.hpp"
-
-#include "landscape_model/ih/lm_iobject_type.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -38,7 +36,7 @@ BEGIN_INTERFACE_MAP( PluginInstance )
 
 	INTERFACE_DECLARATION( IID_LANDSCAPE_MODEL, m_landscapeModel.get() )
 	INTERFACE_DECLARATION( IID_SURFACE_ITEMS_CACHE, m_surfaceItemsCache.get() )
-	INTERFACE_DECLARATION( IID_OBJECT_TYPES_CACHE, m_objectTypesCache.get() )
+	INTERFACE_DECLARATION( IID_STATIC_DATA, m_staticData.get() )
 
 END_INTERFACE_MAP()
 
@@ -66,10 +64,10 @@ void
 PluginInstance::initialize()
 {
 	m_environment.reset( new Environment( *this ) );
-	m_objectTypesCache.reset( new ObjectTypesCache() );
+	m_staticData.reset( new StaticData() );
 	m_surfaceItemsCache.reset( new SurfaceItemsCache() );
 	m_landscapeSerializer.reset( new LandscapeSerializer() );
-	m_landscapeModel.reset( new LandscapeModel( *m_environment, *m_landscapeSerializer, *m_surfaceItemsCache, *m_objectTypesCache ) );
+	m_landscapeModel.reset( new LandscapeModel( *m_environment, *m_landscapeSerializer, *m_surfaceItemsCache, *m_staticData ) );
 
 	fillSurfaceItemsCache();
 	fillObjectsCache();
@@ -86,7 +84,7 @@ PluginInstance::close()
 	m_landscapeModel.reset();
 	m_landscapeSerializer.reset();
 	m_surfaceItemsCache.reset();
-	m_objectTypesCache.reset();
+	m_staticData.reset();
 	m_environment.reset();
 
 } // PluginInstance::close
@@ -175,18 +173,65 @@ PluginInstance::fillSurfaceItemsCache()
 void
 PluginInstance::fillObjectsCache()
 {
-	m_objectTypesCache->regObjectType( "Elven Archer", 100, QSize( 1, 1 ), TerrainMapItem::Ground, 1000 );
-	m_objectTypesCache->regObjectType( "Grunt", 200, QSize( 1, 1 ), TerrainMapItem::Ground, 2000 );
+	// Elven Archer
+	{
+		m_staticData->regHealthStaticData( "Elven Archer", boost::shared_ptr< const HealthComponentStaticData >( new HealthComponentStaticData( 100 ) ) );
+		m_staticData->regLocateStaticData( "Elven Archer", boost::shared_ptr< const LocateComponentStaticData >( new LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem::Ground ) ) );
+		m_staticData->regMoveStaticData( "Elven Archer", boost::shared_ptr< const MoveComponentStaticData >( new MoveComponentStaticData( 800 ) ) );
+		m_staticData->regSelectionStaticData( "Elven Archer", boost::shared_ptr< const SelectionComponentStaticData >( new SelectionComponentStaticData( true ) ) );
 
-	IObjectType::ObjectToCreateDataCollection orcBarracksUnits;
-	orcBarracksUnits.push_back( IObjectType::ObjectToCreateData( 3000, "Grunt" ) );
+		ActionsComponentStaticData::ActionsCollection actions;
+		actions.insert( Actions::Move );
 
-	m_objectTypesCache->regObjectType( "Orc Barracks", 1000, QSize( 3, 3 ), TerrainMapItem::Ground, 0, orcBarracksUnits );
+		m_staticData->regActionsStaticData( "Elven Archer", boost::shared_ptr< const ActionsComponentStaticData >( new ActionsComponentStaticData( actions ) ) );
+	}
 
-	IObjectType::ObjectToCreateDataCollection humanBarracksUnits;
-	humanBarracksUnits.push_back( IObjectType::ObjectToCreateData( 4500, "Elven Archer" ) );
+	// Grunt
+	{
+		m_staticData->regHealthStaticData( "Grunt", boost::shared_ptr< const HealthComponentStaticData >( new HealthComponentStaticData( 200 ) ) );
+		m_staticData->regLocateStaticData( "Grunt", boost::shared_ptr< const LocateComponentStaticData >( new LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem::Ground ) ) );
+		m_staticData->regMoveStaticData( "Grunt", boost::shared_ptr< const MoveComponentStaticData >( new MoveComponentStaticData( 1000 ) ) );
+		m_staticData->regSelectionStaticData( "Grunt", boost::shared_ptr< const SelectionComponentStaticData >( new SelectionComponentStaticData( true ) ) );
 
-	m_objectTypesCache->regObjectType( "Human Barracks", 1000, QSize( 3, 3 ), TerrainMapItem::Ground, 0, humanBarracksUnits );
+		ActionsComponentStaticData::ActionsCollection actions;
+		actions.insert( Actions::Move );
+
+		m_staticData->regActionsStaticData( "Grunt", boost::shared_ptr< const ActionsComponentStaticData >( new ActionsComponentStaticData( actions ) ) );
+	}
+
+	// Orc Barracks
+	{
+		m_staticData->regHealthStaticData( "Orc Barracks", boost::shared_ptr< const HealthComponentStaticData >( new HealthComponentStaticData( 1200 ) ) );
+		m_staticData->regLocateStaticData( "Orc Barracks", boost::shared_ptr< const LocateComponentStaticData >( new LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem::Ground ) ) );
+		m_staticData->regSelectionStaticData( "Orc Barracks", boost::shared_ptr< const SelectionComponentStaticData >( new SelectionComponentStaticData( true ) ) );
+
+		ActionsComponentStaticData::ActionsCollection actions;
+		actions.insert( Actions::Build );
+
+		m_staticData->regActionsStaticData( "Orc Barracks", boost::shared_ptr< const ActionsComponentStaticData >( new ActionsComponentStaticData( actions ) ) );
+
+		BuilderComponentStaticData::BuildObjectsDataCollection orcBarracksUnits;
+		orcBarracksUnits.push_back( boost::shared_ptr< const BuildObjectsData >( new BuildObjectsData( 3000, "Grunt" ) ) );
+
+		m_staticData->regBuilderStaticData( "Orc Barracks", boost::shared_ptr< const BuilderComponentStaticData >( new BuilderComponentStaticData( orcBarracksUnits ) ) );
+	}
+
+	// Human Barracks
+	{
+		m_staticData->regHealthStaticData( "Human Barracks", boost::shared_ptr< const HealthComponentStaticData >( new HealthComponentStaticData( 1000 ) ) );
+		m_staticData->regLocateStaticData( "Human Barracks", boost::shared_ptr< const LocateComponentStaticData >( new LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem::Ground ) ) );
+		m_staticData->regSelectionStaticData( "Human Barracks", boost::shared_ptr< const SelectionComponentStaticData >( new SelectionComponentStaticData( true ) ) );
+
+		ActionsComponentStaticData::ActionsCollection actions;
+		actions.insert( Actions::Build );
+
+		m_staticData->regActionsStaticData( "Human Barracks", boost::shared_ptr< const ActionsComponentStaticData >( new ActionsComponentStaticData( actions ) ) );
+
+		BuilderComponentStaticData::BuildObjectsDataCollection humanBarracksUnits;
+		humanBarracksUnits.push_back( boost::shared_ptr< const BuildObjectsData >( new BuildObjectsData( 4500, "Elven Archer" ) ) );
+
+		m_staticData->regBuilderStaticData( "Human Barracks", boost::shared_ptr< const BuilderComponentStaticData >( new BuilderComponentStaticData( humanBarracksUnits ) ) );
+	}
 
 } // PluginInstance::fillObjectsCache
 

@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/sources/landscape_handle/lm_ilandscape_handle_internal.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,7 +19,7 @@ struct ILandscapeModelInternal;
 /*---------------------------------------------------------------------------*/
 
 class LandscapeHandle
-	:	public Tools::Core::BaseWrapper< ILandscapeHandle >
+	:	public Tools::Core::BaseWrapper< ILandscapeHandleInternal >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -34,7 +34,11 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getLandscape() const;
+	/*virtual*/ boost::intrusive_ptr< ILandscape > getLandscape() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getEditableLandscape() const;
 
 /*---------------------------------------------------------------------------*/
 

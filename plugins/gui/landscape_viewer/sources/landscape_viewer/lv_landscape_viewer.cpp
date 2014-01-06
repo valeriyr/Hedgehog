@@ -12,6 +12,7 @@
 #include "landscape_viewer/sources/views/lv_object_info_view.hpp"
 #include "landscape_viewer/sources/views/lv_action_panel_view.hpp"
 #include "landscape_viewer/sources/views/lv_object_status_view.hpp"
+#include "landscape_viewer/sources/views/lv_player_info_view.hpp"
 
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
 
@@ -42,10 +43,12 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 	,	m_objectInfoView( new ObjectInfoView( _environment ) )
 	,	m_actionPanelView( new ActionPanelView( _environment ) )
 	,	m_objectStatusView( new ObjectStatusView( _environment ) )
+	,	m_playerInfoView( new PlayerInfoView( _environment ) )
 	,	m_landscapeFilePath()
 {
 	m_environment.addFrameworkView( m_objectsView, Framework::GUI::WindowManager::ViewPosition::Left );
 	m_environment.addFrameworkView( m_settingsView, Framework::GUI::WindowManager::ViewPosition::Left );
+	m_environment.addFrameworkView( m_playerInfoView, Framework::GUI::WindowManager::ViewPosition::Left );
 	m_environment.addFrameworkView( m_descriptionView, Framework::GUI::WindowManager::ViewPosition::Left );
 	m_environment.addFrameworkView( m_LandscapeView, Framework::GUI::WindowManager::ViewPosition::Center );
 	m_environment.addFrameworkView( m_minimapView, Framework::GUI::WindowManager::ViewPosition::Right );
@@ -71,6 +74,7 @@ LandscapeViewer::~LandscapeViewer()
 	m_environment.removeFrameworkView( m_minimapView );
 	m_environment.removeFrameworkView( m_LandscapeView );
 	m_environment.removeFrameworkView( m_descriptionView );
+	m_environment.removeFrameworkView( m_playerInfoView );
 	m_environment.removeFrameworkView( m_settingsView );
 	m_environment.removeFrameworkView( m_objectsView );
 
@@ -110,6 +114,7 @@ LandscapeViewer::openLandscape( const QString& _filePath )
 	m_objectInfoView->landscapeWasOpened();
 	m_actionPanelView->landscapeWasOpened();
 	m_objectStatusView->landscapeWasOpened();
+	m_playerInfoView->landscapeWasOpened();
 
 } // LandscapeViewer::openLandscape
 
@@ -127,6 +132,7 @@ LandscapeViewer::closeLandscape()
 	m_objectInfoView->landscapeWasClosed();
 	m_actionPanelView->landscapeWasClosed();
 	m_objectStatusView->landscapeWasClosed();
+	m_playerInfoView->landscapeWasClosed();
 
 	m_environment.resetLandscapeModel();
 

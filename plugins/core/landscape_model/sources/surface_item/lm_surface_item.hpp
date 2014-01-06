@@ -25,14 +25,14 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	SurfaceItem(
-			const ISurfaceItem::IdType _id
+			const ISurfaceItem::Id _id
 		,	const TerrainMapItem::Enum _terrainMapItem );
 
 	virtual ~SurfaceItem();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ ISurfaceItem::IdType getId() const;
+	/*virtual*/ ISurfaceItem::Id getId() const;
 
 	/*virtual*/ const TerrainMapItem::Enum getTerrainMapValue() const;
 
@@ -42,7 +42,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const ISurfaceItem::IdType m_id;
+	const ISurfaceItem::Id m_id;
 
 	const TerrainMapItem::Enum m_terrainMapItem;
 

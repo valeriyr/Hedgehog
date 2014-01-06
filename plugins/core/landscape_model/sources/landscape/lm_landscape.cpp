@@ -6,11 +6,15 @@
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 
-#include "landscape_model/ih/lm_iobject_type.hpp"
-#include "landscape_model/ih/lm_iobject_types_cache.hpp"
+#include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/ih/lm_istatic_data.hpp"
 
-#include "landscape_model/sources/object/lm_object.hpp"
-
+#include "landscape_model/sources/components/lm_builder_component.hpp"
+#include "landscape_model/sources/components/lm_health_component.hpp"
+#include "landscape_model/sources/components/lm_locate_component.hpp"
+#include "landscape_model/sources/components/lm_selection_component.hpp"
+#include "landscape_model/sources/components/lm_actions_component.hpp"
+#include "landscape_model/sources/components/lm_move_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -23,10 +27,10 @@ namespace LandscapeModel {
 
 Landscape::Landscape(
 		const ISurfaceItemsCache& _surfaceItemsCache
-	,	const IObjectTypesCache& _objectTypesCache
+	,	const IStaticData& _staticData
 	)
 	:	m_surfaceItemsCache( _surfaceItemsCache )
-	,	m_objectTypesCache( _objectTypesCache )
+	,	m_staticData( _staticData )
 	,	m_objects()
 	,	m_selectedObjects()
 	,	m_surfaceItems()
@@ -96,7 +100,7 @@ Landscape::getTerrainMapData( const QPoint& _point ) const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IObject >
+boost::shared_ptr< Object >
 Landscape::getObject( const QPoint& _point ) const
 {
 	ILandscape::ObjectsCollectionIterator
@@ -105,11 +109,11 @@ Landscape::getObject( const QPoint& _point ) const
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( ( *begin )->getRect().contains( _point ) )
+		if ( ( *begin )->getComponent< ILocateComponent >( ComponentId::Locate )->getRect().contains( _point ) )
 			return *begin;
 	}
 
-	return boost::intrusive_ptr< IObject >();
+	return boost::shared_ptr< Object >();
 
 } // Landscape::getObject
 
@@ -117,8 +121,8 @@ Landscape::getObject( const QPoint& _point ) const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IObject >
-Landscape::getObject( const IObject::IdType& _id ) const
+boost::shared_ptr< Object >
+Landscape::getObject( const Object::UniqueId& _id ) const
 {
 	ILandscape::ObjectsCollectionIterator
 			begin = m_objects.begin()
@@ -130,7 +134,7 @@ Landscape::getObject( const IObject::IdType& _id ) const
 			return *begin;
 	}
 
-	return boost::intrusive_ptr< IObject >();
+	return boost::shared_ptr< Object >();
 
 } // Landscape::getObject
 
@@ -173,14 +177,14 @@ Landscape::fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) co
 
 bool
 Landscape::canObjectBePlaced(
-		const QPoint& _position
-	,	boost::intrusive_ptr< IObjectType > _objectType ) const
+		const QPoint& _location
+	,	const LocateComponentStaticData& _data ) const
 {
-	for ( int x = _position.x(); x < _position.x() + _objectType->getSize().width(); ++x )
+	for ( int x = _location.x(); x < _location.x() + _data.m_size.width(); ++x )
 	{
-		for ( int y = _position.y(); y < _position.y() + _objectType->getSize().height(); ++y )
+		for ( int y = _location.y(); y < _location.y() + _data.m_size.height(); ++y )
 		{
-			if (	!( _objectType->getPassability() & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
+			if (	!( _data.m_passability & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
 				||	m_terrainMap.getConstElement( x, y ).m_engagedWithGround )
 			{
 				return false;
@@ -223,7 +227,7 @@ Landscape::setSize( const unsigned int _width, const unsigned int _height )
 void
 Landscape::setSurfaceItem(
 		const QPoint& _point
-	,	const ISurfaceItem::IdType& _surfaceItemId )
+	,	const ISurfaceItem::Id& _surfaceItemId )
 {
 	assert( _point.x() >= 0 );
 	assert( _point.y() >= 0 );
@@ -251,18 +255,48 @@ Landscape::setEngagedWithGroungItem( const QPoint& _point, const bool _isEngaged
 /*---------------------------------------------------------------------------*/
 
 
-IObject::IdType
-Landscape::createObject( const QPoint& _position, const QString& _objectName )
+Object::UniqueId
+Landscape::createObject( const QPoint& _location, const QString& _objectName )
 {
-	boost::intrusive_ptr< IObjectType > objectType = m_objectTypesCache.getObjectType( _objectName );
-	assert( objectType );
+	IStaticData::ObjectStaticData staticData = m_staticData.getStaticData( _objectName );
 
-	if ( canObjectBePlaced( _position, objectType ) )
+	if ( canObjectBePlaced( _location, *staticData.m_locateData ) )
 	{
-		boost::intrusive_ptr< IObject > object( new Object( objectType, _position ) );
+		boost::shared_ptr< Object > object( new Object( _objectName ) );
+
+		if ( staticData.m_healthData )
+			object->addComponent(
+					ComponentId::Health
+				,	boost::intrusive_ptr< IComponent >( new HealthComponent( *object, *staticData.m_healthData ) ) );
+
+		if ( staticData.m_locateData )
+			object->addComponent(
+					ComponentId::Locate
+				,	boost::intrusive_ptr< IComponent >( new LocateComponent( *object, *staticData.m_locateData, _location ) ) );
+
+		if ( staticData.m_selectionData )
+			object->addComponent(
+					ComponentId::Selection
+				,	boost::intrusive_ptr< IComponent >( new SelectionComponent( *object, *staticData.m_selectionData ) ) );
+
+		if ( staticData.m_builderData )
+			object->addComponent(
+					ComponentId::Builder
+				,	boost::intrusive_ptr< IComponent >( new BuilderComponent( *object, *staticData.m_builderData ) ) );
+
+		if ( staticData.m_actionsData )
+			object->addComponent(
+					ComponentId::Actions
+				,	boost::intrusive_ptr< IComponent >( new ActionsComponent( *object, *staticData.m_actionsData ) ) );
+
+		if ( staticData.m_moveData )
+			object->addComponent(
+					ComponentId::Move
+				,	boost::intrusive_ptr< IComponent >( new MoveComponent( *object, *staticData.m_moveData ) ) );
+
 		m_objects.push_back( object );
 
-		QRect objectRect( object->getRect() );
+		QRect objectRect( object->getComponent< ILocateComponent >( ComponentId::Locate )->getRect() );
 
 		for ( int x = objectRect.x(); x < objectRect.x() + objectRect.width(); ++x )
 		{
@@ -275,7 +309,7 @@ Landscape::createObject( const QPoint& _position, const QString& _objectName )
 		return object->getUniqueId();
 	}
 
-	return IObject::ms_wrongId;
+	return Object::ms_wrongId;
 
 } // Landscape::createObject
 
@@ -294,7 +328,7 @@ Landscape::selectObjects( const QRect& _rect )
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( ( *begin )->getRect().intersects( _rect ) )
+		if ( ( *begin )->getComponent< ILocateComponent >( ComponentId::Locate )->getRect().intersects( _rect ) )
 		{
 			m_selectedObjects.push_back( *begin );
 		}
@@ -307,7 +341,7 @@ Landscape::selectObjects( const QRect& _rect )
 
 
 void
-Landscape::selectObject( const IObject::IdType& _id )
+Landscape::selectObject( const Object::UniqueId& _id )
 {
 	unselectObjects();
 

@@ -9,17 +9,11 @@
 #include "landscape_model/sources/landscape_handle/lm_landscape_handle.hpp"
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
-#include "landscape_model/sources/actions_queue/lm_actions_queue.hpp"
-#include "landscape_model/sources/actions/lm_select_in_rect_action.hpp"
-#include "landscape_model/sources/actions/lm_select_by_id_action.hpp"
-#include "landscape_model/sources/actions/lm_create_object_action.hpp"
-#include "landscape_model/sources/actions/lm_set_surface_item_action.hpp"
-#include "landscape_model/sources/actions/lm_move_items_action.hpp"
-
+#include "landscape_model/sources/actions/lm_move_action.hpp"
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
 #include "landscape_model/h/lm_resources.hpp"
-
+#include "landscape_model/h/lm_events.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,21 +28,21 @@ LandscapeModel::LandscapeModel(
 		const IEnvironment& _environment
 	,	const ILandscapeSerializer& _landscapeSerializer
 	,	const ISurfaceItemsCache& _surfaceItemsCache
-	,	const IObjectTypesCache& _objectTypesCache
+	,	const IStaticData& _staticData
 	)
 	:	m_environment( _environment )
 	,	m_landscapeSerializer( _landscapeSerializer )
 	,	m_surfaceItemsCache( _surfaceItemsCache )
-	,	m_objectTypesCache( _objectTypesCache )
+	,	m_staticData( _staticData )
 	,	m_currentLandscape()
 	,	m_landscapeLocker( QMutex::Recursive )
-	,	m_actionsQueue( new ActionsQueue() )
+	,	m_pathFinder( new JumpPointSearch() )
 {
 	m_environment.startThread( Resources::ModelThreadName );
 	m_actionsProcessingTaskHandle = m_environment.pushPeriodicalTask(
 			Resources::ModelThreadName
-		,	boost::bind( &LandscapeModel::runActionsProcessing, this )
-		,	ms_actionsProcessPerisod );
+		,	boost::bind( &LandscapeModel::gameMainLoop, this )
+		,	ms_mainLoopPeriod );
 
 } // LandscapeModel::LandscapeModel
 
@@ -71,7 +65,7 @@ void
 LandscapeModel::initCurrentLandscape ( const QString& _filePath )
 {
 	boost::intrusive_ptr< IEditableLandscape >
-		landscape( new Landscape( m_surfaceItemsCache, m_objectTypesCache ) );
+		landscape( new Landscape( m_surfaceItemsCache, m_staticData ) );
 
 	try
 	{
@@ -79,7 +73,7 @@ LandscapeModel::initCurrentLandscape ( const QString& _filePath )
 	}
 	catch( ... )
 	{
-		landscape.reset( new Landscape( m_surfaceItemsCache, m_objectTypesCache ) );
+		landscape.reset( new Landscape( m_surfaceItemsCache, m_staticData ) );
 		landscape->setSize( 20, 20 );
 	}
 
@@ -94,7 +88,6 @@ LandscapeModel::initCurrentLandscape ( const QString& _filePath )
 void
 LandscapeModel::closeCurrentLandscape()
 {
-	m_actionsQueue->clear();
 	m_currentLandscape.reset();
 
 } // LandscapeModel::closeCurrentLandscape
@@ -126,10 +119,21 @@ LandscapeModel::getCurrentLandscapeInternal() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< ILandscapeHandleInternal >
+LandscapeModel::getCurrentEditableLandscape()
+{
+	return boost::intrusive_ptr< ILandscapeHandleInternal >( new LandscapeHandle( *this ) );
+
+} // LandscapeModel::getCurrentEditableLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< ILandscapeHandle >
 LandscapeModel::getCurrentLandscape()
 {
-	return boost::intrusive_ptr< ILandscapeHandle >( new LandscapeHandle( *this ) );
+	return getCurrentEditableLandscape();
 
 } // LandscapeModel::getCurrentLandscape
 
@@ -151,8 +155,16 @@ LandscapeModel::getLandscapeLocker()
 void
 LandscapeModel::selectObjects( const QRect& _rect )
 {
-	m_actionsQueue->pushAction(
-		boost::intrusive_ptr< IAction >( new SelectInRectAction( m_environment, *this, _rect ) ) );
+	{
+		boost::intrusive_ptr< ILandscapeHandleInternal > handle( getCurrentEditableLandscape() );
+
+		if ( handle->getLandscape() )
+		{
+			handle->getEditableLandscape()->selectObjects( _rect );
+		}
+	}
+
+	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 
 } // LandscapeModel::selectObjects
 
@@ -161,10 +173,18 @@ LandscapeModel::selectObjects( const QRect& _rect )
 
 
 void
-LandscapeModel::selectObject( const IObject::IdType& _id )
+LandscapeModel::selectObject( const Object::UniqueId& _id )
 {
-	m_actionsQueue->pushAction(
-		boost::intrusive_ptr< IAction >( new SelectByIdAction( m_environment, *this, _id ) ) );
+	{
+		boost::intrusive_ptr< ILandscapeHandleInternal > handle( getCurrentEditableLandscape() );
+
+		if ( handle->getLandscape() )
+		{
+			handle->getEditableLandscape()->selectObject( _id );
+		}
+	}
+
+	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 
 } // LandscapeModel::selectObject
 
@@ -175,11 +195,42 @@ LandscapeModel::selectObject( const IObject::IdType& _id )
 void
 LandscapeModel::moveSelectedObjects( const QPoint& _to )
 {
-	m_actionsQueue->pushAction(
-		boost::intrusive_ptr< IAction >( new MoveAction(	m_environment
-														,	*this
-														,	boost::intrusive_ptr< IPathFinder >( new JumpPointSearch() )
-														,	_to ) ) );
+	{
+		boost::intrusive_ptr< ILandscapeHandleInternal > handle( getCurrentEditableLandscape() );
+
+		if ( handle->getLandscape() )
+		{
+			ILandscape::ObjectsCollection selectedObjects;
+			handle->getLandscape()->fetchSelectedObjects( selectedObjects );
+
+			ILandscape::ObjectsCollectionIterator
+					begin = selectedObjects.begin()
+				,	end = selectedObjects.end();
+
+			for ( ; begin != end; ++begin )
+			{
+				boost::intrusive_ptr< IActionsComponent > actionsComponent
+					= ( *begin )->getComponent< IActionsComponent >( ComponentId::Actions );
+
+				if ( actionsComponent && actionsComponent->getStaticData().canDoAction( Actions::Move ) )
+				{
+					boost::intrusive_ptr< IAction > action = actionsComponent->getAction( Actions::Move );
+
+					if ( action )
+					{
+						QVariant newPoint( _to );
+						action->updateWithData( newPoint );
+					}
+					else
+					{
+						actionsComponent->pushAction(
+							boost::intrusive_ptr< IAction >(
+								new MoveAction( m_environment, **begin, *handle->getEditableLandscape(), m_pathFinder, _to ) ) );
+					}
+				}
+			}
+		}
+	}
 
 } // LandscapeModel::moveSelectedObjects
 
@@ -189,11 +240,29 @@ LandscapeModel::moveSelectedObjects( const QPoint& _to )
 
 void
 LandscapeModel::createObject(
-		const QPoint& _position
+		const QPoint& _location
 	,	const QString& _objectName )
 {
-	m_actionsQueue->pushAction(
-		boost::intrusive_ptr< IAction >( new CreateObjectAction( m_environment, *this, _position, _objectName ) ) );
+	Object::UniqueId objectId = Object::ms_wrongId;
+
+	{
+		boost::intrusive_ptr< ILandscapeHandleInternal > handle( getCurrentEditableLandscape() );
+
+		if ( handle->getLandscape() )
+		{
+			objectId = handle->getEditableLandscape()->createObject( _location, _objectName );
+		}
+	}
+
+	if ( objectId != Object::ms_wrongId )
+	{
+		Framework::Core::EventManager::Event objectCreatedEvent( Events::ObjectCreated::ms_type );
+		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectNameAttribute, _objectName );
+		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectLocationAttribute, _location );
+		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectUniqueIdAttribute, objectId );
+
+		m_environment.riseEvent( objectCreatedEvent );
+	}
 
 } // LandscapeModel::createObject
 
@@ -203,11 +272,23 @@ LandscapeModel::createObject(
 
 void
 LandscapeModel::setSurfaceItem(
-		const QPoint& _position
-	,	const Core::LandscapeModel::ISurfaceItem::IdType& _id )
+		const QPoint& _location
+	,	const Core::LandscapeModel::ISurfaceItem::Id& _id )
 {
-	m_actionsQueue->pushAction(
-		boost::intrusive_ptr< IAction >( new SetSurfaceItemAction( m_environment, *this, _position, _id ) ) );
+	{
+		boost::intrusive_ptr< ILandscapeHandleInternal > handle( getCurrentEditableLandscape() );
+
+		if ( handle->getLandscape() )
+		{
+			handle->getEditableLandscape()->setSurfaceItem( _location, _id );
+		}
+	}
+
+	Framework::Core::EventManager::Event surfaceItemChangedEvent( Events::SurfaceItemChanged::ms_type );
+	surfaceItemChangedEvent.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemIdAttribute, _id );
+	surfaceItemChangedEvent.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute, _location );
+
+	m_environment.riseEvent( surfaceItemChangedEvent );
 
 } // LandscapeModel::setSurfaceItem
 
@@ -216,11 +297,42 @@ LandscapeModel::setSurfaceItem(
 
 
 void
-LandscapeModel::runActionsProcessing()
+LandscapeModel::gameMainLoop()
 {
-	m_actionsQueue->processAction( ms_actionsProcessPerisod );
+	{
+		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
 
-} // LandscapeModel::runActionsProcessing
+		if ( handle->getLandscape() )
+		{
+			ILandscape::ObjectsCollection objects;
+			handle->getLandscape()->fetchObjects( objects );
+
+			ILandscape::ObjectsCollectionIterator
+					begin = objects.begin()
+				,	end = objects.end();
+
+			for ( ; begin != end; ++begin )
+			{
+				boost::intrusive_ptr< IActionsComponent > actionsComponent
+					= ( *begin )->getComponent< IActionsComponent >( ComponentId::Actions );
+
+				if ( actionsComponent )
+				{
+					boost::intrusive_ptr< IAction > action = actionsComponent->frontAction();
+
+					if ( action )
+					{
+						action->processAction( ms_mainLoopPeriod );
+
+						if ( action->hasFinished() )
+							actionsComponent->popFrontAction();
+					}
+				}
+			}
+		}
+	}
+
+} // LandscapeModel::gameMainLoop
 
 
 /*---------------------------------------------------------------------------*/

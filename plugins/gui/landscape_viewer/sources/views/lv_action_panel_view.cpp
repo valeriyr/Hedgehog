@@ -8,9 +8,8 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
-#include "landscape_model/ih/lm_iobject.hpp"
-#include "landscape_model/ih/lm_iobject_type.hpp"
 
+#include "landscape_model/h/lm_object.hpp"
 #include "landscape_model/h/lm_events.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
@@ -32,22 +31,22 @@ class CreateObjectItem
 public:
 
 	CreateObjectItem(
-			const Core::LandscapeModel::IObject::IdType& _parentObjectId
-		,	const Core::LandscapeModel::IObjectType::ObjectToCreateData& _createObjectData
+			const Core::LandscapeModel::Object::UniqueId& _parentObjectId
+		,	boost::shared_ptr< const Core::LandscapeModel::BuildObjectsData > _buildData
 		)
 		:	m_parentObjectId( _parentObjectId )
-		,	m_createObjectData( _createObjectData )
+		,	m_buildData( _buildData )
 	{}
 
-	const Core::LandscapeModel::IObject::IdType& getParentObjectId() const { return m_parentObjectId; }
+	const Core::LandscapeModel::Object::UniqueId& getParentObjectId() const { return m_parentObjectId; }
 
-	const Core::LandscapeModel::IObjectType::ObjectToCreateData& getObjectToCreate() const { return m_createObjectData; }
+	boost::shared_ptr< const Core::LandscapeModel::BuildObjectsData > getBuildObjectsData() const { return m_buildData; }
 
 private:
 
-	const Core::LandscapeModel::IObject::IdType m_parentObjectId;
+	const Core::LandscapeModel::Object::UniqueId m_parentObjectId;
 
-	const Core::LandscapeModel::IObjectType::ObjectToCreateData m_createObjectData;
+	boost::shared_ptr< const Core::LandscapeModel::BuildObjectsData > m_buildData;
 };
 
 
@@ -139,8 +138,8 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 {
 	m_mainWidget->clear();
 
-	Plugins::Core::LandscapeModel::IObjectType::ObjectToCreateDataCollection objectToCreate;
-	Core::LandscapeModel::IObject::IdType parentObjectId = Core::LandscapeModel::IObject::ms_wrongId;
+	boost::intrusive_ptr< Core::LandscapeModel::IBuilderComponent > builderComponent;
+	Core::LandscapeModel::Object::UniqueId parentObjectId = Core::LandscapeModel::Object::ms_wrongId;
 
 	{
 		boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
@@ -153,24 +152,27 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 
 			if ( !selectedObjectsCollection.empty() )
 			{
-				selectedObjectsCollection.front()->getType()->fetchObjectsThatCanCreate( objectToCreate );
+				builderComponent = selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::IBuilderComponent >( Plugins::Core::LandscapeModel::ComponentId::Builder );
 				parentObjectId = selectedObjectsCollection.front()->getUniqueId();
 			}
 		}
 	}
 
-	Plugins::Core::LandscapeModel::IObjectType::ObjectToCreateDataCollectionIterator
-			begin = objectToCreate.begin()
-		,	end = objectToCreate.end();
-
-	for ( ; begin != end; ++begin )
+	if ( builderComponent )
 	{
-		CreateObjectItem* listItem = new CreateObjectItem( parentObjectId, *begin );
+		Core::LandscapeModel::BuilderComponentStaticData::BuildObjectsDataCollectionIterator
+				begin = builderComponent->getStaticData().m_buildObjects.begin()
+			,	end = builderComponent->getStaticData().m_buildObjects.end();
 
-		listItem->setText( QString( Resources::Views::CreateObjectLabelFormat ).arg( begin->m_objectName ) );
-		listItem->setIcon( QIcon( m_environment.getPixmap( begin->m_objectName ) ) );
+		for ( ; begin != end; ++begin )
+		{
+			CreateObjectItem* listItem = new CreateObjectItem( parentObjectId, *begin );
 
-		m_mainWidget->addItem( listItem );
+			listItem->setText( QString( Resources::Views::CreateObjectLabelFormat ).arg( ( *begin )->m_objectName ) );
+			listItem->setIcon( QIcon( m_environment.getPixmap( ( *begin )->m_objectName ) ) );
+
+			m_mainWidget->addItem( listItem );
+		}
 	}
 
 } // ActionPanelView::onObjectsSelectionChanged

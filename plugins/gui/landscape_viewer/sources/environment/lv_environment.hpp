@@ -72,24 +72,24 @@ public:
 
 	/*virtual*/ void selectItemsInModel( const QRect& _rect ) const;
 
-	/*virtual*/ void selectItemModel( const Core::LandscapeModel::IObject::IdType& _id ) const;
+	/*virtual*/ void selectItemModel( const Core::LandscapeModel::Object::UniqueId& _id ) const;
 
 	/*virtual*/ void moveSelectedItems( const QPoint& _to ) const;
 
-	/*virtual*/ void createObject( const QPoint& _position, const QString& _name ) const;
+	/*virtual*/ void createObject( const QPoint& _location, const QString& _name ) const;
 
-	/*virtual*/ void setSurfaceItem( const QPoint& _position, const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const;
+	/*virtual*/ void setSurfaceItem( const QPoint& _location, const Core::LandscapeModel::ISurfaceItem::Id& _id ) const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const Core::LandscapeModel::ISurfaceItem::IdType
+	/*virtual*/ const Core::LandscapeModel::ISurfaceItem::Id
 		getDefaultSurfaceItemId() const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void fetchTypes( Core::LandscapeModel::IObjectTypesCache::TypesCollection& _collection ) const;
+	/*virtual*/ void fetchTypes( Core::LandscapeModel::IStaticData::StaticDataCollection& _collection ) const;
 
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IObjectType > getType( const QString& _objectName ) const;
+	/*virtual*/ Core::LandscapeModel::IStaticData::ObjectStaticData getObjectStaticData( const QString& _objectName ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -100,7 +100,7 @@ public:
 	/*virtual*/ boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 		getSurfaceItemGraphicsInfo(
 				const QString& _skinId
-			,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const;
+			,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const;
 
 /*---------------------------------------------------------------------------*/
 

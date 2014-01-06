@@ -8,8 +8,6 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
-#include "landscape_model/ih/lm_iobject.hpp"
-#include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
 
@@ -29,11 +27,11 @@ ObjectInfoView::ObjectInfoView( const IEnvironment& _environment )
 	,	m_subscriber( _environment.createSubscriber() )
 	,	m_viewTitle( Resources::Views::ObjectInfoViewTitle )
 	,	m_mainWidget( new QTextEdit() )
-	,	m_showingObjectId( Core::LandscapeModel::IObject::ms_wrongId )
+	,	m_showingObjectId( Core::LandscapeModel::Object::ms_wrongId )
 {
 	m_mainWidget->setReadOnly( true );
 
-	setDescriptionForObject( Core::LandscapeModel::IObject::ms_wrongId );
+	setDescriptionForObject( Core::LandscapeModel::Object::ms_wrongId );
 
 } // ObjectInfoView::ObjectInfoView
 
@@ -103,7 +101,7 @@ void
 ObjectInfoView::landscapeWasClosed()
 {
 	m_subscriber.unsubscribe();
-	setDescriptionForObject( Core::LandscapeModel::IObject::ms_wrongId );
+	setDescriptionForObject( Core::LandscapeModel::Object::ms_wrongId );
 
 } // ObjectInfoView::landscapeWasClosed
 
@@ -128,7 +126,7 @@ ObjectInfoView::onObjectsSelectionChanged( const Framework::Core::EventManager::
 
 	setDescriptionForObject(
 			selectedObjectsCollection.empty()
-		?	Core::LandscapeModel::IObject::ms_wrongId
+		?	Core::LandscapeModel::Object::ms_wrongId
 		:	selectedObjectsCollection.front()->getUniqueId() );
 
 } // ObjectInfoView::onObjectsSelectionChanged
@@ -140,7 +138,7 @@ ObjectInfoView::onObjectsSelectionChanged( const Framework::Core::EventManager::
 void
 ObjectInfoView::onObjectMoved( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::IObject::IdType objectId
+	const Plugins::Core::LandscapeModel::Object::UniqueId objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -155,36 +153,43 @@ ObjectInfoView::onObjectMoved( const Framework::Core::EventManager::Event& _even
 
 
 void
-ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::IObject::IdType& _objectId )
+ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::UniqueId& _objectId )
 {
-	m_showingObjectId = Core::LandscapeModel::IObject::ms_wrongId;
+	m_showingObjectId = Core::LandscapeModel::Object::ms_wrongId;
 
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
 		= m_environment.getCurrentLandscape();
 
 	if ( handle->getLandscape() )
 	{
-		boost::intrusive_ptr< Core::LandscapeModel::IObject > object = handle->getLandscape()->getObject( _objectId );
+		boost::shared_ptr< Core::LandscapeModel::Object > object = handle->getLandscape()->getObject( _objectId );
 
 		if ( object )
 		{
 			m_showingObjectId = object->getUniqueId();
 
+			boost::intrusive_ptr< Core::LandscapeModel::ILocateComponent > locateComponent
+				= object->getComponent< Core::LandscapeModel::ILocateComponent >( Plugins::Core::LandscapeModel::ComponentId::Locate );
+			boost::intrusive_ptr< Core::LandscapeModel::IHealthComponent > healthComponent
+				= object->getComponent< Core::LandscapeModel::IHealthComponent >( Plugins::Core::LandscapeModel::ComponentId::Health );
+			boost::intrusive_ptr< Core::LandscapeModel::IMoveComponent > moveComponent
+				= object->getComponent< Core::LandscapeModel::IMoveComponent >( Plugins::Core::LandscapeModel::ComponentId::Move );
+
 			m_mainWidget->setHtml(
 				QString( Resources::Views::ObjectInfoFormat )
-					.arg( object->getType()->getName() )
-					.arg( object->getHealth() )
-					.arg( object->getType()->getMaximumHealth() )
-					.arg( object->getType()->getMovingSpeed() )
-					.arg( object->getPosition().x() )
-					.arg( object->getPosition().y() )
-					.arg( object->getType()->getSize().width() )
-					.arg( object->getType()->getSize().height() )
+					.arg( object->getName() )
+					.arg( healthComponent->getHealth() )
+					.arg( healthComponent->getStaticData().m_maximumHealth )
+					.arg( moveComponent ? QString::number( moveComponent->getStaticData().m_movingSpeed ) : "none" )
+					.arg( locateComponent->getLocation().x() )
+					.arg( locateComponent->getLocation().y() )
+					.arg( locateComponent->getStaticData().m_size.width() )
+					.arg( locateComponent->getStaticData().m_size.height() )
 					.arg( object->getUniqueId() ) );
 		}
 	}
 
-	if ( m_showingObjectId == Core::LandscapeModel::IObject::ms_wrongId )
+	if ( m_showingObjectId == Core::LandscapeModel::Object::ms_wrongId )
 	{
 		m_mainWidget->setHtml( Resources::Views::ObjectInfoDefaultText );
 	}

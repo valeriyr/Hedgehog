@@ -7,7 +7,7 @@
 #include "intrusive_base/ib_ibase.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/ih/lm_iobject.hpp"
+#include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,17 +45,17 @@ struct ILandscapeModel
 
 	virtual void selectObjects( const QRect& _rect ) = 0;
 
-	virtual void selectObject( const IObject::IdType& _id ) = 0;
+	virtual void selectObject( const Object::UniqueId& _id ) = 0;
 
 	virtual void moveSelectedObjects( const QPoint& _to ) = 0;
 
 	virtual void createObject(
-			const QPoint& _position
+			const QPoint& _location
 		,	const QString& _objectName ) = 0;
 
 	virtual void setSurfaceItem(
-			const QPoint& _position
-		,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) = 0;
+			const QPoint& _location
+		,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

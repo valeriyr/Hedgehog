@@ -9,8 +9,6 @@
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 #include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
 
-#include "landscape_model/ih/lm_iobject_type.hpp"
-
 #include "multithreading_manager/h/mm_external_resources.hpp"
 #include "settings/h/st_events.hpp"
 
@@ -83,9 +81,9 @@ ObjectsView::ObjectsView(
 
 	QObject::connect(
 			this
-		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) )
+		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& ) )
 		,	&m_viewsMediator
-		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) ) );
+		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& ) ) );
 
 	QObject::connect(
 			this
@@ -121,9 +119,9 @@ ObjectsView::~ObjectsView()
 
 	QObject::disconnect(
 			this
-		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) )
+		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& ) )
 		,	&m_viewsMediator
-		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& ) ) );
+		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& ) ) );
 
 	QObject::disconnect(
 			this
@@ -271,20 +269,20 @@ ObjectsView::fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _par
 void
 ObjectsView::fillWithObjectItems( const QString& _skinId, QTreeWidgetItem* _parentNode )
 {
-	Core::LandscapeModel::IObjectTypesCache::TypesCollection collection;
+	Core::LandscapeModel::IStaticData::StaticDataCollection collection;
 	m_environment.fetchTypes( collection );
 
-	Core::LandscapeModel::IObjectTypesCache::TypesCollectionIterator
+	Core::LandscapeModel::IStaticData::StaticDataCollectionIterator
 			begin = collection.begin()
 		,	end = collection.end();
 
 	for ( ; begin != end; ++begin )
 	{
 		TreeWidgetItem* item = new TreeWidgetItem( TreeWidgetType::Object );
-		item->setText( 0, ( *begin )->getName() );
+		item->setText( 0, begin->first );
 		item->setIcon(
 				0
-			,	QIcon( m_environment.getPixmap( ( *begin )->getName(), _skinId ) ) );
+			,	QIcon( m_environment.getPixmap( begin->first, _skinId ) ) );
 
 		_parentNode->addChild( item );
 	}

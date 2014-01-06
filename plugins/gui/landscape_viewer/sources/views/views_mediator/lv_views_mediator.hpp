@@ -44,7 +44,7 @@ signals:
 
 	void visibilityRectChangedPosition( const float _visibleWidth, const float _visibleHeight );
 
-	void currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id );
+	void currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& _id );
 
 	void currentObjectWasChanged( const QString& _name );
 

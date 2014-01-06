@@ -37,7 +37,7 @@ GraphicsInfoCache::~GraphicsInfoCache()
 void
 GraphicsInfoCache::regSurfaceItemGraphicsInfo(
 		const QString& _skinId
-	,	const Core::LandscapeModel::ISurfaceItem::IdType& _id
+	,	const Core::LandscapeModel::ISurfaceItem::Id& _id
 	,	const QString& _atlasName
 	,	const QRect _frameRect )
 {
@@ -63,7 +63,7 @@ GraphicsInfoCache::regSurfaceItemGraphicsInfo(
 boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 GraphicsInfoCache::getSurfaceItemGraphicsInfo(
 		const QString& _skinId
-	,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const
+	,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const
 {
 	GraphicsInfoCollectionConstIterator graphicsInfoIterator = m_graphicsInfoCollection.find( _skinId );
 

@@ -8,7 +8,7 @@
 #include "event_manager/h/em_event.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/ih/lm_iobject.hpp"
+#include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -94,7 +94,7 @@ public:
 
 	static QPoint convertFromScenePosition( const QPointF& _scenePosition );
 
-	static QPointF convertToScenePosition( const QPoint& _position );
+	static QPointF convertToScenePosition( const QPoint& _location );
 
 	static QPointF roundScenePosition( const QPointF& _scenePosition );
 
@@ -111,7 +111,7 @@ public slots:
 
 /*---------------------------------------------------------------------------*/
 
-	void onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id );
+	void onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& _id );
 
 	void onChangeObject( const QString& _name );
 
@@ -149,7 +149,7 @@ private:
 
 	void setCorrectSceneSize();
 
-	void objectWasAdded( const Plugins::Core::LandscapeModel::IObject::IdType& _id, ObjectGraphicsItem* _item );
+	void objectWasAdded( const Plugins::Core::LandscapeModel::Object::UniqueId& _id, ObjectGraphicsItem* _item );
 
 	void markSelectedObjects();
 
@@ -176,7 +176,7 @@ private:
 
 	typedef
 		std::map<
-				Plugins::Core::LandscapeModel::IObject::IdType
+				Plugins::Core::LandscapeModel::Object::UniqueId
 			,	ObjectGraphicsItem*
 			>
 		ObjectsCollection;

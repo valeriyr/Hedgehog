@@ -90,7 +90,7 @@ public:
 
 	LandscapeSurfaceItemEditingState( const IEnvironment& _environment
 									, LandscapeScene& _scene
-									, const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id );
+									, const Plugins::Core::LandscapeModel::ISurfaceItem::Id& _id );
 
 	virtual ~LandscapeSurfaceItemEditingState();
 
@@ -128,7 +128,7 @@ private:
 
 	LandscapeScene& m_scene;
 
-	const Plugins::Core::LandscapeModel::ISurfaceItem::IdType m_id;
+	const Plugins::Core::LandscapeModel::ISurfaceItem::Id m_id;
 
 	QGraphicsPixmapItem* m_currentEditorItem;
 

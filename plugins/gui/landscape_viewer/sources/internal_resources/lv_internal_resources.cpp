@@ -39,6 +39,8 @@ namespace Views {
 
 	const char* const ObjectInfoViewTitle = "Object Information";
 
+	const char* const PlayerInfoViewTitle = "Player Information";
+
 	const char* const EditorViewDefaultTitle = "Landscape Editor";
 
 	const char* const TarrainMapVisibilityCheckboxName = "Show tarrain map";
@@ -102,6 +104,18 @@ namespace Views {
 			"		</div>																	"	\
 			"	</body>																		"	\
 			"</html>																		";
+
+/*---------------------------------------------------------------------------*/
+
+	const char* const PlayerInfoDefaultText
+		=	"<html>																						"	\
+			"	<head></head>																			"	\
+			"	<body>																					"	\
+			"		<font><center><i>																	"	\
+			"			You will see resources and other player information here after implementation.	"	\
+			"		</i></center></font>																"	\
+			"	</body>																					"	\
+			"</html>																					";
 
 /*---------------------------------------------------------------------------*/
 

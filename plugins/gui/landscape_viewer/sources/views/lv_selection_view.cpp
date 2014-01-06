@@ -9,8 +9,6 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
-#include "landscape_model/ih/lm_iobject.hpp"
-#include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
 
@@ -34,15 +32,15 @@ class SelectionViewItem
 
 public:
 
-	SelectionViewItem( const Core::LandscapeModel::IObject::IdType& _id )
+	SelectionViewItem( const Core::LandscapeModel::Object::UniqueId& _id )
 		:	m_id( _id )
 	{}
 
-	const Core::LandscapeModel::IObject::IdType& getUniqueId() const { return m_id; }
+	const Core::LandscapeModel::Object::UniqueId& getUniqueId() const { return m_id; }
 
 private:
 
-	const Core::LandscapeModel::IObject::IdType m_id;
+	const Core::LandscapeModel::Object::UniqueId m_id;
 };
 
 
@@ -173,8 +171,8 @@ SelectionView::onObjectsSelectionChanged( const Framework::Core::EventManager::E
 	{
 		SelectionViewItem* listItem = new SelectionViewItem( ( *selectedObjectsBegin )->getUniqueId() );
 
-		listItem->setText( ( *selectedObjectsBegin )->getType()->getName() );
-		listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedObjectsBegin )->getType()->getName() ) ) );
+		listItem->setText( ( *selectedObjectsBegin )->getName() );
+		listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedObjectsBegin )->getName() ) ) );
 
 		m_mainWidget->addItem( listItem );
 	}

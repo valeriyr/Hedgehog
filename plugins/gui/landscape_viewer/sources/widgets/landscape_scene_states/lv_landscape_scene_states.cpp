@@ -11,7 +11,6 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
-#include "landscape_model/ih/lm_iobject_type.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -186,7 +185,7 @@ LandscapeSceneGameState::isInSceneRect( const QPointF& _point ) const
 
 LandscapeSurfaceItemEditingState::LandscapeSurfaceItemEditingState(	const IEnvironment& _environment
 																,	LandscapeScene& _scene
-																,	const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id )
+																,	const Plugins::Core::LandscapeModel::ISurfaceItem::Id& _id )
 	:	m_environment( _environment )
 	,	m_scene( _scene )
 	,	m_id( _id )
@@ -356,21 +355,16 @@ LandscapeObjectEditingState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEv
 		int xpos = m_currentEditorItem->pos().x();
 		int ypos = m_currentEditorItem->pos().y();
 
-		QSize objectSize( 1, 1 );
-
-		boost::intrusive_ptr< Core::LandscapeModel::IObjectType > objectType
-			= m_environment.getType( m_name );
-
-		if ( objectType )
-			objectSize = objectType->getSize();
+		Core::LandscapeModel::IStaticData::ObjectStaticData objectStaticData
+			= m_environment.getObjectStaticData( m_name );
 
 		const QPixmap& objectPixmap = m_environment.getPixmap( m_name );
 
-		if ( objectPixmap.width() > ( objectSize.width() * Resources::Landscape::CellSize ) )
-			xpos += ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2;
+		if ( objectPixmap.width() > ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) )
+			xpos += ( objectPixmap.width() - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) ) / 2;
 
-		if ( objectPixmap.height() > ( objectSize.height() * Resources::Landscape::CellSize ) )
-			ypos += ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2;
+		if ( objectPixmap.height() > ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
+			ypos += ( objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2;
 
 		setNewItemInPosition( QPointF( xpos, ypos ) );
 	}

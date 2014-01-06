@@ -4,7 +4,6 @@
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
-#include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "containers/cn_matrix.hpp"
 
@@ -37,7 +36,7 @@ JumpPointSearch::~JumpPointSearch()
 void
 JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 						,	const ILandscape& _landscape
-						,	const IObject& _forObject
+						,	const ILocateComponent& _forObject
 						,	const QPoint& _toPoint )
 {
 	_pointsCollection.clear();
@@ -54,7 +53,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		{
 			int cellValue = engagedCell;
 
-			if ( _landscape.canObjectBePlaced( QPoint( i, j ), _forObject.getType() ) )
+			if ( _landscape.canObjectBePlaced( QPoint( i, j ), _forObject.getStaticData() ) )
 			{
 				cellValue = freeCell;
 			}
@@ -63,7 +62,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		}
 	}
 
-	QPoint startPoint( _forObject.getPosition() );
+	QPoint startPoint( _forObject.getLocation() );
 	QPoint finishPoint = _toPoint;
 
 	int dx[4] = {1, 0, -1, 0};
@@ -85,10 +84,25 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 				{
 					for ( int k = 0; k < 4; ++k )
 					{
-						if ( matrix.getConstElement( i + dx[ k ], j + dy[ k ] ) == freeCell )
+						int rx = i + dx[ k ];
+						int ry = j + dy[ k ];
+
+						if ( rx < 0 )
+							continue;
+
+						if ( (unsigned int)rx >= _landscape.getWidth() )
+							continue;
+
+						if ( ry < 0 )
+							continue;
+
+						if ( (unsigned int)ry >= _landscape.getHeight() )
+							continue;
+
+						if ( matrix.getConstElement( rx, ry ) == freeCell )
 						{
 							stop = false;
-							matrix.setElement( i + dx[k], j + dy[k], d + 1);
+							matrix.setElement( rx, ry, d + 1);
 						}
 					}
 				}
@@ -113,10 +127,25 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 
 		for ( int k = 0; k < 4; ++k )
 		{
-			if ( matrix.getConstElement( x + dx[ k ], y + dy[ k ] ) == d )
+			int rx = x + dx[ k ];
+			int ry = y + dy[ k ];
+
+			if ( rx < 0 )
+				continue;
+
+			if ( (unsigned int)rx >= _landscape.getWidth() )
+				continue;
+
+			if ( ry < 0 )
+				continue;
+
+			if ( (unsigned int)ry >= _landscape.getHeight() )
+				continue;
+
+			if ( matrix.getConstElement( rx, ry ) == d )
 			{
-				x = x + dx[k];
-				y = y + dy[k];
+				x = rx;
+				y = ry;
 				break;
 			}
 		}

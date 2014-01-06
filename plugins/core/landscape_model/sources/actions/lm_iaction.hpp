@@ -5,6 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/h/lm_actions.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -26,6 +27,14 @@ struct IAction
 	virtual void unprocessAction( const unsigned int _deltaTime ) = 0;
 
 	virtual bool hasFinished() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual const Actions::Enum getType() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void updateWithData( const QVariant& _data ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

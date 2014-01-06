@@ -23,7 +23,7 @@
 
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
-#include "landscape_model/ih/lm_iobject_types_cache.hpp"
+#include "landscape_model/ih/lm_istatic_data.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/h/lm_plugin_id.hpp"
 
@@ -314,15 +314,15 @@ PluginInstance::getSurfaceItemsCache() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Plugins::Core::LandscapeModel::IObjectTypesCache >
-PluginInstance::getObjectTypesCache() const
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::IStaticData >
+PluginInstance::getStaticData() const
 {
 	return
-		getPluginInterface< Plugins::Core::LandscapeModel::IObjectTypesCache >(
+		getPluginInterface< Plugins::Core::LandscapeModel::IStaticData >(
 				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
-			,	Plugins::Core::LandscapeModel::IID_OBJECT_TYPES_CACHE );
+			,	Plugins::Core::LandscapeModel::IID_STATIC_DATA );
 
-} // PluginInstance::getObjectTypesCache
+} // PluginInstance::getStaticData
 
 
 /*---------------------------------------------------------------------------*/
@@ -477,11 +477,11 @@ PluginInstance::fillObjectsCache()
 
 		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
 
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 0,   0, 72, 72 ) ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 0,  72, 72, 72 ) ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 0, 144, 72, 72 ) ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 0, 216, 72, 72 ) ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 0, 288, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0,  72, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0, 144, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0, 216, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 0, 288, 72, 72 ) ) );
 
 		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/grunt", animationFrames ) );
 	}
@@ -497,11 +497,11 @@ PluginInstance::fillObjectsCache()
 
 		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
 
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 288,   0, 72, 72 ) ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 288,  72, 72, 72 ) ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 288, 144, 72, 72 ) ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 288, 216, 72, 72 ) ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 288, 288, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288,  72, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288, 144, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288, 216, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 288, 288, 72, 72 ) ) );
 
 		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/grunt", animationFrames ) );
 	}
@@ -517,11 +517,11 @@ PluginInstance::fillObjectsCache()
 
 		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
 
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 144,   0, 72, 72 ) ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 144,  72, 72, 72 ) ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 144, 144, 72, 72 ) ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 144, 216, 72, 72 ) ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 144, 288, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144,  72, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 144, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 216, 72, 72 ) ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 288, 72, 72 ) ) );
 
 		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/grunt", animationFrames ) );
 	}
@@ -537,11 +537,11 @@ PluginInstance::fillObjectsCache()
 
 		Framework::GUI::AnimationManager::AnimationInfo::FramesCollection animationFrames;
 
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 144,   0, 72, 72 ), true ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 144,  72, 72, 72 ), true ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 144, 144, 72, 72 ), true ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 144, 216, 72, 72 ), true ) );
-		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 200, QRect( 144, 288, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144,  72, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 144, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 216, 72, 72 ), true ) );
+		animationFrames.push_back( Framework::GUI::AnimationManager::FrameInfo( 100, QRect( 144, 288, 72, 72 ), true ) );
 
 		animationsCache->regAnimation( Framework::GUI::AnimationManager::AnimationInfo( animationName, "units/grunt", animationFrames ) );
 	}

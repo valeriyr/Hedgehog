@@ -12,8 +12,6 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
-#include "landscape_model/ih/lm_iobject.hpp"
-#include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
 
@@ -166,7 +164,7 @@ LandscapeScene::landscapeWasClosed()
 
 
 void
-LandscapeScene::onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::IdType& _id )
+LandscapeScene::onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& _id )
 {
 	m_landscapeSceneState.reset( new LandscapeSurfaceItemEditingState( m_environment, *this, _id ) );
 
@@ -241,8 +239,8 @@ void
 LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _event )
 {
 	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectNameAttribute ).toString();
-	const QPoint objectPosition = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectPositionAttribute ).toPoint();
-	const Plugins::Core::LandscapeModel::IObject::IdType id
+	const QPoint objectLocation = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectLocationAttribute ).toPoint();
+	const Plugins::Core::LandscapeModel::Object::UniqueId id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectUniqueIdAttribute ).toInt();
 
 	QPointF correctedPosition(
@@ -250,7 +248,7 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 				m_environment
 			,	width()
 			,	height()
-			,	LandscapeScene::convertToScenePosition( objectPosition )
+			,	LandscapeScene::convertToScenePosition( objectLocation )
 			,	objectName ) );
 
 	ObjectGraphicsItem* newItem = new ObjectGraphicsItem( m_environment.getPixmap( objectName ) );
@@ -281,14 +279,14 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 {
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle = m_environment.getCurrentLandscape();
 
-	const Plugins::Core::LandscapeModel::ISurfaceItem::IdType id
+	const Plugins::Core::LandscapeModel::ISurfaceItem::Id id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_surfaceItemIdAttribute ).toUInt();
-	const QPoint position
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_surfaceItemPositionAttribute ).toPoint();
+	const QPoint location
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute ).toPoint();
 
 	if ( handle->getLandscape() )
 	{
-		QPointF scenePosition( LandscapeScene::convertToScenePosition( position ) );
+		QPointF scenePosition( LandscapeScene::convertToScenePosition( location ) );
 
 		QList< QGraphicsItem* > itemsList = items( scenePosition, Qt::ContainsItemShape, Qt::AscendingOrder );
 
@@ -334,7 +332,7 @@ LandscapeScene::onObjectMoved( const Framework::Core::EventManager::Event& _even
 {
 	const QString name
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectNameAttribute ).toString();
-	const Plugins::Core::LandscapeModel::IObject::IdType id
+	const Plugins::Core::LandscapeModel::Object::UniqueId id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectIdAttribute ).toInt();
 	const QPoint movedFrom
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingFromAttribute ).toPoint();
@@ -374,7 +372,7 @@ LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event
 {
 	const QString name
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectNameAttribute ).toString();
-	const Plugins::Core::LandscapeModel::IObject::IdType id
+	const Plugins::Core::LandscapeModel::Object::UniqueId id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute ).toInt();
 	const Plugins::Core::LandscapeModel::ObjectState::Enum state
 		= static_cast< Plugins::Core::LandscapeModel::ObjectState::Enum >(
@@ -439,16 +437,19 @@ LandscapeScene::generateLandscape()
 		for ( ; begin != end; ++begin )
 		{
 			ObjectGraphicsItem* newItem
-				= new ObjectGraphicsItem( m_environment.getPixmap( ( *begin )->getType()->getName() ) );
+				= new ObjectGraphicsItem( m_environment.getPixmap( ( *begin )->getName() ) );
 			addItem( newItem );
+
+			boost::intrusive_ptr< Core::LandscapeModel::ILocateComponent > locateComponent
+				= ( *begin )->getComponent< Core::LandscapeModel::ILocateComponent >( Plugins::Core::LandscapeModel::ComponentId::Locate );
 
 			QPointF correctedPosition(
 				LandscapeScene::correctSceneObjectPosition(
 						m_environment
 					,	width()
 					,	height()
-					,	LandscapeScene::convertToScenePosition( ( *begin )->getPosition() )
-					,	( *begin )->getType()->getName() ) );
+					,	LandscapeScene::convertToScenePosition( locateComponent->getLocation() )
+					,	( *begin )->getName() ) );
 
 			newItem->setPos( correctedPosition );
 			newItem->setZValue( ObjectZValue::Object );
@@ -458,9 +459,9 @@ LandscapeScene::generateLandscape()
 			playAnimation(
 					*newItem
 				,	m_environment.getString( Resources::Properties::SkinId )
-				,	( *begin )->getType()->getName()
+				,	( *begin )->getName()
 				,	( *begin )->getState()
-				,	( *begin )->getDirection() );
+				,	locateComponent->getDirection() );
 		}
 	}
 
@@ -590,7 +591,7 @@ LandscapeScene::setCorrectSceneSize()
 
 
 void
-LandscapeScene::objectWasAdded( const Plugins::Core::LandscapeModel::IObject::IdType& _id, ObjectGraphicsItem* _item )
+LandscapeScene::objectWasAdded( const Plugins::Core::LandscapeModel::Object::UniqueId& _id, ObjectGraphicsItem* _item )
 {
 	assert( m_objectsCollection.find( _id ) == m_objectsCollection.end() );
 	m_objectsCollection.insert( std::make_pair( _id, _item ) );
@@ -655,9 +656,9 @@ LandscapeScene::convertFromScenePosition( const QPointF& _scenePosition )
 
 
 QPointF
-LandscapeScene::convertToScenePosition( const QPoint& _position )
+LandscapeScene::convertToScenePosition( const QPoint& _location )
 {
-	return QPointF( _position.x() * Resources::Landscape::CellSize, _position.y() * Resources::Landscape::CellSize );
+	return QPointF( _location.x() * Resources::Landscape::CellSize, _location.y() * Resources::Landscape::CellSize );
 
 } // LandscapeScene::convertToScenePosition
 
@@ -689,27 +690,22 @@ LandscapeScene::correctSceneObjectPosition(
 {
 	QPoint correctedPosition( _roundedPosition.x(), _roundedPosition.y() );
 
-	QSize objectSize( 1, 1 );
-
-	boost::intrusive_ptr< Core::LandscapeModel::IObjectType > objectType
-		= _environment.getType( _objectName );
-
-	if ( objectType )
-		objectSize = objectType->getSize();
+	Core::LandscapeModel::IStaticData::ObjectStaticData objectStaticData
+		= _environment.getObjectStaticData( _objectName );
 
 	const QPixmap& objectPixmap = _environment.getPixmap( _objectName );
 
-	if ( correctedPosition.x() > _sceneWidth - ( objectSize.width() * Resources::Landscape::CellSize ) )
-		correctedPosition.setX( _sceneWidth - ( objectSize.width() * Resources::Landscape::CellSize ) );
+	if ( correctedPosition.x() > _sceneWidth - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) )
+		correctedPosition.setX( _sceneWidth - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) );
 
-	if ( correctedPosition.y() > _sceneHeight - ( objectSize.height() * Resources::Landscape::CellSize ) )
-		correctedPosition.setY( _sceneHeight - ( objectSize.height() * Resources::Landscape::CellSize ) );
+	if ( correctedPosition.y() > _sceneHeight - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
+		correctedPosition.setY( _sceneHeight - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) );
 
-	if ( objectPixmap.width() > ( objectSize.width() * Resources::Landscape::CellSize ) )
-		correctedPosition.setX( correctedPosition.x() - ( objectPixmap.width() - ( objectSize.width() * Resources::Landscape::CellSize ) ) / 2 );
+	if ( objectPixmap.width() > ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) )
+		correctedPosition.setX( correctedPosition.x() - ( objectPixmap.width() - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) ) / 2 );
 
-	if ( objectPixmap.height() > ( objectSize.height() * Resources::Landscape::CellSize ) )
-		correctedPosition.setY( correctedPosition.y() - ( objectPixmap.height() - ( objectSize.height() * Resources::Landscape::CellSize ) ) / 2 );
+	if ( objectPixmap.height() > ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
+		correctedPosition.setY( correctedPosition.y() - ( objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2 );
 
 	return correctedPosition;
 

@@ -40,7 +40,7 @@ struct IGraphicsInfoCache
 
 	virtual void regSurfaceItemGraphicsInfo(
 			const QString& _skinId
-		,	const Core::LandscapeModel::ISurfaceItem::IdType& _id
+		,	const Core::LandscapeModel::ISurfaceItem::Id& _id
 		,	const QString& _atlasName
 		,	const QRect _frameRect ) = 0;
 
@@ -49,7 +49,7 @@ struct IGraphicsInfoCache
 	virtual boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 		getSurfaceItemGraphicsInfo(
 				const QString& _skinId
-			,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const = 0;
+			,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

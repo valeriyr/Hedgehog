@@ -45,7 +45,7 @@ struct IEnvironment;
 struct ILandscapeSerializer;
 struct ISurfaceItemsCache;
 struct ILandscapeModel;
-struct IObjectTypesCache;
+struct IStaticData;
 
 /*---------------------------------------------------------------------------*/
 
@@ -101,7 +101,7 @@ private:
 
 	boost::intrusive_ptr< IEnvironment > m_environment;
 
-	boost::intrusive_ptr< IObjectTypesCache > m_objectTypesCache;
+	boost::intrusive_ptr< IStaticData > m_staticData;
 
 	boost::intrusive_ptr< ISurfaceItemsCache > m_surfaceItemsCache;
 

@@ -28,32 +28,32 @@
     <Filter Include="Surface Items Cache">
       <UniqueIdentifier>{8e049fe2-eb17-4576-90e2-599722e3ef55}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object Type">
-      <UniqueIdentifier>{aea91c96-8014-4da2-af47-433886d460d6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Landscape Model">
       <UniqueIdentifier>{5321bf5e-646e-46ce-8e19-8e9c73a70332}</UniqueIdentifier>
     </Filter>
     <Filter Include="Landscape Handle">
       <UniqueIdentifier>{5ba58ded-4e19-4c40-b18d-54710cefc11e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object Types Cache">
-      <UniqueIdentifier>{31feb3a4-194a-4b11-a22a-ea7d9cf91da4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Environment">
       <UniqueIdentifier>{fbf08fa7-b1bd-450a-9c00-c08e8e433b85}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actions">
-      <UniqueIdentifier>{86241734-2789-48bf-9575-33d71c35b90d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Action Queue">
-      <UniqueIdentifier>{f28a99d3-a8cb-42d4-95a2-3b0b6e18e5ec}</UniqueIdentifier>
     </Filter>
     <Filter Include="Path Finders">
       <UniqueIdentifier>{ac68a0d0-40e2-4c33-9279-30845348c204}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object">
-      <UniqueIdentifier>{90ea15c2-3560-4576-af2a-83b168e050d0}</UniqueIdentifier>
+    <Filter Include="Components">
+      <UniqueIdentifier>{f9639e51-a66c-4129-bc6e-f1eb37f13052}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces\Components">
+      <UniqueIdentifier>{e752d445-8120-4d68-853b-cf17e11f975f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External Headers\Components">
+      <UniqueIdentifier>{1adc0b99-8682-4ce3-9842-ea1850299ea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Static Data">
+      <UniqueIdentifier>{31feb3a4-194a-4b11-a22a-ea7d9cf91da4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actions">
+      <UniqueIdentifier>{37fd109c-3470-49a2-a7cf-ef068f6a7b4c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -78,12 +78,6 @@
     <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp">
       <Filter>Surface Items Cache</Filter>
     </ClCompile>
-    <ClCompile Include="sources\object_type\lm_object_type.cpp">
-      <Filter>Object Type</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\object_types_cache\lm_object_types_cache.cpp">
-      <Filter>Object Types Cache</Filter>
-    </ClCompile>
     <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp">
       <Filter>Landscape Model</Filter>
     </ClCompile>
@@ -93,34 +87,34 @@
     <ClCompile Include="sources\environment\lm_environment.cpp">
       <Filter>Environment</Filter>
     </ClCompile>
-    <ClCompile Include="sources\actions\lm_base_action.cpp">
-      <Filter>Actions</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\actions\lm_move_items_action.cpp">
-      <Filter>Actions</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\actions_queue\lm_actions_queue.cpp">
-      <Filter>Action Queue</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\actions\lm_create_object_action.cpp">
-      <Filter>Actions</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\actions\lm_set_surface_item_action.cpp">
-      <Filter>Actions</Filter>
-    </ClCompile>
     <ClCompile Include="sources\path_finders\lm_jump_point_search.cpp">
       <Filter>Path Finders</Filter>
     </ClCompile>
-    <ClCompile Include="sources\actions\lm_select_by_id_action.cpp">
+    <ClCompile Include="sources\components\lm_builder_component.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\components\lm_health_component.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\components\lm_locate_component.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\components\lm_selection_component.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\static_data\lm_static_data.cpp">
+      <Filter>Static Data</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\components\lm_move_component.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\components\lm_actions_component.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\actions\lm_base_action.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="sources\actions\lm_select_in_rect_action.cpp">
-      <Filter>Actions</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\object\lm_object.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\actions\lm_create_object_by_other_action.cpp">
+    <ClCompile Include="sources\actions\lm_move_action.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
   </ItemGroup>
@@ -158,12 +152,6 @@
     <ClInclude Include="h\lm_terrain_map_data.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ih\lm_iobject_type.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\lm_iobject_types_cache.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="ih\lm_ilandscape_handle.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -185,12 +173,6 @@
     <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp">
       <Filter>Surface Items Cache</Filter>
     </ClInclude>
-    <ClInclude Include="sources\object_type\lm_object_type.hpp">
-      <Filter>Object Type</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\object_types_cache\lm_object_types_cache.hpp">
-      <Filter>Object Types Cache</Filter>
-    </ClInclude>
     <ClInclude Include="sources\landscape_model\lm_ilandscape_model_internal.hpp">
       <Filter>Landscape Model</Filter>
     </ClInclude>
@@ -206,38 +188,11 @@
     <ClInclude Include="sources\environment\lm_ienvironment.hpp">
       <Filter>Environment</Filter>
     </ClInclude>
-    <ClInclude Include="sources\actions\lm_base_action.hpp">
-      <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\actions\lm_iaction.hpp">
-      <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\actions\lm_move_items_action.hpp">
-      <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\actions_queue\lm_actions_queue.hpp">
-      <Filter>Action Queue</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\actions_queue\lm_iactions_queue.hpp">
-      <Filter>Action Queue</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\actions\lm_create_object_action.hpp">
-      <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\actions\lm_set_surface_item_action.hpp">
-      <Filter>Actions</Filter>
-    </ClInclude>
     <ClInclude Include="sources\path_finders\lm_ipath_finder.hpp">
       <Filter>Path Finders</Filter>
     </ClInclude>
     <ClInclude Include="sources\path_finders\lm_jump_point_search.hpp">
       <Filter>Path Finders</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\actions\lm_select_by_id_action.hpp">
-      <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\actions\lm_select_in_rect_action.hpp">
-      <Filter>Actions</Filter>
     </ClInclude>
     <ClInclude Include="h\lm_directions.hpp">
       <Filter>External Headers</Filter>
@@ -245,13 +200,91 @@
     <ClInclude Include="h\lm_object_states.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ih\lm_iobject.hpp">
+    <ClInclude Include="h\lm_object.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\components\lm_ibuilder_component.hpp">
+      <Filter>Interfaces\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\components\lm_icomponent.hpp">
+      <Filter>Interfaces\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\components\lm_ihealth_component.hpp">
+      <Filter>Interfaces\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\components\lm_ilocate_component.hpp">
+      <Filter>Interfaces\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\components\lm_base_component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\components\lm_builder_component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\components\lm_health_component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\components\lm_locate_component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\components\lm_iselection_component.hpp">
+      <Filter>Interfaces\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\components\lm_selection_component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="h\components\lm_component_id.hpp">
+      <Filter>External Headers\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="h\components\lm_builder_component_static_data.hpp">
+      <Filter>External Headers\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="h\components\lm_health_component_static_data.hpp">
+      <Filter>External Headers\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="h\components\lm_locate_component_static_data.hpp">
+      <Filter>External Headers\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="h\components\lm_selection_component_static_data.hpp">
+      <Filter>External Headers\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_istatic_data.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="sources\object\lm_object.hpp">
-      <Filter>Object</Filter>
+    <ClInclude Include="sources\static_data\lm_static_data.hpp">
+      <Filter>Static Data</Filter>
     </ClInclude>
-    <ClInclude Include="sources\actions\lm_create_object_by_other_action.hpp">
+    <ClInclude Include="h\lm_actions.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_handle\lm_ilandscape_handle_internal.hpp">
+      <Filter>Landscape Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\components\lm_move_component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\components\lm_imove_component.hpp">
+      <Filter>Interfaces\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="h\components\lm_move_component_static_data.hpp">
+      <Filter>External Headers\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="h\components\lm_actions_component_static_data.hpp">
+      <Filter>External Headers\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\components\lm_actions_component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\components\lm_iactions_component.hpp">
+      <Filter>Interfaces\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_base_action.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_iaction.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_move_action.hpp">
       <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>

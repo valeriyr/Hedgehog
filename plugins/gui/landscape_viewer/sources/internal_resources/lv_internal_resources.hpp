@@ -37,6 +37,8 @@ namespace Views {
 
 	extern const char* const ObjectInfoViewTitle;
 
+	extern const char* const PlayerInfoViewTitle;
+
 	extern const char* const EditorViewDefaultTitle;
 
 	extern const char* const TarrainMapVisibilityCheckboxName;
@@ -54,6 +56,10 @@ namespace Views {
 	extern const char* const ObjectInfoDefaultText;
 
 	extern const char* const ObjectInfoFormat;
+
+/*---------------------------------------------------------------------------*/
+
+	extern const char* const PlayerInfoDefaultText;
 
 /*---------------------------------------------------------------------------*/
 

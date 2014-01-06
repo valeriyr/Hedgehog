@@ -18,11 +18,11 @@ namespace LandscapeModel {
 
 struct IEnvironment;
 struct ISurfaceItemsCache;
-struct IObjectTypesCache;
+struct IStaticData;
 struct ILandscapeSerializer;
 struct IEditableLandscape;
 struct ILandscapeHandle;
-struct IActionsQueue;
+struct IPathFinder;
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,7 +40,7 @@ public:
 			const IEnvironment& _environment
 		,	const ILandscapeSerializer& _landscapeSerializer
 		,	const ISurfaceItemsCache& _surfaceItemsCache
-		,	const IObjectTypesCache& _objectTypesCache );
+		,	const IStaticData& _staticData );
 
 	virtual ~LandscapeModel();
 
@@ -56,6 +56,10 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getCurrentLandscapeInternal() const;
 
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< ILandscapeHandleInternal > getCurrentEditableLandscape();
+
 	/*virtual*/ boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape();
 
 /*---------------------------------------------------------------------------*/
@@ -66,15 +70,15 @@ public:
 
 	/*virtual*/ void selectObjects( const QRect& _rect );
 
-	/*virtual*/ void selectObject( const IObject::IdType& _id );
+	/*virtual*/ void selectObject( const Object::UniqueId& _id );
 
 	/*virtual*/ void moveSelectedObjects( const QPoint& _to );
 
-	/*virtual*/ void createObject( const QPoint& _position, const QString& _objectName );
+	/*virtual*/ void createObject( const QPoint& _location, const QString& _objectName );
 
 	/*virtual*/ void setSurfaceItem(
-			const QPoint& _position
-		,	const Core::LandscapeModel::ISurfaceItem::IdType& _id );
+			const QPoint& _location
+		,	const Core::LandscapeModel::ISurfaceItem::Id& _id );
 
 /*---------------------------------------------------------------------------*/
 
@@ -82,7 +86,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void runActionsProcessing();
+	void gameMainLoop();
 
 /*---------------------------------------------------------------------------*/
 
@@ -90,7 +94,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	static const int ms_actionsProcessPerisod = 100;
+	static const qint64 ms_mainLoopPeriod = 100;
 
 /*---------------------------------------------------------------------------*/
 
@@ -100,7 +104,7 @@ private:
 
 	const ISurfaceItemsCache& m_surfaceItemsCache;
 
-	const IObjectTypesCache& m_objectTypesCache;
+	const IStaticData& m_staticData;
 
 /*---------------------------------------------------------------------------*/
 
@@ -110,9 +114,7 @@ private:
 
 	QMutex m_landscapeLocker;
 
-/*---------------------------------------------------------------------------*/
-
-	boost::intrusive_ptr< IActionsQueue > m_actionsQueue;
+	boost::intrusive_ptr< IPathFinder > m_pathFinder;
 
 /*---------------------------------------------------------------------------*/
 

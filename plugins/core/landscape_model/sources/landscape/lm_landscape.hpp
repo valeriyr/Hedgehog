@@ -17,7 +17,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct ISurfaceItemsCache;
-struct IObjectTypesCache;
+struct IStaticData;
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,7 +33,7 @@ public:
 
 	Landscape(
 			const ISurfaceItemsCache& _surfaceItemsCache
-		,	const IObjectTypesCache& _objectTypesCache );
+		,	const IStaticData& _staticData );
 
 	virtual ~Landscape();
 
@@ -51,9 +51,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IObject > getObject( const QPoint& _point ) const;
+	/*virtual*/ boost::shared_ptr< Object > getObject( const QPoint& _point ) const;
 
-	/*virtual*/ boost::intrusive_ptr< IObject > getObject( const IObject::IdType& _id ) const;
+	/*virtual*/ boost::shared_ptr< Object > getObject( const Object::UniqueId& _id ) const;
 
 	/*virtual*/ unsigned int getObjectsCount() const;
 
@@ -64,8 +64,8 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ bool canObjectBePlaced(
-			const QPoint& _position
-		,	boost::intrusive_ptr< IObjectType > _objectType ) const;
+			const QPoint& _location
+		,	const LocateComponentStaticData& _data ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -77,7 +77,7 @@ public:
 
 	/*virtual*/ void setSurfaceItem(
 			const QPoint& _point
-		,	const ISurfaceItem::IdType& _surfaceItemId );
+		,	const ISurfaceItem::Id& _surfaceItemId );
 
 /*---------------------------------------------------------------------------*/
 
@@ -85,13 +85,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ IObject::IdType createObject(
-			const QPoint& _position
+	/*virtual*/ Object::UniqueId createObject(
+			const QPoint& _location
 		,	const QString& _objectName );
 
 	/*virtual*/ void selectObjects( const QRect& _rect );
 
-	/*virtual*/ void selectObject( const IObject::IdType& _id );
+	/*virtual*/ void selectObject( const Object::UniqueId& _id );
 
 	/*virtual*/ void unselectObjects();
 
@@ -102,7 +102,7 @@ private:
 /*---------------------------------------------------------------------------*/
 	
 	const ISurfaceItemsCache& m_surfaceItemsCache;
-	const IObjectTypesCache& m_objectTypesCache;
+	const IStaticData& m_staticData;
 
 /*---------------------------------------------------------------------------*/
 

@@ -1,6 +1,7 @@
 
 #include <vector>
 #include <map>
+#include <set>
 
 #include <QtCore/QString>
 #include <QtCore/QVariant>

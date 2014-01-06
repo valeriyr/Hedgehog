@@ -26,6 +26,7 @@ class SelectionView;
 class ObjectInfoView;
 class ActionPanelView;
 class ObjectStatusView;
+class PlayerInfoView;
 
 class ViewsMediator;
 
@@ -74,6 +75,7 @@ private:
 	boost::intrusive_ptr< ObjectInfoView > m_objectInfoView;
 	boost::intrusive_ptr< ActionPanelView > m_actionPanelView;
 	boost::intrusive_ptr< ObjectStatusView > m_objectStatusView;
+	boost::intrusive_ptr< PlayerInfoView > m_playerInfoView;
 
 	QString m_landscapeFilePath;
 

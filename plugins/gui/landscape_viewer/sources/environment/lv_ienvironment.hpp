@@ -9,8 +9,9 @@
 #include "window_manager/h/wm_view_position.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/ih/lm_iobject.hpp"
-#include "landscape_model/ih/lm_iobject_types_cache.hpp"
+#include "landscape_model/ih/lm_istatic_data.hpp"
+
+#include "landscape_model/h/lm_object.hpp"
 
 #include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
 
@@ -111,24 +112,24 @@ struct IEnvironment
 
 	virtual void selectItemsInModel( const QRect& _rect ) const = 0;
 
-	virtual void selectItemModel( const Core::LandscapeModel::IObject::IdType& _id ) const = 0;
+	virtual void selectItemModel( const Core::LandscapeModel::Object::UniqueId& _id ) const = 0;
 
 	virtual void moveSelectedItems( const QPoint& _to ) const = 0;
 
-	virtual void createObject( const QPoint& _position, const QString& _name ) const = 0;
+	virtual void createObject( const QPoint& _location, const QString& _name ) const = 0;
 
-	virtual void setSurfaceItem( const QPoint& _position, const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const = 0;
+	virtual void setSurfaceItem( const QPoint& _location, const Core::LandscapeModel::ISurfaceItem::Id& _id ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const Core::LandscapeModel::ISurfaceItem::IdType
+	virtual const Core::LandscapeModel::ISurfaceItem::Id
 		getDefaultSurfaceItemId() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void fetchTypes( Core::LandscapeModel::IObjectTypesCache::TypesCollection& _collection ) const = 0;
+	virtual void fetchTypes( Core::LandscapeModel::IStaticData::StaticDataCollection& _collection ) const = 0;
 
-	virtual boost::intrusive_ptr< Core::LandscapeModel::IObjectType > getType( const QString& _objectName ) const = 0;
+	virtual Core::LandscapeModel::IStaticData::ObjectStaticData getObjectStaticData( const QString& _objectName ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -139,7 +140,7 @@ struct IEnvironment
 	virtual boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 		getSurfaceItemGraphicsInfo(
 				const QString& _skinId
-			,	const Core::LandscapeModel::ISurfaceItem::IdType& _id ) const = 0;
+			,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

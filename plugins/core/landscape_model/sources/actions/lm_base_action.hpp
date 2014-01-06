@@ -15,7 +15,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
-struct ILandscapeModel;
+class Object;
 
 /*---------------------------------------------------------------------------*/
 
@@ -31,7 +31,7 @@ public:
 
 	BaseAction(
 			const IEnvironment& _environment
-		,	ILandscapeModel& _landscapeModel );
+		,	Object& _object );
 
 	virtual ~BaseAction();
 
@@ -43,7 +43,7 @@ protected:
 
 	const IEnvironment& m_environment;
 
-	ILandscapeModel& m_landscapeModel;
+	Object& m_object;
 
 /*---------------------------------------------------------------------------*/
 

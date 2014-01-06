@@ -10,8 +10,6 @@
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/ih/lm_iobject.hpp"
-#include "landscape_model/ih/lm_iobject_type.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
 
@@ -354,9 +352,12 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 
 		for ( ; begin != end; ++begin )
 		{
-			for ( int x = ( *begin )->getPosition().x(); x < ( *begin )->getPosition().x() + ( *begin )->getType()->getSize().width(); ++x )
+			boost::intrusive_ptr< Core::LandscapeModel::ILocateComponent > locateComponent
+				= ( *begin )->getComponent< Core::LandscapeModel::ILocateComponent >( Plugins::Core::LandscapeModel::ComponentId::Locate );
+
+			for ( int x = locateComponent->getLocation().x(); x < locateComponent->getLocation().x() + locateComponent->getStaticData().m_size.width(); ++x )
 			{
-				for ( int y = ( *begin )->getPosition().y(); y < ( *begin )->getPosition().y() + ( *begin )->getType()->getSize().height(); ++y )
+				for ( int y = locateComponent->getLocation().y(); y < locateComponent->getLocation().y() + locateComponent->getStaticData().m_size.height(); ++y )
 				{
 					qreal posByX = ( x * Resources::Landscape::CellSize ) * scaleByX;
 					qreal posByY = ( y * Resources::Landscape::CellSize ) * scaleByY;

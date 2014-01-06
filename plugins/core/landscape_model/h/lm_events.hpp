@@ -26,7 +26,7 @@ namespace ObjectCreated
 	const char* const ms_type = "ObjectCreated";
 
 	const char* const ms_objectNameAttribute = "ObjectName";
-	const char* const ms_objectPositionAttribute = "ObjectPosition";
+	const char* const ms_objectLocationAttribute = "ObjectLocation";
 	const char* const ms_objectUniqueIdAttribute = "ObjectUniqueId";
 }
 
@@ -69,7 +69,7 @@ namespace SurfaceItemChanged
 	const char* const ms_type = "SurfaceItemChanged";
 
 	const char* const ms_surfaceItemIdAttribute = "SurfaceItemId";
-	const char* const ms_surfaceItemPositionAttribute = "SurfaceItemPosition";
+	const char* const ms_surfaceItemLocationAttribute = "SurfaceItemLocation";
 }
 
 /*---------------------------------------------------------------------------*/
