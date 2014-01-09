@@ -48,7 +48,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void printMessage( const QString& _message ) const;
+	/*virtual*/ void printMessage(
+			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+		,	const QString& _message ) const;
 
 /*---------------------------------------------------------------------------*/
 

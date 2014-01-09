@@ -94,10 +94,6 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	static const qint64 ms_mainLoopPeriod = 100;
-
-/*---------------------------------------------------------------------------*/
-
 	const IEnvironment& m_environment;
 
 	const ILandscapeSerializer& m_landscapeSerializer;

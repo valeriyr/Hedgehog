@@ -7,6 +7,8 @@
 #include "intrusive_base/ib_ibase.hpp"
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 
+#include "messenger/ms_imessenger.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -27,6 +29,12 @@ struct IEnvironment
 				,	const MultithreadingManager::RunnableFunction& _function ) = 0;
 
 	virtual void removeTask( const MultithreadingManager::TaskHandle& _taskHandle ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void printMessage(
+			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+		,	const QString& _message ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -9,6 +9,14 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Tools
+{
+	namespace Core
+	{
+		struct IMessenger;
+	}
+}
+
 namespace Framework
 {
 	namespace GUI
@@ -114,6 +122,9 @@ public:
 	/*virtual*/ void close();
 
 /*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< Tools::Core::IMessenger >
+		getSystemMessenger() const;
 
 	boost::intrusive_ptr< Framework::GUI::WindowManager::IWindowManager >
 		getWindowManager() const;

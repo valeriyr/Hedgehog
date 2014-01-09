@@ -28,6 +28,7 @@
     </ClCompile>
     <ClCompile Include="sources\plugin\em_plugin_instance.cpp" />
     <ClCompile Include="sources\event_manager\em_event_manager.cpp" />
+    <ClCompile Include="sources\resources\em_internal_resources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\em_event.hpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="sources\ph\em_ph.hpp" />
     <ClInclude Include="sources\plugin\em_plugin_instance.hpp" />
     <ClInclude Include="sources\event_manager\em_event_manager.hpp" />
+    <ClInclude Include="sources\resources\em_internal_resources.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5C3081C1-883E-4164-981B-4F51012A93A3}</ProjectGuid>

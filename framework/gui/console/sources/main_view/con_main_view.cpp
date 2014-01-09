@@ -123,6 +123,43 @@ MainView::printMessage(
 
 
 void
+MainView::printMessage(
+		const QString& _moduleName
+	,	const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+	,	const QString& _message )
+{
+	if ( !m_consoleView )
+		return;
+
+	const char* messageFormat = Resources::InfoMessageWithModuleNameFormat;
+
+	switch ( _messageLevel )
+	{
+	case Tools::Core::IMessenger::MessegeLevel::Error:
+		messageFormat = Resources::ErrorMessageWithModuleNameFormat;
+		break;
+	case Tools::Core::IMessenger::MessegeLevel::Warning:
+		messageFormat = Resources::WarningMessageWithModuleNameFormat;
+		break;
+	case Tools::Core::IMessenger::MessegeLevel::Info:
+		break;
+	default:
+		assert( !"Unrecognized messege level" );
+		break;
+	}
+
+	m_consoleView->pushMessage(
+		QString( messageFormat )
+			.arg( _moduleName )
+			.arg( Tools::Core::IMessenger::MessegeLevel::toString( _messageLevel ) )
+			.arg( _message ) );
+}
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 MainView::printMessage( const QString& _message )
 {
 	if ( !m_consoleView )

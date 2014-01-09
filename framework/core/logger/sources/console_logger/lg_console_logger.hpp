@@ -34,6 +34,11 @@ public:
 			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
 		,	const QString& _message );
 
+	/*virtual*/ void printMessage(
+			const QString& _moduleName
+		,	const MessegeLevel::Enum _messageLevel
+		,	const QString& _message );
+
 	/*virtual*/ void printMessage( const QString& _message );
 
 /*---------------------------------------------------------------------------*/

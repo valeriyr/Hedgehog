@@ -21,6 +21,8 @@ namespace Messanges {
 
 	const char* const MessageWithLevelFormat = ">> %1: %2\n";
 
+	const char* const MessageWithLevelAndModuleNameFormat = ">> %1: %2. %3\n";
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Messanges

@@ -3,7 +3,10 @@
 
 #include "landscape_viewer/sources/plugin/lv_plugin_instance.hpp"
 
+#include "messenger/ms_imessenger.hpp"
+
 #include "plugins_manager/h/pm_plugin_factory.hpp"
+#include "plugins_manager/h/pm_plugin_id.hpp"
 
 #include "landscape_viewer/sources/environment/lv_environment.hpp"
 #include "landscape_viewer/sources/landscape_viewer/lv_landscape_viewer.hpp"
@@ -155,6 +158,20 @@ PluginInstance::close()
 	clearObjectsCache();
 
 } // PluginInstance::close
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Tools::Core::IMessenger >
+PluginInstance::getSystemMessenger() const
+{
+	return
+		getPluginInterface< Tools::Core::IMessenger >(
+				Framework::Core::PluginsManager::PID_PLUGINS_MANAGER
+			,	Tools::Core::IID_MESSENGER );
+
+} // PluginInstance::getSystemMessenger
 
 
 /*---------------------------------------------------------------------------*/

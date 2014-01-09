@@ -5,6 +5,8 @@
 
 #include "event_manager/sources/plugin/em_plugin_instance.hpp"
 
+#include "event_manager/sources/resources/em_internal_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,10 +35,11 @@ Environment::~Environment()
 
 
 MultithreadingManager::TaskHandle
-Environment::pushPeriodicalTask(	const QString& _threadName
-					,	const MultithreadingManager::RunnableFunction& _function )
+Environment::pushPeriodicalTask(
+		const QString& _threadName
+	,	const MultithreadingManager::RunnableFunction& _function )
 {
-	return m_pluginInstance.getMultithreadingManager()->pushPeriodicalTask( _threadName, _function, 100 );
+	return m_pluginInstance.getMultithreadingManager()->pushPeriodicalTask( _threadName, _function, Resources::TimeLimit );
 
 } // Environment::pushPeriodicalTask
 
@@ -50,6 +53,19 @@ Environment::removeTask( const MultithreadingManager::TaskHandle& _taskHandle )
 	m_pluginInstance.getMultithreadingManager()->removeTask( _taskHandle );
 
 } // Environment::removeTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::printMessage(
+		const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+	,	const QString& _message ) const
+{
+	m_pluginInstance.getSystemMessenger()->printMessage( Resources::ModuleName, _messageLevel, _message );
+
+} // Environment::printMessage
 
 
 /*---------------------------------------------------------------------------*/

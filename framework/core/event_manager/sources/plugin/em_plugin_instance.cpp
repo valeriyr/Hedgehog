@@ -3,7 +3,10 @@
 
 #include "event_manager/sources/plugin/em_plugin_instance.hpp"
 
+#include "messenger/ms_imessenger.hpp"
+
 #include "plugins_manager/h/pm_plugin_factory.hpp"
+#include "plugins_manager/h/pm_plugin_id.hpp"
 
 #include "event_manager/sources/event_manager/em_event_manager.hpp"
 #include "event_manager/sources/environment/em_environment.hpp"
@@ -53,6 +56,8 @@ PluginInstance::initialize()
 	m_environment.reset( new Environment( *this ) );
 	m_eventManager.reset( new EventManager( *m_environment ) );
 
+	getSystemMessenger();
+
 } // PluginInstance::initialize
 
 
@@ -66,6 +71,20 @@ PluginInstance::close()
 	m_environment.reset();
 
 } // PluginInstance::close
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Tools::Core::IMessenger >
+PluginInstance::getSystemMessenger() const
+{
+	return
+		getPluginInterface< Tools::Core::IMessenger >(
+				Framework::Core::PluginsManager::PID_PLUGINS_MANAGER
+			,	Tools::Core::IID_MESSENGER );
+
+} // PluginInstance::getSystemMessenger
 
 
 /*---------------------------------------------------------------------------*/

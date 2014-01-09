@@ -11,6 +11,7 @@
 
 #include "event_manager/h/em_event.hpp"
 
+#include "messenger/ms_imessenger.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,7 +41,9 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void printMessage( const QString& _message ) const = 0;
+	virtual void printMessage(
+			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+		,	const QString& _message ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

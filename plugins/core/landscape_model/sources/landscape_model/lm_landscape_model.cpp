@@ -12,6 +12,8 @@
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
+#include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
+
 #include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/h/lm_events.hpp"
 
@@ -42,7 +44,7 @@ LandscapeModel::LandscapeModel(
 	m_actionsProcessingTaskHandle = m_environment.pushPeriodicalTask(
 			Resources::ModelThreadName
 		,	boost::bind( &LandscapeModel::gameMainLoop, this )
-		,	ms_mainLoopPeriod );
+		,	Resources::TimeLimit );
 
 } // LandscapeModel::LandscapeModel
 
@@ -299,6 +301,8 @@ LandscapeModel::setSurfaceItem(
 void
 LandscapeModel::gameMainLoop()
 {
+	qint64 startTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+
 	{
 		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
 
@@ -322,7 +326,7 @@ LandscapeModel::gameMainLoop()
 
 					if ( action )
 					{
-						action->processAction( ms_mainLoopPeriod );
+						action->processAction( Resources::TimeLimit );
 
 						if ( action->hasFinished() )
 							actionsComponent->popFrontAction();
@@ -330,6 +334,15 @@ LandscapeModel::gameMainLoop()
 				}
 			}
 		}
+	}
+
+	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime;
+
+	if ( time > Resources::TimeLimit )
+	{
+		m_environment.printMessage(
+				Tools::Core::IMessenger::MessegeLevel::Warning
+			,	QString( Resources::TimeLimitWarning ).arg( time ).arg( Resources::TimeLimit )  );
 	}
 
 } // LandscapeModel::gameMainLoop

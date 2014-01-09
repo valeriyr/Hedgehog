@@ -17,6 +17,8 @@
 
 #include "images_manager/ih/im_iimages_manager.hpp"
 
+#include "messenger/ms_imessenger.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework
@@ -167,6 +169,12 @@ struct IEnvironment
 /*---------------------------------------------------------------------------*/
 
 	virtual Framework::Core::EventManager::Subscriber createSubscriber() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void printMessage(
+			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+		,	const QString& _message ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

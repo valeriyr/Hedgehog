@@ -1,23 +1,19 @@
 
-#include "landscape_model/sources/ph/lm_ph.hpp"
+#include "event_manager/sources/ph/em_ph.hpp"
 
-#include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
+#include "event_manager/sources/resources/em_internal_resources.hpp"
 
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
+namespace Framework {
 namespace Core {
-namespace LandscapeModel {
+namespace EventManager {
 namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ModuleName = "LANDSCAPE_MODEL";
-
-/*---------------------------------------------------------------------------*/
-
-	const float LandscapeVersion = 1.0f;
+	const char* const ModuleName = "EVENT_MANAGER";
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,8 +24,8 @@ namespace Resources {
 /*---------------------------------------------------------------------------*/
 
 } // namespace Resources
-} // namespace LandscapeModel
+} // namespace EventManager
 } // namespace Core
-} // namespace Plugins
+} // namespace Framework
 
 /*---------------------------------------------------------------------------*/

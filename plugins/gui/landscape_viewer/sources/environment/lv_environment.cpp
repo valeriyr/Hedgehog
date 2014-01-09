@@ -29,7 +29,6 @@
 
 #include "settings/ih/st_isettings.hpp"
 
-
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -409,6 +408,19 @@ Environment::createSubscriber() const
 	return Framework::Core::EventManager::Subscriber( *m_pluginInstance.getEventManager() );
 
 } // Environment::createSubscriber
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::printMessage(
+		const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+	,	const QString& _message ) const
+{
+	m_pluginInstance.getSystemMessenger()->printMessage( Resources::ModuleName, _messageLevel, _message );
+
+} // Environment::printMessage
 
 
 /*---------------------------------------------------------------------------*/

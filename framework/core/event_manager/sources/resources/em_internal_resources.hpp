@@ -1,37 +1,31 @@
 
-#ifndef __LG_INTERNAL_RESOURCES_HPP__
-#define __LG_INTERNAL_RESOURCES_HPP__
+#ifndef __EM_INTERNAL_RESOURCES_HPP__
+#define __EM_INTERNAL_RESOURCES_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
 namespace Core {
-namespace Logger {
+namespace EventManager {
 namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-namespace Messanges {
+	extern const char* const ModuleName;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const SimpleMessageFormat;
+	extern const int TimeLimit;
 
-	extern const char* const MessageWithLevelFormat;
-
-	extern const char* const MessageWithLevelAndModuleNameFormat;
-
-/*---------------------------------------------------------------------------*/
-
-} // namespace Messanges
+	extern const char* const TimeLimitWarning;
 
 /*---------------------------------------------------------------------------*/
 
 } // namespace Resources
-} // namespace Logger
+} // namespace EventManager
 } // namespace Core
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LG_INTERNAL_RESOURCES_HPP__
+#endif // __EM_INTERNAL_RESOURCES_HPP__

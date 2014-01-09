@@ -5,6 +5,8 @@
 
 #include "event_manager/sources/environment/em_ienvironment.hpp"
 
+#include "event_manager/sources/resources/em_internal_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -156,6 +158,8 @@ EventManager::unsubscribe( const IEventManager::ConnectionId& _connectionId )
 void
 EventManager::task( const QString& _threadName )
 {
+	qint64 startTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+
 	EventsCollection copyOfEventsCollection;
 	SubscribersData subscribersData;
 
@@ -193,6 +197,15 @@ EventManager::task( const QString& _threadName )
 				processingFunctionsBegin->second( *eventsBegin );
 			}
 		}
+	}
+
+	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime;
+
+	if ( time > Resources::TimeLimit )
+	{
+		m_environment.printMessage(
+				Tools::Core::IMessenger::MessegeLevel::Warning
+			,	QString( Resources::TimeLimitWarning ).arg( time ).arg( Resources::TimeLimit )  );
 	}
 
 } // EventManager::task

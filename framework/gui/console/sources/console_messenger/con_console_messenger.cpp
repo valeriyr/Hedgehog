@@ -46,6 +46,20 @@ ConsoleMessenger::printMessage(
 
 
 void
+ConsoleMessenger::printMessage(
+		const QString& _moduleName
+	,	const Tools::Core::IMessenger::MessegeLevel::Enum _messegeLevel
+	,	const QString& _messege )
+{
+	m_mainView.printMessage( _moduleName, _messegeLevel, _messege );
+
+} // ConsoleMessenger::printMessage
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 ConsoleMessenger::printMessage( const QString& _messege )
 {
 	m_mainView.printMessage( _messege );

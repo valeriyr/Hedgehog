@@ -5,6 +5,8 @@
 
 #include "landscape_model/sources/plugin/lm_plugin_instance.hpp"
 
+#include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
+
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 #include "event_manager/ih/em_ievent_manager.hpp"
 
@@ -85,9 +87,11 @@ Environment::removeTask( const Framework::Core::MultithreadingManager::TaskHandl
 
 
 void
-Environment::printMessage( const QString& _message ) const
+Environment::printMessage(
+		const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+	,	const QString& _message ) const
 {
-	m_pluginInstance.getSystemMessenger()->printMessage( _message );
+	m_pluginInstance.getSystemMessenger()->printMessage( Resources::ModuleName, _messageLevel, _message );
 
 } // Environment::printMessage
 
