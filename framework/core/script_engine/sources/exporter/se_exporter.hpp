@@ -1,10 +1,10 @@
 
-#ifndef __SE_SCRIPTS_EXECUTOR_HPP__
-#define __SE_SCRIPTS_EXECUTOR_HPP__
+#ifndef __SE_EXPORTER_HPP__
+#define __SE_EXPORTER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "script_engine/ih/se_iscripts_executor.hpp"
+#include "script_engine/ih/se_iexporter.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -18,8 +18,8 @@ struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-class ScriptsExecutor
-	:	public Tools::Core::BaseWrapper< IScriptsExecutor >
+class Exporter
+	:	public Tools::Core::BaseWrapper< IExporter >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,23 +28,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ScriptsExecutor( lua_State* _luaEngine, const IEnvironment& _environment );
+	Exporter( lua_State* _luaEngine, const IEnvironment& _environment );
 
-	virtual ~ScriptsExecutor();
+	virtual ~Exporter();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void executeFile( const QString& _fileName );
-
-	/*virtual*/ void executeScript( const QString& _script );
+	/*virtual*/ DataExporter getDataExporter();
 
 /*---------------------------------------------------------------------------*/
 
 private:
-
-/*---------------------------------------------------------------------------*/
-
-	void printErrorMessage();
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,4 +58,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SE_SCRIPTS_EXECUTOR_HPP__
+#endif // __SE_EXPORTER_HPP__

@@ -22,6 +22,9 @@
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{7224c934-adde-40e5-aae8-e9ee706ad64f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Exporter">
+      <UniqueIdentifier>{ff2d8ff2-5942-4d0e-90a0-63512dff957d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\se_ph.cpp">
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="sources\resources\se_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\exporter\se_exporter.cpp">
+      <Filter>Exporter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +73,12 @@
     </ClInclude>
     <ClInclude Include="h\se_data_exporter.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\se_iexporter.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\exporter\se_exporter.hpp">
+      <Filter>Exporter</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

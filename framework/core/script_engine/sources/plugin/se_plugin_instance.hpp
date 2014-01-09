@@ -37,6 +37,7 @@ namespace ScriptEngine {
 /*---------------------------------------------------------------------------*/
 
 struct IScriptsExecutor;
+struct IExporter;
 struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
@@ -78,7 +79,19 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void exportScriptAPI();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	lua_State* m_luaEngine;
+
 	boost::intrusive_ptr< IScriptsExecutor > m_scriptsExecutor;
+
+	boost::intrusive_ptr< IExporter > m_exporter;
 
 	boost::intrusive_ptr< IEnvironment > m_environment;
 
