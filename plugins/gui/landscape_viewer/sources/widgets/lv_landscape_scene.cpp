@@ -171,7 +171,6 @@ void
 LandscapeScene::onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& _id )
 {
 	m_landscapeSceneState.reset( new LandscapeSurfaceItemEditingState( m_environment, *this, _id ) );
-	m_environment.playSound( Resources::Sounds::PlacementSuccess );
 
 } // LandscapeScene::onChangeSurfaceItem
 
@@ -327,6 +326,8 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 	}
 
 	regenerateTerrainMapLayer();
+
+	m_environment.playSound( Resources::Sounds::PlacementSuccess );
 
 } // LandscapeScene::onSurfaceItemChanged
 
