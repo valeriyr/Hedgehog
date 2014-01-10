@@ -30,6 +30,7 @@ PlayerInfoView::PlayerInfoView( const IEnvironment& _environment )
 	,	m_mainWidget( new QTextEdit() )
 {
 	m_mainWidget->setReadOnly( true );
+	m_mainWidget->setFixedHeight( 100 );
 
 	setDefaultText();
 
@@ -97,7 +98,6 @@ void
 PlayerInfoView::landscapeWasClosed()
 {
 	m_subscriber.unsubscribe();
-	m_mainWidget->clear();
 
 } // PlayerInfoView::landscapeWasClosed
 

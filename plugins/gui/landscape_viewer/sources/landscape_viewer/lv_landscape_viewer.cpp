@@ -48,10 +48,10 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 {
 	m_environment.addFrameworkView( m_objectsView, Framework::GUI::WindowManager::ViewPosition::Left );
 	m_environment.addFrameworkView( m_settingsView, Framework::GUI::WindowManager::ViewPosition::Left );
-	m_environment.addFrameworkView( m_playerInfoView, Framework::GUI::WindowManager::ViewPosition::Left );
 	m_environment.addFrameworkView( m_descriptionView, Framework::GUI::WindowManager::ViewPosition::Left );
 	m_environment.addFrameworkView( m_LandscapeView, Framework::GUI::WindowManager::ViewPosition::Center );
-	m_environment.addFrameworkView( m_minimapView, Framework::GUI::WindowManager::ViewPosition::Right );
+	m_environment.addFrameworkView( m_minimapView, Framework::GUI::WindowManager::ViewPosition::Bottom );
+	m_environment.addFrameworkView( m_playerInfoView, Framework::GUI::WindowManager::ViewPosition::Right );
 	m_environment.addFrameworkView( m_objectInfoView, Framework::GUI::WindowManager::ViewPosition::Right );
 	m_environment.addFrameworkView( m_objectStatusView, Framework::GUI::WindowManager::ViewPosition::Right );
 	m_environment.addFrameworkView( m_actionPanelView, Framework::GUI::WindowManager::ViewPosition::Right );
@@ -71,10 +71,10 @@ LandscapeViewer::~LandscapeViewer()
 	m_environment.removeFrameworkView( m_actionPanelView );
 	m_environment.removeFrameworkView( m_objectStatusView );
 	m_environment.removeFrameworkView( m_objectInfoView );
+	m_environment.removeFrameworkView( m_playerInfoView );
 	m_environment.removeFrameworkView( m_minimapView );
 	m_environment.removeFrameworkView( m_LandscapeView );
 	m_environment.removeFrameworkView( m_descriptionView );
-	m_environment.removeFrameworkView( m_playerInfoView );
 	m_environment.removeFrameworkView( m_settingsView );
 	m_environment.removeFrameworkView( m_objectsView );
 
