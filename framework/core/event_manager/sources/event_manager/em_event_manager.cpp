@@ -201,7 +201,7 @@ EventManager::task( const QString& _threadName )
 
 	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime;
 
-	if ( time > Resources::TimeLimit )
+	if ( time > ( static_cast< float >( Resources::TimeLimit ) * 0.6f )  )
 	{
 		m_environment.printMessage(
 				Tools::Core::IMessenger::MessegeLevel::Warning
