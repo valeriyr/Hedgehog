@@ -32,6 +32,16 @@ namespace ObjectCreated
 
 /*---------------------------------------------------------------------------*/
 
+namespace CreateObjectFailed
+{
+	const char* const ms_type = "CreateObjectFailed";
+
+	const char* const ms_objectNameAttribute = "ObjectName";
+	const char* const ms_objectLocationAttribute = "ObjectLocation";
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace ObjectMoved
 {
 	const char* const ms_type = "ObjectMoved";

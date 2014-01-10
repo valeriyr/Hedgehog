@@ -50,6 +50,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void playSound( const QString& _resourcePath ) const;
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ void addFrameworkView(
 			boost::intrusive_ptr< Framework::GUI::WindowManager::IView > _view
 		,	const Framework::GUI::WindowManager::ViewPosition::Enum _position ) const;

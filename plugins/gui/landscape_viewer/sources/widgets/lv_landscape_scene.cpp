@@ -127,6 +127,10 @@ LandscapeScene::landscapeWasOpened()
 							,	boost::bind( &LandscapeScene::onObjectCreated, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::CreateObjectFailed::ms_type
+							,	boost::bind( &LandscapeScene::onCreateObjectFailed, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_type
 							,	boost::bind( &LandscapeScene::onSurfaceItemChanged, this, _1 ) );
 
@@ -167,6 +171,7 @@ void
 LandscapeScene::onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& _id )
 {
 	m_landscapeSceneState.reset( new LandscapeSurfaceItemEditingState( m_environment, *this, _id ) );
+	m_environment.playSound( Resources::Sounds::PlacementSuccess );
 
 } // LandscapeScene::onChangeSurfaceItem
 
@@ -268,7 +273,20 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 
 	regenerateTerrainMapLayer();
 
+	m_environment.playSound( Resources::Sounds::PlacementSuccess );
+
 } // LandscapeScene::onObjectCreated
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onCreateObjectFailed( const Framework::Core::EventManager::Event& _event )
+{
+	m_environment.playSound( Resources::Sounds::PlacementError );
+
+} // LandscapeScene::onCreateObjectFailed
 
 
 /*---------------------------------------------------------------------------*/

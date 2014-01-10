@@ -22,6 +22,8 @@
 
 #include "event_manager/h/em_subscriber.hpp"
 
+#include "sound_manager/ih/sm_isound_manager.hpp"
+
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 #include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
@@ -126,6 +128,17 @@ Environment::getPixmap( const QString& _objectName ) const
 	return getPixmap( _objectName, getString( Resources::Properties::SkinId ) );
 
 } // Environment::getPixmap
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::playSound( const QString& _resourcePath ) const
+{
+	m_pluginInstance.getSoundManager()->play( _resourcePath );
+
+} // Environment::playSound
 
 
 /*---------------------------------------------------------------------------*/

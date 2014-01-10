@@ -129,6 +129,20 @@ namespace Properties {
 
 /*---------------------------------------------------------------------------*/
 
+namespace Sounds {
+
+/*---------------------------------------------------------------------------*/
+
+	extern const char* const PlacementError;
+
+	extern const char* const PlacementSuccess;
+
+/*---------------------------------------------------------------------------*/
+
+} // namespace Sounds
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace LandscapeViewer
 } // namespace GUI

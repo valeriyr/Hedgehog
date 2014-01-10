@@ -265,6 +265,14 @@ LandscapeModel::createObject(
 
 		m_environment.riseEvent( objectCreatedEvent );
 	}
+	else
+	{
+		Framework::Core::EventManager::Event createObjectFailedEvent( Events::CreateObjectFailed::ms_type );
+		createObjectFailedEvent.pushAttribute( Events::CreateObjectFailed::ms_objectNameAttribute, _objectName );
+		createObjectFailedEvent.pushAttribute( Events::CreateObjectFailed::ms_objectLocationAttribute, _location );
+
+		m_environment.riseEvent( createObjectFailedEvent );
+	}
 
 } // LandscapeModel::createObject
 

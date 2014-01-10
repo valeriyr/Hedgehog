@@ -60,6 +60,11 @@ namespace Framework
 		{
 			struct IMultithreadingManager;
 		}
+
+		namespace SoundManager
+		{
+			struct ISoundManager;
+		}
 	}
 }
 
@@ -152,6 +157,9 @@ public:
 
 	boost::intrusive_ptr< Framework::Core::MultithreadingManager::IMultithreadingManager >
 		getMultithreadingManager() const;
+
+	boost::intrusive_ptr< Framework::Core::SoundManager::ISoundManager >
+		getSoundManager() const;
 
 /*---------------------------------------------------------------------------*/
 
