@@ -258,7 +258,7 @@ Landscape::setEngagedWithGroungItem( const QPoint& _point, const bool _isEngaged
 Object::UniqueId
 Landscape::createObject( const QPoint& _location, const QString& _objectName )
 {
-	IStaticData::ObjectStaticData staticData = m_staticData.getStaticData( _objectName );
+	IStaticData::ObjectStaticData staticData = m_staticData.getObjectStaticData( _objectName );
 
 	if ( canObjectBePlaced( _location, *staticData.m_locateData ) )
 	{

@@ -31,7 +31,7 @@ StaticData::~StaticData()
 
 
 IStaticData::ObjectStaticData
-StaticData::getStaticData( const QString& _name ) const
+StaticData::getObjectStaticData( const QString& _name ) const
 {
 	IStaticData::StaticDataCollectionConstIterator iterator
 		= m_staticData.find( _name );
@@ -41,18 +41,18 @@ StaticData::getStaticData( const QString& _name ) const
 
 	return IStaticData::ObjectStaticData();
 
-} // StaticData::getStaticData
+} // StaticData::getObjectStaticData
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-StaticData::fetchStaticData( IStaticData::StaticDataCollection& _collection ) const
+StaticData::fetchObjectsStaticData( IStaticData::StaticDataCollection& _collection ) const
 {
 	_collection = m_staticData;
 
-} // StaticData::getStaticData
+} // StaticData::fetchObjectsStaticData
 
 
 /*---------------------------------------------------------------------------*/

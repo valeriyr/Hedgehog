@@ -30,9 +30,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ IStaticData::ObjectStaticData getStaticData( const QString& _name ) const;
+	/*virtual*/ IStaticData::ObjectStaticData getObjectStaticData( const QString& _name ) const;
 
-	/*virtual*/ void fetchStaticData( IStaticData::StaticDataCollection& _collection ) const;
+	/*virtual*/ void fetchObjectsStaticData( IStaticData::StaticDataCollection& _collection ) const;
 
 /*---------------------------------------------------------------------------*/
 

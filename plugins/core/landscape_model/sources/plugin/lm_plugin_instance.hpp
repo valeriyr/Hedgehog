@@ -21,6 +21,11 @@ namespace Framework
 {
 	namespace Core
 	{
+		namespace PluginsManager
+		{
+			struct ISystemInformation;
+		}
+
 		namespace MultithreadingManager
 		{
 			struct IMultithreadingManager;
@@ -29,6 +34,12 @@ namespace Framework
 		namespace EventManager
 		{
 			struct IEventManager;
+		}
+
+		namespace ScriptEngine
+		{
+			struct IExporter;
+			struct IScriptsExecutor;
 		}
 	}
 }
@@ -75,6 +86,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	boost::intrusive_ptr< Framework::Core::PluginsManager::ISystemInformation >
+		getSystemInformation() const;
+
 	boost::intrusive_ptr< Tools::Core::IMessenger > getSystemMessenger() const;
 
 	boost::intrusive_ptr< Framework::Core::MultithreadingManager::IMultithreadingManager >
@@ -83,13 +97,21 @@ public:
 	boost::intrusive_ptr< Framework::Core::EventManager::IEventManager >
 		getEventManager() const;
 
+	boost::intrusive_ptr< Framework::Core::ScriptEngine::IExporter >
+		getScriptExporter() const;
+
+	boost::intrusive_ptr< Framework::Core::ScriptEngine::IScriptsExecutor >
+		getScriptsExecutor() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
 
-	void fillSurfaceItemsCache();
+	void exportScriptAPI();
+
+	void executeConfigurationScripts();
 
 	void fillObjectsCache();
 

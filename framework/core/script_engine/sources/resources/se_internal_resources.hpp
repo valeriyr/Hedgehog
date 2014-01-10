@@ -1,6 +1,6 @@
 
-#ifndef __PM_INTERNAL_RESOURCES_HPP__
-#define __PM_INTERNAL_RESOURCES_HPP__
+#ifndef __SE_INTERNAL_RESOURCES_HPP__
+#define __SE_INTERNAL_RESOURCES_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -26,4 +26,4 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __PM_INTERNAL_RESOURCES_HPP__
+#endif // __SE_INTERNAL_RESOURCES_HPP__

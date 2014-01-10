@@ -25,6 +25,10 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+	extern const char* const ConfigurationScriptsDirectory;
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace LandscapeModel
 } // namespace Core

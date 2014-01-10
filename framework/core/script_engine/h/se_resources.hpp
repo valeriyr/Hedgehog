@@ -1,8 +1,6 @@
 
-#include "script_engine/sources/ph/se_ph.hpp"
-
-#include "script_engine/sources/resources/se_internal_resources.hpp"
-
+#ifndef __SE_RESOURCES_HPP__
+#define __SE_RESOURCES_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,11 +11,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const SystemScriptFileName = "script_engine";
-
-/*---------------------------------------------------------------------------*/
-
-	const char* const ScripterMessageFormat = "%1";
+	const char* const ScriptFileExtension = ".lua";
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,3 +21,5 @@ namespace Resources {
 } // namespace Framework
 
 /*---------------------------------------------------------------------------*/
+
+#endif // __SE_RESOURCES_HPP__

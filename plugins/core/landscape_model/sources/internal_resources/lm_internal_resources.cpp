@@ -27,6 +27,10 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+	const char* const ConfigurationScriptsDirectory = "landscape_model";
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace LandscapeModel
 } // namespace Core

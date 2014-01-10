@@ -24,10 +24,6 @@ public:
 	{
 	}
 
-	~EnumExporter()
-	{
-	}
-
 	EnumExporter& withItem( const char* _name, const _TEnumType _enum )
 	{
 		m_enum[ luabind::value( _name, _enum ) ];
@@ -53,14 +49,6 @@ public:
 	{
 	}
 
-	~ClassExporter()
-	{
-		luabind::module( m_luaEngine )
-		[
-			m_class
-		];
-	}
-
 	template< typename _TParamType >
 	ClassExporter& withConstructor()
 	{
@@ -79,6 +67,14 @@ public:
 	EnumExporter< _TClass, _TEnumType > withEnum( const char* _enumName )
 	{
 		return EnumExporter< _TClass, _TEnumType >( m_class, _enumName );
+	}
+
+	void endClass()
+	{
+		luabind::module( m_luaEngine )
+		[
+			m_class
+		];
 	}
 
 private:

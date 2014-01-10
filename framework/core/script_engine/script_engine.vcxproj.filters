@@ -80,5 +80,8 @@
     <ClInclude Include="sources\exporter\se_exporter.hpp">
       <Filter>Exporter</Filter>
     </ClInclude>
+    <ClInclude Include="h\se_resources.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

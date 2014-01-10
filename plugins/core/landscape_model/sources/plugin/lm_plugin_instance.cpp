@@ -7,12 +7,18 @@
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 #include "plugins_manager/h/pm_plugin_id.hpp"
+#include "plugins_manager/ih/pm_isystem_information.hpp"
 
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 #include "multithreading_manager/h/mm_plugin_id.hpp"
 
 #include "event_manager/ih/em_ievent_manager.hpp"
 #include "event_manager/h/em_plugin_id.hpp"
+
+#include "script_engine/ih/se_iexporter.hpp"
+#include "script_engine/ih/se_iscripts_executor.hpp"
+#include "script_engine/h/se_plugin_id.hpp"
+#include "script_engine/h/se_resources.hpp"
 
 #include "landscape_model/sources/environment/lm_environment.hpp"
 #include "landscape_model/sources/landscape_model/lm_landscape_model.hpp"
@@ -21,6 +27,8 @@
 #include "landscape_model/sources/static_data/lm_static_data.hpp"
 
 #include "landscape_model/sources/surface_item/lm_surface_item.hpp"
+
+#include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -69,7 +77,8 @@ PluginInstance::initialize()
 	m_landscapeSerializer.reset( new LandscapeSerializer() );
 	m_landscapeModel.reset( new LandscapeModel( *m_environment, *m_landscapeSerializer, *m_surfaceItemsCache, *m_staticData ) );
 
-	fillSurfaceItemsCache();
+	exportScriptAPI();
+	executeConfigurationScripts();
 	fillObjectsCache();
 
 } // PluginInstance::initialize
@@ -88,6 +97,20 @@ PluginInstance::close()
 	m_environment.reset();
 
 } // PluginInstance::close
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::PluginsManager::ISystemInformation >
+PluginInstance::getSystemInformation() const
+{
+	return
+		getPluginInterface< Framework::Core::PluginsManager::ISystemInformation >(
+				Framework::Core::PluginsManager::PID_PLUGINS_MANAGER
+			,	Framework::Core::PluginsManager::IID_SYSTEM_INFORMATION );
+
+} // PluginInstance::getSystemInformation
 
 
 /*---------------------------------------------------------------------------*/
@@ -135,36 +158,79 @@ PluginInstance::getEventManager() const
 /*---------------------------------------------------------------------------*/
 
 
-void
-PluginInstance::fillSurfaceItemsCache()
+boost::intrusive_ptr< Framework::Core::ScriptEngine::IExporter >
+PluginInstance::getScriptExporter() const
 {
-	// Ground tiles with water borders
+	return
+		getPluginInterface< Framework::Core::ScriptEngine::IExporter >(
+				Framework::Core::ScriptEngine::PID_SCRIPT_ENGINE
+			,	Framework::Core::ScriptEngine::IID_EXPORTER );
 
-	// 1 --- 2 --- 3
-	// |     |     |
-	// 4 --- 5 --- 6
-	// |     |     |
-	// 7 --- 8 --- 9
+} // PluginInstance::getScriptExporter
 
-	m_surfaceItemsCache->regSurfaceItem( 1, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->regSurfaceItem( 2, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->regSurfaceItem( 3, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->regSurfaceItem( 4, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->regSurfaceItem( 5, TerrainMapItem::Ground );
-	m_surfaceItemsCache->regSurfaceItem( 6, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->regSurfaceItem( 7, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->regSurfaceItem( 8, TerrainMapItem::NotAvailable );
-	m_surfaceItemsCache->regSurfaceItem( 9, TerrainMapItem::NotAvailable );
 
-	// Water tiles
+/*---------------------------------------------------------------------------*/
 
-	m_surfaceItemsCache->regSurfaceItem( 101, TerrainMapItem::Water );
 
-	//Default surface item
+boost::intrusive_ptr< Framework::Core::ScriptEngine::IScriptsExecutor >
+PluginInstance::getScriptsExecutor() const
+{
+	return
+		getPluginInterface< Framework::Core::ScriptEngine::IScriptsExecutor >(
+				Framework::Core::ScriptEngine::PID_SCRIPT_ENGINE
+			,	Framework::Core::ScriptEngine::IID_SCRIPTS_EXECUTOR );
 
-	m_surfaceItemsCache->setDefaultSurfaceItem( 5 );
+} // PluginInstance::getScriptsExecutor
 
-} // PluginInstance::fillSurfaceItemsCache
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::exportScriptAPI()
+{
+	Framework::Core::ScriptEngine::DataExporter exporter = getScriptExporter()->getDataExporter();
+
+	Framework::Core::ScriptEngine::ClassExporter< ISurfaceItemsCache > surfaceItemsCacheExporter =
+		exporter.exportClass< ISurfaceItemsCache >( "ISurfaceItemsCache" );
+
+	surfaceItemsCacheExporter
+			.withMethod( "regSurfaceItem", &ISurfaceItemsCache::regSurfaceItem )
+			.withMethod( "setDefaultSurfaceItem", &ISurfaceItemsCache::setDefaultSurfaceItem )
+			.withEnum< TerrainMapItem::Enum >( "TerrainMapItem" )
+				.withItem( "NotAvailable", TerrainMapItem::NotAvailable )
+				.withItem( "Ground", TerrainMapItem::Ground )
+				.withItem( "Water", TerrainMapItem::Water );
+
+	surfaceItemsCacheExporter.endClass();
+
+	exporter.exportVariable( "SurfaceItemsCache", m_surfaceItemsCache.get() );
+
+} // PluginInstance::exportScriptAPI
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::executeConfigurationScripts()
+{
+	QDir scriptsDirectory = QDir( getSystemInformation()->getConfigDirectory() + "/" + Resources::ConfigurationScriptsDirectory );
+
+	if ( !scriptsDirectory.exists() )
+		return;
+
+	QStringList filesFilter;
+	filesFilter.push_back( QString( "*" ) + Framework::Core::ScriptEngine::Resources::ScriptFileExtension );
+
+	QFileInfoList filesList = scriptsDirectory.entryInfoList( filesFilter );
+
+	for ( int i = 0; i < filesList.size(); ++i )
+	{
+		 getScriptsExecutor()->executeFile( filesList.at( i ).filePath() );
+	}
+
+} // PluginInstance::executeConfigurationScripts
 
 
 /*---------------------------------------------------------------------------*/

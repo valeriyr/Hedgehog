@@ -1,6 +1,4 @@
 
 function print(string)
-    SystemMessenger:printMessage(string)
+    SystemMessenger:printMessage(QString(string))
 end
-
-print(QString("Hello from lua!"))

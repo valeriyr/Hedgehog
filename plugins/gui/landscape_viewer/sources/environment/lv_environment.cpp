@@ -267,7 +267,7 @@ Environment::getDefaultSurfaceItemId() const
 void
 Environment::fetchTypes( Core::LandscapeModel::IStaticData::StaticDataCollection& _collection ) const
 {
-	m_pluginInstance.getStaticData()->fetchStaticData( _collection );
+	m_pluginInstance.getStaticData()->fetchObjectsStaticData( _collection );
 
 } // Environment::fetchTypes
 
@@ -278,7 +278,7 @@ Environment::fetchTypes( Core::LandscapeModel::IStaticData::StaticDataCollection
 Core::LandscapeModel::IStaticData::ObjectStaticData
 Environment::getObjectStaticData( const QString& _objectName ) const
 {
-	return m_pluginInstance.getStaticData()->getStaticData( _objectName );
+	return m_pluginInstance.getStaticData()->getObjectStaticData( _objectName );
 
 } // Environment::getObjectStaticData
 

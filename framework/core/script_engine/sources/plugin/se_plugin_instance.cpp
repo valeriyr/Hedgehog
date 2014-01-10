@@ -7,6 +7,8 @@
 #include "plugins_manager/h/pm_plugin_id.hpp"
 #include "plugins_manager/ih/pm_isystem_information.hpp"
 
+#include "script_engine/h/se_resources.hpp"
+
 #include "script_engine/sources/resources/se_internal_resources.hpp"
 
 #include "script_engine/sources/scripts_executor/se_scripts_executor.hpp"
@@ -68,6 +70,7 @@ PluginInstance::initialize()
 	m_exporter.reset( new Exporter( m_luaEngine, *m_environment ) );
 
 	exportScriptAPI();
+	executeConfigurationScripts();
 
 } // PluginInstance::initialize
 
@@ -125,24 +128,38 @@ PluginInstance::exportScriptAPI()
 
 	exporter
 		.exportClass< QString >( "QString" )
-			.withConstructor< const char* >();
+			.withConstructor< const char* >()
+		.endClass();
 
-	exporter
-		.exportClass< Tools::Core::IMessenger >( "IMessenger" )
-			.withMethod( "printMessage", ( void ( Tools::Core::IMessenger::* )( const QString& ) )( &Tools::Core::IMessenger::printMessage ) )
-			.withMethod(
-					"printMessage"
-				,	( void ( Tools::Core::IMessenger::* )( const Tools::Core::IMessenger::MessegeLevel::Enum, const QString& ) )( &Tools::Core::IMessenger::printMessage ) )
-			.withEnum< Tools::Core::IMessenger::MessegeLevel::Enum >( "MessegeLevel" )
-				.withItem( "Info", Tools::Core::IMessenger::MessegeLevel::Info )
-				.withItem( "Warning", Tools::Core::IMessenger::MessegeLevel::Warning )
-				.withItem( "Error", Tools::Core::IMessenger::MessegeLevel::Error );
+	ClassExporter< Tools::Core::IMessenger > messengerExporter =
+		exporter.exportClass< Tools::Core::IMessenger >( "IMessenger" );
+
+	messengerExporter
+		.withMethod( "printMessage", ( void ( Tools::Core::IMessenger::* )( const QString& ) )( &Tools::Core::IMessenger::printMessage ) )
+		.withMethod(
+				"printMessage"
+			,	( void ( Tools::Core::IMessenger::* )( const Tools::Core::IMessenger::MessegeLevel::Enum, const QString& ) )( &Tools::Core::IMessenger::printMessage ) )
+		.withEnum< Tools::Core::IMessenger::MessegeLevel::Enum >( "MessegeLevel" )
+			.withItem( "Info", Tools::Core::IMessenger::MessegeLevel::Info )
+			.withItem( "Warning", Tools::Core::IMessenger::MessegeLevel::Warning )
+			.withItem( "Error", Tools::Core::IMessenger::MessegeLevel::Error );
+
+	messengerExporter.endClass();
 
 	exporter.exportVariable( "SystemMessenger", getSystemMessenger().get() );
 
-	m_scriptsExecutor->executeFile( m_environment->getSystemConfigDirectory() + "/" + Resources::SystemScriptFileName );
-
 } // PluginInstance::exportScriptAPI
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::executeConfigurationScripts()
+{
+	m_scriptsExecutor->executeFile( m_environment->getSystemConfigDirectory() + "/" + Resources::SystemScriptFileName + Resources::ScriptFileExtension );
+
+} // PluginInstance::executeConfigurationScripts
 
 
 /*---------------------------------------------------------------------------*/

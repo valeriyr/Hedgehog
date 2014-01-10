@@ -81,6 +81,8 @@ private:
 
 	void exportScriptAPI();
 
+	void executeConfigurationScripts();
+
 /*---------------------------------------------------------------------------*/
 
 private:

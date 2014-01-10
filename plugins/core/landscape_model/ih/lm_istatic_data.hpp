@@ -53,11 +53,21 @@ struct IStaticData
 		StaticDataCollection::iterator
 		StaticDataCollectionIterator;
 
+	typedef
+		std::vector< QString >
+		ResourcesCollection;
+	typedef
+		ResourcesCollection::const_iterator
+		ResourcesCollectionConstIterator;
+	typedef
+		ResourcesCollection::iterator
+		ResourcesCollectionIterator;
+
 /*---------------------------------------------------------------------------*/
 
-	virtual ObjectStaticData getStaticData( const QString& _name ) const = 0;
+	virtual ObjectStaticData getObjectStaticData( const QString& _name ) const = 0;
 
-	virtual void fetchStaticData( StaticDataCollection& _collection ) const = 0;
+	virtual void fetchObjectsStaticData( StaticDataCollection& _collection ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -84,6 +94,12 @@ struct IStaticData
 	virtual void regMoveStaticData(
 			const QString& _name
 		,	boost::shared_ptr< const MoveComponentStaticData > _data ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual void regResource( const QString& _name ) = 0;
+
+	virtual void fetchResources( ResourcesCollection& _collection ) const = 0;*/
 
 /*---------------------------------------------------------------------------*/
 
