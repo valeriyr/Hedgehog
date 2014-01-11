@@ -130,16 +130,14 @@ LandscapeModel::getCurrentLandscape()
 void
 LandscapeModel::selectObjects( const QRect& _rect )
 {
+	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+
+	if ( handle->getLandscape() )
 	{
-		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+		handle->getLandscape()->selectObjects( _rect );
 
-		if ( handle->getLandscape() )
-		{
-			handle->getLandscape()->selectObjects( _rect );
-		}
+		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 	}
-
-	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 
 } // LandscapeModel::selectObjects
 
@@ -150,16 +148,14 @@ LandscapeModel::selectObjects( const QRect& _rect )
 void
 LandscapeModel::selectObject( const Object::UniqueId& _id )
 {
+	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+
+	if ( handle->getLandscape() )
 	{
-		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+		handle->getLandscape()->selectObject( _id );
 
-		if ( handle->getLandscape() )
-		{
-			handle->getLandscape()->selectObject( _id );
-		}
+		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 	}
-
-	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 
 } // LandscapeModel::selectObject
 
@@ -170,38 +166,36 @@ LandscapeModel::selectObject( const Object::UniqueId& _id )
 void
 LandscapeModel::moveSelectedObjects( const QPoint& _to )
 {
+	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+
+	if ( handle->getLandscape() )
 	{
-		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+		ILandscape::ObjectsCollection selectedObjects;
+		handle->getLandscape()->fetchSelectedObjects( selectedObjects );
 
-		if ( handle->getLandscape() )
+		ILandscape::ObjectsCollectionIterator
+				begin = selectedObjects.begin()
+			,	end = selectedObjects.end();
+
+		for ( ; begin != end; ++begin )
 		{
-			ILandscape::ObjectsCollection selectedObjects;
-			handle->getLandscape()->fetchSelectedObjects( selectedObjects );
+			boost::intrusive_ptr< IActionsComponent > actionsComponent
+				= ( *begin )->getComponent< IActionsComponent >( ComponentId::Actions );
 
-			ILandscape::ObjectsCollectionIterator
-					begin = selectedObjects.begin()
-				,	end = selectedObjects.end();
-
-			for ( ; begin != end; ++begin )
+			if ( actionsComponent && actionsComponent->getStaticData().canDoAction( Actions::Move ) )
 			{
-				boost::intrusive_ptr< IActionsComponent > actionsComponent
-					= ( *begin )->getComponent< IActionsComponent >( ComponentId::Actions );
+				boost::intrusive_ptr< IAction > action = actionsComponent->getAction( Actions::Move );
 
-				if ( actionsComponent && actionsComponent->getStaticData().canDoAction( Actions::Move ) )
+				if ( action )
 				{
-					boost::intrusive_ptr< IAction > action = actionsComponent->getAction( Actions::Move );
-
-					if ( action )
-					{
-						QVariant newPoint( _to );
-						action->updateWithData( newPoint );
-					}
-					else
-					{
-						actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >(
-								new MoveAction( m_environment, **begin, *handle->getLandscape(), m_pathFinder, _to ) ) );
-					}
+					QVariant newPoint( _to );
+					action->updateWithData( newPoint );
+				}
+				else
+				{
+					actionsComponent->pushAction(
+						boost::intrusive_ptr< IAction >(
+							new MoveAction( m_environment, **begin, *handle->getLandscape(), m_pathFinder, _to ) ) );
 				}
 			}
 		}
@@ -258,20 +252,18 @@ LandscapeModel::setSurfaceItem(
 		const QPoint& _location
 	,	const Core::LandscapeModel::ISurfaceItem::Id& _id )
 {
+	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+
+	if ( handle->getLandscape() )
 	{
-		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+		handle->getLandscape()->setSurfaceItem( _location, _id );
 
-		if ( handle->getLandscape() )
-		{
-			handle->getLandscape()->setSurfaceItem( _location, _id );
-		}
+		Framework::Core::EventManager::Event surfaceItemChangedEvent( Events::SurfaceItemChanged::ms_type );
+		surfaceItemChangedEvent.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemIdAttribute, _id );
+		surfaceItemChangedEvent.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute, _location );
+
+		m_environment.riseEvent( surfaceItemChangedEvent );
 	}
-
-	Framework::Core::EventManager::Event surfaceItemChangedEvent( Events::SurfaceItemChanged::ms_type );
-	surfaceItemChangedEvent.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemIdAttribute, _id );
-	surfaceItemChangedEvent.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute, _location );
-
-	m_environment.riseEvent( surfaceItemChangedEvent );
 
 } // LandscapeModel::setSurfaceItem
 
