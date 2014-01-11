@@ -43,8 +43,8 @@ orcBarracks.m_selectionData = SelectionComponentStaticData( true )
 orcBarracks.m_actionsData = ActionsComponentStaticData()
 orcBarracks.m_actionsData:can( Actions.Build )
 
-orcBarracks.m_buildData = BuilderComponentStaticData()
-orcBarracks.m_buildData:pushBuildObjectData( BuildObjectData( 3000, QString( "Grunt" ) ) )
+orcBarracks.m_builderData = BuilderComponentStaticData()
+orcBarracks.m_builderData:pushBuildObjectData( BuildObjectData( 3000, QString( "Grunt" ) ) )
 
 StaticData:regObjectStaticData( QString( "Orc Barracks" ), orcBarracks )
 
@@ -59,8 +59,8 @@ humanBarracks.m_selectionData = SelectionComponentStaticData( true )
 humanBarracks.m_actionsData = ActionsComponentStaticData()
 humanBarracks.m_actionsData:can( Actions.Build )
 
-humanBarracks.m_buildData = BuilderComponentStaticData()
-humanBarracks.m_buildData:pushBuildObjectData( BuildObjectData( 4500, QString( "Elven Archer" ) ) )
+humanBarracks.m_builderData = BuilderComponentStaticData()
+humanBarracks.m_builderData:pushBuildObjectData( BuildObjectData( 4500, QString( "Elven Archer" ) ) )
 
 StaticData:regObjectStaticData( QString( "Human Barracks" ), humanBarracks )
 
