@@ -59,6 +59,8 @@ private:
 
 	void setDefaultText();
 
+	void updatePlayerInfo();
+
 /*---------------------------------------------------------------------------*/
 
 private:

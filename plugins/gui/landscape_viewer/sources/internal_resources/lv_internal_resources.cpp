@@ -98,7 +98,6 @@ namespace Views {
 			"	<body>																		"	\
 			"		<font><center><b>%1</b></center></font>									"	\
 			"		<br>																	"	\
-			"		<br>																	"	\
 			"		<div>																	"	\
 			"			<b>Health:</b> %2 / %3												"	\
 			"			<br>																"	\
@@ -116,14 +115,26 @@ namespace Views {
 /*---------------------------------------------------------------------------*/
 
 	const char* const PlayerInfoDefaultText
-		=	"<html>																						"	\
-			"	<head></head>																			"	\
-			"	<body>																					"	\
-			"		<font><center><i>																	"	\
-			"			You will see resources and other player information here after implementation.	"	\
-			"		</i></center></font>																"	\
-			"	</body>																					"	\
-			"</html>																					";
+		=	"<html>															"	\
+			"	<head></head>												"	\
+			"	<body>														"	\
+			"		<font><center><i>										"	\
+			"			You should be in game to see player information.	"	\
+			"		</i></center></font>									"	\
+			"	</body>														"	\
+			"</html>														";
+
+	const char* const PlayerInfoTextFormat
+		=	"<html>																			"	\
+			"	<head></head>																"	\
+			"	<body>																		"	\
+			"		<font><center><b>Player ( id: %1 )</b></center></font>					"	\
+			"		<br>																	"	\
+			"		<div>%2</div>															"	\
+			"	</body>																		"	\
+			"</html>																		";
+
+	const char* const PlayerResourceInfoFormat = "<b>%1:</b> %2<br>";
 
 /*---------------------------------------------------------------------------*/
 

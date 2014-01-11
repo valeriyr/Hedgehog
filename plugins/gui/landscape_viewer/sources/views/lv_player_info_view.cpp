@@ -84,6 +84,7 @@ PlayerInfoView::viewWasClosed()
 void
 PlayerInfoView::landscapeWasOpened()
 {
+	updatePlayerInfo();
 	/*m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::ms_type
 							,	boost::bind( &ObjectStatusView::onObjectsSelectionChanged, this, _1 ) );*/
@@ -98,6 +99,7 @@ void
 PlayerInfoView::landscapeWasClosed()
 {
 	m_subscriber.unsubscribe();
+	setDefaultText();
 
 } // PlayerInfoView::landscapeWasClosed
 
@@ -111,6 +113,37 @@ PlayerInfoView::setDefaultText()
 	m_mainWidget->setHtml( Resources::Views::PlayerInfoDefaultText );
 
 } // PlayerInfoView::setDefaultText
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PlayerInfoView::updatePlayerInfo()
+{
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
+
+	if ( handle->getPlayer() )
+	{
+		QString resourcesInfo;
+
+		const Core::LandscapeModel::IPlayer::ResourcesData& resourcesData = handle->getPlayer()->getResourcesData();
+
+		Core::LandscapeModel::IPlayer::ResourcesData::ResourcesDataCollectionIterator
+				begin = resourcesData.m_data.begin()
+			,	end = resourcesData.m_data.end();
+
+		for ( ; begin != end; ++begin )
+			resourcesInfo += QString( Resources::Views::PlayerResourceInfoFormat ).arg( begin->first ).arg( begin->second );
+
+		m_mainWidget->setHtml(
+			QString( Resources::Views::PlayerInfoTextFormat )
+				.arg( handle->getPlayer()->getUniqueId() )
+				.arg( resourcesInfo ) );
+	}
+
+} // PlayerInfoView::updatePlayerInfo
 
 
 /*---------------------------------------------------------------------------*/

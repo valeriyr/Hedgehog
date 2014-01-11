@@ -69,6 +69,10 @@ namespace Views {
 
 	extern const char* const PlayerInfoDefaultText;
 
+	extern const char* const PlayerInfoTextFormat;
+
+	extern const char* const PlayerResourceInfoFormat;
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Views

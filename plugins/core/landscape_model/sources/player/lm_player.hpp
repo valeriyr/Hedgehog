@@ -36,6 +36,8 @@ public:
 
 	/*virtual*/ IPlayer::Id getUniqueId() const;
 
+	/*virtual*/ const IPlayer::ResourcesData& getResourcesData() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -45,6 +47,8 @@ private:
 	const IStaticData& m_staticData;
 
 	const IPlayer::Id m_id;
+
+	IPlayer::ResourcesData m_resourceData;
 
 /*---------------------------------------------------------------------------*/
 
