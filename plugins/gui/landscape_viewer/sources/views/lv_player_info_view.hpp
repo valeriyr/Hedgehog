@@ -57,6 +57,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void onResourceValueChanged( const Framework::Core::EventManager::Event& _event );
+
+/*---------------------------------------------------------------------------*/
+
 	void setDefaultText();
 
 	void updatePlayerInfo();

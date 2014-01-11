@@ -85,9 +85,9 @@ void
 PlayerInfoView::landscapeWasOpened()
 {
 	updatePlayerInfo();
-	/*m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::ms_type
-							,	boost::bind( &ObjectStatusView::onObjectsSelectionChanged, this, _1 ) );*/
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::ResourceValueChanged::ms_type
+							,	boost::bind( &PlayerInfoView::onResourceValueChanged, this, _1 ) );
 
 } // PlayerInfoView::landscapeWasOpened
 
@@ -102,6 +102,17 @@ PlayerInfoView::landscapeWasClosed()
 	setDefaultText();
 
 } // PlayerInfoView::landscapeWasClosed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PlayerInfoView::onResourceValueChanged( const Framework::Core::EventManager::Event& _event )
+{
+	updatePlayerInfo();
+
+} // PlayerInfoView::onResourceValueChanged
 
 
 /*---------------------------------------------------------------------------*/
