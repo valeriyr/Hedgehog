@@ -270,8 +270,8 @@
     <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/client/</OutDir>
     <ExecutablePath>$(QTPATH)\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(QTPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(LIBPATH)\lua\include;$(LIBPATH)\luabind;$(IncludePath)</IncludePath>
+    <LibraryPath>$(QTPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LIBPATH)\lua\lib;$(LIBPATH)\luabind\lib;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -279,8 +279,8 @@
     <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/client/</OutDir>
     <ExecutablePath>$(QTPATH)\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(QTPATH)\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(LIBPATH)\lua\include;$(LIBPATH)\luabind;$(IncludePath)</IncludePath>
+    <LibraryPath>$(QTPATH)\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LIBPATH)\lua\lib64;$(LIBPATH)\luabind\lib64;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -288,8 +288,8 @@
     <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/client/</OutDir>
     <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <ExecutablePath>$(QTPATH)\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(QTPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(LIBPATH)\lua\include;$(LIBPATH)\luabind;$(IncludePath)</IncludePath>
+    <LibraryPath>$(QTPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LIBPATH)\lua\lib;$(LIBPATH)\luabind\lib;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -297,8 +297,8 @@
     <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/client/</OutDir>
     <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <ExecutablePath>$(QTPATH)\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(IncludePath)</IncludePath>
-    <LibraryPath>$(QTPATH)\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(LIBPATH)\lua\include;$(LIBPATH)\luabind;$(IncludePath)</IncludePath>
+    <LibraryPath>$(QTPATH)\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LIBPATH)\lua\lib64;$(LIBPATH)\luabind\lib64;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -306,7 +306,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;LANDSCAPE_VIEWER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;LANDSCAPE_VIEWER_EXPORTS;LUABIND_DYNAMIC_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>landscape_viewer/sources/ph/lv_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../plugins/core;../../../temp/x86/gen/$(Configuration)/$(ProjectName)/</AdditionalIncludeDirectories>
@@ -318,7 +318,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>Qt5Cored.lib;Qt5Widgetsd.lib;Qt5Guid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Cored.lib;Qt5Widgetsd.lib;Qt5Guid.lib;lua5.1.lib;luabindd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -326,7 +326,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;LANDSCAPE_VIEWER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;LANDSCAPE_VIEWER_EXPORTS;LUABIND_DYNAMIC_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>landscape_viewer/sources/ph/lv_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../plugins/core;../../../temp/x64/gen/$(Configuration)/$(ProjectName)/</AdditionalIncludeDirectories>
@@ -338,7 +338,7 @@
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>Qt5Cored.lib;Qt5Widgetsd.lib;Qt5Guid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Cored.lib;Qt5Widgetsd.lib;Qt5Guid.lib;lua5.1.lib;luabindd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -348,7 +348,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;LANDSCAPE_VIEWER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;LANDSCAPE_VIEWER_EXPORTS;LUABIND_DYNAMIC_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>landscape_viewer/sources/ph/lv_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../plugins/core;../../../temp/x86/gen/$(Configuration)/$(ProjectName)/</AdditionalIncludeDirectories>
@@ -362,7 +362,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)x86/$(Configuration)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(SolutionDir)x86/$(Configuration)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(SolutionDir)x86/$(Configuration)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -372,7 +372,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;LANDSCAPE_VIEWER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;LANDSCAPE_VIEWER_EXPORTS;LUABIND_DYNAMIC_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>landscape_viewer/sources/ph/lv_ph.hpp</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</PrecompiledHeaderOutputFile>
       <AdditionalIncludeDirectories>./..;../../../tools/core;../../../framework/core;../../../framework/gui;../../../plugins/core;../../../temp/x64/gen/$(Configuration)/$(ProjectName)/</AdditionalIncludeDirectories>
@@ -386,7 +386,7 @@
       <AdditionalLibraryDirectories>$(OutputPath)/lib</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutputPath)/pdb/$(ProjectName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(OutputPath)/lib/$(ProjectName).lib</ImportLibrary>
-      <AdditionalDependencies>Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

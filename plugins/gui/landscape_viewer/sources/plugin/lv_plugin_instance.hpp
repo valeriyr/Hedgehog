@@ -41,6 +41,11 @@ namespace Framework
 
 	namespace Core
 	{
+		namespace PluginsManager
+		{
+				struct ISystemInformation;
+		}
+
 		namespace CommandsManager
 		{
 			struct ICommandsRegistry;
@@ -64,6 +69,12 @@ namespace Framework
 		namespace SoundManager
 		{
 			struct ISoundManager;
+		}
+
+		namespace ScriptEngine
+		{
+			struct IExporter;
+			struct IScriptsExecutor;
 		}
 	}
 }
@@ -128,6 +139,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	boost::intrusive_ptr< Framework::Core::PluginsManager::ISystemInformation >
+		getSystemInformation() const;
+
 	boost::intrusive_ptr< Tools::Core::IMessenger >
 		getSystemMessenger() const;
 
@@ -161,6 +175,12 @@ public:
 	boost::intrusive_ptr< Framework::Core::SoundManager::ISoundManager >
 		getSoundManager() const;
 
+	boost::intrusive_ptr< Framework::Core::ScriptEngine::IExporter >
+		getScriptExporter() const;
+
+	boost::intrusive_ptr< Framework::Core::ScriptEngine::IScriptsExecutor >
+		getScriptsExecutor() const;
+
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeModel >
@@ -182,7 +202,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void fillSurfaceItemsCache();
+	void exportScriptAPI();
+
+	void executeConfigurationScripts();
 
 	void fillObjectsCache();
 

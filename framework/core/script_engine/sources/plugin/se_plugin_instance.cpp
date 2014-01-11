@@ -132,6 +132,9 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClass< QSize >( "QSize" )
 		->withConstructor< int, int >();
 
+	exporter.exportClass< QRect >( "QRect" )
+		->withConstructor< int, int, int, int >();
+
 	exporter.exportClass< Tools::Core::IMessenger >( "IMessenger" )
 		->withMethod( "printMessage", ( void ( Tools::Core::IMessenger::* )( const QString& ) )( &Tools::Core::IMessenger::printMessage ) )
 		.withMethod(

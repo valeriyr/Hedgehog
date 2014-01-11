@@ -190,13 +190,20 @@ PluginInstance::exportScriptAPI()
 {
 	Framework::Core::ScriptEngine::DataExporter exporter = getScriptExporter()->getDataExporter();
 
-	// Surface items cache export
+	// Enums export
 
 	exporter.exportClass< TerrainMapItem >( "TerrainMapItem" )
 		->withEnum< TerrainMapItem::Enum >( "Enum" )
 			.withItem( "NotAvailable", TerrainMapItem::NotAvailable )
 			.withItem( "Ground", TerrainMapItem::Ground )
 			.withItem( "Water", TerrainMapItem::Water );
+
+	exporter.exportClass< Actions >( "Actions" )
+		->withEnum< Actions::Enum >( "Enum" )
+			.withItem( "Move", Actions::Move )
+			.withItem( "Build", Actions::Build );
+
+	// Surface items cache export
 
 	exporter.exportClass< ISurfaceItemsCache >( "ISurfaceItemsCache" )
 		->withMethod( "regSurfaceItem", &ISurfaceItemsCache::regSurfaceItem )
@@ -221,11 +228,6 @@ PluginInstance::exportScriptAPI()
 
 	exporter.exportClassWithShared< SelectionComponentStaticData >( "SelectionComponentStaticData" )
 		->withConstructor< const bool >();
-
-	exporter.exportClass< Actions >( "Actions" )
-		->withEnum< Actions::Enum >( "Enum" )
-			.withItem( "Move", Actions::Move )
-			.withItem( "Build", Actions::Build );
 
 	exporter.exportClassWithShared< ActionsComponentStaticData >( "ActionsComponentStaticData" )
 		->withConstructor()

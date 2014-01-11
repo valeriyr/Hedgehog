@@ -93,7 +93,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/</OutDir>
-    <ExecutablePath>$(QTPATH)\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(LIBPATH)\lua\bin;$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>$(QTPATH)\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(LIBPATH)\lua\include;$(LIBPATH)\luabind;$(IncludePath)</IncludePath>
     <LibraryPath>$(QTPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LIBPATH)\lua\lib;$(LIBPATH)\luabind\lib;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
@@ -102,7 +102,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
     <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/</OutDir>
-    <ExecutablePath>$(QTPATH)\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(LIBPATH)\lua\bin64;$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>$(QTPATH)\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(LIBPATH)\lua\include;$(LIBPATH)\luabind;$(IncludePath)</IncludePath>
     <LibraryPath>$(QTPATH)\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LIBPATH)\lua\lib64;$(LIBPATH)\luabind\lib64;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
@@ -111,7 +111,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)x86/$(Configuration)/bin/plugins/</OutDir>
     <IntDir>$(SolutionDir)temp/x86/obj/$(Configuration)/$(ProjectName)/</IntDir>
-    <ExecutablePath>$(QTPATH)\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(LIBPATH)\lua\bin;$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>$(QTPATH)\bin;$(LIBPATH)\stlport\bin;$(LIBPATH)\boost\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(LIBPATH)\lua\include;$(LIBPATH)\luabind;$(IncludePath)</IncludePath>
     <LibraryPath>$(QTPATH)\lib;$(LIBPATH)\stlport\lib;$(LIBPATH)\boost\lib;$(LIBPATH)\lua\lib;$(LIBPATH)\luabind\lib;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>
@@ -120,7 +120,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)x64/$(Configuration)/bin/plugins/</OutDir>
     <IntDir>$(SolutionDir)temp/x64/obj/$(Configuration)/$(ProjectName)/</IntDir>
-    <ExecutablePath>$(QTPATH)\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(LIBPATH)\lua\bin64;$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>$(QTPATH)\bin64;$(LIBPATH)\stlport\bin64;$(LIBPATH)\boost\bin64;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(QTPATH)\include;$(LIBPATH)\stlport\stlport;$(LIBPATH)\boost;$(LIBPATH)\lua\include;$(LIBPATH)\luabind;$(IncludePath)</IncludePath>
     <LibraryPath>$(QTPATH)\lib64;$(LIBPATH)\stlport\lib64;$(LIBPATH)\boost\lib64;$(LIBPATH)\lua\lib64;$(LIBPATH)\luabind\lib64;$(LibraryPath)</LibraryPath>
     <TargetExt>.hplugin</TargetExt>

@@ -3,6 +3,7 @@
 #include <set>
 
 #include <QtCore/QTimer>
+#include <QtCore/QDir>
 
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QTreeWidget>

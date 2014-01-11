@@ -7,6 +7,7 @@
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
 #include "plugins_manager/h/pm_plugin_id.hpp"
+#include "plugins_manager/ih/pm_isystem_information.hpp"
 
 #include "landscape_viewer/sources/environment/lv_environment.hpp"
 #include "landscape_viewer/sources/landscape_viewer/lv_landscape_viewer.hpp"
@@ -53,6 +54,10 @@
 #include "sound_manager/ih/sm_isound_manager.hpp"
 #include "sound_manager/h/sm_plugin_id.hpp"
 
+#include "script_engine/ih/se_iexporter.hpp"
+#include "script_engine/ih/se_iscripts_executor.hpp"
+#include "script_engine/h/se_plugin_id.hpp"
+#include "script_engine/h/se_resources.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -90,10 +95,11 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
-	fillObjectsCache();
-
 	m_graphicsInfoCache.reset( new GraphicsInfoCache() );
-	fillSurfaceItemsCache();
+
+	exportScriptAPI();
+	executeConfigurationScripts();
+	fillObjectsCache();
 
 	getSettings()->regBool( Resources::Properties::TerrainMapVisibility, false );
 	getSettings()->regString( Resources::Properties::SkinId, "winter" );
@@ -161,6 +167,20 @@ PluginInstance::close()
 	clearObjectsCache();
 
 } // PluginInstance::close
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::PluginsManager::ISystemInformation >
+PluginInstance::getSystemInformation() const
+{
+	return
+		getPluginInterface< Framework::Core::PluginsManager::ISystemInformation >(
+				Framework::Core::PluginsManager::PID_PLUGINS_MANAGER
+			,	Framework::Core::PluginsManager::IID_SYSTEM_INFORMATION );
+
+} // PluginInstance::getSystemInformation
 
 
 /*---------------------------------------------------------------------------*/
@@ -334,6 +354,34 @@ PluginInstance::getSoundManager() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< Framework::Core::ScriptEngine::IExporter >
+PluginInstance::getScriptExporter() const
+{
+	return
+		getPluginInterface< Framework::Core::ScriptEngine::IExporter >(
+				Framework::Core::ScriptEngine::PID_SCRIPT_ENGINE
+			,	Framework::Core::ScriptEngine::IID_EXPORTER );
+
+} // PluginInstance::getScriptExporter
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::ScriptEngine::IScriptsExecutor >
+PluginInstance::getScriptsExecutor() const
+{
+	return
+		getPluginInterface< Framework::Core::ScriptEngine::IScriptsExecutor >(
+				Framework::Core::ScriptEngine::PID_SCRIPT_ENGINE
+			,	Framework::Core::ScriptEngine::IID_SCRIPTS_EXECUTOR );
+
+} // PluginInstance::getScriptsExecutor
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
 PluginInstance::getSurfaceItemsCache() const
 {
@@ -374,55 +422,81 @@ PluginInstance::getGraphicsInfoCache() const
 
 
 void
-PluginInstance::fillSurfaceItemsCache()
+PluginInstance::exportScriptAPI()
 {
-	// Ground tiles with water borders
+	Framework::Core::ScriptEngine::DataExporter exporter = getScriptExporter()->getDataExporter();
 
-	// 1 --- 2 --- 3
-	// |     |     |
-	// 4 --- 5 --- 6
-	// |     |     |
-	// 7 --- 8 --- 9
+	// Graphics info cache
 
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 1, "surface", QRect( 352, 416, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 2, "surface", QRect( 128, 416, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 3, "surface", QRect( 128, 448, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 4, "surface", QRect( 256, 416, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 5, "surface", QRect( 384, 384, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 6, "surface", QRect(  32, 448, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 7, "surface", QRect( 256, 448, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 8, "surface", QRect( 160, 448, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 9, "surface", QRect( 352, 448, 32, 32 ) );
+	exporter.exportClass< IGraphicsInfoCache >( "IGraphicsInfoCache" )
+		->withMethod( "regSurfaceItemGraphicsInfo", &IGraphicsInfoCache::regSurfaceItemGraphicsInfo );
 
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 1, "surface", QRect(  64, 544, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 2, "surface", QRect( 224, 512, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 3, "surface", QRect( 352, 544, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 4, "surface", QRect( 416, 512, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 5, "surface", QRect(  64, 512, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 6, "surface", QRect( 224, 544, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 7, "surface", QRect(   0, 576, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 8, "surface", QRect( 448, 544, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 9, "surface", QRect(  64, 576, 32, 32 ) );
+	exporter.exportVariable( "GraphicsInfoCache", m_graphicsInfoCache.get() );
 
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 1, "surface", QRect( 192, 416, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 2, "surface", QRect( 416, 384, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 3, "surface", QRect( 448, 416, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 4, "surface", QRect(  96, 416, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 5, "surface", QRect(  32, 352, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 6, "surface", QRect( 384, 416, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 7, "surface", QRect(  96, 448, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 8, "surface", QRect(   0, 448, 32, 32 ) );
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 9, "surface", QRect( 160, 448, 32, 32 ) );
+	/*// Static data export
 
-	// Water tiles
+	exporter.exportClassWithShared< BuildObjectData >( "BuildObjectData" )
+		->withConstructor< const int, const QString& >();
 
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "summer", 101, "surface", QRect( 256, 640, 32, 32 ) );
+	exporter.exportClassWithShared< BuilderComponentStaticData >( "BuilderComponentStaticData" )
+		->withConstructor()
+		.withMethod( "pushBuildObjectData", &BuilderComponentStaticData::pushBuildObjectData );
 
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "winter", 101, "surface", QRect( 352, 640, 32, 32 ) );
+	exporter.exportClassWithShared< HealthComponentStaticData >( "HealthComponentStaticData" )
+		->withConstructor< const int >();
 
-	m_graphicsInfoCache->regSurfaceItemGraphicsInfo( "wasteland", 101, "surface", QRect( 0, 608, 32, 32 ) );
+	exporter.exportClassWithShared< LocateComponentStaticData >( "LocateComponentStaticData" )
+		->withConstructor< const QSize&, const TerrainMapItem::MaskType >();
 
-} // PluginInstance::fillSurfaceItemsCache
+	exporter.exportClassWithShared< SelectionComponentStaticData >( "SelectionComponentStaticData" )
+		->withConstructor< const bool >();
+
+	exporter.exportClassWithShared< ActionsComponentStaticData >( "ActionsComponentStaticData" )
+		->withConstructor()
+		.withMethod( "can", &ActionsComponentStaticData::can );
+
+	exporter.exportClassWithShared< MoveComponentStaticData >( "MoveComponentStaticData" )
+		->withConstructor< const unsigned int >();
+
+	exporter.exportClass< IStaticData::ObjectStaticData >( "ObjectStaticData" )
+		->withConstructor()
+		.withRWProperty( "m_actionsData", &IStaticData::ObjectStaticData::m_actionsData )
+		.withRWProperty( "m_builderData", &IStaticData::ObjectStaticData::m_builderData )
+		.withRWProperty( "m_healthData", &IStaticData::ObjectStaticData::m_healthData )
+		.withRWProperty( "m_locateData", &IStaticData::ObjectStaticData::m_locateData )
+		.withRWProperty( "m_moveData", &IStaticData::ObjectStaticData::m_moveData )
+		.withRWProperty( "m_selectionData", &IStaticData::ObjectStaticData::m_selectionData );
+
+	exporter.exportClass< IStaticData >( "IStaticData" )
+		->withMethod( "regObjectStaticData", &IStaticData::regObjectStaticData );
+
+	exporter.exportVariable( "StaticData", m_staticData.get() );*/
+
+} // PluginInstance::exportScriptAPI
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PluginInstance::executeConfigurationScripts()
+{
+	QDir scriptsDirectory = QDir( getSystemInformation()->getConfigDirectory() + "/" + Resources::ConfigurationScriptsDirectory );
+
+	if ( !scriptsDirectory.exists() )
+		return;
+
+	QStringList filesFilter;
+	filesFilter.push_back( QString( "*" ) + Framework::Core::ScriptEngine::Resources::ScriptFileExtension );
+
+	QFileInfoList filesList = scriptsDirectory.entryInfoList( filesFilter );
+
+	for ( int i = 0; i < filesList.size(); ++i )
+	{
+		 getScriptsExecutor()->executeFile( filesList.at( i ).filePath() );
+	}
+
+} // PluginInstance::executeConfigurationScripts
 
 
 /*---------------------------------------------------------------------------*/
