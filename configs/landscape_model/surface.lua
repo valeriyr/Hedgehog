@@ -25,4 +25,6 @@ SurfaceItemsCache:regSurfaceItem(101, TerrainMapItem.Water)
 
 SurfaceItemsCache:setDefaultSurfaceItem(5)
 
+-- End script message
+
 SystemMessenger:printMessage(IMessenger.Info, QString("Surface items has loaded."))
