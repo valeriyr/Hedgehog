@@ -5,7 +5,7 @@
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
+#include "landscape_model/sources/landscape/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
 

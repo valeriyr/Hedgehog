@@ -54,7 +54,7 @@ struct IStaticData
 		StaticDataCollectionIterator;
 
 	typedef
-		std::vector< QString >
+		std::set< QString >
 		ResourcesCollection;
 	typedef
 		ResourcesCollection::const_iterator
@@ -75,9 +75,9 @@ struct IStaticData
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual void regResource( const QString& _name ) = 0;
+	virtual void regResource( const QString& _name ) = 0;
 
-	virtual void fetchResources( ResourcesCollection& _collection ) const = 0;*/
+	virtual void fetchResources( ResourcesCollection& _collection ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

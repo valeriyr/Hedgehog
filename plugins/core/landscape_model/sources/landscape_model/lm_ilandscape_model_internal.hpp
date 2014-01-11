@@ -15,7 +15,9 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct ILandscapeHandleInternal;
+
 struct IEditableLandscape;
+struct IEditablePlayer;
 
 /*---------------------------------------------------------------------------*/
 
@@ -26,6 +28,10 @@ struct ILandscapeModelInternal
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< IEditableLandscape > getCurrentLandscapeInternal() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual boost::intrusive_ptr< IEditablePlayer > getPlayerInternal() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

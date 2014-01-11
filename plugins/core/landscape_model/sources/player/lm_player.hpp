@@ -1,10 +1,10 @@
 
-#ifndef __LM_STATIC_DATA_HPP__
-#define __LM_STATIC_DATA_HPP__
+#ifndef __LM_PLAYER_HPP__
+#define __LM_PLAYER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_istatic_data.hpp"
+#include "landscape_model/sources/player/lm_ieditable_player.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,8 +14,12 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class StaticData
-	:	public Tools::Core::BaseWrapper< IStaticData >
+struct IStaticData;
+
+/*---------------------------------------------------------------------------*/
+
+class Player
+	:	public Tools::Core::BaseWrapper< IEditablePlayer >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,25 +28,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	StaticData();
+	Player( const IStaticData& _staticData );
 
-	virtual ~StaticData();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ const IStaticData::ObjectStaticData getObjectStaticData( const QString& _name ) const;
-
-	/*virtual*/ void fetchObjectsStaticData( IStaticData::StaticDataCollection& _collection ) const;
+	virtual ~Player();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void regObjectStaticData( const QString& _name, const ObjectStaticData& _data );
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void regResource( const QString& _name );
-
-	/*virtual*/ void fetchResources( ResourcesCollection& _collection ) const;
+	/*virtual*/ IPlayer::Id getUniqueId() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,9 +42,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	IStaticData::StaticDataCollection m_staticData;
+	const IStaticData& m_staticData;
 
-	IStaticData::ResourcesCollection m_resources;
+	const IPlayer::Id m_id;
 
 /*---------------------------------------------------------------------------*/
 
@@ -66,4 +58,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_STATIC_DATA_HPP__
+#endif // __LM_PLAYER_HPP__

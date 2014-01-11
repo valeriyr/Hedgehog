@@ -8,8 +8,6 @@
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
-
 
 /*---------------------------------------------------------------------------*/
 

@@ -1,10 +1,9 @@
 
-#ifndef __LM_ILANDSCAPE_HANDLE_HPP__
-#define __LM_ILANDSCAPE_HANDLE_HPP__
+#ifndef __LM_IEDITABLE_PLAYER_HPP__
+#define __LM_IEDITABLE_PLAYER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_iplayer.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -15,12 +14,14 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeHandle
-	:	public Tools::Core::IBase
+struct IEditablePlayer
+	:	public IPlayer
 {
-	virtual boost::intrusive_ptr< ILandscape > getLandscape() const = 0;
 
-	virtual boost::intrusive_ptr< IPlayer > getPlayer() const = 0;
+/*---------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------*/
+
 };
 
 /*---------------------------------------------------------------------------*/
@@ -31,4 +32,4 @@ struct ILandscapeHandle
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_HANDLE_HPP__
+#endif // __LM_IEDITABLE_PLAYER_HPP__

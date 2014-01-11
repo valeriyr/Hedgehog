@@ -40,6 +40,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="sources\player\lm_player.cpp" />
     <ClCompile Include="sources\plugin\lm_plugin_instance.cpp" />
     <ClCompile Include="sources\static_data\lm_static_data.cpp" />
     <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp" />
@@ -68,10 +69,10 @@
     <ClInclude Include="ih\components\lm_ilocate_component.hpp" />
     <ClInclude Include="ih\components\lm_imove_component.hpp" />
     <ClInclude Include="ih\components\lm_iselection_component.hpp" />
-    <ClInclude Include="ih\lm_ieditable_landscape.hpp" />
     <ClInclude Include="ih\lm_ilandscape.hpp" />
     <ClInclude Include="ih\lm_ilandscape_handle.hpp" />
     <ClInclude Include="ih\lm_ilandscape_model.hpp" />
+    <ClInclude Include="ih\lm_iplayer.hpp" />
     <ClInclude Include="ih\lm_istatic_data.hpp" />
     <ClInclude Include="ih\lm_isurface_item.hpp" />
     <ClInclude Include="ih\lm_isurface_items_cache.hpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="sources\environment\lm_environment.hpp" />
     <ClInclude Include="sources\environment\lm_ienvironment.hpp" />
     <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp" />
+    <ClInclude Include="sources\landscape\lm_ieditable_landscape.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
     <ClInclude Include="sources\landscape_handle\lm_ilandscape_handle_internal.hpp" />
     <ClInclude Include="sources\landscape_handle\lm_landscape_handle.hpp" />
@@ -98,6 +100,8 @@
     <ClInclude Include="sources\path_finders\lm_ipath_finder.hpp" />
     <ClInclude Include="sources\path_finders\lm_jump_point_search.hpp" />
     <ClInclude Include="sources\ph\lm_ph.hpp" />
+    <ClInclude Include="sources\player\lm_ieditable_player.hpp" />
+    <ClInclude Include="sources\player\lm_player.hpp" />
     <ClInclude Include="sources\plugin\lm_plugin_instance.hpp" />
     <ClInclude Include="sources\static_data\lm_static_data.hpp" />
     <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp" />

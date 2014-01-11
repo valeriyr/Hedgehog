@@ -6,8 +6,6 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
 
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
-
 
 /*---------------------------------------------------------------------------*/
 

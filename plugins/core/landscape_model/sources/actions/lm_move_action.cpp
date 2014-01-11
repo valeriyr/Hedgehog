@@ -7,7 +7,7 @@
 
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
+#include "landscape_model/sources/landscape/lm_ieditable_landscape.hpp"
 
 
 /*---------------------------------------------------------------------------*/

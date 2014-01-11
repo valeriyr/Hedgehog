@@ -260,7 +260,8 @@ PluginInstance::exportScriptAPI()
 		.withRWProperty( "m_selectionData", &IStaticData::ObjectStaticData::m_selectionData );
 
 	exporter.exportClass< IStaticData >( "IStaticData" )
-		->withMethod( "regObjectStaticData", &IStaticData::regObjectStaticData );
+		->withMethod( "regObjectStaticData", &IStaticData::regObjectStaticData )
+		.withMethod( "regResource", &IStaticData::regResource );
 
 	exporter.exportVariable( "StaticData", m_staticData.get() );
 

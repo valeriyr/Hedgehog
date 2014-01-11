@@ -1,13 +1,10 @@
 
-#ifndef __LM_ILANDSCAPE_HANDLE_INTERNAL_HPP__
-#define __LM_ILANDSCAPE_HANDLE_INTERNAL_HPP__
+#ifndef __LM_IPLAYER_HPP__
+#define __LM_IPLAYER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
-
-#include "landscape_model/sources/landscape/lm_ieditable_landscape.hpp"
-#include "landscape_model/sources/player/lm_ieditable_player.hpp"
+#include "intrusive_base/ib_ibase.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,14 +14,18 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeHandleInternal
-	:	public ILandscapeHandle
+struct IPlayer
+	:	public Tools::Core::IBase
 {
+
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< IEditableLandscape > getEditableLandscape() const = 0;
+	typedef int Id;
+	static const int ms_wrondId = -1;
 
-	virtual boost::intrusive_ptr< IEditablePlayer > getEditablePlayer() const = 0;
+/*---------------------------------------------------------------------------*/
+
+	virtual Id getUniqueId() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,4 +39,4 @@ struct ILandscapeHandleInternal
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_HANDLE_INTERNAL_HPP__
+#endif // __LM_IPLAYER_HPP__

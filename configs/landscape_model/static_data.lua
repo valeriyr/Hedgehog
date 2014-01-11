@@ -1,4 +1,9 @@
 
+-- Resources
+
+StaticData:regResource( QString( "Gold" ) )
+StaticData:regResource( QString( "Wood" ) )
+
 -- Elven Archer
 
 elvenArcher = ObjectStaticData()

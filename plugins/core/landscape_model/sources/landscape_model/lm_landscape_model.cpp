@@ -5,6 +5,8 @@
 
 #include "landscape_model/sources/landscape/lm_landscape.hpp"
 
+#include "landscape_model/sources/player/lm_player.hpp"
+
 #include "landscape_model/sources/landscape_serializer/lm_ilandscape_serializer.hpp"
 #include "landscape_model/sources/landscape_handle/lm_landscape_handle.hpp"
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
@@ -37,6 +39,7 @@ LandscapeModel::LandscapeModel(
 	,	m_surfaceItemsCache( _surfaceItemsCache )
 	,	m_staticData( _staticData )
 	,	m_currentLandscape()
+	,	m_player()
 	,	m_landscapeLocker( QMutex::Recursive )
 	,	m_pathFinder( new JumpPointSearch() )
 {
@@ -79,6 +82,8 @@ LandscapeModel::initCurrentLandscape ( const QString& _filePath )
 		landscape->setSize( 20, 20 );
 	}
 
+	m_player.reset( new Player( m_staticData ) );
+
 	m_currentLandscape = landscape;
 
 } // LandscapeModel::initCurrentLandscape
@@ -91,6 +96,7 @@ void
 LandscapeModel::closeCurrentLandscape()
 {
 	m_currentLandscape.reset();
+	m_player.reset();
 
 } // LandscapeModel::closeCurrentLandscape
 
@@ -116,6 +122,17 @@ LandscapeModel::getCurrentLandscapeInternal() const
 	return m_currentLandscape;
 
 } // LandscapeModel::getCurrentLandscapeInternal
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IEditablePlayer >
+LandscapeModel::getPlayerInternal() const
+{
+	return m_player;
+
+} // LandscapeModel::getPlayerInternal
 
 
 /*---------------------------------------------------------------------------*/

@@ -15,6 +15,7 @@ namespace LandscapeModel {
 
 StaticData::StaticData()
 	:	m_staticData()
+	,	m_resources()
 {
 } // StaticData::StaticData
 
@@ -66,6 +67,28 @@ StaticData::regObjectStaticData( const QString& _name, const ObjectStaticData& _
 	m_staticData.insert( std::make_pair( _name, _data ) );
 
 } // StaticData::regObjectStaticData
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+StaticData::regResource( const QString& _name )
+{
+	m_resources.insert( _name );
+
+} // StaticData::regResource
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+StaticData::fetchResources( ResourcesCollection& _collection ) const
+{
+	_collection = m_resources;
+
+} // StaticData::fetchResources
 
 
 /*---------------------------------------------------------------------------*/

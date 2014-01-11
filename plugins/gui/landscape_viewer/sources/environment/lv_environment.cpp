@@ -25,9 +25,10 @@
 #include "sound_manager/ih/sm_isound_manager.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
+
+#include "landscape_model/sources/landscape/lm_ieditable_landscape.hpp"
 
 #include "settings/ih/st_isettings.hpp"
 

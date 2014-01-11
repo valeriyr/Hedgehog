@@ -5,8 +5,6 @@
 
 #include "landscape_model/sources/landscape_model/lm_ilandscape_model_internal.hpp"
 
-#include "landscape_model/ih/lm_ieditable_landscape.hpp"
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,9 +36,20 @@ LandscapeHandle::~LandscapeHandle()
 boost::intrusive_ptr< ILandscape >
 LandscapeHandle::getLandscape() const
 {
-	return m_landscapeModel.getCurrentLandscapeInternal();
+	return getEditableLandscape();
 
 } // LandscapeHandle::getLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IPlayer >
+LandscapeHandle::getPlayer() const
+{
+	return getEditablePlayer();
+
+} // LandscapeHandle::getPlayer
 
 
 /*---------------------------------------------------------------------------*/
@@ -52,6 +61,17 @@ LandscapeHandle::getEditableLandscape() const
 	return m_landscapeModel.getCurrentLandscapeInternal();
 
 } // LandscapeHandle::getEditableLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IEditablePlayer >
+LandscapeHandle::getEditablePlayer() const
+{
+	return m_landscapeModel.getPlayerInternal();
+
+} // LandscapeHandle::getEditablePlayer
 
 
 /*---------------------------------------------------------------------------*/

@@ -21,6 +21,7 @@ struct ISurfaceItemsCache;
 struct IStaticData;
 struct ILandscapeSerializer;
 struct IEditableLandscape;
+struct IEditablePlayer;
 struct ILandscapeHandle;
 struct IPathFinder;
 
@@ -55,6 +56,10 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getCurrentLandscapeInternal() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< IEditablePlayer > getPlayerInternal() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -107,6 +112,8 @@ private:
 	Framework::Core::MultithreadingManager::TaskHandle m_actionsProcessingTaskHandle;
 
 	boost::intrusive_ptr< IEditableLandscape > m_currentLandscape;
+
+	boost::intrusive_ptr< IEditablePlayer > m_player;
 
 	QMutex m_landscapeLocker;
 

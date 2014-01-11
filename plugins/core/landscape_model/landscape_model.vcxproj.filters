@@ -55,6 +55,9 @@
     <Filter Include="Actions">
       <UniqueIdentifier>{37fd109c-3470-49a2-a7cf-ef068f6a7b4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{c45f9495-0a70-48ec-b632-9a875b696436}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -117,6 +120,9 @@
     <ClCompile Include="sources\actions\lm_move_action.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
+    <ClCompile Include="sources\player\lm_player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -136,9 +142,6 @@
     </ClInclude>
     <ClInclude Include="h\lm_resources.hpp">
       <Filter>External Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\lm_ieditable_landscape.hpp">
-      <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="ih\lm_ilandscape.hpp">
       <Filter>Interfaces</Filter>
@@ -286,6 +289,18 @@
     </ClInclude>
     <ClInclude Include="sources\actions\lm_move_action.hpp">
       <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_iplayer.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\player\lm_player.hpp">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape\lm_ieditable_landscape.hpp">
+      <Filter>Landscape</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\player\lm_ieditable_player.hpp">
+      <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

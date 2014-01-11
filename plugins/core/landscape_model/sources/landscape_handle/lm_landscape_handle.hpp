@@ -36,9 +36,13 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< ILandscape > getLandscape() const;
 
+	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer() const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getEditableLandscape() const;
+
+	/*virtual*/ boost::intrusive_ptr< IEditablePlayer > getEditablePlayer() const;
 
 /*---------------------------------------------------------------------------*/
 
