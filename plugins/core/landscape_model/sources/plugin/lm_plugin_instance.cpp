@@ -222,12 +222,14 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClassWithShared< SelectionComponentStaticData >( "SelectionComponentStaticData" )
 		->withConstructor< const bool >();
 
-	exporter.exportClassWithShared< ActionsComponentStaticData >( "ActionsComponentStaticData" )
-		->withConstructor()
-		.withMethod( "can", &ActionsComponentStaticData::can )
-		.withEnum< Actions::Enum >( "Actions" )
+	exporter.exportClass< Actions >( "Actions" )
+		->withEnum< Actions::Enum >( "Enum" )
 			.withItem( "Move", Actions::Move )
 			.withItem( "Build", Actions::Build );
+
+	exporter.exportClassWithShared< ActionsComponentStaticData >( "ActionsComponentStaticData" )
+		->withConstructor()
+		.withMethod( "can", &ActionsComponentStaticData::can );
 
 	exporter.exportClassWithShared< MoveComponentStaticData >( "MoveComponentStaticData" )
 		->withConstructor< const unsigned int >();

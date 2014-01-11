@@ -9,7 +9,7 @@ elvenArcher.m_moveData = MoveComponentStaticData( 800 )
 elvenArcher.m_selectionData = SelectionComponentStaticData( true )
 
 elvenArcher.m_actionsData = ActionsComponentStaticData()
-elvenArcher.m_actionsData:can( ActionsComponentStaticData.Move )
+elvenArcher.m_actionsData:can( Actions.Move )
 
 StaticData:regObjectStaticData( QString( "Elven Archer" ), elvenArcher )
 
@@ -23,7 +23,7 @@ grunt.m_moveData = MoveComponentStaticData( 1000 )
 grunt.m_selectionData = SelectionComponentStaticData( true )
 
 grunt.m_actionsData = ActionsComponentStaticData()
-grunt.m_actionsData:can( ActionsComponentStaticData.Move )
+grunt.m_actionsData:can( Actions.Move )
 
 StaticData:regObjectStaticData( QString( "Grunt" ), grunt )
 
@@ -36,7 +36,7 @@ orcBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapI
 orcBarracks.m_selectionData = SelectionComponentStaticData( true )
 
 orcBarracks.m_actionsData = ActionsComponentStaticData()
-orcBarracks.m_actionsData:can( ActionsComponentStaticData.Build )
+orcBarracks.m_actionsData:can( Actions.Build )
 
 orcBarracks.m_buildData = BuilderComponentStaticData()
 orcBarracks.m_buildData:pushBuildObjectData( BuildObjectData( 3000, QString( "Grunt" ) ) )
@@ -52,7 +52,7 @@ humanBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMa
 humanBarracks.m_selectionData = SelectionComponentStaticData( true )
 
 humanBarracks.m_actionsData = ActionsComponentStaticData()
-humanBarracks.m_actionsData:can( ActionsComponentStaticData.Build )
+humanBarracks.m_actionsData:can( Actions.Build )
 
 humanBarracks.m_buildData = BuilderComponentStaticData()
 humanBarracks.m_buildData:pushBuildObjectData( BuildObjectData( 4500, QString( "Elven Archer" ) ) )
