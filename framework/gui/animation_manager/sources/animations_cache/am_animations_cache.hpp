@@ -51,7 +51,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< QString, AnimationInfo >
+		std::map< QString, const AnimationInfo >
 		AnimationsInfoCollection;
 	typedef
 		AnimationsInfoCollection::const_iterator

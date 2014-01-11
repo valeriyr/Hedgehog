@@ -206,10 +206,6 @@ private:
 
 	void executeConfigurationScripts();
 
-	void fillObjectsCache();
-
-	void clearObjectsCache();
-
 /*---------------------------------------------------------------------------*/
 
 private:

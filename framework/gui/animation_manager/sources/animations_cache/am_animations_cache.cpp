@@ -23,7 +23,8 @@ AnimationsCache::AnimationsCache()
 
 AnimationsCache::~AnimationsCache()
 {
-	assert( m_animationsInfoCollection.empty() && "All animations should be unregistered at this moment!" );
+	// TODO: plugins should unreg their animations during unloading!
+	// assert( m_animationsInfoCollection.empty() && "All animations should be unregistered at this moment!" );
 
 } // AnimationsCache::~AnimationsCache
 

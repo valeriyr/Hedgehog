@@ -12,13 +12,13 @@ namespace AnimationManager {
 
 struct FrameInfo
 {
-	FrameInfo( const qint64 _period, const QRect& _frame, const bool _mirrored = false )
+	FrameInfo( const int _period, const QRect& _frame, const bool _mirrored = false )
 		:	m_period( _period )
 		,	m_frame( _frame )
 		,	m_mirrored( _mirrored )
 	{}
 
-	const qint64 m_period;
+	const int m_period;
 	const QRect m_frame;
 	const bool m_mirrored;
 };
@@ -37,17 +37,21 @@ struct AnimationInfo
 	AnimationInfo(
 			const QString& _animationName
 		,	const QString& _atlasName
-		,	const FramesCollection& _frames
 		)
 		:	m_animationName( _animationName )
 		,	m_atlasName( _atlasName )
-		,	m_frames( _frames )
+		,	m_frames()
 	{}
+
+	void addFrame( const FrameInfo& _frame )
+	{
+		m_frames.push_back( _frame );
+	}
 
 	const QString m_animationName;
 	const QString m_atlasName;
 
-	const FramesCollection m_frames;
+	FramesCollection m_frames;
 };
 
 /*---------------------------------------------------------------------------*/

@@ -17,6 +17,11 @@ namespace Framework
 		{
 			struct IMultithreadingManager;
 		}
+
+		namespace ScriptEngine
+		{
+			struct IExporter;
+		}
 	}
 
 	namespace GUI
@@ -74,6 +79,17 @@ public:
 
 	boost::intrusive_ptr< Framework::GUI::ImagesManager::IImagesManager >
 		getImagesManager() const;
+
+	boost::intrusive_ptr< Framework::Core::ScriptEngine::IExporter >
+		getScriptExporter() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	void exportScriptAPI();
 
 /*---------------------------------------------------------------------------*/
 

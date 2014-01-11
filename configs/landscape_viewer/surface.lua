@@ -47,4 +47,4 @@ GraphicsInfoCache:regSurfaceItemGraphicsInfo( QString( "wasteland" ), 101, QStri
 
 -- End script message
 
-SystemMessenger:printMessage(IMessenger.Info, QString("Surface graphics info has loaded."))
+SystemMessenger:printMessage(IMessenger.Info, QString("Surface graphics info has been loaded."))

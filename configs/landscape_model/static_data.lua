@@ -61,4 +61,4 @@ StaticData:regObjectStaticData( QString( "Human Barracks" ), humanBarracks )
 
 -- End script message
 
-SystemMessenger:printMessage(IMessenger.Info, QString("Static data has loaded."))
+SystemMessenger:printMessage(IMessenger.Info, QString("Static data has been loaded."))

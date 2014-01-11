@@ -27,4 +27,4 @@ SurfaceItemsCache:setDefaultSurfaceItem(5)
 
 -- End script message
 
-SystemMessenger:printMessage(IMessenger.Info, QString("Surface items has loaded."))
+SystemMessenger:printMessage(IMessenger.Info, QString("Surface items has been loaded."))

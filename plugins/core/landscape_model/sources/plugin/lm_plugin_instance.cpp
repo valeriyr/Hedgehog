@@ -203,6 +203,20 @@ PluginInstance::exportScriptAPI()
 			.withItem( "Move", Actions::Move )
 			.withItem( "Build", Actions::Build );
 
+	exporter.exportClass< ObjectState >( "ObjectState" )
+		->withEnum< ObjectState::Enum >( "Enum" )
+			.withItem( "Standing", ObjectState::Standing )
+			.withItem( "Moving", ObjectState::Moving )
+			.withItem( "Attacking", ObjectState::Attacking )
+			.withItem( "Building", ObjectState::Building );
+
+	exporter.exportClass< Direction >( "Direction" )
+		->withEnum< Direction::Enum >( "Enum" )
+			.withItem( "Up", Direction::Up )
+			.withItem( "Down", Direction::Down )
+			.withItem( "Left", Direction::Left )
+			.withItem( "Right", Direction::Right );
+
 	// Surface items cache export
 
 	exporter.exportClass< ISurfaceItemsCache >( "ISurfaceItemsCache" )
