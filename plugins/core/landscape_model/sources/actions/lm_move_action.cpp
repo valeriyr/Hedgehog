@@ -54,51 +54,53 @@ MoveAction::processAction( const unsigned int _deltaTime )
 	boost::intrusive_ptr< IMoveComponent > moveComponent
 		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
 
+	IMoveComponent::MovingData& movingData = moveComponent->getMovingData();
+
 	if ( locateComponent->getLocation() == m_to )
 	{
-		moveComponent->getMovingData().clear();
+		movingData.clear();
 		m_movingFinished = true;
 	}
 	else
 	{
-		if ( moveComponent->getMovingData().m_path.empty() )
+		if ( movingData.m_path.empty() )
 		{
-			moveComponent->getMovingData().clear();
+			movingData.clear();
 
-			IMoveComponent::MovingData movingData;
-			m_pathFinder->findPath( movingData.m_path, m_landscape, *locateComponent, m_to );
+			IMoveComponent::MovingData newMovingData;
+			m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, m_to );
 
-			if ( movingData.m_path.empty() )
+			if ( newMovingData.m_path.empty() )
 			{
 				m_movingFinished = true;
 			}
 			else
 			{
-				moveComponent->getMovingData() = movingData;
+				movingData = newMovingData;
 
 				m_landscape.setEngagedWithGroungItem( locateComponent->getLocation(), false );
-				m_landscape.setEngagedWithGroungItem( moveComponent->getMovingData().m_path.front(), true );
+				m_landscape.setEngagedWithGroungItem( movingData.m_path.front(), true );
 			}
 		}
 
-		std::vector< Framework::Core::EventManager::Event > events;
+		bool unitChangeSatate = false;
 
 		if ( !m_movingFinished )
 		{
 			float movingDelta = ( static_cast< float >( _deltaTime ) / moveComponent->getStaticData().m_movingSpeed );
-			moveComponent->getMovingData().m_movingProgress += movingDelta;
+			movingData.m_movingProgress += movingDelta;
 
-			while ( moveComponent->getMovingData().m_movingProgress >= 1.0 )
+			while ( movingData.m_movingProgress >= 1.0 )
 			{
-				moveComponent->getMovingData().m_movingProgress = moveComponent->getMovingData().m_movingProgress - 1.0;
+				movingData.m_movingProgress = movingData.m_movingProgress - 1.0;
 
-				QPoint location( QPoint( moveComponent->getMovingData().m_path.front() ) );
+				QPoint location( QPoint( movingData.m_path.front() ) );
 
 				locateComponent->setLocation( location );
 
-				moveComponent->getMovingData().m_path.pop_front();
+				movingData.m_path.pop_front();
 
-				if ( !moveComponent->getMovingData().m_path.empty() )
+				if ( !movingData.m_path.empty() )
 				{
 					if ( m_landscape.canObjectBePlaced( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData() ) )
 					{
@@ -107,18 +109,18 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					}
 					else
 					{
-						IMoveComponent::MovingData movingData;
-						m_pathFinder->findPath( movingData.m_path, m_landscape, *locateComponent, m_to );
+						IMoveComponent::MovingData newMovingData;
+						m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, m_to );
 						
-						if ( movingData.m_path.empty() )
+						if ( newMovingData.m_path.empty() )
 						{
 							m_movingFinished = true;
-							moveComponent->getMovingData().clear();
+							movingData.clear();
 							break;
 						}
 						else
 						{
-							moveComponent->getMovingData() = movingData;
+							movingData = newMovingData;
 
 							m_landscape.setEngagedWithGroungItem( location, false );
 							m_landscape.setEngagedWithGroungItem( movingData.m_path.front(), true );
@@ -126,17 +128,17 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					}
 				}
 
-				if ( moveComponent->getMovingData().m_path.empty() )
+				if ( movingData.m_path.empty() )
 					break;
 			}
 
-			if ( !moveComponent->getMovingData().m_path.empty() )
+			if ( !movingData.m_path.empty() )
 			{
 				Direction::Enum currentDirection = locateComponent->getDirection();
 				Direction::Enum nextDirection = Direction::Down;
 
 				QPoint currentLocation( locateComponent->getLocation() );
-				QPoint nextLocation = moveComponent->getMovingData().m_path.front();
+				QPoint nextLocation = movingData.m_path.front();
 
 				if ( nextLocation.y() > currentLocation.y() )
 					nextDirection = Direction::Down;
@@ -155,66 +157,57 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					locateComponent->setDirection( nextDirection );
 					m_object.setState( nextState );
 
-					Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
-
-					events.push_back( objectStateChangedEvent );
+					unitChangeSatate = true;
 				}
-
-				Framework::Core::EventManager::Event objectMovedEvent( Events::ObjectMoved::ms_type );
-				objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_objectNameAttribute, m_object.getName() );
-				objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_objectIdAttribute, m_object.getUniqueId() );
-				objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingFromAttribute, locateComponent->getLocation() );
-				objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingToAttribute, moveComponent->getMovingData().m_path.front() );
-				objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingProgressAttribute, moveComponent->getMovingData().m_movingProgress );
-
-				events.push_back( objectMovedEvent );
 			}
 			else if ( !m_movingFinished && locateComponent->getLocation() != m_to )
 			{
-				moveComponent->getMovingData().clear();
+				movingData.clear();
 
-				IMoveComponent::MovingData movingData;
-				m_pathFinder->findPath( movingData.m_path, m_landscape, *locateComponent, m_to );
+				IMoveComponent::MovingData newMovingData;
+				m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, m_to );
 
-				if ( movingData.m_path.empty() )
+				if ( newMovingData.m_path.empty() )
 				{
 					m_movingFinished = true;
 				}
 				else
 				{
-					moveComponent->getMovingData() = movingData;
+					movingData = newMovingData;
 
 					m_landscape.setEngagedWithGroungItem( locateComponent->getLocation(), false );
-					m_landscape.setEngagedWithGroungItem( moveComponent->getMovingData().m_path.front(), true );
+					m_landscape.setEngagedWithGroungItem( movingData.m_path.front(), true );
 				}
 			}
+
+			Framework::Core::EventManager::Event objectMovedEvent( Events::ObjectMoved::ms_type );
+			objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_objectNameAttribute, m_object.getName() );
+			objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_objectIdAttribute, m_object.getUniqueId() );
+			objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingFromAttribute, locateComponent->getLocation() );
+			objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingToAttribute, movingData.m_path.empty() ? locateComponent->getLocation() : movingData.m_path.front() );
+			objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingProgressAttribute, movingData.m_path.empty() ? 1.0f : movingData.m_movingProgress );
+
+			m_environment.riseEvent( objectMovedEvent );
 		}
 
 		if ( ( m_movingFinished || locateComponent->getLocation() == m_to ) && m_object.getState() == ObjectState::Moving )
 		{
 			m_object.setState( ObjectState::Standing );
+			
+			unitChangeSatate = true;
+			m_movingFinished = true;
+		}
 
+		if ( unitChangeSatate )
+		{
 			Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
 			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
 			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
 			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
 			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
 
-			events.push_back( objectStateChangedEvent );
-
-			m_movingFinished = true;
+			m_environment.riseEvent( objectStateChangedEvent );
 		}
-
-		std::vector< Framework::Core::EventManager::Event >::const_iterator
-				begin = events.begin()
-			,	end = events.end();
-
-		for ( ; begin != end; ++begin )
-			m_environment.riseEvent( *begin );
 	}
 
 } // MoveAction::processAction
@@ -259,18 +252,17 @@ MoveAction::updateWithData( const QVariant& _data )
 {
 	m_to = _data.toPoint();
 
-	boost::intrusive_ptr< IMoveComponent > moveComponent
-		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
+	IMoveComponent::MovingData& movingData = m_object.getComponent< IMoveComponent >( ComponentId::Move )->getMovingData();
 
 	assert( !m_movingFinished );
 
-	if ( !moveComponent->getMovingData().m_path.empty() )
+	if ( !movingData.m_path.empty() )
 	{
-		QPoint inProgressPoint( moveComponent->getMovingData().m_path.front() );
+		QPoint inProgressPoint( movingData.m_path.front() );
 
-		moveComponent->getMovingData().m_path.clear();
+		movingData.m_path.clear();
 
-		moveComponent->getMovingData().m_path.push_back( inProgressPoint );
+		movingData.m_path.push_back( inProgressPoint );
 	}
 
 } // MoveAction::updateWithData
