@@ -52,7 +52,6 @@ namespace Plugins
 		namespace LandscapeModel
 		{
 			struct ILandscape;
-			struct IEditableLandscape;
 			struct ILandscapeHandle;
 		}
 	}

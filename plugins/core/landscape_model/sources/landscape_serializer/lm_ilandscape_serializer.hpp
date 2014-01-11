@@ -15,7 +15,6 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct ILandscape;
-struct IEditableLandscape;
 
 /*---------------------------------------------------------------------------*/
 
@@ -26,7 +25,7 @@ struct ILandscapeSerializer
 /*---------------------------------------------------------------------------*/
 
 	virtual void load(
-			IEditableLandscape& _landscape
+			ILandscape& _landscape
 		,	const QString& _filePath ) const = 0;
 
 	virtual void save(

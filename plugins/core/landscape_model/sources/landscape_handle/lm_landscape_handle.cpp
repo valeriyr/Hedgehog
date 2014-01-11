@@ -3,8 +3,6 @@
 
 #include "landscape_model/sources/landscape_handle/lm_landscape_handle.hpp"
 
-#include "landscape_model/sources/landscape_model/lm_ilandscape_model_internal.hpp"
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,9 +13,14 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeHandle::LandscapeHandle( ILandscapeModelInternal& _landscapeModel )
-	:	m_landscapeModel( _landscapeModel )
-	,	m_lockerHolder( &_landscapeModel.getLandscapeLocker() )
+LandscapeHandle::LandscapeHandle(
+		boost::intrusive_ptr< ILandscape > _landscape
+	,	boost::intrusive_ptr< IPlayer > _player
+	,	QMutex& _locker
+	)
+	:	m_landscape( _landscape )
+	,	m_player( _player )
+	,	m_lockerHolder( &_locker )
 {
 } // LandscapeHandle::LandscapeHandle
 
@@ -36,7 +39,7 @@ LandscapeHandle::~LandscapeHandle()
 boost::intrusive_ptr< ILandscape >
 LandscapeHandle::getLandscape() const
 {
-	return getEditableLandscape();
+	return m_landscape;
 
 } // LandscapeHandle::getLandscape
 
@@ -47,31 +50,9 @@ LandscapeHandle::getLandscape() const
 boost::intrusive_ptr< IPlayer >
 LandscapeHandle::getPlayer() const
 {
-	return getEditablePlayer();
+	return m_player;
 
 } // LandscapeHandle::getPlayer
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< IEditableLandscape >
-LandscapeHandle::getEditableLandscape() const
-{
-	return m_landscapeModel.getCurrentLandscapeInternal();
-
-} // LandscapeHandle::getEditableLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< IEditablePlayer >
-LandscapeHandle::getEditablePlayer() const
-{
-	return m_landscapeModel.getPlayerInternal();
-
-} // LandscapeHandle::getEditablePlayer
 
 
 /*---------------------------------------------------------------------------*/

@@ -5,7 +5,7 @@
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
-#include "landscape_model/sources/landscape/lm_ieditable_landscape.hpp"
+#include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
 
@@ -36,7 +36,7 @@ LandscapeSerializer::~LandscapeSerializer()
 
 void
 LandscapeSerializer::load(
-		IEditableLandscape& _landscape
+		ILandscape& _landscape
 	,	const QString& _filePath ) const
 {
 	QFile file( _filePath );

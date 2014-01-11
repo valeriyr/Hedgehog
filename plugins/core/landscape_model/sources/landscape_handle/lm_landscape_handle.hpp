@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/sources/landscape_handle/lm_ilandscape_handle_internal.hpp"
+#include "landscape_model/ih/lm_ilandscape_handle.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,7 +19,7 @@ struct ILandscapeModelInternal;
 /*---------------------------------------------------------------------------*/
 
 class LandscapeHandle
-	:	public Tools::Core::BaseWrapper< ILandscapeHandleInternal >
+	:	public Tools::Core::BaseWrapper< ILandscapeHandle >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,7 +28,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeHandle( ILandscapeModelInternal& _landscapeModel );
+	LandscapeHandle(
+			boost::intrusive_ptr< ILandscape > _landscape
+		,	boost::intrusive_ptr< IPlayer > _player
+		,	QMutex& _locker );
 
 	virtual ~LandscapeHandle();
 
@@ -40,17 +43,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getEditableLandscape() const;
-
-	/*virtual*/ boost::intrusive_ptr< IEditablePlayer > getEditablePlayer() const;
-
-/*---------------------------------------------------------------------------*/
-
 private:
 
 /*---------------------------------------------------------------------------*/
 
-	const ILandscapeModelInternal& m_landscapeModel;
+	boost::intrusive_ptr< ILandscape > m_landscape;
+
+	boost::intrusive_ptr< IPlayer > m_player;
 
 	QMutexLocker m_lockerHolder;
 

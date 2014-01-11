@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/sources/landscape_model/lm_ilandscape_model_internal.hpp"
+#include "landscape_model/ih/lm_ilandscape_model.hpp"
 
 #include "multithreading_manager/h/mm_task_handle.hpp"
 
@@ -20,15 +20,15 @@ struct IEnvironment;
 struct ISurfaceItemsCache;
 struct IStaticData;
 struct ILandscapeSerializer;
-struct IEditableLandscape;
-struct IEditablePlayer;
+struct ILandscape;
+struct IPlayer;
 struct ILandscapeHandle;
 struct IPathFinder;
 
 /*---------------------------------------------------------------------------*/
 
 class LandscapeModel
-	:	public Tools::Core::BaseWrapper< ILandscapeModelInternal >
+	:	public Tools::Core::BaseWrapper< ILandscapeModel >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -55,21 +55,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IEditableLandscape > getCurrentLandscapeInternal() const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::intrusive_ptr< IEditablePlayer > getPlayerInternal() const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::intrusive_ptr< ILandscapeHandleInternal > getCurrentEditableLandscape();
-
 	/*virtual*/ boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ QMutex& getLandscapeLocker();
 
 /*---------------------------------------------------------------------------*/
 
@@ -111,9 +97,9 @@ private:
 
 	Framework::Core::MultithreadingManager::TaskHandle m_actionsProcessingTaskHandle;
 
-	boost::intrusive_ptr< IEditableLandscape > m_currentLandscape;
+	boost::intrusive_ptr< ILandscape > m_currentLandscape;
 
-	boost::intrusive_ptr< IEditablePlayer > m_player;
+	boost::intrusive_ptr< IPlayer > m_player;
 
 	QMutex m_landscapeLocker;
 

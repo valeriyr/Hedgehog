@@ -69,7 +69,7 @@ LandscapeModel::~LandscapeModel()
 void
 LandscapeModel::initCurrentLandscape ( const QString& _filePath )
 {
-	boost::intrusive_ptr< IEditableLandscape >
+	boost::intrusive_ptr< ILandscape >
 		landscape( new Landscape( m_surfaceItemsCache, m_staticData ) );
 
 	try
@@ -116,56 +116,12 @@ LandscapeModel::saveLandscape( const QString& _filePath ) const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IEditableLandscape >
-LandscapeModel::getCurrentLandscapeInternal() const
-{
-	return m_currentLandscape;
-
-} // LandscapeModel::getCurrentLandscapeInternal
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< IEditablePlayer >
-LandscapeModel::getPlayerInternal() const
-{
-	return m_player;
-
-} // LandscapeModel::getPlayerInternal
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< ILandscapeHandleInternal >
-LandscapeModel::getCurrentEditableLandscape()
-{
-	return boost::intrusive_ptr< ILandscapeHandleInternal >( new LandscapeHandle( *this ) );
-
-} // LandscapeModel::getCurrentEditableLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
 boost::intrusive_ptr< ILandscapeHandle >
 LandscapeModel::getCurrentLandscape()
 {
-	return getCurrentEditableLandscape();
+	return boost::intrusive_ptr< ILandscapeHandle >( new LandscapeHandle( m_currentLandscape, m_player, m_landscapeLocker ) );
 
 } // LandscapeModel::getCurrentLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
-QMutex&
-LandscapeModel::getLandscapeLocker()
-{
-	return m_landscapeLocker;
-
-} // LandscapeModel::getLandscapeLocker
 
 
 /*---------------------------------------------------------------------------*/
@@ -175,11 +131,11 @@ void
 LandscapeModel::selectObjects( const QRect& _rect )
 {
 	{
-		boost::intrusive_ptr< ILandscapeHandleInternal > handle( getCurrentEditableLandscape() );
+		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
 
 		if ( handle->getLandscape() )
 		{
-			handle->getEditableLandscape()->selectObjects( _rect );
+			handle->getLandscape()->selectObjects( _rect );
 		}
 	}
 
@@ -195,11 +151,11 @@ void
 LandscapeModel::selectObject( const Object::UniqueId& _id )
 {
 	{
-		boost::intrusive_ptr< ILandscapeHandleInternal > handle( getCurrentEditableLandscape() );
+		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
 
 		if ( handle->getLandscape() )
 		{
-			handle->getEditableLandscape()->selectObject( _id );
+			handle->getLandscape()->selectObject( _id );
 		}
 	}
 
@@ -215,7 +171,7 @@ void
 LandscapeModel::moveSelectedObjects( const QPoint& _to )
 {
 	{
-		boost::intrusive_ptr< ILandscapeHandleInternal > handle( getCurrentEditableLandscape() );
+		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
 
 		if ( handle->getLandscape() )
 		{
@@ -244,7 +200,7 @@ LandscapeModel::moveSelectedObjects( const QPoint& _to )
 					{
 						actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >(
-								new MoveAction( m_environment, **begin, *handle->getEditableLandscape(), m_pathFinder, _to ) ) );
+								new MoveAction( m_environment, **begin, *handle->getLandscape(), m_pathFinder, _to ) ) );
 					}
 				}
 			}
@@ -265,11 +221,11 @@ LandscapeModel::createObject(
 	Object::UniqueId objectId = Object::ms_wrongId;
 
 	{
-		boost::intrusive_ptr< ILandscapeHandleInternal > handle( getCurrentEditableLandscape() );
+		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
 
 		if ( handle->getLandscape() )
 		{
-			objectId = handle->getEditableLandscape()->createObject( _location, _objectName );
+			objectId = handle->getLandscape()->createObject( _location, _objectName );
 		}
 	}
 
@@ -303,11 +259,11 @@ LandscapeModel::setSurfaceItem(
 	,	const Core::LandscapeModel::ISurfaceItem::Id& _id )
 {
 	{
-		boost::intrusive_ptr< ILandscapeHandleInternal > handle( getCurrentEditableLandscape() );
+		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
 
 		if ( handle->getLandscape() )
 		{
-			handle->getEditableLandscape()->setSurfaceItem( _location, _id );
+			handle->getLandscape()->setSurfaceItem( _location, _id );
 		}
 	}
 

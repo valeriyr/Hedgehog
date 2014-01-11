@@ -31,7 +31,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void load(
-			IEditableLandscape& _landscape
+			ILandscape& _landscape
 		,	const QString& _filePath ) const;
 
 	/*virtual*/ void save(

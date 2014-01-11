@@ -72,6 +72,30 @@ Landscape::getHeight() const
 /*---------------------------------------------------------------------------*/
 
 
+void
+Landscape::setSize( const unsigned int _width, const unsigned int _height )
+{
+	m_objects.clear();
+	m_selectedObjects.clear();
+
+	m_surfaceItems.resize( _width, _height );
+	m_terrainMap.resize( _width, _height );
+
+	for ( unsigned int i = 0; i < _width; ++i )
+	{
+		for ( unsigned int j = 0; j < _height; ++j )
+		{
+			m_surfaceItems.setElement( i, j, m_surfaceItemsCache.getDefaultSurfaceItem() );
+			m_terrainMap.getElement( i, j ).m_terrainMapItem = m_surfaceItemsCache.getDefaultSurfaceItem()->getTerrainMapValue();
+		}
+	}
+
+} // Landscape::setSize
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< ISurfaceItem >
 Landscape::getSurfaceItem( const QPoint& _point ) const
 {
@@ -86,6 +110,26 @@ Landscape::getSurfaceItem( const QPoint& _point ) const
 /*---------------------------------------------------------------------------*/
 
 
+void
+Landscape::setSurfaceItem(
+		const QPoint& _point
+	,	const ISurfaceItem::Id& _surfaceItemId )
+{
+	assert( _point.x() >= 0 );
+	assert( _point.y() >= 0 );
+
+	boost::intrusive_ptr< ISurfaceItem > surfaceItem = m_surfaceItemsCache.getSurfaceItem( _surfaceItemId );
+	assert( surfaceItem );
+
+	m_surfaceItems.setElement( _point.x(), _point.y(), surfaceItem );
+	m_terrainMap.getElement( _point.x(), _point.y() ).m_terrainMapItem = surfaceItem->getTerrainMapValue();
+
+} // Landscape::setSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
 const TerrainMapData&
 Landscape::getTerrainMapData( const QPoint& _point ) const
 {
@@ -95,6 +139,17 @@ Landscape::getTerrainMapData( const QPoint& _point ) const
 	return m_terrainMap.getConstElement( _point.x(), _point.y() );
 
 } // Landscape::getTerrainMapData
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Landscape::setEngagedWithGroungItem( const QPoint& _point, const bool _isEngaged )
+{
+	m_terrainMap.getElement( _point.x(), _point.y() ).m_engagedWithGround = _isEngaged;
+
+} // Landscape::setEngagedWithGroungItem
 
 
 /*---------------------------------------------------------------------------*/
@@ -170,86 +225,6 @@ Landscape::fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) co
 	_collection = m_selectedObjects;
 
 } // Landscape::fetchSelectedObjects
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-Landscape::canObjectBePlaced(
-		const QPoint& _location
-	,	const LocateComponentStaticData& _data ) const
-{
-	for ( int x = _location.x(); x < _location.x() + _data.m_size.width(); ++x )
-	{
-		for ( int y = _location.y(); y < _location.y() + _data.m_size.height(); ++y )
-		{
-			if (	!( _data.m_passability & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
-				||	m_terrainMap.getConstElement( x, y ).m_engagedWithGround )
-			{
-				return false;
-			}
-		}
-	}
-
-	return true;
-
-} // Landscape::canObjectBePlaced
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Landscape::setSize( const unsigned int _width, const unsigned int _height )
-{
-	m_objects.clear();
-	m_selectedObjects.clear();
-
-	m_surfaceItems.resize( _width, _height );
-	m_terrainMap.resize( _width, _height );
-
-	for ( unsigned int i = 0; i < _width; ++i )
-	{
-		for ( unsigned int j = 0; j < _height; ++j )
-		{
-			m_surfaceItems.setElement( i, j, m_surfaceItemsCache.getDefaultSurfaceItem() );
-			m_terrainMap.getElement( i, j ).m_terrainMapItem = m_surfaceItemsCache.getDefaultSurfaceItem()->getTerrainMapValue();
-		}
-	}
-
-} // Landscape::setSize
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Landscape::setSurfaceItem(
-		const QPoint& _point
-	,	const ISurfaceItem::Id& _surfaceItemId )
-{
-	assert( _point.x() >= 0 );
-	assert( _point.y() >= 0 );
-
-	boost::intrusive_ptr< ISurfaceItem > surfaceItem = m_surfaceItemsCache.getSurfaceItem( _surfaceItemId );
-	assert( surfaceItem );
-
-	m_surfaceItems.setElement( _point.x(), _point.y(), surfaceItem );
-	m_terrainMap.getElement( _point.x(), _point.y() ).m_terrainMapItem = surfaceItem->getTerrainMapValue();
-
-} // Landscape::setSurfaceItem
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Landscape::setEngagedWithGroungItem( const QPoint& _point, const bool _isEngaged )
-{
-	m_terrainMap.getElement( _point.x(), _point.y() ).m_engagedWithGround = _isEngaged;
-
-} // Landscape::setEngagedWithGroungItem
 
 
 /*---------------------------------------------------------------------------*/
@@ -370,6 +345,31 @@ Landscape::unselectObjects()
 	m_selectedObjects.clear();
 
 } // Landscape::unselectObjects
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+Landscape::canObjectBePlaced(
+		const QPoint& _location
+	,	const LocateComponentStaticData& _data ) const
+{
+	for ( int x = _location.x(); x < _location.x() + _data.m_size.width(); ++x )
+	{
+		for ( int y = _location.y(); y < _location.y() + _data.m_size.height(); ++y )
+		{
+			if (	!( _data.m_passability & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
+				||	m_terrainMap.getConstElement( x, y ).m_engagedWithGround )
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+
+} // Landscape::canObjectBePlaced
 
 
 /*---------------------------------------------------------------------------*/

@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/sources/player/lm_ieditable_player.hpp"
+#include "landscape_model/ih/lm_iplayer.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,7 +19,7 @@ struct IStaticData;
 /*---------------------------------------------------------------------------*/
 
 class Player
-	:	public Tools::Core::BaseWrapper< IEditablePlayer >
+	:	public Tools::Core::BaseWrapper< IPlayer >
 {
 
 /*---------------------------------------------------------------------------*/

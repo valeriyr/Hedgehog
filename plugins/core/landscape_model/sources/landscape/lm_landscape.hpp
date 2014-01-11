@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/sources/landscape/lm_ieditable_landscape.hpp"
+#include "landscape_model/ih/lm_ilandscape.hpp"
 
 #include "containers/cn_matrix.hpp"
 
@@ -22,7 +22,7 @@ struct IStaticData;
 /*---------------------------------------------------------------------------*/
 
 class Landscape
-	:	public Tools::Core::BaseWrapper< IEditableLandscape >
+	:	public Tools::Core::BaseWrapper< ILandscape >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -43,11 +43,23 @@ public:
 
 	/*virtual*/ unsigned int getHeight() const;
 
+	/*virtual*/ void setSize(
+			const unsigned int _width
+		,	const unsigned int _height );
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< ISurfaceItem > getSurfaceItem( const QPoint& _point ) const;
 
+	/*virtual*/ void setSurfaceItem(
+			const QPoint& _point
+		,	const ISurfaceItem::Id& _surfaceItemId );
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ const TerrainMapData& getTerrainMapData( const QPoint& _point ) const;
+
+	/*virtual*/ void setEngagedWithGroungItem( const QPoint& _point, const bool _isEngaged );
 
 /*---------------------------------------------------------------------------*/
 
@@ -61,30 +73,6 @@ public:
 
 	/*virtual*/ void fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) const;
 
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ bool canObjectBePlaced(
-			const QPoint& _location
-		,	const LocateComponentStaticData& _data ) const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void setSize(
-			const unsigned int _width
-		,	const unsigned int _height );
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void setSurfaceItem(
-			const QPoint& _point
-		,	const ISurfaceItem::Id& _surfaceItemId );
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void setEngagedWithGroungItem( const QPoint& _point, const bool _isEngaged );
-
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ Object::UniqueId createObject(
 			const QPoint& _location
 		,	const QString& _objectName );
@@ -94,6 +82,12 @@ public:
 	/*virtual*/ void selectObject( const Object::UniqueId& _id );
 
 	/*virtual*/ void unselectObjects();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool canObjectBePlaced(
+			const QPoint& _location
+		,	const LocateComponentStaticData& _data ) const;
 
 /*---------------------------------------------------------------------------*/
 

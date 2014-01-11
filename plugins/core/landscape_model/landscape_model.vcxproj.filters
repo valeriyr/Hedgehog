@@ -176,9 +176,6 @@
     <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp">
       <Filter>Surface Items Cache</Filter>
     </ClInclude>
-    <ClInclude Include="sources\landscape_model\lm_ilandscape_model_internal.hpp">
-      <Filter>Landscape Model</Filter>
-    </ClInclude>
     <ClInclude Include="sources\landscape_model\lm_landscape_model.hpp">
       <Filter>Landscape Model</Filter>
     </ClInclude>
@@ -260,9 +257,6 @@
     <ClInclude Include="h\lm_actions.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
-    <ClInclude Include="sources\landscape_handle\lm_ilandscape_handle_internal.hpp">
-      <Filter>Landscape Handle</Filter>
-    </ClInclude>
     <ClInclude Include="sources\components\lm_move_component.hpp">
       <Filter>Components</Filter>
     </ClInclude>
@@ -294,12 +288,6 @@
       <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="sources\player\lm_player.hpp">
-      <Filter>Player</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape\lm_ieditable_landscape.hpp">
-      <Filter>Landscape</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\player\lm_ieditable_player.hpp">
       <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>

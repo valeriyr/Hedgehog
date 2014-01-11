@@ -7,7 +7,7 @@
 
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
-#include "landscape_model/sources/landscape/lm_ieditable_landscape.hpp"
+#include "landscape_model/ih/lm_ilandscape.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -22,7 +22,7 @@ namespace LandscapeModel {
 MoveAction::MoveAction(
 		const IEnvironment& _environment
 	,	Object& _object
-	,	IEditableLandscape& _landscape
+	,	ILandscape& _landscape
 	,	boost::intrusive_ptr< IPathFinder > _pathFinder
 	,	const QPoint& _to
 	)

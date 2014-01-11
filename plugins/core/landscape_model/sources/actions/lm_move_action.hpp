@@ -17,7 +17,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct IPathFinder;
-struct IEditableLandscape;
+struct ILandscape;
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,7 +34,7 @@ public:
 	MoveAction(
 			const IEnvironment& _environment
 		,	Object& _object
-		,	IEditableLandscape& _landscape
+		,	ILandscape& _landscape
 		,	boost::intrusive_ptr< IPathFinder > _pathFinder
 		,	const QPoint& _to );
 
@@ -62,7 +62,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	IEditableLandscape& m_landscape;
+	ILandscape& m_landscape;
 
 	boost::intrusive_ptr< IPathFinder > m_pathFinder;
 
