@@ -113,8 +113,6 @@ private:
 
 	void executeConfigurationScripts();
 
-	void fillObjectsCache();
-
 /*---------------------------------------------------------------------------*/
 
 private:

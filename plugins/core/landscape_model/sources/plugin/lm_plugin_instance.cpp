@@ -79,7 +79,6 @@ PluginInstance::initialize()
 
 	exportScriptAPI();
 	executeConfigurationScripts();
-	fillObjectsCache();
 
 } // PluginInstance::initialize
 
@@ -191,20 +190,59 @@ PluginInstance::exportScriptAPI()
 {
 	Framework::Core::ScriptEngine::DataExporter exporter = getScriptExporter()->getDataExporter();
 
-	Framework::Core::ScriptEngine::ClassExporter< ISurfaceItemsCache > surfaceItemsCacheExporter =
-		exporter.exportClass< ISurfaceItemsCache >( "ISurfaceItemsCache" );
+	// Surface items cache export
 
-	surfaceItemsCacheExporter
-			.withMethod( "regSurfaceItem", &ISurfaceItemsCache::regSurfaceItem )
-			.withMethod( "setDefaultSurfaceItem", &ISurfaceItemsCache::setDefaultSurfaceItem )
-			.withEnum< TerrainMapItem::Enum >( "TerrainMapItem" )
-				.withItem( "NotAvailable", TerrainMapItem::NotAvailable )
-				.withItem( "Ground", TerrainMapItem::Ground )
-				.withItem( "Water", TerrainMapItem::Water );
-
-	surfaceItemsCacheExporter.endClass();
+	exporter.exportClass< ISurfaceItemsCache >( "ISurfaceItemsCache" )
+		->withMethod( "regSurfaceItem", &ISurfaceItemsCache::regSurfaceItem )
+		.withMethod( "setDefaultSurfaceItem", &ISurfaceItemsCache::setDefaultSurfaceItem )
+		.withEnum< TerrainMapItem::Enum >( "TerrainMapItem" )
+			.withItem( "NotAvailable", TerrainMapItem::NotAvailable )
+			.withItem( "Ground", TerrainMapItem::Ground )
+			.withItem( "Water", TerrainMapItem::Water );
 
 	exporter.exportVariable( "SurfaceItemsCache", m_surfaceItemsCache.get() );
+
+	// Static data export
+
+	exporter.exportClassWithShared< BuildObjectData >( "BuildObjectData" )
+		->withConstructor< const int, const QString& >();
+
+	exporter.exportClassWithShared< BuilderComponentStaticData >( "BuilderComponentStaticData" )
+		->withConstructor()
+		.withMethod( "pushBuildObjectData", &BuilderComponentStaticData::pushBuildObjectData );
+
+	exporter.exportClassWithShared< HealthComponentStaticData >( "HealthComponentStaticData" )
+		->withConstructor< const int >();
+
+	exporter.exportClassWithShared< LocateComponentStaticData >( "LocateComponentStaticData" )
+		->withConstructor< const QSize&, const TerrainMapItem::MaskType >();
+
+	exporter.exportClassWithShared< SelectionComponentStaticData >( "SelectionComponentStaticData" )
+		->withConstructor< const bool >();
+
+	exporter.exportClassWithShared< ActionsComponentStaticData >( "ActionsComponentStaticData" )
+		->withConstructor()
+		.withMethod( "can", &ActionsComponentStaticData::can )
+		.withEnum< Actions::Enum >( "Actions" )
+			.withItem( "Move", Actions::Move )
+			.withItem( "Build", Actions::Build );
+
+	exporter.exportClassWithShared< MoveComponentStaticData >( "MoveComponentStaticData" )
+		->withConstructor< const unsigned int >();
+
+	exporter.exportClass< IStaticData::ObjectStaticData >( "ObjectStaticData" )
+		->withConstructor()
+		.withRWProperty( "m_actionsData", &IStaticData::ObjectStaticData::m_actionsData )
+		.withRWProperty( "m_builderData", &IStaticData::ObjectStaticData::m_builderData )
+		.withRWProperty( "m_healthData", &IStaticData::ObjectStaticData::m_healthData )
+		.withRWProperty( "m_locateData", &IStaticData::ObjectStaticData::m_locateData )
+		.withRWProperty( "m_moveData", &IStaticData::ObjectStaticData::m_moveData )
+		.withRWProperty( "m_selectionData", &IStaticData::ObjectStaticData::m_selectionData );
+
+	exporter.exportClass< IStaticData >( "IStaticData" )
+		->withMethod( "regObjectStaticData", &IStaticData::regObjectStaticData );
+
+	exporter.exportVariable( "StaticData", m_staticData.get() );
 
 } // PluginInstance::exportScriptAPI
 
@@ -231,75 +269,6 @@ PluginInstance::executeConfigurationScripts()
 	}
 
 } // PluginInstance::executeConfigurationScripts
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-PluginInstance::fillObjectsCache()
-{
-	// Elven Archer
-	{
-		m_staticData->regHealthStaticData( "Elven Archer", boost::shared_ptr< const HealthComponentStaticData >( new HealthComponentStaticData( 100 ) ) );
-		m_staticData->regLocateStaticData( "Elven Archer", boost::shared_ptr< const LocateComponentStaticData >( new LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem::Ground ) ) );
-		m_staticData->regMoveStaticData( "Elven Archer", boost::shared_ptr< const MoveComponentStaticData >( new MoveComponentStaticData( 800 ) ) );
-		m_staticData->regSelectionStaticData( "Elven Archer", boost::shared_ptr< const SelectionComponentStaticData >( new SelectionComponentStaticData( true ) ) );
-
-		ActionsComponentStaticData::ActionsCollection actions;
-		actions.insert( Actions::Move );
-
-		m_staticData->regActionsStaticData( "Elven Archer", boost::shared_ptr< const ActionsComponentStaticData >( new ActionsComponentStaticData( actions ) ) );
-	}
-
-	// Grunt
-	{
-		m_staticData->regHealthStaticData( "Grunt", boost::shared_ptr< const HealthComponentStaticData >( new HealthComponentStaticData( 200 ) ) );
-		m_staticData->regLocateStaticData( "Grunt", boost::shared_ptr< const LocateComponentStaticData >( new LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem::Ground ) ) );
-		m_staticData->regMoveStaticData( "Grunt", boost::shared_ptr< const MoveComponentStaticData >( new MoveComponentStaticData( 1000 ) ) );
-		m_staticData->regSelectionStaticData( "Grunt", boost::shared_ptr< const SelectionComponentStaticData >( new SelectionComponentStaticData( true ) ) );
-
-		ActionsComponentStaticData::ActionsCollection actions;
-		actions.insert( Actions::Move );
-
-		m_staticData->regActionsStaticData( "Grunt", boost::shared_ptr< const ActionsComponentStaticData >( new ActionsComponentStaticData( actions ) ) );
-	}
-
-	// Orc Barracks
-	{
-		m_staticData->regHealthStaticData( "Orc Barracks", boost::shared_ptr< const HealthComponentStaticData >( new HealthComponentStaticData( 1200 ) ) );
-		m_staticData->regLocateStaticData( "Orc Barracks", boost::shared_ptr< const LocateComponentStaticData >( new LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem::Ground ) ) );
-		m_staticData->regSelectionStaticData( "Orc Barracks", boost::shared_ptr< const SelectionComponentStaticData >( new SelectionComponentStaticData( true ) ) );
-
-		ActionsComponentStaticData::ActionsCollection actions;
-		actions.insert( Actions::Build );
-
-		m_staticData->regActionsStaticData( "Orc Barracks", boost::shared_ptr< const ActionsComponentStaticData >( new ActionsComponentStaticData( actions ) ) );
-
-		BuilderComponentStaticData::BuildObjectsDataCollection orcBarracksUnits;
-		orcBarracksUnits.push_back( boost::shared_ptr< const BuildObjectsData >( new BuildObjectsData( 3000, "Grunt" ) ) );
-
-		m_staticData->regBuilderStaticData( "Orc Barracks", boost::shared_ptr< const BuilderComponentStaticData >( new BuilderComponentStaticData( orcBarracksUnits ) ) );
-	}
-
-	// Human Barracks
-	{
-		m_staticData->regHealthStaticData( "Human Barracks", boost::shared_ptr< const HealthComponentStaticData >( new HealthComponentStaticData( 1000 ) ) );
-		m_staticData->regLocateStaticData( "Human Barracks", boost::shared_ptr< const LocateComponentStaticData >( new LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem::Ground ) ) );
-		m_staticData->regSelectionStaticData( "Human Barracks", boost::shared_ptr< const SelectionComponentStaticData >( new SelectionComponentStaticData( true ) ) );
-
-		ActionsComponentStaticData::ActionsCollection actions;
-		actions.insert( Actions::Build );
-
-		m_staticData->regActionsStaticData( "Human Barracks", boost::shared_ptr< const ActionsComponentStaticData >( new ActionsComponentStaticData( actions ) ) );
-
-		BuilderComponentStaticData::BuildObjectsDataCollection humanBarracksUnits;
-		humanBarracksUnits.push_back( boost::shared_ptr< const BuildObjectsData >( new BuildObjectsData( 4500, "Elven Archer" ) ) );
-
-		m_staticData->regBuilderStaticData( "Human Barracks", boost::shared_ptr< const BuilderComponentStaticData >( new BuilderComponentStaticData( humanBarracksUnits ) ) );
-	}
-
-} // PluginInstance::fillObjectsCache
 
 
 /*---------------------------------------------------------------------------*/

@@ -126,16 +126,14 @@ PluginInstance::exportScriptAPI()
 {
 	DataExporter exporter = m_exporter->getDataExporter();
 
-	exporter
-		.exportClass< QString >( "QString" )
-			.withConstructor< const char* >()
-		.endClass();
+	exporter.exportClass< QString >( "QString" )
+		->withConstructor< const char* >();
 
-	ClassExporter< Tools::Core::IMessenger > messengerExporter =
-		exporter.exportClass< Tools::Core::IMessenger >( "IMessenger" );
+	exporter.exportClass< QSize >( "QSize" )
+		->withConstructor< int, int >();
 
-	messengerExporter
-		.withMethod( "printMessage", ( void ( Tools::Core::IMessenger::* )( const QString& ) )( &Tools::Core::IMessenger::printMessage ) )
+	exporter.exportClass< Tools::Core::IMessenger >( "IMessenger" )
+		->withMethod( "printMessage", ( void ( Tools::Core::IMessenger::* )( const QString& ) )( &Tools::Core::IMessenger::printMessage ) )
 		.withMethod(
 				"printMessage"
 			,	( void ( Tools::Core::IMessenger::* )( const Tools::Core::IMessenger::MessegeLevel::Enum, const QString& ) )( &Tools::Core::IMessenger::printMessage ) )
@@ -143,8 +141,6 @@ PluginInstance::exportScriptAPI()
 			.withItem( "Info", Tools::Core::IMessenger::MessegeLevel::Info )
 			.withItem( "Warning", Tools::Core::IMessenger::MessegeLevel::Warning )
 			.withItem( "Error", Tools::Core::IMessenger::MessegeLevel::Error );
-
-	messengerExporter.endClass();
 
 	exporter.exportVariable( "SystemMessenger", getSystemMessenger().get() );
 

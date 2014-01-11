@@ -19,7 +19,7 @@ class EnumExporter
 
 public:
 
-	EnumExporter( luabind::class_< _TClass >& _class, const char* _enumName )
+	EnumExporter( _TClass& _class, const char* _enumName )
 		:	m_enum( _class.enum_( _enumName ) )
 	{
 	}
@@ -32,7 +32,7 @@ public:
 
 private:
 
-	luabind::detail::enum_maker< typename luabind::class_< _TClass >::self_t > m_enum;
+	luabind::detail::enum_maker< typename _TClass::self_t > m_enum;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -49,10 +49,31 @@ public:
 	{
 	}
 
+	~ClassExporter()
+	{
+		luabind::module( m_luaEngine )
+		[
+			m_class
+		];
+	}
+
+	ClassExporter& withConstructor()
+	{
+		m_class.def( luabind::constructor<>() );
+		return *this;
+	}
+
 	template< typename _TParamType >
 	ClassExporter& withConstructor()
 	{
 		m_class.def( luabind::constructor< _TParamType >() );
+		return *this;
+	}
+
+	template< typename _TFirstParamType, typename _TSecondParamType >
+	ClassExporter& withConstructor()
+	{
+		m_class.def( luabind::constructor< _TFirstParamType, _TSecondParamType >() );
 		return *this;
 	}
 
@@ -63,13 +84,40 @@ public:
 		return *this;
 	}
 
-	template< typename _TEnumType >
-	EnumExporter< _TClass, _TEnumType > withEnum( const char* _enumName )
+	template< typename _TProperty >
+	ClassExporter& withRWProperty( const char* _propertyName, _TProperty _property )
 	{
-		return EnumExporter< _TClass, _TEnumType >( m_class, _enumName );
+		m_class.def_readwrite( _propertyName, _property );
+		return *this;
 	}
 
-	void endClass()
+	template< typename _TEnumType >
+	EnumExporter< luabind::class_< _TClass >, _TEnumType > withEnum( const char* _enumName )
+	{
+		return EnumExporter< luabind::class_< _TClass >, _TEnumType >( m_class, _enumName );
+	}
+
+private:
+
+	lua_State* m_luaEngine;
+	luabind::class_< _TClass > m_class;
+};
+
+/*---------------------------------------------------------------------------*/
+
+template < typename _TClass, typename _TSharedPtr >
+class ClassExporterWithShared
+{
+
+public:
+
+	ClassExporterWithShared( lua_State* _luaEngine, const char* _className )
+		:	m_luaEngine( _luaEngine )
+		,	m_class( _className )
+	{
+	}
+
+	~ClassExporterWithShared()
 	{
 		luabind::module( m_luaEngine )
 		[
@@ -77,10 +125,50 @@ public:
 		];
 	}
 
+	ClassExporterWithShared& withConstructor()
+	{
+		m_class.def( luabind::constructor<>() );
+		return *this;
+	}
+
+	template< typename _TParamType >
+	ClassExporterWithShared& withConstructor()
+	{
+		m_class.def( luabind::constructor< _TParamType >() );
+		return *this;
+	}
+
+	template< typename _TFirstParamType, typename _TSecondParamType >
+	ClassExporterWithShared& withConstructor()
+	{
+		m_class.def( luabind::constructor< _TFirstParamType, _TSecondParamType >() );
+		return *this;
+	}
+
+	template< typename _TMethod >
+	ClassExporterWithShared& withMethod( const char* _methodName, _TMethod _method )
+	{
+		m_class.def( _methodName, _method );
+		return *this;
+	}
+
+	template< typename _TProperty >
+	ClassExporterWithShared& withRWProperty( const char* _propertyName, _TProperty _property )
+	{
+		m_class.def_readwrite( _propertyName, _property );
+		return *this;
+	}
+
+	template< typename _TEnumType >
+	EnumExporter< luabind::class_< _TClass, _TSharedPtr >, _TEnumType > withEnum( const char* _enumName )
+	{
+		return EnumExporter< luabind::class_< _TClass, _TSharedPtr >, _TEnumType >( m_class, _enumName );
+	}
+
 private:
 
 	lua_State* m_luaEngine;
-	luabind::class_< _TClass > m_class;
+	luabind::class_< _TClass, _TSharedPtr > m_class;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -95,9 +183,15 @@ public:
 	{}
 
 	template< typename _TClass >
-	ClassExporter< _TClass > exportClass( const char* _className )
+	boost::shared_ptr< ClassExporter< _TClass > > exportClass( const char* _className )
 	{
-		return ClassExporter< _TClass >( m_luaEngine, _className );
+		return boost::shared_ptr< ClassExporter< _TClass > >( new ClassExporter< _TClass >( m_luaEngine, _className ) );
+	}
+
+	template< typename _TClass >
+	boost::shared_ptr< ClassExporterWithShared< _TClass, boost::shared_ptr< _TClass > > > exportClassWithShared( const char* _className )
+	{
+		return boost::shared_ptr< ClassExporterWithShared< _TClass, boost::shared_ptr< _TClass > > >( new ClassExporterWithShared< _TClass, boost::shared_ptr< _TClass > >( m_luaEngine, _className ) );
 	}
 
 	template< typename _TFunction >

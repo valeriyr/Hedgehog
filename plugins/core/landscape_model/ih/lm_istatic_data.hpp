@@ -33,12 +33,12 @@ struct IStaticData
 
 	struct ObjectStaticData
 	{
-		boost::shared_ptr< const BuilderComponentStaticData > m_builderData;
-		boost::shared_ptr< const HealthComponentStaticData > m_healthData;
-		boost::shared_ptr< const LocateComponentStaticData > m_locateData;
-		boost::shared_ptr< const SelectionComponentStaticData > m_selectionData;
-		boost::shared_ptr< const ActionsComponentStaticData > m_actionsData;
-		boost::shared_ptr< const MoveComponentStaticData > m_moveData;
+		boost::shared_ptr< BuilderComponentStaticData > m_builderData;
+		boost::shared_ptr< HealthComponentStaticData > m_healthData;
+		boost::shared_ptr< LocateComponentStaticData > m_locateData;
+		boost::shared_ptr< SelectionComponentStaticData > m_selectionData;
+		boost::shared_ptr< ActionsComponentStaticData > m_actionsData;
+		boost::shared_ptr< MoveComponentStaticData > m_moveData;
 	};
 
 /*---------------------------------------------------------------------------*/
@@ -65,35 +65,13 @@ struct IStaticData
 
 /*---------------------------------------------------------------------------*/
 
-	virtual ObjectStaticData getObjectStaticData( const QString& _name ) const = 0;
+	virtual const ObjectStaticData getObjectStaticData( const QString& _name ) const = 0;
 
 	virtual void fetchObjectsStaticData( StaticDataCollection& _collection ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void regBuilderStaticData(
-			const QString& _name
-		,	boost::shared_ptr< const BuilderComponentStaticData > _data ) = 0;
-
-	virtual void regHealthStaticData(
-			const QString& _name
-		,	boost::shared_ptr< const HealthComponentStaticData > _data ) = 0;
-
-	virtual void regLocateStaticData(
-			const QString& _name
-		,	boost::shared_ptr< const LocateComponentStaticData > _data ) = 0;
-
-	virtual void regSelectionStaticData(
-			const QString& _name
-		,	boost::shared_ptr< const SelectionComponentStaticData > _data ) = 0;
-
-	virtual void regActionsStaticData(
-			const QString& _name
-		,	boost::shared_ptr< const ActionsComponentStaticData > _data ) = 0;
-
-	virtual void regMoveStaticData(
-			const QString& _name
-		,	boost::shared_ptr< const MoveComponentStaticData > _data ) = 0;
+	virtual void regObjectStaticData( const QString& _name, const ObjectStaticData& _data ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

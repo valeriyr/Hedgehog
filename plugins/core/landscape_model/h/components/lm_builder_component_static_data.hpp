@@ -11,17 +11,17 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-struct BuildObjectsData
+struct BuildObjectData
 {
-	BuildObjectsData(
-			const qint64 _creationTime
+	BuildObjectData(
+			const int _creationTime
 		,	const QString& _objectName
 		)
 		:	m_creationTime( _creationTime )
 		,	m_objectName( _objectName )
 	{}
 
-	const qint64 m_creationTime;
+	const int m_creationTime;
 	const QString m_objectName;
 };
 
@@ -32,17 +32,22 @@ struct BuildObjectsData
 struct BuilderComponentStaticData
 {
 	typedef
-		std::vector< boost::shared_ptr< const BuildObjectsData > >
+		std::vector< boost::shared_ptr< const BuildObjectData > >
 		BuildObjectsDataCollection;
 	typedef
 		BuildObjectsDataCollection::const_iterator
 		BuildObjectsDataCollectionIterator;
 
-	BuilderComponentStaticData( const BuildObjectsDataCollection& _buildObjects )
-		:	m_buildObjects( _buildObjects )
+	BuilderComponentStaticData()
+		:	m_buildObjects()
 	{}
 
-	const BuildObjectsDataCollection m_buildObjects;
+	void pushBuildObjectData( boost::shared_ptr< BuildObjectData > _data )
+	{
+		m_buildObjects.push_back( _data );
+	}
+
+	BuildObjectsDataCollection m_buildObjects;
 };
 
 

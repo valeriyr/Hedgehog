@@ -24,13 +24,18 @@ struct ActionsComponentStaticData
 		ActionsCollection::const_iterator
 		ActionsCollectionIterator;
 
-	ActionsComponentStaticData( const ActionsCollection& _possibleActions )
-		:	m_possibleActions( _possibleActions )
+	ActionsComponentStaticData()
+		:	m_possibleActions()
 	{}
+
+	void can( const Actions::Enum _action )
+	{
+		m_possibleActions.insert( _action );
+	}
 
 	bool canDoAction( const Actions::Enum _action ) const { return m_possibleActions.find( _action ) != m_possibleActions.end(); }
 
-	const ActionsCollection m_possibleActions;
+	ActionsCollection m_possibleActions;
 };
 
 

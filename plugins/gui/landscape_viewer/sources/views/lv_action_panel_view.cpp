@@ -32,7 +32,7 @@ public:
 
 	CreateObjectItem(
 			const Core::LandscapeModel::Object::UniqueId& _parentObjectId
-		,	boost::shared_ptr< const Core::LandscapeModel::BuildObjectsData > _buildData
+		,	boost::shared_ptr< const Core::LandscapeModel::BuildObjectData > _buildData
 		)
 		:	m_parentObjectId( _parentObjectId )
 		,	m_buildData( _buildData )
@@ -40,13 +40,13 @@ public:
 
 	const Core::LandscapeModel::Object::UniqueId& getParentObjectId() const { return m_parentObjectId; }
 
-	boost::shared_ptr< const Core::LandscapeModel::BuildObjectsData > getBuildObjectsData() const { return m_buildData; }
+	boost::shared_ptr< const Core::LandscapeModel::BuildObjectData > getBuildObjectsData() const { return m_buildData; }
 
 private:
 
 	const Core::LandscapeModel::Object::UniqueId m_parentObjectId;
 
-	boost::shared_ptr< const Core::LandscapeModel::BuildObjectsData > m_buildData;
+	boost::shared_ptr< const Core::LandscapeModel::BuildObjectData > m_buildData;
 };
 
 
