@@ -4,7 +4,7 @@
 elvenArcher = ObjectStaticData()
 
 elvenArcher.m_healthData = HealthComponentStaticData( 100 )
-elvenArcher.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), ISurfaceItemsCache.Ground )
+elvenArcher.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground )
 elvenArcher.m_moveData = MoveComponentStaticData( 800 )
 elvenArcher.m_selectionData = SelectionComponentStaticData( true )
 
@@ -18,7 +18,7 @@ StaticData:regObjectStaticData( QString( "Elven Archer" ), elvenArcher )
 grunt = ObjectStaticData()
 
 grunt.m_healthData = HealthComponentStaticData( 200 )
-grunt.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), ISurfaceItemsCache.Ground )
+grunt.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground )
 grunt.m_moveData = MoveComponentStaticData( 1000 )
 grunt.m_selectionData = SelectionComponentStaticData( true )
 
@@ -32,7 +32,7 @@ StaticData:regObjectStaticData( QString( "Grunt" ), grunt )
 orcBarracks = ObjectStaticData()
 
 orcBarracks.m_healthData = HealthComponentStaticData( 1200 )
-orcBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), ISurfaceItemsCache.Ground )
+orcBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground )
 orcBarracks.m_selectionData = SelectionComponentStaticData( true )
 
 orcBarracks.m_actionsData = ActionsComponentStaticData()
@@ -48,7 +48,7 @@ StaticData:regObjectStaticData( QString( "Orc Barracks" ), orcBarracks )
 humanBarracks = ObjectStaticData()
 
 humanBarracks.m_healthData = HealthComponentStaticData( 1000 )
-humanBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), ISurfaceItemsCache.Ground )
+humanBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground )
 humanBarracks.m_selectionData = SelectionComponentStaticData( true )
 
 humanBarracks.m_actionsData = ActionsComponentStaticData()

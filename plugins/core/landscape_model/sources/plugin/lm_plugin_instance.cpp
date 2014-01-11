@@ -192,13 +192,15 @@ PluginInstance::exportScriptAPI()
 
 	// Surface items cache export
 
-	exporter.exportClass< ISurfaceItemsCache >( "ISurfaceItemsCache" )
-		->withMethod( "regSurfaceItem", &ISurfaceItemsCache::regSurfaceItem )
-		.withMethod( "setDefaultSurfaceItem", &ISurfaceItemsCache::setDefaultSurfaceItem )
-		.withEnum< TerrainMapItem::Enum >( "TerrainMapItem" )
+	exporter.exportClass< TerrainMapItem >( "TerrainMapItem" )
+		->withEnum< TerrainMapItem::Enum >( "Enum" )
 			.withItem( "NotAvailable", TerrainMapItem::NotAvailable )
 			.withItem( "Ground", TerrainMapItem::Ground )
 			.withItem( "Water", TerrainMapItem::Water );
+
+	exporter.exportClass< ISurfaceItemsCache >( "ISurfaceItemsCache" )
+		->withMethod( "regSurfaceItem", &ISurfaceItemsCache::regSurfaceItem )
+		.withMethod( "setDefaultSurfaceItem", &ISurfaceItemsCache::setDefaultSurfaceItem );
 
 	exporter.exportVariable( "SurfaceItemsCache", m_surfaceItemsCache.get() );
 
