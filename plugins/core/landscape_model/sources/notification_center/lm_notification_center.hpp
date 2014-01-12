@@ -59,7 +59,8 @@ private:
 
 	NotifiersCollection m_notifiers;
 
-	QMutex m_mutex;
+	// We don't need synchronization here becouse all model is synchronized
+	// QMutex m_mutex;
 
 /*---------------------------------------------------------------------------*/
 

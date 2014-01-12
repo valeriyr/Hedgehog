@@ -17,7 +17,7 @@ namespace LandscapeModel {
 
 NotificationCenter::NotificationCenter()
 	:	m_notifiers()
-	,	m_mutex()
+	//,	m_mutex()
 {
 } // NotificationCenter::NotificationCenter
 
@@ -36,7 +36,7 @@ NotificationCenter::~NotificationCenter()
 void
 NotificationCenter::addNotifier( INotifier* _notifier )
 {
-	QMutexLocker locker( &m_mutex );
+	//QMutexLocker locker( &m_mutex );
 
 	assert( m_notifiers.find( _notifier ) == m_notifiers.end() );
 
@@ -51,7 +51,7 @@ NotificationCenter::addNotifier( INotifier* _notifier )
 void
 NotificationCenter::removeNotifier( INotifier* _notifier )
 {
-	QMutexLocker locker( &m_mutex );
+	//QMutexLocker locker( &m_mutex );
 
 	m_notifiers.erase( _notifier );
 
@@ -64,7 +64,7 @@ NotificationCenter::removeNotifier( INotifier* _notifier )
 void
 NotificationCenter::processNotifiers()
 {
-	QMutexLocker locker( &m_mutex );
+	//QMutexLocker locker( &m_mutex );
 
 	NotifiersCollectionIterator
 			begin = m_notifiers.begin()
