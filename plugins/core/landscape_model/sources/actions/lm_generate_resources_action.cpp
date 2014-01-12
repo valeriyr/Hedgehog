@@ -3,8 +3,6 @@
 
 #include "landscape_model/sources/actions/lm_generate_resources_action.hpp"
 
-#include "landscape_model/h/lm_events.hpp"
-
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
 #include "landscape_model/ih/lm_iplayer.hpp"
@@ -56,13 +54,7 @@ GenerateResourcesAction::processAction( const unsigned int _deltaTime )
 		for ( ; begin != end; ++begin )
 		{
 			int incTo = static_cast< float >( _deltaTime * begin->second ) / 60000;
-			m_player.getResourcesData().incResource( begin->first, incTo );
-
-			Framework::Core::EventManager::Event resourceValueChangedEvent( Events::ResourceValueChanged::ms_type );
-			resourceValueChangedEvent.pushAttribute( Events::ResourceValueChanged::ms_resourceNameAttribute, begin->first );
-			resourceValueChangedEvent.pushAttribute( Events::ResourceValueChanged::ms_resourceValueAttribute, m_player.getResourcesData().getResourceValue( begin->first ) );
-
-			m_environment.riseEvent( resourceValueChangedEvent );
+			m_player.incResource( begin->first, incTo );
 		}
 	}
 

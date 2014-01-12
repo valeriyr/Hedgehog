@@ -95,7 +95,7 @@ private:
 
 	Core::MultithreadingManager::TaskHandle m_animationsProcessingTaskHandle;
 
-	// QMutex m_locker;
+	// QMutex m_mutex;
 
 /*---------------------------------------------------------------------------*/
 

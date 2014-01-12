@@ -109,7 +109,7 @@ private:
 	TasksCollection m_periodicalTasksCollection;
 	TasksCollection m_delayedTasksCollection;
 
-	QMutex m_taskQueueLocker;
+	QMutex m_mutex;
 
 /*---------------------------------------------------------------------------*/
 

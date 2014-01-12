@@ -17,7 +17,7 @@ TasksQueue::TasksQueue()
 	:	m_readyTasksCollection()
 	,	m_periodicalTasksCollection()
 	,	m_delayedTasksCollection()
-	,	m_taskQueueLocker( QMutex::Recursive )
+	,	m_mutex( QMutex::Recursive )
 {
 } // TasksQueue::TasksQueue
 
@@ -36,7 +36,7 @@ TasksQueue::~TasksQueue()
 QString
 TasksQueue::pushTask( RunnableFunction _function )
 {
-	QMutexLocker locker( &m_taskQueueLocker );
+	QMutexLocker locker( &m_mutex );
 
 	const QString taskId( QUuid::createUuid().toString() );
 
@@ -53,7 +53,7 @@ TasksQueue::pushTask( RunnableFunction _function )
 QString
 TasksQueue::pushPeriodicalTask( RunnableFunction _function, const qint64 _period )
 {
-	QMutexLocker locker( &m_taskQueueLocker );
+	QMutexLocker locker( &m_mutex );
 
 	const QString taskId( QUuid::createUuid().toString() );
 
@@ -75,7 +75,7 @@ TasksQueue::pushPeriodicalTask( RunnableFunction _function, const qint64 _period
 QString
 TasksQueue::pushDelayedTask( RunnableFunction _function, const qint64 _delay )
 {
-	QMutexLocker locker( &m_taskQueueLocker );
+	QMutexLocker locker( &m_mutex );
 
 	const QString taskId( QUuid::createUuid().toString() );
 
@@ -96,7 +96,7 @@ TasksQueue::pushDelayedTask( RunnableFunction _function, const qint64 _delay )
 void
 TasksQueue::removeTask( const QString& _taskId )
 {
-	QMutexLocker locker( &m_taskQueueLocker );
+	QMutexLocker locker( &m_mutex );
 
 	m_delayedTasksCollection.erase( _taskId );
 	m_periodicalTasksCollection.erase( _taskId );
@@ -123,7 +123,7 @@ TasksQueue::removeTask( const QString& _taskId )
 void
 TasksQueue::clear()
 {
-	QMutexLocker locker( &m_taskQueueLocker );
+	QMutexLocker locker( &m_mutex );
 
 	m_delayedTasksCollection.clear();
 	m_periodicalTasksCollection.clear();
@@ -138,7 +138,7 @@ TasksQueue::clear()
 TaskData
 TasksQueue::getTaskForProcessing()
 {
-	QMutexLocker locker( &m_taskQueueLocker );
+	QMutexLocker locker( &m_mutex );
 
 	if ( m_readyTasksCollection.empty() )
 		return TaskData();
@@ -157,7 +157,7 @@ TasksQueue::getTaskForProcessing()
 unsigned int
 TasksQueue::refreshTasks()
 {
-	QMutexLocker locker( &m_taskQueueLocker );
+	QMutexLocker locker( &m_mutex );
 
 	unsigned int tasksCount = 0;
 

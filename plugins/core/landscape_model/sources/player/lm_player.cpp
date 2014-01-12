@@ -5,6 +5,9 @@
 
 #include "landscape_model/ih/lm_istatic_data.hpp"
 
+#include "landscape_model/h/lm_events.hpp"
+
+#include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,10 +22,12 @@ static IPlayer::Id IdGenerator = 0;
 /*---------------------------------------------------------------------------*/
 
 
-Player::Player( const IStaticData& _staticData )
-	:	m_staticData( _staticData )
+Player::Player( const IEnvironment& _environment, const IStaticData& _staticData )
+	:	m_environment( _environment )
+	,	m_staticData( _staticData )
 	,	m_id( ++IdGenerator )
 	,	m_resourceData()
+	,	m_notifier( *m_environment.getNotificationCenter(), this )
 {
 	IStaticData::ResourcesCollection resources;
 	_staticData.fetchResources( resources );
@@ -65,6 +70,35 @@ Player::getResourcesData()
 	return m_resourceData;
 
 } // Player::getResourcesData
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Player::incResource( const QString& _resourceName, const int _incTo )
+{
+	IPlayer::ResourcesData::ResourcesDataCollectionIterator iterator
+		= m_resourceData.m_data.find( _resourceName );
+
+	if ( iterator != m_resourceData.m_data.end() )
+	{
+		iterator->second += _incTo;
+		m_notifier.pushNotifyFunction( &Player::riseResourcesChanedEvent );
+	}
+
+} // Player::incResource
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Player::riseResourcesChanedEvent()
+{
+	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ResourceValueChanged::ms_type ) );
+
+} // Player::riseResourcesChanedEvent
 
 
 /*---------------------------------------------------------------------------*/

@@ -21,7 +21,7 @@ EventManager::EventManager( IEnvironment& _environment )
 	:	m_environment( _environment )
 	,	m_subscribersCollection()
 	,	m_eventsCollection()
-	,	m_locker()
+	,	m_mutex()
 {
 } // EventManager::EventManager
 
@@ -42,7 +42,7 @@ EventManager::~EventManager()
 void
 EventManager::raise( const Event& _event )
 {
-	QMutexLocker locker( &m_locker );
+	QMutexLocker locker( &m_mutex );
 	
 	m_eventsCollection.push_back( _event );
 
@@ -57,7 +57,7 @@ EventManager::subscribe(	const QString& _threadForProcessing
 						,	const QString& _eventType
 						,	const IEventManager::ProcessingFunction& _function )
 {
-	QMutexLocker locker( &m_locker );
+	QMutexLocker locker( &m_mutex );
 
 	const IEventManager::ConnectionId connectionId( QUuid::createUuid().toString() );
 
@@ -112,7 +112,7 @@ EventManager::subscribe(	const QString& _threadForProcessing
 void
 EventManager::unsubscribe( const IEventManager::ConnectionId& _connectionId )
 {
-	QMutexLocker locker( &m_locker );
+	QMutexLocker locker( &m_mutex );
 
 	SubscribersCollectionIterator
 			subscribersBegin = m_subscribersCollection.begin()
@@ -164,7 +164,7 @@ EventManager::task( const QString& _threadName )
 	SubscribersData subscribersData;
 
 	{
-		QMutexLocker locker( &m_locker );
+		QMutexLocker locker( &m_mutex );
 
 		copyOfEventsCollection = m_eventsCollection;
 		m_eventsCollection.clear();

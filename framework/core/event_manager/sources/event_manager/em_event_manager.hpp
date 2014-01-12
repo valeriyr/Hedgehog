@@ -113,7 +113,7 @@ private:
 
 	EventsCollection m_eventsCollection;
 
-	QMutex m_locker;
+	QMutex m_mutex;
 
 /*---------------------------------------------------------------------------*/
 

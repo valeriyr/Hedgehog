@@ -101,7 +101,7 @@ private:
 
 	boost::intrusive_ptr< IPlayer > m_player;
 
-	QMutex m_landscapeLocker;
+	QMutex m_mutex;
 
 	boost::intrusive_ptr< IPathFinder > m_pathFinder;
 

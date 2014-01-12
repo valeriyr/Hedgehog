@@ -23,6 +23,7 @@ MainWidget::MainWidget()
 	,	m_inputWidget( new InputWidget( this ) )
 	,	m_commandsStack()
 	,	m_currentCommand( m_commandsStack.begin() )
+	,	m_mutex()
 {
 	m_consoleDataView->setReadOnly( true );
 
@@ -62,6 +63,8 @@ MainWidget::~MainWidget()
 void
 MainWidget::pushMessage( const QString& _message )
 {
+	QMutexLocker locker( &m_mutex );
+
 	m_consoleDataView->append( _message );
 
 } // MainWidget::pushMessage

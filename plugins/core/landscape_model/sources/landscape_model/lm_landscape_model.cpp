@@ -17,6 +17,8 @@
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
+#include "landscape_model/sources/notification_center/lm_inotification_center.hpp"
+
 #include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/h/lm_events.hpp"
 
@@ -41,7 +43,7 @@ LandscapeModel::LandscapeModel(
 	,	m_staticData( _staticData )
 	,	m_currentLandscape()
 	,	m_player()
-	,	m_landscapeLocker( QMutex::Recursive )
+	,	m_mutex( QMutex::Recursive )
 	,	m_pathFinder( new JumpPointSearch() )
 {
 	m_environment.startThread( Resources::ModelThreadName );
@@ -83,7 +85,7 @@ LandscapeModel::initCurrentLandscape ( const QString& _filePath )
 		landscape->setSize( 20, 20 );
 	}
 
-	m_player.reset( new Player( m_staticData ) );
+	m_player.reset( new Player( m_environment, m_staticData ) );
 
 	m_currentLandscape = landscape;
 
@@ -120,7 +122,7 @@ LandscapeModel::saveLandscape( const QString& _filePath ) const
 boost::intrusive_ptr< ILandscapeHandle >
 LandscapeModel::getCurrentLandscape()
 {
-	return boost::intrusive_ptr< ILandscapeHandle >( new LandscapeHandle( m_currentLandscape, m_player, m_landscapeLocker ) );
+	return boost::intrusive_ptr< ILandscapeHandle >( new LandscapeHandle( m_currentLandscape, m_player, m_mutex ) );
 
 } // LandscapeModel::getCurrentLandscape
 
@@ -340,6 +342,10 @@ LandscapeModel::gameMainLoop()
 			}
 		}
 	}
+
+	// Process notifications
+
+	m_environment.getNotificationCenter()->processNotifiers();
 
 	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime;
 

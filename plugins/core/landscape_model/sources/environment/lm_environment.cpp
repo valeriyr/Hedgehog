@@ -7,6 +7,8 @@
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
+#include "landscape_model/sources/notification_center/lm_inotification_center.hpp"
+
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 #include "event_manager/ih/em_ievent_manager.hpp"
 
@@ -105,6 +107,17 @@ Environment::riseEvent( const Framework::Core::EventManager::Event& _event ) con
 	m_pluginInstance.getEventManager()->raise( _event );
 
 } // Environment::riseEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< INotificationCenter >
+Environment::getNotificationCenter() const
+{
+	return m_pluginInstance.getNotificationCenter();
+
+} // Environment::getNotificationCenter
 
 
 /*---------------------------------------------------------------------------*/

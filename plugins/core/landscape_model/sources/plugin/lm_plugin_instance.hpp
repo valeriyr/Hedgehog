@@ -56,6 +56,7 @@ struct IEnvironment;
 struct ILandscapeSerializer;
 struct ISurfaceItemsCache;
 struct ILandscapeModel;
+struct INotificationCenter;
 struct IStaticData;
 
 /*---------------------------------------------------------------------------*/
@@ -105,6 +106,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	boost::intrusive_ptr< INotificationCenter > getNotificationCenter() const;
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
@@ -128,6 +133,8 @@ private:
 	boost::intrusive_ptr< ILandscapeSerializer > m_landscapeSerializer;
 	
 	boost::intrusive_ptr< ILandscapeModel > m_landscapeModel;
+
+	boost::intrusive_ptr< INotificationCenter > m_notificationCenter;
 
 /*---------------------------------------------------------------------------*/
 

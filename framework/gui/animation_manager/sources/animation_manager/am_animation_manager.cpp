@@ -23,7 +23,7 @@ AnimationManager::AnimationManager( const IEnvironment& _environment, const IAni
 	:	m_environment( _environment )
 	,	m_animationCache( _animationCache )
 	,	m_animationsDataCollection()
-	//,	m_locker()
+	//,	m_mutex()
 {
 	m_animationsProcessingTaskHandle
 		= m_environment.pushPeriodicalTask(
@@ -51,7 +51,7 @@ AnimationManager::~AnimationManager()
 void
 AnimationManager::playAnimation( IAnimateObject& _animateObject, const QString& _animationName )
 {
-	//QMutexLocker locker( &m_locker );
+	//QMutexLocker locker( &m_mutex );
 
 	const AnimationInfo& animationInfo = m_animationCache.getAnimation( _animationName );
 
@@ -86,7 +86,7 @@ AnimationManager::playAnimation( IAnimateObject& _animateObject, const QString& 
 void
 AnimationManager::stopAnimation( IAnimateObject& _animateObject )
 {
-	//QMutexLocker locker( &m_locker );
+	//QMutexLocker locker( &m_mutex );
 
 	m_animationsDataCollection.erase( &_animateObject );
 
@@ -99,7 +99,7 @@ AnimationManager::stopAnimation( IAnimateObject& _animateObject )
 void
 AnimationManager::stopAllAnimations()
 {
-	//QMutexLocker locker( &m_locker );
+	//QMutexLocker locker( &m_mutex );
 
 	m_animationsDataCollection.clear();
 
@@ -112,7 +112,7 @@ AnimationManager::stopAllAnimations()
 void
 AnimationManager::animationsProcessingTask()
 {
-	//QMutexLocker locker( &m_locker );
+	//QMutexLocker locker( &m_mutex );
 
 	const qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 

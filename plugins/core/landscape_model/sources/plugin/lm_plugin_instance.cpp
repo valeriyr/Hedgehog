@@ -30,6 +30,7 @@
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
+#include "landscape_model/sources/notification_center/lm_notification_center.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -72,6 +73,7 @@ void
 PluginInstance::initialize()
 {
 	m_environment.reset( new Environment( *this ) );
+	m_notificationCenter.reset( new NotificationCenter() );
 	m_staticData.reset( new StaticData() );
 	m_surfaceItemsCache.reset( new SurfaceItemsCache() );
 	m_landscapeSerializer.reset( new LandscapeSerializer() );
@@ -93,6 +95,7 @@ PluginInstance::close()
 	m_landscapeSerializer.reset();
 	m_surfaceItemsCache.reset();
 	m_staticData.reset();
+	m_notificationCenter.reset();
 	m_environment.reset();
 
 } // PluginInstance::close
@@ -180,6 +183,17 @@ PluginInstance::getScriptsExecutor() const
 			,	Framework::Core::ScriptEngine::IID_SCRIPTS_EXECUTOR );
 
 } // PluginInstance::getScriptsExecutor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< INotificationCenter >
+PluginInstance::getNotificationCenter() const
+{
+	return m_notificationCenter;
+
+} // PluginInstance::getNotificationCenter
 
 
 /*---------------------------------------------------------------------------*/

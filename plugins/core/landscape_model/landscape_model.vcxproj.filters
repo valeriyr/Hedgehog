@@ -58,6 +58,9 @@
     <Filter Include="Player">
       <UniqueIdentifier>{c45f9495-0a70-48ec-b632-9a875b696436}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Notification Center">
+      <UniqueIdentifier>{df6cf411-8739-4917-8afe-6a9390fd4da5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="sources\actions\lm_generate_resources_action.cpp">
       <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\notification_center\lm_notification_center.cpp">
+      <Filter>Notification Center</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +313,18 @@
     </ClInclude>
     <ClInclude Include="sources\actions\lm_generate_resources_action.hpp">
       <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\notification_center\lm_inotification_center.hpp">
+      <Filter>Notification Center</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\notification_center\lm_inotifier.hpp">
+      <Filter>Notification Center</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\notification_center\lm_notification_center.hpp">
+      <Filter>Notification Center</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\notification_center\lm_notifier.hpp">
+      <Filter>Notification Center</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

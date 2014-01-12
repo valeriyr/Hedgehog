@@ -1,12 +1,10 @@
 
-#ifndef __LM_PLAYER_HPP__
-#define __LM_PLAYER_HPP__
+#ifndef __LM_NOTIFICATION_CENTER_HPP__
+#define __LM_NOTIFICATION_CENTER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_iplayer.hpp"
-
-#include "landscape_model/sources/notification_center/lm_notifier.hpp"
+#include "landscape_model/sources/notification_center/lm_inotification_center.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,13 +14,12 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IStaticData;
-struct IEnvironment;
+struct INotifier;
 
 /*---------------------------------------------------------------------------*/
 
-class Player
-	:	public Tools::Core::BaseWrapper< IPlayer >
+class NotificationCenter
+	:	public Tools::Core::BaseWrapper< INotificationCenter >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -31,27 +28,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Player( const IEnvironment& _environment, const IStaticData& _staticData );
+	NotificationCenter();
 
-	virtual ~Player();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ IPlayer::Id getUniqueId() const;
+	virtual ~NotificationCenter();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ IPlayer::ResourcesData& getResourcesData();
+	/*virtual*/ void addNotifier( INotifier* _notifier );
 
-	/*virtual*/ void incResource( const QString& _resourceName, const int _incTo );
-
-/*---------------------------------------------------------------------------*/
-
-private:
+	/*virtual*/ void removeNotifier( INotifier* _notifier );
 
 /*---------------------------------------------------------------------------*/
 
-	void riseResourcesChanedEvent();
+	/*virtual*/ void processNotifiers();
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,15 +48,18 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const IEnvironment& m_environment;
+	typedef
+		std::set< INotifier* >
+		NotifiersCollection;
+	typedef
+		NotifiersCollection::const_iterator
+		NotifiersCollectionIterator;
 
-	const IStaticData& m_staticData;
+/*---------------------------------------------------------------------------*/
 
-	const IPlayer::Id m_id;
+	NotifiersCollection m_notifiers;
 
-	IPlayer::ResourcesData m_resourceData;
-
-	Notifier< Player > m_notifier;
+	QMutex m_mutex;
 
 /*---------------------------------------------------------------------------*/
 
@@ -81,4 +73,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_PLAYER_HPP__
+#endif // __LM_NOTIFICATION_CENTER_HPP__

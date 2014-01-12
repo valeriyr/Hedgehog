@@ -1,4 +1,6 @@
 
+#include <QtCore/QMutex>
+
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QVBoxLayout>

@@ -21,6 +21,10 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct INotificationCenter;
+
+/*---------------------------------------------------------------------------*/
+
 struct IEnvironment
 	:	public Tools::Core::IBase
 {
@@ -48,6 +52,10 @@ struct IEnvironment
 /*---------------------------------------------------------------------------*/
 
 	virtual void riseEvent( const Framework::Core::EventManager::Event& _event ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual boost::intrusive_ptr< INotificationCenter > getNotificationCenter() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

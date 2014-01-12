@@ -87,9 +87,6 @@ namespace SurfaceItemChanged
 namespace ResourceValueChanged
 {
 	const char* const ms_type = "ResourceValueChanged";
-
-	const char* const ms_resourceNameAttribute = "ResourceName";
-	const char* const ms_resourceValueAttribute = "ResourceValue";
 }
 
 /*---------------------------------------------------------------------------*/

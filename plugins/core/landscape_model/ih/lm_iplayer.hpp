@@ -45,14 +45,6 @@ struct IPlayer
 			return iterator->second;
 		}
 
-		void incResource( const QString& _resourceName, const int _incTo )
-		{
-			ResourcesDataCollectionIterator iterator = m_data.find( _resourceName );
-
-			if ( iterator != m_data.end() )
-				iterator->second += _incTo;
-		}
-
 		ResourcesDataCollection m_data;
 	};
 
@@ -60,7 +52,11 @@ struct IPlayer
 
 	virtual Id getUniqueId() const = 0;
 
+/*---------------------------------------------------------------------------*/
+
 	virtual ResourcesData& getResourcesData() = 0;
+
+	virtual void incResource( const QString& _resourceName, const int _incTo ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

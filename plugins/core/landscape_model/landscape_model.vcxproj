@@ -35,6 +35,7 @@
     <ClCompile Include="sources\landscape_handle\lm_landscape_handle.cpp" />
     <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp" />
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp" />
+    <ClCompile Include="sources\notification_center\lm_notification_center.cpp" />
     <ClCompile Include="sources\path_finders\lm_jump_point_search.cpp" />
     <ClCompile Include="sources\ph\lm_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -100,6 +101,10 @@
     <ClInclude Include="sources\landscape_model\lm_landscape_model.hpp" />
     <ClInclude Include="sources\landscape_serializer\lm_ilandscape_serializer.hpp" />
     <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp" />
+    <ClInclude Include="sources\notification_center\lm_inotification_center.hpp" />
+    <ClInclude Include="sources\notification_center\lm_inotifier.hpp" />
+    <ClInclude Include="sources\notification_center\lm_notification_center.hpp" />
+    <ClInclude Include="sources\notification_center\lm_notifier.hpp" />
     <ClInclude Include="sources\path_finders\lm_ipath_finder.hpp" />
     <ClInclude Include="sources\path_finders\lm_jump_point_search.hpp" />
     <ClInclude Include="sources\ph\lm_ph.hpp" />
