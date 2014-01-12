@@ -19,6 +19,16 @@
 
 #include "landscape_model/sources/notification_center/lm_inotification_center.hpp"
 
+#include "landscape_model/sources/components/lm_builder_component.hpp"
+#include "landscape_model/sources/components/lm_health_component.hpp"
+#include "landscape_model/sources/components/lm_locate_component.hpp"
+#include "landscape_model/sources/components/lm_selection_component.hpp"
+#include "landscape_model/sources/components/lm_actions_component.hpp"
+#include "landscape_model/sources/components/lm_move_component.hpp"
+#include "landscape_model/sources/components/lm_generate_resources_component.hpp"
+
+#include "landscape_model/ih/lm_istatic_data.hpp"
+
 #include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/h/lm_events.hpp"
 
@@ -72,8 +82,10 @@ LandscapeModel::~LandscapeModel()
 void
 LandscapeModel::initCurrentLandscape ( const QString& _filePath )
 {
+	m_player.reset( new Player( m_environment, m_staticData ) );
+
 	boost::intrusive_ptr< ILandscape >
-		landscape( new Landscape( m_surfaceItemsCache, m_staticData ) );
+		landscape( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
 
 	try
 	{
@@ -81,11 +93,9 @@ LandscapeModel::initCurrentLandscape ( const QString& _filePath )
 	}
 	catch( ... )
 	{
-		landscape.reset( new Landscape( m_surfaceItemsCache, m_staticData ) );
+		landscape.reset( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
 		landscape->setSize( 20, 20 );
 	}
-
-	m_player.reset( new Player( m_environment, m_staticData ) );
 
 	m_currentLandscape = landscape;
 
@@ -223,18 +233,6 @@ LandscapeModel::createObject(
 		if ( handle->getLandscape() )
 		{
 			objectId = handle->getLandscape()->createObject( _location, _objectName );
-
-			if ( objectId != Object::ms_wrongId )
-			{
-				boost::shared_ptr< Object > object = handle->getLandscape()->getObject( objectId );
-
-				if ( object->getComponent< IGenerateResourcesComponent >( ComponentId::ResourcesGenerating ) )
-				{
-					boost::intrusive_ptr< IActionsComponent > actionsComponent
-						= object->getComponent< IActionsComponent >( ComponentId::Actions );
-					actionsComponent->pushPeriodicalAction( boost::intrusive_ptr< IAction >( new GenerateResourcesAction( m_environment, *object, *handle->getPlayer() ) ) );
-				}
-			}
 		}
 	}
 
@@ -281,6 +279,62 @@ LandscapeModel::setSurfaceItem(
 	}
 
 } // LandscapeModel::setSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::shared_ptr< Object >
+LandscapeModel::createObject( const QPoint& _location, const QString& _objectName ) const
+{
+	IStaticData::ObjectStaticData staticData = m_staticData.getObjectStaticData( _objectName );
+
+	boost::shared_ptr< Object > object( new Object( _objectName ) );
+
+	if ( staticData.m_healthData )
+		object->addComponent(
+				ComponentId::Health
+			,	boost::intrusive_ptr< IComponent >( new HealthComponent( *object, *staticData.m_healthData ) ) );
+
+	if ( staticData.m_locateData )
+		object->addComponent(
+				ComponentId::Locate
+			,	boost::intrusive_ptr< IComponent >( new LocateComponent( *object, *staticData.m_locateData, _location ) ) );
+
+	if ( staticData.m_selectionData )
+		object->addComponent(
+				ComponentId::Selection
+			,	boost::intrusive_ptr< IComponent >( new SelectionComponent( *object, *staticData.m_selectionData ) ) );
+
+	if ( staticData.m_builderData )
+		object->addComponent(
+				ComponentId::Builder
+			,	boost::intrusive_ptr< IComponent >( new BuilderComponent( *object, *staticData.m_builderData ) ) );
+
+	if ( staticData.m_actionsData )
+		object->addComponent(
+				ComponentId::Actions
+			,	boost::intrusive_ptr< IComponent >( new ActionsComponent( *object, *staticData.m_actionsData ) ) );
+
+	if ( staticData.m_moveData )
+		object->addComponent(
+				ComponentId::Move
+			,	boost::intrusive_ptr< IComponent >( new MoveComponent( *object, *staticData.m_moveData ) ) );
+
+	if ( staticData.m_generateResourcesData )
+	{
+		object->addComponent(
+				ComponentId::ResourcesGenerating
+			,	boost::intrusive_ptr< IComponent >( new GenerateResourcesComponent( *object, *staticData.m_generateResourcesData ) ) );
+
+		boost::intrusive_ptr< IActionsComponent > actionsComponent
+			= object->getComponent< IActionsComponent >( ComponentId::Actions );
+		actionsComponent->pushPeriodicalAction( boost::intrusive_ptr< IAction >( new GenerateResourcesAction( m_environment, *object, *m_player ) ) );
+	}
+
+	return object;
+
+} // LandscapeModel::createObject
 
 
 /*---------------------------------------------------------------------------*/

@@ -326,5 +326,8 @@
     <ClInclude Include="sources\notification_center\lm_notifier.hpp">
       <Filter>Notification Center</Filter>
     </ClInclude>
+    <ClInclude Include="sources\landscape\lm_iobjects_creator.hpp">
+      <Filter>Landscape</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

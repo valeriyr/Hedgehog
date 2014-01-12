@@ -96,6 +96,7 @@
     <ClInclude Include="sources\environment\lm_environment.hpp" />
     <ClInclude Include="sources\environment\lm_ienvironment.hpp" />
     <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp" />
+    <ClInclude Include="sources\landscape\lm_iobjects_creator.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
     <ClInclude Include="sources\landscape_handle\lm_landscape_handle.hpp" />
     <ClInclude Include="sources\landscape_model\lm_landscape_model.hpp" />

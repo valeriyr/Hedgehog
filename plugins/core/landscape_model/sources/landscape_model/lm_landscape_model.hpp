@@ -6,6 +6,8 @@
 
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
+#include "landscape_model/sources/landscape/lm_iobjects_creator.hpp"
+
 #include "multithreading_manager/h/mm_task_handle.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -29,6 +31,7 @@ struct IPathFinder;
 
 class LandscapeModel
 	:	public Tools::Core::BaseWrapper< ILandscapeModel >
+	,	public IObjectCreator
 {
 
 /*---------------------------------------------------------------------------*/
@@ -70,6 +73,12 @@ public:
 	/*virtual*/ void setSurfaceItem(
 			const QPoint& _location
 		,	const Core::LandscapeModel::ISurfaceItem::Id& _id );
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::shared_ptr< Object > createObject(
+			const QPoint& _location
+		,	const QString& _objectName ) const;
 
 /*---------------------------------------------------------------------------*/
 

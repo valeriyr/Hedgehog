@@ -9,13 +9,7 @@
 #include "landscape_model/h/lm_object.hpp"
 #include "landscape_model/ih/lm_istatic_data.hpp"
 
-#include "landscape_model/sources/components/lm_builder_component.hpp"
-#include "landscape_model/sources/components/lm_health_component.hpp"
-#include "landscape_model/sources/components/lm_locate_component.hpp"
-#include "landscape_model/sources/components/lm_selection_component.hpp"
-#include "landscape_model/sources/components/lm_actions_component.hpp"
-#include "landscape_model/sources/components/lm_move_component.hpp"
-#include "landscape_model/sources/components/lm_generate_resources_component.hpp"
+#include "landscape_model/sources/landscape/lm_iobjects_creator.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,9 +23,11 @@ namespace LandscapeModel {
 Landscape::Landscape(
 		const ISurfaceItemsCache& _surfaceItemsCache
 	,	const IStaticData& _staticData
+	,	const IObjectCreator& _objectCreator
 	)
 	:	m_surfaceItemsCache( _surfaceItemsCache )
 	,	m_staticData( _staticData )
+	,	m_objectCreator( _objectCreator )
 	,	m_objects()
 	,	m_selectedObjects()
 	,	m_surfaceItems()
@@ -238,42 +234,7 @@ Landscape::createObject( const QPoint& _location, const QString& _objectName )
 
 	if ( canObjectBePlaced( _location, *staticData.m_locateData ) )
 	{
-		boost::shared_ptr< Object > object( new Object( _objectName ) );
-
-		if ( staticData.m_healthData )
-			object->addComponent(
-					ComponentId::Health
-				,	boost::intrusive_ptr< IComponent >( new HealthComponent( *object, *staticData.m_healthData ) ) );
-
-		if ( staticData.m_locateData )
-			object->addComponent(
-					ComponentId::Locate
-				,	boost::intrusive_ptr< IComponent >( new LocateComponent( *object, *staticData.m_locateData, _location ) ) );
-
-		if ( staticData.m_selectionData )
-			object->addComponent(
-					ComponentId::Selection
-				,	boost::intrusive_ptr< IComponent >( new SelectionComponent( *object, *staticData.m_selectionData ) ) );
-
-		if ( staticData.m_builderData )
-			object->addComponent(
-					ComponentId::Builder
-				,	boost::intrusive_ptr< IComponent >( new BuilderComponent( *object, *staticData.m_builderData ) ) );
-
-		if ( staticData.m_actionsData )
-			object->addComponent(
-					ComponentId::Actions
-				,	boost::intrusive_ptr< IComponent >( new ActionsComponent( *object, *staticData.m_actionsData ) ) );
-
-		if ( staticData.m_moveData )
-			object->addComponent(
-					ComponentId::Move
-				,	boost::intrusive_ptr< IComponent >( new MoveComponent( *object, *staticData.m_moveData ) ) );
-
-		if ( staticData.m_generateResourcesData )
-			object->addComponent(
-					ComponentId::ResourcesGenerating
-				,	boost::intrusive_ptr< IComponent >( new GenerateResourcesComponent( *object, *staticData.m_generateResourcesData ) ) );
+		boost::shared_ptr< Object > object = m_objectCreator.createObject( _location, _objectName );
 
 		m_objects.push_back( object );
 

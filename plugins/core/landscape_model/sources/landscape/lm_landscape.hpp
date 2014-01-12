@@ -18,6 +18,7 @@ namespace LandscapeModel {
 
 struct ISurfaceItemsCache;
 struct IStaticData;
+struct IObjectCreator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,7 +34,8 @@ public:
 
 	Landscape(
 			const ISurfaceItemsCache& _surfaceItemsCache
-		,	const IStaticData& _staticData );
+		,	const IStaticData& _staticData
+		,	const IObjectCreator& _objectCreator );
 
 	virtual ~Landscape();
 
@@ -97,6 +99,7 @@ private:
 	
 	const ISurfaceItemsCache& m_surfaceItemsCache;
 	const IStaticData& m_staticData;
+	const IObjectCreator& m_objectCreator;
 
 /*---------------------------------------------------------------------------*/
 
