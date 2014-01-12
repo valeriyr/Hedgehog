@@ -19,17 +19,13 @@ struct BuildObjectData
 {
 	BuildObjectData(
 			const int _creationTime
-		,	const QString& _objectName
 		,	const ResourcesData& _resourcesData
 		)
 		:	m_creationTime( _creationTime )
-		,	m_objectName( _objectName )
 		,	m_resourcesData( _resourcesData )
 	{}
 
 	const int m_creationTime;
-	const QString m_objectName;
-
 	const ResourcesData m_resourcesData;
 };
 
@@ -40,7 +36,7 @@ struct BuildObjectData
 struct BuilderComponentStaticData
 {
 	typedef
-		std::vector< boost::shared_ptr< const BuildObjectData > >
+		std::map< QString, boost::shared_ptr< const BuildObjectData > >
 		BuildObjectsDataCollection;
 	typedef
 		BuildObjectsDataCollection::const_iterator
@@ -50,9 +46,9 @@ struct BuilderComponentStaticData
 		:	m_buildObjects()
 	{}
 
-	void pushBuildObjectData( boost::shared_ptr< BuildObjectData > _data )
+	void pushBuildObjectData( const QString _objectName, boost::shared_ptr< BuildObjectData > _data )
 	{
-		m_buildObjects.push_back( _data );
+		m_buildObjects.insert( std::make_pair( _objectName, _data ) );
 	}
 
 	BuildObjectsDataCollection m_buildObjects;

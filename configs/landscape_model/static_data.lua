@@ -49,7 +49,7 @@ gruntResourceData:pushResource( QString( "Gold" ), 400 )
 gruntResourceData:pushResource( QString( "Wood" ), 200 )
 
 orcBarracks.m_builderData = BuilderComponentStaticData()
-orcBarracks.m_builderData:pushBuildObjectData( BuildObjectData( 3000, QString( "Grunt" ), gruntResourceData ) )
+orcBarracks.m_builderData:pushBuildObjectData( QString( "Grunt" ), BuildObjectData( 3000, gruntResourceData ) )
 
 orcBarracks.m_generateResourcesData = GenerateResourcesComponentStaticData()
 orcBarracks.m_generateResourcesData:canGenerate( QString( "Gold" ), 1000 )
@@ -70,10 +70,10 @@ humanBarracks.m_actionsData:can( Actions.Build )
 
 elvenArcherResourceData = ResourcesData()
 elvenArcherResourceData:pushResource( QString( "Gold" ), 300 )
-elvenArcherResourceData:pushResource( QString( "Wood" ), 150 )
+elvenArcherResourceData:pushResource( QString( "Wood" ), 100 )
 
 humanBarracks.m_builderData = BuilderComponentStaticData()
-humanBarracks.m_builderData:pushBuildObjectData( BuildObjectData( 4500, QString( "Elven Archer" ), elvenArcherResourceData ) )
+humanBarracks.m_builderData:pushBuildObjectData( QString( "Elven Archer" ), BuildObjectData( 4500, elvenArcherResourceData ) )
 
 StaticData:regObjectStaticData( QString( "Human Barracks" ), humanBarracks )
 

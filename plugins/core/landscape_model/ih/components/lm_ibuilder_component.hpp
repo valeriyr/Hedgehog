@@ -21,7 +21,32 @@ struct IBuilderComponent
 
 /*---------------------------------------------------------------------------*/
 
+	struct BuildData
+	{
+		typedef
+			std::list< QString >
+			BuildObjectsQueue;
+		typedef
+			BuildObjectsQueue::const_iterator
+			BuildObjectsQueueIterator;
+
+		BuildData()
+			:	m_buildProgress( 0 )
+			,	m_buildQueue()
+		{}
+
+		int m_buildProgress;
+
+		BuildObjectsQueue m_buildQueue;
+	};
+
+/*---------------------------------------------------------------------------*/
+
 	virtual const BuilderComponentStaticData& getStaticData() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual BuildData& getBuildData() = 0;
 
 /*---------------------------------------------------------------------------*/
 

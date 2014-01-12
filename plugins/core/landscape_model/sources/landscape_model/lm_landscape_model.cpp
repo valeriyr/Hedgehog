@@ -13,6 +13,7 @@
 
 #include "landscape_model/sources/actions/lm_generate_resources_action.hpp"
 #include "landscape_model/sources/actions/lm_move_action.hpp"
+#include "landscape_model/sources/actions/lm_build_object_action.hpp"
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
@@ -279,6 +280,49 @@ LandscapeModel::setSurfaceItem(
 	}
 
 } // LandscapeModel::setSurfaceItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::buildObject( const Object::UniqueId& _parentObject, const QString& _objectName )
+{
+	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+
+	if ( handle->getPlayer() )
+	{
+		boost::shared_ptr< Object > object = handle->getLandscape()->getObject( _parentObject );
+
+		if ( object )
+		{
+			boost::intrusive_ptr< IBuilderComponent > builderComponent
+				= object->getComponent< IBuilderComponent >( ComponentId::Builder );
+
+			if ( builderComponent )
+			{
+				BuilderComponentStaticData::BuildObjectsDataCollectionIterator
+					iterator =  builderComponent->getStaticData().m_buildObjects.find( _objectName );
+
+				if (	iterator != builderComponent->getStaticData().m_buildObjects.end()
+					&&	handle->getPlayer()->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
+				{
+					handle->getPlayer()->getResourcesData().substruct( iterator->second->m_resourcesData );
+
+					boost::intrusive_ptr< IActionsComponent > actionsComponent
+						= object->getComponent< IActionsComponent >( ComponentId::Actions );
+
+					actionsComponent->pushAction(
+						boost::intrusive_ptr< IAction >(
+							new BuildObjectAction( m_environment, *object, *handle->getPlayer(), *this ) ) );
+
+					builderComponent->getBuildData().m_buildQueue.push_back( _objectName );
+				}
+			}
+		}
+	}
+
+} // LandscapeModel::buildObject
 
 
 /*---------------------------------------------------------------------------*/

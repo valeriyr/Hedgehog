@@ -19,6 +19,7 @@ BuilderComponent::BuilderComponent(
 	)
 	:	BaseComponent< IBuilderComponent >( _object )
 	,	m_staticData( _staticData )
+	,	m_buildData()
 {
 } // BuilderComponent::BuilderComponent
 
@@ -40,6 +41,17 @@ BuilderComponent::getStaticData() const
 	return m_staticData;
 
 } // BuilderComponent::getStaticData
+
+
+/*---------------------------------------------------------------------------*/
+
+
+IBuilderComponent::BuildData&
+BuilderComponent::getBuildData()
+{
+	return m_buildData;
+
+} // BuilderComponent::getBuildData
 
 
 /*---------------------------------------------------------------------------*/

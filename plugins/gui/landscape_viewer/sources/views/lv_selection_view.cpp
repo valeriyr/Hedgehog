@@ -68,6 +68,12 @@ SelectionView::SelectionView( const IEnvironment& _environment )
 
 SelectionView::~SelectionView()
 {
+	QObject::disconnect(
+			m_mainWidget.get()
+		,	SIGNAL( itemClicked( QListWidgetItem* ) )
+		,	this
+		,	SLOT( onItemClicked( QListWidgetItem* ) ) );
+
 } // SelectionView::~SelectionView
 
 

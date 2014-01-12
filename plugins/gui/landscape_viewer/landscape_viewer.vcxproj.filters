@@ -185,9 +185,6 @@
     <ClInclude Include="sources\widgets\landscape_scene_states\lv_landscape_scene_states.hpp">
       <Filter>Widgets\Landscape Scene States</Filter>
     </ClInclude>
-    <ClInclude Include="sources\views\lv_action_panel_view.hpp">
-      <Filter>Views</Filter>
-    </ClInclude>
     <ClInclude Include="sources\views\lv_object_info_view.hpp">
       <Filter>Views</Filter>
     </ClInclude>
@@ -221,6 +218,9 @@
       <Filter>Views</Filter>
     </CustomBuild>
     <CustomBuild Include="sources\views\lv_selection_view.hpp">
+      <Filter>Views</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\views\lv_action_panel_view.hpp">
       <Filter>Views</Filter>
     </CustomBuild>
   </ItemGroup>

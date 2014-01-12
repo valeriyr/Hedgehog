@@ -37,6 +37,42 @@ struct ResourcesData
 		m_data.insert( std::make_pair( _resourceName, _value ) );
 	}
 
+	bool hasEnaught( const ResourcesData& _data ) const
+	{
+		ResourcesDataCollectionConstIterator
+				begin = _data.m_data.begin()
+			,	end = _data.m_data.end();
+
+		for ( ; begin != end; ++begin )
+		{
+			ResourcesDataCollectionConstIterator iterator = m_data.find( begin->first );
+
+			if ( iterator == m_data.end() || iterator->second < begin->second )
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	void substruct( const ResourcesData& _data )
+	{
+		ResourcesDataCollectionConstIterator
+				begin = _data.m_data.begin()
+			,	end = _data.m_data.end();
+
+		for ( ; begin != end; ++begin )
+		{
+			ResourcesDataCollectionIterator iterator = m_data.find( begin->first );
+
+			if ( iterator == m_data.end() )
+				continue;
+
+			iterator->second -= begin->second;
+		}
+	}
+
 	ResourcesDataCollection m_data;
 };
 

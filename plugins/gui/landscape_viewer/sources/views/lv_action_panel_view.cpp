@@ -14,6 +14,7 @@
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
 
+#include "lv_action_panel_view.moc"
 
 /*---------------------------------------------------------------------------*/
 
@@ -32,21 +33,21 @@ public:
 
 	CreateObjectItem(
 			const Core::LandscapeModel::Object::UniqueId& _parentObjectId
-		,	boost::shared_ptr< const Core::LandscapeModel::BuildObjectData > _buildData
+		,	const QString& _targetObjectName
 		)
 		:	m_parentObjectId( _parentObjectId )
-		,	m_buildData( _buildData )
+		,	m_targetObjectName( _targetObjectName )
 	{}
 
 	const Core::LandscapeModel::Object::UniqueId& getParentObjectId() const { return m_parentObjectId; }
 
-	boost::shared_ptr< const Core::LandscapeModel::BuildObjectData > getBuildObjectsData() const { return m_buildData; }
+	const QString& getTargetObjectName() const { return m_targetObjectName; }
 
 private:
 
 	const Core::LandscapeModel::Object::UniqueId m_parentObjectId;
 
-	boost::shared_ptr< const Core::LandscapeModel::BuildObjectData > m_buildData;
+	const QString m_targetObjectName;
 };
 
 
@@ -61,6 +62,12 @@ ActionPanelView::ActionPanelView( const IEnvironment& _environment )
 {
 	m_mainWidget->setViewMode( QListView::IconMode );
 
+	QObject::connect(
+			m_mainWidget.get()
+		,	SIGNAL( itemClicked( QListWidgetItem* ) )
+		,	this
+		,	SLOT( onItemClicked( QListWidgetItem* ) ) );
+
 } // ActionPanelView::ActionPanelView
 
 
@@ -69,6 +76,12 @@ ActionPanelView::ActionPanelView( const IEnvironment& _environment )
 
 ActionPanelView::~ActionPanelView()
 {
+	QObject::disconnect(
+			m_mainWidget.get()
+		,	SIGNAL( itemClicked( QListWidgetItem* ) )
+		,	this
+		,	SLOT( onItemClicked( QListWidgetItem* ) ) );
+
 } // ActionPanelView::~ActionPanelView
 
 
@@ -134,6 +147,20 @@ ActionPanelView::landscapeWasClosed()
 
 
 void
+ActionPanelView::onItemClicked( QListWidgetItem* _item )
+{
+	CreateObjectItem* listItem = dynamic_cast< CreateObjectItem* >( _item );
+	assert( listItem );
+
+	m_environment.buildObject( listItem->getParentObjectId(), listItem->getTargetObjectName() );
+
+} // ActionPanelView::onItemClicked
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event )
 {
 	m_mainWidget->clear();
@@ -166,10 +193,10 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 
 		for ( ; begin != end; ++begin )
 		{
-			CreateObjectItem* listItem = new CreateObjectItem( parentObjectId, *begin );
+			CreateObjectItem* listItem = new CreateObjectItem( parentObjectId, begin->first );
 
-			listItem->setText( QString( Resources::Views::CreateObjectLabelFormat ).arg( ( *begin )->m_objectName ) );
-			listItem->setIcon( QIcon( m_environment.getPixmap( ( *begin )->m_objectName ) ) );
+			listItem->setText( QString( Resources::Views::CreateObjectLabelFormat ).arg( begin->first ) );
+			listItem->setIcon( QIcon( m_environment.getPixmap( begin->first ) ) );
 
 			m_mainWidget->addItem( listItem );
 		}

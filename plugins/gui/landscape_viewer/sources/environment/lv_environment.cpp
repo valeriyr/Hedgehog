@@ -267,6 +267,17 @@ Environment::setSurfaceItem( const QPoint& _location, const Core::LandscapeModel
 /*---------------------------------------------------------------------------*/
 
 
+void
+Environment::buildObject( const Core::LandscapeModel::Object::UniqueId& _parentId, const QString& _objectName ) const
+{
+	m_pluginInstance.getLandscapeModel()->buildObject( _parentId, _objectName );
+
+} // Environment::buildObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
 const Core::LandscapeModel::ISurfaceItem::Id
 Environment::getDefaultSurfaceItemId() const
 {

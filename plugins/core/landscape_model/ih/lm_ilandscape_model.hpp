@@ -57,6 +57,8 @@ struct ILandscapeModel
 			const QPoint& _location
 		,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) = 0;
 
+	virtual void buildObject( const Object::UniqueId& _parentObject, const QString& _objectName ) = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };

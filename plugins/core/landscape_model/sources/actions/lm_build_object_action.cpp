@@ -7,6 +7,8 @@
 
 #include "landscape_model/ih/lm_iplayer.hpp"
 
+#include "landscape_model/ih/lm_ilandscape_model.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -21,9 +23,11 @@ BuildObjectAction::BuildObjectAction(
 		const IEnvironment& _environment
 	,	Object& _object
 	,	IPlayer& _player
+	,	ILandscapeModel& _landscapeModel
 	)
 	:	BaseAction( _environment, _object )
 	,	m_player( _player )
+	,	m_landscapeModel( _landscapeModel )
 {
 } // BuildObjectAction::BuildObjectAction
 
@@ -42,21 +46,26 @@ BuildObjectAction::~BuildObjectAction()
 void
 BuildObjectAction::processAction( const unsigned int _deltaTime )
 {
-	/*boost::intrusive_ptr< IGenerateResourcesComponent > generateResourcesComponent
-		= m_object.getComponent< IGenerateResourcesComponent >( ComponentId::ResourcesGenerating );
+	boost::intrusive_ptr< IBuilderComponent > builderComponent
+		= m_object.getComponent< IBuilderComponent >( ComponentId::Builder );
+	IBuilderComponent::BuildData& buildData = builderComponent->getBuildData();
 
-	if ( generateResourcesComponent->isGeneratingEnabled() )
+	int creatingTime
+		= builderComponent->getStaticData().m_buildObjects.find( buildData.m_buildQueue.front() )->second->m_creationTime;
+	int creatingDelta = ( static_cast< float >( _deltaTime ) / creatingTime ) * 100;
+
+	buildData.m_buildProgress += creatingDelta;
+
+	if ( buildData.m_buildProgress > 100 )
 	{
-		GenerateResourcesComponentStaticData::ResourcesByMinuteCollectionIterator
-				begin = generateResourcesComponent->getStaticData().m_resourcesByMinute.begin()
-			,	end = generateResourcesComponent->getStaticData().m_resourcesByMinute.end();
+		boost::intrusive_ptr< ILocateComponent > locateComponent
+			= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 
-		for ( ; begin != end; ++begin )
-		{
-			int incTo = static_cast< float >( _deltaTime * begin->second ) / 60000;
-			m_player.incResource( begin->first, incTo );
-		}
-	}*/
+		m_landscapeModel.createObject( QPoint( locateComponent->getRect().x() + locateComponent->getRect().width() + 1, locateComponent->getRect().y() ), buildData.m_buildQueue.front() );
+
+		buildData.m_buildProgress = 0;
+		buildData.m_buildQueue.pop_front();
+	}
 
 } // BuildObjectAction::processAction
 
@@ -76,7 +85,9 @@ BuildObjectAction::unprocessAction( const unsigned int _deltaTime )
 bool
 BuildObjectAction::hasFinished() const
 {
-	return false;
+	IBuilderComponent::BuildData& buildData
+		= m_object.getComponent< IBuilderComponent >( ComponentId::Builder )->getBuildData();
+	return buildData.m_buildQueue.empty();
 
 } // BuildObjectAction::hasFinished
 
@@ -87,7 +98,7 @@ BuildObjectAction::hasFinished() const
 const Actions::Enum
 BuildObjectAction::getType() const
 {
-	return Actions::GenerateResources;
+	return Actions::Build;
 
 } // BuildObjectAction::getType
 

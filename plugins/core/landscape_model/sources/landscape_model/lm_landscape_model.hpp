@@ -74,6 +74,8 @@ public:
 			const QPoint& _location
 		,	const Core::LandscapeModel::ISurfaceItem::Id& _id );
 
+	/*virtual*/ void buildObject( const Object::UniqueId& _parentObject, const QString& _objectName );
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::shared_ptr< Object > createObject(

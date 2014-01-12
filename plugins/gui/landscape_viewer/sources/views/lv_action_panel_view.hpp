@@ -22,8 +22,13 @@ struct IEnvironment;
 /*---------------------------------------------------------------------------*/
 
 class ActionPanelView
-	:	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
+	:	public QObject
+	,	public Tools::Core::BaseWrapper< Framework::GUI::WindowManager::IView >
 {
+
+/*---------------------------------------------------------------------------*/
+
+	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,6 +55,14 @@ public:
 	void landscapeWasOpened();
 
 	void landscapeWasClosed();
+
+/*---------------------------------------------------------------------------*/
+
+private slots:
+
+/*---------------------------------------------------------------------------*/
+
+	void onItemClicked( QListWidgetItem* _item );
 
 /*---------------------------------------------------------------------------*/
 

@@ -125,6 +125,8 @@ struct IEnvironment
 
 	virtual void setSurfaceItem( const QPoint& _location, const Core::LandscapeModel::ISurfaceItem::Id& _id ) const = 0;
 
+	virtual void buildObject( const Core::LandscapeModel::Object::UniqueId& _parentId, const QString& _objectName ) const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual const Core::LandscapeModel::ISurfaceItem::Id

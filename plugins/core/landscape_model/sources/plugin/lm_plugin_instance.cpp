@@ -247,7 +247,7 @@ PluginInstance::exportScriptAPI()
 		.withMethod( "pushResource", &ResourcesData::pushResource );
 
 	exporter.exportClassWithShared< BuildObjectData >( "BuildObjectData" )
-		->withConstructor< const int, const QString&, const ResourcesData& >();
+		->withConstructor< const int, const ResourcesData& >();
 
 	exporter.exportClassWithShared< BuilderComponentStaticData >( "BuilderComponentStaticData" )
 		->withConstructor()
