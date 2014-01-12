@@ -123,6 +123,12 @@
     <ClCompile Include="sources\player\lm_player.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="sources\components\lm_generate_resources_component.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\actions\lm_generate_resources_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -289,6 +295,18 @@
     </ClInclude>
     <ClInclude Include="sources\player\lm_player.hpp">
       <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\components\lm_igenerate_resources_component.hpp">
+      <Filter>Interfaces\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="h\components\lm_generate_resources_component_static_data.hpp">
+      <Filter>External Headers\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\components\lm_generate_resources_component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_generate_resources_action.hpp">
+      <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

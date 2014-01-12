@@ -15,6 +15,7 @@
 #include "landscape_model/sources/components/lm_selection_component.hpp"
 #include "landscape_model/sources/components/lm_actions_component.hpp"
 #include "landscape_model/sources/components/lm_move_component.hpp"
+#include "landscape_model/sources/components/lm_generate_resources_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -268,6 +269,11 @@ Landscape::createObject( const QPoint& _location, const QString& _objectName )
 			object->addComponent(
 					ComponentId::Move
 				,	boost::intrusive_ptr< IComponent >( new MoveComponent( *object, *staticData.m_moveData ) ) );
+
+		if ( staticData.m_generateResourcesData )
+			object->addComponent(
+					ComponentId::ResourcesGenerating
+				,	boost::intrusive_ptr< IComponent >( new GenerateResourcesComponent( *object, *staticData.m_generateResourcesData ) ) );
 
 		m_objects.push_back( object );
 

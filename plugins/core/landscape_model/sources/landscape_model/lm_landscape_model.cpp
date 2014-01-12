@@ -11,6 +11,7 @@
 #include "landscape_model/sources/landscape_handle/lm_landscape_handle.hpp"
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
+#include "landscape_model/sources/actions/lm_generate_resources_action.hpp"
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
@@ -220,6 +221,18 @@ LandscapeModel::createObject(
 		if ( handle->getLandscape() )
 		{
 			objectId = handle->getLandscape()->createObject( _location, _objectName );
+
+			if ( objectId != Object::ms_wrongId )
+			{
+				boost::shared_ptr< Object > object = handle->getLandscape()->getObject( objectId );
+
+				if ( object->getComponent< IGenerateResourcesComponent >( ComponentId::ResourcesGenerating ) )
+				{
+					boost::intrusive_ptr< IActionsComponent > actionsComponent
+						= object->getComponent< IActionsComponent >( ComponentId::Actions );
+					actionsComponent->pushPeriodicalAction( boost::intrusive_ptr< IAction >( new GenerateResourcesAction( m_environment, *object, *handle->getPlayer() ) ) );
+				}
+			}
 		}
 	}
 
@@ -295,6 +308,25 @@ LandscapeModel::gameMainLoop()
 
 				if ( actionsComponent )
 				{
+					// Periodical Actions loop
+
+					if ( actionsComponent->hasPeriodicalActions() )
+					{
+						IActionsComponent::ActionsCollection periodicalActions;
+						actionsComponent->fetchPeriodicalActions( periodicalActions );
+
+						IActionsComponent::ActionsCollectionIterator
+								beginPeriodicalActions = periodicalActions.begin()
+							,	endPeriodicalActions = periodicalActions.end();
+
+						for ( ; beginPeriodicalActions != endPeriodicalActions; ++beginPeriodicalActions )
+						{
+							( *beginPeriodicalActions )->processAction( Resources::TimeLimit );
+						}
+					}
+
+					// Actions loop
+
 					boost::intrusive_ptr< IAction > action = actionsComponent->frontAction();
 
 					if ( action )

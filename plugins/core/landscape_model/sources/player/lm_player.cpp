@@ -59,8 +59,8 @@ Player::getUniqueId() const
 /*---------------------------------------------------------------------------*/
 
 
-const IPlayer::ResourcesData&
-Player::getResourcesData() const
+IPlayer::ResourcesData&
+Player::getResourcesData()
 {
 	return m_resourceData;
 

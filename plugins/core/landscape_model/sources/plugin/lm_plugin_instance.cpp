@@ -201,7 +201,8 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClass< Actions >( "Actions" )
 		->withEnum< Actions::Enum >( "Enum" )
 			.withItem( "Move", Actions::Move )
-			.withItem( "Build", Actions::Build );
+			.withItem( "Build", Actions::Build )
+			.withItem( "GenerateResources", Actions::GenerateResources );
 
 	exporter.exportClass< ObjectState >( "ObjectState" )
 		->withEnum< ObjectState::Enum >( "Enum" )
@@ -250,6 +251,10 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClassWithShared< MoveComponentStaticData >( "MoveComponentStaticData" )
 		->withConstructor< const unsigned int >();
 
+	exporter.exportClassWithShared< GenerateResourcesComponentStaticData >( "GenerateResourcesComponentStaticData" )
+		->withConstructor()
+		.withMethod( "canGenerate", &GenerateResourcesComponentStaticData::canGenerate );
+
 	exporter.exportClass< IStaticData::ObjectStaticData >( "ObjectStaticData" )
 		->withConstructor()
 		.withRWProperty( "m_actionsData", &IStaticData::ObjectStaticData::m_actionsData )
@@ -257,7 +262,8 @@ PluginInstance::exportScriptAPI()
 		.withRWProperty( "m_healthData", &IStaticData::ObjectStaticData::m_healthData )
 		.withRWProperty( "m_locateData", &IStaticData::ObjectStaticData::m_locateData )
 		.withRWProperty( "m_moveData", &IStaticData::ObjectStaticData::m_moveData )
-		.withRWProperty( "m_selectionData", &IStaticData::ObjectStaticData::m_selectionData );
+		.withRWProperty( "m_selectionData", &IStaticData::ObjectStaticData::m_selectionData )
+		.withRWProperty( "m_generateResourcesData", &IStaticData::ObjectStaticData::m_generateResourcesData );
 
 	exporter.exportClass< IStaticData >( "IStaticData" )
 		->withMethod( "regObjectStaticData", &IStaticData::regObjectStaticData )

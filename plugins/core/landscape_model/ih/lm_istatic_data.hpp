@@ -12,6 +12,7 @@
 #include "landscape_model/h/components/lm_selection_component_static_data.hpp"
 #include "landscape_model/h/components/lm_actions_component_static_data.hpp"
 #include "landscape_model/h/components/lm_move_component_static_data.hpp"
+#include "landscape_model/h/components/lm_generate_resources_component_static_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,6 +40,7 @@ struct IStaticData
 		boost::shared_ptr< SelectionComponentStaticData > m_selectionData;
 		boost::shared_ptr< ActionsComponentStaticData > m_actionsData;
 		boost::shared_ptr< MoveComponentStaticData > m_moveData;
+		boost::shared_ptr< GenerateResourcesComponentStaticData > m_generateResourcesData;
 	};
 
 /*---------------------------------------------------------------------------*/

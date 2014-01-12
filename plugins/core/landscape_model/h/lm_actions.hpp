@@ -14,8 +14,9 @@ struct Actions
 {
 	enum Enum
 	{
-			Move		= 0
+			Move				= 0
 		,	Build
+		,	GenerateResources
 	};
 };
 

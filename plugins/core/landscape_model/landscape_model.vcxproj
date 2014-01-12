@@ -20,9 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\actions\lm_base_action.cpp" />
+    <ClCompile Include="sources\actions\lm_generate_resources_action.cpp" />
     <ClCompile Include="sources\actions\lm_move_action.cpp" />
     <ClCompile Include="sources\components\lm_actions_component.cpp" />
     <ClCompile Include="sources\components\lm_builder_component.cpp" />
+    <ClCompile Include="sources\components\lm_generate_resources_component.cpp" />
     <ClCompile Include="sources\components\lm_health_component.cpp" />
     <ClCompile Include="sources\components\lm_locate_component.cpp" />
     <ClCompile Include="sources\components\lm_move_component.cpp" />
@@ -50,6 +52,7 @@
     <ClInclude Include="h\components\lm_actions_component_static_data.hpp" />
     <ClInclude Include="h\components\lm_builder_component_static_data.hpp" />
     <ClInclude Include="h\components\lm_component_id.hpp" />
+    <ClInclude Include="h\components\lm_generate_resources_component_static_data.hpp" />
     <ClInclude Include="h\components\lm_health_component_static_data.hpp" />
     <ClInclude Include="h\components\lm_locate_component_static_data.hpp" />
     <ClInclude Include="h\components\lm_move_component_static_data.hpp" />
@@ -65,6 +68,7 @@
     <ClInclude Include="ih\components\lm_iactions_component.hpp" />
     <ClInclude Include="ih\components\lm_ibuilder_component.hpp" />
     <ClInclude Include="ih\components\lm_icomponent.hpp" />
+    <ClInclude Include="ih\components\lm_igenerate_resources_component.hpp" />
     <ClInclude Include="ih\components\lm_ihealth_component.hpp" />
     <ClInclude Include="ih\components\lm_ilocate_component.hpp" />
     <ClInclude Include="ih\components\lm_imove_component.hpp" />
@@ -77,11 +81,13 @@
     <ClInclude Include="ih\lm_isurface_item.hpp" />
     <ClInclude Include="ih\lm_isurface_items_cache.hpp" />
     <ClInclude Include="sources\actions\lm_base_action.hpp" />
+    <ClInclude Include="sources\actions\lm_generate_resources_action.hpp" />
     <ClInclude Include="sources\actions\lm_iaction.hpp" />
     <ClInclude Include="sources\actions\lm_move_action.hpp" />
     <ClInclude Include="sources\components\lm_actions_component.hpp" />
     <ClInclude Include="sources\components\lm_base_component.hpp" />
     <ClInclude Include="sources\components\lm_builder_component.hpp" />
+    <ClInclude Include="sources\components\lm_generate_resources_component.hpp" />
     <ClInclude Include="sources\components\lm_health_component.hpp" />
     <ClInclude Include="sources\components\lm_locate_component.hpp" />
     <ClInclude Include="sources\components\lm_move_component.hpp" />

@@ -141,7 +141,7 @@ PlayerInfoView::updatePlayerInfo()
 
 		const Core::LandscapeModel::IPlayer::ResourcesData& resourcesData = handle->getPlayer()->getResourcesData();
 
-		Core::LandscapeModel::IPlayer::ResourcesData::ResourcesDataCollectionIterator
+		Core::LandscapeModel::IPlayer::ResourcesData::ResourcesDataCollectionConstIterator
 				begin = resourcesData.m_data.begin()
 			,	end = resourcesData.m_data.end();
 

@@ -42,9 +42,14 @@ orcBarracks.m_selectionData = SelectionComponentStaticData( true )
 
 orcBarracks.m_actionsData = ActionsComponentStaticData()
 orcBarracks.m_actionsData:can( Actions.Build )
+orcBarracks.m_actionsData:can( Actions.GenerateResources )
 
 orcBarracks.m_builderData = BuilderComponentStaticData()
 orcBarracks.m_builderData:pushBuildObjectData( BuildObjectData( 3000, QString( "Grunt" ) ) )
+
+orcBarracks.m_generateResourcesData = GenerateResourcesComponentStaticData()
+orcBarracks.m_generateResourcesData:canGenerate( QString( "Gold" ), 1000 )
+orcBarracks.m_generateResourcesData:canGenerate( QString( "Wood" ), 800 )
 
 StaticData:regObjectStaticData( QString( "Orc Barracks" ), orcBarracks )
 

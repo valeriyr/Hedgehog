@@ -31,8 +31,27 @@ struct IPlayer
 			std::map< QString, int >
 			ResourcesDataCollection;
 		typedef
-			ResourcesDataCollection::const_iterator
+			ResourcesDataCollection::iterator
 			ResourcesDataCollectionIterator;
+		typedef
+			ResourcesDataCollection::const_iterator
+			ResourcesDataCollectionConstIterator;
+
+		int getResourceValue( const QString& _resourceName ) const
+		{
+			ResourcesDataCollectionConstIterator iterator = m_data.find( _resourceName );
+			assert( iterator != m_data.end() );
+
+			return iterator->second;
+		}
+
+		void incResource( const QString& _resourceName, const int _incTo )
+		{
+			ResourcesDataCollectionIterator iterator = m_data.find( _resourceName );
+
+			if ( iterator != m_data.end() )
+				iterator->second += _incTo;
+		}
 
 		ResourcesDataCollection m_data;
 	};
@@ -41,7 +60,7 @@ struct IPlayer
 
 	virtual Id getUniqueId() const = 0;
 
-	virtual const ResourcesData& getResourcesData() const = 0;
+	virtual ResourcesData& getResourcesData() = 0;
 
 /*---------------------------------------------------------------------------*/
 

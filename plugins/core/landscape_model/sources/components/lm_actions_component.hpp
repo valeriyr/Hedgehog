@@ -46,22 +46,23 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-private:
+	/*virtual*/ void pushPeriodicalAction( boost::intrusive_ptr< IAction > _action );
+
+	/*virtual*/ bool hasPeriodicalActions() const;
+
+	/*virtual*/ void fetchPeriodicalActions( IActionsComponent::ActionsCollection& _collection ) const;
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		std::list< boost::intrusive_ptr< IAction > >
-		ActionsCollection;
-	typedef
-		ActionsCollection::const_iterator
-		ActionsCollectionIterator;
+private:
 
 /*---------------------------------------------------------------------------*/
 
 	const ActionsComponentStaticData& m_staticData;
 
-	ActionsCollection m_actionsCollection;
+	IActionsComponent::ActionsCollection m_actionsCollection;
+
+	IActionsComponent::ActionsCollection m_periodicalActionsCollection;
 
 /*---------------------------------------------------------------------------*/
 

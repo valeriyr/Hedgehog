@@ -20,6 +20,7 @@ struct ComponentId
 		,	Selection
 		,	Actions
 		,	Move
+		,	ResourcesGenerating
 	};
 };
 

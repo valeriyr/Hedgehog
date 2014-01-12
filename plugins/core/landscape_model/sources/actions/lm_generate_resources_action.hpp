@@ -1,11 +1,12 @@
 
-#ifndef __LM_IACTIONS_COMPONENT_HPP__
-#define __LM_IACTIONS_COMPONENT_HPP__
+#ifndef __LM_GENERATE_RESOURCES_ACTION_HPP__
+#define __LM_GENERATE_RESOURCES_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/components/lm_icomponent.hpp"
-#include "landscape_model/h/components/lm_actions_component_static_data.hpp"
+#include "landscape_model/sources/actions/lm_base_action.hpp"
+
+#include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,44 +16,50 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IAction;
+struct IPlayer;
 
 /*---------------------------------------------------------------------------*/
 
-struct IActionsComponent
-	:	public IComponent
+class GenerateResourcesAction
+	:	public BaseAction
 {
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		std::list< boost::intrusive_ptr< IAction > >
-		ActionsCollection;
-	typedef
-		ActionsCollection::const_iterator
-		ActionsCollectionIterator;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const ActionsComponentStaticData& getStaticData() const = 0;
+	GenerateResourcesAction(
+			const IEnvironment& _environment
+		,	Object& _object
+		,	IPlayer& _player );
+
+	virtual ~GenerateResourcesAction();
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void pushAction( boost::intrusive_ptr< IAction > _action ) = 0;
+	/*virtual*/ void processAction( const unsigned int _deltaTime );
 
-	virtual void popFrontAction() = 0;
+	/*virtual*/ void unprocessAction( const unsigned int _deltaTime );
 
-	virtual boost::intrusive_ptr< IAction > frontAction() const = 0;
-
-	virtual boost::intrusive_ptr< IAction > getAction( const Actions::Enum _type ) const = 0;
+	/*virtual*/ bool hasFinished() const;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void pushPeriodicalAction( boost::intrusive_ptr< IAction > _action ) = 0;
+	/*virtual*/ const Actions::Enum getType() const;
 
-	virtual bool hasPeriodicalActions() const = 0;
+/*---------------------------------------------------------------------------*/
 
-	virtual void fetchPeriodicalActions( ActionsCollection& _collection ) const = 0;
+	/*virtual*/ void updateWithData( const QVariant& _data );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	IPlayer& m_player;
 
 /*---------------------------------------------------------------------------*/
 
@@ -66,4 +73,4 @@ struct IActionsComponent
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IACTIONS_COMPONENT_HPP__
+#endif // __LM_GENERATE_RESOURCES_ACTION_HPP__
