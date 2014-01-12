@@ -1,7 +1,7 @@
 
 #include "landscape_model/sources/ph/lm_ph.hpp"
 
-#include "landscape_model/sources/actions/lm_generate_resources_action.hpp"
+#include "landscape_model/sources/actions/lm_build_object_action.hpp"
 
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
@@ -17,7 +17,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-GenerateResourcesAction::GenerateResourcesAction(
+BuildObjectAction::BuildObjectAction(
 		const IEnvironment& _environment
 	,	Object& _object
 	,	IPlayer& _player
@@ -25,24 +25,24 @@ GenerateResourcesAction::GenerateResourcesAction(
 	:	BaseAction( _environment, _object )
 	,	m_player( _player )
 {
-} // GenerateResourcesAction::GenerateResourcesAction
+} // BuildObjectAction::BuildObjectAction
 
 
 /*---------------------------------------------------------------------------*/
 
 
-GenerateResourcesAction::~GenerateResourcesAction()
+BuildObjectAction::~BuildObjectAction()
 {
-} // GenerateResourcesAction::~GenerateResourcesAction
+} // BuildObjectAction::~BuildObjectAction
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-GenerateResourcesAction::processAction( const unsigned int _deltaTime )
+BuildObjectAction::processAction( const unsigned int _deltaTime )
 {
-	boost::intrusive_ptr< IGenerateResourcesComponent > generateResourcesComponent
+	/*boost::intrusive_ptr< IGenerateResourcesComponent > generateResourcesComponent
 		= m_object.getComponent< IGenerateResourcesComponent >( ComponentId::ResourcesGenerating );
 
 	if ( generateResourcesComponent->isGeneratingEnabled() )
@@ -56,49 +56,49 @@ GenerateResourcesAction::processAction( const unsigned int _deltaTime )
 			int incTo = static_cast< float >( _deltaTime * begin->second ) / 60000;
 			m_player.incResource( begin->first, incTo );
 		}
-	}
+	}*/
 
-} // GenerateResourcesAction::processAction
+} // BuildObjectAction::processAction
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-GenerateResourcesAction::unprocessAction( const unsigned int _deltaTime )
+BuildObjectAction::unprocessAction( const unsigned int _deltaTime )
 {
-} // GenerateResourcesAction::unprocessAction
+} // BuildObjectAction::unprocessAction
 
 
 /*---------------------------------------------------------------------------*/
 
 
 bool
-GenerateResourcesAction::hasFinished() const
+BuildObjectAction::hasFinished() const
 {
 	return false;
 
-} // GenerateResourcesAction::hasFinished
+} // BuildObjectAction::hasFinished
 
 
 /*---------------------------------------------------------------------------*/
 
 
 const Actions::Enum
-GenerateResourcesAction::getType() const
+BuildObjectAction::getType() const
 {
 	return Actions::GenerateResources;
 
-} // GenerateResourcesAction::getType
+} // BuildObjectAction::getType
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-GenerateResourcesAction::updateWithData( const QVariant& _data )
+BuildObjectAction::updateWithData( const QVariant& _data )
 {
-} // GenerateResourcesAction::updateWithData
+} // BuildObjectAction::updateWithData
 
 
 /*---------------------------------------------------------------------------*/

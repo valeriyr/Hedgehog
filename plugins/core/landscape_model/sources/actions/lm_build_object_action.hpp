@@ -1,12 +1,12 @@
 
-#ifndef __LM_PLAYER_HPP__
-#define __LM_PLAYER_HPP__
+#ifndef __LM_BUILD_OBJECT_ACTION_HPP__
+#define __LM_BUILD_OBJECT_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_iplayer.hpp"
+#include "landscape_model/sources/actions/lm_base_action.hpp"
 
-#include "landscape_model/sources/notification_center/lm_notifier.hpp"
+#include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,13 +16,12 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IStaticData;
-struct IEnvironment;
+struct IPlayer;
 
 /*---------------------------------------------------------------------------*/
 
-class Player
-	:	public Tools::Core::BaseWrapper< IPlayer >
+class BuildObjectAction
+	:	public BaseAction
 {
 
 /*---------------------------------------------------------------------------*/
@@ -31,19 +30,28 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Player( const IEnvironment& _environment, const IStaticData& _staticData );
+	BuildObjectAction(
+			const IEnvironment& _environment
+		,	Object& _object
+		,	IPlayer& _player );
 
-	virtual ~Player();
+	virtual ~BuildObjectAction();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ IPlayer::Id getUniqueId() const;
+	/*virtual*/ void processAction( const unsigned int _deltaTime );
+
+	/*virtual*/ void unprocessAction( const unsigned int _deltaTime );
+
+	/*virtual*/ bool hasFinished() const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ ResourcesData& getResourcesData();
+	/*virtual*/ const Actions::Enum getType() const;
 
-	/*virtual*/ void incResource( const QString& _resourceName, const int _incTo );
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void updateWithData( const QVariant& _data );
 
 /*---------------------------------------------------------------------------*/
 
@@ -51,23 +59,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void riseResourcesChanedEvent();
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	const IEnvironment& m_environment;
-
-	const IStaticData& m_staticData;
-
-	const IPlayer::Id m_id;
-
-	ResourcesData m_resourceData;
-
-	Notifier< Player > m_notifier;
+	IPlayer& m_player;
 
 /*---------------------------------------------------------------------------*/
 
@@ -81,4 +73,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_PLAYER_HPP__
+#endif // __LM_GENERATE_RESOURCES_ACTION_HPP__

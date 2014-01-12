@@ -135,6 +135,9 @@
     <ClCompile Include="sources\notification_center\lm_notification_center.cpp">
       <Filter>Notification Center</Filter>
     </ClCompile>
+    <ClCompile Include="sources\actions\lm_build_object_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -328,6 +331,12 @@
     </ClInclude>
     <ClInclude Include="sources\landscape\lm_iobjects_creator.hpp">
       <Filter>Landscape</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_build_object_action.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_resources_data.hpp">
+      <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

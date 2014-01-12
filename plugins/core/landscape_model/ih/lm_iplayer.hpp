@@ -5,6 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/h/lm_resources_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -22,31 +23,6 @@ struct IPlayer
 
 	typedef int Id;
 	static const int ms_wrondId = -1;
-
-/*---------------------------------------------------------------------------*/
-
-	struct ResourcesData
-	{
-		typedef
-			std::map< QString, int >
-			ResourcesDataCollection;
-		typedef
-			ResourcesDataCollection::iterator
-			ResourcesDataCollectionIterator;
-		typedef
-			ResourcesDataCollection::const_iterator
-			ResourcesDataCollectionConstIterator;
-
-		int getResourceValue( const QString& _resourceName ) const
-		{
-			ResourcesDataCollectionConstIterator iterator = m_data.find( _resourceName );
-			assert( iterator != m_data.end() );
-
-			return iterator->second;
-		}
-
-		ResourcesDataCollection m_data;
-	};
 
 /*---------------------------------------------------------------------------*/
 

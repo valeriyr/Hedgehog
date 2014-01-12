@@ -37,7 +37,7 @@ Player::Player( const IEnvironment& _environment, const IStaticData& _staticData
 		,	end = resources.end();
 
 	for ( ; begin != end; ++begin )
-		m_resourceData.m_data.insert( std::make_pair( *begin, 0 ) );
+		m_resourceData.pushResource( *begin, 0 );
 
 } // Player::Player
 
@@ -64,7 +64,7 @@ Player::getUniqueId() const
 /*---------------------------------------------------------------------------*/
 
 
-IPlayer::ResourcesData&
+ResourcesData&
 Player::getResourcesData()
 {
 	return m_resourceData;
@@ -78,7 +78,7 @@ Player::getResourcesData()
 void
 Player::incResource( const QString& _resourceName, const int _incTo )
 {
-	IPlayer::ResourcesData::ResourcesDataCollectionIterator iterator
+	ResourcesData::ResourcesDataCollectionIterator iterator
 		= m_resourceData.m_data.find( _resourceName );
 
 	if ( iterator != m_resourceData.m_data.end() )
