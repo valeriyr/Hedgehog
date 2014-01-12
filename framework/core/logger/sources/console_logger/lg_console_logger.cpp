@@ -17,6 +17,7 @@ namespace Logger {
 
 ConsoleLogger::ConsoleLogger()
 	:	m_outputStream( stdout )
+	,	m_mutex()
 {
 } // ConsoleLogger::ConsoleLogger
 
@@ -37,6 +38,8 @@ ConsoleLogger::printMessage(
 		const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
 	,	const QString& _message )
 {
+	QMutexLocker locker( &m_mutex );
+
 	m_outputStream
 		<< QString( Resources::Messanges::MessageWithLevelFormat )
 				.arg( Tools::Core::IMessenger::MessegeLevel::toString( _messageLevel ) )
@@ -55,6 +58,8 @@ ConsoleLogger::printMessage(
 	,	const MessegeLevel::Enum _messageLevel
 	,	const QString& _message )
 {
+	QMutexLocker locker( &m_mutex );
+
 	m_outputStream
 		<< QString( Resources::Messanges::MessageWithLevelAndModuleNameFormat )
 				.arg( _moduleName )
@@ -71,6 +76,8 @@ ConsoleLogger::printMessage(
 void
 ConsoleLogger::printMessage( const QString& _message )
 {
+	QMutexLocker locker( &m_mutex );
+
 	m_outputStream << QString( Resources::Messanges::SimpleMessageFormat ).arg( _message );
 	flush();
 
