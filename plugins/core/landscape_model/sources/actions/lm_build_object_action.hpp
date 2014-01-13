@@ -17,6 +17,8 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct IPlayer;
+struct ILandscape;
+
 struct ILandscapeModel;
 
 /*---------------------------------------------------------------------------*/
@@ -35,6 +37,7 @@ public:
 			const IEnvironment& _environment
 		,	Object& _object
 		,	IPlayer& _player
+		,	ILandscape& _landscape
 		,	ILandscapeModel& _landscapeModel );
 
 	virtual ~BuildObjectAction();
@@ -62,6 +65,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	IPlayer& m_player;
+
+	ILandscape& m_landscape;
 
 	ILandscapeModel& m_landscapeModel;
 

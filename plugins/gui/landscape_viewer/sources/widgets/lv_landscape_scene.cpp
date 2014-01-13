@@ -424,9 +424,9 @@ LandscapeScene::generateLandscape()
 
 	if ( handle->getLandscape() )
 	{
-		for ( unsigned int i = 0; i < handle->getLandscape()->getWidth(); ++i )
+		for ( int i = 0; i < handle->getLandscape()->getWidth(); ++i )
 		{
-			for ( unsigned int j = 0; j < handle->getLandscape()->getHeight(); ++j )
+			for ( int j = 0; j < handle->getLandscape()->getHeight(); ++j )
 			{
 				boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
 					surfaceItem = handle->getLandscape()->getSurfaceItem( QPoint( i, j ) );
@@ -498,9 +498,9 @@ LandscapeScene::generateTerrainMapLayer()
 
 	if ( handle->getLandscape() )
 	{
-		for ( unsigned int i = 0; i < handle->getLandscape()->getWidth(); ++i )
+		for ( int i = 0; i < handle->getLandscape()->getWidth(); ++i )
 		{
-			for ( unsigned int j = 0; j < handle->getLandscape()->getHeight(); ++j )
+			for ( int j = 0; j < handle->getLandscape()->getHeight(); ++j )
 			{
 				Plugins::Core::LandscapeModel::TerrainMapData
 					terrainMapData = handle->getLandscape()->getTerrainMapData( QPoint( i, j ) );

@@ -316,7 +316,7 @@ LandscapeModel::buildObject( const Object::UniqueId& _parentObject, const QStrin
 					{
 						actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >(
-								new BuildObjectAction( m_environment, *object, *handle->getPlayer(), *this ) ) );
+							new BuildObjectAction( m_environment, *object, *handle->getPlayer(), *handle->getLandscape(), *this ) ) );
 					}
 
 					builderComponent->getBuildData().m_buildQueue.push_back( _objectName );

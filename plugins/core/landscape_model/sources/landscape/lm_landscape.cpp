@@ -47,7 +47,7 @@ Landscape::~Landscape()
 /*---------------------------------------------------------------------------*/
 
 
-unsigned int
+int
 Landscape::getWidth() const
 {
 	return m_surfaceItems.getWidth();
@@ -58,7 +58,7 @@ Landscape::getWidth() const
 /*---------------------------------------------------------------------------*/
 
 
-unsigned int
+int
 Landscape::getHeight() const
 {
 	return m_surfaceItems.getHeight();
@@ -70,7 +70,7 @@ Landscape::getHeight() const
 
 
 void
-Landscape::setSize( const unsigned int _width, const unsigned int _height )
+Landscape::setSize( const int _width, const int _height )
 {
 	m_objects.clear();
 	m_selectedObjects.clear();
@@ -78,9 +78,9 @@ Landscape::setSize( const unsigned int _width, const unsigned int _height )
 	m_surfaceItems.resize( _width, _height );
 	m_terrainMap.resize( _width, _height );
 
-	for ( unsigned int i = 0; i < _width; ++i )
+	for ( int i = 0; i < _width; ++i )
 	{
-		for ( unsigned int j = 0; j < _height; ++j )
+		for (  int j = 0; j < _height; ++j )
 		{
 			m_surfaceItems.setElement( i, j, m_surfaceItemsCache.getDefaultSurfaceItem() );
 			m_terrainMap.getElement( i, j ).m_terrainMapItem = m_surfaceItemsCache.getDefaultSurfaceItem()->getTerrainMapValue();
@@ -194,10 +194,10 @@ Landscape::getObject( const Object::UniqueId& _id ) const
 /*---------------------------------------------------------------------------*/
 
 
-unsigned int
+int
 Landscape::getObjectsCount() const
 {
-	return static_cast< unsigned int >( m_objects.size() );
+	return m_objects.size();
 
 } // Landscape::getObjectsCount
 
@@ -326,6 +326,12 @@ Landscape::canObjectBePlaced(
 	{
 		for ( int y = _location.y(); y < _location.y() + _data.m_size.height(); ++y )
 		{
+			if (	x < 0 || x >= getWidth()
+				||	y < 0 || y >= getHeight() )
+			{
+				return false;
+			}
+
 			if (	!( _data.m_passability & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
 				||	m_terrainMap.getConstElement( x, y ).m_engagedWithGround )
 			{
@@ -337,6 +343,67 @@ Landscape::canObjectBePlaced(
 	return true;
 
 } // Landscape::canObjectBePlaced
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QPoint
+Landscape::getNearestLocation( const Object& _nearestFrom, const QString& _forObject ) const
+{
+	boost::intrusive_ptr< ILocateComponent > locateComponent
+		= _nearestFrom.getComponent< ILocateComponent >( ComponentId::Locate );
+
+	const LocateComponentStaticData& staticData = locateComponent->getStaticData();
+	const QPoint& position = locateComponent->getLocation();
+
+	const LocateComponentStaticData& targetStaticData = *m_staticData.getObjectStaticData( _forObject ).m_locateData;
+
+	int count = 0;
+	int offset = 0;
+
+	while ( count < 5 )
+	{
+		for ( int y = position.y() - offset; y <= position.y() + staticData.m_size.height() + offset; ++y )
+		{
+			QPoint result( position.x() + staticData.m_size.width() + offset, y );
+
+			if ( canObjectBePlaced( result, targetStaticData ) )
+				return result;
+		}
+
+		for ( int x = position.x() + staticData.m_size.width() - 1 + offset; x >= position.x() - 1 - offset; --x )
+		{
+			QPoint result( x, position.y() + staticData.m_size.height() + offset );
+
+			if ( canObjectBePlaced( result, targetStaticData ) )
+				return result;
+		}
+
+		for ( int y = position.y() + staticData.m_size.height() - 1 + offset; y >= position.y() - 1 - offset; --y )
+		{
+			QPoint result( position.x() - 1 - offset, y );
+
+			if ( canObjectBePlaced( result, targetStaticData ) )
+				return result;
+		}
+
+		for ( int x = position.x() - 1 - offset; x <= position.x() + staticData.m_size.width() + offset; ++x )
+		{
+			QPoint result( x, position.y() - 1 - offset );
+
+			if ( canObjectBePlaced( result, targetStaticData ) )
+				return result;
+		}
+
+		++count;
+		++offset;
+	}
+
+	assert( !"You should handle situation when location point is not found!" );
+	return QPoint();
+
+} // Landscape::getNearestLocation
 
 
 /*---------------------------------------------------------------------------*/

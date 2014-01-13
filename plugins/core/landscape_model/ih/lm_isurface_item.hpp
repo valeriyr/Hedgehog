@@ -21,9 +21,9 @@ struct ISurfaceItem
 
 /*---------------------------------------------------------------------------*/
 
-	typedef unsigned int Id;
+	typedef int Id;
 
-	static const Id ms_invalidId = UINT_MAX;
+	static const Id ms_invalidId = -1;
 
 /*---------------------------------------------------------------------------*/
 

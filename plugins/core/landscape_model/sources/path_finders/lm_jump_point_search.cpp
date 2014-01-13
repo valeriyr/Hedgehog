@@ -47,9 +47,9 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 	Tools::Core::Containers::Matrix< int > matrix;
 	matrix.resize( _landscape.getWidth(), _landscape.getHeight() );
 
-	for ( unsigned int i = 0; i < _landscape.getWidth(); ++i )
+	for ( int i = 0; i < _landscape.getWidth(); ++i )
 	{
-		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
+		for ( int j = 0; j < _landscape.getHeight(); ++j )
 		{
 			int cellValue = engagedCell;
 
@@ -76,9 +76,9 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 	do
 	{
 		stop = true;
-		for ( unsigned int i = 0; i < _landscape.getWidth(); ++i )
+		for ( int i = 0; i < _landscape.getWidth(); ++i )
 		{
-			for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
+			for ( int j = 0; j < _landscape.getHeight(); ++j )
 			{
 				if ( matrix.getConstElement( i, j ) == d )
 				{
@@ -90,13 +90,13 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 						if ( rx < 0 )
 							continue;
 
-						if ( (unsigned int)rx >= _landscape.getWidth() )
+						if ( rx >= _landscape.getWidth() )
 							continue;
 
 						if ( ry < 0 )
 							continue;
 
-						if ( (unsigned int)ry >= _landscape.getHeight() )
+						if ( ry >= _landscape.getHeight() )
 							continue;
 
 						if ( matrix.getConstElement( rx, ry ) == freeCell )
@@ -133,13 +133,13 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 			if ( rx < 0 )
 				continue;
 
-			if ( (unsigned int)rx >= _landscape.getWidth() )
+			if ( rx >= _landscape.getWidth() )
 				continue;
 
 			if ( ry < 0 )
 				continue;
 
-			if ( (unsigned int)ry >= _landscape.getHeight() )
+			if ( ry >= _landscape.getHeight() )
 				continue;
 
 			if ( matrix.getConstElement( rx, ry ) == d )

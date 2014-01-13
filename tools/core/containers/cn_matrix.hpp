@@ -28,7 +28,7 @@ public:
 	{
 	}
 
-	Matrix( const unsigned int _width, const unsigned int _height )
+	Matrix( const int _width, const int _height )
 		:	m_width( 0 )
 		,	m_height( 0 )
 		,	m_matrix( NULL )
@@ -52,9 +52,9 @@ public:
 	{
 		resize( _matrix.m_width, _matrix.m_height );
 
-		for ( unsigned int i = 0; i < m_width; ++i )
+		for ( int i = 0; i < m_width; ++i )
 		{
-			for ( unsigned int j = 0; j < m_height; ++j )
+			for ( int j = 0; j < m_height; ++j )
 			{
 				m_matrix[ i ][ j ] = _matrix.m_matrix[ i ][ j ];
 			}
@@ -63,7 +63,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void resize( const unsigned int _width, const unsigned int _height )
+	void resize( const int _width, const int _height )
 	{
 		if ( m_width != _width || m_height != _height )
 		{
@@ -73,13 +73,13 @@ public:
 			m_height = _height;
 
 			m_matrix = new _TElementType*[ m_width ];
-			for ( unsigned int i = 0; i < m_width; ++i )
+			for ( int i = 0; i < m_width; ++i )
 				m_matrix[ i ] = new _TElementType[ m_height ];
 		}
 
-		for ( unsigned int i = 0; i < m_width; ++i )
+		for ( int i = 0; i < m_width; ++i )
 		{
-			for ( unsigned int j = 0; j < m_height; ++j )
+			for ( int j = 0; j < m_height; ++j )
 			{
 				m_matrix[ i ][ j ] = _TElementType();
 			}
@@ -90,7 +90,7 @@ public:
 	{
 		if ( m_matrix )
 		{
-			for ( unsigned int i = 0; i < m_width; ++i )
+			for ( int i = 0; i < m_width; ++i )
 				delete [] m_matrix[ i ];
 			delete [] m_matrix;
 
@@ -102,17 +102,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int getWidth() const
+	const int getWidth() const
 	{
 		return m_width;
 	}
 
-	const unsigned int getHeight() const
+	const int getHeight() const
 	{
 		return m_height;
 	}
 
-	const _TElementType& getConstElement( const unsigned int _x, const unsigned int _y ) const
+	const _TElementType& getConstElement( const int _x, const int _y ) const
 	{
 		assert( _x < m_width );
 		assert( _y < m_height );
@@ -120,7 +120,7 @@ public:
 		return m_matrix[ _x ][ _y ];
 	}
 
-	_TElementType& getElement( const unsigned int _x, const unsigned int _y )
+	_TElementType& getElement( const int _x, const int _y )
 	{
 		assert( _x < m_width );
 		assert( _y < m_height );
@@ -128,7 +128,7 @@ public:
 		return m_matrix[ _x ][ _y ];
 	}
 
-	void setElement( const unsigned int _x, const unsigned int _y, const _TElementType& _element )
+	void setElement( const int _x, const int _y, const _TElementType& _element )
 	{
 		assert( _x < m_width );
 		assert( _y < m_height );
@@ -142,9 +142,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	unsigned int m_width;
+	int m_width;
 
-	unsigned int m_height;
+	int m_height;
 
 	_TElementType ** m_matrix;
 

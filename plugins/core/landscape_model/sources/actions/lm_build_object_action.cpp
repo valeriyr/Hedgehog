@@ -8,6 +8,7 @@
 #include "landscape_model/h/lm_events.hpp"
 
 #include "landscape_model/ih/lm_iplayer.hpp"
+#include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
 
@@ -24,10 +25,12 @@ BuildObjectAction::BuildObjectAction(
 		const IEnvironment& _environment
 	,	Object& _object
 	,	IPlayer& _player
+	,	ILandscape& _landscape
 	,	ILandscapeModel& _landscapeModel
 	)
 	:	BaseAction( _environment, _object )
 	,	m_player( _player )
+	,	m_landscape( _landscape )
 	,	m_landscapeModel( _landscapeModel )
 {
 } // BuildObjectAction::BuildObjectAction
@@ -62,7 +65,7 @@ BuildObjectAction::processAction( const unsigned int _deltaTime )
 		boost::intrusive_ptr< ILocateComponent > locateComponent
 			= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 
-		m_landscapeModel.createObject( QPoint( locateComponent->getRect().x() + locateComponent->getRect().width() + 1, locateComponent->getRect().y() ), buildData.m_buildQueue.front() );
+		m_landscapeModel.createObject( m_landscape.getNearestLocation( m_object, buildData.m_buildQueue.front() ), buildData.m_buildQueue.front() );
 
 		buildData.m_buildProgress = 0;
 		buildData.m_buildQueue.pop_front();

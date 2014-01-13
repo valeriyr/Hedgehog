@@ -291,9 +291,9 @@ MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape
 	painter.begin( &surfaceLayer );
 	painter.setRenderHint( QPainter::Antialiasing );
 
-	for ( unsigned int i = 0; i < _landscape.getWidth(); ++i )
+	for ( int i = 0; i < _landscape.getWidth(); ++i )
 	{
-		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
+		for ( int j = 0; j < _landscape.getHeight(); ++j )
 		{
 			boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
 				surfaceItem = _landscape.getSurfaceItem( QPoint( i, j ) );

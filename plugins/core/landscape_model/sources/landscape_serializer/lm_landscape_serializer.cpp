@@ -51,33 +51,33 @@ LandscapeSerializer::load(
 	if ( version != Resources::LandscapeVersion )
 		throw std::exception();
 
-	unsigned int width = 0;
-	unsigned int height = 0;
+	int width = 0;
+	int height = 0;
 
 	fileStream >> width;
 	fileStream >> height;
 
 	_landscape.setSize( width, height );
 
-	unsigned int surfaceItemIndex = 0;
+	int surfaceItemIndex = 0;
 
-	for ( unsigned int i = 0; i < _landscape.getWidth(); ++i )
+	for ( int i = 0; i < _landscape.getWidth(); ++i )
 	{
-		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
+		for ( int j = 0; j < _landscape.getHeight(); ++j )
 		{
 			fileStream >> surfaceItemIndex;
 			_landscape.setSurfaceItem( QPoint( i, j ), surfaceItemIndex );
 		}
 	}
 
-	unsigned int objectsCount = 0;
+	int objectsCount = 0;
 	fileStream >> objectsCount;
 
-	for ( unsigned int i = 0; i < objectsCount; ++i )
+	for ( int i = 0; i < objectsCount; ++i )
 	{
 		QString objectName;
-		unsigned int x = 0;
-		unsigned int y = 0;
+		int x = 0;
+		int y = 0;
 
 		fileStream >> objectName;
 		fileStream >> x;
@@ -113,8 +113,8 @@ LandscapeSerializer::save(
 	fileStream << _landscape.getWidth();
 	fileStream << _landscape.getHeight();
 
-	for ( unsigned int i = 0; i < _landscape.getWidth(); ++i )
-		for ( unsigned int j = 0; j < _landscape.getHeight(); ++j )
+	for ( int i = 0; i < _landscape.getWidth(); ++i )
+		for ( int j = 0; j < _landscape.getHeight(); ++j )
 			fileStream << _landscape.getSurfaceItem( QPoint( i, j ) )->getId();
 
 	fileStream << _landscape.getObjectsCount();

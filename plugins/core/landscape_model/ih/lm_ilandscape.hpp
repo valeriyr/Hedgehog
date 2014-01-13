@@ -34,13 +34,11 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual unsigned int getWidth() const = 0;
+	virtual int getWidth() const = 0;
 
-	virtual unsigned int getHeight() const = 0;
+	virtual int getHeight() const = 0;
 
-	virtual void setSize(
-			const unsigned int _width
-		,	const unsigned int _height ) = 0;
+	virtual void setSize( const int _width, const int _height ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -62,7 +60,7 @@ struct ILandscape
 
 	virtual boost::shared_ptr< Object > getObject( const Object::UniqueId& _id ) const = 0;
 
-	virtual unsigned int getObjectsCount() const = 0;
+	virtual int getObjectsCount() const = 0;
 
 	virtual void fetchObjects( ObjectsCollection& _collection ) const = 0;
 
@@ -83,6 +81,8 @@ struct ILandscape
 	virtual bool canObjectBePlaced(
 			const QPoint& _location
 		,	const LocateComponentStaticData& _data ) const = 0;
+
+	virtual QPoint getNearestLocation( const Object& _nearestFrom, const QString& _forObject ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -41,13 +41,11 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ unsigned int getWidth() const;
+	/*virtual*/ int getWidth() const;
 
-	/*virtual*/ unsigned int getHeight() const;
+	/*virtual*/ int getHeight() const;
 
-	/*virtual*/ void setSize(
-			const unsigned int _width
-		,	const unsigned int _height );
+	/*virtual*/ void setSize( const int _width, const int _height );
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,15 +67,13 @@ public:
 
 	/*virtual*/ boost::shared_ptr< Object > getObject( const Object::UniqueId& _id ) const;
 
-	/*virtual*/ unsigned int getObjectsCount() const;
+	/*virtual*/ int getObjectsCount() const;
 
 	/*virtual*/ void fetchObjects( ILandscape::ObjectsCollection& _collection ) const;
 
 	/*virtual*/ void fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) const;
 
-	/*virtual*/ Object::UniqueId createObject(
-			const QPoint& _location
-		,	const QString& _objectName );
+	/*virtual*/ Object::UniqueId createObject( const QPoint& _location, const QString& _objectName );
 
 	/*virtual*/ void selectObjects( const QRect& _rect );
 
@@ -90,6 +86,8 @@ public:
 	/*virtual*/ bool canObjectBePlaced(
 			const QPoint& _location
 		,	const LocateComponentStaticData& _data ) const;
+
+	/*virtual*/ QPoint getNearestLocation( const Object& _nearestFrom, const QString& _forObject ) const;
 
 /*---------------------------------------------------------------------------*/
 
