@@ -40,6 +40,7 @@ public:
 
 	virtual ~Notifier()
 	{
+		m_notifyFunctions.clear();
 		m_notificationCenter.removeNotifier( this );
 	}
 

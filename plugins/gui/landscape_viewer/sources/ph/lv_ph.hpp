@@ -12,6 +12,7 @@
 #include <QtWidgets/QScrollBar>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QPushButton>
 
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGraphicsScene>

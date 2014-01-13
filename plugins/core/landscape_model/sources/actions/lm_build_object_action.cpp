@@ -5,8 +5,9 @@
 
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
-#include "landscape_model/ih/lm_iplayer.hpp"
+#include "landscape_model/h/lm_events.hpp"
 
+#include "landscape_model/ih/lm_iplayer.hpp"
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
 
@@ -66,6 +67,11 @@ BuildObjectAction::processAction( const unsigned int _deltaTime )
 		buildData.m_buildProgress = 0;
 		buildData.m_buildQueue.pop_front();
 	}
+
+	Framework::Core::EventManager::Event builderQueueChangedEvent( Events::BuilderQueueChanged::ms_type );
+	builderQueueChangedEvent.pushAttribute( Events::BuilderQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
+	
+	m_environment.riseEvent( builderQueueChangedEvent );
 
 } // BuildObjectAction::processAction
 

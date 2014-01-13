@@ -112,22 +112,19 @@ ObjectInfoView::landscapeWasClosed()
 void
 ObjectInfoView::onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event )
 {
-	Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
 
+	if ( handle->getLandscape() )
 	{
-		boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-			= m_environment.getCurrentLandscape();
+		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
+		handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
-		if ( handle->getLandscape() )
-		{
-			handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
-		}
+		setDescriptionForObject(
+				selectedObjectsCollection.empty()
+			?	Core::LandscapeModel::Object::ms_wrongId
+			:	selectedObjectsCollection.front()->getUniqueId() );
 	}
-
-	setDescriptionForObject(
-			selectedObjectsCollection.empty()
-		?	Core::LandscapeModel::Object::ms_wrongId
-		:	selectedObjectsCollection.front()->getUniqueId() );
 
 } // ObjectInfoView::onObjectsSelectionChanged
 

@@ -312,11 +312,19 @@ LandscapeModel::buildObject( const Object::UniqueId& _parentObject, const QStrin
 					boost::intrusive_ptr< IActionsComponent > actionsComponent
 						= object->getComponent< IActionsComponent >( ComponentId::Actions );
 
-					actionsComponent->pushAction(
-						boost::intrusive_ptr< IAction >(
-							new BuildObjectAction( m_environment, *object, *handle->getPlayer(), *this ) ) );
+					if ( !actionsComponent->getAction( Actions::Build ) )
+					{
+						actionsComponent->pushAction(
+							boost::intrusive_ptr< IAction >(
+								new BuildObjectAction( m_environment, *object, *handle->getPlayer(), *this ) ) );
+					}
 
 					builderComponent->getBuildData().m_buildQueue.push_back( _objectName );
+
+					Framework::Core::EventManager::Event builderQueueChangedEvent( Events::BuilderQueueChanged::ms_type );
+					builderQueueChangedEvent.pushAttribute( Events::BuilderQueueChanged::ms_builderIdAttribute, object->getUniqueId() );
+	
+					m_environment.riseEvent( builderQueueChangedEvent );
 				}
 			}
 		}

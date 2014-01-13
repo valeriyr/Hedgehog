@@ -157,30 +157,27 @@ SelectionView::onObjectsSelectionChanged( const Framework::Core::EventManager::E
 {
 	m_mainWidget->clear();
 
-	Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
 
+	if ( handle->getLandscape() )
 	{
-		boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-			= m_environment.getCurrentLandscape();
+		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
+		handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
-		if ( handle->getLandscape() )
+		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
+				selectedObjectsBegin = selectedObjectsCollection.begin()
+			,	selectedObjectsEnd = selectedObjectsCollection.end();
+
+		for ( ; selectedObjectsBegin != selectedObjectsEnd; ++selectedObjectsBegin )
 		{
-			handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
+			SelectionViewItem* listItem = new SelectionViewItem( ( *selectedObjectsBegin )->getUniqueId() );
+
+			listItem->setText( ( *selectedObjectsBegin )->getName() );
+			listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedObjectsBegin )->getName() ) ) );
+
+			m_mainWidget->addItem( listItem );
 		}
-	}
-
-	Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
-			selectedObjectsBegin = selectedObjectsCollection.begin()
-		,	selectedObjectsEnd = selectedObjectsCollection.end();
-
-	for ( ; selectedObjectsBegin != selectedObjectsEnd; ++selectedObjectsBegin )
-	{
-		SelectionViewItem* listItem = new SelectionViewItem( ( *selectedObjectsBegin )->getUniqueId() );
-
-		listItem->setText( ( *selectedObjectsBegin )->getName() );
-		listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedObjectsBegin )->getName() ) ) );
-
-		m_mainWidget->addItem( listItem );
 	}
 
 } // SelectionView::onObjectsSelectionChanged

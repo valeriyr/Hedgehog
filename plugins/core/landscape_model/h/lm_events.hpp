@@ -91,6 +91,15 @@ namespace ResourceValueChanged
 
 /*---------------------------------------------------------------------------*/
 
+namespace BuilderQueueChanged
+{
+	const char* const ms_type = "BuilderQueueChanged";
+
+	const char* const ms_builderIdAttribute = "BuilderId";
+}
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Events
 } // namespace LandscapeModel
 } // namespace Core
