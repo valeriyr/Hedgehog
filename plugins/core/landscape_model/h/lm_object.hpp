@@ -15,6 +15,7 @@
 #include "landscape_model/ih/components/lm_imove_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 #include "landscape_model/ih/components/lm_igenerate_resources_component.hpp"
+#include "landscape_model/ih/components/lm_iattack_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 

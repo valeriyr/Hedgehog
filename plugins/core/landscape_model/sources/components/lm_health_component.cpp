@@ -43,7 +43,7 @@ HealthComponent::getStaticData() const
 /*---------------------------------------------------------------------------*/
 
 
-const int
+const unsigned int
 HealthComponent::getHealth() const
 {
 	return m_health;
@@ -55,7 +55,7 @@ HealthComponent::getHealth() const
 
 
 void
-HealthComponent::setHealth( const int _health )
+HealthComponent::setHealth( const unsigned int _health )
 {
 	m_health = _health;
 

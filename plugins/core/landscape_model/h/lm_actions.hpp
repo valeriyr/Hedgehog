@@ -17,6 +17,7 @@ struct Actions
 			Move				= 0
 		,	Build
 		,	GenerateResources
+		,	Attack
 	};
 };
 

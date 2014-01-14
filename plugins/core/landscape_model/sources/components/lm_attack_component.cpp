@@ -1,11 +1,8 @@
 
-#ifndef __LM_IHEALTH_COMPONENT_HPP__
-#define __LM_IHEALTH_COMPONENT_HPP__
+#include "landscape_model/sources/ph/lm_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "landscape_model/sources/components/lm_attack_component.hpp"
 
-#include "landscape_model/ih/components/lm_icomponent.hpp"
-#include "landscape_model/h/components/lm_health_component_static_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,23 +12,32 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IHealthComponent
-	:	public IComponent
+
+AttackComponent::AttackComponent( Object& _object, const AttackComponentStaticData& _staticData )
+	:	BaseComponent< IAttackComponent >( _object )
+	,	m_staticData( _staticData )
 {
+} // AttackComponent::AttackComponent
+
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const HealthComponentStaticData& getStaticData() const = 0;
+
+AttackComponent::~AttackComponent()
+{
+} // AttackComponent::~AttackComponent
+
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const unsigned int getHealth() const = 0;
 
-	virtual void setHealth( const unsigned int _health ) = 0;
+const AttackComponentStaticData&
+AttackComponent::getStaticData() const
+{
+	return m_staticData;
 
-/*---------------------------------------------------------------------------*/
+} // AttackComponent::getStaticData
 
-};
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,5 +46,3 @@ struct IHealthComponent
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LM_IHEALTH_COMPONENT_HPP__

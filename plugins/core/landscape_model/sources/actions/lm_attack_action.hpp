@@ -1,12 +1,12 @@
 
-#ifndef __LM_HEALTH_COMPONENT_HPP__
-#define __LM_HEALTH_COMPONENT_HPP__
+#ifndef __LM_ATTACK_ACTION_HPP__
+#define __LM_ATTACK_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/components/lm_ihealth_component.hpp"
+#include "landscape_model/sources/actions/lm_base_action.hpp"
 
-#include "landscape_model/sources/components/lm_base_component.hpp"
+#include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,8 +16,13 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class HealthComponent
-	:	public BaseComponent< IHealthComponent >
+struct IPlayer;
+struct ILandscape;
+
+/*---------------------------------------------------------------------------*/
+
+class AttackAction
+	:	public BaseAction
 {
 
 /*---------------------------------------------------------------------------*/
@@ -26,19 +31,29 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	HealthComponent( Object& _object, const HealthComponentStaticData& _staticData );
+	AttackAction(
+			const IEnvironment& _environment
+		,	Object& _object
+		,	IPlayer& _player
+		,	ILandscape& _landscape );
 
-	virtual ~HealthComponent();
+	virtual ~AttackAction();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const HealthComponentStaticData& getStaticData() const;
+	/*virtual*/ void processAction( const unsigned int _deltaTime );
+
+	/*virtual*/ void unprocessAction( const unsigned int _deltaTime );
+
+	/*virtual*/ bool hasFinished() const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const unsigned int getHealth() const;
+	/*virtual*/ const Actions::Enum getType() const;
 
-	/*virtual*/ void setHealth( const unsigned int _health );
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void updateWithData( const QVariant& _data );
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,9 +61,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const HealthComponentStaticData& m_staticData;
+	IPlayer& m_player;
 
-	unsigned int m_health;
+	ILandscape& m_landscape;
 
 /*---------------------------------------------------------------------------*/
 
@@ -62,4 +77,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_HEALTH_COMPONENT_HPP__
+#endif // __LM_ATTACK_ACTION_HPP__

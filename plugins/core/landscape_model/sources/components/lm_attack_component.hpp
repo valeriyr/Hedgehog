@@ -1,10 +1,10 @@
 
-#ifndef __LM_HEALTH_COMPONENT_HPP__
-#define __LM_HEALTH_COMPONENT_HPP__
+#ifndef __LM_ATTACK_COMPONENT_HPP__
+#define __LM_ATTACK_COMPONENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/components/lm_ihealth_component.hpp"
+#include "landscape_model/ih/components/lm_iattack_component.hpp"
 
 #include "landscape_model/sources/components/lm_base_component.hpp"
 
@@ -16,8 +16,8 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class HealthComponent
-	:	public BaseComponent< IHealthComponent >
+class AttackComponent
+	:	public BaseComponent< IAttackComponent >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -26,19 +26,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	HealthComponent( Object& _object, const HealthComponentStaticData& _staticData );
+	AttackComponent( Object& _object, const AttackComponentStaticData& _staticData );
 
-	virtual ~HealthComponent();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ const HealthComponentStaticData& getStaticData() const;
+	virtual ~AttackComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const unsigned int getHealth() const;
-
-	/*virtual*/ void setHealth( const unsigned int _health );
+	/*virtual*/ const AttackComponentStaticData& getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,9 +40,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const HealthComponentStaticData& m_staticData;
-
-	unsigned int m_health;
+	const AttackComponentStaticData& m_staticData;
 
 /*---------------------------------------------------------------------------*/
 
@@ -62,4 +54,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_HEALTH_COMPONENT_HPP__
+#endif // __LM_ATTACK_COMPONENT_HPP__

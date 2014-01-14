@@ -216,7 +216,8 @@ PluginInstance::exportScriptAPI()
 		->withEnum< Actions::Enum >( "Enum" )
 			.withItem( "Move", Actions::Move )
 			.withItem( "Build", Actions::Build )
-			.withItem( "GenerateResources", Actions::GenerateResources );
+			.withItem( "GenerateResources", Actions::GenerateResources )
+			.withItem( "Attack", Actions::Attack );
 
 	exporter.exportClass< ObjectState >( "ObjectState" )
 		->withEnum< ObjectState::Enum >( "Enum" )
@@ -269,6 +270,9 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClassWithShared< MoveComponentStaticData >( "MoveComponentStaticData" )
 		->withConstructor< const unsigned int >();
 
+	exporter.exportClassWithShared< AttackComponentStaticData >( "AttackComponentStaticData" )
+		->withConstructor< const unsigned int, const unsigned int, const unsigned int >();
+
 	exporter.exportClassWithShared< GenerateResourcesComponentStaticData >( "GenerateResourcesComponentStaticData" )
 		->withConstructor()
 		.withMethod( "canGenerate", &GenerateResourcesComponentStaticData::canGenerate );
@@ -281,7 +285,8 @@ PluginInstance::exportScriptAPI()
 		.withRWProperty( "m_locateData", &IStaticData::ObjectStaticData::m_locateData )
 		.withRWProperty( "m_moveData", &IStaticData::ObjectStaticData::m_moveData )
 		.withRWProperty( "m_selectionData", &IStaticData::ObjectStaticData::m_selectionData )
-		.withRWProperty( "m_generateResourcesData", &IStaticData::ObjectStaticData::m_generateResourcesData );
+		.withRWProperty( "m_generateResourcesData", &IStaticData::ObjectStaticData::m_generateResourcesData )
+		.withRWProperty( "m_attackData", &IStaticData::ObjectStaticData::m_attackData );
 
 	exporter.exportClass< IStaticData >( "IStaticData" )
 		->withMethod( "regObjectStaticData", &IStaticData::regObjectStaticData )

@@ -21,6 +21,7 @@ struct ComponentId
 		,	Actions
 		,	Move
 		,	ResourcesGenerating
+		,	Attack
 	};
 };
 
