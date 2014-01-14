@@ -124,7 +124,7 @@ LandscapeSceneGameState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEven
 	}
 	else if ( isInSceneRect( _mouseEvent->scenePos() ) )
 	{
-		m_environment.moveSelectedItems( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ) );
+		m_environment.sendSelectedObjects( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ), _mouseEvent->modifiers() & Qt::ShiftModifier );
 	}
 
 } // LandscapeSceneGameState::mouseReleaseEvent

@@ -235,11 +235,11 @@ Environment::selectItemModel( const Core::LandscapeModel::Object::UniqueId& _id 
 
 
 void
-Environment::moveSelectedItems( const QPoint& _to ) const
+Environment::sendSelectedObjects( const QPoint& _to, const bool _pushCommand ) const
 {
-	m_pluginInstance.getLandscapeModel()->moveSelectedObjects( _to );
+	m_pluginInstance.getLandscapeModel()->sendSelectedObjects( _to, _pushCommand );
 
-} // Environment::moveSelectedItems
+} // Environment::sendSelectedObjects
 
 
 /*---------------------------------------------------------------------------*/

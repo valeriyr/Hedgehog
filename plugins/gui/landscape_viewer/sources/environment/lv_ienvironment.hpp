@@ -119,7 +119,7 @@ struct IEnvironment
 
 	virtual void selectItemModel( const Core::LandscapeModel::Object::UniqueId& _id ) const = 0;
 
-	virtual void moveSelectedItems( const QPoint& _to ) const = 0;
+	virtual void sendSelectedObjects( const QPoint& _to, const bool _pushCommand ) const = 0;
 
 	virtual void createObject( const QPoint& _location, const QString& _name ) const = 0;
 

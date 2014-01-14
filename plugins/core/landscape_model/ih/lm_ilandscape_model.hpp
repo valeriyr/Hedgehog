@@ -47,7 +47,7 @@ struct ILandscapeModel
 
 	virtual void selectObject( const Object::UniqueId& _id ) = 0;
 
-	virtual void moveSelectedObjects( const QPoint& _to ) = 0;
+	virtual void sendSelectedObjects( const QPoint& _to, const bool _pushCommand ) = 0;
 
 	virtual void createObject(
 			const QPoint& _location

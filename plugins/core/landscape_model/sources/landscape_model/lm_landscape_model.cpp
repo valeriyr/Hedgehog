@@ -13,6 +13,7 @@
 
 #include "landscape_model/sources/actions/lm_generate_resources_action.hpp"
 #include "landscape_model/sources/actions/lm_move_action.hpp"
+#include "landscape_model/sources/actions/lm_attack_action.hpp"
 #include "landscape_model/sources/actions/lm_build_object_action.hpp"
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
@@ -179,7 +180,7 @@ LandscapeModel::selectObject( const Object::UniqueId& _id )
 
 
 void
-LandscapeModel::moveSelectedObjects( const QPoint& _to )
+LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _pushCommand )
 {
 	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
 
@@ -194,29 +195,46 @@ LandscapeModel::moveSelectedObjects( const QPoint& _to )
 
 		for ( ; begin != end; ++begin )
 		{
+			boost::shared_ptr< Object > targetObject = handle->getLandscape()->getObject( _to );
+
 			boost::intrusive_ptr< IActionsComponent > actionsComponent
 				= ( *begin )->getComponent< IActionsComponent >( ComponentId::Actions );
 
-			if ( actionsComponent && actionsComponent->getStaticData().canDoAction( Actions::Move ) )
+			if ( targetObject )
 			{
-				boost::intrusive_ptr< IAction > action = actionsComponent->getAction( Actions::Move );
-
-				if ( action )
+				if ( actionsComponent && actionsComponent->getStaticData().canDoAction( Actions::Attack ) )
 				{
-					QVariant newPoint( _to );
-					action->updateWithData( newPoint );
+					if ( !actionsComponent->getAction( Actions::Attack ) )
+					{
+						actionsComponent->pushAction(
+							boost::intrusive_ptr< IAction >(
+								new AttackAction( m_environment, **begin, *handle->getPlayer(), *handle->getLandscape() ) ) );
+					}
 				}
-				else
+			}
+			else
+			{
+				if ( actionsComponent && actionsComponent->getStaticData().canDoAction( Actions::Move ) )
 				{
-					actionsComponent->pushAction(
-						boost::intrusive_ptr< IAction >(
-							new MoveAction( m_environment, **begin, *handle->getLandscape(), m_pathFinder, _to ) ) );
+					boost::intrusive_ptr< IAction > action = actionsComponent->getAction( Actions::Move );
+
+					if ( action )
+					{
+						QVariant newPoint( _to );
+						action->updateWithData( newPoint );
+					}
+					else
+					{
+						actionsComponent->pushAction(
+							boost::intrusive_ptr< IAction >(
+								new MoveAction( m_environment, **begin, *handle->getLandscape(), m_pathFinder, _to ) ) );
+					}
 				}
 			}
 		}
 	}
 
-} // LandscapeModel::moveSelectedObjects
+} // LandscapeModel::sendSelectedObjects
 
 
 /*---------------------------------------------------------------------------*/

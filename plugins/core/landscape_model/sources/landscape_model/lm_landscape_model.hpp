@@ -66,7 +66,7 @@ public:
 
 	/*virtual*/ void selectObject( const Object::UniqueId& _id );
 
-	/*virtual*/ void moveSelectedObjects( const QPoint& _to );
+	/*virtual*/ void sendSelectedObjects( const QPoint& _to, const bool _pushCommand );
 
 	/*virtual*/ void createObject( const QPoint& _location, const QString& _objectName );
 
