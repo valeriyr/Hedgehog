@@ -32,7 +32,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Standing, Direction.Left )
 
 		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 144, 0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100000, QRect( 144, 0, 72, 72 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -43,7 +43,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Standing, Direction.Right )
 
 		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 144, 0, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100000, QRect( 144, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -84,11 +84,11 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Moving, Direction.Left )
 
 		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144,  72, 72, 72 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 144, 72, 72 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 216, 72, 72 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 288, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,  72, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 144, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 216, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 288, 72, 72 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -99,11 +99,63 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Moving, Direction.Right )
 
 		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,  72, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 144, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 216, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 288, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- attack up animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Attacking, Direction.Up )
+
+		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 432, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- attack down animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Attacking, Direction.Down )
+
+		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 432, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- attack left animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Attacking, Direction.Left )
+
+		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144,  72, 72, 72 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 144, 72, 72 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 216, 72, 72 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 288, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 360, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ), true ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- attack right animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Attacking, Direction.Right )
+
+		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -144,7 +196,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Standing, Direction.Left )
 
 		animationInfo = AnimationInfo( animationName, gruntAtlas )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 144, 0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100000, QRect( 144, 0, 72, 72 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -155,7 +207,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Standing, Direction.Right )
 
 		animationInfo = AnimationInfo( animationName, gruntAtlas )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 144, 0, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100000, QRect( 144, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -196,11 +248,11 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Moving, Direction.Left )
 
 		animationInfo = AnimationInfo( animationName, gruntAtlas )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144,  72, 72, 72 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 144, 72, 72 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 216, 72, 72 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 288, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,  72, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 144, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 216, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 288, 72, 72 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -211,11 +263,71 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Moving, Direction.Right )
 
 		animationInfo = AnimationInfo( animationName, gruntAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,  72, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 144, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 216, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 288, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- attack up animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Attacking, Direction.Up )
+
+		animationInfo = AnimationInfo( animationName, gruntAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 432, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 504, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 576, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- attack down animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Attacking, Direction.Down )
+
+		animationInfo = AnimationInfo( animationName, gruntAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 432, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 504, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 576, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- attack left animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Attacking, Direction.Left )
+
+		animationInfo = AnimationInfo( animationName, gruntAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144,  72, 72, 72 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 144, 72, 72 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 216, 72, 72 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 288, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 360, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 504, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 576, 72, 72 ), true ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- attack right animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Attacking, Direction.Right )
+
+		animationInfo = AnimationInfo( animationName, gruntAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 504, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 576, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 

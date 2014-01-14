@@ -144,9 +144,9 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					nextDirection = Direction::Down;
 				else if ( nextLocation.y() < currentLocation.y() )
 					nextDirection = Direction::Up;
-				else if ( nextLocation.x() < currentLocation.x() )
-					nextDirection = Direction::Right;
 				else if ( nextLocation.x() > currentLocation.x() )
+					nextDirection = Direction::Right;
+				else if ( nextLocation.x() < currentLocation.x() )
 					nextDirection = Direction::Left;
 
 				ObjectState::Enum currentState = m_object.getState();
