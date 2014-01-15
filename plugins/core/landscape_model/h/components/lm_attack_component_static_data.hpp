@@ -18,10 +18,12 @@ struct AttackComponentStaticData
 			const unsigned int _minDamage
 		,	const unsigned int _maxDamage
 		,	const unsigned int _distance
+		,	const unsigned int _delayBetweenHits
 		)
 		:	m_minDamage( _minDamage )
 		,	m_maxDamage( _maxDamage )
 		,	m_distance( _distance )
+		,	m_delayBetweenHits( _delayBetweenHits )
 	{}
 
 	const unsigned int m_minDamage;
@@ -29,6 +31,8 @@ struct AttackComponentStaticData
 	const unsigned int m_maxDamage;
 
 	const unsigned int m_distance;
+
+	const unsigned int m_delayBetweenHits;
 };
 
 

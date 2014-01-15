@@ -271,7 +271,7 @@ PluginInstance::exportScriptAPI()
 		->withConstructor< const unsigned int >();
 
 	exporter.exportClassWithShared< AttackComponentStaticData >( "AttackComponentStaticData" )
-		->withConstructor< const unsigned int, const unsigned int, const unsigned int >();
+		->withConstructor< const unsigned int, const unsigned int, const unsigned int, const unsigned int >();
 
 	exporter.exportClassWithShared< GenerateResourcesComponentStaticData >( "GenerateResourcesComponentStaticData" )
 		->withConstructor()

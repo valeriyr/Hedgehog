@@ -204,11 +204,21 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _pushCommand 
 			{
 				if ( actionsComponent && actionsComponent->getStaticData().canDoAction( Actions::Attack ) )
 				{
+					boost::intrusive_ptr< IAttackComponent > attackComponent
+						= ( *begin )->getComponent< IAttackComponent >( ComponentId::Attack );
+
+					attackComponent->setTargetObject( targetObject );
+
 					if ( !actionsComponent->getAction( Actions::Attack ) )
 					{
 						actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >(
 								new AttackAction( m_environment, **begin, *handle->getPlayer(), *handle->getLandscape() ) ) );
+					}
+					else
+					{
+						boost::intrusive_ptr< IAction > action = actionsComponent->getAction( Actions::Attack );
+						action->updateWithData( QVariant() );
 					}
 				}
 			}

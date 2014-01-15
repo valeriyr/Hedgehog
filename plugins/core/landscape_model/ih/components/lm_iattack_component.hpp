@@ -15,6 +15,10 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+class Object;
+
+/*---------------------------------------------------------------------------*/
+
 struct IAttackComponent
 	:	public IComponent
 {
@@ -22,6 +26,12 @@ struct IAttackComponent
 /*---------------------------------------------------------------------------*/
 
 	virtual const AttackComponentStaticData& getStaticData() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual boost::shared_ptr< Object > getTargetObject() const = 0;
+
+	virtual void setTargetObject( boost::shared_ptr< Object > _object ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

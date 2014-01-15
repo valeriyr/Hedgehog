@@ -18,7 +18,7 @@ namespace Core {
 namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
-
+	static int time = 100000;
 
 AttackAction::AttackAction(
 		const IEnvironment& _environment
@@ -47,6 +47,24 @@ AttackAction::~AttackAction()
 void
 AttackAction::processAction( const unsigned int _deltaTime )
 {
+	boost::intrusive_ptr< IMoveComponent > moveComponent
+		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
+
+	if ( m_object.getState() !=  ObjectState::Attacking )
+	{
+		boost::intrusive_ptr< ILocateComponent > locateComponent
+			= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+
+		m_object.setState( ObjectState::Attacking );
+
+		Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
+		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
+		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
+		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
+
+		m_environment.riseEvent( objectStateChangedEvent );
+	}
 } // AttackAction::processAction
 
 
@@ -65,8 +83,14 @@ AttackAction::unprocessAction( const unsigned int _deltaTime )
 bool
 AttackAction::hasFinished() const
 {
-	return true;
+	if ( time <= 0 )
+	{
+		m_object.setState( ObjectState::Standing );
+		time = 100000;
+		return true;
+	}
 
+	return false;
 } // AttackAction::hasFinished
 
 

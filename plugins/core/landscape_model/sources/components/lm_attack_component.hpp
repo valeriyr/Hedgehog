@@ -36,11 +36,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ boost::shared_ptr< Object > getTargetObject() const;
+
+	/*virtual*/ void setTargetObject( boost::shared_ptr< Object > _object );
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
 
 	const AttackComponentStaticData& m_staticData;
+
+	boost::shared_ptr< Object > m_targetObject;
 
 /*---------------------------------------------------------------------------*/
 

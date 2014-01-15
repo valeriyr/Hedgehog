@@ -41,6 +41,11 @@ public:
 
 	/*virtual*/ void playAnimation( IAnimateObject& _animateObject, const QString& _animationName );
 
+	/*virtual*/ void playAnimation(
+			IAnimateObject& _animateObject
+		,	const QString& _animationName
+		,	const qint64 _delay );
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void stopAnimation( IAnimateObject& _animateObject );
@@ -67,6 +72,8 @@ private:
 			:	m_animationInfo( _animationInfo )
 			,	m_frameIndex( 0 )
 			,	m_lastFrameSwitchTime( 0 )
+			,	m_finishTime( 0 )
+			,	m_delay( 0 )
 		{}
 
 		const AnimationInfo& m_animationInfo;
@@ -74,6 +81,10 @@ private:
 		unsigned int m_frameIndex;
 
 		qint64 m_lastFrameSwitchTime;
+
+		qint64 m_finishTime;
+
+		qint64 m_delay;
 	};
 
 /*---------------------------------------------------------------------------*/

@@ -115,7 +115,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 300, QRect( 0, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 432, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
@@ -128,7 +128,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 300, QRect( 288, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 432, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
@@ -141,7 +141,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 360, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 300, QRect( 144, 360, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo );
@@ -154,7 +154,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 300, QRect( 144, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );

@@ -112,7 +112,8 @@ public:
 
 	/*virtual*/ void playAnimation(
 			Framework::GUI::AnimationManager::IAnimateObject& _animateObject
-		,	const QString& _animationName ) const;
+		,	const QString& _animationName
+		,	const qint64 _delay ) const;
 
 	/*virtual*/ bool hasAnimation( const QString& _animationName ) const;
 

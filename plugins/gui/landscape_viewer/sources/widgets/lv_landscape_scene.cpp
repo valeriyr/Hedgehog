@@ -403,12 +403,25 @@ LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event
 	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
 	assert( iterator != m_objectsCollection.end() );
 
-	playAnimation(
-			*iterator->second
-		,	m_environment.getString( Resources::Properties::SkinId )
-		,	name
-		,	state
-		,	direction );
+	if ( state == Plugins::Core::LandscapeModel::ObjectState::Attacking )
+	{
+		playAnimation(
+				*iterator->second
+			,	m_environment.getString( Resources::Properties::SkinId )
+			,	name
+			,	state
+			,	direction
+			,	m_environment.getObjectStaticData( name ).m_attackData->m_delayBetweenHits );
+	}
+	else
+	{
+		playAnimation(
+				*iterator->second
+			,	m_environment.getString( Resources::Properties::SkinId )
+			,	name
+			,	state
+			,	direction );
+	}
 
 } // LandscapeScene::onObjectStateChanged
 
@@ -792,16 +805,33 @@ LandscapeScene::playAnimation(
 	,	const Core::LandscapeModel::ObjectState::Enum _state
 	,	const Core::LandscapeModel::Direction::Enum _direction )
 {
+	playAnimation( _animateObject, _skinId, _typeName, _state, _direction, 0 );
+
+} // LandscapeScene::playAnimation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::playAnimation(
+		Framework::GUI::AnimationManager::IAnimateObject& _animateObject
+	,	const QString& _skinId
+	,	const QString& _typeName
+	,	const Core::LandscapeModel::ObjectState::Enum _state
+	,	const Core::LandscapeModel::Direction::Enum _direction
+	,	const qint64 _delay )
+{
 	QString animationName
 		= generateAnimationName( _skinId, _typeName, _state, _direction );
 
 	if ( m_environment.hasAnimation( animationName ) )
 	{
-		m_environment.playAnimation( _animateObject, animationName );
+		m_environment.playAnimation( _animateObject, animationName, _delay );
 	}
 	else
 	{
-		playAnimation( _animateObject, IGraphicsInfoCache::ms_anySkinIdentifier, _typeName, _state, _direction );
+		playAnimation( _animateObject, IGraphicsInfoCache::ms_anySkinIdentifier, _typeName, _state, _direction, _delay );
 	}
 
 } // LandscapeScene::playAnimation

@@ -51,12 +51,27 @@ AnimationManager::~AnimationManager()
 void
 AnimationManager::playAnimation( IAnimateObject& _animateObject, const QString& _animationName )
 {
+	playAnimation( _animateObject, _animationName, 0 );
+
+} // AnimationManager::playAnimation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+AnimationManager::playAnimation(
+		IAnimateObject& _animateObject
+	,	const QString& _animationName
+	,	const qint64 _delay )
+{
 	//QMutexLocker locker( &m_mutex );
 
 	const AnimationInfo& animationInfo = m_animationCache.getAnimation( _animationName );
 
 	boost::shared_ptr< AnimationData > animationData( new AnimationData( animationInfo ) );
 	animationData->m_lastFrameSwitchTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+	animationData->m_delay = _delay;
 
 	AnimationsDataCollectionIterator iterator = m_animationsDataCollection.find( &_animateObject );
 
@@ -124,11 +139,15 @@ AnimationManager::animationsProcessingTask()
 	{
 		const AnimationInfo& animationInfo = begin->second->m_animationInfo;
 
-		if (	currentTime - begin->second->m_lastFrameSwitchTime
+		if (	( currentTime - begin->second->m_lastFrameSwitchTime
 			>=	animationInfo.m_frames[ begin->second->m_frameIndex ].m_period )
+			&&	( currentTime - begin->second->m_finishTime ) > begin->second->m_delay )
 		{
 			if ( begin->second->m_frameIndex >= animationInfo.m_frames.size() - 1 )
+			{
 				begin->second->m_frameIndex = 0;
+				begin->second->m_finishTime = currentTime;
+			}
 			else
 				++begin->second->m_frameIndex;
 

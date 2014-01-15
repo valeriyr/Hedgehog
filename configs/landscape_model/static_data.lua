@@ -12,10 +12,11 @@ elvenArcher.m_healthData = HealthComponentStaticData( 100 )
 elvenArcher.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground )
 elvenArcher.m_moveData = MoveComponentStaticData( 800 )
 elvenArcher.m_selectionData = SelectionComponentStaticData( true )
-elvenArcher.m_attackData = AttackComponentStaticData(  14, 17, 4 )
+elvenArcher.m_attackData = AttackComponentStaticData(  14, 17, 4, 2000 )
 
 elvenArcher.m_actionsData = ActionsComponentStaticData()
 elvenArcher.m_actionsData:can( Actions.Move )
+elvenArcher.m_actionsData:can( Actions.Attack )
 
 StaticData:regObjectStaticData( QString( "Elven Archer" ), elvenArcher )
 
@@ -27,10 +28,11 @@ grunt.m_healthData = HealthComponentStaticData( 200 )
 grunt.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground )
 grunt.m_moveData = MoveComponentStaticData( 1000 )
 grunt.m_selectionData = SelectionComponentStaticData( true )
-grunt.m_attackData = AttackComponentStaticData(  21, 24, 1 )
+grunt.m_attackData = AttackComponentStaticData(  21, 24, 1, 1500 )
 
 grunt.m_actionsData = ActionsComponentStaticData()
 grunt.m_actionsData:can( Actions.Move )
+grunt.m_actionsData:can( Actions.Attack )
 
 StaticData:regObjectStaticData( QString( "Grunt" ), grunt )
 
