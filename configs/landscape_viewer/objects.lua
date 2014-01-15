@@ -161,6 +161,61 @@ do
 
 	end
 
+	do -- dying up animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Dying, Direction.Up )
+
+		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 504, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 576, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 648, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- dying down animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Dying, Direction.Down )
+
+		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 504, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 576, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 648, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- dying left animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Dying, Direction.Left )
+
+		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 504, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 576, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 648, 72, 72 ), true ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- dying right animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Dying, Direction.Right )
+
+		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 504, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 576, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 648, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
 end
 
 -- Grunt
@@ -328,6 +383,62 @@ do
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 504, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 576, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- dying up animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Dying, Direction.Up )
+
+		animationInfo = AnimationInfo( animationName, gruntAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 648, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 720, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 792, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- dying down animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Dying, Direction.Down )
+
+		animationInfo = AnimationInfo( animationName, gruntAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 648, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 720, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 792, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- dying left animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Dying, Direction.Left )
+
+		animationInfo = AnimationInfo( animationName, gruntAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 648, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 720, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 792, 72, 72 ), true ) )
+
+		AnimationsCache:regAnimation( animationInfo );
+
+	end
+
+	do -- dying right animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Dying, Direction.Right )
+
+		animationInfo = AnimationInfo( animationName, gruntAtlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 648, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 720, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 792, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 

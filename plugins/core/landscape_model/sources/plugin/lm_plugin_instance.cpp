@@ -224,7 +224,8 @@ PluginInstance::exportScriptAPI()
 			.withItem( "Standing", ObjectState::Standing )
 			.withItem( "Moving", ObjectState::Moving )
 			.withItem( "Attacking", ObjectState::Attacking )
-			.withItem( "Building", ObjectState::Building );
+			.withItem( "Building", ObjectState::Building )
+			.withItem( "Dying", ObjectState::Dying );
 
 	exporter.exportClass< Direction >( "Direction" )
 		->withEnum< Direction::Enum >( "Enum" )

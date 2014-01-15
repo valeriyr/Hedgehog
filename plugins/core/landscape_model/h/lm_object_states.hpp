@@ -18,6 +18,7 @@ struct ObjectState
 		,	Moving
 		,	Attacking
 		,	Building
+		,	Dying
 	};
 };
 

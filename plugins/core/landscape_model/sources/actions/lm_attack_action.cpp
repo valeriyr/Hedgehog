@@ -18,7 +18,7 @@ namespace Core {
 namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
-	static int time = 100000;
+
 
 AttackAction::AttackAction(
 		const IEnvironment& _environment
@@ -83,14 +83,8 @@ AttackAction::unprocessAction( const unsigned int _deltaTime )
 bool
 AttackAction::hasFinished() const
 {
-	if ( time <= 0 )
-	{
-		m_object.setState( ObjectState::Standing );
-		time = 100000;
-		return true;
-	}
-
 	return false;
+
 } // AttackAction::hasFinished
 
 
