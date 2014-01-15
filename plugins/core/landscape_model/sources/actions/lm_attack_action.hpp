@@ -18,6 +18,7 @@ namespace LandscapeModel {
 
 struct IPlayer;
 struct ILandscape;
+struct IPathFinder;
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,7 +36,8 @@ public:
 			const IEnvironment& _environment
 		,	Object& _object
 		,	IPlayer& _player
-		,	ILandscape& _landscape );
+		,	ILandscape& _landscape
+		,	boost::intrusive_ptr< IPathFinder > _pathFinder );
 
 	virtual ~AttackAction();
 
@@ -64,6 +66,10 @@ private:
 	IPlayer& m_player;
 
 	ILandscape& m_landscape;
+
+	boost::intrusive_ptr< IPathFinder > m_pathFinder;
+
+	boost::intrusive_ptr< IAction > m_moveAction;
 
 /*---------------------------------------------------------------------------*/
 

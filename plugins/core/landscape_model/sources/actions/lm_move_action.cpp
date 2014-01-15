@@ -24,12 +24,10 @@ MoveAction::MoveAction(
 	,	Object& _object
 	,	ILandscape& _landscape
 	,	boost::intrusive_ptr< IPathFinder > _pathFinder
-	,	const QPoint& _to
 	)
 	:	BaseAction( _environment, _object )
 	,	m_landscape( _landscape )
 	,	m_pathFinder( _pathFinder )
-	,	m_to( _to )
 	,	m_movingFinished( false )
 {
 } // MoveAction::MoveAction
@@ -56,7 +54,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 	IMoveComponent::MovingData& movingData = moveComponent->getMovingData();
 
-	if ( locateComponent->getLocation() == m_to )
+	if ( locateComponent->getLocation() == moveComponent->getMovingData().m_movingTo )
 	{
 		movingData.clear();
 		m_movingFinished = true;
@@ -65,13 +63,13 @@ MoveAction::processAction( const unsigned int _deltaTime )
 	{
 		if ( movingData.m_path.empty() )
 		{
-			movingData.clear();
-
 			IMoveComponent::MovingData newMovingData;
-			m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, m_to );
+			newMovingData.m_movingTo = moveComponent->getMovingData().m_movingTo;
+			m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, moveComponent->getMovingData().m_movingTo );
 
 			if ( newMovingData.m_path.empty() )
 			{
+				movingData.clear();
 				m_movingFinished = true;
 			}
 			else
@@ -110,12 +108,13 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					else
 					{
 						IMoveComponent::MovingData newMovingData;
-						m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, m_to );
+						newMovingData.m_movingTo = moveComponent->getMovingData().m_movingTo;
+						m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, moveComponent->getMovingData().m_movingTo );
 						
 						if ( newMovingData.m_path.empty() )
 						{
-							m_movingFinished = true;
 							movingData.clear();
+							m_movingFinished = true;
 							break;
 						}
 						else
@@ -160,15 +159,15 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					unitChangeSatate = true;
 				}
 			}
-			else if ( !m_movingFinished && locateComponent->getLocation() != m_to )
+			else if ( !m_movingFinished && locateComponent->getLocation() != moveComponent->getMovingData().m_movingTo )
 			{
-				movingData.clear();
-
 				IMoveComponent::MovingData newMovingData;
-				m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, m_to );
+				newMovingData.m_movingTo = moveComponent->getMovingData().m_movingTo;
+				m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, moveComponent->getMovingData().m_movingTo );
 
 				if ( newMovingData.m_path.empty() )
 				{
+					movingData.clear();
 					m_movingFinished = true;
 				}
 				else
@@ -190,8 +189,9 @@ MoveAction::processAction( const unsigned int _deltaTime )
 			m_environment.riseEvent( objectMovedEvent );
 		}
 
-		if ( ( m_movingFinished || locateComponent->getLocation() == m_to ) && m_object.getState() == ObjectState::Moving )
+		if ( ( m_movingFinished || locateComponent->getLocation() == moveComponent->getMovingData().m_movingTo ) && m_object.getState() == ObjectState::Moving )
 		{
+			movingData.clear();
 			m_object.setState( ObjectState::Standing );
 			
 			unitChangeSatate = true;
@@ -250,21 +250,6 @@ MoveAction::getType() const
 void
 MoveAction::updateWithData( const QVariant& _data )
 {
-	m_to = _data.toPoint();
-
-	IMoveComponent::MovingData& movingData = m_object.getComponent< IMoveComponent >( ComponentId::Move )->getMovingData();
-
-	assert( !m_movingFinished );
-
-	if ( !movingData.m_path.empty() )
-	{
-		QPoint inProgressPoint( movingData.m_path.front() );
-
-		movingData.m_path.clear();
-
-		movingData.m_path.push_back( inProgressPoint );
-	}
-
 } // MoveAction::updateWithData
 
 

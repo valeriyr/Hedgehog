@@ -35,8 +35,7 @@ public:
 			const IEnvironment& _environment
 		,	Object& _object
 		,	ILandscape& _landscape
-		,	boost::intrusive_ptr< IPathFinder > _pathFinder
-		,	const QPoint& _to );
+		,	boost::intrusive_ptr< IPathFinder > _pathFinder );
 
 	virtual ~MoveAction();
 
@@ -65,8 +64,6 @@ private:
 	ILandscape& m_landscape;
 
 	boost::intrusive_ptr< IPathFinder > m_pathFinder;
-
-	QPoint m_to;
 
 	bool m_movingFinished;
 

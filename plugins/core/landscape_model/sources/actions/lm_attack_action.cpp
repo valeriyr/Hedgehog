@@ -10,6 +10,7 @@
 #include "landscape_model/ih/lm_iplayer.hpp"
 #include "landscape_model/ih/lm_ilandscape.hpp"
 
+#include "landscape_model/sources/actions/lm_move_action.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -25,10 +26,13 @@ AttackAction::AttackAction(
 	,	Object& _object
 	,	IPlayer& _player
 	,	ILandscape& _landscape
+	,	boost::intrusive_ptr< IPathFinder > _pathFinder
 	)
 	:	BaseAction( _environment, _object )
 	,	m_player( _player )
 	,	m_landscape( _landscape )
+	,	m_pathFinder( _pathFinder )
+	,	m_moveAction( new MoveAction( _environment, _object, _landscape, _pathFinder ) )
 {
 } // AttackAction::AttackAction
 
