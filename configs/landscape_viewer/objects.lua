@@ -10,7 +10,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Standing, Direction.Up )
 
 		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 0, 0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -21,7 +21,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Standing, Direction.Down )
 
 		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 288, 0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -32,7 +32,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Standing, Direction.Left )
 
 		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 144, 0, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 0, 72, 72 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -43,7 +43,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, elvenArcherName, ObjectState.Standing, Direction.Right )
 
 		animationInfo = AnimationInfo( animationName, elvenArcherAtlas )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 144, 0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -229,7 +229,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Standing, Direction.Up )
 
 		animationInfo = AnimationInfo( animationName, gruntAtlas )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 0, 0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -240,7 +240,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Standing, Direction.Down )
 
 		animationInfo = AnimationInfo( animationName, gruntAtlas )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 288, 0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -251,7 +251,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Standing, Direction.Left )
 
 		animationInfo = AnimationInfo( animationName, gruntAtlas )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 144, 0, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 0, 72, 72 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -262,7 +262,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, gruntName, ObjectState.Standing, Direction.Right )
 
 		animationInfo = AnimationInfo( animationName, gruntAtlas )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 144, 0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -456,7 +456,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, orcBarracksName, ObjectState.Standing, Direction.Down )
 
 		animationInfo = AnimationInfo( animationName, QString( "buildings/orc/barracks" ) )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 0, 0, 92, 92 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 92, 92 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -467,7 +467,7 @@ do
 		animationName = generateAnimationName( QString( "winter" ), orcBarracksName, ObjectState.Standing, Direction.Down )
 
 		animationInfo = AnimationInfo( animationName, QString( "skins/winter/orc/barracks" ) )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 0, 0, 92, 92 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 92, 92 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -485,7 +485,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, humanBarracksName, ObjectState.Standing, Direction.Down )
 
 		animationInfo = AnimationInfo( animationName, QString( "buildings/human/barracks" ) )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 0, 0, 92, 92 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 92, 92 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 
@@ -496,7 +496,7 @@ do
 		animationName = generateAnimationName( QString( "winter" ), humanBarracksName, ObjectState.Standing, Direction.Down )
 
 		animationInfo = AnimationInfo( animationName, QString( "skins/winter/human/barracks" ) )
-		animationInfo:addFrame( FrameInfo( 100000, QRect( 0, 0, 92, 92 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 92, 92 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo );
 

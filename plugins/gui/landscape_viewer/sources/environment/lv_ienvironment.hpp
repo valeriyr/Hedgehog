@@ -156,6 +156,10 @@ struct IEnvironment
 		,	const QString& _animationName
 		,	const qint64 _delay ) const = 0;
 
+	virtual void playAnimationOnce(
+			Framework::GUI::AnimationManager::IAnimateObject& _animateObject
+		,	const QString& _animationName ) const = 0;
+
 	virtual bool hasAnimation( const QString& _animationName ) const = 0;
 
 	virtual void stopAnimation( Framework::GUI::AnimationManager::IAnimateObject& _animateObject ) const = 0;

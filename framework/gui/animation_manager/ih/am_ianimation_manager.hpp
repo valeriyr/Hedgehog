@@ -36,6 +36,8 @@ struct IAnimationManager
 		,	const QString& _animationName
 		,	const qint64 _delay ) = 0;
 
+	virtual void playAnimationOnce( IAnimateObject& _animateObject, const QString& _animationName ) = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual void stopAnimation( IAnimateObject& _animateObject ) = 0;

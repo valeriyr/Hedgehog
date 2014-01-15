@@ -50,12 +50,12 @@ AttackAction::processAction( const unsigned int _deltaTime )
 	boost::intrusive_ptr< IMoveComponent > moveComponent
 		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
 
-	if ( m_object.getState() !=  ObjectState::Attacking )
+	if ( m_object.getState() !=  ObjectState::Dying )
 	{
 		boost::intrusive_ptr< ILocateComponent > locateComponent
 			= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 
-		m_object.setState( ObjectState::Attacking );
+		m_object.setState( ObjectState::Dying );
 
 		Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
 		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );

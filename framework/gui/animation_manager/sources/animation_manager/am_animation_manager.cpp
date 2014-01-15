@@ -51,7 +51,7 @@ AnimationManager::~AnimationManager()
 void
 AnimationManager::playAnimation( IAnimateObject& _animateObject, const QString& _animationName )
 {
-	playAnimation( _animateObject, _animationName, 0 );
+	playAnimation( _animateObject, _animationName, 0, false );
 
 } // AnimationManager::playAnimation
 
@@ -65,34 +65,20 @@ AnimationManager::playAnimation(
 	,	const QString& _animationName
 	,	const qint64 _delay )
 {
-	//QMutexLocker locker( &m_mutex );
-
-	const AnimationInfo& animationInfo = m_animationCache.getAnimation( _animationName );
-
-	boost::shared_ptr< AnimationData > animationData( new AnimationData( animationInfo ) );
-	animationData->m_lastFrameSwitchTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
-	animationData->m_delay = _delay;
-
-	AnimationsDataCollectionIterator iterator = m_animationsDataCollection.find( &_animateObject );
-
-	if ( iterator == m_animationsDataCollection.end() )
-	{
-		m_animationsDataCollection.insert( std::make_pair( &_animateObject, animationData) );
-	}
-	else
-	{
-		iterator->second = animationData;
-	}
-
-	_animateObject.setSprite(
-		m_environment.getPixmap(
-				animationInfo.m_atlasName
-			,	ImagesManager::IImagesManager::TransformationData(
-						animationInfo.m_frames[ animationData->m_frameIndex ].m_frame
-					,	false
-					,	animationInfo.m_frames[ animationData->m_frameIndex ].m_mirrored ) ) );
+	playAnimation( _animateObject, _animationName, _delay, false );
 
 } // AnimationManager::playAnimation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+AnimationManager::playAnimationOnce( IAnimateObject& _animateObject, const QString& _animationName )
+{
+	playAnimation( _animateObject, _animationName, 0, true );
+
+} // AnimationManager::playAnimationOnce
 
 
 /*---------------------------------------------------------------------------*/
@@ -131,6 +117,8 @@ AnimationManager::animationsProcessingTask()
 
 	const qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
+	std::vector< IAnimateObject* > objectToDelete;
+
 	AnimationsDataCollectionIterator
 			begin = m_animationsDataCollection.begin()
 		,	end = m_animationsDataCollection.end();
@@ -141,10 +129,16 @@ AnimationManager::animationsProcessingTask()
 
 		if (	( currentTime - begin->second->m_lastFrameSwitchTime
 			>=	animationInfo.m_frames[ begin->second->m_frameIndex ].m_period )
-			&&	( currentTime - begin->second->m_finishTime ) > begin->second->m_delay )
+			&&	( currentTime - begin->second->m_finishTime > begin->second->m_delay ) )
 		{
 			if ( begin->second->m_frameIndex >= animationInfo.m_frames.size() - 1 )
 			{
+				if ( begin->second->m_onceAnimation )
+				{
+					objectToDelete.push_back( begin->first );
+					continue;
+				}
+
 				begin->second->m_frameIndex = 0;
 				begin->second->m_finishTime = currentTime;
 			}
@@ -163,7 +157,55 @@ AnimationManager::animationsProcessingTask()
 		}
 	}
 
+	std::vector< IAnimateObject* >::const_iterator
+			toDeleteBegin = objectToDelete.begin()
+		,	toDeleteEnd = objectToDelete.end();
+
+	for ( ; toDeleteBegin != toDeleteEnd; ++toDeleteBegin )
+		m_animationsDataCollection.erase( *toDeleteBegin );
+
 } // AnimationManager::animationsProcessingTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+AnimationManager::playAnimation(
+		IAnimateObject& _animateObject
+	,	const QString& _animationName
+	,	const qint64 _delay
+	,	const bool _onceAnimation )
+{
+	//QMutexLocker locker( &m_mutex );
+
+	const AnimationInfo& animationInfo = m_animationCache.getAnimation( _animationName );
+
+	boost::shared_ptr< AnimationData > animationData( new AnimationData( animationInfo ) );
+	animationData->m_lastFrameSwitchTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+	animationData->m_delay = _delay;
+	animationData->m_onceAnimation = _onceAnimation;
+
+	AnimationsDataCollectionIterator iterator = m_animationsDataCollection.find( &_animateObject );
+
+	if ( iterator == m_animationsDataCollection.end() )
+	{
+		m_animationsDataCollection.insert( std::make_pair( &_animateObject, animationData) );
+	}
+	else
+	{
+		iterator->second = animationData;
+	}
+
+	_animateObject.setSprite(
+		m_environment.getPixmap(
+				animationInfo.m_atlasName
+			,	ImagesManager::IImagesManager::TransformationData(
+						animationInfo.m_frames[ animationData->m_frameIndex ].m_frame
+					,	false
+					,	animationInfo.m_frames[ animationData->m_frameIndex ].m_mirrored ) ) );
+
+} // AnimationManager::playAnimation
 
 
 /*---------------------------------------------------------------------------*/

@@ -263,7 +263,7 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 
 	objectWasAdded( id, newItem );
 
-	playAnimation(
+	playAnimationOnce(
 			*newItem
 		,	m_environment.getString( Resources::Properties::SkinId )
 		,	objectName
@@ -403,7 +403,17 @@ LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event
 	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
 	assert( iterator != m_objectsCollection.end() );
 
-	if ( state == Plugins::Core::LandscapeModel::ObjectState::Attacking )
+	if (	state == Plugins::Core::LandscapeModel::ObjectState::Dying
+		||	state == Plugins::Core::LandscapeModel::ObjectState::Standing )
+	{
+		playAnimationOnce(
+				*iterator->second
+			,	m_environment.getString( Resources::Properties::SkinId )
+			,	name
+			,	state
+			,	direction );
+	}
+	else if ( state == Plugins::Core::LandscapeModel::ObjectState::Attacking )
 	{
 		playAnimation(
 				*iterator->second
@@ -488,7 +498,7 @@ LandscapeScene::generateLandscape()
 
 			objectWasAdded( ( *begin )->getUniqueId(), newItem );
 
-			playAnimation(
+			playAnimationOnce(
 					*newItem
 				,	m_environment.getString( Resources::Properties::SkinId )
 				,	( *begin )->getName()
@@ -835,6 +845,32 @@ LandscapeScene::playAnimation(
 	}
 
 } // LandscapeScene::playAnimation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::playAnimationOnce(
+		Framework::GUI::AnimationManager::IAnimateObject& _animateObject
+	,	const QString& _skinId
+	,	const QString& _typeName
+	,	const Core::LandscapeModel::ObjectState::Enum _state
+	,	const Core::LandscapeModel::Direction::Enum _direction )
+{
+	QString animationName
+		= generateAnimationName( _skinId, _typeName, _state, _direction );
+
+	if ( m_environment.hasAnimation( animationName ) )
+	{
+		m_environment.playAnimationOnce( _animateObject, animationName );
+	}
+	else
+	{
+		playAnimationOnce( _animateObject, IGraphicsInfoCache::ms_anySkinIdentifier, _typeName, _state, _direction );
+	}
+
+} // LandscapeScene::playAnimationOnce
 
 
 /*---------------------------------------------------------------------------*/

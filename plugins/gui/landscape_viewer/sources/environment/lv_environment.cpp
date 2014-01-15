@@ -351,6 +351,19 @@ Environment::playAnimation(
 /*---------------------------------------------------------------------------*/
 
 
+void
+Environment::playAnimationOnce(
+		Framework::GUI::AnimationManager::IAnimateObject& _animateObject
+	,	const QString& _animationName ) const
+{
+	m_pluginInstance.getAnimationManager()->playAnimationOnce( _animateObject, _animationName );
+
+} // Environment::playAnimationOnce
+
+
+/*---------------------------------------------------------------------------*/
+
+
 bool
 Environment::hasAnimation( const QString& _animationName ) const
 {

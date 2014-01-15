@@ -46,6 +46,8 @@ public:
 		,	const QString& _animationName
 		,	const qint64 _delay );
 
+	/*virtual*/ void playAnimationOnce( IAnimateObject& _animateObject, const QString& _animationName );
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void stopAnimation( IAnimateObject& _animateObject );
@@ -59,6 +61,12 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	void animationsProcessingTask();
+
+	void playAnimation(
+			IAnimateObject& _animateObject
+		,	const QString& _animationName
+		,	const qint64 _delay
+		,	const bool _onceAnimation );
 
 /*---------------------------------------------------------------------------*/
 
@@ -74,6 +82,7 @@ private:
 			,	m_lastFrameSwitchTime( 0 )
 			,	m_finishTime( 0 )
 			,	m_delay( 0 )
+			,	m_onceAnimation( false )
 		{}
 
 		const AnimationInfo& m_animationInfo;
@@ -85,6 +94,8 @@ private:
 		qint64 m_finishTime;
 
 		qint64 m_delay;
+
+		bool m_onceAnimation;
 	};
 
 /*---------------------------------------------------------------------------*/
