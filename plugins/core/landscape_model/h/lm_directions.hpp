@@ -14,10 +14,14 @@ struct Direction
 {
 	enum Enum
 	{
-			Up		= 0
-		,	Down
-		,	Left
-		,	Right
+			North		= 0
+		,	NorthEast
+		,	East
+		,	SouthEast
+		,	South
+		,	SouthWest
+		,	West
+		,	NorthWest
 	};
 };
 

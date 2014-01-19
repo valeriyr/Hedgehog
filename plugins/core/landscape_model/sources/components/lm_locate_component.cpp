@@ -21,7 +21,7 @@ LocateComponent::LocateComponent(
 	:	BaseComponent< ILocateComponent >( _object )
 	,	m_staticData( _staticData )
 	,	m_location( _location )
-	,	m_direction( Direction::Down )
+	,	m_direction( Direction::South )
 {
 } // LocateComponent::LocateComponent
 

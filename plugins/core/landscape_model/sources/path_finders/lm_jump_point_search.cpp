@@ -62,8 +62,8 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 
 	QPoint startPoint( _forObject.getLocation() );
 
-	int dx[4] = {1, 0, -1, 0};
-	int dy[4] = {0, 1, 0, -1};
+	int dx[ 8 ] = { 1, 1, 0, -1, -1, -1,  0,  1 };
+	int dy[ 8 ] = { 0, 1, 1,  1,  0, -1, -1, -1 };
 
 	bool stop = false;
 
@@ -79,7 +79,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 			{
 				if ( matrix.getConstElement( i, j ) == d )
 				{
-					for ( int k = 0; k < 4; ++k )
+					for ( int k = 0; k < 8; ++k )
 					{
 						int rx = i + dx[ k ];
 						int ry = j + dy[ k ];
@@ -124,7 +124,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		_pointsCollection.push_front( QPoint( x, y ) );
 		--d;
 
-		for ( int k = 0; k < 4; ++k )
+		for ( int k = 0; k < 8; ++k )
 		{
 			int rx = x + dx[ k ];
 			int ry = y + dy[ k ];

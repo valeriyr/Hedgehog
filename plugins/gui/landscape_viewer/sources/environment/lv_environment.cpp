@@ -101,7 +101,7 @@ Environment::getPixmap( const QString& _objectName, const QString& _skinId ) con
 				_skinId
 			,	_objectName
 			,	Core::LandscapeModel::ObjectState::Standing
-			,	Core::LandscapeModel::Direction::Down ) );
+			,	Core::LandscapeModel::Direction::South ) );
 
 	if ( m_pluginInstance.getAnimationsCache()->hasAnimation( animationName ) )
 	{

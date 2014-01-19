@@ -229,10 +229,14 @@ PluginInstance::exportScriptAPI()
 
 	exporter.exportClass< Direction >( "Direction" )
 		->withEnum< Direction::Enum >( "Enum" )
-			.withItem( "Up", Direction::Up )
-			.withItem( "Down", Direction::Down )
-			.withItem( "Left", Direction::Left )
-			.withItem( "Right", Direction::Right );
+			.withItem( "North", Direction::North )
+			.withItem( "NorthEast", Direction::NorthEast )
+			.withItem( "East", Direction::East )
+			.withItem( "SouthEast", Direction::SouthEast )
+			.withItem( "South", Direction::South )
+			.withItem( "SouthWest", Direction::SouthWest )
+			.withItem( "West", Direction::West )
+			.withItem( "NorthWest", Direction::NorthWest );
 
 	// Surface items cache export
 

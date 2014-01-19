@@ -268,7 +268,7 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 		,	m_environment.getString( Resources::Properties::SkinId )
 		,	objectName
 		,	Core::LandscapeModel::ObjectState::Standing
-		,	Core::LandscapeModel::Direction::Down );
+		,	Core::LandscapeModel::Direction::South );
 
 	regenerateTerrainMapLayer();
 
