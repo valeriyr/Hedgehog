@@ -62,8 +62,8 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 
 	QPoint startPoint( _forObject.getLocation() );
 
-	int dx[ 8 ] = { 1, 1, 0, -1, -1, -1,  0,  1 };
-	int dy[ 8 ] = { 0, 1, 1,  1,  0, -1, -1, -1 };
+	int dx[ 8 ] = {  0, 0, -1, 1,  1, 1, -1, -1 };
+	int dy[ 8 ] = { -1, 1,  0, 0, -1, 1,  1, -1 };
 
 	bool stop = false;
 
