@@ -91,6 +91,13 @@ public:
 		return *this;
 	}
 
+	template< typename _TFirstParamType, typename _TSecondParamType, typename _TThirdParamType, typename _TFourthParamType, typename _TFifthParamType >
+	ClassExporter& withConstructor()
+	{
+		m_class.def( luabind::constructor< _TFirstParamType, _TSecondParamType, _TThirdParamType, _TFourthParamType, _TFifthParamType >() );
+		return *this;
+	}
+
 	template< typename _TMethod >
 	ClassExporter& withMethod( const char* _methodName, _TMethod _method )
 	{
@@ -170,6 +177,13 @@ public:
 	ClassExporterWithShared& withConstructor()
 	{
 		m_class.def( luabind::constructor< _TFirstParamType, _TSecondParamType, _TThirdParamType, _TFourthParamType >() );
+		return *this;
+	}
+
+	template< typename _TFirstParamType, typename _TSecondParamType, typename _TThirdParamType, typename _TFourthParamType, typename _TFifthParamType >
+	ClassExporterWithShared& withConstructor()
+	{
+		m_class.def( luabind::constructor< _TFirstParamType, _TSecondParamType, _TThirdParamType, _TFourthParamType, _TFifthParamType >() );
 		return *this;
 	}
 

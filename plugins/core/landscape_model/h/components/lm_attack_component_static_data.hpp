@@ -18,12 +18,14 @@ struct AttackComponentStaticData
 			const unsigned int _minDamage
 		,	const unsigned int _maxDamage
 		,	const unsigned int _distance
-		,	const unsigned int _delayBetweenHits
+		,	const unsigned int _aiming
+		,	const unsigned int _reloading
 		)
 		:	m_minDamage( _minDamage )
 		,	m_maxDamage( _maxDamage )
 		,	m_distance( _distance )
-		,	m_delayBetweenHits( _delayBetweenHits )
+		,	m_aiming( _aiming )
+		,	m_reloading( _reloading )
 	{}
 
 	const unsigned int m_minDamage;
@@ -32,7 +34,9 @@ struct AttackComponentStaticData
 
 	const unsigned int m_distance;
 
-	const unsigned int m_delayBetweenHits;
+	const unsigned int m_aiming;
+
+	const unsigned int m_reloading;
 };
 
 

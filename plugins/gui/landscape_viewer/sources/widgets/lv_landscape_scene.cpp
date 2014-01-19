@@ -421,7 +421,7 @@ LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event
 			,	name
 			,	state
 			,	direction
-			,	m_environment.getObjectStaticData( name ).m_attackData->m_delayBetweenHits );
+			,	m_environment.getObjectStaticData( name ).m_attackData->m_aiming + m_environment.getObjectStaticData( name ).m_attackData->m_reloading );
 	}
 	else
 	{
