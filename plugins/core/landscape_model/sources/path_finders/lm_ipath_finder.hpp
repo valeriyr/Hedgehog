@@ -27,13 +27,14 @@ struct IPathFinder
 
 	typedef std::list< QPoint > PointsCollection;
 	typedef PointsCollection::iterator PointsCollectionIterator;
+	typedef PointsCollection::const_iterator PointsCollectionConstIterator;
 
 /*---------------------------------------------------------------------------*/
 
 	virtual void findPath(	PointsCollection& _pointsCollection
 						 ,	const ILandscape& _landscape
 						 ,	const ILocateComponent& _forObject
-						 ,	const QPoint& _toPoint ) = 0;
+						 ,	const PointsCollection& _targets ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -6,6 +6,8 @@
 
 #include "landscape_model/sources/path_finders/lm_ipath_finder.hpp"
 
+#include "containers/cn_matrix.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -33,7 +35,7 @@ public:
 	/*virtual*/ void findPath(	PointsCollection& _pointsCollection
 							 ,	const ILandscape& _landscape
 							 ,	const ILocateComponent& _forObject
-							 ,	const QPoint& _toPoint );
+							 ,	const IPathFinder::PointsCollection& _targets );
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,6 +43,22 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	bool allPointsFree(
+			const Tools::Core::Containers::Matrix< int >& matrix
+		,	const IPathFinder::PointsCollection& _targets ) const;
+
+	QPoint getFirstFoundPoint(
+			const Tools::Core::Containers::Matrix< int >& matrix
+		,	const IPathFinder::PointsCollection& _targets ) const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	static const int ms_engagedCell = -1;
+	static const int ms_freeCell = -2;
 
 /*---------------------------------------------------------------------------*/
 

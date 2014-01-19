@@ -5,8 +5,6 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 
-#include "containers/cn_matrix.hpp"
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,12 +35,12 @@ void
 JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 						,	const ILandscape& _landscape
 						,	const ILocateComponent& _forObject
-						,	const QPoint& _toPoint )
+						,	const IPathFinder::PointsCollection& _targets )
 {
 	_pointsCollection.clear();
 
-	const int engagedCell = -1;
-	const int freeCell = -2;
+	if ( _targets.empty() )
+		return;
 
 	Tools::Core::Containers::Matrix< int > matrix;
 	matrix.resize( _landscape.getWidth(), _landscape.getHeight() );
@@ -51,11 +49,11 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 	{
 		for ( int j = 0; j < _landscape.getHeight(); ++j )
 		{
-			int cellValue = engagedCell;
+			int cellValue = ms_engagedCell;
 
 			if ( _landscape.canObjectBePlaced( QPoint( i, j ), _forObject.getStaticData() ) )
 			{
-				cellValue = freeCell;
+				cellValue = ms_freeCell;
 			}
 
 			matrix.setElement( i, j, cellValue );
@@ -63,7 +61,6 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 	}
 
 	QPoint startPoint( _forObject.getLocation() );
-	QPoint finishPoint = _toPoint;
 
 	int dx[4] = {1, 0, -1, 0};
 	int dy[4] = {0, 1, 0, -1};
@@ -99,7 +96,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 						if ( ry >= _landscape.getHeight() )
 							continue;
 
-						if ( matrix.getConstElement( rx, ry ) == freeCell )
+						if ( matrix.getConstElement( rx, ry ) == ms_freeCell )
 						{
 							stop = false;
 							matrix.setElement( rx, ry, d + 1);
@@ -109,10 +106,12 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 			}
 		}
 		++d;
-	} while ( !stop && matrix.getConstElement( finishPoint.x(), finishPoint.y() ) == freeCell );
+	} while ( !stop && allPointsFree( matrix, _targets ) );
 
-	if ( matrix.getConstElement( finishPoint.x(), finishPoint.y() ) == freeCell )
+	if ( allPointsFree( matrix, _targets ) )
 		return;
+
+	QPoint finishPoint = getFirstFoundPoint( matrix, _targets );
 
 	int len = matrix.getConstElement( finishPoint.x(), finishPoint.y() );
 	d = len;
@@ -154,6 +153,56 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 	//_pointsCollection.push_front( startPoint );
 
 } // JumpPointSearch::findPath
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+JumpPointSearch::allPointsFree(
+		const Tools::Core::Containers::Matrix< int >& matrix
+	,	const IPathFinder::PointsCollection& _targets ) const
+{
+	assert( !_targets.empty() );
+
+	IPathFinder::PointsCollectionConstIterator
+			begin = _targets.begin()
+		,	end = _targets.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( matrix.getConstElement( begin->x(), begin->y() ) != ms_freeCell )
+			return false;
+	}
+
+	return true;
+
+} // JumpPointSearch::allPointsFree
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QPoint
+JumpPointSearch::getFirstFoundPoint(
+		const Tools::Core::Containers::Matrix< int >& matrix
+	,	const IPathFinder::PointsCollection& _targets ) const
+{
+	IPathFinder::PointsCollectionConstIterator
+			begin = _targets.begin()
+		,	end = _targets.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( matrix.getConstElement( begin->x(), begin->y() ) != ms_freeCell )
+			return *begin;
+	}
+
+	assert( !"You should check collection before call this function!" );
+
+	return QPoint();
+
+} // JumpPointSearch::getFirstFoundPoint
 
 
 /*---------------------------------------------------------------------------*/
