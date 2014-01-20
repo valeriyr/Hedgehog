@@ -371,8 +371,6 @@ MoveAction::fillPossibleTargetPoints(
 		_points.push_back( _movingData.m_movingTo );
 	}
 
-	
-
 } // MoveAction::fillPossibleTargetPoints
 
 

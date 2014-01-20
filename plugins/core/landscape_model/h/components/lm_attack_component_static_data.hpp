@@ -15,11 +15,11 @@ namespace LandscapeModel {
 struct AttackComponentStaticData
 {
 	AttackComponentStaticData(
-			const unsigned int _minDamage
-		,	const unsigned int _maxDamage
-		,	const unsigned int _distance
-		,	const unsigned int _aiming
-		,	const unsigned int _reloading
+			const int _minDamage
+		,	const int _maxDamage
+		,	const int _distance
+		,	const int _aiming
+		,	const int _reloading
 		)
 		:	m_minDamage( _minDamage )
 		,	m_maxDamage( _maxDamage )
@@ -28,15 +28,15 @@ struct AttackComponentStaticData
 		,	m_reloading( _reloading )
 	{}
 
-	const unsigned int m_minDamage;
+	const int m_minDamage;
 
-	const unsigned int m_maxDamage;
+	const int m_maxDamage;
 
-	const unsigned int m_distance;
+	const int m_distance;
 
-	const unsigned int m_aiming;
+	const int m_aiming;
 
-	const unsigned int m_reloading;
+	const int m_reloading;
 };
 
 

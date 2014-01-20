@@ -13,11 +13,11 @@ namespace LandscapeModel {
 
 struct MoveComponentStaticData
 {
-	MoveComponentStaticData( const unsigned int _movingSpeed )
+	MoveComponentStaticData( const int _movingSpeed )
 		:	m_movingSpeed( _movingSpeed )
 	{}
 
-	const unsigned int m_movingSpeed;
+	const int m_movingSpeed;
 };
 
 

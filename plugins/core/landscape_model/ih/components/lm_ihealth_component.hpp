@@ -25,9 +25,9 @@ struct IHealthComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const unsigned int getHealth() const = 0;
+	virtual const int getHealth() const = 0;
 
-	virtual void setHealth( const unsigned int _health ) = 0;
+	virtual void setHealth( const int _health ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

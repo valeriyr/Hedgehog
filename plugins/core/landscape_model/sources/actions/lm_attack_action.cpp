@@ -33,6 +33,7 @@ AttackAction::AttackAction(
 	,	m_landscape( _landscape )
 	,	m_pathFinder( _pathFinder )
 	,	m_moveAction()
+	,	m_attakingFinished( false )
 {
 } // AttackAction::AttackAction
 
@@ -47,6 +48,7 @@ AttackAction::~AttackAction()
 
 /*---------------------------------------------------------------------------*/
 
+#include <math.h>
 
 void
 AttackAction::processAction( const unsigned int _deltaTime )
@@ -61,7 +63,8 @@ AttackAction::processAction( const unsigned int _deltaTime )
 
 	QPoint point = locateComponent->getLocation() - targetObjectLocate->getLocation();
 
-	if ( point.manhattanLength() > attackComponent->getStaticData().m_distance && !m_moveAction )
+	double trueLength = sqrt(pow((double)point.x(), 2) + pow((double)point.y(), 2));
+	if ( ( point.manhattanLength() > attackComponent->getStaticData().m_distance ) && !m_moveAction )
 	{
 		boost::intrusive_ptr< IMoveComponent > moveComponent
 			= m_object.getComponent< IMoveComponent >( ComponentId::Move );
@@ -81,19 +84,72 @@ AttackAction::processAction( const unsigned int _deltaTime )
 	}
 	else
 	{
-		// Attacking here
+		if ( attackComponent->getTargetObject()->getState() == ObjectState::Dying )
+		{
+			if ( m_object.getState() != ObjectState::Standing )
+			{
+				m_object.setState( ObjectState::Standing );
 
-		/*
-		m_object.setState( ObjectState::Dying );
+				Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
 
-		Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
+				m_environment.riseEvent( objectStateChangedEvent );
+			}
 
-		m_environment.riseEvent( objectStateChangedEvent );
-		*/
+			m_attakingFinished = true;
+		}
+		else
+		{
+			if ( m_object.getState() != ObjectState::Attacking )
+			{
+				m_object.setState( ObjectState::Attacking );
+
+				Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
+
+				m_environment.riseEvent( objectStateChangedEvent );
+			}
+
+			boost::intrusive_ptr< IHealthComponent > targetHealthComponent
+				= attackComponent->getTargetObject()->getComponent< IHealthComponent >( ComponentId::Health );
+
+			int damageBonus = attackComponent->getStaticData().m_maxDamage - attackComponent->getStaticData().m_minDamage;
+
+			int damage = attackComponent->getStaticData().m_minDamage + ( rand() % damageBonus ) + 1;
+
+			targetHealthComponent->setHealth( targetHealthComponent->getHealth() - damage );
+
+			if ( targetHealthComponent->getHealth() == 0 )
+			{
+				attackComponent->getTargetObject()->setState( ObjectState::Dying );
+
+				Framework::Core::EventManager::Event targetObjectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+				targetObjectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, attackComponent->getTargetObject()->getName() );
+				targetObjectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, attackComponent->getTargetObject()->getUniqueId() );
+				targetObjectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, attackComponent->getTargetObject()->getState() );
+				targetObjectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, targetObjectLocate->getDirection() );
+
+				m_environment.riseEvent( targetObjectStateChangedEvent );
+
+				m_object.setState( ObjectState::Standing );
+
+				Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
+
+				m_environment.riseEvent( objectStateChangedEvent );
+
+				m_attakingFinished = true;
+			}
+		}
 	}
 
 } // AttackAction::processAction
@@ -114,7 +170,7 @@ AttackAction::unprocessAction( const unsigned int _deltaTime )
 bool
 AttackAction::hasFinished() const
 {
-	return !m_moveAction || m_moveAction->hasFinished();
+	return ( !m_moveAction || m_moveAction->hasFinished() ) && m_attakingFinished;
 
 } // AttackAction::hasFinished
 

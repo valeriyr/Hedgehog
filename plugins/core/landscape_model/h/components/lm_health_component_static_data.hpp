@@ -13,11 +13,11 @@ namespace LandscapeModel {
 
 struct HealthComponentStaticData
 {
-	HealthComponentStaticData( const unsigned int _maximumHealth )
+	HealthComponentStaticData( const int _maximumHealth )
 		:	m_maximumHealth( _maximumHealth )
 	{}
 
-	const unsigned int m_maximumHealth;
+	const int m_maximumHealth;
 };
 
 

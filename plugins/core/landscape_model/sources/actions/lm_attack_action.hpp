@@ -71,6 +71,8 @@ private:
 
 	boost::intrusive_ptr< IAction > m_moveAction;
 
+	bool m_attakingFinished;
+
 /*---------------------------------------------------------------------------*/
 
 };

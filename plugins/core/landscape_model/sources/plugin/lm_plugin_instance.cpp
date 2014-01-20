@@ -273,10 +273,10 @@ PluginInstance::exportScriptAPI()
 		.withMethod( "can", &ActionsComponentStaticData::can );
 
 	exporter.exportClassWithShared< MoveComponentStaticData >( "MoveComponentStaticData" )
-		->withConstructor< const unsigned int >();
+		->withConstructor< const int >();
 
 	exporter.exportClassWithShared< AttackComponentStaticData >( "AttackComponentStaticData" )
-		->withConstructor< const unsigned int, const unsigned int, const unsigned int, const unsigned int, const unsigned int >();
+		->withConstructor< const int, const int, const int, const int, const int >();
 
 	exporter.exportClassWithShared< GenerateResourcesComponentStaticData >( "GenerateResourcesComponentStaticData" )
 		->withConstructor()

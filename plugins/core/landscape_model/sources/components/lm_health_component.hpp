@@ -36,9 +36,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const unsigned int getHealth() const;
+	/*virtual*/ const int getHealth() const;
 
-	/*virtual*/ void setHealth( const unsigned int _health );
+	/*virtual*/ void setHealth( const int _health );
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,7 +48,7 @@ private:
 
 	const HealthComponentStaticData& m_staticData;
 
-	unsigned int m_health;
+	int m_health;
 
 /*---------------------------------------------------------------------------*/
 
