@@ -408,6 +408,21 @@ Landscape::getNearestLocation( const Object& _nearestFrom, const QString& _forOb
 
 /*---------------------------------------------------------------------------*/
 
+
+bool
+Landscape::isLocationInLandscape( const QPoint& _location ) const
+{
+	return
+			_location.x() >= 0
+		&&	_location.x() < getWidth()
+		&&	_location.y() >= 0
+		&&	_location.y() < getHeight();
+
+} // Landscape::isLocationInLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

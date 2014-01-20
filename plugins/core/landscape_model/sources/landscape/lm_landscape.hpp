@@ -89,6 +89,8 @@ public:
 
 	/*virtual*/ QPoint getNearestLocation( const Object& _nearestFrom, const QString& _forObject ) const;
 
+	/*virtual*/ bool isLocationInLandscape( const QPoint& _location ) const;
+
 /*---------------------------------------------------------------------------*/
 
 private:

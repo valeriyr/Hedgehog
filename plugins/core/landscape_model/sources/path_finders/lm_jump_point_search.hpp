@@ -43,13 +43,18 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	bool allPointsFree(
+	bool allPointsAreProcessed(
 			const Tools::Core::Containers::Matrix< int >& matrix
 		,	const IPathFinder::PointsCollection& _targets ) const;
 
-	QPoint getFirstFoundPoint(
+	bool hasFoundPoint(
 			const Tools::Core::Containers::Matrix< int >& matrix
 		,	const IPathFinder::PointsCollection& _targets ) const;
+
+	QPoint getNearestFoundPoint(
+			const Tools::Core::Containers::Matrix< int >& matrix
+		,	const IPathFinder::PointsCollection& _targets
+		,	const QPoint& _from ) const;
 
 /*---------------------------------------------------------------------------*/
 

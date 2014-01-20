@@ -84,16 +84,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 						int rx = i + dx[ k ];
 						int ry = j + dy[ k ];
 
-						if ( rx < 0 )
-							continue;
-
-						if ( rx >= _landscape.getWidth() )
-							continue;
-
-						if ( ry < 0 )
-							continue;
-
-						if ( ry >= _landscape.getHeight() )
+						if ( !_landscape.isLocationInLandscape( QPoint( rx, ry ) ) )
 							continue;
 
 						if ( matrix.getConstElement( rx, ry ) == ms_freeCell )
@@ -106,12 +97,12 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 			}
 		}
 		++d;
-	} while ( !stop && allPointsFree( matrix, _targets ) );
+	} while ( !stop && !allPointsAreProcessed( matrix, _targets ) );
 
-	if ( allPointsFree( matrix, _targets ) )
+	if ( !hasFoundPoint( matrix, _targets ) )
 		return;
 
-	QPoint finishPoint = getFirstFoundPoint( matrix, _targets );
+	QPoint finishPoint = getNearestFoundPoint( matrix, _targets, startPoint );
 
 	int len = matrix.getConstElement( finishPoint.x(), finishPoint.y() );
 	d = len;
@@ -129,16 +120,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 			int rx = x + dx[ k ];
 			int ry = y + dy[ k ];
 
-			if ( rx < 0 )
-				continue;
-
-			if ( rx >= _landscape.getWidth() )
-				continue;
-
-			if ( ry < 0 )
-				continue;
-
-			if ( ry >= _landscape.getHeight() )
+			if ( !_landscape.isLocationInLandscape( QPoint( rx, ry ) ) )
 				continue;
 
 			if ( matrix.getConstElement( rx, ry ) == d )
@@ -159,7 +141,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 
 
 bool
-JumpPointSearch::allPointsFree(
+JumpPointSearch::allPointsAreProcessed(
 		const Tools::Core::Containers::Matrix< int >& matrix
 	,	const IPathFinder::PointsCollection& _targets ) const
 {
@@ -171,20 +153,21 @@ JumpPointSearch::allPointsFree(
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( matrix.getConstElement( begin->x(), begin->y() ) != ms_freeCell )
+		if (	matrix.getConstElement( begin->x(), begin->y() ) < 0
+			&&	matrix.getConstElement( begin->x(), begin->y() ) != ms_engagedCell )
 			return false;
 	}
 
 	return true;
 
-} // JumpPointSearch::allPointsFree
+} // JumpPointSearch::allPointsAreProcessed
 
 
 /*---------------------------------------------------------------------------*/
 
 
-QPoint
-JumpPointSearch::getFirstFoundPoint(
+bool
+JumpPointSearch::hasFoundPoint(
 		const Tools::Core::Containers::Matrix< int >& matrix
 	,	const IPathFinder::PointsCollection& _targets ) const
 {
@@ -194,15 +177,45 @@ JumpPointSearch::getFirstFoundPoint(
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( matrix.getConstElement( begin->x(), begin->y() ) != ms_freeCell )
-			return *begin;
+		if ( matrix.getConstElement( begin->x(), begin->y() ) >= 0 )
+			return true;
 	}
 
-	assert( !"You should check collection before call this function!" );
+	return false;
 
-	return QPoint();
+} // JumpPointSearch::hasFoundPoint
 
-} // JumpPointSearch::getFirstFoundPoint
+
+/*---------------------------------------------------------------------------*/
+
+
+QPoint
+JumpPointSearch::getNearestFoundPoint(
+		const Tools::Core::Containers::Matrix< int >& matrix
+	,	const IPathFinder::PointsCollection& _targets
+	,	const QPoint& _from ) const
+{
+	std::map< int, QPoint > foundPoints;
+
+	IPathFinder::PointsCollectionConstIterator
+			begin = _targets.begin()
+		,	end = _targets.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( matrix.getConstElement( begin->x(), begin->y() ) >= 0 )
+		{
+			QPoint point = _from - *begin;
+
+			foundPoints.insert( std::make_pair( point.manhattanLength(), *begin ) );
+		}
+	}
+
+	assert( !foundPoints.empty() && "You should check collection before call this function!" );
+
+	return foundPoints.begin()->second;
+
+} // JumpPointSearch::getNearestFoundPoint
 
 
 /*---------------------------------------------------------------------------*/

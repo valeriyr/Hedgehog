@@ -17,6 +17,10 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+class Object;
+
+/*---------------------------------------------------------------------------*/
+
 struct IMoveComponent
 	:	public IComponent
 {
@@ -29,6 +33,7 @@ struct IMoveComponent
 			:	m_path()
 			,	m_movingProgress( 0.0 )
 			,	m_movingTo( 0, 0 )
+			,	m_movingToObject()
 		{}
 
 		void clear()
@@ -36,11 +41,13 @@ struct IMoveComponent
 			m_path.clear();
 			m_movingProgress = 0.0f;
 			m_movingTo = QPoint( 0, 0 );
+			m_movingToObject.reset();
 		}
 
 		IPathFinder::PointsCollection m_path;
 		float m_movingProgress;
 		QPoint m_movingTo;
+		boost::shared_ptr< Object > m_movingToObject;
 	};
 
 /*---------------------------------------------------------------------------*/

@@ -32,7 +32,7 @@ AttackAction::AttackAction(
 	,	m_player( _player )
 	,	m_landscape( _landscape )
 	,	m_pathFinder( _pathFinder )
-	,	m_moveAction( new MoveAction( _environment, _object, _landscape, _pathFinder ) )
+	,	m_moveAction()
 {
 } // AttackAction::AttackAction
 
@@ -51,14 +51,39 @@ AttackAction::~AttackAction()
 void
 AttackAction::processAction( const unsigned int _deltaTime )
 {
-	boost::intrusive_ptr< IMoveComponent > moveComponent
-		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
+	boost::intrusive_ptr< IAttackComponent > attackComponent
+		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
+	boost::intrusive_ptr< ILocateComponent > locateComponent
+		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 
-	if ( m_object.getState() !=  ObjectState::Dying )
+	boost::intrusive_ptr< ILocateComponent > targetObjectLocate
+		= attackComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate );
+
+	QPoint point = locateComponent->getLocation() - targetObjectLocate->getLocation();
+
+	if ( point.manhattanLength() > attackComponent->getStaticData().m_distance && !m_moveAction )
 	{
-		boost::intrusive_ptr< ILocateComponent > locateComponent
-			= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+		boost::intrusive_ptr< IMoveComponent > moveComponent
+			= m_object.getComponent< IMoveComponent >( ComponentId::Move );
+		moveComponent->getMovingData().m_movingToObject = attackComponent->getTargetObject();
 
+		m_moveAction.reset( new MoveAction( m_environment, m_object, m_landscape, m_pathFinder, attackComponent->getStaticData().m_distance ) );
+	}
+
+	if ( m_moveAction )
+	{
+		m_moveAction->processAction( _deltaTime );
+
+		if ( m_moveAction->hasFinished() )
+		{
+			m_moveAction.reset();
+		}
+	}
+	else
+	{
+		// Attacking here
+
+		/*
 		m_object.setState( ObjectState::Dying );
 
 		Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
@@ -68,7 +93,9 @@ AttackAction::processAction( const unsigned int _deltaTime )
 		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
 
 		m_environment.riseEvent( objectStateChangedEvent );
+		*/
 	}
+
 } // AttackAction::processAction
 
 
@@ -87,7 +114,7 @@ AttackAction::unprocessAction( const unsigned int _deltaTime )
 bool
 AttackAction::hasFinished() const
 {
-	return false;
+	return !m_moveAction || m_moveAction->hasFinished();
 
 } // AttackAction::hasFinished
 

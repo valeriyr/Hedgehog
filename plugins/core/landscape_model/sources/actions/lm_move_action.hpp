@@ -35,7 +35,8 @@ public:
 			const IEnvironment& _environment
 		,	Object& _object
 		,	ILandscape& _landscape
-		,	boost::intrusive_ptr< IPathFinder > _pathFinder );
+		,	boost::intrusive_ptr< IPathFinder > _pathFinder
+		,	const int _distance );
 
 	virtual ~MoveAction();
 
@@ -61,11 +62,25 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void fillPossibleTargetPoints(
+			IPathFinder::PointsCollection& _points
+		,	const IMoveComponent::MovingData& _movingData ) const;
+
+	bool isOnRightDistanceToObject( const QRect& _objectRect, const QPoint& _location ) const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
 	ILandscape& m_landscape;
 
 	boost::intrusive_ptr< IPathFinder > m_pathFinder;
 
 	bool m_movingFinished;
+
+	const int m_distance;
 
 /*---------------------------------------------------------------------------*/
 

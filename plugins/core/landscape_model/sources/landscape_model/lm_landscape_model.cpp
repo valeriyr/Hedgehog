@@ -249,7 +249,7 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _pushCommand 
 					{
 						actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >(
-								new MoveAction( m_environment, **begin, *handle->getLandscape(), m_pathFinder ) ) );
+								new MoveAction( m_environment, **begin, *handle->getLandscape(), m_pathFinder, 0 ) ) );
 					}
 				}
 			}

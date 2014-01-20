@@ -24,11 +24,13 @@ MoveAction::MoveAction(
 	,	Object& _object
 	,	ILandscape& _landscape
 	,	boost::intrusive_ptr< IPathFinder > _pathFinder
+	,	const int _distance
 	)
 	:	BaseAction( _environment, _object )
 	,	m_landscape( _landscape )
 	,	m_pathFinder( _pathFinder )
 	,	m_movingFinished( false )
+	,	m_distance( _distance )
 {
 } // MoveAction::MoveAction
 
@@ -54,7 +56,27 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 	IMoveComponent::MovingData& movingData = moveComponent->getMovingData();
 
-	if ( locateComponent->getLocation() == moveComponent->getMovingData().m_movingTo )
+	bool isInFinishPoint = false;
+
+	if ( moveComponent->getMovingData().m_movingToObject )
+	{
+		if ( movingData.m_path.empty() )
+		{
+			boost::intrusive_ptr< ILocateComponent > targetLocateComponent
+				= moveComponent->getMovingData().m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate );
+
+			if ( isOnRightDistanceToObject( targetLocateComponent->getRect(), locateComponent->getLocation() ) )
+			{
+				isInFinishPoint = true;
+			}
+		}
+	}
+	else if ( locateComponent->getLocation() == moveComponent->getMovingData().m_movingTo )
+	{
+		isInFinishPoint = true;
+	}
+
+	if ( isInFinishPoint )
 	{
 		movingData.clear();
 		m_movingFinished = true;
@@ -65,9 +87,10 @@ MoveAction::processAction( const unsigned int _deltaTime )
 		{
 			IMoveComponent::MovingData newMovingData;
 			newMovingData.m_movingTo = moveComponent->getMovingData().m_movingTo;
+			newMovingData.m_movingToObject = moveComponent->getMovingData().m_movingToObject;
 
 			IPathFinder::PointsCollection targetPoints;
-			targetPoints.push_back( moveComponent->getMovingData().m_movingTo );
+			fillPossibleTargetPoints( targetPoints, moveComponent->getMovingData() );
 
 			m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, targetPoints );
 
@@ -113,9 +136,10 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					{
 						IMoveComponent::MovingData newMovingData;
 						newMovingData.m_movingTo = moveComponent->getMovingData().m_movingTo;
+						newMovingData.m_movingToObject = moveComponent->getMovingData().m_movingToObject;
 
 						IPathFinder::PointsCollection targetPoints;
-						targetPoints.push_back( moveComponent->getMovingData().m_movingTo );
+						fillPossibleTargetPoints( targetPoints, moveComponent->getMovingData() );
 
 						m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, targetPoints );
 						
@@ -175,27 +199,51 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					unitChangeSatate = true;
 				}
 			}
-			else if ( !m_movingFinished && locateComponent->getLocation() != moveComponent->getMovingData().m_movingTo )
+			else if ( !m_movingFinished )
 			{
-				IMoveComponent::MovingData newMovingData;
-				newMovingData.m_movingTo = moveComponent->getMovingData().m_movingTo;
+				isInFinishPoint = false;
 
-				IPathFinder::PointsCollection targetPoints;
-				targetPoints.push_back( moveComponent->getMovingData().m_movingTo );
-
-				m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, targetPoints );
-
-				if ( newMovingData.m_path.empty() )
+				if ( moveComponent->getMovingData().m_movingToObject )
 				{
-					movingData.clear();
-					m_movingFinished = true;
+					if ( movingData.m_path.empty() )
+					{
+						boost::intrusive_ptr< ILocateComponent > targetLocateComponent
+							= moveComponent->getMovingData().m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate );
+
+						if ( isOnRightDistanceToObject( targetLocateComponent->getRect(), locateComponent->getLocation() ) )
+						{
+							isInFinishPoint = true;
+						}
+					}
 				}
-				else
+				else if ( locateComponent->getLocation() == moveComponent->getMovingData().m_movingTo )
 				{
-					movingData = newMovingData;
+					isInFinishPoint = true;
+				}
 
-					m_landscape.setEngagedWithGroungItem( locateComponent->getLocation(), false );
-					m_landscape.setEngagedWithGroungItem( movingData.m_path.front(), true );
+				if ( !isInFinishPoint )
+				{
+					IMoveComponent::MovingData newMovingData;
+					newMovingData.m_movingTo = moveComponent->getMovingData().m_movingTo;
+					newMovingData.m_movingToObject = moveComponent->getMovingData().m_movingToObject;
+
+					IPathFinder::PointsCollection targetPoints;
+					fillPossibleTargetPoints( targetPoints, moveComponent->getMovingData() );
+
+					m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, targetPoints );
+
+					if ( newMovingData.m_path.empty() )
+					{
+						movingData.clear();
+						m_movingFinished = true;
+					}
+					else
+					{
+						movingData = newMovingData;
+
+						m_landscape.setEngagedWithGroungItem( locateComponent->getLocation(), false );
+						m_landscape.setEngagedWithGroungItem( movingData.m_path.front(), true );
+					}
 				}
 			}
 
@@ -209,7 +257,27 @@ MoveAction::processAction( const unsigned int _deltaTime )
 			m_environment.riseEvent( objectMovedEvent );
 		}
 
-		if ( ( m_movingFinished || locateComponent->getLocation() == moveComponent->getMovingData().m_movingTo ) && m_object.getState() == ObjectState::Moving )
+		isInFinishPoint = false;
+
+		if ( moveComponent->getMovingData().m_movingToObject )
+		{
+			if ( movingData.m_path.empty() )
+			{
+				boost::intrusive_ptr< ILocateComponent > targetLocateComponent
+					= moveComponent->getMovingData().m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate );
+
+				if ( isOnRightDistanceToObject( targetLocateComponent->getRect(), locateComponent->getLocation() ) )
+				{
+					isInFinishPoint = true;
+				}
+			}
+		}
+		else if ( locateComponent->getLocation() == moveComponent->getMovingData().m_movingTo )
+		{
+			isInFinishPoint = true;
+		}
+
+		if ( ( m_movingFinished || isInFinishPoint ) && m_object.getState() == ObjectState::Moving )
 		{
 			movingData.clear();
 			m_object.setState( ObjectState::Standing );
@@ -271,6 +339,64 @@ void
 MoveAction::updateWithData( const QVariant& _data )
 {
 } // MoveAction::updateWithData
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MoveAction::fillPossibleTargetPoints(
+		IPathFinder::PointsCollection& _points
+	,	const IMoveComponent::MovingData& _movingData ) const
+{
+	if ( _movingData.m_movingToObject )
+	{
+		boost::intrusive_ptr< ILocateComponent > targetLocateComponent
+			= _movingData.m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate );
+
+		QRect targetRect = targetLocateComponent->getRect();
+
+		for ( int x = targetRect.x() - m_distance; x < targetRect.x() + targetRect.width() + m_distance; ++x )
+		{
+			for ( int y = targetRect.y() - m_distance; y < targetRect.y() + targetRect.height() + m_distance; ++y )
+			{
+				QPoint location( x, y );
+				if ( m_landscape.isLocationInLandscape( location ) )
+					_points.push_back( location );
+			}
+		}
+	}
+	else
+	{
+		_points.push_back( _movingData.m_movingTo );
+	}
+
+	
+
+} // MoveAction::fillPossibleTargetPoints
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+MoveAction::isOnRightDistanceToObject( const QRect& _objectRect, const QPoint& _location ) const
+{
+	for ( int x = _objectRect.x(); x < _objectRect.x() + _objectRect.width(); ++x )
+	{
+		for ( int y = _objectRect.y(); y < _objectRect.y() + _objectRect.height(); ++y )
+		{
+			QPoint point = _location - QPoint( x , y );
+
+			int lenght = point.manhattanLength();
+			if ( point.manhattanLength() <= m_distance )
+				return true;
+		}
+	}
+
+	return false;
+
+} // MoveAction::isOnRightDistanceToObject
 
 
 /*---------------------------------------------------------------------------*/

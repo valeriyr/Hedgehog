@@ -84,6 +84,8 @@ struct ILandscape
 
 	virtual QPoint getNearestLocation( const Object& _nearestFrom, const QString& _forObject ) const = 0;
 
+	virtual bool isLocationInLandscape( const QPoint& _location ) const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };
