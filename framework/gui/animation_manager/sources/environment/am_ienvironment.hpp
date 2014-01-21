@@ -5,8 +5,11 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 #include "images_manager/ih/im_iimages_manager.hpp"
+
+#include "messenger/ms_imessenger.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,6 +37,12 @@ struct IEnvironment
 	virtual const QPixmap& getPixmap(
 			const QString& _resourcePath
 		,	const Framework::GUI::ImagesManager::IImagesManager::TransformationData& _transformationData ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void printMessage(
+			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+		,	const QString& _message ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

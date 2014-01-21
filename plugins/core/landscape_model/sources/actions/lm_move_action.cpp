@@ -386,8 +386,7 @@ MoveAction::isOnRightDistanceToObject( const QRect& _objectRect, const QPoint& _
 		{
 			QPoint point = _location - QPoint( x , y );
 
-			int lenght = point.manhattanLength();
-			if ( point.manhattanLength() <= m_distance )
+			if ( (int)sqrt(pow((double)point.x(), 2) + pow((double)point.y(), 2)) <= m_distance )
 				return true;
 		}
 	}

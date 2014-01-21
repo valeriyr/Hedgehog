@@ -9,6 +9,14 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Tools
+{
+	namespace Core
+	{
+		struct IMessenger;
+	}
+}
+
 namespace Framework
 {
 	namespace Core
@@ -73,6 +81,9 @@ public:
 	/*virtual*/ void close();
 
 /*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< Tools::Core::IMessenger >
+		getSystemMessenger() const;
 
 	boost::intrusive_ptr< Core::MultithreadingManager::IMultithreadingManager >
 		getMultithreadingManager() const;

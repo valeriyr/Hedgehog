@@ -10,6 +10,8 @@
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
 
+#include "animation_manager/sources/resources/am_internal_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -129,7 +131,7 @@ AnimationManager::animationsProcessingTask()
 
 		if (	( currentTime - begin->second->m_lastFrameSwitchTime
 			>=	animationInfo.m_frames[ begin->second->m_frameIndex ].m_period )
-			&&	( currentTime - begin->second->m_finishTime > begin->second->m_delay ) )
+			&&	( currentTime - begin->second->m_finishTime >= begin->second->m_delay - animationInfo.animationDuration() ) )
 		{
 			if ( begin->second->m_frameIndex >= animationInfo.m_frames.size() - 1 )
 			{
@@ -138,6 +140,10 @@ AnimationManager::animationsProcessingTask()
 					objectToDelete.push_back( begin->first );
 					continue;
 				}
+
+				m_environment.printMessage(
+						Tools::Core::IMessenger::MessegeLevel::Info
+					,	QString( "Animation time: %1" ).arg( currentTime - begin->second->m_finishTime ) );
 
 				begin->second->m_frameIndex = 0;
 				begin->second->m_finishTime = currentTime;
@@ -163,6 +169,15 @@ AnimationManager::animationsProcessingTask()
 
 	for ( ; toDeleteBegin != toDeleteEnd; ++toDeleteBegin )
 		m_animationsDataCollection.erase( *toDeleteBegin );
+
+	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - currentTime;
+
+	if ( time > ( static_cast< float >( Resources::TimeLimit ) * 0.6f )  )
+	{
+		m_environment.printMessage(
+				Tools::Core::IMessenger::MessegeLevel::Warning
+			,	QString( Resources::TimeLimitWarning ).arg( time ).arg( Resources::TimeLimit )  );
+	}
 
 } // AnimationManager::animationsProcessingTask
 

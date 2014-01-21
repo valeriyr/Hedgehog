@@ -9,6 +9,7 @@
 #include "animation_manager/sources/environment/am_environment.hpp"
 
 #include "plugins_manager/h/pm_plugin_factory.hpp"
+#include "plugins_manager/h/pm_plugin_id.hpp"
 
 #include "images_manager/ih/im_iimages_manager.hpp"
 #include "images_manager/h/im_plugin_id.hpp"
@@ -18,6 +19,8 @@
 
 #include "script_engine/ih/se_iexporter.hpp"
 #include "script_engine/h/se_plugin_id.hpp"
+
+#include "messenger/ms_imessenger.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -78,6 +81,20 @@ PluginInstance::close()
 	m_environment.reset();
 
 } // PluginInstance::close
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Tools::Core::IMessenger >
+PluginInstance::getSystemMessenger() const
+{
+	return
+		getPluginInterface< Tools::Core::IMessenger >(
+				Framework::Core::PluginsManager::PID_PLUGINS_MANAGER
+			,	Tools::Core::IID_MESSENGER );
+
+} // PluginInstance::getSystemMessenger
 
 
 /*---------------------------------------------------------------------------*/

@@ -30,6 +30,7 @@
     <ClInclude Include="sources\ph\am_ph.hpp" />
     <ClInclude Include="sources\plugin\am_plugin_instance.hpp" />
     <ClInclude Include="sources\animation_manager\am_animation_manager.hpp" />
+    <ClInclude Include="sources\resources\am_internal_resources.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\animations_cache\am_animations_cache.cpp" />
@@ -42,6 +43,7 @@
     </ClCompile>
     <ClCompile Include="sources\plugin\am_plugin_instance.cpp" />
     <ClCompile Include="sources\animation_manager\am_animation_manager.cpp" />
+    <ClCompile Include="sources\resources\am_internal_resources.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4B8B5BD2-CA8B-403F-B04D-08AC9DB74009}</ProjectGuid>

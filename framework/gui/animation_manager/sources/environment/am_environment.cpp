@@ -5,6 +5,8 @@
 
 #include "animation_manager/sources/plugin/am_plugin_instance.hpp"
 
+#include "animation_manager/sources/resources/am_internal_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,7 +39,7 @@ Environment::pushPeriodicalTask(
 		const QString& _threadName
 	,	const Core::MultithreadingManager::RunnableFunction& _function ) const
 {
-	return m_pluginInstance.getMultithreadingManager()->pushPeriodicalTask( _threadName, _function, 100 );
+	return m_pluginInstance.getMultithreadingManager()->pushPeriodicalTask( _threadName, _function, Resources::TimeLimit );
 
 } // Environment::pushPeriodicalTask
 
@@ -64,6 +66,19 @@ Environment::getPixmap(
 	return m_pluginInstance.getImagesManager()->getPixmap( _resourcePath, _transformationData );
 
 } // Environment::getPixmap
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::printMessage(
+		const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
+	,	const QString& _message ) const
+{
+	m_pluginInstance.getSystemMessenger()->printMessage( Resources::ModuleName, _messageLevel, _message );
+
+} // Environment::printMessage
 
 
 /*---------------------------------------------------------------------------*/

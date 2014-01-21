@@ -415,13 +415,16 @@ LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event
 	}
 	else if ( state == Plugins::Core::LandscapeModel::ObjectState::Attacking )
 	{
+		const Core::LandscapeModel::IStaticData::ObjectStaticData
+			staticData = m_environment.getObjectStaticData( name );
+
 		playAnimation(
 				*iterator->second
 			,	m_environment.getString( Resources::Properties::SkinId )
 			,	name
 			,	state
 			,	direction
-			,	m_environment.getObjectStaticData( name ).m_attackData->m_aiming + m_environment.getObjectStaticData( name ).m_attackData->m_reloading );
+			,	staticData.m_attackData->m_aiming + staticData.m_attackData->m_reloading );
 	}
 	else
 	{

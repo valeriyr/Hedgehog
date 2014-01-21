@@ -207,7 +207,7 @@ JumpPointSearch::getNearestFoundPoint(
 		{
 			QPoint point = _from - *begin;
 
-			foundPoints.insert( std::make_pair( point.manhattanLength(), *begin ) );
+			foundPoints.insert( std::make_pair( (int)sqrt(pow((double)point.x(), 2) + pow((double)point.y(), 2)), *begin ) );
 		}
 	}
 

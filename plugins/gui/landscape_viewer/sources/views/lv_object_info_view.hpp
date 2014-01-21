@@ -63,6 +63,8 @@ private:
 
 	void onObjectMoved( const Framework::Core::EventManager::Event& _event );
 
+	void onObjectWasHit( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 	void setDescriptionForObject( const Core::LandscapeModel::Object::UniqueId& _objectId );

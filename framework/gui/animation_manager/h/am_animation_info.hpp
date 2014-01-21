@@ -48,6 +48,20 @@ struct AnimationInfo
 		m_frames.push_back( _frame );
 	}
 
+	int animationDuration() const
+	{
+		int result = 0;
+
+		FramesCollectionIterator
+				begin = m_frames.begin()
+			,	end = m_frames.end();
+
+		for ( ; begin != end; ++begin )
+			result += begin->m_period;
+
+		return result;
+	}
+
 	const QString m_animationName;
 	const QString m_atlasName;
 

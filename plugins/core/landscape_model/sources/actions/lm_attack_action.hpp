@@ -73,6 +73,8 @@ private:
 
 	bool m_attakingFinished;
 
+	int m_attackPhaseCounter;
+
 /*---------------------------------------------------------------------------*/
 
 };
