@@ -146,6 +146,10 @@ LandscapeScene::landscapeWasOpened()
 							,	Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_type
 							,	boost::bind( &LandscapeScene::onObjectStateChanged, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::ObjectWasHit::ms_type
+							,	boost::bind( &LandscapeScene::onObjectWasHit, this, _1 ) );
+
 } // LandscapeScene::landscapeWasOpened
 
 
@@ -437,6 +441,17 @@ LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event
 	}
 
 } // LandscapeScene::onObjectStateChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onObjectWasHit( const Framework::Core::EventManager::Event& _event )
+{
+	m_environment.playSound( "missiles/fist" );
+
+} // LandscapeScene::onObjectWasHit
 
 
 /*---------------------------------------------------------------------------*/
