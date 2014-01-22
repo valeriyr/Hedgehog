@@ -150,6 +150,10 @@ LandscapeScene::landscapeWasOpened()
 							,	Plugins::Core::LandscapeModel::Events::ObjectWasHit::ms_type
 							,	boost::bind( &LandscapeScene::onObjectWasHit, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::ObjectReadyToAttack::ms_type
+							,	boost::bind( &LandscapeScene::onObjectReadyToAttack, this, _1 ) );
+
 } // LandscapeScene::landscapeWasOpened
 
 
@@ -417,20 +421,7 @@ LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event
 			,	state
 			,	direction );
 	}
-	else if ( state == Plugins::Core::LandscapeModel::ObjectState::Attacking )
-	{
-		const Core::LandscapeModel::IStaticData::ObjectStaticData
-			staticData = m_environment.getObjectStaticData( name );
-
-		playAnimation(
-				*iterator->second
-			,	m_environment.getString( Resources::Properties::SkinId )
-			,	name
-			,	state
-			,	direction
-			,	staticData.m_attackData->m_aiming + staticData.m_attackData->m_reloading );
-	}
-	else
+	else if ( state != Plugins::Core::LandscapeModel::ObjectState::Attacking )
 	{
 		playAnimation(
 				*iterator->second
@@ -452,6 +443,33 @@ LandscapeScene::onObjectWasHit( const Framework::Core::EventManager::Event& _eve
 	m_environment.playSound( "missiles/fist" );
 
 } // LandscapeScene::onObjectWasHit
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onObjectReadyToAttack( const Framework::Core::EventManager::Event& _event )
+{
+	const QString name
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectNameAttribute ).toString();
+	const Plugins::Core::LandscapeModel::Object::UniqueId id
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute ).toInt();
+	const Plugins::Core::LandscapeModel::Direction::Enum direction
+		= static_cast< Plugins::Core::LandscapeModel::Direction::Enum >(
+			_event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectDirection ).toInt() );
+
+	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
+	assert( iterator != m_objectsCollection.end() );
+
+	playAnimationOnce(
+			*iterator->second
+		,	m_environment.getString( Resources::Properties::SkinId )
+		,	name
+		,	Core::LandscapeModel::ObjectState::Attacking
+		,	direction );
+
+} // LandscapeScene::onObjectReadyToAttack
 
 
 /*---------------------------------------------------------------------------*/
@@ -833,33 +851,16 @@ LandscapeScene::playAnimation(
 	,	const Core::LandscapeModel::ObjectState::Enum _state
 	,	const Core::LandscapeModel::Direction::Enum _direction )
 {
-	playAnimation( _animateObject, _skinId, _typeName, _state, _direction, 0 );
-
-} // LandscapeScene::playAnimation
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeScene::playAnimation(
-		Framework::GUI::AnimationManager::IAnimateObject& _animateObject
-	,	const QString& _skinId
-	,	const QString& _typeName
-	,	const Core::LandscapeModel::ObjectState::Enum _state
-	,	const Core::LandscapeModel::Direction::Enum _direction
-	,	const qint64 _delay )
-{
 	QString animationName
 		= generateAnimationName( _skinId, _typeName, _state, _direction );
 
 	if ( m_environment.hasAnimation( animationName ) )
 	{
-		m_environment.playAnimation( _animateObject, animationName, _delay );
+		m_environment.playAnimation( _animateObject, animationName );
 	}
 	else
 	{
-		playAnimation( _animateObject, IGraphicsInfoCache::ms_anySkinIdentifier, _typeName, _state, _direction, _delay );
+		playAnimation( _animateObject, IGraphicsInfoCache::ms_anySkinIdentifier, _typeName, _state, _direction );
 	}
 
 } // LandscapeScene::playAnimation

@@ -78,6 +78,17 @@ namespace ObjectWasHit
 
 /*---------------------------------------------------------------------------*/
 
+namespace ObjectReadyToAttack
+{
+	const char* const ms_type = "ObjectReadyToAttack";
+
+	const char* const ms_objectNameAttribute = "ObjectName";
+	const char* const ms_objectIdAttribute = "ObjectId";
+	const char* const ms_objectDirection = "ObjectDirection";
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace ObjectsSelectionChanged
 {
 	const char* const ms_type = "ObjectsSelectionChanged";

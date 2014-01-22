@@ -141,10 +141,6 @@ AnimationManager::animationsProcessingTask()
 					continue;
 				}
 
-				m_environment.printMessage(
-						Tools::Core::IMessenger::MessegeLevel::Info
-					,	QString( "Animation time: %1" ).arg( currentTime - begin->second->m_finishTime ) );
-
 				begin->second->m_frameIndex = 0;
 				begin->second->m_finishTime = currentTime;
 			}

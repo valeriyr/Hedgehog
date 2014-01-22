@@ -141,6 +141,8 @@ private:
 
 	void onObjectWasHit( const Framework::Core::EventManager::Event& _event );
 
+	void onObjectReadyToAttack( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 	void generateLandscape();
@@ -171,14 +173,6 @@ private:
 		,	const QString& _typeName
 		,	const Core::LandscapeModel::ObjectState::Enum _state
 		,	const Core::LandscapeModel::Direction::Enum _direction );
-
-	void playAnimation(
-			Framework::GUI::AnimationManager::IAnimateObject& _animateObject
-		,	const QString& _skinId
-		,	const QString& _typeName
-		,	const Core::LandscapeModel::ObjectState::Enum _state
-		,	const Core::LandscapeModel::Direction::Enum _direction
-		,	const qint64 _delay );
 
 	void playAnimationOnce(
 			Framework::GUI::AnimationManager::IAnimateObject& _animateObject

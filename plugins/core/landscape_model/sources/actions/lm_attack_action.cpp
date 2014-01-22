@@ -113,6 +113,13 @@ AttackAction::processAction( const unsigned int _deltaTime )
 				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
 
 				m_environment.riseEvent( objectStateChangedEvent );
+
+				Framework::Core::EventManager::Event objectReadyToAttackEvent( Events::ObjectReadyToAttack::ms_type );
+				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectNameAttribute, m_object.getName() );
+				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectIdAttribute, m_object.getUniqueId() );
+				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectDirection, locateComponent->getDirection() );
+
+				m_environment.riseEvent( objectReadyToAttackEvent );
 			}
 
 			int prevAttackPhaseCounter = m_attackPhaseCounter;
@@ -121,6 +128,13 @@ AttackAction::processAction( const unsigned int _deltaTime )
 			if ( m_attackPhaseCounter >= attackComponent->getStaticData().m_aiming + attackComponent->getStaticData().m_reloading )
 			{
 				m_attackPhaseCounter = 0;
+
+				Framework::Core::EventManager::Event objectReadyToAttackEvent( Events::ObjectReadyToAttack::ms_type );
+				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectNameAttribute, m_object.getName() );
+				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectIdAttribute, m_object.getUniqueId() );
+				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectDirection, locateComponent->getDirection() );
+
+				m_environment.riseEvent( objectReadyToAttackEvent );
 			}
 			else if ( prevAttackPhaseCounter < attackComponent->getStaticData().m_aiming && m_attackPhaseCounter >= attackComponent->getStaticData().m_aiming )
 			{

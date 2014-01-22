@@ -340,10 +340,9 @@ Environment::getSurfaceItemGraphicsInfo(
 void
 Environment::playAnimation(
 		Framework::GUI::AnimationManager::IAnimateObject& _animateObject
-	,	const QString& _animationName
-	,	const qint64 _delay ) const
+	,	const QString& _animationName ) const
 {
-	m_pluginInstance.getAnimationManager()->playAnimation( _animateObject, _animationName, _delay );
+	m_pluginInstance.getAnimationManager()->playAnimation( _animateObject, _animationName );
 
 } // Environment::playAnimation
 
