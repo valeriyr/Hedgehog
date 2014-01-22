@@ -55,6 +55,14 @@ AttackAction::processAction( const unsigned int _deltaTime )
 {
 	boost::intrusive_ptr< IAttackComponent > attackComponent
 		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
+
+	if ( m_object.getState() == ObjectState::Dying )
+	{
+		attackComponent->setTargetObject( boost::shared_ptr< Object >() );
+		m_attakingFinished = true;
+		return;
+	}
+
 	boost::intrusive_ptr< ILocateComponent > locateComponent
 		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 
@@ -77,6 +85,9 @@ AttackAction::processAction( const unsigned int _deltaTime )
 
 	if ( m_moveAction->hasFinished() )
 	{
+		bool stateChanged = false;
+		bool readyToAttack = false;
+
 		m_moveAction.reset();
 
 		if ( attackComponent->getTargetObject()->getState() == ObjectState::Dying )
@@ -84,52 +95,28 @@ AttackAction::processAction( const unsigned int _deltaTime )
 			if ( m_object.getState() != ObjectState::Standing )
 			{
 				m_object.setState( ObjectState::Standing );
-
-				Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
-
-				m_environment.riseEvent( objectStateChangedEvent );
+				stateChanged = true;
 			}
 
+			attackComponent->setTargetObject( boost::shared_ptr< Object >() );
 			m_attakingFinished = true;
 		}
 		else
 		{
-			if ( m_object.getState() != ObjectState::Attacking )
-			{
-				m_object.setState( ObjectState::Attacking );
-
-				Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
-
-				m_environment.riseEvent( objectStateChangedEvent );
-
-				Framework::Core::EventManager::Event objectReadyToAttackEvent( Events::ObjectReadyToAttack::ms_type );
-				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectNameAttribute, m_object.getName() );
-				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectIdAttribute, m_object.getUniqueId() );
-				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectDirection, locateComponent->getDirection() );
-
-				m_environment.riseEvent( objectReadyToAttackEvent );
-			}
-
 			Direction::Enum currentDirection = locateComponent->getDirection();
 			Direction::Enum nextDirection = Direction::getDirection( locateComponent->getLocation(), targetObjectLocate->getLocation() );
 
 			if ( currentDirection != nextDirection )
 			{
 				locateComponent->setDirection( nextDirection );
+				stateChanged = true;
+			}
 
-				Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
+			if ( m_object.getState() != ObjectState::Attacking )
+			{
+				m_object.setState( ObjectState::Attacking );
+				stateChanged = true;
+				readyToAttack = true;
 			}
 
 			int prevAttackPhaseCounter = m_attackPhaseCounter;
@@ -138,13 +125,7 @@ AttackAction::processAction( const unsigned int _deltaTime )
 			if ( m_attackPhaseCounter >= attackComponent->getStaticData().m_aiming + attackComponent->getStaticData().m_reloading )
 			{
 				m_attackPhaseCounter = 0;
-
-				Framework::Core::EventManager::Event objectReadyToAttackEvent( Events::ObjectReadyToAttack::ms_type );
-				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectNameAttribute, m_object.getName() );
-				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectIdAttribute, m_object.getUniqueId() );
-				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectDirection, locateComponent->getDirection() );
-
-				m_environment.riseEvent( objectReadyToAttackEvent );
+				readyToAttack = true;
 			}
 			else if ( prevAttackPhaseCounter < attackComponent->getStaticData().m_aiming && m_attackPhaseCounter >= attackComponent->getStaticData().m_aiming )
 			{
@@ -177,18 +158,33 @@ AttackAction::processAction( const unsigned int _deltaTime )
 					m_environment.riseEvent( targetObjectStateChangedEvent );
 
 					m_object.setState( ObjectState::Standing );
+					stateChanged = true;
 
-					Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
-
-					m_environment.riseEvent( objectStateChangedEvent );
-
+					attackComponent->setTargetObject( boost::shared_ptr< Object >() );
 					m_attakingFinished = true;
 				}
 			}
+		}
+
+		if ( stateChanged )
+		{
+			Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
+			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
+			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
+			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
+
+			m_environment.riseEvent( objectStateChangedEvent );
+		}
+
+		if ( readyToAttack )
+		{
+			Framework::Core::EventManager::Event objectReadyToAttackEvent( Events::ObjectReadyToAttack::ms_type );
+			objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectNameAttribute, m_object.getName() );
+			objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectIdAttribute, m_object.getUniqueId() );
+			objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectDirection, locateComponent->getDirection() );
+
+			m_environment.riseEvent( objectReadyToAttackEvent );
 		}
 	}
 

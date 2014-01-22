@@ -58,7 +58,11 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 	bool isInFinishPoint = false;
 
-	if ( moveComponent->getMovingData().m_movingToObject )
+	if ( m_object.getState() == ObjectState::Dying )
+	{
+		isInFinishPoint = true;
+	}
+	else if ( moveComponent->getMovingData().m_movingToObject )
 	{
 		if ( movingData.m_path.empty() )
 		{
