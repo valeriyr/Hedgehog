@@ -171,22 +171,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 				QPoint currentLocation( locateComponent->getLocation() );
 				QPoint nextLocation = movingData.m_path.front();
 
-				if ( nextLocation.y() > currentLocation.y() && nextLocation.x() > currentLocation.x() )
-					nextDirection = Direction::SouthEast;
-				else if ( nextLocation.y() < currentLocation.y() && nextLocation.x() > currentLocation.x() )
-					nextDirection = Direction::NorthEast;
-				else if ( nextLocation.y() > currentLocation.y() && nextLocation.x() < currentLocation.x() )
-					nextDirection = Direction::SouthWest;
-				else if ( nextLocation.y() < currentLocation.y() && nextLocation.x() < currentLocation.x() )
-					nextDirection = Direction::NorthWest;
-				else if ( nextLocation.y() > currentLocation.y() )
-					nextDirection = Direction::South;
-				else if ( nextLocation.y() < currentLocation.y() )
-					nextDirection = Direction::North;
-				else if ( nextLocation.x() > currentLocation.x() )
-					nextDirection = Direction::East;
-				else if ( nextLocation.x() < currentLocation.x() )
-					nextDirection = Direction::West;
+				nextDirection = Direction::getDirection( currentLocation, nextLocation );
 
 				ObjectState::Enum currentState = m_object.getState();
 				ObjectState::Enum nextState = ObjectState::Moving;

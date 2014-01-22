@@ -63,7 +63,8 @@ AttackAction::processAction( const unsigned int _deltaTime )
 
 	QPoint point = locateComponent->getLocation() - targetObjectLocate->getLocation();
 
-	if ( ( (int)sqrt(pow((double)point.x(), 2) + pow((double)point.y(), 2)) > attackComponent->getStaticData().m_distance ) && !m_moveAction )
+	// if ( ( (int)sqrt(pow((double)point.x(), 2) + pow((double)point.y(), 2)) > attackComponent->getStaticData().m_distance ) && !m_moveAction )
+	if ( !m_moveAction )
 	{
 		boost::intrusive_ptr< IMoveComponent > moveComponent
 			= m_object.getComponent< IMoveComponent >( ComponentId::Move );
@@ -72,17 +73,12 @@ AttackAction::processAction( const unsigned int _deltaTime )
 		m_moveAction.reset( new MoveAction( m_environment, m_object, m_landscape, m_pathFinder, attackComponent->getStaticData().m_distance ) );
 	}
 
-	if ( m_moveAction )
-	{
-		m_moveAction->processAction( _deltaTime );
+	m_moveAction->processAction( _deltaTime );
 
-		if ( m_moveAction->hasFinished() )
-		{
-			m_moveAction.reset();
-		}
-	}
-	else
+	if ( m_moveAction->hasFinished() )
 	{
+		m_moveAction.reset();
+
 		if ( attackComponent->getTargetObject()->getState() == ObjectState::Dying )
 		{
 			if ( m_object.getState() != ObjectState::Standing )
@@ -120,6 +116,20 @@ AttackAction::processAction( const unsigned int _deltaTime )
 				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectDirection, locateComponent->getDirection() );
 
 				m_environment.riseEvent( objectReadyToAttackEvent );
+			}
+
+			Direction::Enum currentDirection = locateComponent->getDirection();
+			Direction::Enum nextDirection = Direction::getDirection( locateComponent->getLocation(), targetObjectLocate->getLocation() );
+
+			if ( currentDirection != nextDirection )
+			{
+				locateComponent->setDirection( nextDirection );
+
+				Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
+				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
 			}
 
 			int prevAttackPhaseCounter = m_attackPhaseCounter;
