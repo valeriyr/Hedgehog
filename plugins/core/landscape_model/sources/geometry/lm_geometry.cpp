@@ -15,7 +15,7 @@ namespace Geometry {
 float getDistance( const QPoint& _from, const QPoint& _to )
 {
 	QPoint point = _from - _to;
-	return sqrt( pow( static_cast< double >( point.x() ), 2 ) + pow( static_cast< double >( point.y() ), 2 ) );
+	return sqrt( pow( static_cast< float >( point.x() ), 2 ) + pow( static_cast< float >( point.y() ), 2 ) );
 }
 
 /*---------------------------------------------------------------------------*/
@@ -29,7 +29,7 @@ QPoint getNearestPoint( const QPoint& _from, const QRect& _in )
 	{
 		for ( int y = _in.y(); y < _in.y() + _in.height(); ++y )
 		{
-			int temp = getDistance( _from, QPoint( x, y ) );
+			float temp = getDistance( _from, QPoint( x, y ) );
 
 			if ( temp < distance )
 			{
