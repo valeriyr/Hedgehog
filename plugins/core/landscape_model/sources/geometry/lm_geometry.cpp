@@ -23,7 +23,7 @@ float getDistance( const QPoint& _from, const QPoint& _to )
 QPoint getNearestPoint( const QPoint& _from, const QRect& _in )
 {
 	QPoint result( _in.x(), _in.y() );
-	float distance = getDistance( _from, result );
+	float distance = FLT_MAX;
 
 	for ( int x = _in.x(); x < _in.x() + _in.width(); ++x )
 	{
@@ -31,7 +31,7 @@ QPoint getNearestPoint( const QPoint& _from, const QRect& _in )
 		{
 			int temp = getDistance( _from, QPoint( x, y ) );
 
-			if ( distance < temp )
+			if ( temp < distance )
 			{
 				distance = temp;
 				result = QPoint( x, y );
