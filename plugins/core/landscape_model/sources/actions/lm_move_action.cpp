@@ -347,24 +347,26 @@ MoveAction::fillPossibleTargetPoints(
 
 		QRect targetRect = targetLocateComponent->getRect();
 
-		for ( int x = targetRect.x() - m_distance; x < targetRect.x() + targetRect.width() + m_distance; ++x )
+		for ( int x = targetRect.x() - static_cast< int >( m_distance ); x < targetRect.x() + targetRect.width() + static_cast< int >( m_distance ); ++x )
 		{
-			for ( int y = targetRect.y() - m_distance; y < targetRect.y() + targetRect.height() + m_distance; ++y )
+			for ( int y = targetRect.y() - static_cast< int >( m_distance ); y < targetRect.y() + targetRect.height() + static_cast< int >( m_distance ); ++y )
 			{
 				QPoint location( x, y );
-				if ( m_landscape.isLocationInLandscape( location ) )
+				if ( m_landscape.isLocationInLandscape( location ) && Geometry::checkDistance( location, targetRect, m_distance ) )
 					_points.push_back( location );
 			}
 		}
 	}
 	else
 	{
+		QRect targetRect( _movingData.m_movingTo, QSize( 1, 1 ) );
+
 		for ( int x = _movingData.m_movingTo.x() - 1; x <= _movingData.m_movingTo.x() + 1; ++x )
 		{
 			for ( int y = _movingData.m_movingTo.y() - 1; y <= _movingData.m_movingTo.y() + 1; ++y )
 			{
 				QPoint location( x, y );
-				if ( m_landscape.isLocationInLandscape( location ) )
+				if ( m_landscape.isLocationInLandscape( location ) && Geometry::checkDistance( location, targetRect, m_distance ) )
 					_points.push_back( location );
 			}
 		}
