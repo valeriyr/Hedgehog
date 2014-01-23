@@ -17,7 +17,7 @@ struct AttackComponentStaticData
 	AttackComponentStaticData(
 			const int _minDamage
 		,	const int _maxDamage
-		,	const int _distance
+		,	const float _distance
 		,	const int _aiming
 		,	const int _reloading
 		)
@@ -32,7 +32,7 @@ struct AttackComponentStaticData
 
 	const int m_maxDamage;
 
-	const int m_distance;
+	const float m_distance;
 
 	const int m_aiming;
 

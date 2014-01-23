@@ -276,7 +276,7 @@ PluginInstance::exportScriptAPI()
 		->withConstructor< const int >();
 
 	exporter.exportClassWithShared< AttackComponentStaticData >( "AttackComponentStaticData" )
-		->withConstructor< const int, const int, const int, const int, const int >();
+		->withConstructor< const int, const int, const float, const int, const int >();
 
 	exporter.exportClassWithShared< GenerateResourcesComponentStaticData >( "GenerateResourcesComponentStaticData" )
 		->withConstructor()

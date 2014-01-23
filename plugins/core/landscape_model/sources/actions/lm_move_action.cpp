@@ -9,6 +9,8 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 
+#include "landscape_model/sources/geometry/lm_geometry.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -24,7 +26,7 @@ MoveAction::MoveAction(
 	,	Object& _object
 	,	ILandscape& _landscape
 	,	boost::intrusive_ptr< IPathFinder > _pathFinder
-	,	const int _distance
+	,	const float _distance
 	)
 	:	BaseAction( _environment, _object )
 	,	m_landscape( _landscape )
@@ -69,7 +71,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 			boost::intrusive_ptr< ILocateComponent > targetLocateComponent
 				= moveComponent->getMovingData().m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate );
 
-			if ( isOnRightDistanceToObject( targetLocateComponent->getRect(), locateComponent->getLocation() ) )
+			if ( Geometry::checkDistance( locateComponent->getLocation(), targetLocateComponent->getRect(), m_distance ) )
 			{
 				isInFinishPoint = true;
 			}
@@ -199,7 +201,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 						boost::intrusive_ptr< ILocateComponent > targetLocateComponent
 							= moveComponent->getMovingData().m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate );
 
-						if ( isOnRightDistanceToObject( targetLocateComponent->getRect(), locateComponent->getLocation() ) )
+						if ( Geometry::checkDistance( locateComponent->getLocation(), targetLocateComponent->getRect(), m_distance ) )
 						{
 							isInFinishPoint = true;
 						}
@@ -255,7 +257,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 				boost::intrusive_ptr< ILocateComponent > targetLocateComponent
 					= moveComponent->getMovingData().m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate );
 
-				if ( isOnRightDistanceToObject( targetLocateComponent->getRect(), locateComponent->getLocation() ) )
+				if ( Geometry::checkDistance( locateComponent->getLocation(), targetLocateComponent->getRect(), m_distance ) )
 				{
 					isInFinishPoint = true;
 				}
@@ -357,32 +359,18 @@ MoveAction::fillPossibleTargetPoints(
 	}
 	else
 	{
-		_points.push_back( _movingData.m_movingTo );
-	}
-
-} // MoveAction::fillPossibleTargetPoints
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-MoveAction::isOnRightDistanceToObject( const QRect& _objectRect, const QPoint& _location ) const
-{
-	for ( int x = _objectRect.x(); x < _objectRect.x() + _objectRect.width(); ++x )
-	{
-		for ( int y = _objectRect.y(); y < _objectRect.y() + _objectRect.height(); ++y )
+		for ( int x = _movingData.m_movingTo.x() - 1; x <= _movingData.m_movingTo.x() + 1; ++x )
 		{
-			QPoint point = _location - QPoint( x , y );
-
-			if ( (int)sqrt(pow((double)point.x(), 2) + pow((double)point.y(), 2)) <= m_distance )
-				return true;
+			for ( int y = _movingData.m_movingTo.y() - 1; y <= _movingData.m_movingTo.y() + 1; ++y )
+			{
+				QPoint location( x, y );
+				if ( m_landscape.isLocationInLandscape( location ) )
+					_points.push_back( location );
+			}
 		}
 	}
 
-	return false;
-
-} // MoveAction::isOnRightDistanceToObject
+} // MoveAction::fillPossibleTargetPoints
 
 
 /*---------------------------------------------------------------------------*/

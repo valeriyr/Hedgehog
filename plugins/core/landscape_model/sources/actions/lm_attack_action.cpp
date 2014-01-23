@@ -12,6 +12,9 @@
 
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 
+#include "landscape_model/sources/geometry/lm_geometry.hpp"
+
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -69,9 +72,6 @@ AttackAction::processAction( const unsigned int _deltaTime )
 	boost::intrusive_ptr< ILocateComponent > targetObjectLocate
 		= attackComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate );
 
-	QPoint point = locateComponent->getLocation() - targetObjectLocate->getLocation();
-
-	// if ( ( (int)sqrt(pow((double)point.x(), 2) + pow((double)point.y(), 2)) > attackComponent->getStaticData().m_distance ) && !m_moveAction )
 	if ( !m_moveAction )
 	{
 		boost::intrusive_ptr< IMoveComponent > moveComponent
@@ -104,7 +104,10 @@ AttackAction::processAction( const unsigned int _deltaTime )
 		else
 		{
 			Direction::Enum currentDirection = locateComponent->getDirection();
-			Direction::Enum nextDirection = Direction::getDirection( locateComponent->getLocation(), targetObjectLocate->getLocation() );
+			Direction::Enum nextDirection
+				= Direction::getDirection(
+						locateComponent->getLocation()
+					,	Geometry::getNearestPoint( locateComponent->getLocation(), targetObjectLocate->getRect() ) );
 
 			if ( currentDirection != nextDirection )
 			{

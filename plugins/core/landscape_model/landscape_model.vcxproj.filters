@@ -61,6 +61,9 @@
     <Filter Include="Notification Center">
       <UniqueIdentifier>{df6cf411-8739-4917-8afe-6a9390fd4da5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{513acdd3-13cd-43c0-a756-6dbec313624f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -143,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="sources\components\lm_attack_component.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\geometry\lm_geometry.cpp">
+      <Filter>Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +361,9 @@
     </ClInclude>
     <ClInclude Include="sources\components\lm_attack_component.hpp">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\geometry\lm_geometry.hpp">
+      <Filter>Geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
