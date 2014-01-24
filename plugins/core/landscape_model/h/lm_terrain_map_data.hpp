@@ -26,6 +26,18 @@ struct TerrainMapItem
 
 /*---------------------------------------------------------------------------*/
 
+struct Emplacement
+{
+	enum Enum
+	{
+			Ground		 = 1
+		,	Water		 = 2
+		,	Air			 = 3
+	};
+};
+
+/*---------------------------------------------------------------------------*/
+
 struct TerrainMapData
 {
 	TerrainMapData()

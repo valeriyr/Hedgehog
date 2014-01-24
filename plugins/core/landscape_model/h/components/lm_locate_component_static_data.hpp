@@ -21,13 +21,16 @@ struct LocateComponentStaticData
 	LocateComponentStaticData(
 			const QSize& _size
 		,	const TerrainMapItem::MaskType _passability
+		,	const Emplacement::Enum _emplacement
 		)
 		:	m_size( _size )
 		,	m_passability( _passability )
+		,	m_emplacement( _emplacement )
 	{}
 
 	const QSize m_size;
 	const TerrainMapItem::MaskType m_passability;
+	const Emplacement::Enum m_emplacement;
 };
 
 

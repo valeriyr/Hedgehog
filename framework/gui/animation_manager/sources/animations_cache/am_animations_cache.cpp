@@ -35,6 +35,8 @@ AnimationsCache::~AnimationsCache()
 void
 AnimationsCache::regAnimation( const AnimationInfo& _animationInfo )
 {
+	std::string name( _animationInfo.m_animationName.toLocal8Bit().data() );
+
 	assert( m_animationsInfoCollection.find( _animationInfo.m_animationName ) == m_animationsInfoCollection.end() );
 	m_animationsInfoCollection.insert( std::make_pair( _animationInfo.m_animationName, _animationInfo ) );
 
@@ -73,6 +75,8 @@ AnimationsCache::getAnimation( const QString& _animationName ) const
 bool
 AnimationsCache::hasAnimation( const QString& _animationName ) const
 {
+	std::string name( _animationName.toLocal8Bit().data() );
+
 	return m_animationsInfoCollection.find( _animationName ) != m_animationsInfoCollection.end();
 
 } // AnimationsCache::hasAnimation

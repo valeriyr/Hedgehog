@@ -106,6 +106,13 @@ public:
 	}
 
 	template< typename _TProperty >
+	ClassExporter& withRProperty( const char* _propertyName, _TProperty _property )
+	{
+		m_class.def_readonly( _propertyName, _property );
+		return *this;
+	}
+
+	template< typename _TProperty >
 	ClassExporter& withRWProperty( const char* _propertyName, _TProperty _property )
 	{
 		m_class.def_readwrite( _propertyName, _property );
@@ -191,6 +198,13 @@ public:
 	ClassExporterWithShared& withMethod( const char* _methodName, _TMethod _method )
 	{
 		m_class.def( _methodName, _method );
+		return *this;
+	}
+
+	template< typename _TProperty >
+	ClassExporterWithShared& withRProperty( const char* _propertyName, _TProperty _property )
+	{
+		m_class.def_readonly( _propertyName, _property );
 		return *this;
 	}
 

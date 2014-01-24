@@ -206,11 +206,19 @@ PluginInstance::exportScriptAPI()
 
 	// Enums export
 
+	exporter.exportVariable( "AnyTerrain", TerrainMapItem::ms_any );
+
 	exporter.exportClass< TerrainMapItem >( "TerrainMapItem" )
 		->withEnum< TerrainMapItem::Enum >( "Enum" )
 			.withItem( "NotAvailable", TerrainMapItem::NotAvailable )
 			.withItem( "Ground", TerrainMapItem::Ground )
 			.withItem( "Water", TerrainMapItem::Water );
+
+	exporter.exportClass< Emplacement >( "Emplacement" )
+		->withEnum< Emplacement::Enum >( "Enum" )
+			.withItem( "Ground", Emplacement::Ground )
+			.withItem( "Air", Emplacement::Air)
+			.withItem( "Water", Emplacement::Water );
 
 	exporter.exportClass< Actions >( "Actions" )
 		->withEnum< Actions::Enum >( "Enum" )
@@ -263,7 +271,7 @@ PluginInstance::exportScriptAPI()
 		->withConstructor< const int >();
 
 	exporter.exportClassWithShared< LocateComponentStaticData >( "LocateComponentStaticData" )
-		->withConstructor< const QSize&, const TerrainMapItem::MaskType >();
+		->withConstructor< const QSize&, const TerrainMapItem::MaskType, const Emplacement::Enum >();
 
 	exporter.exportClassWithShared< SelectionComponentStaticData >( "SelectionComponentStaticData" )
 		->withConstructor< const bool >();

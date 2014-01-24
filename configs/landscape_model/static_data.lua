@@ -9,7 +9,7 @@ StaticData:regResource( QString( "Wood" ) )
 elvenArcher = ObjectStaticData()
 
 elvenArcher.m_healthData = HealthComponentStaticData( 100 )
-elvenArcher.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground )
+elvenArcher.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground, Emplacement.Ground )
 elvenArcher.m_moveData = MoveComponentStaticData( 800 )
 elvenArcher.m_selectionData = SelectionComponentStaticData( true )
 elvenArcher.m_attackData = AttackComponentStaticData(  14, 17, 4.0, 400, 1500 )
@@ -25,7 +25,7 @@ StaticData:regObjectStaticData( QString( "Elven Archer" ), elvenArcher )
 grunt = ObjectStaticData()
 
 grunt.m_healthData = HealthComponentStaticData( 200 )
-grunt.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground )
+grunt.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground, Emplacement.Ground )
 grunt.m_moveData = MoveComponentStaticData( 1000 )
 grunt.m_selectionData = SelectionComponentStaticData( true )
 grunt.m_attackData = AttackComponentStaticData(  21, 24, 1.0, 500, 1500 )
@@ -36,12 +36,28 @@ grunt.m_actionsData:can( Actions.Attack )
 
 StaticData:regObjectStaticData( QString( "Grunt" ), grunt )
 
+-- Dragon
+
+dragon = ObjectStaticData()
+
+dragon.m_healthData = HealthComponentStaticData( 800 )
+dragon.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), AnyTerrain, Emplacement.Air )
+dragon.m_moveData = MoveComponentStaticData( 1300 )
+dragon.m_selectionData = SelectionComponentStaticData( true )
+dragon.m_attackData = AttackComponentStaticData(  56, 64, 3.0, 500, 1500 )
+
+dragon.m_actionsData = ActionsComponentStaticData()
+dragon.m_actionsData:can( Actions.Move )
+dragon.m_actionsData:can( Actions.Attack )
+
+StaticData:regObjectStaticData( QString( "Dragon" ), dragon )
+
 -- Orc Barracks
 
 orcBarracks = ObjectStaticData()
 
 orcBarracks.m_healthData = HealthComponentStaticData( 1200 )
-orcBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground )
+orcBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground, Emplacement.Ground )
 orcBarracks.m_selectionData = SelectionComponentStaticData( true )
 
 orcBarracks.m_actionsData = ActionsComponentStaticData()
@@ -52,8 +68,13 @@ gruntResourceData = ResourcesData()
 gruntResourceData:pushResource( QString( "Gold" ), 400 )
 gruntResourceData:pushResource( QString( "Wood" ), 200 )
 
+dragonResourceData = ResourcesData()
+dragonResourceData:pushResource( QString( "Gold" ), 1400 )
+dragonResourceData:pushResource( QString( "Wood" ), 1200 )
+
 orcBarracks.m_trainData = TrainComponentStaticData()
 orcBarracks.m_trainData:pushTrainData( QString( "Grunt" ), TrainData( 3000, gruntResourceData ) )
+orcBarracks.m_trainData:pushTrainData( QString( "Dragon" ), TrainData( 4000, dragonResourceData ) )
 
 orcBarracks.m_generateResourcesData = GenerateResourcesComponentStaticData()
 orcBarracks.m_generateResourcesData:canGenerate( QString( "Gold" ), 1000 )
@@ -66,7 +87,7 @@ StaticData:regObjectStaticData( QString( "Orc Barracks" ), orcBarracks )
 humanBarracks = ObjectStaticData()
 
 humanBarracks.m_healthData = HealthComponentStaticData( 1000 )
-humanBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground )
+humanBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground, Emplacement.Ground )
 humanBarracks.m_selectionData = SelectionComponentStaticData( true )
 
 humanBarracks.m_actionsData = ActionsComponentStaticData()
