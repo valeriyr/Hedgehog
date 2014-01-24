@@ -15,7 +15,7 @@ struct Actions
 	enum Enum
 	{
 			Move				= 0
-		,	Build
+		,	Train
 		,	GenerateResources
 		,	Attack
 	};

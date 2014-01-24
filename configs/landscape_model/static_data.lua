@@ -45,15 +45,15 @@ orcBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapI
 orcBarracks.m_selectionData = SelectionComponentStaticData( true )
 
 orcBarracks.m_actionsData = ActionsComponentStaticData()
-orcBarracks.m_actionsData:can( Actions.Build )
+orcBarracks.m_actionsData:can( Actions.Train )
 orcBarracks.m_actionsData:can( Actions.GenerateResources )
 
 gruntResourceData = ResourcesData()
 gruntResourceData:pushResource( QString( "Gold" ), 400 )
 gruntResourceData:pushResource( QString( "Wood" ), 200 )
 
-orcBarracks.m_builderData = BuilderComponentStaticData()
-orcBarracks.m_builderData:pushBuildObjectData( QString( "Grunt" ), BuildObjectData( 3000, gruntResourceData ) )
+orcBarracks.m_trainData = TrainComponentStaticData()
+orcBarracks.m_trainData:pushTrainData( QString( "Grunt" ), TrainData( 3000, gruntResourceData ) )
 
 orcBarracks.m_generateResourcesData = GenerateResourcesComponentStaticData()
 orcBarracks.m_generateResourcesData:canGenerate( QString( "Gold" ), 1000 )
@@ -70,14 +70,14 @@ humanBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMa
 humanBarracks.m_selectionData = SelectionComponentStaticData( true )
 
 humanBarracks.m_actionsData = ActionsComponentStaticData()
-humanBarracks.m_actionsData:can( Actions.Build )
+humanBarracks.m_actionsData:can( Actions.Train )
 
 elvenArcherResourceData = ResourcesData()
 elvenArcherResourceData:pushResource( QString( "Gold" ), 300 )
 elvenArcherResourceData:pushResource( QString( "Wood" ), 100 )
 
-humanBarracks.m_builderData = BuilderComponentStaticData()
-humanBarracks.m_builderData:pushBuildObjectData( QString( "Elven Archer" ), BuildObjectData( 4500, elvenArcherResourceData ) )
+humanBarracks.m_trainData = TrainComponentStaticData()
+humanBarracks.m_trainData:pushTrainData( QString( "Elven Archer" ), TrainData( 4500, elvenArcherResourceData ) )
 
 StaticData:regObjectStaticData( QString( "Human Barracks" ), humanBarracks )
 

@@ -1,6 +1,6 @@
 
-#ifndef __LM_BUILDER_COMPONENT_STATIC_DATA_HPP__
-#define __LM_BUILDER_COMPONENT_STATIC_DATA_HPP__
+#ifndef __LM_TRAIN_COMPONENT_STATIC_DATA_HPP__
+#define __LM_TRAIN_COMPONENT_STATIC_DATA_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,9 +15,9 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-struct BuildObjectData
+struct TrainData
 {
-	BuildObjectData(
+	TrainData(
 			const int _creationTime
 		,	const ResourcesData& _resourcesData
 		)
@@ -33,25 +33,25 @@ struct BuildObjectData
 /*---------------------------------------------------------------------------*/
 
 
-struct BuilderComponentStaticData
+struct TrainComponentStaticData
 {
 	typedef
-		std::map< QString, boost::shared_ptr< const BuildObjectData > >
-		BuildObjectsDataCollection;
+		std::map< QString, boost::shared_ptr< const TrainData > >
+		TrainDataCollection;
 	typedef
-		BuildObjectsDataCollection::const_iterator
-		BuildObjectsDataCollectionIterator;
+		TrainDataCollection::const_iterator
+		TrainDataCollectionIterator;
 
-	BuilderComponentStaticData()
+	TrainComponentStaticData()
 		:	m_buildObjects()
 	{}
 
-	void pushBuildObjectData( const QString _objectName, boost::shared_ptr< BuildObjectData > _data )
+	void pushTrainData( const QString _objectName, boost::shared_ptr< TrainData > _data )
 	{
 		m_buildObjects.insert( std::make_pair( _objectName, _data ) );
 	}
 
-	BuildObjectsDataCollection m_buildObjects;
+	TrainDataCollection m_buildObjects;
 };
 
 
@@ -63,4 +63,4 @@ struct BuilderComponentStaticData
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_BUILDER_COMPONENT_STATIC_DATA_HPP__
+#endif // __LM_TRAIN_COMPONENT_STATIC_DATA_HPP__

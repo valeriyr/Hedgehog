@@ -9,7 +9,7 @@
 #include "landscape_model/h/lm_object_states.hpp"
 
 #include "landscape_model/h/components/lm_component_id.hpp"
-#include "landscape_model/ih/components/lm_ibuilder_component.hpp"
+#include "landscape_model/ih/components/lm_itrain_component.hpp"
 #include "landscape_model/ih/components/lm_ihealth_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_imove_component.hpp"

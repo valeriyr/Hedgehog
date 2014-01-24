@@ -6,7 +6,7 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
-#include "landscape_model/h/components/lm_builder_component_static_data.hpp"
+#include "landscape_model/h/components/lm_train_component_static_data.hpp"
 #include "landscape_model/h/components/lm_health_component_static_data.hpp"
 #include "landscape_model/h/components/lm_locate_component_static_data.hpp"
 #include "landscape_model/h/components/lm_selection_component_static_data.hpp"
@@ -35,7 +35,7 @@ struct IStaticData
 
 	struct ObjectStaticData
 	{
-		boost::shared_ptr< BuilderComponentStaticData > m_builderData;
+		boost::shared_ptr< TrainComponentStaticData > m_trainData;
 		boost::shared_ptr< HealthComponentStaticData > m_healthData;
 		boost::shared_ptr< LocateComponentStaticData > m_locateData;
 		boost::shared_ptr< SelectionComponentStaticData > m_selectionData;

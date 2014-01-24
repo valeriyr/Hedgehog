@@ -1,11 +1,11 @@
 
-#ifndef __LM_IBUILDER_COMPONENT_HPP__
-#define __LM_IBUILDER_COMPONENT_HPP__
+#ifndef __LM_ITRAIN_COMPONENT_HPP__
+#define __LM_ITRAIN_COMPONENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
-#include "landscape_model/h/components/lm_builder_component_static_data.hpp"
+#include "landscape_model/h/components/lm_train_component_static_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,38 +15,38 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IBuilderComponent
+struct ITrainComponent
 	:	public IComponent
 {
 
 /*---------------------------------------------------------------------------*/
 
-	struct BuildData
+	struct TrainData
 	{
 		typedef
 			std::list< QString >
-			BuildObjectsQueue;
+			TrainObjectsQueue;
 		typedef
-			BuildObjectsQueue::const_iterator
-			BuildObjectsQueueIterator;
+			TrainObjectsQueue::const_iterator
+			TrainObjectsQueueIterator;
 
-		BuildData()
-			:	m_buildProgress( 0 )
-			,	m_buildQueue()
+		TrainData()
+			:	m_trainProgress( 0 )
+			,	m_trainQueue()
 		{}
 
-		int m_buildProgress;
+		int m_trainProgress;
 
-		BuildObjectsQueue m_buildQueue;
+		TrainObjectsQueue m_trainQueue;
 	};
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const BuilderComponentStaticData& getStaticData() const = 0;
+	virtual const TrainComponentStaticData& getStaticData() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual BuildData& getBuildData() = 0;
+	virtual TrainData& getTrainData() = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -60,4 +60,4 @@ struct IBuilderComponent
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IBUILDER_COMPONENT_HPP__
+#endif // __LM_ITRAIN_COMPONENT_HPP__

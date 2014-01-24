@@ -96,9 +96,6 @@
     <ClCompile Include="sources\environment\lm_environment.cpp">
       <Filter>Environment</Filter>
     </ClCompile>
-    <ClCompile Include="sources\components\lm_builder_component.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="sources\components\lm_health_component.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -135,9 +132,6 @@
     <ClCompile Include="sources\notification_center\lm_notification_center.cpp">
       <Filter>Notification Center</Filter>
     </ClCompile>
-    <ClCompile Include="sources\actions\lm_build_object_action.cpp">
-      <Filter>Actions</Filter>
-    </ClCompile>
     <ClCompile Include="sources\actions\lm_attack_action.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
@@ -149,6 +143,12 @@
     </ClCompile>
     <ClCompile Include="sources\path_finders\lm_jump_point_search.cpp">
       <Filter>Path Finders</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\actions\lm_train_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\components\lm_train_component.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,9 +230,6 @@
     <ClInclude Include="h\lm_object.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ih\components\lm_ibuilder_component.hpp">
-      <Filter>Interfaces\Components</Filter>
-    </ClInclude>
     <ClInclude Include="ih\components\lm_icomponent.hpp">
       <Filter>Interfaces\Components</Filter>
     </ClInclude>
@@ -243,9 +240,6 @@
       <Filter>Interfaces\Components</Filter>
     </ClInclude>
     <ClInclude Include="sources\components\lm_base_component.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\components\lm_builder_component.hpp">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="sources\components\lm_health_component.hpp">
@@ -261,9 +255,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="h\components\lm_component_id.hpp">
-      <Filter>External Headers\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="h\components\lm_builder_component_static_data.hpp">
       <Filter>External Headers\Components</Filter>
     </ClInclude>
     <ClInclude Include="h\components\lm_health_component_static_data.hpp">
@@ -344,9 +335,6 @@
     <ClInclude Include="sources\landscape\lm_iobjects_creator.hpp">
       <Filter>Landscape</Filter>
     </ClInclude>
-    <ClInclude Include="sources\actions\lm_build_object_action.hpp">
-      <Filter>Actions</Filter>
-    </ClInclude>
     <ClInclude Include="h\lm_resources_data.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
@@ -364,6 +352,18 @@
     </ClInclude>
     <ClInclude Include="sources\geometry\lm_geometry.hpp">
       <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_train_action.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="h\components\lm_train_component_static_data.hpp">
+      <Filter>External Headers\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\components\lm_itrain_component.hpp">
+      <Filter>Interfaces\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\components\lm_train_component.hpp">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

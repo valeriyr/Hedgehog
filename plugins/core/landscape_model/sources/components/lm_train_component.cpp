@@ -1,7 +1,7 @@
 
 #include "landscape_model/sources/ph/lm_ph.hpp"
 
-#include "landscape_model/sources/components/lm_builder_component.hpp"
+#include "landscape_model/sources/components/lm_train_component.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -13,45 +13,45 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-BuilderComponent::BuilderComponent(
+TrainComponent::TrainComponent(
 		Object& _object
-	,	const BuilderComponentStaticData& _staticData
+	,	const TrainComponentStaticData& _staticData
 	)
-	:	BaseComponent< IBuilderComponent >( _object )
+	:	BaseComponent< ITrainComponent >( _object )
 	,	m_staticData( _staticData )
-	,	m_buildData()
+	,	m_trainData()
 {
-} // BuilderComponent::BuilderComponent
+} // TrainComponent::TrainComponent
 
 
 /*---------------------------------------------------------------------------*/
 
 
-BuilderComponent::~BuilderComponent()
+TrainComponent::~TrainComponent()
 {
-} // BuilderComponent::~BuilderComponent
+} // TrainComponent::~TrainComponent
 
 
 /*---------------------------------------------------------------------------*/
 
 
-const BuilderComponentStaticData&
-BuilderComponent::getStaticData() const
+const TrainComponentStaticData&
+TrainComponent::getStaticData() const
 {
 	return m_staticData;
 
-} // BuilderComponent::getStaticData
+} // TrainComponent::getStaticData
 
 
 /*---------------------------------------------------------------------------*/
 
 
-IBuilderComponent::BuildData&
-BuilderComponent::getBuildData()
+ITrainComponent::TrainData&
+TrainComponent::getTrainData()
 {
-	return m_buildData;
+	return m_trainData;
 
-} // BuilderComponent::getBuildData
+} // TrainComponent::getTrainData
 
 
 /*---------------------------------------------------------------------------*/

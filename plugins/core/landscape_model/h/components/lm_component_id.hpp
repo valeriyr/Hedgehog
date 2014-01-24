@@ -16,7 +16,7 @@ struct ComponentId
 	{
 			Health		= 1
 		,	Locate
-		,	Builder
+		,	Train
 		,	Selection
 		,	Actions
 		,	Move

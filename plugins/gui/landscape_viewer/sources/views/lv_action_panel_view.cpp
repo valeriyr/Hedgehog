@@ -165,7 +165,7 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 {
 	m_mainWidget->clear();
 
-	boost::intrusive_ptr< Core::LandscapeModel::IBuilderComponent > builderComponent;
+	boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent;
 	Core::LandscapeModel::Object::UniqueId parentObjectId = Core::LandscapeModel::Object::ms_wrongId;
 
 	{
@@ -179,17 +179,17 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 
 			if ( !selectedObjectsCollection.empty() )
 			{
-				builderComponent = selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::IBuilderComponent >( Plugins::Core::LandscapeModel::ComponentId::Builder );
+				trainComponent = selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::ITrainComponent >( Plugins::Core::LandscapeModel::ComponentId::Train );
 				parentObjectId = selectedObjectsCollection.front()->getUniqueId();
 			}
 		}
 	}
 
-	if ( builderComponent )
+	if ( trainComponent )
 	{
-		Core::LandscapeModel::BuilderComponentStaticData::BuildObjectsDataCollectionIterator
-				begin = builderComponent->getStaticData().m_buildObjects.begin()
-			,	end = builderComponent->getStaticData().m_buildObjects.end();
+		Core::LandscapeModel::TrainComponentStaticData::TrainDataCollectionIterator
+				begin = trainComponent->getStaticData().m_buildObjects.begin()
+			,	end = trainComponent->getStaticData().m_buildObjects.end();
 
 		for ( ; begin != end; ++begin )
 		{

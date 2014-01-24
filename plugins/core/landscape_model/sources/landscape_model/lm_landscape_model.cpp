@@ -14,14 +14,14 @@
 #include "landscape_model/sources/actions/lm_generate_resources_action.hpp"
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 #include "landscape_model/sources/actions/lm_attack_action.hpp"
-#include "landscape_model/sources/actions/lm_build_object_action.hpp"
+#include "landscape_model/sources/actions/lm_train_action.hpp"
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
 #include "landscape_model/sources/notification_center/lm_inotification_center.hpp"
 
-#include "landscape_model/sources/components/lm_builder_component.hpp"
+#include "landscape_model/sources/components/lm_train_component.hpp"
 #include "landscape_model/sources/components/lm_health_component.hpp"
 #include "landscape_model/sources/components/lm_locate_component.hpp"
 #include "landscape_model/sources/components/lm_selection_component.hpp"
@@ -337,15 +337,15 @@ LandscapeModel::buildObject( const Object::UniqueId& _parentObject, const QStrin
 
 		if ( object )
 		{
-			boost::intrusive_ptr< IBuilderComponent > builderComponent
-				= object->getComponent< IBuilderComponent >( ComponentId::Builder );
+			boost::intrusive_ptr< ITrainComponent > trainComponent
+				= object->getComponent< ITrainComponent >( ComponentId::Train );
 
-			if ( builderComponent )
+			if ( trainComponent )
 			{
-				BuilderComponentStaticData::BuildObjectsDataCollectionIterator
-					iterator =  builderComponent->getStaticData().m_buildObjects.find( _objectName );
+				TrainComponentStaticData::TrainDataCollectionIterator
+					iterator = trainComponent->getStaticData().m_buildObjects.find( _objectName );
 
-				if (	iterator != builderComponent->getStaticData().m_buildObjects.end()
+				if (	iterator != trainComponent->getStaticData().m_buildObjects.end()
 					&&	handle->getPlayer()->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
 				{
 					handle->getPlayer()->getResourcesData().substruct( iterator->second->m_resourcesData );
@@ -353,14 +353,14 @@ LandscapeModel::buildObject( const Object::UniqueId& _parentObject, const QStrin
 					boost::intrusive_ptr< IActionsComponent > actionsComponent
 						= object->getComponent< IActionsComponent >( ComponentId::Actions );
 
-					if ( !actionsComponent->getAction( Actions::Build ) )
+					if ( !actionsComponent->getAction( Actions::Train ) )
 					{
 						actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >(
-							new BuildObjectAction( m_environment, *object, *handle->getPlayer(), *handle->getLandscape(), *this ) ) );
+								new TrainAction( m_environment, *object, *handle->getPlayer(), *handle->getLandscape(), *this ) ) );
 					}
 
-					builderComponent->getBuildData().m_buildQueue.push_back( _objectName );
+					trainComponent->getTrainData().m_trainQueue.push_back( _objectName );
 
 					Framework::Core::EventManager::Event builderQueueChangedEvent( Events::BuilderQueueChanged::ms_type );
 					builderQueueChangedEvent.pushAttribute( Events::BuilderQueueChanged::ms_builderIdAttribute, object->getUniqueId() );
@@ -399,10 +399,10 @@ LandscapeModel::createObject( const QPoint& _location, const QString& _objectNam
 				ComponentId::Selection
 			,	boost::intrusive_ptr< IComponent >( new SelectionComponent( *object, *staticData.m_selectionData ) ) );
 
-	if ( staticData.m_builderData )
+	if ( staticData.m_trainData )
 		object->addComponent(
-				ComponentId::Builder
-			,	boost::intrusive_ptr< IComponent >( new BuilderComponent( *object, *staticData.m_builderData ) ) );
+				ComponentId::Train
+			,	boost::intrusive_ptr< IComponent >( new TrainComponent( *object, *staticData.m_trainData ) ) );
 
 	if ( staticData.m_actionsData )
 		object->addComponent(

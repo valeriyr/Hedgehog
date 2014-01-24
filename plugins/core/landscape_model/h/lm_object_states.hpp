@@ -17,7 +17,7 @@ struct ObjectState
 			Standing		= 0
 		,	Moving
 		,	Attacking
-		,	Building
+		,	Training
 		,	Dying
 	};
 };

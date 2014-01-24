@@ -141,7 +141,7 @@ ObjectStatusView::onObjectsSelectionChanged( const Framework::Core::EventManager
 		m_builderId = Core::LandscapeModel::Object::ms_wrongId;
 
 		if (	!selectedObjectsCollection.empty()
-			&&	( *selectedObjectsCollection.begin() )->getComponent< Core::LandscapeModel::IBuilderComponent >( Core::LandscapeModel::ComponentId::Builder ) )
+			&&	( *selectedObjectsCollection.begin() )->getComponent< Core::LandscapeModel::ITrainComponent >( Core::LandscapeModel::ComponentId::Train ) )
 		{
 			m_builderId = ( *selectedObjectsCollection.begin() )->getUniqueId();
 		}
@@ -181,18 +181,18 @@ ObjectStatusView::updateBuildQueue()
 		{
 			boost::shared_ptr< Core::LandscapeModel::Object > object = handle->getLandscape()->getObject( m_builderId );
 
-			boost::intrusive_ptr< Core::LandscapeModel::IBuilderComponent > builderComponent
-				= object->getComponent< Core::LandscapeModel::IBuilderComponent >( Core::LandscapeModel::ComponentId::Builder );
+			boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent
+				= object->getComponent< Core::LandscapeModel::ITrainComponent >( Core::LandscapeModel::ComponentId::Train );
 
-			m_label->setText( QString( "Built: %1 %" ).arg( builderComponent->getBuildData().m_buildProgress ) );
+			m_label->setText( QString( "Built: %1 %" ).arg( trainComponent->getTrainData().m_trainProgress ) );
 
-			if ( !builderComponent->getBuildData().m_buildQueue.empty() )
+			if ( !trainComponent->getTrainData().m_trainQueue.empty() )
 			{
-				m_currentObject->setIcon( QIcon( m_environment.getPixmap( *builderComponent->getBuildData().m_buildQueue.begin() ) ) );
+				m_currentObject->setIcon( QIcon( m_environment.getPixmap( *trainComponent->getTrainData().m_trainQueue.begin() ) ) );
 
-				Core::LandscapeModel::IBuilderComponent::BuildData::BuildObjectsQueueIterator
-						begin = builderComponent->getBuildData().m_buildQueue.begin()
-					,	end = builderComponent->getBuildData().m_buildQueue.end();
+				Core::LandscapeModel::ITrainComponent::TrainData::TrainObjectsQueueIterator
+						begin = trainComponent->getTrainData().m_trainQueue.begin()
+					,	end = trainComponent->getTrainData().m_trainQueue.end();
 
 				++begin;
 

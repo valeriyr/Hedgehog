@@ -215,7 +215,7 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClass< Actions >( "Actions" )
 		->withEnum< Actions::Enum >( "Enum" )
 			.withItem( "Move", Actions::Move )
-			.withItem( "Build", Actions::Build )
+			.withItem( "Train", Actions::Train )
 			.withItem( "GenerateResources", Actions::GenerateResources )
 			.withItem( "Attack", Actions::Attack );
 
@@ -224,7 +224,7 @@ PluginInstance::exportScriptAPI()
 			.withItem( "Standing", ObjectState::Standing )
 			.withItem( "Moving", ObjectState::Moving )
 			.withItem( "Attacking", ObjectState::Attacking )
-			.withItem( "Building", ObjectState::Building )
+			.withItem( "Training", ObjectState::Training )
 			.withItem( "Dying", ObjectState::Dying );
 
 	exporter.exportClass< Direction >( "Direction" )
@@ -252,12 +252,12 @@ PluginInstance::exportScriptAPI()
 		->withConstructor()
 		.withMethod( "pushResource", &ResourcesData::pushResource );
 
-	exporter.exportClassWithShared< BuildObjectData >( "BuildObjectData" )
+	exporter.exportClassWithShared< TrainData >( "TrainData" )
 		->withConstructor< const int, const ResourcesData& >();
 
-	exporter.exportClassWithShared< BuilderComponentStaticData >( "BuilderComponentStaticData" )
+	exporter.exportClassWithShared< TrainComponentStaticData >( "TrainComponentStaticData" )
 		->withConstructor()
-		.withMethod( "pushBuildObjectData", &BuilderComponentStaticData::pushBuildObjectData );
+		.withMethod( "pushTrainData", &TrainComponentStaticData::pushTrainData );
 
 	exporter.exportClassWithShared< HealthComponentStaticData >( "HealthComponentStaticData" )
 		->withConstructor< const int >();
@@ -285,7 +285,7 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClass< IStaticData::ObjectStaticData >( "ObjectStaticData" )
 		->withConstructor()
 		.withRWProperty( "m_actionsData", &IStaticData::ObjectStaticData::m_actionsData )
-		.withRWProperty( "m_builderData", &IStaticData::ObjectStaticData::m_builderData )
+		.withRWProperty( "m_trainData", &IStaticData::ObjectStaticData::m_trainData )
 		.withRWProperty( "m_healthData", &IStaticData::ObjectStaticData::m_healthData )
 		.withRWProperty( "m_locateData", &IStaticData::ObjectStaticData::m_locateData )
 		.withRWProperty( "m_moveData", &IStaticData::ObjectStaticData::m_moveData )

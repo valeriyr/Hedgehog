@@ -1,12 +1,12 @@
 
-#ifndef __LM_BUILDER_COMPONENT_HPP__
-#define __LM_BUILDER_COMPONENT_HPP__
+#ifndef __LM_TRAIN_ACTION_HPP__
+#define __LM_TRAIN_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/components/lm_ibuilder_component.hpp"
+#include "landscape_model/sources/actions/lm_base_action.hpp"
 
-#include "landscape_model/sources/components/lm_base_component.hpp"
+#include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,8 +16,15 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class BuilderComponent
-	:	public BaseComponent< IBuilderComponent >
+struct IPlayer;
+struct ILandscape;
+
+struct ILandscapeModel;
+
+/*---------------------------------------------------------------------------*/
+
+class TrainAction
+	:	public BaseAction
 {
 
 /*---------------------------------------------------------------------------*/
@@ -26,17 +33,30 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	BuilderComponent( Object& _object, const BuilderComponentStaticData& _staticData );
+	TrainAction(
+			const IEnvironment& _environment
+		,	Object& _object
+		,	IPlayer& _player
+		,	ILandscape& _landscape
+		,	ILandscapeModel& _landscapeModel );
 
-	virtual ~BuilderComponent();
+	virtual ~TrainAction();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const BuilderComponentStaticData& getStaticData() const;
+	/*virtual*/ void processAction( const unsigned int _deltaTime );
+
+	/*virtual*/ void unprocessAction( const unsigned int _deltaTime );
+
+	/*virtual*/ bool hasFinished() const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ IBuilderComponent::BuildData& getBuildData();
+	/*virtual*/ const Actions::Enum getType() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void updateWithData( const QVariant& _data );
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,9 +64,11 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const BuilderComponentStaticData& m_staticData;
+	IPlayer& m_player;
 
-	IBuilderComponent::BuildData m_buildData;
+	ILandscape& m_landscape;
+
+	ILandscapeModel& m_landscapeModel;
 
 /*---------------------------------------------------------------------------*/
 
@@ -60,4 +82,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_BUILDER_COMPONENT_HPP__
+#endif // __LM_TRAIN_ACTION_HPP__

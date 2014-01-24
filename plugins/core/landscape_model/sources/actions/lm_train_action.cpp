@@ -1,7 +1,7 @@
 
 #include "landscape_model/sources/ph/lm_ph.hpp"
 
-#include "landscape_model/sources/actions/lm_build_object_action.hpp"
+#include "landscape_model/sources/actions/lm_train_action.hpp"
 
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
@@ -21,7 +21,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-BuildObjectAction::BuildObjectAction(
+TrainAction::TrainAction(
 		const IEnvironment& _environment
 	,	Object& _object
 	,	IPlayer& _player
@@ -33,42 +33,48 @@ BuildObjectAction::BuildObjectAction(
 	,	m_landscape( _landscape )
 	,	m_landscapeModel( _landscapeModel )
 {
-} // BuildObjectAction::BuildObjectAction
+} // TrainAction::TrainAction
 
 
 /*---------------------------------------------------------------------------*/
 
 
-BuildObjectAction::~BuildObjectAction()
+TrainAction::~TrainAction()
 {
-} // BuildObjectAction::~BuildObjectAction
+} // TrainAction::~TrainAction
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-BuildObjectAction::processAction( const unsigned int _deltaTime )
+TrainAction::processAction( const unsigned int _deltaTime )
 {
-	boost::intrusive_ptr< IBuilderComponent > builderComponent
-		= m_object.getComponent< IBuilderComponent >( ComponentId::Builder );
-	IBuilderComponent::BuildData& buildData = builderComponent->getBuildData();
+	boost::intrusive_ptr< ITrainComponent > trainComponent
+		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
+	ITrainComponent::TrainData& trainData = trainComponent->getTrainData();
+
+	if ( m_object.getState() == ObjectState::Dying )
+	{
+		trainData.m_trainQueue.clear();
+		return;
+	}
 
 	int creatingTime
-		= builderComponent->getStaticData().m_buildObjects.find( buildData.m_buildQueue.front() )->second->m_creationTime;
+		= trainComponent->getStaticData().m_buildObjects.find( trainData.m_trainQueue.front() )->second->m_creationTime;
 	int creatingDelta = ( static_cast< float >( _deltaTime ) / creatingTime ) * 100;
 
-	buildData.m_buildProgress += creatingDelta;
+	trainData.m_trainProgress += creatingDelta;
 
-	if ( buildData.m_buildProgress > 100 )
+	if ( trainData.m_trainProgress > 100 )
 	{
 		boost::intrusive_ptr< ILocateComponent > locateComponent
 			= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 
-		m_landscapeModel.createObject( m_landscape.getNearestLocation( m_object, buildData.m_buildQueue.front() ), buildData.m_buildQueue.front() );
+		m_landscapeModel.createObject( m_landscape.getNearestLocation( m_object, trainData.m_trainQueue.front() ), trainData.m_trainQueue.front() );
 
-		buildData.m_buildProgress = 0;
-		buildData.m_buildQueue.pop_front();
+		trainData.m_trainProgress = 0;
+		trainData.m_trainQueue.pop_front();
 	}
 
 	Framework::Core::EventManager::Event builderQueueChangedEvent( Events::BuilderQueueChanged::ms_type );
@@ -76,49 +82,49 @@ BuildObjectAction::processAction( const unsigned int _deltaTime )
 	
 	m_environment.riseEvent( builderQueueChangedEvent );
 
-} // BuildObjectAction::processAction
+} // TrainAction::processAction
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-BuildObjectAction::unprocessAction( const unsigned int _deltaTime )
+TrainAction::unprocessAction( const unsigned int _deltaTime )
 {
-} // BuildObjectAction::unprocessAction
+} // TrainAction::unprocessAction
 
 
 /*---------------------------------------------------------------------------*/
 
 
 bool
-BuildObjectAction::hasFinished() const
+TrainAction::hasFinished() const
 {
-	IBuilderComponent::BuildData& buildData
-		= m_object.getComponent< IBuilderComponent >( ComponentId::Builder )->getBuildData();
-	return buildData.m_buildQueue.empty();
+	ITrainComponent::TrainData& trainData
+		= m_object.getComponent< ITrainComponent >( ComponentId::Train )->getTrainData();
+	return trainData.m_trainQueue.empty();
 
-} // BuildObjectAction::hasFinished
+} // TrainAction::hasFinished
 
 
 /*---------------------------------------------------------------------------*/
 
 
 const Actions::Enum
-BuildObjectAction::getType() const
+TrainAction::getType() const
 {
-	return Actions::Build;
+	return Actions::Train;
 
-} // BuildObjectAction::getType
+} // TrainAction::getType
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-BuildObjectAction::updateWithData( const QVariant& _data )
+TrainAction::updateWithData( const QVariant& _data )
 {
-} // BuildObjectAction::updateWithData
+} // TrainAction::updateWithData
 
 
 /*---------------------------------------------------------------------------*/
