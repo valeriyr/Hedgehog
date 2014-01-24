@@ -14,13 +14,13 @@ namespace LandscapeModel {
 
 
 LandscapeHandle::LandscapeHandle(
-		boost::intrusive_ptr< ILandscape > _landscape
-	,	boost::intrusive_ptr< IPlayer > _player
-	,	QMutex& _locker
+		boost::intrusive_ptr< ILandscape >& _landscape
+	,	boost::intrusive_ptr< IPlayer >& _player
+	,	QMutex& _mutex
 	)
-	:	m_landscape( _landscape )
+	:	m_lockerHolder( &_mutex )
+	,	m_landscape( _landscape )
 	,	m_player( _player )
-	,	m_lockerHolder( &_locker )
 {
 } // LandscapeHandle::LandscapeHandle
 

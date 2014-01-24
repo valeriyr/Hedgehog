@@ -29,9 +29,9 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	LandscapeHandle(
-			boost::intrusive_ptr< ILandscape > _landscape
-		,	boost::intrusive_ptr< IPlayer > _player
-		,	QMutex& _locker );
+			boost::intrusive_ptr< ILandscape >& _landscape
+		,	boost::intrusive_ptr< IPlayer >& _player
+		,	QMutex& _mutex );
 
 	virtual ~LandscapeHandle();
 
@@ -47,11 +47,11 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	QMutexLocker m_lockerHolder;
+
 	boost::intrusive_ptr< ILandscape > m_landscape;
 
 	boost::intrusive_ptr< IPlayer > m_player;
-
-	QMutexLocker m_lockerHolder;
 
 /*---------------------------------------------------------------------------*/
 

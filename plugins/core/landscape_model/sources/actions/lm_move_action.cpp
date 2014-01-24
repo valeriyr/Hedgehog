@@ -359,17 +359,7 @@ MoveAction::fillPossibleTargetPoints(
 	}
 	else
 	{
-		QRect targetRect( _movingData.m_movingTo, QSize( 1, 1 ) );
-
-		for ( int x = _movingData.m_movingTo.x() - 1; x <= _movingData.m_movingTo.x() + 1; ++x )
-		{
-			for ( int y = _movingData.m_movingTo.y() - 1; y <= _movingData.m_movingTo.y() + 1; ++y )
-			{
-				QPoint location( x, y );
-				if ( m_landscape.isLocationInLandscape( location ) && Geometry::checkDistance( location, targetRect, m_distance ) )
-					_points.push_back( location );
-			}
-		}
+		_points.push_back( _movingData.m_movingTo );
 	}
 
 } // MoveAction::fillPossibleTargetPoints

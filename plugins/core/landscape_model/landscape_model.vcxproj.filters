@@ -96,9 +96,6 @@
     <ClCompile Include="sources\environment\lm_environment.cpp">
       <Filter>Environment</Filter>
     </ClCompile>
-    <ClCompile Include="sources\path_finders\lm_jump_point_search.cpp">
-      <Filter>Path Finders</Filter>
-    </ClCompile>
     <ClCompile Include="sources\components\lm_builder_component.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -149,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="sources\geometry\lm_geometry.cpp">
       <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\path_finders\lm_jump_point_search.cpp">
+      <Filter>Path Finders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

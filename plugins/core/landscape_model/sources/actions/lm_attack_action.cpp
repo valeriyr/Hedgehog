@@ -72,23 +72,28 @@ AttackAction::processAction( const unsigned int _deltaTime )
 	boost::intrusive_ptr< ILocateComponent > targetObjectLocate
 		= attackComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate );
 
-	if ( !m_moveAction )
+	if (	Geometry::getDistance( locateComponent->getLocation(), Geometry::getNearestPoint( locateComponent->getLocation(), targetObjectLocate->getRect() ) )
+		>	attackComponent->getStaticData().m_distance )
 	{
-		boost::intrusive_ptr< IMoveComponent > moveComponent
-			= m_object.getComponent< IMoveComponent >( ComponentId::Move );
-		moveComponent->getMovingData().m_movingToObject = attackComponent->getTargetObject();
+		if ( !m_moveAction )
+		{
+			boost::intrusive_ptr< IMoveComponent > moveComponent
+				= m_object.getComponent< IMoveComponent >( ComponentId::Move );
+			moveComponent->getMovingData().m_movingToObject = attackComponent->getTargetObject();
 
-		m_moveAction.reset( new MoveAction( m_environment, m_object, m_landscape, m_pathFinder, attackComponent->getStaticData().m_distance ) );
+			m_moveAction.reset( new MoveAction( m_environment, m_object, m_landscape, m_pathFinder, attackComponent->getStaticData().m_distance ) );
+		}
+
+		m_moveAction->processAction( _deltaTime );
+
+		if ( m_moveAction->hasFinished() )
+			m_moveAction.reset();
 	}
 
-	m_moveAction->processAction( _deltaTime );
-
-	if ( m_moveAction->hasFinished() )
+	if ( !m_moveAction )
 	{
 		bool stateChanged = false;
 		bool readyToAttack = false;
-
-		m_moveAction.reset();
 
 		if ( attackComponent->getTargetObject()->getState() == ObjectState::Dying )
 		{

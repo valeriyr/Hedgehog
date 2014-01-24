@@ -97,12 +97,12 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 			}
 		}
 		++d;
-	} while ( !stop && !allPointsAreProcessed( matrix, _targets ) );
+	} while ( !stop && !hasFoundPoint( matrix, _targets ) );
 
 	if ( !hasFoundPoint( matrix, _targets ) )
 		return;
 
-	QPoint finishPoint = getNearestFoundPoint( matrix, _targets, startPoint );
+	QPoint finishPoint = getFoundPoint( matrix, _targets );
 
 	int len = matrix.getConstElement( finishPoint.x(), finishPoint.y() );
 	d = len;
@@ -141,32 +141,6 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 
 
 bool
-JumpPointSearch::allPointsAreProcessed(
-		const Tools::Core::Containers::Matrix< int >& matrix
-	,	const IPathFinder::PointsCollection& _targets ) const
-{
-	assert( !_targets.empty() );
-
-	IPathFinder::PointsCollectionConstIterator
-			begin = _targets.begin()
-		,	end = _targets.end();
-
-	for ( ; begin != end; ++begin )
-	{
-		if (	matrix.getConstElement( begin->x(), begin->y() ) < 0
-			&&	matrix.getConstElement( begin->x(), begin->y() ) != ms_engagedCell )
-			return false;
-	}
-
-	return true;
-
-} // JumpPointSearch::allPointsAreProcessed
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
 JumpPointSearch::hasFoundPoint(
 		const Tools::Core::Containers::Matrix< int >& matrix
 	,	const IPathFinder::PointsCollection& _targets ) const
@@ -190,13 +164,10 @@ JumpPointSearch::hasFoundPoint(
 
 
 QPoint
-JumpPointSearch::getNearestFoundPoint(
+JumpPointSearch::getFoundPoint(
 		const Tools::Core::Containers::Matrix< int >& matrix
-	,	const IPathFinder::PointsCollection& _targets
-	,	const QPoint& _from ) const
+	,	const IPathFinder::PointsCollection& _targets ) const
 {
-	std::map< int, QPoint > foundPoints;
-
 	IPathFinder::PointsCollectionConstIterator
 			begin = _targets.begin()
 		,	end = _targets.end();
@@ -204,18 +175,14 @@ JumpPointSearch::getNearestFoundPoint(
 	for ( ; begin != end; ++begin )
 	{
 		if ( matrix.getConstElement( begin->x(), begin->y() ) >= 0 )
-		{
-			QPoint point = _from - *begin;
-
-			foundPoints.insert( std::make_pair( (int)sqrt(pow((double)point.x(), 2) + pow((double)point.y(), 2)), *begin ) );
-		}
+			return *begin;
 	}
 
-	assert( !foundPoints.empty() && "You should check collection before call this function!" );
+	assert( !"You should check collection before call this function!" );
 
-	return foundPoints.begin()->second;
+	return QPoint();
 
-} // JumpPointSearch::getNearestFoundPoint
+} // JumpPointSearch::getFoundPoint
 
 
 /*---------------------------------------------------------------------------*/
