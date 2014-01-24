@@ -103,9 +103,6 @@ Environment::getPixmap( const QString& _objectName, const QString& _skinId ) con
 			,	Core::LandscapeModel::ObjectState::Standing
 			,	Core::LandscapeModel::Direction::South ) );
 
-	std::string str1( _objectName.toLocal8Bit().data() );
-	std::string str2( _skinId.toLocal8Bit().data() );
-
 	if ( m_pluginInstance.getAnimationsCache()->hasAnimation( animationName ) )
 	{
 		const Framework::GUI::AnimationManager::AnimationInfo& animationInfo
