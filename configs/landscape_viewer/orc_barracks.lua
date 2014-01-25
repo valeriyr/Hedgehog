@@ -26,6 +26,39 @@ do
 
 	end
 
+	do -- dying south animation ( summer skin )
+
+		animationName = generateAnimationName( QString( "summer" ), orcBarracksName, ObjectState.Dying, Direction.South )
+
+		animationInfo = AnimationInfo( animationName, QString( "skins/summer/destroyed" ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 64, 64 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
+	do -- dying south animation ( wasteland skin )
+
+		animationName = generateAnimationName( QString( "wasteland" ), orcBarracksName, ObjectState.Dying, Direction.South )
+
+		animationInfo = AnimationInfo( animationName, QString( "skins/wasteland/destroyed" ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 64, 64 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
+	do -- dying south animation ( winter skin )
+
+		animationName = generateAnimationName( QString( "winter" ), orcBarracksName, ObjectState.Dying, Direction.South )
+
+		animationInfo = AnimationInfo( animationName, QString( "skins/winter/destroyed" ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 64, 64 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
 end
 
 -- End script message
