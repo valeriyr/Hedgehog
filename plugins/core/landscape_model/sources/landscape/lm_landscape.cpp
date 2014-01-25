@@ -142,9 +142,9 @@ Landscape::getTerrainMapData( const QPoint& _point ) const
 
 
 void
-Landscape::setEngagedWithGroungItem( const QPoint& _point, const bool _isEngaged )
+Landscape::setEngagedWithGroungItem( const QPoint& _point, const Emplacement::Enum _emplacement, const bool _isEngaged )
 {
-	m_terrainMap.getElement( _point.x(), _point.y() ).m_engagedWithGround = _isEngaged;
+	m_terrainMap.getElement( _point.x(), _point.y() ).markAsEngaged( _emplacement, _isEngaged );
 
 } // Landscape::setEngagedWithGroungItem
 
@@ -244,7 +244,7 @@ Landscape::createObject( const QPoint& _location, const QString& _objectName )
 		{
 			for ( int y = objectRect.y(); y < objectRect.y() + objectRect.height(); ++y )
 			{
-				m_terrainMap.getElement( x, y ).m_engagedWithGround = true;
+				m_terrainMap.getElement( x, y ).markAsEngaged( staticData.m_locateData->m_emplacement, true );
 			}
 		}
 
@@ -333,7 +333,7 @@ Landscape::canObjectBePlaced(
 			}
 
 			if (	!( _data.m_passability & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
-				||	m_terrainMap.getConstElement( x, y ).m_engagedWithGround )
+				||	m_terrainMap.getConstElement( x, y ).canBePlaced( _data.m_emplacement ) )
 			{
 				return false;
 			}

@@ -14,9 +14,9 @@ struct TerrainMapItem
 {
 	enum Enum
 	{
-			NotAvailable = 1
-		,	Ground		 = 2
-		,	Water		 = 4
+			NotAvailable	= 1
+		,	Ground			= 2
+		,	Water			= 4
 	};
 
 	typedef unsigned int MaskType;
@@ -31,8 +31,7 @@ struct Emplacement
 	enum Enum
 	{
 			Ground		 = 1
-		,	Water		 = 2
-		,	Air			 = 3
+		,	Air			 = 2
 	};
 };
 
@@ -55,6 +54,34 @@ struct TerrainMapData
 		,	m_engagedWithGround( _engagedWithGround )
 		,	m_engagedWithAir( _engagedWithAir )
 	{}
+
+	void markAsEngaged( const Emplacement::Enum _emplacement, const bool _isEngaged )
+	{
+		switch( _emplacement )
+		{
+		case Emplacement::Air:
+			m_engagedWithAir = _isEngaged;
+			break;
+		case Emplacement::Ground:
+			m_engagedWithGround = _isEngaged;
+			break;
+		}
+	}
+
+	bool canBePlaced( const Emplacement::Enum _emplacement ) const
+	{
+		switch( _emplacement )
+		{
+		case Emplacement::Air:
+			return m_engagedWithAir == true;
+			break;
+		case Emplacement::Ground:
+			return m_engagedWithGround == true;
+			break;
+		}
+
+		return false;
+	}
 
 	TerrainMapItem::Enum m_terrainMapItem;
 	bool m_engagedWithGround;

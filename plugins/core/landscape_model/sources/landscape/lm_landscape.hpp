@@ -59,7 +59,7 @@ public:
 
 	/*virtual*/ const TerrainMapData& getTerrainMapData( const QPoint& _point ) const;
 
-	/*virtual*/ void setEngagedWithGroungItem( const QPoint& _point, const bool _isEngaged );
+	/*virtual*/ void setEngagedWithGroungItem( const QPoint& _point, const Emplacement::Enum _emplacement, const bool _isEngaged );
 
 /*---------------------------------------------------------------------------*/
 

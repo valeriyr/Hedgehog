@@ -217,8 +217,7 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClass< Emplacement >( "Emplacement" )
 		->withEnum< Emplacement::Enum >( "Enum" )
 			.withItem( "Ground", Emplacement::Ground )
-			.withItem( "Air", Emplacement::Air)
-			.withItem( "Water", Emplacement::Water );
+			.withItem( "Air", Emplacement::Air);
 
 	exporter.exportClass< Actions >( "Actions" )
 		->withEnum< Actions::Enum >( "Enum" )
