@@ -211,8 +211,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 240, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 400, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 300, QRect( 0, 320, 88, 80 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -225,8 +224,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 88,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 88, 240, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 88, 400, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 300, QRect( 88, 320, 88, 80 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 88,   0, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -239,8 +237,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 176,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 176, 240, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 176, 400, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 300, QRect( 176, 320, 88, 80 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 176,   0, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -253,8 +250,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 264,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 264, 240, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 264, 400, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 300, QRect( 264, 320, 88, 80 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 264,   0, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -267,8 +263,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 352,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 352, 240, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 352, 400, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 300, QRect( 352, 320, 88, 80 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 352,   0, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -281,8 +276,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 264,   0, 88, 80 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 264, 240, 88, 80 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 264, 400, 88, 80 ), true ) )
+		animationInfo:addFrame( FrameInfo( 300, QRect( 264, 320, 88, 80 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 264,   0, 88, 80 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -295,8 +289,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 176,   0, 88, 80 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 176, 240, 88, 80 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 176, 400, 88, 80 ), true ) )
+		animationInfo:addFrame( FrameInfo( 300, QRect( 176, 320, 88, 80 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 176,   0, 88, 80 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -309,8 +302,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 88,   0, 88, 80 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 88, 240, 88, 80 ), true ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 88, 400, 88, 80 ), true ) )
+		animationInfo:addFrame( FrameInfo( 300, QRect( 88, 320, 88, 80 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 88,   0, 88, 80 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -322,10 +314,10 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, dragonName, ObjectState.Dying, Direction.North )
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 528,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 616, 480, 72, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 704, 560, 72, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 792, 640, 72, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 480, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 560, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 640, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
 
@@ -336,10 +328,11 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, dragonName, ObjectState.Dying, Direction.NorthEast )
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 528,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 616, 480, 72, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 704, 560, 72, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 792, 640, 72, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 400, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 480, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 560, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 640, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
 
@@ -350,10 +343,11 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, dragonName, ObjectState.Dying, Direction.East )
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 528,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 616, 480, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 704, 560, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 792, 640, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 400, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 480, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 560, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 640, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
 
@@ -364,10 +358,11 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, dragonName, ObjectState.Dying, Direction.SouthEast )
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 528,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 616, 480, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 704, 560, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 792, 640, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 400, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 480, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 560, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 640, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
 
@@ -378,10 +373,11 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, dragonName, ObjectState.Dying, Direction.South )
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 528,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 616, 480, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 704, 560, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 792, 640, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 400, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 480, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 560, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 640, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
 
@@ -392,10 +388,11 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, dragonName, ObjectState.Dying, Direction.SouthWest )
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 528,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 616, 480, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 704, 560, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 792, 640, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 400, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 480, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 560, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 640, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
 
@@ -406,10 +403,11 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, dragonName, ObjectState.Dying, Direction.West )
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 528,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 616, 480, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 704, 560, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 792, 640, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 400, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 480, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 560, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 640, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
 
@@ -420,10 +418,11 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, dragonName, ObjectState.Dying, Direction.NorthWest )
 
 		animationInfo = AnimationInfo( animationName, dragonAtlas )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 528,   0, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 616, 480, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 704, 560, 88, 80 ) ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 792, 640, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 400, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 480, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 560, 88, 80 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 640, 88, 80 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
 
