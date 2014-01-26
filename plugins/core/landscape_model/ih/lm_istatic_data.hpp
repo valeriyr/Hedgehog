@@ -14,6 +14,7 @@
 #include "landscape_model/h/components/lm_move_component_static_data.hpp"
 #include "landscape_model/h/components/lm_generate_resources_component_static_data.hpp"
 #include "landscape_model/h/components/lm_attack_component_static_data.hpp"
+#include "landscape_model/h/components/lm_build_component_static_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,6 +44,7 @@ struct IStaticData
 		boost::shared_ptr< MoveComponentStaticData > m_moveData;
 		boost::shared_ptr< GenerateResourcesComponentStaticData > m_generateResourcesData;
 		boost::shared_ptr< AttackComponentStaticData > m_attackData;
+		boost::shared_ptr< BuildComponentStaticData > m_buildData;
 	};
 
 /*---------------------------------------------------------------------------*/

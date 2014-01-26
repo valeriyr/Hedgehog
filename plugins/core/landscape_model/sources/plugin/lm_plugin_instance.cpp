@@ -224,7 +224,8 @@ PluginInstance::exportScriptAPI()
 			.withItem( "Move", Actions::Move )
 			.withItem( "Train", Actions::Train )
 			.withItem( "GenerateResources", Actions::GenerateResources )
-			.withItem( "Attack", Actions::Attack );
+			.withItem( "Attack", Actions::Attack )
+			.withItem( "Build", Actions::Build );
 
 	exporter.exportClass< ObjectState >( "ObjectState" )
 		->withEnum< ObjectState::Enum >( "Enum" )
@@ -232,6 +233,7 @@ PluginInstance::exportScriptAPI()
 			.withItem( "Moving", ObjectState::Moving )
 			.withItem( "Attacking", ObjectState::Attacking )
 			.withItem( "Training", ObjectState::Training )
+			.withItem( "Building", ObjectState::Building )
 			.withItem( "Dying", ObjectState::Dying );
 
 	exporter.exportClass< Direction >( "Direction" )
@@ -266,6 +268,13 @@ PluginInstance::exportScriptAPI()
 		->withConstructor()
 		.withMethod( "pushTrainData", &TrainComponentStaticData::pushTrainData );
 
+	exporter.exportClassWithShared< BuildData >( "BuildData" )
+		->withConstructor< const int, const ResourcesData& >();
+
+	exporter.exportClassWithShared< BuildComponentStaticData >( "BuildComponentStaticData" )
+		->withConstructor()
+		.withMethod( "pushBuildData", &BuildComponentStaticData::pushBuildData );
+
 	exporter.exportClassWithShared< HealthComponentStaticData >( "HealthComponentStaticData" )
 		->withConstructor< const int >();
 
@@ -298,7 +307,8 @@ PluginInstance::exportScriptAPI()
 		.withRWProperty( "m_moveData", &IStaticData::ObjectStaticData::m_moveData )
 		.withRWProperty( "m_selectionData", &IStaticData::ObjectStaticData::m_selectionData )
 		.withRWProperty( "m_generateResourcesData", &IStaticData::ObjectStaticData::m_generateResourcesData )
-		.withRWProperty( "m_attackData", &IStaticData::ObjectStaticData::m_attackData );
+		.withRWProperty( "m_attackData", &IStaticData::ObjectStaticData::m_attackData )
+		.withRWProperty( "m_buildData", &IStaticData::ObjectStaticData::m_buildData );
 
 	exporter.exportClass< IStaticData >( "IStaticData" )
 		->withMethod( "regObjectStaticData", &IStaticData::regObjectStaticData )

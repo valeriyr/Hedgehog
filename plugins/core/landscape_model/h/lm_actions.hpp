@@ -18,6 +18,7 @@ struct Actions
 		,	Train
 		,	GenerateResources
 		,	Attack
+		,	Build
 	};
 };
 

@@ -22,6 +22,7 @@ struct ComponentId
 		,	Move
 		,	ResourcesGenerating
 		,	Attack
+		,	Build
 	};
 };
 
