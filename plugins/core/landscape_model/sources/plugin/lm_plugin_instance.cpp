@@ -255,11 +255,13 @@ PluginInstance::exportScriptAPI()
 
 	exporter.exportVariable( "SurfaceItemsCache", m_surfaceItemsCache.get() );
 
-	// Static data export
+	// ResourcesData
 
 	exporter.exportClassWithShared< ResourcesData >( "ResourcesData" )
 		->withConstructor()
 		.withMethod( "pushResource", &ResourcesData::pushResource );
+
+	// TrainComponent
 
 	exporter.exportClassWithShared< TrainData >( "TrainData" )
 		->withConstructor< const int, const ResourcesData& >();
@@ -268,6 +270,8 @@ PluginInstance::exportScriptAPI()
 		->withConstructor()
 		.withMethod( "pushTrainData", &TrainComponentStaticData::pushTrainData );
 
+	// BuildComponent
+
 	exporter.exportClassWithShared< BuildData >( "BuildData" )
 		->withConstructor< const int, const ResourcesData& >();
 
@@ -275,28 +279,44 @@ PluginInstance::exportScriptAPI()
 		->withConstructor()
 		.withMethod( "pushBuildData", &BuildComponentStaticData::pushBuildData );
 
+	// HealthComponent
+
 	exporter.exportClassWithShared< HealthComponentStaticData >( "HealthComponentStaticData" )
 		->withConstructor< const int >();
+
+	// LocateComponent
 
 	exporter.exportClassWithShared< LocateComponentStaticData >( "LocateComponentStaticData" )
 		->withConstructor< const QSize&, const TerrainMapItem::MaskType, const Emplacement::Enum >();
 
+	// SelectionComponent
+
 	exporter.exportClassWithShared< SelectionComponentStaticData >( "SelectionComponentStaticData" )
 		->withConstructor< const bool >();
+
+	// ActionsComponent
 
 	exporter.exportClassWithShared< ActionsComponentStaticData >( "ActionsComponentStaticData" )
 		->withConstructor()
 		.withMethod( "can", &ActionsComponentStaticData::can );
 
+	// MoveComponent
+
 	exporter.exportClassWithShared< MoveComponentStaticData >( "MoveComponentStaticData" )
 		->withConstructor< const int >();
+
+	// AttackComponent
 
 	exporter.exportClassWithShared< AttackComponentStaticData >( "AttackComponentStaticData" )
 		->withConstructor< const int, const int, const float, const int, const int >();
 
+	// GenerateResourcesComponent
+
 	exporter.exportClassWithShared< GenerateResourcesComponentStaticData >( "GenerateResourcesComponentStaticData" )
 		->withConstructor()
 		.withMethod( "canGenerate", &GenerateResourcesComponentStaticData::canGenerate );
+
+	// StaticData
 
 	exporter.exportClass< IStaticData::ObjectStaticData >( "ObjectStaticData" )
 		->withConstructor()
