@@ -10,6 +10,12 @@
 #include "plugins_manager/h/pm_plugin_id.hpp"
 #include "plugins_manager/ih/pm_isystem_information.hpp"
 
+#include "settings/ih/st_isettings.hpp"
+#include "settings/h/st_plugin_id.hpp"
+
+#include "sound_manager/sources/environment/sm_environment.hpp"
+
+#include "sound_manager/h/sm_resources.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,7 +55,10 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
-	m_soundManager.reset( new SoundManager( getSystemInformation()->getResourcesDirectory() ) );
+	getSettings()->regBool( Resources::Properties::PlaySound, true );
+
+	m_environment.reset( new Environment( *this ) );
+	m_soundManager.reset( new SoundManager( *m_environment ) );
 
 } // PluginInstance::initialize
 
@@ -61,6 +70,9 @@ void
 PluginInstance::close()
 {
 	m_soundManager.reset();
+	m_environment.reset();
+
+	getSettings()->unregProperty( Resources::Properties::PlaySound );
 
 } // PluginInstance::close
 
@@ -77,6 +89,20 @@ PluginInstance::getSystemInformation() const
 			,	Core::PluginsManager::IID_SYSTEM_INFORMATION );
 
 } // PluginInstance::getSystemInformation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::Settings::ISettings >
+PluginInstance::getSettings() const
+{
+	return
+		getPluginInterface< Framework::Core::Settings::ISettings >(
+				Framework::Core::Settings::PID_SETTINGS
+			,	Framework::Core::Settings::IID_SETTINGS );
+
+} // PluginInstance::getSettings
 
 
 /*---------------------------------------------------------------------------*/

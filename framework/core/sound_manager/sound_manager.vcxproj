@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="sources\environment\sm_environment.cpp" />
     <ClCompile Include="sources\internal_resources\sm_internal_resources.cpp" />
     <ClCompile Include="sources\ph\sm_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -31,7 +32,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\sm_plugin_id.hpp" />
+    <ClInclude Include="h\sm_resources.hpp" />
     <ClInclude Include="ih\sm_isound_manager.hpp" />
+    <ClInclude Include="sources\environment\sm_environment.hpp" />
+    <ClInclude Include="sources\environment\sm_ienvironment.hpp" />
     <ClInclude Include="sources\internal_resources\sm_internal_resources.hpp" />
     <ClInclude Include="sources\ph\sm_ph.hpp" />
     <ClInclude Include="sources\plugin\sm_plugin_instance.hpp" />

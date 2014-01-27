@@ -17,6 +17,11 @@ namespace Framework
 		{
 			struct ISystemInformation;
 		}
+
+		namespace Settings
+		{
+			struct ISettings;
+		}
 	}
 }
 
@@ -29,6 +34,7 @@ namespace SoundManager {
 /*---------------------------------------------------------------------------*/
 
 struct ISoundManager;
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,18 +64,23 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-private:
+public:
 
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< Core::PluginsManager::ISystemInformation >
 		getSystemInformation() const;
 
+	boost::intrusive_ptr< Framework::Core::Settings::ISettings >
+		getSettings() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	boost::intrusive_ptr< IEnvironment > m_environment;
 
 	boost::intrusive_ptr< ISoundManager > m_soundManager;
 

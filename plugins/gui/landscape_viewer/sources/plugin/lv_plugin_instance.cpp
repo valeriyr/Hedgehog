@@ -95,6 +95,9 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	// Force loading of the sound manager. Needs to use it's properties.
+	getSoundManager();
+
 	m_graphicsInfoCache.reset( new GraphicsInfoCache() );
 
 	exportScriptAPI();

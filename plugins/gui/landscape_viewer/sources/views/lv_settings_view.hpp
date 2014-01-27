@@ -59,6 +59,8 @@ private slots:
 
 	void onUpdateMinimapChanged( bool _visibility );
 
+	void onPlaySoundChanged( bool _play );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -74,6 +76,8 @@ private:
 	QComboBox* m_skinId;
 
 	QCheckBox* m_updateMinimap;
+
+	QCheckBox* m_playSound;
 
 	QString m_viewTitle;
 

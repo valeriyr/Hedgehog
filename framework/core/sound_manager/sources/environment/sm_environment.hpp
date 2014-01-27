@@ -1,10 +1,10 @@
 
-#ifndef __SM_SOUND_MANAGER_HPP__
-#define __SM_SOUND_MANAGER_HPP__
+#ifndef __EM_ENVIRONMENT_HPP__
+#define __EM_ENVIRONMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "sound_manager/ih/sm_isound_manager.hpp"
+#include "sound_manager/sources/environment/sm_ienvironment.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,12 +14,12 @@ namespace SoundManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEnvironment;
+class PluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
-class SoundManager
-	:	public Tools::Core::BaseWrapper< ISoundManager >
+class Environment
+	:	public Tools::Core::BaseWrapper< IEnvironment >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,21 +28,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	SoundManager( const IEnvironment& _environment );
+	Environment( PluginInstance& _pluginInstance );
 
-	virtual ~SoundManager();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void play( const QString& _resourcePath );
+	virtual ~Environment();
 
 /*---------------------------------------------------------------------------*/
 
-private:
+	/*virtual*/ const QString& getResourcesDirectory() const;
 
 /*---------------------------------------------------------------------------*/
 
-	 boost::shared_ptr< QSound > getSound( const QString& _resourcePath );
+	/*virtual*/ bool getBool( const QString& _key ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,16 +46,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		std::map< QString, boost::shared_ptr< QSound > >
-		SoundsCache;
-	typedef SoundsCache::iterator SoundsCacheIterator;
-
-/*---------------------------------------------------------------------------*/
-
-	const IEnvironment& m_environment;
-
-	SoundsCache m_soundsCache;
+	PluginInstance& m_pluginInstance;
 
 /*---------------------------------------------------------------------------*/
 
@@ -73,4 +60,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SM_SOUND_MANAGER_HPP__
+#endif // __EM_ENVIRONMENT_HPP__

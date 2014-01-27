@@ -19,6 +19,9 @@
     <Filter Include="Internal Resources">
       <UniqueIdentifier>{69d44430-c3d8-4b11-911d-a5bf9e4060df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{67f32a3b-f038-4ffb-a4fc-f9e8b39a55d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\sm_ph.cpp">
@@ -32,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="sources\internal_resources\sm_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\environment\sm_environment.cpp">
+      <Filter>Environment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +58,15 @@
     </ClInclude>
     <ClInclude Include="sources\internal_resources\sm_internal_resources.hpp">
       <Filter>Internal Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="h\sm_resources.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\sm_environment.hpp">
+      <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\environment\sm_ienvironment.hpp">
+      <Filter>Environment</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

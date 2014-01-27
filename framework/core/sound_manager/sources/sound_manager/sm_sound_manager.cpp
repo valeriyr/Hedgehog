@@ -5,6 +5,10 @@
 
 #include "sound_manager/sources/internal_resources/sm_internal_resources.hpp"
 
+#include "sound_manager/sources/environment/sm_ienvironment.hpp"
+
+#include "sound_manager/h/sm_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,8 +19,8 @@ namespace SoundManager {
 /*---------------------------------------------------------------------------*/
 
 
-SoundManager::SoundManager( const QString& _resourcesDirectory )
-	:	m_resourcesDirectory( _resourcesDirectory )
+SoundManager::SoundManager( const IEnvironment& _environment )
+	:	m_environment( _environment )
 	,	m_soundsCache()
 {
 } // SoundManager::SoundManager
@@ -36,8 +40,11 @@ SoundManager::~SoundManager()
 void
 SoundManager::play( const QString& _resourcePath )
 {
+	if ( !m_environment.getBool( Resources::Properties::PlaySound ) )
+		return;
+
 	QString soundPath
-		=	m_resourcesDirectory
+		=	m_environment.getResourcesDirectory()
 		+	"/"
 		+	Resources::SoundsDirecctory
 		+	"/"

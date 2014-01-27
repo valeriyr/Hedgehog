@@ -55,6 +55,8 @@ namespace Views {
 
 	extern const char* const UpdateMinimapCheckboxName;
 
+	extern const char* const PlaySoundCheckboxName;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const LandscapeDescriptionDefaultText;

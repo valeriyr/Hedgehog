@@ -57,6 +57,8 @@ namespace Views {
 
 	const char* const UpdateMinimapCheckboxName = "Update minimap";
 
+	const char* const PlaySoundCheckboxName = "Play sound";
+
 /*---------------------------------------------------------------------------*/
 
 	const char* const LandscapeDescriptionDefaultText

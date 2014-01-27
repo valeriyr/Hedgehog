@@ -7,6 +7,8 @@
 
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
+#include "sound_manager/h/sm_resources.hpp"
+
 #include "lv_settings_view.moc"
 
 
@@ -24,6 +26,7 @@ SettingsView::SettingsView( const IEnvironment& _environment )
 	,	m_mainWidget( new QWidget() )
 	,	m_tarrainMapVisibility( new QCheckBox( Resources::Views::TarrainMapVisibilityCheckboxName ) )
 	,	m_updateMinimap( new QCheckBox( Resources::Views::UpdateMinimapCheckboxName ) )
+	,	m_playSound( new QCheckBox( Resources::Views::PlaySoundCheckboxName ) )
 	,	m_skinId( new QComboBox() )
 	,	m_viewTitle( Resources::Views::SettingsViewTitle )
 {
@@ -44,18 +47,20 @@ SettingsView::SettingsView( const IEnvironment& _environment )
 	skinIdLayout->addWidget( skinIdLabel );
 	skinIdLayout->addWidget( m_skinId );
 
-	mainLayout->addWidget( m_tarrainMapVisibility );
 	mainLayout->addLayout( skinIdLayout );
+	mainLayout->addWidget( m_tarrainMapVisibility );
 	mainLayout->addWidget( m_updateMinimap );
+	mainLayout->addWidget( m_playSound );
 
 	m_mainWidget->setLayout( mainLayout );
 
 	m_tarrainMapVisibility->setChecked( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) );
-
 	m_updateMinimap->setChecked( m_environment.getBool( Resources::Properties::UpdateMinimap ) );
+	m_playSound->setChecked( m_environment.getBool( Framework::Core::SoundManager::Resources::Properties::PlaySound ) );
 
 	QObject::connect( m_tarrainMapVisibility, SIGNAL( clicked(bool) ), this, SLOT( onTarrainMapVisibilityChanged(bool) ) );
 	QObject::connect( m_updateMinimap, SIGNAL( clicked(bool) ), this, SLOT( onUpdateMinimapChanged(bool) ) );
+	QObject::connect( m_playSound, SIGNAL( clicked(bool) ), this, SLOT( onPlaySoundChanged(bool) ) );
 	QObject::connect( m_skinId, SIGNAL( currentIndexChanged(const QString&) ), this, SLOT( onSkinIdChanged(const QString&) ) );
 
 } // SettingsView::SettingsView
@@ -99,6 +104,7 @@ SettingsView::viewWasClosed()
 {
 	QObject::disconnect( m_tarrainMapVisibility, SIGNAL( clicked(bool) ), this, SLOT( onTarrainMapVisibilityChanged(bool) ) );
 	QObject::disconnect( m_updateMinimap, SIGNAL( clicked(bool) ), this, SLOT( onUpdateMinimapChanged(bool) ) );
+	QObject::disconnect( m_playSound, SIGNAL( clicked(bool) ), this, SLOT( onPlaySoundChanged(bool) ) );
 	QObject::disconnect( m_skinId, SIGNAL( currentIndexChanged(const QString&) ), this, SLOT( onSkinIdChanged(const QString&) ) );
 
 	m_tarrainMapVisibility = NULL;
@@ -140,6 +146,17 @@ SettingsView::onUpdateMinimapChanged( bool _update )
 	m_environment.setBool( Resources::Properties::UpdateMinimap, _update );
 
 } // SettingsView::onUpdateMinimapChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+SettingsView::onPlaySoundChanged( bool _play )
+{
+	m_environment.setBool( Framework::Core::SoundManager::Resources::Properties::PlaySound, _play );
+
+} // SettingsView::onPlaySoundChanged
 
 
 /*---------------------------------------------------------------------------*/
