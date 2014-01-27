@@ -457,4 +457,4 @@ end
 
 -- End script message
 
-SystemMessenger:printMessage(IMessenger.Info, QString("Grunt's graphics info has been loaded."))
+SystemMessenger:printMessage(IMessenger.Info, QString("Peon's graphics info has been loaded."))
