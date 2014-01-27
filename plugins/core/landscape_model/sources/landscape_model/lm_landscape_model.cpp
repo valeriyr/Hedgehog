@@ -410,7 +410,7 @@ LandscapeModel::buildObject( const Object::UniqueId& _builder, const QString& _o
 					{
 						actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >(
-								new BuildAction( m_environment, *object, *handle->getPlayer(), *handle->getLandscape(), *this ) ) );
+								new BuildAction( m_environment, *object, *handle->getPlayer(), *handle->getLandscape(), *this, m_pathFinder ) ) );
 					}
 
 					buildComponent->getBuildData().m_buildQueue.push_back( std::make_pair( _objectName, _atLocation ) );

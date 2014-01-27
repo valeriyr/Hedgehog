@@ -13,6 +13,8 @@ namespace Geometry {
 
 	float getDistance( const QPoint& _from, const QPoint& _to );
 
+	QPoint getNearestPoint( const QPoint& _from, const QPoint& _to );
+
 	QPoint getNearestPoint( const QPoint& _from, const QRect& _in );
 
 	bool checkDistance( const QPoint& _from, const QRect& _to, const float _distance );

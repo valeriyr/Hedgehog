@@ -11,6 +11,10 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
+#include "landscape_model/sources/actions/lm_move_action.hpp"
+
+#include "landscape_model/sources/geometry/lm_geometry.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,11 +31,14 @@ BuildAction::BuildAction(
 	,	IPlayer& _player
 	,	ILandscape& _landscape
 	,	ILandscapeModel& _landscapeModel
+	,	boost::intrusive_ptr< IPathFinder > _pathFinder
 	)
 	:	BaseAction( _environment, _object )
 	,	m_player( _player )
 	,	m_landscape( _landscape )
 	,	m_landscapeModel( _landscapeModel )
+	,	m_pathFinder( _pathFinder )
+	,	m_moveAction()
 {
 } // BuildAction::BuildAction
 
@@ -50,37 +57,73 @@ BuildAction::~BuildAction()
 void
 BuildAction::processAction( const unsigned int _deltaTime )
 {
-	/*boost::intrusive_ptr< ITrainComponent > trainComponent
-		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
-	ITrainComponent::TrainData& trainData = trainComponent->getTrainData();
+	boost::intrusive_ptr< IBuildComponent > buildComponent
+		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
+	IBuildComponent::BuildData& buildData = buildComponent->getBuildData();
 
 	if ( m_object.getState() == ObjectState::Dying )
 	{
-		trainData.m_trainQueue.clear();
+		buildData.clear();
 		return;
 	}
 
-	int creatingTime
-		= trainComponent->getStaticData().m_trainObjects.find( trainData.m_trainQueue.front() )->second->m_creationTime;
-	int creatingDelta = ( static_cast< float >( _deltaTime ) / creatingTime ) * 100;
+	if ( buildData.m_buildQueue.empty() )
+		return;
 
-	trainData.m_trainProgress += creatingDelta;
+	boost::intrusive_ptr< ILocateComponent > locateComponent
+		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 
-	if ( trainData.m_trainProgress > 100 )
+	QPoint nearestPoint = Geometry::getNearestPoint( locateComponent->getLocation(), buildData.m_buildQueue.front().second );
+
+	if ( Geometry::getDistance( locateComponent->getLocation(), nearestPoint ) > 1.0f )
 	{
-		boost::intrusive_ptr< ILocateComponent > locateComponent
-			= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+		if ( !m_moveAction )
+		{
+			boost::intrusive_ptr< IMoveComponent > moveComponent
+				= m_object.getComponent< IMoveComponent >( ComponentId::Move );
+			moveComponent->getMovingData().m_movingTo = nearestPoint;
 
-		m_landscapeModel.createObject( m_landscape.getNearestLocation( m_object, trainData.m_trainQueue.front() ), trainData.m_trainQueue.front() );
-
-		trainData.m_trainProgress = 0;
-		trainData.m_trainQueue.pop_front();
+			m_moveAction.reset( new MoveAction( m_environment, m_object, m_landscape, m_pathFinder, 1 ) );
+		}
 	}
 
-	Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
-	trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
+	if ( m_moveAction )
+	{
+		m_moveAction->processAction( _deltaTime );
+
+		if ( m_moveAction->hasFinished() )
+			m_moveAction.reset();
+	}
+	else
+	{
+		if ( buildData.m_buildProgress == 0 )
+		{
+			// remove builder from map
+		}
+
+		int buildingTime = buildComponent->getStaticData().m_buildDatas.find( buildData.m_buildQueue.front().first )->second->m_buildTime;
+		int buildingDelta = ( static_cast< float >( _deltaTime ) / buildingTime ) * 100;
+
+		buildData.m_buildProgress += buildingDelta;
+
+		if ( buildData.m_buildProgress > 100 )
+		{
+			// add builder to map
+
+			/*boost::intrusive_ptr< ILocateComponent > locateComponent
+				= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+
+			m_landscapeModel.createObject( m_landscape.getNearestLocation( m_object, trainData.m_trainQueue.front() ), trainData.m_trainQueue.front() );*/
+
+			buildData.m_buildProgress = 0;
+			buildData.m_buildQueue.pop_front();
+		}
+
+		Framework::Core::EventManager::Event buildQueueChangedEvent( Events::BuildQueueChanged::ms_type );
+		buildQueueChangedEvent.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
 	
-	m_environment.riseEvent( trainQueueChangedEvent );*/
+		m_environment.riseEvent( buildQueueChangedEvent );
+	}
 
 } // BuildAction::processAction
 
@@ -100,11 +143,9 @@ BuildAction::unprocessAction( const unsigned int _deltaTime )
 bool
 BuildAction::hasFinished() const
 {
-	/*ITrainComponent::TrainData& trainData
-		= m_object.getComponent< ITrainComponent >( ComponentId::Train )->getTrainData();
-	return trainData.m_trainQueue.empty();*/
-
-	return true;
+	IBuildComponent::BuildData& buildData
+		= m_object.getComponent< IBuildComponent >( ComponentId::Build )->getBuildData();
+	return buildData.m_buildQueue.empty();
 
 } // BuildAction::hasFinished
 

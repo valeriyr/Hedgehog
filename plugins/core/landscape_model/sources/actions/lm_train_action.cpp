@@ -56,7 +56,7 @@ TrainAction::processAction( const unsigned int _deltaTime )
 
 	if ( m_object.getState() == ObjectState::Dying )
 	{
-		trainData.m_trainQueue.clear();
+		trainData.clear();
 		return;
 	}
 

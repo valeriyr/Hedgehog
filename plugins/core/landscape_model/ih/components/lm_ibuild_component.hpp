@@ -35,6 +35,12 @@ struct IBuildComponent
 			,	m_buildQueue()
 		{}
 
+		void clear()
+		{
+			 m_buildProgress = 0;
+			 m_buildQueue.clear();
+		}
+
 		int m_buildProgress;
 
 		BuildObjectsQueue m_buildQueue;

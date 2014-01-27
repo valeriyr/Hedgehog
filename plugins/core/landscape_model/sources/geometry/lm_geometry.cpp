@@ -20,6 +20,13 @@ float getDistance( const QPoint& _from, const QPoint& _to )
 
 /*---------------------------------------------------------------------------*/
 
+QPoint getNearestPoint( const QPoint& _from, const QPoint& _to )
+{
+	return getNearestPoint( _from, QRect( _to, QSize( 1, 1 ) ) );
+}
+
+/*---------------------------------------------------------------------------*/
+
 QPoint getNearestPoint( const QPoint& _from, const QRect& _in )
 {
 	QPoint result( _in.x(), _in.y() );

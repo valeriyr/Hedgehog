@@ -20,6 +20,7 @@ struct IPlayer;
 struct ILandscape;
 
 struct ILandscapeModel;
+struct IPathFinder;
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,7 +39,8 @@ public:
 		,	Object& _object
 		,	IPlayer& _player
 		,	ILandscape& _landscape
-		,	ILandscapeModel& _landscapeModel );
+		,	ILandscapeModel& _landscapeModel
+		,	boost::intrusive_ptr< IPathFinder > _pathFinder );
 
 	virtual ~BuildAction();
 
@@ -69,6 +71,10 @@ private:
 	ILandscape& m_landscape;
 
 	ILandscapeModel& m_landscapeModel;
+
+	boost::intrusive_ptr< IPathFinder > m_pathFinder;
+
+	boost::intrusive_ptr< IAction > m_moveAction;
 
 /*---------------------------------------------------------------------------*/
 

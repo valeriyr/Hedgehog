@@ -35,6 +35,12 @@ struct ITrainComponent
 			,	m_trainQueue()
 		{}
 
+		void clear()
+		{
+			 m_trainProgress = 0;
+			 m_trainQueue.clear();
+		}
+
 		int m_trainProgress;
 
 		TrainObjectsQueue m_trainQueue;

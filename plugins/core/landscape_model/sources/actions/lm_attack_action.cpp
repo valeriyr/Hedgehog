@@ -83,14 +83,16 @@ AttackAction::processAction( const unsigned int _deltaTime )
 
 			m_moveAction.reset( new MoveAction( m_environment, m_object, m_landscape, m_pathFinder, attackComponent->getStaticData().m_distance ) );
 		}
+	}
 
+	if ( m_moveAction )
+	{
 		m_moveAction->processAction( _deltaTime );
 
 		if ( m_moveAction->hasFinished() )
 			m_moveAction.reset();
 	}
-
-	if ( !m_moveAction )
+	else
 	{
 		bool stateChanged = false;
 		bool readyToAttack = false;

@@ -188,7 +188,7 @@ ActionPanelView::onItemClicked( QListWidgetItem* _item )
 
 	if ( buildListItem )
 	{
-		m_environment.buildObject( buildListItem->getBuilderId(), buildListItem->getTargetObjectName(), QPoint( 10, 10 ) );
+		m_environment.buildObject( buildListItem->getBuilderId(), buildListItem->getTargetObjectName(), QPoint( 5, 5 ) );
 		return;
 	}
 
