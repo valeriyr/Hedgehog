@@ -286,6 +286,7 @@ LandscapeModel::createObject(
 		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectNameAttribute, _objectName );
 		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectLocationAttribute, _location );
 		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectUniqueIdAttribute, objectId );
+		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( _objectName ).m_locateData->m_emplacement );
 
 		m_environment.riseEvent( objectCreatedEvent );
 	}

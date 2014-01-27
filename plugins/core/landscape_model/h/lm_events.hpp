@@ -28,6 +28,7 @@ namespace ObjectCreated
 	const char* const ms_objectNameAttribute = "ObjectName";
 	const char* const ms_objectLocationAttribute = "ObjectLocation";
 	const char* const ms_objectUniqueIdAttribute = "ObjectUniqueId";
+	const char* const ms_objectEmplacementAttribute = "ObjectEmplacement";
 }
 
 /*---------------------------------------------------------------------------*/

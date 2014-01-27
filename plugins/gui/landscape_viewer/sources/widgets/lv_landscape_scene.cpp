@@ -38,8 +38,15 @@ class ObjectGraphicsItem
 
 public:
 
-	ObjectGraphicsItem( const QPixmap& _pixmap, QGraphicsItem* _parent = NULL )
+	ObjectGraphicsItem(
+			const QPixmap& _pixmap
+		,	const Core::LandscapeModel::Emplacement::Enum _emplacement
+		,	const QSize& _landscapeSize
+		,	QGraphicsItem* _parent = NULL
+		)
 		:	QGraphicsPixmapItem( _pixmap, _parent )
+		,	m_emplacement( _emplacement )
+		,	m_landscapeSize( _landscapeSize )
 	{
 		setFlag( ItemSendsGeometryChanges, true );
 	}
@@ -58,11 +65,23 @@ public:
 			int centerX = ( position.x() + boundingRect().size().width() ) / 2;
 			int centerY = ( position.y() + boundingRect().size().height() ) / 2;
 
-			setZValue( ( ( centerY / Resources::Landscape::CellSize ) * 20 ) + ( ( centerX / Resources::Landscape::CellSize ) + 1 ) );
+			int z = ( ( centerY / Resources::Landscape::CellSize ) * m_landscapeSize.height() ) + ( ( centerX / Resources::Landscape::CellSize ) + 1 );
+
+			if ( m_emplacement == Core::LandscapeModel::Emplacement::Air )
+				z += m_landscapeSize.width() * m_landscapeSize.height();
+
+			setZValue( z );
 		}
 
 		return QGraphicsPixmapItem::itemChange( _change, value );
 	}
+
+private:
+
+	const Core::LandscapeModel::Emplacement::Enum m_emplacement;
+
+	const QSize m_landscapeSize;
+
 };
 
 /*---------------------------------------------------------------------------*/
@@ -271,6 +290,8 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 	const QPoint objectLocation = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectLocationAttribute ).toPoint();
 	const Plugins::Core::LandscapeModel::Object::UniqueId id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectUniqueIdAttribute ).toInt();
+	const Core::LandscapeModel::Emplacement::Enum emplacement
+		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectEmplacementAttribute ).toInt() );
 
 	QPointF correctedPosition(
 		LandscapeScene::correctSceneObjectPosition(
@@ -280,7 +301,7 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 			,	LandscapeScene::convertToScenePosition( objectLocation )
 			,	objectName ) );
 
-	ObjectGraphicsItem* newItem = new ObjectGraphicsItem( m_environment.getPixmap( objectName ) );
+	ObjectGraphicsItem* newItem = new ObjectGraphicsItem( m_environment.getPixmap( objectName ), emplacement, calculateLandscapeSize() );
 	addItem( newItem );
 
 	newItem->setPos( correctedPosition );
@@ -532,7 +553,10 @@ LandscapeScene::generateLandscape()
 		for ( ; begin != end; ++begin )
 		{
 			ObjectGraphicsItem* newItem
-				= new ObjectGraphicsItem( m_environment.getPixmap( ( *begin )->getName() ) );
+				= new ObjectGraphicsItem(
+						m_environment.getPixmap( ( *begin )->getName() )
+					,	( *begin )->getComponent< Core::LandscapeModel::ILocateComponent >( Core::LandscapeModel::ComponentId::Locate )->getStaticData().m_emplacement
+					,	QSize( handle->getLandscape()->getWidth(), handle->getLandscape()->getHeight() ) );
 			addItem( newItem );
 
 			boost::intrusive_ptr< Core::LandscapeModel::ILocateComponent > locateComponent
@@ -904,6 +928,17 @@ LandscapeScene::playAnimationOnce(
 	}
 
 } // LandscapeScene::playAnimationOnce
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QSize
+LandscapeScene::calculateLandscapeSize() const
+{
+	return QSize( width() / Resources::Landscape::CellSize, height() / Resources::Landscape::CellSize );
+
+} // LandscapeScene::calculateLandscapeSize
 
 
 /*---------------------------------------------------------------------------*/
