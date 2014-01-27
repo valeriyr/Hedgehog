@@ -53,6 +53,8 @@ namespace Views {
 
 	extern const char* const SkinIdLabel;
 
+	extern const char* const UpdateMinimapCheckboxName;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const LandscapeDescriptionDefaultText;
@@ -130,6 +132,8 @@ namespace Properties {
 	extern const char* const TerrainMapVisibility;
 
 	extern const char* const SkinId;
+
+	extern const char* const UpdateMinimap;
 
 /*---------------------------------------------------------------------------*/
 

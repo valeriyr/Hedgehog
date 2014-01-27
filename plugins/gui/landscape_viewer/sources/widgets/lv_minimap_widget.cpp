@@ -181,8 +181,9 @@ MinimapWidget::mouseMoveEvent ( QMouseEvent* _event )
 void
 MinimapWidget::onSettingChanged( const Framework::Core::EventManager::Event& _event )
 {
-	if (	_event.getAttribute( Framework::Core::Settings::Events::SettingChanged::ms_key ).toString()
-		==	Resources::Properties::SkinId )
+	const QString key = _event.getAttribute( Framework::Core::Settings::Events::SettingChanged::ms_key ).toString();
+
+	if ( key == Resources::Properties::SkinId || key == Resources::Properties::UpdateMinimap )
 	{
 		regenerate();
 	}
@@ -282,6 +283,9 @@ MinimapWidget::wasClickedOnWidget( const QPoint& _atPoint )
 void
 MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape )
 {
+	if ( !m_environment.getBool( Resources::Properties::UpdateMinimap ) )
+		return;
+
 	QPixmap surfaceLayer
 		= QPixmap( QSize(
 				_landscape.getWidth() * Resources::Landscape::CellSize
@@ -326,6 +330,9 @@ MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape
 void
 MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape )
 {
+	if ( !m_environment.getBool( Resources::Properties::UpdateMinimap ) )
+		return;
+
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
 		= m_environment.getCurrentLandscape();
 

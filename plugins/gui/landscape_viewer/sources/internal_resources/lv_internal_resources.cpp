@@ -55,6 +55,8 @@ namespace Views {
 
 	const char* const SkinIdLabel = "Skin Id:";
 
+	const char* const UpdateMinimapCheckboxName = "Update minimap";
+
 /*---------------------------------------------------------------------------*/
 
 	const char* const LandscapeDescriptionDefaultText
@@ -193,6 +195,8 @@ namespace Properties {
 	const char* const TerrainMapVisibility = "TerrainMapVisibilityProperty";
 
 	const char* const SkinId = "SkinIdProperty";
+
+	const char* const UpdateMinimap = "UpdateMinimap";
 
 /*---------------------------------------------------------------------------*/
 

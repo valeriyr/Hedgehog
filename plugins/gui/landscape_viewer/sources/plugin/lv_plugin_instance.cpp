@@ -102,6 +102,7 @@ PluginInstance::initialize()
 
 	getSettings()->regBool( Resources::Properties::TerrainMapVisibility, false );
 	getSettings()->regString( Resources::Properties::SkinId, "winter" );
+	getSettings()->regBool( Resources::Properties::UpdateMinimap, true );
 
 	m_environment.reset( new Environment( *this ) );
 
@@ -160,6 +161,7 @@ PluginInstance::close()
 
 	getSettings()->unregProperty( Resources::Properties::SkinId );
 	getSettings()->unregProperty( Resources::Properties::TerrainMapVisibility );
+	getSettings()->unregProperty( Resources::Properties::UpdateMinimap );
 
 	m_graphicsInfoCache.reset();
 

@@ -57,6 +57,8 @@ private slots:
 
 	void onSkinIdChanged( const QString& _skinId );
 
+	void onUpdateMinimapChanged( bool _visibility );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -70,6 +72,8 @@ private:
 	QCheckBox* m_tarrainMapVisibility;
 
 	QComboBox* m_skinId;
+
+	QCheckBox* m_updateMinimap;
 
 	QString m_viewTitle;
 
