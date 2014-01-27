@@ -29,7 +29,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	static const unsigned int ms_period = 100;
+	static const unsigned int ms_period = 25;
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,7 +75,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	static const unsigned int ms_oneTickTimeLimit = 50;
+	static const unsigned int ms_oneTickTimeLimit = 25;
 
 	QTimer* m_timer;
 

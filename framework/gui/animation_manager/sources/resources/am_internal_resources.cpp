@@ -17,7 +17,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const int TimeLimit = 100;
+	const int TimeLimit = 30;
 
 	const char* const TimeLimitWarning = "Time limit has been exceeded! Time: '%1' ( limit: '%2' )";
 
