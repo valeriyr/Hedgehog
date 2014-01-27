@@ -40,11 +40,28 @@ public:
 
 	ObjectGraphicsItem( const QPixmap& _pixmap, QGraphicsItem* _parent = NULL )
 		:	QGraphicsPixmapItem( _pixmap, _parent )
-	{}
+	{
+		setFlag( ItemSendsGeometryChanges, true );
+	}
 
-	virtual void setSprite( const QPixmap& _sprite )
+	/*virtual*/ void setSprite( const QPixmap& _sprite )
 	{
 		setPixmap( _sprite );
+	}
+
+	/*virtual*/ QVariant itemChange( GraphicsItemChange _change, const QVariant& value )
+	{
+		if ( _change == ItemPositionHasChanged )
+		{
+			QPoint position( value.toPoint() );
+
+			int centerX = ( position.x() + boundingRect().size().width() ) / 2;
+			int centerY = ( position.y() + boundingRect().size().height() ) / 2;
+
+			setZValue( ( ( centerY / Resources::Landscape::CellSize ) * 20 ) + ( ( centerX / Resources::Landscape::CellSize ) + 1 ) );
+		}
+
+		return QGraphicsPixmapItem::itemChange( _change, value );
 	}
 };
 
