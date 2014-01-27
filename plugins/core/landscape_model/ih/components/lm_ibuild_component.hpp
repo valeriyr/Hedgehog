@@ -24,7 +24,7 @@ struct IBuildComponent
 	struct BuildData
 	{
 		typedef
-			std::list< QString >
+			std::list< std::pair< QString, QPoint > >
 			BuildObjectsQueue;
 		typedef
 			BuildObjectsQueue::const_iterator

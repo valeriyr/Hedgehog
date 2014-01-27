@@ -25,13 +25,13 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-class CreateObjectItem
+class TrainObjectItem
 	:	public QListWidgetItem
 {
 
 public:
 
-	CreateObjectItem(
+	TrainObjectItem(
 			const Core::LandscapeModel::Object::UniqueId& _parentObjectId
 		,	const QString& _targetObjectName
 		)
@@ -50,6 +50,33 @@ private:
 	const QString m_targetObjectName;
 };
 
+/*---------------------------------------------------------------------------*/
+
+
+class BuildObjectItem
+	:	public QListWidgetItem
+{
+
+public:
+
+	BuildObjectItem(
+			const Core::LandscapeModel::Object::UniqueId& _builderId
+		,	const QString& _targetObjectName
+		)
+		:	m_builderId( _builderId )
+		,	m_targetObjectName( _targetObjectName )
+	{}
+
+	const Core::LandscapeModel::Object::UniqueId& getBuilderId() const { return m_builderId; }
+
+	const QString& getTargetObjectName() const { return m_targetObjectName; }
+
+private:
+
+	const Core::LandscapeModel::Object::UniqueId m_builderId;
+
+	const QString m_targetObjectName;
+};
 
 /*---------------------------------------------------------------------------*/
 
@@ -149,10 +176,21 @@ ActionPanelView::landscapeWasClosed()
 void
 ActionPanelView::onItemClicked( QListWidgetItem* _item )
 {
-	CreateObjectItem* listItem = dynamic_cast< CreateObjectItem* >( _item );
-	assert( listItem );
+	TrainObjectItem* trainListItem = dynamic_cast< TrainObjectItem* >( _item );
 
-	m_environment.buildObject( listItem->getParentObjectId(), listItem->getTargetObjectName() );
+	if ( trainListItem )
+	{
+		m_environment.trainObject( trainListItem->getParentObjectId(), trainListItem->getTargetObjectName() );
+		return;
+	}
+
+	BuildObjectItem* buildListItem = dynamic_cast< BuildObjectItem* >( _item );
+
+	if ( buildListItem )
+	{
+		m_environment.buildObject( buildListItem->getBuilderId(), buildListItem->getTargetObjectName(), QPoint( 10, 10 ) );
+		return;
+	}
 
 } // ActionPanelView::onItemClicked
 
@@ -166,6 +204,8 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 	m_mainWidget->clear();
 
 	boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent;
+	boost::intrusive_ptr< Core::LandscapeModel::IBuildComponent > buildComponent;
+
 	Core::LandscapeModel::Object::UniqueId parentObjectId = Core::LandscapeModel::Object::ms_wrongId;
 
 	{
@@ -180,6 +220,7 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 			if ( !selectedObjectsCollection.empty() )
 			{
 				trainComponent = selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::ITrainComponent >( Plugins::Core::LandscapeModel::ComponentId::Train );
+				buildComponent = selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::IBuildComponent >( Plugins::Core::LandscapeModel::ComponentId::Build );
 				parentObjectId = selectedObjectsCollection.front()->getUniqueId();
 			}
 		}
@@ -188,12 +229,28 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 	if ( trainComponent )
 	{
 		Core::LandscapeModel::TrainComponentStaticData::TrainDataCollectionIterator
-				begin = trainComponent->getStaticData().m_buildObjects.begin()
-			,	end = trainComponent->getStaticData().m_buildObjects.end();
+				begin = trainComponent->getStaticData().m_trainObjects.begin()
+			,	end = trainComponent->getStaticData().m_trainObjects.end();
 
 		for ( ; begin != end; ++begin )
 		{
-			CreateObjectItem* listItem = new CreateObjectItem( parentObjectId, begin->first );
+			TrainObjectItem* listItem = new TrainObjectItem( parentObjectId, begin->first );
+
+			listItem->setText( QString( Resources::Views::CreateObjectLabelFormat ).arg( begin->first ) );
+			listItem->setIcon( QIcon( m_environment.getPixmap( begin->first ) ) );
+
+			m_mainWidget->addItem( listItem );
+		}
+	}
+	else if ( buildComponent )
+	{
+		Core::LandscapeModel::BuildComponentStaticData::BuildDataCollectionIterator
+				begin = buildComponent->getStaticData().m_buildDatas.begin()
+			,	end = buildComponent->getStaticData().m_buildDatas.end();
+
+		for ( ; begin != end; ++begin )
+		{
+			BuildObjectItem* listItem = new BuildObjectItem( parentObjectId, begin->first );
 
 			listItem->setText( QString( Resources::Views::CreateObjectLabelFormat ).arg( begin->first ) );
 			listItem->setIcon( QIcon( m_environment.getPixmap( begin->first ) ) );

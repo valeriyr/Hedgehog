@@ -84,7 +84,9 @@ public:
 
 	/*virtual*/ void setSurfaceItem( const QPoint& _location, const Core::LandscapeModel::ISurfaceItem::Id& _id ) const;
 
-	/*virtual*/ void buildObject( const Core::LandscapeModel::Object::UniqueId& _parentId, const QString& _objectName ) const;
+	/*virtual*/ void trainObject( const Core::LandscapeModel::Object::UniqueId& _parentId, const QString& _objectName ) const;
+
+	/*virtual*/ void buildObject( const Core::LandscapeModel::Object::UniqueId& _builderId, const QString& _objectName, const QPoint& _atLocation ) const;
 
 /*---------------------------------------------------------------------------*/
 

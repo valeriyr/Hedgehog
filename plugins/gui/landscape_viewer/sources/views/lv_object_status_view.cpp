@@ -106,8 +106,8 @@ ObjectStatusView::landscapeWasOpened()
 							,	boost::bind( &ObjectStatusView::onObjectsSelectionChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::BuilderQueueChanged::ms_type
-							,	boost::bind( &ObjectStatusView::onBuilderQueueChanged, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::TrainQueueChanged::ms_type
+							,	boost::bind( &ObjectStatusView::onTrainQueueChanged, this, _1 ) );
 
 } // ObjectStatusView::landscapeWasOpened
 
@@ -156,12 +156,12 @@ ObjectStatusView::onObjectsSelectionChanged( const Framework::Core::EventManager
 
 
 void
-ObjectStatusView::onBuilderQueueChanged( const Framework::Core::EventManager::Event& _event )
+ObjectStatusView::onTrainQueueChanged( const Framework::Core::EventManager::Event& _event )
 {
-	if ( m_builderId == _event.getAttribute( Core::LandscapeModel::Events::BuilderQueueChanged::ms_builderIdAttribute ).toInt() )
+	if ( m_builderId == _event.getAttribute( Core::LandscapeModel::Events::TrainQueueChanged::ms_trainerIdAttribute ).toInt() )
 		updateBuildQueue();
 
-} // ObjectStatusView::onBuilderQueueChanged
+} // ObjectStatusView::onTrainQueueChanged
 
 
 /*---------------------------------------------------------------------------*/

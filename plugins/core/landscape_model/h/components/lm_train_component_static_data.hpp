@@ -43,15 +43,15 @@ struct TrainComponentStaticData
 		TrainDataCollectionIterator;
 
 	TrainComponentStaticData()
-		:	m_buildObjects()
+		:	m_trainObjects()
 	{}
 
 	void pushTrainData( const QString _objectName, boost::shared_ptr< TrainData > _data )
 	{
-		m_buildObjects.insert( std::make_pair( _objectName, _data ) );
+		m_trainObjects.insert( std::make_pair( _objectName, _data ) );
 	}
 
-	TrainDataCollection m_buildObjects;
+	TrainDataCollection m_trainObjects;
 };
 
 

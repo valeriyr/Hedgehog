@@ -15,6 +15,7 @@
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 #include "landscape_model/sources/actions/lm_attack_action.hpp"
 #include "landscape_model/sources/actions/lm_train_action.hpp"
+#include "landscape_model/sources/actions/lm_build_action.hpp"
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
@@ -328,7 +329,7 @@ LandscapeModel::setSurfaceItem(
 
 
 void
-LandscapeModel::buildObject( const Object::UniqueId& _parentObject, const QString& _objectName )
+LandscapeModel::trainObject( const Object::UniqueId& _parentObject, const QString& _objectName )
 {
 	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
 
@@ -344,9 +345,9 @@ LandscapeModel::buildObject( const Object::UniqueId& _parentObject, const QStrin
 			if ( trainComponent )
 			{
 				TrainComponentStaticData::TrainDataCollectionIterator
-					iterator = trainComponent->getStaticData().m_buildObjects.find( _objectName );
+					iterator = trainComponent->getStaticData().m_trainObjects.find( _objectName );
 
-				if (	iterator != trainComponent->getStaticData().m_buildObjects.end()
+				if (	iterator != trainComponent->getStaticData().m_trainObjects.end()
 					&&	handle->getPlayer()->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
 				{
 					handle->getPlayer()->getResourcesData().substruct( iterator->second->m_resourcesData );
@@ -363,10 +364,61 @@ LandscapeModel::buildObject( const Object::UniqueId& _parentObject, const QStrin
 
 					trainComponent->getTrainData().m_trainQueue.push_back( _objectName );
 
-					Framework::Core::EventManager::Event builderQueueChangedEvent( Events::BuilderQueueChanged::ms_type );
-					builderQueueChangedEvent.pushAttribute( Events::BuilderQueueChanged::ms_builderIdAttribute, object->getUniqueId() );
+					Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
+					trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, object->getUniqueId() );
 	
-					m_environment.riseEvent( builderQueueChangedEvent );
+					m_environment.riseEvent( trainQueueChangedEvent );
+				}
+			}
+		}
+	}
+
+} // LandscapeModel::trainObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::buildObject( const Object::UniqueId& _builder, const QString& _objectName, const QPoint& _atLocation )
+{
+	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+
+	if ( handle->getPlayer() )
+	{
+		boost::shared_ptr< Object > object = handle->getLandscape()->getObject( _builder );
+
+		if ( object )
+		{
+			boost::intrusive_ptr< IBuildComponent > buildComponent
+				= object->getComponent< IBuildComponent >( ComponentId::Build );
+
+			if ( buildComponent )
+			{
+				BuildComponentStaticData::BuildDataCollectionIterator
+					iterator = buildComponent->getStaticData().m_buildDatas.find( _objectName );
+
+				if (	iterator != buildComponent->getStaticData().m_buildDatas.end()
+					&&	handle->getPlayer()->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
+				{
+					handle->getPlayer()->getResourcesData().substruct( iterator->second->m_resourcesData );
+
+					boost::intrusive_ptr< IActionsComponent > actionsComponent
+						= object->getComponent< IActionsComponent >( ComponentId::Actions );
+
+					if ( !actionsComponent->getAction( Actions::Build ) )
+					{
+						actionsComponent->pushAction(
+							boost::intrusive_ptr< IAction >(
+								new BuildAction( m_environment, *object, *handle->getPlayer(), *handle->getLandscape(), *this ) ) );
+					}
+
+					buildComponent->getBuildData().m_buildQueue.push_back( std::make_pair( _objectName, _atLocation ) );
+
+					Framework::Core::EventManager::Event buildQueueChangedEvent( Events::BuildQueueChanged::ms_type );
+					buildQueueChangedEvent.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, object->getUniqueId() );
+	
+					m_environment.riseEvent( buildQueueChangedEvent );
 				}
 			}
 		}

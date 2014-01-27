@@ -61,7 +61,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 	}
 
 	int creatingTime
-		= trainComponent->getStaticData().m_buildObjects.find( trainData.m_trainQueue.front() )->second->m_creationTime;
+		= trainComponent->getStaticData().m_trainObjects.find( trainData.m_trainQueue.front() )->second->m_creationTime;
 	int creatingDelta = ( static_cast< float >( _deltaTime ) / creatingTime ) * 100;
 
 	trainData.m_trainProgress += creatingDelta;
@@ -77,10 +77,10 @@ BuildAction::processAction( const unsigned int _deltaTime )
 		trainData.m_trainQueue.pop_front();
 	}
 
-	Framework::Core::EventManager::Event builderQueueChangedEvent( Events::BuilderQueueChanged::ms_type );
-	builderQueueChangedEvent.pushAttribute( Events::BuilderQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
+	Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
+	trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
 	
-	m_environment.riseEvent( builderQueueChangedEvent );*/
+	m_environment.riseEvent( trainQueueChangedEvent );*/
 
 } // BuildAction::processAction
 

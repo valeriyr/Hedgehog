@@ -74,7 +74,9 @@ public:
 			const QPoint& _location
 		,	const Core::LandscapeModel::ISurfaceItem::Id& _id );
 
-	/*virtual*/ void buildObject( const Object::UniqueId& _parentObject, const QString& _objectName );
+	/*virtual*/ void trainObject( const Object::UniqueId& _parentObject, const QString& _objectName );
+
+	/*virtual*/ void buildObject( const Object::UniqueId& _builder, const QString& _objectName, const QPoint& _atLocation );
 
 /*---------------------------------------------------------------------------*/
 

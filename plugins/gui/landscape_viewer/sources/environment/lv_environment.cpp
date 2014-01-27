@@ -268,9 +268,20 @@ Environment::setSurfaceItem( const QPoint& _location, const Core::LandscapeModel
 
 
 void
-Environment::buildObject( const Core::LandscapeModel::Object::UniqueId& _parentId, const QString& _objectName ) const
+Environment::trainObject( const Core::LandscapeModel::Object::UniqueId& _parentId, const QString& _objectName ) const
 {
-	m_pluginInstance.getLandscapeModel()->buildObject( _parentId, _objectName );
+	m_pluginInstance.getLandscapeModel()->trainObject( _parentId, _objectName );
+
+} // Environment::trainObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::buildObject( const Core::LandscapeModel::Object::UniqueId& _builderId, const QString& _objectName, const QPoint& _atLocation ) const
+{
+	m_pluginInstance.getLandscapeModel()->buildObject( _builderId, _objectName, _atLocation );
 
 } // Environment::buildObject
 

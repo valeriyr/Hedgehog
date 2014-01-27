@@ -113,9 +113,18 @@ namespace ResourceValueChanged
 
 /*---------------------------------------------------------------------------*/
 
-namespace BuilderQueueChanged
+namespace TrainQueueChanged
 {
-	const char* const ms_type = "BuilderQueueChanged";
+	const char* const ms_type = "TrainQueueChanged";
+
+	const char* const ms_trainerIdAttribute = "TrainerId";
+}
+
+/*---------------------------------------------------------------------------*/
+
+namespace BuildQueueChanged
+{
+	const char* const ms_type = "BuildQueueChanged";
 
 	const char* const ms_builderIdAttribute = "BuilderId";
 }

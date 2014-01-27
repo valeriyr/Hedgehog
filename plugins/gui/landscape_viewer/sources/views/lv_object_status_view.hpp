@@ -61,7 +61,7 @@ private:
 
 	void onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event );
 
-	void onBuilderQueueChanged( const Framework::Core::EventManager::Event& _event );
+	void onTrainQueueChanged( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/
 

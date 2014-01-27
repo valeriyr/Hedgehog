@@ -197,7 +197,7 @@ Landscape::getObject( const Object::UniqueId& _id ) const
 int
 Landscape::getObjectsCount() const
 {
-	return m_objects.size();
+	return static_cast< int >( m_objects.size() );
 
 } // Landscape::getObjectsCount
 
