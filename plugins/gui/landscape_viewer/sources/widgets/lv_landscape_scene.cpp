@@ -779,11 +779,8 @@ LandscapeScene::correctSceneObjectPosition(
 	if ( correctedPosition.y() > _sceneHeight - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
 		correctedPosition.setY( _sceneHeight - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) );
 
-	if ( objectPixmap.width() > ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) )
-		correctedPosition.setX( correctedPosition.x() - ( objectPixmap.width() - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) ) / 2 );
-
-	if ( objectPixmap.height() > ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
-		correctedPosition.setY( correctedPosition.y() - ( objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2 );
+	correctedPosition.setX( correctedPosition.x() - ( objectPixmap.width() - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) ) / 2 );
+	correctedPosition.setY( correctedPosition.y() - ( objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2 );
 
 	return correctedPosition;
 
