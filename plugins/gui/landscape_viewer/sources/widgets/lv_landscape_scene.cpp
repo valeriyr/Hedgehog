@@ -62,10 +62,11 @@ public:
 		{
 			QPoint position( value.toPoint() );
 
-			int centerX = ( position.x() + boundingRect().size().width() ) / 2;
-			int centerY = ( position.y() + boundingRect().size().height() ) / 2;
+			int centerX = position.x() + ( boundingRect().size().width() / 2 );
+			int centerY = position.y() + ( boundingRect().size().height() / 2 );
 
-			int z = ( ( centerY / Resources::Landscape::CellSize ) * m_landscapeSize.height() ) + ( ( centerX / Resources::Landscape::CellSize ) + 1 );
+			int z = LandscapeScene::ZValue::ObjectsBegin;
+			z += ( ( centerY / Resources::Landscape::CellSize ) * m_landscapeSize.height() ) + ( ( centerX / Resources::Landscape::CellSize ) + 1 );
 
 			if ( m_emplacement == Core::LandscapeModel::Emplacement::Air )
 				z += m_landscapeSize.width() * m_landscapeSize.height();
@@ -305,7 +306,6 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 	addItem( newItem );
 
 	newItem->setPos( correctedPosition );
-	newItem->setZValue( LandscapeScene::ObjectZValue::Object );
 
 	objectWasAdded( id, newItem );
 
@@ -356,8 +356,8 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 		if ( itemsList.isEmpty() )
 			return;
 
-		QPointF itemPos = itemsList[LandscapeScene::ObjectZValue::Surface]->scenePos();
-		delete itemsList[LandscapeScene::ObjectZValue::Surface];
+		QPointF itemPos = itemsList[LandscapeScene::ZValue::Surface]->scenePos();
+		delete itemsList[LandscapeScene::ZValue::Surface];
 
 		boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 			surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( m_environment.getString( Resources::Properties::SkinId ), id );
@@ -368,7 +368,7 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 				,	Framework::GUI::ImagesManager::IImagesManager::TransformationData( surfaceItemGraphicsInfo->getFrameRect() ) ) );
 
 		newItem->setPos( itemPos );
-		newItem->setZValue( LandscapeScene::ObjectZValue::Surface );
+		newItem->setZValue( LandscapeScene::ZValue::Surface );
 	}
 
 	regenerateTerrainMapLayer();
@@ -539,7 +539,7 @@ LandscapeScene::generateLandscape()
 						,	Framework::GUI::ImagesManager::IImagesManager::TransformationData( surfaceItemGraphicsInfo->getFrameRect() ) ) );
 
 				item->setPos( LandscapeScene::convertToScenePosition( QPoint( i, j ) ) );
-				item->setZValue( ObjectZValue::Surface );
+				item->setZValue( ZValue::Surface );
 			}
 		}
 
@@ -571,7 +571,6 @@ LandscapeScene::generateLandscape()
 					,	( *begin )->getName() ) );
 
 			newItem->setPos( correctedPosition );
-			newItem->setZValue( ObjectZValue::Object );
 
 			objectWasAdded( ( *begin )->getUniqueId(), newItem );
 
@@ -638,7 +637,7 @@ LandscapeScene::generateTerrainMapLayer()
 				QGraphicsPixmapItem* item = new QGraphicsPixmapItem( pixmap );
 
 				item->setPos( LandscapeScene::convertToScenePosition( QPoint( i, j ) ) );
-				item->setZValue( ObjectZValue::Terrain );
+				item->setZValue( ZValue::Terrain );
 
 				QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
 				opacityEffect->setOpacity( 0.4 );
@@ -663,7 +662,7 @@ LandscapeScene::clearTerrainMapLayer()
 
 	for ( int i = 0; i < items.size(); ++i )
 	{
-		if ( items[ i ]->zValue() == ObjectZValue::Terrain )
+		if ( items[ i ]->zValue() == ZValue::Terrain )
 			delete items[ i ];
 	}
 

@@ -54,7 +54,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	struct ObjectZValue
+	struct ZValue
 	{
 		enum Enum
 		{
@@ -62,7 +62,7 @@ public:
 			,	Terrain             = 1
 			,	EditorSurfaceItem   = 2
 
-			,	Object              = 3
+			,	ObjectsBegin        = 3
 
 			,	SelectionRect       = 1000000
 		};

@@ -52,7 +52,7 @@ LandscapeSceneGameState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent 
 	{
 		m_selectionItem = m_scene.addRect( 0, 0, 0, 0, QPen( QColor( 0, 255, 0 ) ) );
 		m_selectionItem->setPos( _mouseEvent->scenePos().x(), _mouseEvent->scenePos().y() );
-		m_selectionItem->setZValue( LandscapeScene::ObjectZValue::SelectionRect );
+		m_selectionItem->setZValue( LandscapeScene::ZValue::SelectionRect );
 		m_startSelectionPoint = _mouseEvent->scenePos();
 	}
 
@@ -299,7 +299,7 @@ LandscapeSurfaceItemEditingState::addSceneObjects()
 
 		m_scene.addItem( m_currentEditorItem );
 
-		m_currentEditorItem->setZValue( LandscapeScene::ObjectZValue::EditorSurfaceItem );
+		m_currentEditorItem->setZValue( LandscapeScene::ZValue::EditorSurfaceItem );
 		m_currentEditorItem->setPos( 0, 0 );
 	}
 
@@ -447,7 +447,6 @@ LandscapeObjectEditingState::addSceneObjects()
 
 		m_scene.addItem( m_currentEditorItem );
 
-		m_currentEditorItem->setZValue( LandscapeScene::ObjectZValue::Object );
 		m_currentEditorItem->setPos( 0, 0 );
 	}
 
