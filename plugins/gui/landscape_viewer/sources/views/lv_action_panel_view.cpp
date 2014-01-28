@@ -9,6 +9,9 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 
+#include "landscape_model/ih/components/lm_itrain_component.hpp"
+#include "landscape_model/ih/components/lm_ibuild_component.hpp"
+
 #include "landscape_model/h/lm_object.hpp"
 #include "landscape_model/h/lm_events.hpp"
 

@@ -63,6 +63,15 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
+	virtual void startBuild(
+			const Object::UniqueId& _id
+		,	const QString& _objectName
+		,	const QPoint& _location ) = 0;
+
+	virtual void stopBuild( const Object::UniqueId& _id ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
 };
 
 /*---------------------------------------------------------------------------*/

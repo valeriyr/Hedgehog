@@ -21,14 +21,23 @@ namespace LandscapeLoaded
 
 /*---------------------------------------------------------------------------*/
 
-namespace ObjectCreated
+namespace ObjectAdded
 {
-	const char* const ms_type = "ObjectCreated";
+	const char* const ms_type = "ObjectAdded";
 
 	const char* const ms_objectNameAttribute = "ObjectName";
 	const char* const ms_objectLocationAttribute = "ObjectLocation";
 	const char* const ms_objectUniqueIdAttribute = "ObjectUniqueId";
 	const char* const ms_objectEmplacementAttribute = "ObjectEmplacement";
+}
+
+/*---------------------------------------------------------------------------*/
+
+namespace ObjectRemoved
+{
+	const char* const ms_type = "ObjectRemoved";
+
+	const char* const ms_objectUniqueIdAttribute = "ObjectUniqueId";
 }
 
 /*---------------------------------------------------------------------------*/

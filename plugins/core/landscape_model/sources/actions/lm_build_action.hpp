@@ -21,6 +21,7 @@ struct ILandscape;
 
 struct ILandscapeModel;
 struct IPathFinder;
+struct IStaticData;
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,6 +41,7 @@ public:
 		,	IPlayer& _player
 		,	ILandscape& _landscape
 		,	ILandscapeModel& _landscapeModel
+		,	const IStaticData& _staticData
 		,	boost::intrusive_ptr< IPathFinder > _pathFinder );
 
 	virtual ~BuildAction();
@@ -71,6 +73,8 @@ private:
 	ILandscape& m_landscape;
 
 	ILandscapeModel& m_landscapeModel;
+
+	const IStaticData& m_staticData;
 
 	boost::intrusive_ptr< IPathFinder > m_pathFinder;
 

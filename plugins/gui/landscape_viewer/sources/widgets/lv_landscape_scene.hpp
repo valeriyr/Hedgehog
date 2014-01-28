@@ -9,6 +9,7 @@
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_directions.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -125,7 +126,9 @@ private:
 
 	void onSettingChanged( const Framework::Core::EventManager::Event& _event );
 
-	void onObjectCreated( const Framework::Core::EventManager::Event& _event );
+	void onObjectAdded( const Framework::Core::EventManager::Event& _event );
+
+	void onObjectRemoved( const Framework::Core::EventManager::Event& _event );
 
 	void onCreateObjectFailed( const Framework::Core::EventManager::Event& _event );
 

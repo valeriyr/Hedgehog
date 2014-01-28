@@ -9,6 +9,8 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 
+#include "landscape_model/ih/components/lm_ilocate_component.hpp"
+
 #include "landscape_model/sources/geometry/lm_geometry.hpp"
 
 
@@ -109,8 +111,8 @@ MoveAction::processAction( const unsigned int _deltaTime )
 			{
 				movingData = newMovingData;
 
-				m_landscape.setEngagedWithGroungItem( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
-				m_landscape.setEngagedWithGroungItem( movingData.m_path.front(), locateComponent->getStaticData().m_emplacement, true );
+				m_landscape.setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
+				m_landscape.setEngaged( movingData.m_path.front(), locateComponent->getStaticData().m_emplacement, true );
 			}
 		}
 
@@ -135,8 +137,8 @@ MoveAction::processAction( const unsigned int _deltaTime )
 				{
 					if ( m_landscape.canObjectBePlaced( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData() ) )
 					{
-						m_landscape.setEngagedWithGroungItem( location, locateComponent->getStaticData().m_emplacement, false );
-						m_landscape.setEngagedWithGroungItem( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData().m_emplacement, true );
+						m_landscape.setEngaged( location, locateComponent->getStaticData().m_emplacement, false );
+						m_landscape.setEngaged( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData().m_emplacement, true );
 					}
 					else
 					{
@@ -159,8 +161,8 @@ MoveAction::processAction( const unsigned int _deltaTime )
 						{
 							movingData = newMovingData;
 
-							m_landscape.setEngagedWithGroungItem( location, locateComponent->getStaticData().m_emplacement, false );
-							m_landscape.setEngagedWithGroungItem( movingData.m_path.front(), locateComponent->getStaticData().m_emplacement, true );
+							m_landscape.setEngaged( location, locateComponent->getStaticData().m_emplacement, false );
+							m_landscape.setEngaged( movingData.m_path.front(), locateComponent->getStaticData().m_emplacement, true );
 						}
 					}
 				}
@@ -232,8 +234,8 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					{
 						movingData = newMovingData;
 
-						m_landscape.setEngagedWithGroungItem( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
-						m_landscape.setEngagedWithGroungItem( movingData.m_path.front(), locateComponent->getStaticData().m_emplacement, true );
+						m_landscape.setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
+						m_landscape.setEngaged( movingData.m_path.front(), locateComponent->getStaticData().m_emplacement, true );
 					}
 				}
 			}

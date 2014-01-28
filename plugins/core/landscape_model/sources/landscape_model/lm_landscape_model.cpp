@@ -60,6 +60,7 @@ LandscapeModel::LandscapeModel(
 	,	m_player()
 	,	m_mutex( QMutex::Recursive )
 	,	m_pathFinder( new JumpPointSearch() )
+	,	m_builders()
 {
 	m_environment.startThread( Resources::ModelThreadName );
 	m_actionsProcessingTaskHandle = m_environment.pushPeriodicalTask(
@@ -282,13 +283,13 @@ LandscapeModel::createObject(
 
 	if ( objectId != Object::ms_wrongId )
 	{
-		Framework::Core::EventManager::Event objectCreatedEvent( Events::ObjectCreated::ms_type );
-		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectNameAttribute, _objectName );
-		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectLocationAttribute, _location );
-		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectUniqueIdAttribute, objectId );
-		objectCreatedEvent.pushAttribute( Events::ObjectCreated::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( _objectName ).m_locateData->m_emplacement );
+		Framework::Core::EventManager::Event objectAddedEvent( Events::ObjectAdded::ms_type );
+		objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, _objectName );
+		objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, _location );
+		objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId );
+		objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( _objectName ).m_locateData->m_emplacement );
 
-		m_environment.riseEvent( objectCreatedEvent );
+		m_environment.riseEvent( objectAddedEvent );
 	}
 	else
 	{
@@ -411,7 +412,7 @@ LandscapeModel::buildObject( const Object::UniqueId& _builder, const QString& _o
 					{
 						actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >(
-								new BuildAction( m_environment, *object, *handle->getPlayer(), *handle->getLandscape(), *this, m_pathFinder ) ) );
+								new BuildAction( m_environment, *object, *handle->getPlayer(), *handle->getLandscape(), *this, m_staticData, m_pathFinder ) ) );
 					}
 
 					buildComponent->getBuildData().m_buildQueue.push_back( std::make_pair( _objectName, _atLocation ) );
@@ -426,6 +427,96 @@ LandscapeModel::buildObject( const Object::UniqueId& _builder, const QString& _o
 	}
 
 } // LandscapeModel::buildObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::startBuild(
+		const Object::UniqueId& _id
+	,	const QString& _objectName
+	,	const QPoint& _location )
+{
+	{
+		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+
+		if ( handle->getLandscape() )
+		{
+			boost::shared_ptr< Object > object = handle->getLandscape()->removeObject( _id );
+
+			if ( object )
+			{
+				assert( m_builders.find( _id ) == m_builders.end() );
+				m_builders.insert( std::make_pair( _id, object ) );
+
+				const Object::UniqueId objectId
+					= handle->getLandscape()->createObjectForBuilding( _location, _objectName );
+				assert( objectId != Object::ms_wrongId );
+
+				boost::intrusive_ptr< IBuildComponent > buildComponent
+					= object->getComponent< IBuildComponent >( ComponentId::Build );
+				buildComponent->getBuildData().m_objectId = objectId;
+
+				Framework::Core::EventManager::Event objectRemovedEvent( Events::ObjectRemoved::ms_type );
+				objectRemovedEvent.pushAttribute( Events::ObjectRemoved::ms_objectUniqueIdAttribute, _id );
+
+				m_environment.riseEvent( objectRemovedEvent );
+
+				Framework::Core::EventManager::Event objectAddedEvent( Events::ObjectAdded::ms_type );
+				objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, _objectName );
+				objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, _location );
+				objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId );
+				objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( _objectName ).m_locateData->m_emplacement );
+
+				m_environment.riseEvent( objectAddedEvent );
+			}
+		}
+	}
+
+} // LandscapeModel::startBuild
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::stopBuild( const Object::UniqueId& _id )
+{
+	{
+		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+
+		if ( handle->getLandscape() )
+		{
+			BuildersCollectionIterator iterator = m_builders.find( _id );
+
+			assert( iterator != m_builders.end() );
+
+			boost::intrusive_ptr< ILocateComponent >
+				locateComponent = iterator->second->getComponent< ILocateComponent >( ComponentId::Locate );
+			boost::intrusive_ptr< IBuildComponent >
+				buildComponent = iterator->second->getComponent< IBuildComponent >( ComponentId::Build );
+
+			locateComponent->setLocation(
+				handle->getLandscape()->getNearestLocation(
+						*handle->getLandscape()->getObject( buildComponent->getBuildData().m_objectId )
+					,	iterator->second->getName() ) );
+
+			handle->getLandscape()->addObject( iterator->second );
+
+			Framework::Core::EventManager::Event objectAddedEvent( Events::ObjectAdded::ms_type );
+			objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, iterator->second->getName() );
+			objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, locateComponent->getLocation() );
+			objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, _id );
+			objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
+
+			m_environment.riseEvent( objectAddedEvent );
+
+			m_builders.erase( _id );
+		}
+	}
+
+} // LandscapeModel::stopBuild
 
 
 /*---------------------------------------------------------------------------*/
@@ -553,6 +644,33 @@ LandscapeModel::gameMainLoop()
 			}
 		}
 	}
+
+	// Process builders
+
+	BuildersCollectionIterator
+			begin = m_builders.begin()
+		,	end = m_builders.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		boost::intrusive_ptr< IActionsComponent > actionsComponent
+			= begin->second->getComponent< IActionsComponent >( ComponentId::Actions );
+
+		if ( actionsComponent )
+		{
+			boost::intrusive_ptr< IAction > action = actionsComponent->frontAction();
+
+			if ( action )
+			{
+				action->processAction( Resources::TimeLimit );
+
+				if ( action->hasFinished() )
+					actionsComponent->popFrontAction();
+			}
+		}
+	}
+
+	// Fetch dying objects
 
 	// Process notifications
 

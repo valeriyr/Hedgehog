@@ -10,6 +10,8 @@
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
+#include "landscape_model/ih/components/lm_ilocate_component.hpp"
+
 #include "landscape_model/h/lm_events.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
@@ -70,8 +72,12 @@ MinimapWidget::landscapeWasOpened()
 							,	boost::bind( &MinimapWidget::onSettingChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_type
-							,	boost::bind( &MinimapWidget::onObjectCreated, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_type
+							,	boost::bind( &MinimapWidget::onObjectAdded, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::ObjectRemoved::ms_type
+							,	boost::bind( &MinimapWidget::onObjectRemoved, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_type
@@ -195,7 +201,7 @@ MinimapWidget::onSettingChanged( const Framework::Core::EventManager::Event& _ev
 
 
 void
-MinimapWidget::onObjectCreated( const Framework::Core::EventManager::Event& _event )
+MinimapWidget::onObjectAdded( const Framework::Core::EventManager::Event& _event )
 {
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
 		= m_environment.getCurrentLandscape();
@@ -204,7 +210,23 @@ MinimapWidget::onObjectCreated( const Framework::Core::EventManager::Event& _eve
 
 	update();
 
-} // MinimapWidget::onObjectCreated
+} // MinimapWidget::onObjectAdded
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MinimapWidget::onObjectRemoved( const Framework::Core::EventManager::Event& _event )
+{
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
+		= m_environment.getCurrentLandscape();
+
+	renderObjects( *handle->getLandscape() );
+
+	update();
+
+} // MinimapWidget::onObjectRemoved
 
 
 /*---------------------------------------------------------------------------*/

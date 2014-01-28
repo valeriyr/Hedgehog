@@ -78,9 +78,6 @@
     <ClCompile Include="sources\landscape\lm_landscape.cpp">
       <Filter>Landscape</Filter>
     </ClCompile>
-    <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp">
-      <Filter>Landscape Serializer</Filter>
-    </ClCompile>
     <ClCompile Include="sources\surface_item\lm_surface_item.cpp">
       <Filter>Surface Item</Filter>
     </ClCompile>
@@ -155,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="sources\actions\lm_build_action.cpp">
       <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp">
+      <Filter>Landscape Serializer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

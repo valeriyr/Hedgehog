@@ -59,7 +59,7 @@ public:
 
 	/*virtual*/ const TerrainMapData& getTerrainMapData( const QPoint& _point ) const;
 
-	/*virtual*/ void setEngagedWithGroungItem( const QPoint& _point, const Emplacement::Enum _emplacement, const bool _isEngaged );
+	/*virtual*/ void setEngaged( const QPoint& _point, const Emplacement::Enum _emplacement, const bool _isEngaged );
 
 /*---------------------------------------------------------------------------*/
 
@@ -74,6 +74,12 @@ public:
 	/*virtual*/ void fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) const;
 
 	/*virtual*/ Object::UniqueId createObject( const QPoint& _location, const QString& _objectName );
+
+	/*virtual*/ Object::UniqueId createObjectForBuilding( const QPoint& _location, const QString& _objectName );
+
+	/*virtual*/ boost::shared_ptr< Object > removeObject( const Object::UniqueId& _id );
+
+	/*virtual*/ void addObject( boost::shared_ptr< Object > _object );
 
 	/*virtual*/ void selectObjects( const QRect& _rect );
 

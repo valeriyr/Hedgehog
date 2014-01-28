@@ -13,6 +13,8 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 
+#include "landscape_model/ih/components/lm_ilocate_component.hpp"
+
 #include "landscape_model/h/lm_events.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
@@ -160,8 +162,12 @@ LandscapeScene::landscapeWasOpened()
 							,	boost::bind( &LandscapeScene::onSettingChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_type
-							,	boost::bind( &LandscapeScene::onObjectCreated, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_type
+							,	boost::bind( &LandscapeScene::onObjectAdded, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::ObjectRemoved::ms_type
+							,	boost::bind( &LandscapeScene::onObjectRemoved, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::CreateObjectFailed::ms_type
@@ -285,14 +291,14 @@ LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _e
 
 
 void
-LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _event )
+LandscapeScene::onObjectAdded( const Framework::Core::EventManager::Event& _event )
 {
-	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectNameAttribute ).toString();
-	const QPoint objectLocation = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectLocationAttribute ).toPoint();
+	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectNameAttribute ).toString();
+	const QPoint objectLocation = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectLocationAttribute ).toPoint();
 	const Plugins::Core::LandscapeModel::Object::UniqueId id
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectUniqueIdAttribute ).toInt();
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectUniqueIdAttribute ).toInt();
 	const Core::LandscapeModel::Emplacement::Enum emplacement
-		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectCreated::ms_objectEmplacementAttribute ).toInt() );
+		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectEmplacementAttribute ).toInt() );
 
 	QPointF correctedPosition(
 		LandscapeScene::correctSceneObjectPosition(
@@ -320,7 +326,30 @@ LandscapeScene::onObjectCreated( const Framework::Core::EventManager::Event& _ev
 
 	m_environment.playSound( Resources::Sounds::PlacementSuccess );
 
-} // LandscapeScene::onObjectCreated
+} // LandscapeScene::onObjectAdded
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onObjectRemoved( const Framework::Core::EventManager::Event& _event )
+{
+	const Plugins::Core::LandscapeModel::Object::UniqueId id
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectRemoved::ms_objectUniqueIdAttribute ).toInt();
+
+	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
+
+	if ( iterator != m_objectsCollection.end() )
+	{
+		m_environment.stopAnimation( *iterator->second );
+
+		delete iterator->second;
+
+		m_objectsCollection.erase( id );
+	}
+
+} // LandscapeScene::onObjectRemoved
 
 
 /*---------------------------------------------------------------------------*/

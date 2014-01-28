@@ -94,7 +94,9 @@ private:
 
 	void onSettingChanged( const Framework::Core::EventManager::Event& _event );
 
-	void onObjectCreated( const Framework::Core::EventManager::Event& _event );
+	void onObjectAdded( const Framework::Core::EventManager::Event& _event );
+
+	void onObjectRemoved( const Framework::Core::EventManager::Event& _event );
 
 	void onSurfaceItemChanged( const Framework::Core::EventManager::Event& _event );
 

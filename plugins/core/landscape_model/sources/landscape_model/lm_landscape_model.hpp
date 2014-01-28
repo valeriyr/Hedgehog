@@ -80,6 +80,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void startBuild(
+			const Object::UniqueId& _id
+		,	const QString& _objectName
+		,	const QPoint& _location );
+
+	/*virtual*/ void stopBuild( const Object::UniqueId& _id );
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ boost::shared_ptr< Object > createObject(
 			const QPoint& _location
 		,	const QString& _objectName ) const;
@@ -95,6 +104,15 @@ private:
 /*---------------------------------------------------------------------------*/
 
 private:
+
+/*---------------------------------------------------------------------------*/
+
+	typedef
+		std::map< Object::UniqueId, boost::shared_ptr< Object > >
+		BuildersCollection;
+	typedef
+		BuildersCollection::iterator
+		BuildersCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -117,6 +135,10 @@ private:
 	QMutex m_mutex;
 
 	boost::intrusive_ptr< IPathFinder > m_pathFinder;
+
+/*---------------------------------------------------------------------------*/
+
+	BuildersCollection m_builders;
 
 /*---------------------------------------------------------------------------*/
 

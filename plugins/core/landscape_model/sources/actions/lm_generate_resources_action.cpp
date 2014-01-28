@@ -7,6 +7,7 @@
 
 #include "landscape_model/ih/lm_iplayer.hpp"
 
+#include "landscape_model/ih/components/lm_igenerate_resources_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 

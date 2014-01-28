@@ -9,20 +9,24 @@
 #include "landscape_model/h/lm_object_states.hpp"
 
 #include "landscape_model/h/components/lm_component_id.hpp"
-#include "landscape_model/ih/components/lm_itrain_component.hpp"
-#include "landscape_model/ih/components/lm_ihealth_component.hpp"
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
-#include "landscape_model/ih/components/lm_imove_component.hpp"
-#include "landscape_model/ih/components/lm_iactions_component.hpp"
-#include "landscape_model/ih/components/lm_igenerate_resources_component.hpp"
-#include "landscape_model/ih/components/lm_iattack_component.hpp"
-#include "landscape_model/ih/components/lm_ibuild_component.hpp"
+#include "landscape_model/ih/components/lm_icomponent.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
+
+/*---------------------------------------------------------------------------*/
+
+struct ITrainComponent;
+struct IHealthComponent;
+struct ILocateComponent;
+struct IMoveComponent;
+struct IActionsComponent;
+struct IGenerateResourcesComponent;
+struct IAttackComponent;
+struct IBuildComponent;
 
 /*---------------------------------------------------------------------------*/
 

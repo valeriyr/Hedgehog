@@ -11,6 +11,8 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
+#include "landscape_model/ih/components/lm_itrain_component.hpp"
+#include "landscape_model/ih/components/lm_ilocate_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -66,7 +68,7 @@ TrainAction::processAction( const unsigned int _deltaTime )
 
 	trainData.m_trainProgress += creatingDelta;
 
-	if ( trainData.m_trainProgress > 100 )
+	if ( trainData.m_trainProgress >= 100 )
 	{
 		boost::intrusive_ptr< ILocateComponent > locateComponent
 			= m_object.getComponent< ILocateComponent >( ComponentId::Locate );

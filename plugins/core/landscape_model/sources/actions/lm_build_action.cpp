@@ -11,9 +11,15 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
+#include "landscape_model/ih/components/lm_ibuild_component.hpp"
+#include "landscape_model/ih/components/lm_ilocate_component.hpp"
+#include "landscape_model/ih/components/lm_ihealth_component.hpp"
+
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 
 #include "landscape_model/sources/geometry/lm_geometry.hpp"
+
+#include "landscape_model/ih/lm_istatic_data.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -31,12 +37,14 @@ BuildAction::BuildAction(
 	,	IPlayer& _player
 	,	ILandscape& _landscape
 	,	ILandscapeModel& _landscapeModel
+	,	const IStaticData& _staticData
 	,	boost::intrusive_ptr< IPathFinder > _pathFinder
 	)
 	:	BaseAction( _environment, _object )
 	,	m_player( _player )
 	,	m_landscape( _landscape )
 	,	m_landscapeModel( _landscapeModel )
+	,	m_staticData( _staticData )
 	,	m_pathFinder( _pathFinder )
 	,	m_moveAction()
 {
@@ -96,27 +104,47 @@ BuildAction::processAction( const unsigned int _deltaTime )
 	}
 	else
 	{
+		bool shouldBuildObject = true;
+
 		if ( buildData.m_buildProgress == 0 )
 		{
-			// remove builder from map
+			m_landscape.setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
+
+			bool newObjectCanBePlaced
+				= m_landscape.canObjectBePlaced(
+						buildData.m_buildQueue.front().second
+					,	*m_staticData.getObjectStaticData( buildData.m_buildQueue.front().first ).m_locateData );
+
+			if ( newObjectCanBePlaced )
+			{
+				m_landscapeModel.startBuild( m_object.getUniqueId(), buildData.m_buildQueue.front().first, buildData.m_buildQueue.front().second );
+			}
+			else
+			{
+				m_landscape.setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );
+				buildData.objectBuilt();
+				shouldBuildObject = false;
+			}
 		}
 
-		int buildingTime = buildComponent->getStaticData().m_buildDatas.find( buildData.m_buildQueue.front().first )->second->m_buildTime;
-		int buildingDelta = ( static_cast< float >( _deltaTime ) / buildingTime ) * 100;
-
-		buildData.m_buildProgress += buildingDelta;
-
-		if ( buildData.m_buildProgress > 100 )
+		if ( shouldBuildObject )
 		{
-			// add builder to map
+			int buildingTime = buildComponent->getStaticData().m_buildDatas.find( buildData.m_buildQueue.front().first )->second->m_buildTime;
+			int buildingDelta = ( static_cast< float >( _deltaTime ) / buildingTime ) * 100;
 
-			/*boost::intrusive_ptr< ILocateComponent > locateComponent
-				= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+			buildData.m_buildProgress += buildingDelta;
 
-			m_landscapeModel.createObject( m_landscape.getNearestLocation( m_object, trainData.m_trainQueue.front() ), trainData.m_trainQueue.front() );*/
+			boost::intrusive_ptr< IHealthComponent > targetHealthComponent
+				= m_landscape.getObject( buildData.m_objectId )->getComponent< IHealthComponent >( ComponentId::Health );
 
-			buildData.m_buildProgress = 0;
-			buildData.m_buildQueue.pop_front();
+			targetHealthComponent->setHealth( static_cast< float >( targetHealthComponent->getStaticData().m_maximumHealth ) * buildData.m_buildProgress / 100 );
+
+			if ( buildData.m_buildProgress >= 100 )
+			{
+				m_landscapeModel.stopBuild( m_object.getUniqueId() );
+
+				buildData.objectBuilt();
+			}
 		}
 
 		Framework::Core::EventManager::Event buildQueueChangedEvent( Events::BuildQueueChanged::ms_type );

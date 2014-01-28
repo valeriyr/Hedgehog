@@ -9,6 +9,9 @@
 #include "landscape_model/h/lm_object.hpp"
 #include "landscape_model/ih/lm_istatic_data.hpp"
 
+#include "landscape_model/ih/components/lm_ilocate_component.hpp"
+#include "landscape_model/ih/components/lm_ihealth_component.hpp"
+
 #include "landscape_model/sources/landscape/lm_iobjects_creator.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -142,11 +145,11 @@ Landscape::getTerrainMapData( const QPoint& _point ) const
 
 
 void
-Landscape::setEngagedWithGroungItem( const QPoint& _point, const Emplacement::Enum _emplacement, const bool _isEngaged )
+Landscape::setEngaged( const QPoint& _point, const Emplacement::Enum _emplacement, const bool _isEngaged )
 {
 	m_terrainMap.getElement( _point.x(), _point.y() ).markAsEngaged( _emplacement, _isEngaged );
 
-} // Landscape::setEngagedWithGroungItem
+} // Landscape::setEngaged
 
 
 /*---------------------------------------------------------------------------*/
@@ -176,6 +179,9 @@ Landscape::getObject( const QPoint& _point ) const
 boost::shared_ptr< Object >
 Landscape::getObject( const Object::UniqueId& _id ) const
 {
+	if ( _id == Object::ms_wrongId )
+		return boost::shared_ptr< Object >();
+
 	ILandscape::ObjectsCollectionIterator
 			begin = m_objects.begin()
 		,	end = m_objects.end();
@@ -254,6 +260,92 @@ Landscape::createObject( const QPoint& _location, const QString& _objectName )
 	return Object::ms_wrongId;
 
 } // Landscape::createObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
+Object::UniqueId
+Landscape::createObjectForBuilding( const QPoint& _location, const QString& _objectName )
+{
+	boost::shared_ptr< Object > object = getObject( createObject( _location, _objectName ) );
+
+	if ( object )
+	{
+		// object->setState( ObjectState:: );
+		object->getComponent< IHealthComponent >( ComponentId::Health )->setHealth( 1 );
+
+		return object->getUniqueId();
+	}
+
+	return Object::ms_wrongId;
+
+} // Landscape::createObjectForBuilding
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::shared_ptr< Object >
+Landscape::removeObject( const Object::UniqueId& _id )
+{
+	ILandscape::ObjectsCollectionIterator
+			begin = m_objects.begin()
+		,	end = m_objects.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( ( *begin )->getUniqueId() == _id )
+		{
+			boost::shared_ptr< Object > object = *begin;
+
+			boost::intrusive_ptr< ILocateComponent >
+				locateComponent = object->getComponent< ILocateComponent >( ComponentId::Locate );
+
+			QRect objectRect( locateComponent->getRect() );
+
+			for ( int x = objectRect.x(); x < objectRect.x() + objectRect.width(); ++x )
+			{
+				for ( int y = objectRect.y(); y < objectRect.y() + objectRect.height(); ++y )
+				{
+					m_terrainMap.getElement( x, y ).markAsEngaged( locateComponent->getStaticData().m_emplacement, false );
+				}
+			}
+
+			m_objects.erase( std::remove( m_objects.begin(), m_objects.end(), object ), m_objects.end() );
+
+			return object;
+		}
+	}
+
+	return boost::shared_ptr< Object >();
+
+} // Landscape::removeObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Landscape::addObject( boost::shared_ptr< Object > _object )
+{
+	assert( !getObject( _object->getUniqueId() ) );
+	m_objects.push_back( _object );
+
+	boost::intrusive_ptr< ILocateComponent >
+		locateComponent = _object->getComponent< ILocateComponent >( ComponentId::Locate );
+
+	QRect objectRect( locateComponent->getRect() );
+
+	for ( int x = objectRect.x(); x < objectRect.x() + objectRect.width(); ++x )
+	{
+		for ( int y = objectRect.y(); y < objectRect.y() + objectRect.height(); ++y )
+		{
+			m_terrainMap.getElement( x, y ).markAsEngaged( locateComponent->getStaticData().m_emplacement, true );
+		}
+	}
+
+} // Landscape::addObject
 
 
 /*---------------------------------------------------------------------------*/

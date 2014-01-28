@@ -19,6 +19,10 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct LocateComponentStaticData;
+
+/*---------------------------------------------------------------------------*/
+
 struct ILandscape
 	:	public Tools::Core::IBase
 {
@@ -31,6 +35,9 @@ struct ILandscape
 	typedef
 		ObjectsCollection::const_iterator
 		ObjectsCollectionIterator;
+	typedef
+		ObjectsCollection::const_iterator
+		ObjectsCollectionConstIterator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -52,7 +59,7 @@ struct ILandscape
 
 	virtual const TerrainMapData& getTerrainMapData( const QPoint& _point ) const = 0;
 
-	virtual void setEngagedWithGroungItem( const QPoint& _point, const Emplacement::Enum _emplacement, const bool _isEngaged ) = 0;
+	virtual void setEngaged( const QPoint& _point, const Emplacement::Enum _emplacement, const bool _isEngaged ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -66,9 +73,13 @@ struct ILandscape
 
 	virtual void fetchSelectedObjects( ObjectsCollection& _collection ) const = 0;
 
-	virtual Object::UniqueId createObject(
-			const QPoint& _location
-		,	const QString& _objectName ) = 0;
+	virtual Object::UniqueId createObject( const QPoint& _location, const QString& _objectName ) = 0;
+
+	virtual Object::UniqueId createObjectForBuilding( const QPoint& _location, const QString& _objectName ) = 0;
+
+	virtual boost::shared_ptr< Object > removeObject( const Object::UniqueId& _id ) = 0;
+
+	virtual void addObject( boost::shared_ptr< Object > _object ) = 0;
 
 	virtual void selectObjects( const QRect& _rect ) = 0;
 

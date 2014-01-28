@@ -14,6 +14,9 @@
 
 #include "landscape_model/sources/geometry/lm_geometry.hpp"
 
+#include "landscape_model/ih/components/lm_iattack_component.hpp"
+#include "landscape_model/ih/components/lm_ilocate_component.hpp"
+#include "landscape_model/ih/components/lm_ihealth_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 

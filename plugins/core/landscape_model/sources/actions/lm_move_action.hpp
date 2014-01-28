@@ -8,6 +8,10 @@
 
 #include "landscape_model/h/lm_object.hpp"
 
+#include "landscape_model/ih/components/lm_imove_component.hpp"
+
+#include "landscape_model/sources/path_finders/lm_ipath_finder.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -16,7 +20,6 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPathFinder;
 struct ILandscape;
 
 /*---------------------------------------------------------------------------*/

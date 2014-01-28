@@ -57,7 +57,12 @@ HealthComponent::getHealth() const
 void
 HealthComponent::setHealth( const int _health )
 {
-	m_health = _health < 0 ? 0 : _health;
+	if ( _health < 0 )
+		m_health = 0;
+	else if ( _health > m_staticData.m_maximumHealth )
+		m_health = m_staticData.m_maximumHealth;
+	else
+		m_health = _health;
 
 } // HealthComponent::setHealth
 

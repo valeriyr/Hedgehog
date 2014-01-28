@@ -5,7 +5,9 @@
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
+
 #include "landscape_model/h/components/lm_build_component_static_data.hpp"
+#include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -32,16 +34,27 @@ struct IBuildComponent
 
 		BuildData()
 			:	m_buildProgress( 0 )
+			,	m_objectId( Object::ms_wrongId )
 			,	m_buildQueue()
 		{}
 
 		void clear()
 		{
 			 m_buildProgress = 0;
+			 m_objectId = Object::ms_wrongId;
 			 m_buildQueue.clear();
 		}
 
+		void objectBuilt()
+		{
+			m_buildProgress = 0;
+			m_objectId = Object::ms_wrongId;
+			m_buildQueue.pop_front();
+		}
+
 		int m_buildProgress;
+
+		Object::UniqueId m_objectId;
 
 		BuildObjectsQueue m_buildQueue;
 	};

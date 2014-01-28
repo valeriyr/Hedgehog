@@ -8,6 +8,8 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
+#include "landscape_model/ih/components/lm_ilocate_component.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
