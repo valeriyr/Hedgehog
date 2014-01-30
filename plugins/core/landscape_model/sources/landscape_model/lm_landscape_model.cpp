@@ -497,9 +497,23 @@ LandscapeModel::stopBuild( const Object::UniqueId& _id )
 			boost::intrusive_ptr< IBuildComponent >
 				buildComponent = iterator->second->getComponent< IBuildComponent >( ComponentId::Build );
 
+			boost::shared_ptr< Object > targetObject
+				= handle->getLandscape()->getObject( buildComponent->getBuildData().m_objectId );
+			targetObject->setState( ObjectState::Standing );
+
+			Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, targetObject->getName() );
+			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, targetObject->getUniqueId() );
+			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, targetObject->getState() );
+			objectStateChangedEvent.pushAttribute(
+					Events::ObjectStateChanged::ms_objectDirection
+				,	targetObject->getComponent< ILocateComponent >( ComponentId::Locate )->getDirection() );
+
+			m_environment.riseEvent( objectStateChangedEvent );
+
 			locateComponent->setLocation(
 				handle->getLandscape()->getNearestLocation(
-						*handle->getLandscape()->getObject( buildComponent->getBuildData().m_objectId )
+						*targetObject
 					,	iterator->second->getName() ) );
 
 			handle->getLandscape()->addObject( iterator->second );

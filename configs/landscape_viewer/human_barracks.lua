@@ -59,6 +59,18 @@ do
 
 	end
 
+	do -- under construction south animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, humanBarracksName, ObjectState.UnderConstruction, Direction.South )
+
+		animationInfo = AnimationInfo( animationName, QString( "buildings/land_construction" ) )
+		animationInfo:addFrame( FrameInfo( 5000, QRect( 0, 0, 64, 64 ) ) )
+		animationInfo:addFrame( FrameInfo( 15000, QRect( 0, 0, 64, 64 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
 end
 
 -- End script message

@@ -272,7 +272,7 @@ Landscape::createObjectForBuilding( const QPoint& _location, const QString& _obj
 
 	if ( object )
 	{
-		// object->setState( ObjectState:: );
+		object->setState( ObjectState::UnderConstruction );
 		object->getComponent< IHealthComponent >( ComponentId::Health )->setHealth( 1 );
 
 		return object->getUniqueId();
