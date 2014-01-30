@@ -608,7 +608,11 @@ LandscapeModel::createObject( const QPoint& _location, const QString& _objectNam
 void
 LandscapeModel::gameMainLoop()
 {
-	qint64 startTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+	static qint64 lastStartTime = QDateTime::currentDateTime().toMSecsSinceEpoch() - 100;
+
+	qint64 tickTime = QDateTime::currentDateTime().toMSecsSinceEpoch() - lastStartTime;
+
+	lastStartTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
 	{
 		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
@@ -642,7 +646,7 @@ LandscapeModel::gameMainLoop()
 
 						for ( ; beginPeriodicalActions != endPeriodicalActions; ++beginPeriodicalActions )
 						{
-							( *beginPeriodicalActions )->processAction( Resources::TimeLimit );
+							( *beginPeriodicalActions )->processAction( tickTime );
 						}
 					}
 
@@ -652,7 +656,7 @@ LandscapeModel::gameMainLoop()
 
 					if ( action )
 					{
-						action->processAction( Resources::TimeLimit );
+						action->processAction( tickTime );
 
 						if ( action->hasFinished() )
 							actionsComponent->popFrontAction();
@@ -679,7 +683,7 @@ LandscapeModel::gameMainLoop()
 
 			if ( action )
 			{
-				action->processAction( Resources::TimeLimit );
+				action->processAction( tickTime );
 
 				if ( action->hasFinished() )
 					actionsComponent->popFrontAction();
@@ -693,7 +697,7 @@ LandscapeModel::gameMainLoop()
 
 	m_environment.getNotificationCenter()->processNotifiers();
 
-	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime;
+	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - lastStartTime;
 
 	if ( time > ( static_cast< float >( Resources::TimeLimit ) * 0.6f ) )
 	{

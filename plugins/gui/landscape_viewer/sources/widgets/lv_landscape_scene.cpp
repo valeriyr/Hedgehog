@@ -543,7 +543,7 @@ LandscapeScene::onObjectStartBuilding( const Framework::Core::EventManager::Even
 	const Core::LandscapeModel::Emplacement::Enum emplacement
 		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectEmplacementAttribute ).toInt() );
 
-	playAnimation(
+	playAnimationOnce(
 			*addObject( objectName, objectLocation, id, emplacement )
 		,	m_environment.getString( Resources::Properties::SkinId )
 		,	objectName

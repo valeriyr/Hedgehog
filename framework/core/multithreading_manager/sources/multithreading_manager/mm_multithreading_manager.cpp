@@ -25,7 +25,7 @@ MultithreadingManager::MultithreadingManager()
 	,	m_mainThreadWorker( new MainThreadWorker() )
 {
 	m_mainThreadWorker->start();
-	m_mainThreadWorker->pushPeriodicalTask( boost::bind( &MultithreadingManager::refreshTasks, this ), MainThreadWorker::ms_period - 10 );
+	m_mainThreadWorker->pushPeriodicalTask( boost::bind( &MultithreadingManager::refreshTasks, this ), MainThreadWorker::ms_period - 1 );
 
 } // MultithreadingManager::MultithreadingManager
 
