@@ -5,6 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,6 +50,8 @@ signals:
 	void currentObjectWasChanged( const QString& _name );
 
 	void controlItemSelected();
+
+	void buildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId _builderId, const QString& _objectName );
 
 /*---------------------------------------------------------------------------*/
 

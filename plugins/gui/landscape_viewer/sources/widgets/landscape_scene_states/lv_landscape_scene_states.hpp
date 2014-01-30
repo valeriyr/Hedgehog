@@ -3,7 +3,9 @@
 #define __LV_LANDSCAPE_SCENE_STATES_HPP__
 
 #include "landscape_viewer/sources/widgets/landscape_scene_states/lv_ilandscape_scene_state.hpp"
+
 #include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -192,6 +194,62 @@ private:
 	const QString m_name;
 
 	QGraphicsPixmapItem* m_currentEditorItem;
+
+/*---------------------------------------------------------------------------*/
+
+};
+
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+
+class LandscapeObjectBuildState
+	:	public Tools::Core::BaseWrapper< ILandscapeSceneState >
+{
+
+/*---------------------------------------------------------------------------*/
+
+public:
+
+/*---------------------------------------------------------------------------*/
+
+	LandscapeObjectBuildState(  const IEnvironment& _environment
+							,	LandscapeScene& _scene
+							,	const Core::LandscapeModel::Object::UniqueId& _builderId
+							,	const QString& _name );
+
+	virtual ~LandscapeObjectBuildState();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent );
+
+	/*virtual*/ void mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent );
+
+	/*virtual*/ void mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent );
+
+	/*virtual*/ void onMousePossitionWasChanged( const QPointF& _point );
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void removeSceneObjects();
+
+	/*virtual*/ void addSceneObjects();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const IEnvironment& m_environment;
+
+	LandscapeScene& m_scene;
+
+	const Core::LandscapeModel::Object::UniqueId m_builderId;
+
+	const QString m_name;
+
+	QGraphicsPixmapItem* m_buildItem;
 
 /*---------------------------------------------------------------------------*/
 

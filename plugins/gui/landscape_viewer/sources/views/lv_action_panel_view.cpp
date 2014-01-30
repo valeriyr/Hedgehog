@@ -6,6 +6,8 @@
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
+#include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
+
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_handle.hpp"
 
@@ -84,8 +86,9 @@ private:
 /*---------------------------------------------------------------------------*/
 
 
-ActionPanelView::ActionPanelView( const IEnvironment& _environment )
+ActionPanelView::ActionPanelView( const IEnvironment& _environment, ViewsMediator& _viewsMediator )
 	:	m_environment( _environment )
+	,	m_viewsMediator( _viewsMediator )
 	,	m_subscriber( _environment.createSubscriber() )
 	,	m_viewTitle( Resources::Views::ActionPanelViewTitle )
 	,	m_mainWidget( new QListWidget() )
@@ -191,7 +194,7 @@ ActionPanelView::onItemClicked( QListWidgetItem* _item )
 
 	if ( buildListItem )
 	{
-		m_environment.buildObject( buildListItem->getBuilderId(), buildListItem->getTargetObjectName(), QPoint( 5, 5 ) );
+		m_viewsMediator.buildObjectButtonPressed( buildListItem->getBuilderId(), buildListItem->getTargetObjectName() );
 		return;
 	}
 

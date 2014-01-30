@@ -256,6 +256,14 @@ LandscapeScene::onControlItemSelected()
 } // LandscapeScene::onControlItemSelected
 
 
+void
+LandscapeScene::onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId _builderId, const QString& _objectName )
+{
+	m_landscapeSceneState.reset( new LandscapeObjectBuildState( m_environment, *this, _builderId, _objectName ) );
+
+} // LandscapeScene::onBuildObjectButtonPressed
+
+
 /*---------------------------------------------------------------------------*/
 
 

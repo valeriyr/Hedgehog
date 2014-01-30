@@ -116,6 +116,8 @@ public slots:
 
 	void onControlItemSelected();
 
+	void onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId _builderId, const QString& _objectName );
+
 	void onMousePossitionWasChanged( const QPointF& _point );
 
 /*---------------------------------------------------------------------------*/

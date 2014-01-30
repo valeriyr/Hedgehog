@@ -19,6 +19,8 @@ namespace LandscapeViewer {
 
 struct IEnvironment;
 
+class ViewsMediator;
+
 /*---------------------------------------------------------------------------*/
 
 class ActionPanelView
@@ -36,7 +38,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ActionPanelView( const IEnvironment& _environment );
+	ActionPanelView( const IEnvironment& _environment, ViewsMediator& _viewsMediator );
 
 	virtual ~ActionPanelView();
 
@@ -79,6 +81,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	ViewsMediator& m_viewsMediator;
 
 	Framework::Core::EventManager::Subscriber m_subscriber;
 

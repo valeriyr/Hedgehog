@@ -69,6 +69,12 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, const ViewsMedia
 		,	m_landscapeScene.get()
 		,	SLOT( onControlItemSelected() ) );
 
+	QObject::connect(
+			&m_viewsMediator
+		,	SIGNAL( buildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId, const QString& ) )
+		,	m_landscapeScene.get()
+		,	SLOT( onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId, const QString& ) ) );
+
 } // LandscapeView::LandscapeView
 
 
@@ -118,6 +124,12 @@ LandscapeView::~LandscapeView()
 		,	SIGNAL( controlItemSelected() )
 		,	m_landscapeScene.get()
 		,	SLOT( onControlItemSelected() ) );
+
+	QObject::disconnect(
+			&m_viewsMediator
+		,	SIGNAL( buildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId, const QString& ) )
+		,	m_landscapeScene.get()
+		,	SLOT( onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId, const QString& ) ) );
 
 } // LandscapeView::~LandscapeView
 

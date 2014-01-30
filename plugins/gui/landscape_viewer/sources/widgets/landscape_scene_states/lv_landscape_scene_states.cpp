@@ -467,6 +467,146 @@ LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
+
+LandscapeObjectBuildState::LandscapeObjectBuildState(
+		const IEnvironment& _environment
+	,	LandscapeScene& _scene
+	,	const Core::LandscapeModel::Object::UniqueId& _builderId
+	,	const QString& _name
+	)
+	:	m_environment( _environment )
+	,	m_scene( _scene )
+	,	m_builderId( _builderId )
+	,	m_name( _name )
+	,	m_buildItem( NULL )
+{
+	addSceneObjects();
+
+} // LandscapeObjectBuildState::LandscapeObjectBuildState
+
+
+/*---------------------------------------------------------------------------*/
+
+
+LandscapeObjectBuildState::~LandscapeObjectBuildState()
+{
+	removeSceneObjects();
+
+} // LandscapeObjectBuildState::~LandscapeObjectBuildState
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeObjectBuildState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEvent )
+{
+	if ( ( _mouseEvent->buttons() & Qt::LeftButton ) && m_buildItem )
+	{
+		int xpos = m_buildItem->pos().x();
+		int ypos = m_buildItem->pos().y();
+
+		Core::LandscapeModel::IStaticData::ObjectStaticData objectStaticData
+			= m_environment.getObjectStaticData( m_name );
+
+		const QPixmap& objectPixmap = m_environment.getPixmap( m_name );
+
+		if ( objectPixmap.width() > ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) )
+			xpos += ( objectPixmap.width() - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) ) / 2;
+
+		if ( objectPixmap.height() > ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
+			ypos += ( objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2;
+
+		m_environment.buildObject( m_builderId, m_name, LandscapeScene::convertFromScenePosition( QPointF( xpos, ypos ) ) );
+
+		// After call of the onControlItemSelected method LandscapeObjectBuildState can be deleted. So it's should be last call in this method.
+		m_scene.onControlItemSelected();
+	}
+
+} // LandscapeObjectBuildState::mousePressEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeObjectBuildState::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent )
+{
+} // LandscapeObjectBuildState::mouseMoveEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeObjectBuildState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
+{
+} // LandscapeObjectBuildState::mouseReleaseEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeObjectBuildState::onMousePossitionWasChanged( const QPointF& _point )
+{
+	if ( m_buildItem )
+	{
+		QPointF sceneObjectPosition(
+			LandscapeScene::correctSceneObjectPosition(
+					m_environment
+				,	m_scene.width()
+				,	m_scene.height()
+				,	LandscapeScene::roundScenePosition( _point )
+				,	m_name ) );
+
+		m_buildItem->setPos( sceneObjectPosition.x(), sceneObjectPosition.y() );
+	}
+
+} // LandscapeObjectBuildState::onMousePossitionWasChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeObjectBuildState::removeSceneObjects()
+{
+	if ( m_buildItem )
+	{
+		delete m_buildItem;
+		m_buildItem = NULL;
+	}
+
+} // LandscapeObjectBuildState::removeSceneObjects
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeObjectBuildState::addSceneObjects()
+{
+	if ( !m_buildItem )
+	{
+		m_buildItem = new QGraphicsPixmapItem( m_environment.getPixmap( m_name ) );
+
+		QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
+		opacityEffect->setOpacity( 0.5 );
+
+		m_buildItem->setGraphicsEffect( opacityEffect );
+
+		m_scene.addItem( m_buildItem );
+
+		m_buildItem->setPos( 0, 0 );
+	}
+
+} // LandscapeObjectBuildState::addSceneObjects
+
+
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins
