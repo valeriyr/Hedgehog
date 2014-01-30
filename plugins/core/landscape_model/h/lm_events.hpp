@@ -152,6 +152,30 @@ namespace BuildQueueChanged
 
 /*---------------------------------------------------------------------------*/
 
+namespace ObjectStartBuilding
+{
+	const char* const ms_type = "ObjectStartBuilding";
+
+	const char* const ms_objectNameAttribute = "ObjectName";
+	const char* const ms_objectLocationAttribute = "ObjectLocation";
+	const char* const ms_objectUniqueIdAttribute = "ObjectUniqueId";
+	const char* const ms_objectEmplacementAttribute = "ObjectEmplacement";
+}
+
+/*---------------------------------------------------------------------------*/
+
+namespace BuilderHasFinishedBuild
+{
+	const char* const ms_type = "BuilderHasFinishedBuild";
+
+	const char* const ms_objectNameAttribute = "ObjectName";
+	const char* const ms_objectLocationAttribute = "ObjectLocation";
+	const char* const ms_objectUniqueIdAttribute = "ObjectUniqueId";
+	const char* const ms_objectEmplacementAttribute = "ObjectEmplacement";
+}
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Events
 } // namespace LandscapeModel
 } // namespace Core

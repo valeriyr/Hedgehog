@@ -447,6 +447,8 @@ LandscapeModel::startBuild(
 
 			if ( object )
 			{
+				object->setState( ObjectState::Building );
+
 				assert( m_builders.find( _id ) == m_builders.end() );
 				m_builders.insert( std::make_pair( _id, object ) );
 
@@ -463,13 +465,13 @@ LandscapeModel::startBuild(
 
 				m_environment.riseEvent( objectRemovedEvent );
 
-				Framework::Core::EventManager::Event objectAddedEvent( Events::ObjectAdded::ms_type );
-				objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, _objectName );
-				objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, _location );
-				objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId );
-				objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( _objectName ).m_locateData->m_emplacement );
+				Framework::Core::EventManager::Event objectStartBuildingEvent( Events::ObjectStartBuilding::ms_type );
+				objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, _objectName );
+				objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, _location );
+				objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId );
+				objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( _objectName ).m_locateData->m_emplacement );
 
-				m_environment.riseEvent( objectAddedEvent );
+				m_environment.riseEvent( objectStartBuildingEvent );
 			}
 		}
 	}
@@ -515,16 +517,17 @@ LandscapeModel::stopBuild( const Object::UniqueId& _id )
 				handle->getLandscape()->getNearestLocation(
 						*targetObject
 					,	iterator->second->getName() ) );
+			iterator->second->setState( ObjectState::Standing );
 
 			handle->getLandscape()->addObject( iterator->second );
 
-			Framework::Core::EventManager::Event objectAddedEvent( Events::ObjectAdded::ms_type );
-			objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, iterator->second->getName() );
-			objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, locateComponent->getLocation() );
-			objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, _id );
-			objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
+			Framework::Core::EventManager::Event builderHasFinishedBuildEvent( Events::BuilderHasFinishedBuild::ms_type );
+			builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectNameAttribute, iterator->second->getName() );
+			builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectLocationAttribute, locateComponent->getLocation() );
+			builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute, _id );
+			builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
 
-			m_environment.riseEvent( objectAddedEvent );
+			m_environment.riseEvent( builderHasFinishedBuildEvent );
 
 			m_builders.erase( _id );
 		}

@@ -65,7 +65,7 @@ do
 
 		animationInfo = AnimationInfo( animationName, QString( "buildings/land_construction" ) )
 		animationInfo:addFrame( FrameInfo( 5000, QRect( 0, 0, 64, 64 ) ) )
-		animationInfo:addFrame( FrameInfo( 15000, QRect( 0, 0, 64, 64 ) ) )
+		animationInfo:addFrame( FrameInfo( 15000, QRect( 0, 64, 64, 64 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
 

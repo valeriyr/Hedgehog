@@ -106,7 +106,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 	{
 		bool shouldBuildObject = true;
 
-		if ( buildData.m_buildProgress == 0 )
+		if ( buildData.m_buildProgress == 0.0f )
 		{
 			m_landscape.setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
 
@@ -130,7 +130,8 @@ BuildAction::processAction( const unsigned int _deltaTime )
 		if ( shouldBuildObject )
 		{
 			int buildingTime = buildComponent->getStaticData().m_buildDatas.find( buildData.m_buildQueue.front().first )->second->m_buildTime;
-			int buildingDelta = ( static_cast< float >( _deltaTime ) / buildingTime ) * 100;
+
+			float buildingDelta = static_cast< float >( _deltaTime ) / buildingTime;
 
 			buildData.m_buildProgress += buildingDelta;
 
@@ -140,7 +141,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 			boost::intrusive_ptr< IHealthComponent > targetHealthComponent
 				= targetObject->getComponent< IHealthComponent >( ComponentId::Health );
 
-			targetHealthComponent->setHealth( static_cast< float >( targetHealthComponent->getStaticData().m_maximumHealth ) * buildData.m_buildProgress / 100 );
+			targetHealthComponent->setHealth( buildData.m_buildProgress * targetHealthComponent->getStaticData().m_maximumHealth );
 
 			Framework::Core::EventManager::Event objectDataChangedEvent( Events::ObjectDataChanged::ms_type );
 			objectDataChangedEvent.pushAttribute( Events::ObjectDataChanged::ms_objectNameAttribute, targetObject->getName() );
@@ -149,7 +150,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 
 			m_environment.riseEvent( objectDataChangedEvent );
 
-			if ( buildData.m_buildProgress >= 100 )
+			if ( buildData.m_buildProgress >= 1.0f )
 			{
 				m_landscapeModel.stopBuild( m_object.getUniqueId() );
 

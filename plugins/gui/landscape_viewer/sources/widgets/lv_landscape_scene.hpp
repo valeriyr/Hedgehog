@@ -144,6 +144,10 @@ private:
 
 	void onObjectReadyToAttack( const Framework::Core::EventManager::Event& _event );
 
+	void onObjectStartBuilding( const Framework::Core::EventManager::Event& _event );
+
+	void onBuilderHasFinishedBuild( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 	void generateLandscape();
@@ -157,6 +161,12 @@ private:
 	void setCorrectSceneSize();
 
 	void objectWasAdded( const Plugins::Core::LandscapeModel::Object::UniqueId& _id, ObjectGraphicsItem* _item );
+
+	ObjectGraphicsItem* addObject(
+			const QString& _objectName
+		,	const QPoint& _objectLocation
+		,	const Plugins::Core::LandscapeModel::Object::UniqueId _id
+		,	const Core::LandscapeModel::Emplacement::Enum _emplacement );
 
 	void markSelectedObjects();
 

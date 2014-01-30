@@ -197,6 +197,14 @@ LandscapeScene::landscapeWasOpened()
 							,	Plugins::Core::LandscapeModel::Events::ObjectReadyToAttack::ms_type
 							,	boost::bind( &LandscapeScene::onObjectReadyToAttack, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::ObjectStartBuilding::ms_type
+							,	boost::bind( &LandscapeScene::onObjectStartBuilding, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_type
+							,	boost::bind( &LandscapeScene::onBuilderHasFinishedBuild, this, _1 ) );
+
 } // LandscapeScene::landscapeWasOpened
 
 
@@ -300,29 +308,12 @@ LandscapeScene::onObjectAdded( const Framework::Core::EventManager::Event& _even
 	const Core::LandscapeModel::Emplacement::Enum emplacement
 		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectEmplacementAttribute ).toInt() );
 
-	QPointF correctedPosition(
-		LandscapeScene::correctSceneObjectPosition(
-				m_environment
-			,	width()
-			,	height()
-			,	LandscapeScene::convertToScenePosition( objectLocation )
-			,	objectName ) );
-
-	ObjectGraphicsItem* newItem = new ObjectGraphicsItem( m_environment.getPixmap( objectName ), emplacement, calculateLandscapeSize() );
-	addItem( newItem );
-
-	newItem->setPos( correctedPosition );
-
-	objectWasAdded( id, newItem );
-
 	playAnimationOnce(
-			*newItem
+			*addObject( objectName, objectLocation, id, emplacement )
 		,	m_environment.getString( Resources::Properties::SkinId )
 		,	objectName
 		,	Core::LandscapeModel::ObjectState::Standing
 		,	Core::LandscapeModel::Direction::South );
-
-	regenerateTerrainMapLayer();
 
 	m_environment.playSound( Resources::Sounds::PlacementSuccess );
 
@@ -543,6 +534,52 @@ LandscapeScene::onObjectReadyToAttack( const Framework::Core::EventManager::Even
 
 
 void
+LandscapeScene::onObjectStartBuilding( const Framework::Core::EventManager::Event& _event )
+{
+	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectNameAttribute ).toString();
+	const QPoint objectLocation = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectLocationAttribute ).toPoint();
+	const Plugins::Core::LandscapeModel::Object::UniqueId id
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectUniqueIdAttribute ).toInt();
+	const Core::LandscapeModel::Emplacement::Enum emplacement
+		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectEmplacementAttribute ).toInt() );
+
+	playAnimation(
+			*addObject( objectName, objectLocation, id, emplacement )
+		,	m_environment.getString( Resources::Properties::SkinId )
+		,	objectName
+		,	Core::LandscapeModel::ObjectState::UnderConstruction
+		,	Core::LandscapeModel::Direction::South );
+
+} // LandscapeScene::onObjectStartBuilding
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onBuilderHasFinishedBuild( const Framework::Core::EventManager::Event& _event )
+{
+	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectNameAttribute ).toString();
+	const QPoint objectLocation = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectLocationAttribute ).toPoint();
+	const Plugins::Core::LandscapeModel::Object::UniqueId id
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectUniqueIdAttribute ).toInt();
+	const Core::LandscapeModel::Emplacement::Enum emplacement
+		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectEmplacementAttribute ).toInt() );
+
+	playAnimationOnce(
+			*addObject( objectName, objectLocation, id, emplacement )
+		,	m_environment.getString( Resources::Properties::SkinId )
+		,	objectName
+		,	Core::LandscapeModel::ObjectState::Standing
+		,	Core::LandscapeModel::Direction::South );
+
+} // LandscapeScene::onBuilderHasFinishedBuild
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 LandscapeScene::generateLandscape()
 {
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
@@ -744,6 +781,38 @@ LandscapeScene::objectWasAdded( const Plugins::Core::LandscapeModel::Object::Uni
 	m_objectsCollection.insert( std::make_pair( _id, _item ) );
 
 } // LandscapeScene::objectWasAdded
+
+
+/*---------------------------------------------------------------------------*/
+
+
+ObjectGraphicsItem*
+LandscapeScene::addObject(
+		const QString& _objectName
+	,	const QPoint& _objectLocation
+	,	const Plugins::Core::LandscapeModel::Object::UniqueId _id
+	,	const Core::LandscapeModel::Emplacement::Enum _emplacement )
+{
+	QPointF correctedPosition(
+		LandscapeScene::correctSceneObjectPosition(
+				m_environment
+			,	width()
+			,	height()
+			,	LandscapeScene::convertToScenePosition( _objectLocation )
+			,	_objectName ) );
+
+	ObjectGraphicsItem* newItem = new ObjectGraphicsItem( m_environment.getPixmap( _objectName ), _emplacement, calculateLandscapeSize() );
+	addItem( newItem );
+
+	newItem->setPos( correctedPosition );
+
+	objectWasAdded( _id, newItem );
+
+	regenerateTerrainMapLayer();
+
+	return newItem;
+
+} // LandscapeScene::addObject
 
 
 /*---------------------------------------------------------------------------*/

@@ -33,26 +33,26 @@ struct IBuildComponent
 			BuildObjectsQueueIterator;
 
 		BuildData()
-			:	m_buildProgress( 0 )
+			:	m_buildProgress( 0.0f )
 			,	m_objectId( Object::ms_wrongId )
 			,	m_buildQueue()
 		{}
 
 		void clear()
 		{
-			 m_buildProgress = 0;
+			 m_buildProgress = 0.0f;
 			 m_objectId = Object::ms_wrongId;
 			 m_buildQueue.clear();
 		}
 
 		void objectBuilt()
 		{
-			m_buildProgress = 0;
+			m_buildProgress = 0.0f;
 			m_objectId = Object::ms_wrongId;
 			m_buildQueue.pop_front();
 		}
 
-		int m_buildProgress;
+		float m_buildProgress;
 
 		Object::UniqueId m_objectId;
 

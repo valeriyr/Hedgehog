@@ -19,7 +19,7 @@ orcBarracksResourceData:pushResource( QString( "Gold" ), 400 )
 orcBarracksResourceData:pushResource( QString( "Wood" ), 200 )
 
 peon.m_buildData = BuildComponentStaticData()
-peon.m_buildData:pushBuildData( QString( "Orc Barracks" ), BuildData( 3000, orcBarracksResourceData ) )
+peon.m_buildData:pushBuildData( QString( "Orc Barracks" ), BuildData( 20000, orcBarracksResourceData ) )
 
 StaticData:regObjectStaticData( QString( "Peon" ), peon )
 

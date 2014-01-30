@@ -73,20 +73,23 @@ MinimapWidget::landscapeWasOpened()
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_type
-							,	boost::bind( &MinimapWidget::onObjectAdded, this, _1 ) );
+							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::ObjectRemoved::ms_type
-							,	boost::bind( &MinimapWidget::onObjectRemoved, this, _1 ) );
+							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_type
 							,	boost::bind( &MinimapWidget::onSurfaceItemChanged, this, _1 ) );
 
-
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_type
-							,	boost::bind( &MinimapWidget::onObjectMoved, this, _1 ) );
+							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_type
+							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 
 } // MinimapWidget::landscapeWasOpened
 
@@ -201,38 +204,6 @@ MinimapWidget::onSettingChanged( const Framework::Core::EventManager::Event& _ev
 
 
 void
-MinimapWidget::onObjectAdded( const Framework::Core::EventManager::Event& _event )
-{
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
-
-	renderObjects( *handle->getLandscape() );
-
-	update();
-
-} // MinimapWidget::onObjectAdded
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-MinimapWidget::onObjectRemoved( const Framework::Core::EventManager::Event& _event )
-{
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
-
-	renderObjects( *handle->getLandscape() );
-
-	update();
-
-} // MinimapWidget::onObjectRemoved
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
 MinimapWidget::onSurfaceItemChanged( const Framework::Core::EventManager::Event& _event )
 {
 	regenerate();
@@ -244,7 +215,7 @@ MinimapWidget::onSurfaceItemChanged( const Framework::Core::EventManager::Event&
 
 
 void
-MinimapWidget::onObjectMoved( const Framework::Core::EventManager::Event& _event )
+MinimapWidget::onObjectWereChanged( const Framework::Core::EventManager::Event& _event )
 {
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
 		= m_environment.getCurrentLandscape();
@@ -253,7 +224,7 @@ MinimapWidget::onObjectMoved( const Framework::Core::EventManager::Event& _event
 
 	update();
 
-} // MinimapWidget::onObjectMoved
+} // MinimapWidget::onObjectWereChanged
 
 
 /*---------------------------------------------------------------------------*/
