@@ -151,6 +151,13 @@ AttackAction::processAction( const unsigned int _deltaTime )
 
 				targetHealthComponent->setHealth( targetHealthComponent->getHealth() - damage );
 
+				Framework::Core::EventManager::Event objectDataChangedEvent( Events::ObjectDataChanged::ms_type );
+				objectDataChangedEvent.pushAttribute( Events::ObjectDataChanged::ms_objectNameAttribute, attackComponent->getTargetObject()->getName() );
+				objectDataChangedEvent.pushAttribute( Events::ObjectDataChanged::ms_objectIdAttribute, attackComponent->getTargetObject()->getUniqueId() );
+				objectDataChangedEvent.pushAttribute( Events::ObjectDataChanged::ms_objectHealth, targetHealthComponent->getHealth() );
+
+				m_environment.riseEvent( objectDataChangedEvent );
+
 				Framework::Core::EventManager::Event objectWasHitEvent( Events::ObjectWasHit::ms_type );
 				objectWasHitEvent.pushAttribute( Events::ObjectWasHit::ms_objectNameAttribute, attackComponent->getTargetObject()->getName() );
 				objectWasHitEvent.pushAttribute( Events::ObjectWasHit::ms_objectIdAttribute, attackComponent->getTargetObject()->getUniqueId() );

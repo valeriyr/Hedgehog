@@ -134,10 +134,20 @@ BuildAction::processAction( const unsigned int _deltaTime )
 
 			buildData.m_buildProgress += buildingDelta;
 
+			boost::shared_ptr< Object > targetObject
+				= m_landscape.getObject( buildData.m_objectId );
+
 			boost::intrusive_ptr< IHealthComponent > targetHealthComponent
-				= m_landscape.getObject( buildData.m_objectId )->getComponent< IHealthComponent >( ComponentId::Health );
+				= targetObject->getComponent< IHealthComponent >( ComponentId::Health );
 
 			targetHealthComponent->setHealth( static_cast< float >( targetHealthComponent->getStaticData().m_maximumHealth ) * buildData.m_buildProgress / 100 );
+
+			Framework::Core::EventManager::Event objectDataChangedEvent( Events::ObjectDataChanged::ms_type );
+			objectDataChangedEvent.pushAttribute( Events::ObjectDataChanged::ms_objectNameAttribute, targetObject->getName() );
+			objectDataChangedEvent.pushAttribute( Events::ObjectDataChanged::ms_objectIdAttribute, targetObject->getUniqueId() );
+			objectDataChangedEvent.pushAttribute( Events::ObjectDataChanged::ms_objectHealth, targetHealthComponent->getHealth() );
+
+			m_environment.riseEvent( objectDataChangedEvent );
 
 			if ( buildData.m_buildProgress >= 100 )
 			{

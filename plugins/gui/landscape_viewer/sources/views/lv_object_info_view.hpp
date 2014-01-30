@@ -63,7 +63,7 @@ private:
 
 	void onObjectMoved( const Framework::Core::EventManager::Event& _event );
 
-	void onObjectWasHit( const Framework::Core::EventManager::Event& _event );
+	void onObjectDataChanged( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/
 
