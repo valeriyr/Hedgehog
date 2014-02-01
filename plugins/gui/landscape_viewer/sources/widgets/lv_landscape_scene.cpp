@@ -42,36 +42,51 @@ public:
 
 	ObjectGraphicsItem(
 			const QPixmap& _pixmap
-		,	const Core::LandscapeModel::Emplacement::Enum _emplacement
-		,	const QSize& _landscapeSize
+		,	const IEnvironment& _environment
+		,	const LandscapeScene& _landscapeScene
+		,	const QString& _objectName
+		,	const Plugins::Core::LandscapeModel::Object::UniqueId& _objectId
 		,	QGraphicsItem* _parent = NULL
 		)
 		:	QGraphicsPixmapItem( _pixmap, _parent )
-		,	m_emplacement( _emplacement )
-		,	m_landscapeSize( _landscapeSize )
+		,	m_environment( _environment )
+		,	m_landscapeScene( _landscapeScene )
+		,	m_objectName( _objectName )
+		,	m_objectId( _objectId )
 	{
 		setFlag( ItemSendsGeometryChanges, true );
+		correctedPosition();
 	}
 
 	/*virtual*/ void setSprite( const QPixmap& _sprite )
 	{
+		bool needToCorrectPosition = _sprite.size() != pixmap().size();
+
 		setPixmap( _sprite );
+
+		if ( needToCorrectPosition )
+			correctedPosition();
 	}
 
 	/*virtual*/ QVariant itemChange( GraphicsItemChange _change, const QVariant& value )
 	{
 		if ( _change == ItemPositionHasChanged )
 		{
+			boost::shared_ptr<Core::LandscapeModel::LocateComponentStaticData >
+				locateComponentStaticData = m_environment.getObjectStaticData( m_objectName ).m_locateData;
+
 			QPoint position( value.toPoint() );
 
 			int centerX = position.x() + ( boundingRect().size().width() / 2 );
 			int centerY = position.y() + ( boundingRect().size().height() / 2 );
 
-			int z = LandscapeScene::ZValue::ObjectsBegin;
-			z += ( ( centerY / Resources::Landscape::CellSize ) * m_landscapeSize.height() ) + ( ( centerX / Resources::Landscape::CellSize ) + 1 );
+			QSize landscapeSize( m_landscapeScene.calculateLandscapeSize() );
 
-			if ( m_emplacement == Core::LandscapeModel::Emplacement::Air )
-				z += m_landscapeSize.width() * m_landscapeSize.height();
+			int z = LandscapeScene::ZValue::ObjectsBegin;
+			z += ( ( centerY / Resources::Landscape::CellSize ) * landscapeSize.height() ) + ( ( centerX / Resources::Landscape::CellSize ) + 1 );
+
+			if ( locateComponentStaticData->m_emplacement == Core::LandscapeModel::Emplacement::Air )
+				z += landscapeSize.width() * landscapeSize.height();
 
 			setZValue( z );
 		}
@@ -81,10 +96,29 @@ public:
 
 private:
 
-	const Core::LandscapeModel::Emplacement::Enum m_emplacement;
+	void correctedPosition()
+	{
+		setPos(
+			LandscapeScene::correctSceneObjectPosition(
+					m_environment
+				,	m_landscapeScene.width()
+				,	m_landscapeScene.height()
+				,	LandscapeScene::convertToScenePosition(
+						m_environment.getCurrentLandscape()->getLandscape()->getObject( m_objectId )
+							->getComponent< Core::LandscapeModel::ILocateComponent >( Core::LandscapeModel::ComponentId::Locate )->getLocation() )
+				,	m_objectName
+				,	pixmap() ) );
+	}
 
-	const QSize m_landscapeSize;
+private:
 
+	const IEnvironment& m_environment;
+
+	const LandscapeScene& m_landscapeScene;
+
+	const QString m_objectName;
+
+	const Plugins::Core::LandscapeModel::Object::UniqueId m_objectId;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -221,6 +255,17 @@ LandscapeScene::landscapeWasClosed()
 	setCorrectSceneSize();
 
 } // LandscapeScene::landscapeWasClosed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QSize
+LandscapeScene::calculateLandscapeSize() const
+{
+	return QSize( width() / Resources::Landscape::CellSize, height() / Resources::Landscape::CellSize );
+
+} // LandscapeScene::calculateLandscapeSize
 
 
 /*---------------------------------------------------------------------------*/
@@ -626,25 +671,17 @@ LandscapeScene::generateLandscape()
 
 		for ( ; begin != end; ++begin )
 		{
+			boost::intrusive_ptr<Core::LandscapeModel::ILocateComponent >
+				locateComponent = ( *begin )->getComponent< Core::LandscapeModel::ILocateComponent >( Core::LandscapeModel::ComponentId::Locate );
+
 			ObjectGraphicsItem* newItem
 				= new ObjectGraphicsItem(
 						m_environment.getPixmap( ( *begin )->getName() )
-					,	( *begin )->getComponent< Core::LandscapeModel::ILocateComponent >( Core::LandscapeModel::ComponentId::Locate )->getStaticData().m_emplacement
-					,	QSize( handle->getLandscape()->getWidth(), handle->getLandscape()->getHeight() ) );
+					,	m_environment
+					,	*this
+					,	( *begin )->getName()
+					,	( *begin )->getUniqueId() );
 			addItem( newItem );
-
-			boost::intrusive_ptr< Core::LandscapeModel::ILocateComponent > locateComponent
-				= ( *begin )->getComponent< Core::LandscapeModel::ILocateComponent >( Plugins::Core::LandscapeModel::ComponentId::Locate );
-
-			QPointF correctedPosition(
-				LandscapeScene::correctSceneObjectPosition(
-						m_environment
-					,	width()
-					,	height()
-					,	LandscapeScene::convertToScenePosition( locateComponent->getLocation() )
-					,	( *begin )->getName() ) );
-
-			newItem->setPos( correctedPosition );
 
 			objectWasAdded( ( *begin )->getUniqueId(), newItem );
 
@@ -801,18 +838,14 @@ LandscapeScene::addObject(
 	,	const Plugins::Core::LandscapeModel::Object::UniqueId _id
 	,	const Core::LandscapeModel::Emplacement::Enum _emplacement )
 {
-	QPointF correctedPosition(
-		LandscapeScene::correctSceneObjectPosition(
-				m_environment
-			,	width()
-			,	height()
-			,	LandscapeScene::convertToScenePosition( _objectLocation )
-			,	_objectName ) );
-
-	ObjectGraphicsItem* newItem = new ObjectGraphicsItem( m_environment.getPixmap( _objectName ), _emplacement, calculateLandscapeSize() );
+	ObjectGraphicsItem* newItem
+		= new ObjectGraphicsItem(
+				m_environment.getPixmap( _objectName )
+			,	m_environment
+			,	*this
+			,	_objectName
+			,	_id );
 	addItem( newItem );
-
-	newItem->setPos( correctedPosition );
 
 	objectWasAdded( _id, newItem );
 
@@ -912,12 +945,27 @@ LandscapeScene::correctSceneObjectPosition(
 	,	const QPointF& _roundedPosition
 	,	const QString& _objectName )
 {
+	return correctSceneObjectPosition( _environment, _sceneWidth, _sceneHeight, _roundedPosition, _objectName, _environment.getPixmap( _objectName ) );
+
+} // LandscapeScene::correctSceneObjectPosition
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QPointF
+LandscapeScene::correctSceneObjectPosition(
+		const IEnvironment& _environment
+	,	const int _sceneWidth
+	,	const int _sceneHeight
+	,	const QPointF& _roundedPosition
+	,	const QString& _objectName
+	,	const QPixmap& _objectPixmap )
+{
 	QPoint correctedPosition( _roundedPosition.x(), _roundedPosition.y() );
 
 	Core::LandscapeModel::IStaticData::ObjectStaticData objectStaticData
 		= _environment.getObjectStaticData( _objectName );
-
-	const QPixmap& objectPixmap = _environment.getPixmap( _objectName );
 
 	if ( correctedPosition.x() > _sceneWidth - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) )
 		correctedPosition.setX( _sceneWidth - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) );
@@ -925,8 +973,8 @@ LandscapeScene::correctSceneObjectPosition(
 	if ( correctedPosition.y() > _sceneHeight - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
 		correctedPosition.setY( _sceneHeight - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) );
 
-	correctedPosition.setX( correctedPosition.x() - ( objectPixmap.width() - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) ) / 2 );
-	correctedPosition.setY( correctedPosition.y() - ( objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2 );
+	correctedPosition.setX( correctedPosition.x() - ( _objectPixmap.width() - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) ) / 2 );
+	correctedPosition.setY( correctedPosition.y() - ( _objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2 );
 
 	return correctedPosition;
 
@@ -1033,17 +1081,6 @@ LandscapeScene::playAnimationOnce(
 	}
 
 } // LandscapeScene::playAnimationOnce
-
-
-/*---------------------------------------------------------------------------*/
-
-
-QSize
-LandscapeScene::calculateLandscapeSize() const
-{
-	return QSize( width() / Resources::Landscape::CellSize, height() / Resources::Landscape::CellSize );
-
-} // LandscapeScene::calculateLandscapeSize
 
 
 /*---------------------------------------------------------------------------*/

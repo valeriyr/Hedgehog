@@ -91,6 +91,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	QSize calculateLandscapeSize() const;
+
+/*---------------------------------------------------------------------------*/
+
 	static QPoint convertFromScenePosition( const QPointF& _scenePosition );
 
 	static QPointF convertToScenePosition( const QPoint& _location );
@@ -103,6 +107,14 @@ public:
 		,	const int _sceneHeight
 		,	const QPointF& _roundedPosition
 		,	const QString& _objectName );
+
+	static QPointF correctSceneObjectPosition(
+			const IEnvironment& _environment
+		,	const int _sceneWidth
+		,	const int _sceneHeight
+		,	const QPointF& _roundedPosition
+		,	const QString& _objectName
+		,	const QPixmap& _objectPixmap );
 
 /*---------------------------------------------------------------------------*/
 
@@ -193,10 +205,6 @@ private:
 		,	const QString& _typeName
 		,	const Core::LandscapeModel::ObjectState::Enum _state
 		,	const Core::LandscapeModel::Direction::Enum _direction );
-
-/*---------------------------------------------------------------------------*/
-
-	QSize calculateLandscapeSize() const;
 
 /*---------------------------------------------------------------------------*/
 
