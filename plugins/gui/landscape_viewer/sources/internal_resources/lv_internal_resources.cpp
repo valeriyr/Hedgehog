@@ -103,18 +103,28 @@ namespace Views {
 			"		<font><center><b>%1</b></center></font>									"	\
 			"		<br>																	"	\
 			"		<div>																	"	\
-			"			<b>Health:</b> %2 / %3												"	\
+			"			<b>Unique Id:</b> %2												"	\
 			"			<br>																"	\
-			"			<b>Moving speed:</b> %4												"	\
+			"			<b>Health:</b> %3 / %4												"	\
 			"			<br>																"	\
-			"			<b>Position:</b> ( %5, %6 )											"	\
+			"			<b>Moving speed:</b> %5												"	\
 			"			<br>																"	\
-			"			<b>Size:</b> ( %7, %8 )												"	\
+			"			<b>Position:</b> ( %6, %7 )											"	\
 			"			<br>																"	\
-			"			<b>Unique Id:</b> %9												"	\
+			"			<b>Size:</b> ( %8, %9 )												"	\
+			"			<br>																"	\
+			"			<b>Emplacement:</b> %10												"	\
+			"			<br>																"	\
+			"			<b>Damage:</b> %11													"	\
+			"			<br>																"	\
+			"			<b>Attack distance:</b> %12											"	\
 			"		</div>																	"	\
 			"	</body>																		"	\
 			"</html>																		";
+
+	const char* const DamageInfoFormat = "( %1 - %2 )";
+
+	const char* const NoneString = "none";
 
 /*---------------------------------------------------------------------------*/
 

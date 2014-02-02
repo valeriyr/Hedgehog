@@ -12,6 +12,7 @@
 #include "landscape_model/ih/components/lm_ihealth_component.hpp"
 #include "landscape_model/ih/components/lm_imove_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
+#include "landscape_model/ih/components/lm_iattack_component.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
 
@@ -196,18 +197,27 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Uni
 				= object->getComponent< Core::LandscapeModel::IHealthComponent >( Plugins::Core::LandscapeModel::ComponentId::Health );
 			boost::intrusive_ptr< Core::LandscapeModel::IMoveComponent > moveComponent
 				= object->getComponent< Core::LandscapeModel::IMoveComponent >( Plugins::Core::LandscapeModel::ComponentId::Move );
+			boost::intrusive_ptr< Core::LandscapeModel::IAttackComponent > attackComponent
+				= object->getComponent< Core::LandscapeModel::IAttackComponent >( Plugins::Core::LandscapeModel::ComponentId::Attack );
 
 			m_mainWidget->setHtml(
 				QString( Resources::Views::ObjectInfoFormat )
 					.arg( object->getName() )
+					.arg( object->getUniqueId() )
 					.arg( healthComponent->getHealth() )
 					.arg( healthComponent->getStaticData().m_maximumHealth )
-					.arg( moveComponent ? QString::number( moveComponent->getStaticData().m_movingSpeed ) : "none" )
+					.arg( moveComponent ? QString::number( moveComponent->getStaticData().m_movingSpeed ) : Resources::Views::NoneString )
 					.arg( locateComponent->getLocation().x() )
 					.arg( locateComponent->getLocation().y() )
 					.arg( locateComponent->getStaticData().m_size.width() )
 					.arg( locateComponent->getStaticData().m_size.height() )
-					.arg( object->getUniqueId() ) );
+					.arg( Core::LandscapeModel::Emplacement::toString( locateComponent->getStaticData().m_emplacement ) )
+					.arg(	attackComponent
+						?	QString( Resources::Views::DamageInfoFormat )
+								.arg( attackComponent->getStaticData().m_minDamage )
+								.arg( attackComponent->getStaticData().m_maxDamage )
+						:	Resources::Views::NoneString )
+						.arg( attackComponent ? QString::number( attackComponent->getStaticData().m_distance ) : Resources::Views::NoneString ) );
 		}
 	}
 

@@ -69,6 +69,10 @@ namespace Views {
 
 	extern const char* const ObjectInfoFormat;
 
+	extern const char* const DamageInfoFormat;
+
+	extern const char* const NoneString;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const PlayerInfoDefaultText;

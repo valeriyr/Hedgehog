@@ -33,6 +33,19 @@ struct Emplacement
 			Ground		 = 1
 		,	Air			 = 2
 	};
+
+	static QString toString( const Enum _emplacement )
+	{
+		switch ( _emplacement )
+		{
+		case Ground:
+			return "Ground";
+		case Air:
+			return "Air";
+		}
+
+		return "Unknown";
+	}
 };
 
 /*---------------------------------------------------------------------------*/
