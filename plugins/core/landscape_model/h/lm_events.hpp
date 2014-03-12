@@ -19,6 +19,8 @@ namespace LandscapeWasInitialized
 	const char* const ms_type = "LandscapeWasInitialized";
 
 	const char* const ms_filePathAttribute = "FilePath";
+	const char* const ms_landscapeWidthAttribute = "LandscapeWidth";
+	const char* const ms_landscapeHeightAttribute = "LandscapeHeight";
 }
 
 /*---------------------------------------------------------------------------*/

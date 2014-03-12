@@ -54,7 +54,7 @@ public:
 
 	/*virtual*/ void resetModel();
 
-	/*virtual*/ void saveModel( const QString& _filePath ) const;
+	/*virtual*/ void saveModel( const QString& _filePath );
 
 /*---------------------------------------------------------------------------*/
 
@@ -105,7 +105,7 @@ private:
 
 	void resetTask();
 
-	void saveTask( const QString& _filePath ) const;
+	void saveTask( const QString& _filePath );
 
 /*---------------------------------------------------------------------------*/
 

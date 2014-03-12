@@ -112,7 +112,7 @@ LandscapeModel::resetModel()
 
 
 void
-LandscapeModel::saveModel( const QString& _filePath ) const
+LandscapeModel::saveModel( const QString& _filePath )
 {
 	m_environment.pushTask(
 			Resources::ModelThreadName
@@ -704,6 +704,8 @@ LandscapeModel::gameMainLoop()
 void
 LandscapeModel::initTask( const QString& _filePath )
 {
+	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+
 	m_player.reset( new Player( m_environment, m_staticData ) );
 
 	boost::intrusive_ptr< ILandscape >
@@ -723,6 +725,8 @@ LandscapeModel::initTask( const QString& _filePath )
 
 	Framework::Core::EventManager::Event modelInitEvent( Events::LandscapeWasInitialized::ms_type );
 	modelInitEvent.pushAttribute( Events::LandscapeWasInitialized::ms_filePathAttribute, _filePath );
+	modelInitEvent.pushAttribute( Events::LandscapeWasInitialized::ms_landscapeWidthAttribute, landscape->getWidth() );
+	modelInitEvent.pushAttribute( Events::LandscapeWasInitialized::ms_landscapeHeightAttribute, landscape->getHeight() );
 
 	m_environment.riseEvent( modelInitEvent );
 
@@ -735,6 +739,8 @@ LandscapeModel::initTask( const QString& _filePath )
 void
 LandscapeModel::resetTask()
 {
+	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+
 	m_currentLandscape.reset();
 	m_player.reset();
 
@@ -747,8 +753,10 @@ LandscapeModel::resetTask()
 
 
 void
-LandscapeModel::saveTask( const QString& _filePath ) const
+LandscapeModel::saveTask( const QString& _filePath )
 {
+	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+
 	if ( m_currentLandscape )
 	{
 		m_landscapeSerializer.save( *m_currentLandscape, _filePath );

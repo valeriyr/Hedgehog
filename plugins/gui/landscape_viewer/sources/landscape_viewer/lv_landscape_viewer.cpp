@@ -142,13 +142,10 @@ LandscapeViewer::onLandscapeWasInitialized( const Framework::Core::EventManager:
 {
 	m_landscapeFilePath = _event.getAttribute( Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_filePathAttribute ).toString();
 
-	{
-		boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-			= m_environment.getCurrentLandscape();
+	int landscapeWidth = _event.getAttribute( Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_landscapeWidthAttribute ).toInt();
+	int landscapeHeight = _event.getAttribute( Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_landscapeHeightAttribute ).toInt();
 
-		m_descriptionView->landscapeWasOpened( QSize( handle->getLandscape()->getWidth(), handle->getLandscape()->getHeight() ), m_landscapeFilePath );
-	}
-
+	m_descriptionView->landscapeWasOpened( QSize( landscapeWidth, landscapeHeight ), m_landscapeFilePath );
 	m_minimapView->landscapeWasOpened();
 	m_LandscapeView->landscapeWasOpened();
 	m_selectionView->landscapeWasOpened();

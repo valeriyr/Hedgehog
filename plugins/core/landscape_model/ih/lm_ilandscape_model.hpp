@@ -35,7 +35,7 @@ struct ILandscapeModel
 
 	virtual void resetModel() = 0;
 
-	virtual void saveModel( const QString& _filePath ) const = 0;
+	virtual void saveModel( const QString& _filePath ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
