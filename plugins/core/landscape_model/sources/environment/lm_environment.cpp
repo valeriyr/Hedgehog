@@ -77,6 +77,19 @@ Environment::pushPeriodicalTask(
 /*---------------------------------------------------------------------------*/
 
 
+Framework::Core::MultithreadingManager::TaskHandle
+Environment::pushTask(
+		const QString& _threadName
+	,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const
+{
+	return m_pluginInstance.getMultithreadingManager()->pushTask( _threadName, _function );
+
+} // Environment::pushTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 Environment::removeTask( const Framework::Core::MultithreadingManager::TaskHandle& _handle ) const
 {

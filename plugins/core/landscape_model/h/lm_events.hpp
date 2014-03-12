@@ -14,9 +14,26 @@ namespace Events {
 
 /*---------------------------------------------------------------------------*/
 
-namespace LandscapeLoaded
+namespace LandscapeWasInitialized
 {
-	const char* const ms_type = "LandscapeLoaded";
+	const char* const ms_type = "LandscapeWasInitialized";
+
+	const char* const ms_filePathAttribute = "FilePath";
+}
+
+/*---------------------------------------------------------------------------*/
+
+namespace LandscapeWasReset
+{
+	const char* const ms_type = "LandscapeWasReset";
+}
+
+
+/*---------------------------------------------------------------------------*/
+
+namespace LandscapeWasSaved
+{
+	const char* const ms_type = "LandscapeWasSaved";
 }
 
 /*---------------------------------------------------------------------------*/

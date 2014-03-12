@@ -26,7 +26,8 @@ struct IEnvironment
 	virtual MultithreadingManager::TaskHandle
 		pushPeriodicalTask(
 					const QString& _threadName
-				,	const MultithreadingManager::RunnableFunction& _function ) = 0;
+				,	const MultithreadingManager::RunnableFunction& _function
+				,	const qint64 _timeLimit ) = 0;
 
 	virtual void removeTask( const MultithreadingManager::TaskHandle& _taskHandle ) = 0;
 

@@ -15,7 +15,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const int TimeLimit;
+	extern const qint64 TimeLimit;
 
 	extern const char* const TimeLimitWarning;
 

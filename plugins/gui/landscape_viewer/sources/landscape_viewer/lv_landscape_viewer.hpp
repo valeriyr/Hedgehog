@@ -6,6 +6,9 @@
 
 #include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
 
+#include "event_manager/h/em_subscriber.hpp"
+#include "event_manager/h/em_event.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -62,7 +65,17 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void onLandscapeWasInitialized( const Framework::Core::EventManager::Event& _event );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
 	const IEnvironment& m_environment;
+
+	Framework::Core::EventManager::Subscriber m_subscriber;
 
 	boost::shared_ptr< ViewsMediator > m_viewsMediator;
 

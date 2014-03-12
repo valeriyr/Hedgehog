@@ -86,50 +86,39 @@ LandscapeModel::~LandscapeModel()
 
 
 void
-LandscapeModel::initCurrentLandscape ( const QString& _filePath )
+LandscapeModel::initModel( const QString& _filePath )
 {
-	m_player.reset( new Player( m_environment, m_staticData ) );
+	m_environment.pushTask(
+			Resources::ModelThreadName
+		,	boost::bind( &LandscapeModel::initTask, this, _filePath ) );
 
-	boost::intrusive_ptr< ILandscape >
-		landscape( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
-
-	try
-	{
-		m_landscapeSerializer.load( *landscape, _filePath );
-	}
-	catch( ... )
-	{
-		landscape.reset( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
-		landscape->setSize( 20, 20 );
-	}
-
-	m_currentLandscape = landscape;
-
-} // LandscapeModel::initCurrentLandscape
+} // LandscapeModel::initModel
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-LandscapeModel::closeCurrentLandscape()
+LandscapeModel::resetModel()
 {
-	m_currentLandscape.reset();
-	m_player.reset();
+	m_environment.pushTask(
+			Resources::ModelThreadName
+		,	boost::bind( &LandscapeModel::resetTask, this ) );
 
-} // LandscapeModel::closeCurrentLandscape
+} // LandscapeModel::resetModel
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-LandscapeModel::saveLandscape( const QString& _filePath ) const
+LandscapeModel::saveModel( const QString& _filePath ) const
 {
-	if ( m_currentLandscape )
-		m_landscapeSerializer.save( *m_currentLandscape, _filePath );
+	m_environment.pushTask(
+			Resources::ModelThreadName
+		,	boost::bind( &LandscapeModel::saveTask, this, _filePath ) );
 
-} // LandscapeModel::saveLandscape
+} // LandscapeModel::saveModel
 
 
 /*---------------------------------------------------------------------------*/
@@ -707,6 +696,67 @@ LandscapeModel::gameMainLoop()
 	}
 
 } // LandscapeModel::gameMainLoop
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::initTask( const QString& _filePath )
+{
+	m_player.reset( new Player( m_environment, m_staticData ) );
+
+	boost::intrusive_ptr< ILandscape >
+		landscape( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
+
+	try
+	{
+		m_landscapeSerializer.load( *landscape, _filePath );
+	}
+	catch( ... )
+	{
+		landscape.reset( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
+		landscape->setSize( 20, 20 );
+	}
+
+	m_currentLandscape = landscape;
+
+	Framework::Core::EventManager::Event modelInitEvent( Events::LandscapeWasInitialized::ms_type );
+	modelInitEvent.pushAttribute( Events::LandscapeWasInitialized::ms_filePathAttribute, _filePath );
+
+	m_environment.riseEvent( modelInitEvent );
+
+} // LandscapeModel::initTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::resetTask()
+{
+	m_currentLandscape.reset();
+	m_player.reset();
+
+	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::LandscapeWasReset::ms_type ) );
+
+} // LandscapeModel::resetTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::saveTask( const QString& _filePath ) const
+{
+	if ( m_currentLandscape )
+	{
+		m_landscapeSerializer.save( *m_currentLandscape, _filePath );
+
+		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::LandscapeWasSaved::ms_type ) );
+	}
+
+} // LandscapeModel::saveTask
 
 
 /*---------------------------------------------------------------------------*/

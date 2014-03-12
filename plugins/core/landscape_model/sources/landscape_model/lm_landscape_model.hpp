@@ -50,11 +50,11 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initCurrentLandscape ( const QString& _filePath );
+	/*virtual*/ void initModel( const QString& _filePath );
 
-	/*virtual*/ void closeCurrentLandscape();
+	/*virtual*/ void resetModel();
 
-	/*virtual*/ void saveLandscape( const QString& _filePath ) const;
+	/*virtual*/ void saveModel( const QString& _filePath ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -100,6 +100,12 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	void gameMainLoop();
+
+	void initTask( const QString& _filePath );
+
+	void resetTask();
+
+	void saveTask( const QString& _filePath ) const;
 
 /*---------------------------------------------------------------------------*/
 

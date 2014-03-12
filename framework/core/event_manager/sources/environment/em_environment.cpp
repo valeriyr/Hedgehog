@@ -37,9 +37,10 @@ Environment::~Environment()
 MultithreadingManager::TaskHandle
 Environment::pushPeriodicalTask(
 		const QString& _threadName
-	,	const MultithreadingManager::RunnableFunction& _function )
+	,	const MultithreadingManager::RunnableFunction& _function
+	,	const qint64 _timeLimit )
 {
-	return m_pluginInstance.getMultithreadingManager()->pushPeriodicalTask( _threadName, _function, Resources::TimeLimit );
+	return m_pluginInstance.getMultithreadingManager()->pushPeriodicalTask( _threadName, _function, _timeLimit );
 
 } // Environment::pushPeriodicalTask
 

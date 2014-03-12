@@ -31,11 +31,11 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initCurrentLandscape ( const QString& _filePath ) = 0;
+	virtual void initModel( const QString& _filePath ) = 0;
 
-	virtual void closeCurrentLandscape() = 0;
+	virtual void resetModel() = 0;
 
-	virtual void saveLandscape( const QString& _filePath ) const = 0;
+	virtual void saveModel( const QString& _filePath ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

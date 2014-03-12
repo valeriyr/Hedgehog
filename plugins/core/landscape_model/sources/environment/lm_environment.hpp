@@ -44,6 +44,11 @@ public:
 			,	Framework::Core::MultithreadingManager::RunnableFunction _function
 			,	const qint64 _period ) const;
 
+	/*virtual*/ Framework::Core::MultithreadingManager::TaskHandle
+		pushTask(
+				const QString& _threadName
+			,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const;
+
 	/*virtual*/ void removeTask( const Framework::Core::MultithreadingManager::TaskHandle& _handle ) const;
 
 /*---------------------------------------------------------------------------*/

@@ -63,7 +63,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initializeLandscapeModel( const QString& _fileName ) const;
+	/*virtual*/ void initLandscapeModel( const QString& _fileName ) const;
 
 	/*virtual*/ void resetLandscapeModel() const;
 

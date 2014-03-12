@@ -41,6 +41,11 @@ struct IEnvironment
 		,	Framework::Core::MultithreadingManager::RunnableFunction _function
 		,	const qint64 _period ) const = 0;
 
+	virtual Framework::Core::MultithreadingManager::TaskHandle
+		pushTask(
+				const QString& _threadName
+			,	Framework::Core::MultithreadingManager::RunnableFunction _function ) const = 0;
+
 	virtual void removeTask( const Framework::Core::MultithreadingManager::TaskHandle& _handle ) const = 0;
 
 /*---------------------------------------------------------------------------*/

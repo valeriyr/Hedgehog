@@ -104,7 +104,7 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initializeLandscapeModel( const QString& _fileName ) const = 0;
+	virtual void initLandscapeModel( const QString& _fileName ) const = 0;
 
 	virtual void resetLandscapeModel() const = 0;
 
