@@ -65,9 +65,29 @@ MainWidget::pushMessage( const QString& _message )
 {
 	QMutexLocker locker( &m_mutex );
 
+	bool needToScrollBottom
+		=	m_consoleDataView->verticalScrollBar()->value() == m_consoleDataView->verticalScrollBar()->maximum();
+
 	m_consoleDataView->append( _message );
 
+	if ( needToScrollBottom )
+		m_consoleDataView->verticalScrollBar()->setValue( m_consoleDataView->verticalScrollBar()->maximum() );
+
 } // MainWidget::pushMessage
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MainWidget::showEvent( QShowEvent* _event )
+{
+	QWidget::showEvent( _event );
+    QCoreApplication::processEvents();
+
+	m_consoleDataView->verticalScrollBar()->setValue( m_consoleDataView->verticalScrollBar()->maximum() );
+
+} // MainWidget::showEvent
 
 
 /*---------------------------------------------------------------------------*/

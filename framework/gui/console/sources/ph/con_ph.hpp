@@ -1,8 +1,10 @@
 
 #include <QtCore/QMutex>
+#include <QtCore/QCoreApplication>
 
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QScrollBar>
 #include <QtWidgets/QVBoxLayout>
 
 #include <QtGui/QKeyEvent>
