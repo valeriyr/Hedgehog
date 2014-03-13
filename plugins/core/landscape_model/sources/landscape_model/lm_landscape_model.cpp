@@ -688,7 +688,7 @@ LandscapeModel::gameMainLoop()
 
 	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - lastStartTime;
 
-	if ( time > ( static_cast< float >( Resources::TimeLimit ) * 0.6f ) )
+	if ( time > Resources::TimeLimit )
 	{
 		m_environment.printMessage(
 				Tools::Core::IMessenger::MessegeLevel::Warning
