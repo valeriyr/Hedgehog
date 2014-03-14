@@ -117,8 +117,6 @@ private:
 
 	Core::MultithreadingManager::TaskHandle m_animationsProcessingTaskHandle;
 
-	// QMutex m_mutex;
-
 /*---------------------------------------------------------------------------*/
 
 };

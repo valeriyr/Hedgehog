@@ -25,7 +25,6 @@ AnimationManager::AnimationManager( const IEnvironment& _environment, const IAni
 	:	m_environment( _environment )
 	,	m_animationCache( _animationCache )
 	,	m_animationsDataCollection()
-	//,	m_mutex()
 {
 	m_animationsProcessingTaskHandle
 		= m_environment.pushPeriodicalTask(
@@ -89,8 +88,6 @@ AnimationManager::playAnimationOnce( IAnimateObject& _animateObject, const QStri
 void
 AnimationManager::stopAnimation( IAnimateObject& _animateObject )
 {
-	//QMutexLocker locker( &m_mutex );
-
 	m_animationsDataCollection.erase( &_animateObject );
 
 } // AnimationManager::stopAnimation
@@ -102,8 +99,6 @@ AnimationManager::stopAnimation( IAnimateObject& _animateObject )
 void
 AnimationManager::stopAllAnimations()
 {
-	//QMutexLocker locker( &m_mutex );
-
 	m_animationsDataCollection.clear();
 
 } // AnimationManager::stopAllAnimations
@@ -115,8 +110,6 @@ AnimationManager::stopAllAnimations()
 void
 AnimationManager::animationsProcessingTask()
 {
-	//QMutexLocker locker( &m_mutex );
-
 	const qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
 	std::vector< IAnimateObject* > objectToDelete;
@@ -188,8 +181,6 @@ AnimationManager::playAnimation(
 	,	const qint64 _delay
 	,	const bool _onceAnimation )
 {
-	//QMutexLocker locker( &m_mutex );
-
 	const AnimationInfo& animationInfo = m_animationCache.getAnimation( _animationName );
 
 	boost::shared_ptr< AnimationData > animationData( new AnimationData( animationInfo ) );

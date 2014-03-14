@@ -2,7 +2,6 @@
 #include <QtGui/QPixmap>
 
 #include <QtCore/QString>
-#include <QtCore/QMutex>
 #include <QtCore/QDateTime>
 
 #include <boost/intrusive_ptr.hpp>
