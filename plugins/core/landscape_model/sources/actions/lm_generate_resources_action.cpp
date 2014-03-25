@@ -83,15 +83,6 @@ GenerateResourcesAction::getType() const
 
 /*---------------------------------------------------------------------------*/
 
-
-void
-GenerateResourcesAction::updateWithData( const QVariant& _data )
-{
-} // GenerateResourcesAction::updateWithData
-
-
-/*---------------------------------------------------------------------------*/
-
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

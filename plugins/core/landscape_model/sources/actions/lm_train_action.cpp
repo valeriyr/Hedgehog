@@ -113,15 +113,6 @@ TrainAction::getType() const
 
 /*---------------------------------------------------------------------------*/
 
-
-void
-TrainAction::updateWithData( const QVariant& _data )
-{
-} // TrainAction::updateWithData
-
-
-/*---------------------------------------------------------------------------*/
-
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

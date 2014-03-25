@@ -235,15 +235,6 @@ AttackAction::getType() const
 
 /*---------------------------------------------------------------------------*/
 
-
-void
-AttackAction::updateWithData( const QVariant& _data )
-{
-} // AttackAction::updateWithData
-
-
-/*---------------------------------------------------------------------------*/
-
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

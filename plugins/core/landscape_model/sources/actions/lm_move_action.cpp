@@ -320,15 +320,6 @@ MoveAction::getType() const
 
 
 void
-MoveAction::updateWithData( const QVariant& _data )
-{
-} // MoveAction::updateWithData
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
 MoveAction::fillPossibleTargetPoints(
 		IPathFinder::PointsCollection& _points
 	,	const IMoveComponent::MovingData& _movingData ) const

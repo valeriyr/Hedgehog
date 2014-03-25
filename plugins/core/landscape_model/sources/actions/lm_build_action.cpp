@@ -191,15 +191,6 @@ BuildAction::getType() const
 
 /*---------------------------------------------------------------------------*/
 
-
-void
-BuildAction::updateWithData( const QVariant& _data )
-{
-} // BuildAction::updateWithData
-
-
-/*---------------------------------------------------------------------------*/
-
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

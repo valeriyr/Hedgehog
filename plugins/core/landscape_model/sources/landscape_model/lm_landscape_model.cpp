@@ -204,11 +204,7 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _pushCommand 
 
 					boost::intrusive_ptr< IAction > action = actionsComponent->getAction( Actions::Attack );
 
-					if ( action )
-					{
-						action->updateWithData( QVariant() );
-					}
-					else
+					if ( !action )
 					{
 						actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >(
@@ -230,8 +226,6 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _pushCommand 
 						moveComponent->getMovingData().m_path.clear();
 						moveComponent->getMovingData().m_path.push_back( inProgressPoint );
 					}
-
-					action->updateWithData( QVariant() );
 				}
 				else
 				{
