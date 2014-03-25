@@ -91,7 +91,7 @@ public:
 
 	/*virtual*/ bool canObjectBePlaced(
 			const QPoint& _location
-		,	const LocateComponentStaticData& _data ) const;
+		,	const QString& _objectName ) const;
 
 	/*virtual*/ QPoint getNearestLocation( const Object& _nearestFrom, const QString& _forObject ) const;
 

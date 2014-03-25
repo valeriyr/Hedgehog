@@ -5,7 +5,9 @@
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
-#include "landscape_model/h/components/lm_locate_component_static_data.hpp"
+
+#include "landscape_model/h/lm_terrain_map_data.hpp"
+#include "landscape_model/h/lm_directions.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -21,7 +23,26 @@ struct ILocateComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const LocateComponentStaticData& getStaticData() const = 0;
+	struct StaticData
+	{
+		StaticData(
+				const QSize& _size
+			,	const TerrainMapItem::MaskType _passability
+			,	const Emplacement::Enum _emplacement
+			)
+			:	m_size( _size )
+			,	m_passability( _passability )
+			,	m_emplacement( _emplacement )
+		{}
+
+		const QSize m_size;
+		const TerrainMapItem::MaskType m_passability;
+		const Emplacement::Enum m_emplacement;
+	};
+
+/*---------------------------------------------------------------------------*/
+
+	virtual const StaticData& getStaticData() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -15,7 +15,7 @@ namespace LandscapeModel {
 
 GenerateResourcesComponent::GenerateResourcesComponent(
 		Object& _object
-	,	const GenerateResourcesComponentStaticData& _staticData
+	,	const IGenerateResourcesComponent::StaticData& _staticData
 	)
 	:	BaseComponent< IGenerateResourcesComponent >( _object )
 	,	m_staticData( _staticData )
@@ -35,7 +35,7 @@ GenerateResourcesComponent::~GenerateResourcesComponent()
 /*---------------------------------------------------------------------------*/
 
 
-const GenerateResourcesComponentStaticData&
+const IGenerateResourcesComponent::StaticData&
 GenerateResourcesComponent::getStaticData() const
 {
 	return m_staticData;

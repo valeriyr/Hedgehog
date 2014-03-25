@@ -26,17 +26,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	BuildComponent( Object& _object, const BuildComponentStaticData& _staticData );
+	BuildComponent( Object& _object, const IBuildComponent::StaticData& _staticData );
 
 	virtual ~BuildComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const BuildComponentStaticData& getStaticData() const;
+	/*virtual*/ const IBuildComponent::StaticData& getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ IBuildComponent::BuildData& getBuildData();
+	/*virtual*/ IBuildComponent::Data& getBuildData();
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,9 +44,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const BuildComponentStaticData& m_staticData;
+	const IBuildComponent::StaticData& m_staticData;
 
-	IBuildComponent::BuildData m_buildData;
+	IBuildComponent::Data m_data;
 
 /*---------------------------------------------------------------------------*/
 

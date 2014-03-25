@@ -6,6 +6,8 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
+#include "landscape_model/h/lm_object.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -15,7 +17,6 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct ILandscape;
-struct ILocateComponent;
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,7 +34,7 @@ struct IPathFinder
 
 	virtual void findPath(	PointsCollection& _pointsCollection
 						 ,	const ILandscape& _landscape
-						 ,	const ILocateComponent& _forObject
+						 ,	const Object& _object
 						 ,	const PointsCollection& _targets ) = 0;
 
 /*---------------------------------------------------------------------------*/

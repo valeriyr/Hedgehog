@@ -26,17 +26,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	TrainComponent( Object& _object, const TrainComponentStaticData& _staticData );
+	TrainComponent( Object& _object, const ITrainComponent::StaticData& _staticData );
 
 	virtual ~TrainComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const TrainComponentStaticData& getStaticData() const;
+	/*virtual*/ const ITrainComponent::StaticData& getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ ITrainComponent::TrainData& getTrainData();
+	/*virtual*/ ITrainComponent::Data& getTrainData();
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,9 +44,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const TrainComponentStaticData& m_staticData;
+	const ITrainComponent::StaticData& m_staticData;
 
-	ITrainComponent::TrainData m_trainData;
+	ITrainComponent::Data m_data;
 
 /*---------------------------------------------------------------------------*/
 

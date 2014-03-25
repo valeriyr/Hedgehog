@@ -34,7 +34,7 @@ public:
 
 	/*virtual*/ void findPath(	PointsCollection& _pointsCollection
 							 ,	const ILandscape& _landscape
-							 ,	const ILocateComponent& _forObject
+							 ,	const Object& _object
 							 ,	const IPathFinder::PointsCollection& _targets );
 
 /*---------------------------------------------------------------------------*/

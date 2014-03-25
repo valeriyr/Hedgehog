@@ -5,7 +5,6 @@
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
-#include "landscape_model/h/components/lm_move_component_static_data.hpp"
 
 #include "landscape_model/sources/path_finders/lm_ipath_finder.hpp"
 
@@ -24,6 +23,17 @@ class Object;
 struct IMoveComponent
 	:	public IComponent
 {
+
+/*---------------------------------------------------------------------------*/
+
+	struct StaticData
+	{
+		StaticData( const int _movingSpeed )
+			:	m_movingSpeed( _movingSpeed )
+		{}
+
+		const int m_movingSpeed;
+	};
 
 /*---------------------------------------------------------------------------*/
 
@@ -52,7 +62,7 @@ struct IMoveComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const MoveComponentStaticData& getStaticData() const = 0;
+	virtual const StaticData& getStaticData() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

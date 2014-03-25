@@ -28,13 +28,13 @@ public:
 
 	MoveComponent(
 			Object& _object
-		,	const MoveComponentStaticData& _staticData );
+		,	const IMoveComponent::StaticData& _staticData );
 
 	virtual ~MoveComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const MoveComponentStaticData& getStaticData() const;
+	/*virtual*/ const IMoveComponent::StaticData& getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,7 +48,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const MoveComponentStaticData& m_staticData;
+	const IMoveComponent::StaticData& m_staticData;
 
 	IMoveComponent::MovingData m_movingData;
 

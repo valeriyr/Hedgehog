@@ -5,7 +5,6 @@
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
-#include "landscape_model/h/components/lm_selection_component_static_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -21,7 +20,18 @@ struct ISelectionComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const SelectionComponentStaticData& getStaticData() const = 0;
+	struct StaticData
+	{
+		StaticData( const bool _canBeSelected )
+			:	m_canBeSelected( _canBeSelected )
+		{}
+
+		const bool m_canBeSelected;
+	};
+
+/*---------------------------------------------------------------------------*/
+
+	virtual const StaticData& getStaticData() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

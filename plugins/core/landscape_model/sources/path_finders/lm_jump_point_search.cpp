@@ -36,12 +36,18 @@ JumpPointSearch::~JumpPointSearch()
 void
 JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 						,	const ILandscape& _landscape
-						,	const ILocateComponent& _forObject
+						,	const Object& _object
 						,	const IPathFinder::PointsCollection& _targets )
 {
 	_pointsCollection.clear();
 
 	if ( _targets.empty() )
+		return;
+
+	boost::intrusive_ptr< ILocateComponent > locateComponent
+		= _object.getComponent< ILocateComponent >( ComponentId::Locate );
+
+	if ( !locateComponent )
 		return;
 
 	Tools::Core::Containers::Matrix< int > matrix;
@@ -53,7 +59,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		{
 			int cellValue = ms_engagedCell;
 
-			if ( _landscape.canObjectBePlaced( QPoint( i, j ), _forObject.getStaticData() ) )
+			if ( _landscape.canObjectBePlaced( QPoint( i, j ), _object.getName() ) )
 			{
 				cellValue = ms_freeCell;
 			}
@@ -62,7 +68,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		}
 	}
 
-	QPoint startPoint( _forObject.getLocation() );
+	QPoint startPoint( locateComponent->getLocation() );
 
 	int dx[ 8 ] = {  0, 0, -1, 1,  1, 1, -1, -1 };
 	int dy[ 8 ] = { -1, 1,  0, 0, -1, 1,  1, -1 };

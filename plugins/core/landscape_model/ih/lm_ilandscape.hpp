@@ -19,10 +19,6 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct LocateComponentStaticData;
-
-/*---------------------------------------------------------------------------*/
-
 struct ILandscape
 	:	public Tools::Core::IBase
 {
@@ -91,7 +87,7 @@ struct ILandscape
 
 	virtual bool canObjectBePlaced(
 			const QPoint& _location
-		,	const LocateComponentStaticData& _data ) const = 0;
+		,	const QString& _objectName ) const = 0;
 
 	virtual QPoint getNearestLocation( const Object& _nearestFrom, const QString& _forObject ) const = 0;
 

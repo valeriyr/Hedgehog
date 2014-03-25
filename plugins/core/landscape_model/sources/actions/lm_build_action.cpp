@@ -67,7 +67,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 {
 	boost::intrusive_ptr< IBuildComponent > buildComponent
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
-	IBuildComponent::BuildData& buildData = buildComponent->getBuildData();
+	IBuildComponent::Data& buildData = buildComponent->getBuildData();
 
 	if ( m_object.getState() == ObjectState::Dying )
 	{
@@ -111,9 +111,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 			m_landscape.setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
 
 			bool newObjectCanBePlaced
-				= m_landscape.canObjectBePlaced(
-						buildData.m_buildQueue.front().second
-					,	*m_staticData.getObjectStaticData( buildData.m_buildQueue.front().first ).m_locateData );
+				= m_landscape.canObjectBePlaced( buildData.m_buildQueue.front().second, buildData.m_buildQueue.front().first );
 
 			if ( newObjectCanBePlaced )
 			{
@@ -182,7 +180,7 @@ BuildAction::unprocessAction( const unsigned int _deltaTime )
 bool
 BuildAction::hasFinished() const
 {
-	IBuildComponent::BuildData& buildData
+	IBuildComponent::Data& buildData
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build )->getBuildData();
 	return buildData.m_buildQueue.empty();
 

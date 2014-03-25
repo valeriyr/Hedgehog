@@ -8,7 +8,7 @@
 
 #include "landscape_model/h/lm_object_states.hpp"
 
-#include "landscape_model/h/components/lm_component_id.hpp"
+#include "landscape_model/h/lm_component_id.hpp"
 #include "landscape_model/ih/components/lm_icomponent.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -49,8 +49,8 @@ public:
 		,	m_id( ms_wrongId )
 		,	m_state( ObjectState::Standing )
 	{
-		static unsigned int ms_uniqueIdsCounter = 0;
-		*const_cast< UniqueId* >( &m_id ) = ++ms_uniqueIdsCounter;
+		static unsigned int s_uniqueIdsCounter = 0;
+		*const_cast< UniqueId* >( &m_id ) = ++s_uniqueIdsCounter;
 	}
 
 /*---------------------------------------------------------------------------*/

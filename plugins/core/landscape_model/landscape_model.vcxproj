@@ -56,17 +56,8 @@
     <ClCompile Include="sources\surface_item\lm_surface_item.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="h\components\lm_actions_component_static_data.hpp" />
-    <ClInclude Include="h\components\lm_attack_component_static_data.hpp" />
-    <ClInclude Include="h\components\lm_build_component_static_data.hpp" />
-    <ClInclude Include="h\components\lm_component_id.hpp" />
-    <ClInclude Include="h\components\lm_generate_resources_component_static_data.hpp" />
-    <ClInclude Include="h\components\lm_health_component_static_data.hpp" />
-    <ClInclude Include="h\components\lm_locate_component_static_data.hpp" />
-    <ClInclude Include="h\components\lm_move_component_static_data.hpp" />
-    <ClInclude Include="h\components\lm_selection_component_static_data.hpp" />
-    <ClInclude Include="h\components\lm_train_component_static_data.hpp" />
     <ClInclude Include="h\lm_actions.hpp" />
+    <ClInclude Include="h\lm_component_id.hpp" />
     <ClInclude Include="h\lm_directions.hpp" />
     <ClInclude Include="h\lm_events.hpp" />
     <ClInclude Include="h\lm_object.hpp" />

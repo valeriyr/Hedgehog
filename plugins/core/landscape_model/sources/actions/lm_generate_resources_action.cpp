@@ -48,7 +48,7 @@ GenerateResourcesAction::processAction( const unsigned int _deltaTime )
 
 	if ( generateResourcesComponent->isGeneratingEnabled() )
 	{
-		GenerateResourcesComponentStaticData::ResourcesByMinuteCollectionIterator
+		IGenerateResourcesComponent::StaticData::ResourcesByMinuteCollectionIterator
 				begin = generateResourcesComponent->getStaticData().m_resourcesByMinute.begin()
 			,	end = generateResourcesComponent->getStaticData().m_resourcesByMinute.end();
 

@@ -5,7 +5,8 @@
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
-#include "landscape_model/h/components/lm_train_component_static_data.hpp"
+
+#include "landscape_model/h/lm_resources_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -21,7 +22,44 @@ struct ITrainComponent
 
 /*---------------------------------------------------------------------------*/
 
-	struct TrainData
+	struct StaticData
+	{
+		struct TrainData
+		{
+			TrainData(
+					const int _creationTime
+				,	const ResourcesData& _resourcesData
+				)
+				:	m_creationTime( _creationTime )
+				,	m_resourcesData( _resourcesData )
+			{}
+
+			const int m_creationTime;
+			const ResourcesData m_resourcesData;
+		};
+
+		typedef
+			std::map< QString, boost::shared_ptr< const TrainData > >
+			TrainDataCollection;
+		typedef
+			TrainDataCollection::const_iterator
+			TrainDataCollectionIterator;
+
+		StaticData()
+			:	m_trainObjects()
+		{}
+
+		void pushTrainData( const QString _objectName, boost::shared_ptr< TrainData > _data )
+		{
+			m_trainObjects.insert( std::make_pair( _objectName, _data ) );
+		}
+
+		TrainDataCollection m_trainObjects;
+	};
+
+/*---------------------------------------------------------------------------*/
+
+	struct Data
 	{
 		typedef
 			std::list< QString >
@@ -30,7 +68,7 @@ struct ITrainComponent
 			TrainObjectsQueue::const_iterator
 			TrainObjectsQueueIterator;
 
-		TrainData()
+		Data()
 			:	m_trainProgress( 0 )
 			,	m_trainQueue()
 		{}
@@ -48,11 +86,11 @@ struct ITrainComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const TrainComponentStaticData& getStaticData() const = 0;
+	virtual const StaticData& getStaticData() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual TrainData& getTrainData() = 0;
+	virtual Data& getTrainData() = 0;
 
 /*---------------------------------------------------------------------------*/
 

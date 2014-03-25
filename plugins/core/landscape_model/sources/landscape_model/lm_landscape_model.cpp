@@ -335,7 +335,7 @@ LandscapeModel::trainObject( const Object::UniqueId& _parentObject, const QStrin
 
 			if ( trainComponent )
 			{
-				TrainComponentStaticData::TrainDataCollectionIterator
+				ITrainComponent::StaticData::TrainDataCollectionIterator
 					iterator = trainComponent->getStaticData().m_trainObjects.find( _objectName );
 
 				if (	iterator != trainComponent->getStaticData().m_trainObjects.end()
@@ -386,7 +386,7 @@ LandscapeModel::buildObject( const Object::UniqueId& _builder, const QString& _o
 
 			if ( buildComponent )
 			{
-				BuildComponentStaticData::BuildDataCollectionIterator
+				IBuildComponent::StaticData::BuildDataCollectionIterator
 					iterator = buildComponent->getStaticData().m_buildDatas.find( _objectName );
 
 				if (	iterator != buildComponent->getStaticData().m_buildDatas.end()

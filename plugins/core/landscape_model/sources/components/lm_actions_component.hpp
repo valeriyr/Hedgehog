@@ -26,13 +26,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ActionsComponent( Object& _object, const ActionsComponentStaticData& _staticData );
+	ActionsComponent( Object& _object, const IActionsComponent::StaticData& _staticData );
 
 	virtual ~ActionsComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const ActionsComponentStaticData& getStaticData() const;
+	/*virtual*/ const IActionsComponent::StaticData& getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,7 +58,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const ActionsComponentStaticData& m_staticData;
+	const IActionsComponent::StaticData& m_staticData;
 
 	IActionsComponent::ActionsCollection m_actionsCollection;
 

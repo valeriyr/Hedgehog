@@ -234,7 +234,7 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 
 	if ( trainComponent )
 	{
-		Core::LandscapeModel::TrainComponentStaticData::TrainDataCollectionIterator
+		Core::LandscapeModel::ITrainComponent::StaticData::TrainDataCollectionIterator
 				begin = trainComponent->getStaticData().m_trainObjects.begin()
 			,	end = trainComponent->getStaticData().m_trainObjects.end();
 
@@ -250,7 +250,7 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 	}
 	else if ( buildComponent )
 	{
-		Core::LandscapeModel::BuildComponentStaticData::BuildDataCollectionIterator
+		Core::LandscapeModel::IBuildComponent::StaticData::BuildDataCollectionIterator
 				begin = buildComponent->getStaticData().m_buildDatas.begin()
 			,	end = buildComponent->getStaticData().m_buildDatas.end();
 

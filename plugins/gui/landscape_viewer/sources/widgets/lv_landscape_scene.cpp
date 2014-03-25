@@ -72,7 +72,7 @@ public:
 	{
 		if ( _change == ItemPositionHasChanged )
 		{
-			boost::shared_ptr<Core::LandscapeModel::LocateComponentStaticData >
+			boost::shared_ptr<Core::LandscapeModel::ILocateComponent::StaticData >
 				locateComponentStaticData = m_environment.getObjectStaticData( m_objectName ).m_locateData;
 
 			QPoint position( value.toPoint() );

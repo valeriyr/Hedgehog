@@ -26,13 +26,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	AttackComponent( Object& _object, const AttackComponentStaticData& _staticData );
+	AttackComponent( Object& _object, const IAttackComponent::StaticData& _staticData );
 
 	virtual ~AttackComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const AttackComponentStaticData& getStaticData() const;
+	/*virtual*/ const IAttackComponent::StaticData& getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,7 +46,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const AttackComponentStaticData& m_staticData;
+	const IAttackComponent::StaticData& m_staticData;
 
 	boost::shared_ptr< Object > m_targetObject;
 

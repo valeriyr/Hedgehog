@@ -15,7 +15,7 @@ namespace LandscapeModel {
 
 MoveComponent::MoveComponent(
 		Object& _object
-	,	const MoveComponentStaticData& _staticData
+	,	const IMoveComponent::StaticData& _staticData
 	)
 	:	BaseComponent< IMoveComponent >( _object )
 	,	m_staticData( _staticData )
@@ -35,7 +35,7 @@ MoveComponent::~MoveComponent()
 /*---------------------------------------------------------------------------*/
 
 
-const MoveComponentStaticData&
+const IMoveComponent::StaticData&
 MoveComponent::getStaticData() const
 {
 	return m_staticData;

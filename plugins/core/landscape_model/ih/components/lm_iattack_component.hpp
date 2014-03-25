@@ -5,7 +5,6 @@
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
-#include "landscape_model/h/components/lm_attack_component_static_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -25,7 +24,36 @@ struct IAttackComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const AttackComponentStaticData& getStaticData() const = 0;
+	struct StaticData
+	{
+		StaticData(
+				const int _minDamage
+			,	const int _maxDamage
+			,	const float _distance
+			,	const int _aiming
+			,	const int _reloading
+			)
+			:	m_minDamage( _minDamage )
+			,	m_maxDamage( _maxDamage )
+			,	m_distance( _distance )
+			,	m_aiming( _aiming )
+			,	m_reloading( _reloading )
+		{}
+
+		const int m_minDamage;
+
+		const int m_maxDamage;
+
+		const float m_distance;
+
+		const int m_aiming;
+
+		const int m_reloading;
+	};
+
+/*---------------------------------------------------------------------------*/
+
+	virtual const StaticData& getStaticData() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

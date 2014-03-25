@@ -54,7 +54,7 @@ TrainAction::processAction( const unsigned int _deltaTime )
 {
 	boost::intrusive_ptr< ITrainComponent > trainComponent
 		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
-	ITrainComponent::TrainData& trainData = trainComponent->getTrainData();
+	ITrainComponent::Data& trainData = trainComponent->getTrainData();
 
 	if ( m_object.getState() == ObjectState::Dying )
 	{
@@ -102,7 +102,7 @@ TrainAction::unprocessAction( const unsigned int _deltaTime )
 bool
 TrainAction::hasFinished() const
 {
-	ITrainComponent::TrainData& trainData
+	ITrainComponent::Data& trainData
 		= m_object.getComponent< ITrainComponent >( ComponentId::Train )->getTrainData();
 	return trainData.m_trainQueue.empty();
 

@@ -192,7 +192,7 @@ ObjectStatusView::updateBuildQueue()
 			{
 				m_currentObject->setIcon( QIcon( m_environment.getPixmap( *trainComponent->getTrainData().m_trainQueue.begin() ) ) );
 
-				Core::LandscapeModel::ITrainComponent::TrainData::TrainObjectsQueueIterator
+				Core::LandscapeModel::ITrainComponent::Data::TrainObjectsQueueIterator
 						begin = trainComponent->getTrainData().m_trainQueue.begin()
 					,	end = trainComponent->getTrainData().m_trainQueue.end();
 

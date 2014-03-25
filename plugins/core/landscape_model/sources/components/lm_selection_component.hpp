@@ -26,13 +26,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	SelectionComponent( Object& _object, const SelectionComponentStaticData& _staticData );
+	SelectionComponent( Object& _object, const ISelectionComponent::StaticData& _staticData );
 
 	virtual ~SelectionComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const SelectionComponentStaticData& getStaticData() const;
+	/*virtual*/ const ISelectionComponent::StaticData& getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,7 +46,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const SelectionComponentStaticData& m_staticData;
+	const ISelectionComponent::StaticData& m_staticData;
 
 	bool m_isSelected;
 

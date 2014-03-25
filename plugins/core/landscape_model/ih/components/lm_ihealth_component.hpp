@@ -5,7 +5,6 @@
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
-#include "landscape_model/h/components/lm_health_component_static_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -21,7 +20,18 @@ struct IHealthComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const HealthComponentStaticData& getStaticData() const = 0;
+	struct StaticData
+	{
+		StaticData( const int _maximumHealth )
+			:	m_maximumHealth( _maximumHealth )
+		{}
+
+		const int m_maximumHealth;
+	};
+
+/*---------------------------------------------------------------------------*/
+
+	virtual const StaticData& getStaticData() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -15,11 +15,11 @@ namespace LandscapeModel {
 
 BuildComponent::BuildComponent(
 		Object& _object
-	,	const BuildComponentStaticData& _staticData
+	,	const IBuildComponent::StaticData& _staticData
 	)
 	:	BaseComponent< IBuildComponent >( _object )
 	,	m_staticData( _staticData )
-	,	m_buildData()
+	,	m_data()
 {
 } // BuildComponent::BuildComponent
 
@@ -35,7 +35,7 @@ BuildComponent::~BuildComponent()
 /*---------------------------------------------------------------------------*/
 
 
-const BuildComponentStaticData&
+const IBuildComponent::StaticData&
 BuildComponent::getStaticData() const
 {
 	return m_staticData;
@@ -46,10 +46,10 @@ BuildComponent::getStaticData() const
 /*---------------------------------------------------------------------------*/
 
 
-IBuildComponent::BuildData&
+IBuildComponent::Data&
 BuildComponent::getBuildData()
 {
-	return m_buildData;
+	return m_data;
 
 } // BuildComponent::getBuildData
 

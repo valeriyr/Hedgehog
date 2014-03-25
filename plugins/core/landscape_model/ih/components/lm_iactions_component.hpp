@@ -5,7 +5,8 @@
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
-#include "landscape_model/h/components/lm_actions_component_static_data.hpp"
+
+#include "landscape_model/h/lm_actions.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -25,6 +26,31 @@ struct IActionsComponent
 
 /*---------------------------------------------------------------------------*/
 
+	struct StaticData
+	{
+		typedef
+			std::set< Actions::Enum >
+			ActionsCollection;
+		typedef
+			ActionsCollection::const_iterator
+			ActionsCollectionIterator;
+
+		StaticData()
+			:	m_possibleActions()
+		{}
+
+		void can( const Actions::Enum _action )
+		{
+			m_possibleActions.insert( _action );
+		}
+
+		bool canDoAction( const Actions::Enum _action ) const { return m_possibleActions.find( _action ) != m_possibleActions.end(); }
+
+		ActionsCollection m_possibleActions;
+	};
+
+/*---------------------------------------------------------------------------*/
+
 	typedef
 		std::list< boost::intrusive_ptr< IAction > >
 		ActionsCollection;
@@ -34,7 +60,7 @@ struct IActionsComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const ActionsComponentStaticData& getStaticData() const = 0;
+	virtual const StaticData& getStaticData() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

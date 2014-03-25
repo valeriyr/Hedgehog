@@ -28,14 +28,14 @@ public:
 
 	LocateComponent(
 			Object& _object
-		,	const LocateComponentStaticData& _staticData
+		,	const ILocateComponent::StaticData& _staticData
 		,	const QPoint& _location );
 
 	virtual ~LocateComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const LocateComponentStaticData& getStaticData() const;
+	/*virtual*/ const ILocateComponent::StaticData& getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -57,7 +57,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const LocateComponentStaticData& m_staticData;
+	const ILocateComponent::StaticData& m_staticData;
 
 	QPoint m_location;
 

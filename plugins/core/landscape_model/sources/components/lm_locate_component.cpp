@@ -15,7 +15,7 @@ namespace LandscapeModel {
 
 LocateComponent::LocateComponent(
 		Object& _object
-	,	const LocateComponentStaticData& _staticData
+	,	const ILocateComponent::StaticData& _staticData
 	,	const QPoint& _location
 	)
 	:	BaseComponent< ILocateComponent >( _object )
@@ -37,7 +37,7 @@ LocateComponent::~LocateComponent()
 /*---------------------------------------------------------------------------*/
 
 
-const LocateComponentStaticData&
+const ILocateComponent::StaticData&
 LocateComponent::getStaticData() const
 {
 	return m_staticData;

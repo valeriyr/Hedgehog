@@ -26,13 +26,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	GenerateResourcesComponent( Object& _object, const GenerateResourcesComponentStaticData& _staticData );
+	GenerateResourcesComponent( Object& _object, const IGenerateResourcesComponent::StaticData& _staticData );
 
 	virtual ~GenerateResourcesComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const GenerateResourcesComponentStaticData& getStaticData() const;
+	/*virtual*/ const IGenerateResourcesComponent::StaticData& getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,7 +46,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const GenerateResourcesComponentStaticData& m_staticData;
+	const IGenerateResourcesComponent::StaticData& m_staticData;
 
 	bool m_enableGenerating;
 

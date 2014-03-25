@@ -100,7 +100,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 			IPathFinder::PointsCollection targetPoints;
 			fillPossibleTargetPoints( targetPoints, moveComponent->getMovingData() );
 
-			m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, targetPoints );
+			m_pathFinder->findPath( newMovingData.m_path, m_landscape, m_object, targetPoints );
 
 			if ( newMovingData.m_path.empty() )
 			{
@@ -135,7 +135,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 				if ( !movingData.m_path.empty() )
 				{
-					if ( m_landscape.canObjectBePlaced( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData() ) )
+					if ( m_landscape.canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getName() ) )
 					{
 						m_landscape.setEngaged( location, locateComponent->getStaticData().m_emplacement, false );
 						m_landscape.setEngaged( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData().m_emplacement, true );
@@ -149,7 +149,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 						IPathFinder::PointsCollection targetPoints;
 						fillPossibleTargetPoints( targetPoints, moveComponent->getMovingData() );
 
-						m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, targetPoints );
+						m_pathFinder->findPath( newMovingData.m_path, m_landscape, m_object, targetPoints );
 						
 						if ( newMovingData.m_path.empty() )
 						{
@@ -223,7 +223,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					IPathFinder::PointsCollection targetPoints;
 					fillPossibleTargetPoints( targetPoints, moveComponent->getMovingData() );
 
-					m_pathFinder->findPath( newMovingData.m_path, m_landscape, *locateComponent, targetPoints );
+					m_pathFinder->findPath( newMovingData.m_path, m_landscape, m_object, targetPoints );
 
 					if ( newMovingData.m_path.empty() )
 					{

@@ -6,15 +6,15 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
-#include "landscape_model/h/components/lm_train_component_static_data.hpp"
-#include "landscape_model/h/components/lm_health_component_static_data.hpp"
-#include "landscape_model/h/components/lm_locate_component_static_data.hpp"
-#include "landscape_model/h/components/lm_selection_component_static_data.hpp"
-#include "landscape_model/h/components/lm_actions_component_static_data.hpp"
-#include "landscape_model/h/components/lm_move_component_static_data.hpp"
-#include "landscape_model/h/components/lm_generate_resources_component_static_data.hpp"
-#include "landscape_model/h/components/lm_attack_component_static_data.hpp"
-#include "landscape_model/h/components/lm_build_component_static_data.hpp"
+#include "landscape_model/ih/components/lm_itrain_component.hpp"
+#include "landscape_model/ih/components/lm_ihealth_component.hpp"
+#include "landscape_model/ih/components/lm_ilocate_component.hpp"
+#include "landscape_model/ih/components/lm_iselection_component.hpp"
+#include "landscape_model/ih/components/lm_iactions_component.hpp"
+#include "landscape_model/ih/components/lm_imove_component.hpp"
+#include "landscape_model/ih/components/lm_igenerate_resources_component.hpp"
+#include "landscape_model/ih/components/lm_iattack_component.hpp"
+#include "landscape_model/ih/components/lm_ibuild_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,15 +36,15 @@ struct IStaticData
 
 	struct ObjectStaticData
 	{
-		boost::shared_ptr< TrainComponentStaticData > m_trainData;
-		boost::shared_ptr< HealthComponentStaticData > m_healthData;
-		boost::shared_ptr< LocateComponentStaticData > m_locateData;
-		boost::shared_ptr< SelectionComponentStaticData > m_selectionData;
-		boost::shared_ptr< ActionsComponentStaticData > m_actionsData;
-		boost::shared_ptr< MoveComponentStaticData > m_moveData;
-		boost::shared_ptr< GenerateResourcesComponentStaticData > m_generateResourcesData;
-		boost::shared_ptr< AttackComponentStaticData > m_attackData;
-		boost::shared_ptr< BuildComponentStaticData > m_buildData;
+		boost::shared_ptr< ITrainComponent::StaticData > m_trainData;
+		boost::shared_ptr< IHealthComponent::StaticData > m_healthData;
+		boost::shared_ptr< ILocateComponent::StaticData > m_locateData;
+		boost::shared_ptr< ISelectionComponent::StaticData > m_selectionData;
+		boost::shared_ptr< IActionsComponent::StaticData > m_actionsData;
+		boost::shared_ptr< IMoveComponent::StaticData > m_moveData;
+		boost::shared_ptr< IGenerateResourcesComponent::StaticData > m_generateResourcesData;
+		boost::shared_ptr< IAttackComponent::StaticData > m_attackData;
+		boost::shared_ptr< IBuildComponent::StaticData > m_buildData;
 	};
 
 /*---------------------------------------------------------------------------*/

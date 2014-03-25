@@ -14,7 +14,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-ActionsComponent::ActionsComponent( Object& _object, const ActionsComponentStaticData& _staticData )
+ActionsComponent::ActionsComponent( Object& _object, const IActionsComponent::StaticData& _staticData )
 	:	BaseComponent< IActionsComponent >( _object )
 	,	m_staticData( _staticData )
 	,	m_actionsCollection()
@@ -34,7 +34,7 @@ ActionsComponent::~ActionsComponent()
 /*---------------------------------------------------------------------------*/
 
 
-const ActionsComponentStaticData&
+const IActionsComponent::StaticData&
 ActionsComponent::getStaticData() const
 {
 	return m_staticData;

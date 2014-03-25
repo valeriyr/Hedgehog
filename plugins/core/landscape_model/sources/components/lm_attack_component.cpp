@@ -13,7 +13,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-AttackComponent::AttackComponent( Object& _object, const AttackComponentStaticData& _staticData )
+AttackComponent::AttackComponent( Object& _object, const IAttackComponent::StaticData& _staticData )
 	:	BaseComponent< IAttackComponent >( _object )
 	,	m_staticData( _staticData )
 	,	m_targetObject()
@@ -32,7 +32,7 @@ AttackComponent::~AttackComponent()
 /*---------------------------------------------------------------------------*/
 
 
-const AttackComponentStaticData&
+const IAttackComponent::StaticData&
 AttackComponent::getStaticData() const
 {
 	return m_staticData;

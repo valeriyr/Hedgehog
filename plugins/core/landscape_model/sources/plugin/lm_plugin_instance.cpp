@@ -264,58 +264,58 @@ PluginInstance::exportScriptAPI()
 
 	// TrainComponent
 
-	exporter.exportClassWithShared< TrainData >( "TrainData" )
+	exporter.exportClassWithShared< ITrainComponent::StaticData::TrainData >( "TrainData" )
 		->withConstructor< const int, const ResourcesData& >();
 
-	exporter.exportClassWithShared< TrainComponentStaticData >( "TrainComponentStaticData" )
+	exporter.exportClassWithShared< ITrainComponent::StaticData >( "TrainComponentStaticData" )
 		->withConstructor()
-		.withMethod( "pushTrainData", &TrainComponentStaticData::pushTrainData );
+		.withMethod( "pushTrainData", &ITrainComponent::StaticData::pushTrainData );
 
 	// BuildComponent
 
-	exporter.exportClassWithShared< BuildData >( "BuildData" )
+	exporter.exportClassWithShared< IBuildComponent::StaticData::BuildData >( "BuildData" )
 		->withConstructor< const int, const ResourcesData& >();
 
-	exporter.exportClassWithShared< BuildComponentStaticData >( "BuildComponentStaticData" )
+	exporter.exportClassWithShared< IBuildComponent::StaticData >( "BuildComponentStaticData" )
 		->withConstructor()
-		.withMethod( "pushBuildData", &BuildComponentStaticData::pushBuildData );
+		.withMethod( "pushBuildData", &IBuildComponent::StaticData::pushBuildData );
 
 	// HealthComponent
 
-	exporter.exportClassWithShared< HealthComponentStaticData >( "HealthComponentStaticData" )
+	exporter.exportClassWithShared< IHealthComponent::StaticData >( "HealthComponentStaticData" )
 		->withConstructor< const int >();
 
 	// LocateComponent
 
-	exporter.exportClassWithShared< LocateComponentStaticData >( "LocateComponentStaticData" )
+	exporter.exportClassWithShared< ILocateComponent::StaticData >( "LocateComponentStaticData" )
 		->withConstructor< const QSize&, const TerrainMapItem::MaskType, const Emplacement::Enum >();
 
 	// SelectionComponent
 
-	exporter.exportClassWithShared< SelectionComponentStaticData >( "SelectionComponentStaticData" )
+	exporter.exportClassWithShared< ISelectionComponent::StaticData >( "SelectionComponentStaticData" )
 		->withConstructor< const bool >();
 
 	// ActionsComponent
 
-	exporter.exportClassWithShared< ActionsComponentStaticData >( "ActionsComponentStaticData" )
+	exporter.exportClassWithShared< IActionsComponent::StaticData >( "ActionsComponentStaticData" )
 		->withConstructor()
-		.withMethod( "can", &ActionsComponentStaticData::can );
+		.withMethod( "can", &IActionsComponent::StaticData::can );
 
 	// MoveComponent
 
-	exporter.exportClassWithShared< MoveComponentStaticData >( "MoveComponentStaticData" )
+	exporter.exportClassWithShared< IMoveComponent::StaticData >( "MoveComponentStaticData" )
 		->withConstructor< const int >();
 
 	// AttackComponent
 
-	exporter.exportClassWithShared< AttackComponentStaticData >( "AttackComponentStaticData" )
+	exporter.exportClassWithShared< IAttackComponent::StaticData >( "AttackComponentStaticData" )
 		->withConstructor< const int, const int, const float, const int, const int >();
 
 	// GenerateResourcesComponent
 
-	exporter.exportClassWithShared< GenerateResourcesComponentStaticData >( "GenerateResourcesComponentStaticData" )
+	exporter.exportClassWithShared< IGenerateResourcesComponent::StaticData >( "GenerateResourcesComponentStaticData" )
 		->withConstructor()
-		.withMethod( "canGenerate", &GenerateResourcesComponentStaticData::canGenerate );
+		.withMethod( "canGenerate", &IGenerateResourcesComponent::StaticData::canGenerate );
 
 	// StaticData
 

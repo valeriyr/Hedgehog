@@ -5,7 +5,6 @@
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
-#include "landscape_model/h/components/lm_generate_resources_component_static_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -21,7 +20,32 @@ struct IGenerateResourcesComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const GenerateResourcesComponentStaticData& getStaticData() const = 0;
+	struct StaticData
+	{
+		typedef
+			std::map< QString, int >
+			ResourcesByMinuteCollection;
+		typedef
+			ResourcesByMinuteCollection::const_iterator
+			ResourcesByMinuteCollectionIterator;
+
+		StaticData()
+			:	m_resourcesByMinute()
+		{}
+
+		void canGenerate( const QString& _resourceName, const int _value )
+		{
+			assert( m_resourcesByMinute.find( _resourceName ) == m_resourcesByMinute.end() );
+
+			m_resourcesByMinute.insert( std::make_pair( _resourceName, _value ) );
+		}
+
+		ResourcesByMinuteCollection m_resourcesByMinute;
+	};
+
+/*---------------------------------------------------------------------------*/
+
+	virtual const StaticData& getStaticData() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

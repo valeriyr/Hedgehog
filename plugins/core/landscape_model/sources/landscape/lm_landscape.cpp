@@ -238,7 +238,7 @@ Landscape::createObject( const QPoint& _location, const QString& _objectName )
 {
 	IStaticData::ObjectStaticData staticData = m_staticData.getObjectStaticData( _objectName );
 
-	if ( canObjectBePlaced( _location, *staticData.m_locateData ) )
+	if ( canObjectBePlaced( _location, _objectName ) )
 	{
 		boost::shared_ptr< Object > object = m_objectCreator.createObject( _location, _objectName );
 
@@ -412,11 +412,17 @@ Landscape::unselectObjects()
 bool
 Landscape::canObjectBePlaced(
 		const QPoint& _location
-	,	const LocateComponentStaticData& _data ) const
+	,	const QString& _objectName ) const
 {
-	for ( int x = _location.x(); x < _location.x() + _data.m_size.width(); ++x )
+	boost::shared_ptr< ILocateComponent::StaticData > locateData
+		= m_staticData.getObjectStaticData( _objectName ).m_locateData;
+
+	if ( !locateData )
+		return false;
+
+	for ( int x = _location.x(); x < _location.x() + locateData->m_size.width(); ++x )
 	{
-		for ( int y = _location.y(); y < _location.y() + _data.m_size.height(); ++y )
+		for ( int y = _location.y(); y < _location.y() + locateData->m_size.height(); ++y )
 		{
 			if (	x < 0 || x >= getWidth()
 				||	y < 0 || y >= getHeight() )
@@ -424,8 +430,8 @@ Landscape::canObjectBePlaced(
 				return false;
 			}
 
-			if (	!( _data.m_passability & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
-				||	m_terrainMap.getConstElement( x, y ).canBePlaced( _data.m_emplacement ) )
+			if (	!( locateData->m_passability & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
+				||	m_terrainMap.getConstElement( x, y ).canBePlaced( locateData->m_emplacement ) )
 			{
 				return false;
 			}
@@ -446,10 +452,8 @@ Landscape::getNearestLocation( const Object& _nearestFrom, const QString& _forOb
 	boost::intrusive_ptr< ILocateComponent > locateComponent
 		= _nearestFrom.getComponent< ILocateComponent >( ComponentId::Locate );
 
-	const LocateComponentStaticData& staticData = locateComponent->getStaticData();
+	const ILocateComponent::StaticData& staticData = locateComponent->getStaticData();
 	const QPoint& position = locateComponent->getLocation();
-
-	const LocateComponentStaticData& targetStaticData = *m_staticData.getObjectStaticData( _forObject ).m_locateData;
 
 	int count = 0;
 	int offset = 0;
@@ -460,7 +464,7 @@ Landscape::getNearestLocation( const Object& _nearestFrom, const QString& _forOb
 		{
 			QPoint result( position.x() + staticData.m_size.width() + offset, y );
 
-			if ( canObjectBePlaced( result, targetStaticData ) )
+			if ( canObjectBePlaced( result, _forObject ) )
 				return result;
 		}
 
@@ -468,7 +472,7 @@ Landscape::getNearestLocation( const Object& _nearestFrom, const QString& _forOb
 		{
 			QPoint result( x, position.y() + staticData.m_size.height() + offset );
 
-			if ( canObjectBePlaced( result, targetStaticData ) )
+			if ( canObjectBePlaced( result, _forObject ) )
 				return result;
 		}
 
@@ -476,7 +480,7 @@ Landscape::getNearestLocation( const Object& _nearestFrom, const QString& _forOb
 		{
 			QPoint result( position.x() - 1 - offset, y );
 
-			if ( canObjectBePlaced( result, targetStaticData ) )
+			if ( canObjectBePlaced( result, _forObject ) )
 				return result;
 		}
 
@@ -484,7 +488,7 @@ Landscape::getNearestLocation( const Object& _nearestFrom, const QString& _forOb
 		{
 			QPoint result( x, position.y() - 1 - offset );
 
-			if ( canObjectBePlaced( result, targetStaticData ) )
+			if ( canObjectBePlaced( result, _forObject ) )
 				return result;
 		}
 

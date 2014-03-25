@@ -13,7 +13,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-HealthComponent::HealthComponent( Object& _object, const HealthComponentStaticData& _staticData )
+HealthComponent::HealthComponent( Object& _object, const IHealthComponent::StaticData& _staticData )
 	:	BaseComponent< IHealthComponent >( _object )
 	,	m_staticData( _staticData )
 	,	m_health( _staticData.m_maximumHealth )
@@ -32,7 +32,7 @@ HealthComponent::~HealthComponent()
 /*---------------------------------------------------------------------------*/
 
 
-const HealthComponentStaticData&
+const IHealthComponent::StaticData&
 HealthComponent::getStaticData() const
 {
 	return m_staticData;

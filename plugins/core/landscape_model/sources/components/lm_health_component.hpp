@@ -26,13 +26,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	HealthComponent( Object& _object, const HealthComponentStaticData& _staticData );
+	HealthComponent( Object& _object, const IHealthComponent::StaticData& _staticData );
 
 	virtual ~HealthComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const HealthComponentStaticData& getStaticData() const;
+	/*virtual*/ const IHealthComponent::StaticData& getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,7 +46,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const HealthComponentStaticData& m_staticData;
+	const IHealthComponent::StaticData& m_staticData;
 
 	int m_health;
 
