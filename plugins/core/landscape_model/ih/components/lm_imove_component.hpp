@@ -64,8 +64,6 @@ struct IMoveComponent
 
 	virtual MovingData& getMovingData() = 0;
 
-	virtual void setPath( const IPathFinder::PointsCollection& _collection ) = 0;
-
 /*---------------------------------------------------------------------------*/
 
 };

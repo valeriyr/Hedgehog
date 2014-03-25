@@ -410,9 +410,7 @@ Landscape::unselectObjects()
 
 
 bool
-Landscape::canObjectBePlaced(
-		const QPoint& _location
-	,	const QString& _objectName ) const
+Landscape::canObjectBePlaced( const QPoint& _location, const QString& _objectName ) const
 {
 	boost::shared_ptr< ILocateComponent::StaticData > locateData
 		= m_staticData.getObjectStaticData( _objectName ).m_locateData;

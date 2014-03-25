@@ -40,8 +40,6 @@ public:
 
 	/*virtual*/ IMoveComponent::MovingData& getMovingData();
 
-	/*virtual*/ void setPath( const IPathFinder::PointsCollection& _collection );
-
 /*---------------------------------------------------------------------------*/
 
 private:

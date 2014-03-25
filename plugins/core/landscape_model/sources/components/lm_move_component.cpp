@@ -56,29 +56,6 @@ MoveComponent::getMovingData()
 
 /*---------------------------------------------------------------------------*/
 
-
-void
-MoveComponent::setPath( const IPathFinder::PointsCollection& _collection )
-{
-	if ( m_movingData.m_path.empty() )
-	{
-		m_movingData.m_path = _collection;
-		m_movingData.m_movingProgress = 0.0f;
-	}
-	else
-	{
-		QPoint nextPoint = m_movingData.m_path.front();
-
-		m_movingData.m_path = _collection;
-
-		m_movingData.m_path.push_front( nextPoint );
-	}
-
-} // MoveComponent::setPath
-
-
-/*---------------------------------------------------------------------------*/
-
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins
