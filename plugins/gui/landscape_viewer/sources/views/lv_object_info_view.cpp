@@ -144,7 +144,7 @@ ObjectInfoView::onObjectsSelectionChanged( const Framework::Core::EventManager::
 void
 ObjectInfoView::onObjectMoved( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::UniqueId objectId
+	const Plugins::Core::LandscapeModel::Object::Id objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -161,7 +161,7 @@ ObjectInfoView::onObjectMoved( const Framework::Core::EventManager::Event& _even
 void
 ObjectInfoView::onObjectDataChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::UniqueId objectId
+	const Plugins::Core::LandscapeModel::Object::Id objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectDataChanged::ms_objectIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -176,7 +176,7 @@ ObjectInfoView::onObjectDataChanged( const Framework::Core::EventManager::Event&
 
 
 void
-ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::UniqueId& _objectId )
+ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id& _objectId )
 {
 	m_showingObjectId = Core::LandscapeModel::Object::ms_wrongId;
 

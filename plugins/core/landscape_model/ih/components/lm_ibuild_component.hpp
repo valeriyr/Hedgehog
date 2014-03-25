@@ -91,7 +91,7 @@ struct IBuildComponent
 
 		float m_buildProgress;
 
-		Object::UniqueId m_objectId;
+		Object::Id m_objectId;
 
 		BuildObjectsQueue m_buildQueue;
 	};

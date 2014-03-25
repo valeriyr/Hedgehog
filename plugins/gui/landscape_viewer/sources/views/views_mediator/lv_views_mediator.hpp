@@ -51,7 +51,7 @@ signals:
 
 	void controlItemSelected();
 
-	void buildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId _builderId, const QString& _objectName );
+	void buildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id _builderId, const QString& _objectName );
 
 /*---------------------------------------------------------------------------*/
 

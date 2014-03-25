@@ -71,9 +71,9 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, const ViewsMedia
 
 	QObject::connect(
 			&m_viewsMediator
-		,	SIGNAL( buildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId, const QString& ) )
+		,	SIGNAL( buildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id, const QString& ) )
 		,	m_landscapeScene.get()
-		,	SLOT( onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId, const QString& ) ) );
+		,	SLOT( onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id, const QString& ) ) );
 
 } // LandscapeView::LandscapeView
 
@@ -127,9 +127,9 @@ LandscapeView::~LandscapeView()
 
 	QObject::disconnect(
 			&m_viewsMediator
-		,	SIGNAL( buildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId, const QString& ) )
+		,	SIGNAL( buildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id, const QString& ) )
 		,	m_landscapeScene.get()
-		,	SLOT( onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId, const QString& ) ) );
+		,	SLOT( onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id, const QString& ) ) );
 
 } // LandscapeView::~LandscapeView
 

@@ -225,7 +225,7 @@ Environment::selectItemsInModel( const QRect& _rect ) const
 
 
 void
-Environment::selectItemModel( const Core::LandscapeModel::Object::UniqueId& _id ) const
+Environment::selectItemModel( const Core::LandscapeModel::Object::Id& _id ) const
 {
 	m_pluginInstance.getLandscapeModel()->selectObject( _id );
 
@@ -269,7 +269,7 @@ Environment::setSurfaceItem( const QPoint& _location, const Core::LandscapeModel
 
 
 void
-Environment::trainObject( const Core::LandscapeModel::Object::UniqueId& _parentId, const QString& _objectName ) const
+Environment::trainObject( const Core::LandscapeModel::Object::Id& _parentId, const QString& _objectName ) const
 {
 	m_pluginInstance.getLandscapeModel()->trainObject( _parentId, _objectName );
 
@@ -280,7 +280,7 @@ Environment::trainObject( const Core::LandscapeModel::Object::UniqueId& _parentI
 
 
 void
-Environment::buildObject( const Core::LandscapeModel::Object::UniqueId& _builderId, const QString& _objectName, const QPoint& _atLocation ) const
+Environment::buildObject( const Core::LandscapeModel::Object::Id& _builderId, const QString& _objectName, const QPoint& _atLocation ) const
 {
 	m_pluginInstance.getLandscapeModel()->buildObject( _builderId, _objectName, _atLocation );
 

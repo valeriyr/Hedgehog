@@ -76,7 +76,7 @@ public:
 
 	/*virtual*/ void selectItemsInModel( const QRect& _rect ) const;
 
-	/*virtual*/ void selectItemModel( const Core::LandscapeModel::Object::UniqueId& _id ) const;
+	/*virtual*/ void selectItemModel( const Core::LandscapeModel::Object::Id& _id ) const;
 
 	/*virtual*/ void sendSelectedObjects( const QPoint& _to, const bool _pushCommand ) const;
 
@@ -84,9 +84,9 @@ public:
 
 	/*virtual*/ void setSurfaceItem( const QPoint& _location, const Core::LandscapeModel::ISurfaceItem::Id& _id ) const;
 
-	/*virtual*/ void trainObject( const Core::LandscapeModel::Object::UniqueId& _parentId, const QString& _objectName ) const;
+	/*virtual*/ void trainObject( const Core::LandscapeModel::Object::Id& _parentId, const QString& _objectName ) const;
 
-	/*virtual*/ void buildObject( const Core::LandscapeModel::Object::UniqueId& _builderId, const QString& _objectName, const QPoint& _atLocation ) const;
+	/*virtual*/ void buildObject( const Core::LandscapeModel::Object::Id& _builderId, const QString& _objectName, const QPoint& _atLocation ) const;
 
 /*---------------------------------------------------------------------------*/
 

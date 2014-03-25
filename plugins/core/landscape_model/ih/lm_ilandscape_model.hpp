@@ -45,7 +45,7 @@ struct ILandscapeModel
 
 	virtual void selectObjects( const QRect& _rect ) = 0;
 
-	virtual void selectObject( const Object::UniqueId& _id ) = 0;
+	virtual void selectObject( const Object::Id& _id ) = 0;
 
 	virtual void sendSelectedObjects( const QPoint& _to, const bool _pushCommand ) = 0;
 
@@ -57,18 +57,18 @@ struct ILandscapeModel
 			const QPoint& _location
 		,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) = 0;
 
-	virtual void trainObject( const Object::UniqueId& _parentObject, const QString& _objectName ) = 0;
+	virtual void trainObject( const Object::Id& _parentObject, const QString& _objectName ) = 0;
 
-	virtual void buildObject( const Object::UniqueId& _builder, const QString& _objectName, const QPoint& _atLocation ) = 0;
+	virtual void buildObject( const Object::Id& _builder, const QString& _objectName, const QPoint& _atLocation ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
 	virtual void startBuild(
-			const Object::UniqueId& _id
+			const Object::Id& _id
 		,	const QString& _objectName
 		,	const QPoint& _location ) = 0;
 
-	virtual void stopBuild( const Object::UniqueId& _id ) = 0;
+	virtual void stopBuild( const Object::Id& _id ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

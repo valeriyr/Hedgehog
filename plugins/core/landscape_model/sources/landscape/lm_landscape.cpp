@@ -177,7 +177,7 @@ Landscape::getObject( const QPoint& _point ) const
 
 
 boost::shared_ptr< Object >
-Landscape::getObject( const Object::UniqueId& _id ) const
+Landscape::getObject( const Object::Id& _id ) const
 {
 	if ( _id == Object::ms_wrongId )
 		return boost::shared_ptr< Object >();
@@ -233,7 +233,7 @@ Landscape::fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) co
 /*---------------------------------------------------------------------------*/
 
 
-Object::UniqueId
+Object::Id
 Landscape::createObject( const QPoint& _location, const QString& _objectName )
 {
 	IStaticData::ObjectStaticData staticData = m_staticData.getObjectStaticData( _objectName );
@@ -265,7 +265,7 @@ Landscape::createObject( const QPoint& _location, const QString& _objectName )
 /*---------------------------------------------------------------------------*/
 
 
-Object::UniqueId
+Object::Id
 Landscape::createObjectForBuilding( const QPoint& _location, const QString& _objectName )
 {
 	boost::shared_ptr< Object > object = getObject( createObject( _location, _objectName ) );
@@ -287,7 +287,7 @@ Landscape::createObjectForBuilding( const QPoint& _location, const QString& _obj
 
 
 boost::shared_ptr< Object >
-Landscape::removeObject( const Object::UniqueId& _id )
+Landscape::removeObject( const Object::Id& _id )
 {
 	ILandscape::ObjectsCollectionIterator
 			begin = m_objects.begin()
@@ -375,7 +375,7 @@ Landscape::selectObjects( const QRect& _rect )
 
 
 void
-Landscape::selectObject( const Object::UniqueId& _id )
+Landscape::selectObject( const Object::Id& _id )
 {
 	unselectObjects();
 

@@ -45,7 +45,7 @@ public:
 		,	const IEnvironment& _environment
 		,	const LandscapeScene& _landscapeScene
 		,	const QString& _objectName
-		,	const Plugins::Core::LandscapeModel::Object::UniqueId& _objectId
+		,	const Plugins::Core::LandscapeModel::Object::Id& _objectId
 		,	QGraphicsItem* _parent = NULL
 		)
 		:	QGraphicsPixmapItem( _pixmap, _parent )
@@ -118,7 +118,7 @@ private:
 
 	const QString m_objectName;
 
-	const Plugins::Core::LandscapeModel::Object::UniqueId m_objectId;
+	const Plugins::Core::LandscapeModel::Object::Id m_objectId;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -302,7 +302,7 @@ LandscapeScene::onControlItemSelected()
 
 
 void
-LandscapeScene::onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId _builderId, const QString& _objectName )
+LandscapeScene::onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id _builderId, const QString& _objectName )
 {
 	m_landscapeSceneState.reset( new LandscapeObjectBuildState( m_environment, *this, _builderId, _objectName ) );
 
@@ -356,7 +356,7 @@ LandscapeScene::onObjectAdded( const Framework::Core::EventManager::Event& _even
 {
 	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectNameAttribute ).toString();
 	const QPoint objectLocation = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectLocationAttribute ).toPoint();
-	const Plugins::Core::LandscapeModel::Object::UniqueId id
+	const Plugins::Core::LandscapeModel::Object::Id id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectUniqueIdAttribute ).toInt();
 	const Core::LandscapeModel::Emplacement::Enum emplacement
 		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectEmplacementAttribute ).toInt() );
@@ -379,7 +379,7 @@ LandscapeScene::onObjectAdded( const Framework::Core::EventManager::Event& _even
 void
 LandscapeScene::onObjectRemoved( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::UniqueId id
+	const Plugins::Core::LandscapeModel::Object::Id id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectRemoved::ms_objectUniqueIdAttribute ).toInt();
 
 	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
@@ -470,7 +470,7 @@ LandscapeScene::onObjectMoved( const Framework::Core::EventManager::Event& _even
 {
 	const QString name
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectNameAttribute ).toString();
-	const Plugins::Core::LandscapeModel::Object::UniqueId id
+	const Plugins::Core::LandscapeModel::Object::Id id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectIdAttribute ).toInt();
 	const QPoint movedFrom
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingFromAttribute ).toPoint();
@@ -510,7 +510,7 @@ LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event
 {
 	const QString name
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectNameAttribute ).toString();
-	const Plugins::Core::LandscapeModel::Object::UniqueId id
+	const Plugins::Core::LandscapeModel::Object::Id id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute ).toInt();
 	const Plugins::Core::LandscapeModel::ObjectState::Enum state
 		= static_cast< Plugins::Core::LandscapeModel::ObjectState::Enum >(
@@ -564,7 +564,7 @@ LandscapeScene::onObjectReadyToAttack( const Framework::Core::EventManager::Even
 {
 	const QString name
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectNameAttribute ).toString();
-	const Plugins::Core::LandscapeModel::Object::UniqueId id
+	const Plugins::Core::LandscapeModel::Object::Id id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute ).toInt();
 	const Plugins::Core::LandscapeModel::Direction::Enum direction
 		= static_cast< Plugins::Core::LandscapeModel::Direction::Enum >(
@@ -591,7 +591,7 @@ LandscapeScene::onObjectStartBuilding( const Framework::Core::EventManager::Even
 {
 	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectNameAttribute ).toString();
 	const QPoint objectLocation = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectLocationAttribute ).toPoint();
-	const Plugins::Core::LandscapeModel::Object::UniqueId id
+	const Plugins::Core::LandscapeModel::Object::Id id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectUniqueIdAttribute ).toInt();
 	const Core::LandscapeModel::Emplacement::Enum emplacement
 		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectEmplacementAttribute ).toInt() );
@@ -614,7 +614,7 @@ LandscapeScene::onBuilderHasFinishedBuild( const Framework::Core::EventManager::
 {
 	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectNameAttribute ).toString();
 	const QPoint objectLocation = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectLocationAttribute ).toPoint();
-	const Plugins::Core::LandscapeModel::Object::UniqueId id
+	const Plugins::Core::LandscapeModel::Object::Id id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectUniqueIdAttribute ).toInt();
 	const Core::LandscapeModel::Emplacement::Enum emplacement
 		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectEmplacementAttribute ).toInt() );
@@ -820,7 +820,7 @@ LandscapeScene::setCorrectSceneSize()
 
 
 void
-LandscapeScene::objectWasAdded( const Plugins::Core::LandscapeModel::Object::UniqueId& _id, ObjectGraphicsItem* _item )
+LandscapeScene::objectWasAdded( const Plugins::Core::LandscapeModel::Object::Id& _id, ObjectGraphicsItem* _item )
 {
 	assert( m_objectsCollection.find( _id ) == m_objectsCollection.end() );
 	m_objectsCollection.insert( std::make_pair( _id, _item ) );
@@ -835,7 +835,7 @@ ObjectGraphicsItem*
 LandscapeScene::addObject(
 		const QString& _objectName
 	,	const QPoint& _objectLocation
-	,	const Plugins::Core::LandscapeModel::Object::UniqueId _id
+	,	const Plugins::Core::LandscapeModel::Object::Id _id
 	,	const Core::LandscapeModel::Emplacement::Enum _emplacement )
 {
 	ObjectGraphicsItem* newItem

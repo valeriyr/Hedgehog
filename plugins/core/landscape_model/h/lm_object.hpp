@@ -39,8 +39,8 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	typedef int UniqueId;
-	static const UniqueId ms_wrongId = -1;
+	typedef int Id;
+	static const Id ms_wrongId = -1;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,14 +50,14 @@ public:
 		,	m_state( ObjectState::Standing )
 	{
 		static unsigned int s_uniqueIdsCounter = 0;
-		*const_cast< UniqueId* >( &m_id ) = ++s_uniqueIdsCounter;
+		*const_cast< Id* >( &m_id ) = ++s_uniqueIdsCounter;
 	}
 
 /*---------------------------------------------------------------------------*/
 
 	const QString& getName() const { return m_name; }
 
-	const UniqueId& getUniqueId() const { return m_id; }
+	const Id& getUniqueId() const { return m_id; }
 
 	const ObjectState::Enum getState() const { return m_state; }
 
@@ -105,7 +105,7 @@ private:
 
 	const QString m_name;
 
-	const UniqueId m_id;
+	const Id m_id;
 
 	ObjectState::Enum m_state;
 

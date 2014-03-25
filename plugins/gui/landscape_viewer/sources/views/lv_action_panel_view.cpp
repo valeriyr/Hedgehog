@@ -37,20 +37,20 @@ class TrainObjectItem
 public:
 
 	TrainObjectItem(
-			const Core::LandscapeModel::Object::UniqueId& _parentObjectId
+			const Core::LandscapeModel::Object::Id& _parentObjectId
 		,	const QString& _targetObjectName
 		)
 		:	m_parentObjectId( _parentObjectId )
 		,	m_targetObjectName( _targetObjectName )
 	{}
 
-	const Core::LandscapeModel::Object::UniqueId& getParentObjectId() const { return m_parentObjectId; }
+	const Core::LandscapeModel::Object::Id& getParentObjectId() const { return m_parentObjectId; }
 
 	const QString& getTargetObjectName() const { return m_targetObjectName; }
 
 private:
 
-	const Core::LandscapeModel::Object::UniqueId m_parentObjectId;
+	const Core::LandscapeModel::Object::Id m_parentObjectId;
 
 	const QString m_targetObjectName;
 };
@@ -65,20 +65,20 @@ class BuildObjectItem
 public:
 
 	BuildObjectItem(
-			const Core::LandscapeModel::Object::UniqueId& _builderId
+			const Core::LandscapeModel::Object::Id& _builderId
 		,	const QString& _targetObjectName
 		)
 		:	m_builderId( _builderId )
 		,	m_targetObjectName( _targetObjectName )
 	{}
 
-	const Core::LandscapeModel::Object::UniqueId& getBuilderId() const { return m_builderId; }
+	const Core::LandscapeModel::Object::Id& getBuilderId() const { return m_builderId; }
 
 	const QString& getTargetObjectName() const { return m_targetObjectName; }
 
 private:
 
-	const Core::LandscapeModel::Object::UniqueId m_builderId;
+	const Core::LandscapeModel::Object::Id m_builderId;
 
 	const QString m_targetObjectName;
 };
@@ -212,7 +212,7 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 	boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent;
 	boost::intrusive_ptr< Core::LandscapeModel::IBuildComponent > buildComponent;
 
-	Core::LandscapeModel::Object::UniqueId parentObjectId = Core::LandscapeModel::Object::ms_wrongId;
+	Core::LandscapeModel::Object::Id parentObjectId = Core::LandscapeModel::Object::ms_wrongId;
 
 	{
 		boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle

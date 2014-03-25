@@ -154,7 +154,7 @@ LandscapeModel::selectObjects( const QRect& _rect )
 
 
 void
-LandscapeModel::selectObject( const Object::UniqueId& _id )
+LandscapeModel::selectObject( const Object::Id& _id )
 {
 	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
 
@@ -254,7 +254,7 @@ LandscapeModel::createObject(
 		const QPoint& _location
 	,	const QString& _objectName )
 {
-	Object::UniqueId objectId = Object::ms_wrongId;
+	Object::Id objectId = Object::ms_wrongId;
 
 	{
 		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
@@ -315,7 +315,7 @@ LandscapeModel::setSurfaceItem(
 
 
 void
-LandscapeModel::trainObject( const Object::UniqueId& _parentObject, const QString& _objectName )
+LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _objectName )
 {
 	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
 
@@ -366,7 +366,7 @@ LandscapeModel::trainObject( const Object::UniqueId& _parentObject, const QStrin
 
 
 void
-LandscapeModel::buildObject( const Object::UniqueId& _builder, const QString& _objectName, const QPoint& _atLocation )
+LandscapeModel::buildObject( const Object::Id& _builder, const QString& _objectName, const QPoint& _atLocation )
 {
 	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
 
@@ -418,7 +418,7 @@ LandscapeModel::buildObject( const Object::UniqueId& _builder, const QString& _o
 
 void
 LandscapeModel::startBuild(
-		const Object::UniqueId& _id
+		const Object::Id& _id
 	,	const QString& _objectName
 	,	const QPoint& _location )
 {
@@ -436,7 +436,7 @@ LandscapeModel::startBuild(
 				assert( m_builders.find( _id ) == m_builders.end() );
 				m_builders.insert( std::make_pair( _id, object ) );
 
-				const Object::UniqueId objectId
+				const Object::Id objectId
 					= handle->getLandscape()->createObjectForBuilding( _location, _objectName );
 				assert( objectId != Object::ms_wrongId );
 
@@ -467,7 +467,7 @@ LandscapeModel::startBuild(
 
 
 void
-LandscapeModel::stopBuild( const Object::UniqueId& _id )
+LandscapeModel::stopBuild( const Object::Id& _id )
 {
 	{
 		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );

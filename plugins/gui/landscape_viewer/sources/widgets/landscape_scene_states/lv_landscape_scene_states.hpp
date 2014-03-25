@@ -214,7 +214,7 @@ public:
 
 	LandscapeObjectBuildState(  const IEnvironment& _environment
 							,	LandscapeScene& _scene
-							,	const Core::LandscapeModel::Object::UniqueId& _builderId
+							,	const Core::LandscapeModel::Object::Id& _builderId
 							,	const QString& _name );
 
 	virtual ~LandscapeObjectBuildState();
@@ -245,7 +245,7 @@ private:
 
 	LandscapeScene& m_scene;
 
-	const Core::LandscapeModel::Object::UniqueId m_builderId;
+	const Core::LandscapeModel::Object::Id m_builderId;
 
 	const QString m_name;
 

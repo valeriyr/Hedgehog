@@ -128,7 +128,7 @@ public slots:
 
 	void onControlItemSelected();
 
-	void onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::UniqueId _builderId, const QString& _objectName );
+	void onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id _builderId, const QString& _objectName );
 
 	void onMousePossitionWasChanged( const QPointF& _point );
 
@@ -174,12 +174,12 @@ private:
 
 	void setCorrectSceneSize();
 
-	void objectWasAdded( const Plugins::Core::LandscapeModel::Object::UniqueId& _id, ObjectGraphicsItem* _item );
+	void objectWasAdded( const Plugins::Core::LandscapeModel::Object::Id& _id, ObjectGraphicsItem* _item );
 
 	ObjectGraphicsItem* addObject(
 			const QString& _objectName
 		,	const QPoint& _objectLocation
-		,	const Plugins::Core::LandscapeModel::Object::UniqueId _id
+		,	const Plugins::Core::LandscapeModel::Object::Id _id
 		,	const Core::LandscapeModel::Emplacement::Enum _emplacement );
 
 	void markSelectedObjects();
@@ -214,7 +214,7 @@ private:
 
 	typedef
 		std::map<
-				Plugins::Core::LandscapeModel::Object::UniqueId
+				Plugins::Core::LandscapeModel::Object::Id
 			,	ObjectGraphicsItem*
 			>
 		ObjectsCollection;

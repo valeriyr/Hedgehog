@@ -64,7 +64,7 @@ public:
 
 	/*virtual*/ void selectObjects( const QRect& _rect );
 
-	/*virtual*/ void selectObject( const Object::UniqueId& _id );
+	/*virtual*/ void selectObject( const Object::Id& _id );
 
 	/*virtual*/ void sendSelectedObjects( const QPoint& _to, const bool _pushCommand );
 
@@ -74,18 +74,18 @@ public:
 			const QPoint& _location
 		,	const Core::LandscapeModel::ISurfaceItem::Id& _id );
 
-	/*virtual*/ void trainObject( const Object::UniqueId& _parentObject, const QString& _objectName );
+	/*virtual*/ void trainObject( const Object::Id& _parentObject, const QString& _objectName );
 
-	/*virtual*/ void buildObject( const Object::UniqueId& _builder, const QString& _objectName, const QPoint& _atLocation );
+	/*virtual*/ void buildObject( const Object::Id& _builder, const QString& _objectName, const QPoint& _atLocation );
 
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void startBuild(
-			const Object::UniqueId& _id
+			const Object::Id& _id
 		,	const QString& _objectName
 		,	const QPoint& _location );
 
-	/*virtual*/ void stopBuild( const Object::UniqueId& _id );
+	/*virtual*/ void stopBuild( const Object::Id& _id );
 
 /*---------------------------------------------------------------------------*/
 
@@ -114,7 +114,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< Object::UniqueId, boost::shared_ptr< Object > >
+		std::map< Object::Id, boost::shared_ptr< Object > >
 		BuildersCollection;
 	typedef
 		BuildersCollection::iterator

@@ -32,15 +32,15 @@ class SelectionViewItem
 
 public:
 
-	SelectionViewItem( const Core::LandscapeModel::Object::UniqueId& _id )
+	SelectionViewItem( const Core::LandscapeModel::Object::Id& _id )
 		:	m_id( _id )
 	{}
 
-	const Core::LandscapeModel::Object::UniqueId& getUniqueId() const { return m_id; }
+	const Core::LandscapeModel::Object::Id& getUniqueId() const { return m_id; }
 
 private:
 
-	const Core::LandscapeModel::Object::UniqueId m_id;
+	const Core::LandscapeModel::Object::Id m_id;
 };
 
 

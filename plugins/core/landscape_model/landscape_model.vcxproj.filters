@@ -353,5 +353,8 @@
     <ClInclude Include="h\lm_component_id.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
+    <ClInclude Include="h\lm_diplomacy.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

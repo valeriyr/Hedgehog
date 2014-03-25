@@ -471,7 +471,7 @@ LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 LandscapeObjectBuildState::LandscapeObjectBuildState(
 		const IEnvironment& _environment
 	,	LandscapeScene& _scene
-	,	const Core::LandscapeModel::Object::UniqueId& _builderId
+	,	const Core::LandscapeModel::Object::Id& _builderId
 	,	const QString& _name
 	)
 	:	m_environment( _environment )

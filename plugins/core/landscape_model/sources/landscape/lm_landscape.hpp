@@ -65,7 +65,7 @@ public:
 
 	/*virtual*/ boost::shared_ptr< Object > getObject( const QPoint& _point ) const;
 
-	/*virtual*/ boost::shared_ptr< Object > getObject( const Object::UniqueId& _id ) const;
+	/*virtual*/ boost::shared_ptr< Object > getObject( const Object::Id& _id ) const;
 
 	/*virtual*/ int getObjectsCount() const;
 
@@ -73,17 +73,17 @@ public:
 
 	/*virtual*/ void fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) const;
 
-	/*virtual*/ Object::UniqueId createObject( const QPoint& _location, const QString& _objectName );
+	/*virtual*/ Object::Id createObject( const QPoint& _location, const QString& _objectName );
 
-	/*virtual*/ Object::UniqueId createObjectForBuilding( const QPoint& _location, const QString& _objectName );
+	/*virtual*/ Object::Id createObjectForBuilding( const QPoint& _location, const QString& _objectName );
 
-	/*virtual*/ boost::shared_ptr< Object > removeObject( const Object::UniqueId& _id );
+	/*virtual*/ boost::shared_ptr< Object > removeObject( const Object::Id& _id );
 
 	/*virtual*/ void addObject( boost::shared_ptr< Object > _object );
 
 	/*virtual*/ void selectObjects( const QRect& _rect );
 
-	/*virtual*/ void selectObject( const Object::UniqueId& _id );
+	/*virtual*/ void selectObject( const Object::Id& _id );
 
 	/*virtual*/ void unselectObjects();
 
