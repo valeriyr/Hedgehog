@@ -40,7 +40,6 @@ struct IStaticData
 		boost::shared_ptr< IHealthComponent::StaticData > m_healthData;
 		boost::shared_ptr< ILocateComponent::StaticData > m_locateData;
 		boost::shared_ptr< ISelectionComponent::StaticData > m_selectionData;
-		boost::shared_ptr< IActionsComponent::StaticData > m_actionsData;
 		boost::shared_ptr< IMoveComponent::StaticData > m_moveData;
 		boost::shared_ptr< IGenerateResourcesComponent::StaticData > m_generateResourcesData;
 		boost::shared_ptr< IAttackComponent::StaticData > m_attackData;

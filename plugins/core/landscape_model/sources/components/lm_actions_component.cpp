@@ -14,9 +14,8 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-ActionsComponent::ActionsComponent( Object& _object, const IActionsComponent::StaticData& _staticData )
+ActionsComponent::ActionsComponent( Object& _object )
 	:	BaseComponent< IActionsComponent >( _object )
-	,	m_staticData( _staticData )
 	,	m_actionsCollection()
 	,	m_periodicalActionsCollection()
 {
@@ -34,21 +33,9 @@ ActionsComponent::~ActionsComponent()
 /*---------------------------------------------------------------------------*/
 
 
-const IActionsComponent::StaticData&
-ActionsComponent::getStaticData() const
-{
-	return m_staticData;
-
-} // ActionsComponent::getStaticData
-
-
-/*---------------------------------------------------------------------------*/
-
-
 void
 ActionsComponent::pushAction( boost::intrusive_ptr< IAction > _action )
 {
-	assert( _action && getStaticData().canDoAction( _action->getType() ) );
 	m_actionsCollection.push_back( _action );
 
 } // ActionsComponent::pushAction
@@ -106,7 +93,6 @@ ActionsComponent::getAction( const Actions::Enum _type ) const
 void
 ActionsComponent::pushPeriodicalAction( boost::intrusive_ptr< IAction > _action )
 {
-	assert( _action && getStaticData().canDoAction( _action->getType() ) );
 	m_periodicalActionsCollection.push_back( _action );
 
 } // ActionsComponent::pushPeriodicalAction

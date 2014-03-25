@@ -7,9 +7,6 @@ humanBarracks.m_healthData = HealthComponentStaticData( 1000 )
 humanBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground, Emplacement.Ground )
 humanBarracks.m_selectionData = SelectionComponentStaticData( true )
 
-humanBarracks.m_actionsData = ActionsComponentStaticData()
-humanBarracks.m_actionsData:can( Actions.Train )
-
 elvenArcherResourceData = ResourcesData()
 elvenArcherResourceData:pushResource( QString( "Gold" ), 300 )
 elvenArcherResourceData:pushResource( QString( "Wood" ), 100 )

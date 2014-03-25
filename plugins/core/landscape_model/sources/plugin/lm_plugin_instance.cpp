@@ -295,12 +295,6 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClassWithShared< ISelectionComponent::StaticData >( "SelectionComponentStaticData" )
 		->withConstructor< const bool >();
 
-	// ActionsComponent
-
-	exporter.exportClassWithShared< IActionsComponent::StaticData >( "ActionsComponentStaticData" )
-		->withConstructor()
-		.withMethod( "can", &IActionsComponent::StaticData::can );
-
 	// MoveComponent
 
 	exporter.exportClassWithShared< IMoveComponent::StaticData >( "MoveComponentStaticData" )
@@ -321,7 +315,6 @@ PluginInstance::exportScriptAPI()
 
 	exporter.exportClass< IStaticData::ObjectStaticData >( "ObjectStaticData" )
 		->withConstructor()
-		.withRWProperty( "m_actionsData", &IStaticData::ObjectStaticData::m_actionsData )
 		.withRWProperty( "m_trainData", &IStaticData::ObjectStaticData::m_trainData )
 		.withRWProperty( "m_healthData", &IStaticData::ObjectStaticData::m_healthData )
 		.withRWProperty( "m_locateData", &IStaticData::ObjectStaticData::m_locateData )

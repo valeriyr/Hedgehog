@@ -191,14 +191,15 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _pushCommand 
 
 			boost::intrusive_ptr< IActionsComponent > actionsComponent
 				= ( *begin )->getComponent< IActionsComponent >( ComponentId::Actions );
+			boost::intrusive_ptr< IMoveComponent > moveComponent
+				= ( *begin )->getComponent< IMoveComponent >( ComponentId::Move );
+			boost::intrusive_ptr< IAttackComponent > attackComponent
+				= ( *begin )->getComponent< IAttackComponent >( ComponentId::Attack );
 
 			if ( targetObject )
 			{
-				if ( targetObject != *begin && actionsComponent && actionsComponent->getStaticData().canDoAction( Actions::Attack ) )
+				if ( targetObject != *begin && attackComponent )
 				{
-					boost::intrusive_ptr< IAttackComponent > attackComponent
-						= ( *begin )->getComponent< IAttackComponent >( ComponentId::Attack );
-
 					attackComponent->setTargetObject( targetObject );
 
 					boost::intrusive_ptr< IAction > action = actionsComponent->getAction( Actions::Attack );
@@ -215,34 +216,28 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _pushCommand 
 					}
 				}
 			}
-			else
+			else if ( moveComponent )
 			{
-				if ( actionsComponent && actionsComponent->getStaticData().canDoAction( Actions::Move ) )
+				moveComponent->getMovingData().m_movingTo = _to;
+
+				boost::intrusive_ptr< IAction > action = actionsComponent->getAction( Actions::Move );
+
+				if ( action )
 				{
-					boost::intrusive_ptr< IMoveComponent > moveComponent
-						= ( *begin )->getComponent< IMoveComponent >( ComponentId::Move);
-
-					moveComponent->getMovingData().m_movingTo = _to;
-
-					boost::intrusive_ptr< IAction > action = actionsComponent->getAction( Actions::Move );
-
-					if ( action )
+					if ( !moveComponent->getMovingData().m_path.empty() )
 					{
-						if ( !moveComponent->getMovingData().m_path.empty() )
-						{
-							QPoint inProgressPoint( moveComponent->getMovingData().m_path.front() );
-							moveComponent->getMovingData().m_path.clear();
-							moveComponent->getMovingData().m_path.push_back( inProgressPoint );
-						}
+						QPoint inProgressPoint( moveComponent->getMovingData().m_path.front() );
+						moveComponent->getMovingData().m_path.clear();
+						moveComponent->getMovingData().m_path.push_back( inProgressPoint );
+					}
 
-						action->updateWithData( QVariant() );
-					}
-					else
-					{
-						actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >(
-								new MoveAction( m_environment, **begin, *handle->getLandscape(), m_pathFinder, 0 ) ) );
-					}
+					action->updateWithData( QVariant() );
+				}
+				else
+				{
+					actionsComponent->pushAction(
+						boost::intrusive_ptr< IAction >(
+							new MoveAction( m_environment, **begin, *handle->getLandscape(), m_pathFinder, 0 ) ) );
 				}
 			}
 		}
@@ -535,6 +530,10 @@ LandscapeModel::createObject( const QPoint& _location, const QString& _objectNam
 
 	boost::shared_ptr< Object > object( new Object( _objectName ) );
 
+	object->addComponent(
+			ComponentId::Actions
+		,	boost::intrusive_ptr< IComponent >( new ActionsComponent( *object ) ) );
+
 	if ( staticData.m_healthData )
 		object->addComponent(
 				ComponentId::Health
@@ -554,11 +553,6 @@ LandscapeModel::createObject( const QPoint& _location, const QString& _objectNam
 		object->addComponent(
 				ComponentId::Train
 			,	boost::intrusive_ptr< IComponent >( new TrainComponent( *object, *staticData.m_trainData ) ) );
-
-	if ( staticData.m_actionsData )
-		object->addComponent(
-				ComponentId::Actions
-			,	boost::intrusive_ptr< IComponent >( new ActionsComponent( *object, *staticData.m_actionsData ) ) );
 
 	if ( staticData.m_moveData )
 		object->addComponent(

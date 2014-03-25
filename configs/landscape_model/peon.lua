@@ -9,11 +9,6 @@ peon.m_moveData = MoveComponentStaticData( 900 )
 peon.m_selectionData = SelectionComponentStaticData( true )
 peon.m_attackData = AttackComponentStaticData(  4, 6, 1.0, 400, 1500 )
 
-peon.m_actionsData = ActionsComponentStaticData()
-peon.m_actionsData:can( Actions.Move )
-peon.m_actionsData:can( Actions.Attack )
-peon.m_actionsData:can( Actions.Build )
-
 orcBarracksResourceData = ResourcesData()
 orcBarracksResourceData:pushResource( QString( "Gold" ), 400 )
 orcBarracksResourceData:pushResource( QString( "Wood" ), 200 )

@@ -26,41 +26,12 @@ struct IActionsComponent
 
 /*---------------------------------------------------------------------------*/
 
-	struct StaticData
-	{
-		typedef
-			std::set< Actions::Enum >
-			ActionsCollection;
-		typedef
-			ActionsCollection::const_iterator
-			ActionsCollectionIterator;
-
-		StaticData()
-			:	m_possibleActions()
-		{}
-
-		void can( const Actions::Enum _action )
-		{
-			m_possibleActions.insert( _action );
-		}
-
-		bool canDoAction( const Actions::Enum _action ) const { return m_possibleActions.find( _action ) != m_possibleActions.end(); }
-
-		ActionsCollection m_possibleActions;
-	};
-
-/*---------------------------------------------------------------------------*/
-
 	typedef
 		std::list< boost::intrusive_ptr< IAction > >
 		ActionsCollection;
 	typedef
 		ActionsCollection::const_iterator
 		ActionsCollectionIterator;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual const StaticData& getStaticData() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
