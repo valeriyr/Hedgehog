@@ -293,7 +293,7 @@ PluginInstance::exportScriptAPI()
 	// SelectionComponent
 
 	exporter.exportClassWithShared< ISelectionComponent::StaticData >( "SelectionComponentStaticData" )
-		->withConstructor< const bool >();
+		->withConstructor();
 
 	// MoveComponent
 

@@ -46,17 +46,14 @@ GenerateResourcesAction::processAction( const unsigned int _deltaTime )
 	boost::intrusive_ptr< IGenerateResourcesComponent > generateResourcesComponent
 		= m_object.getComponent< IGenerateResourcesComponent >( ComponentId::ResourcesGenerating );
 
-	if ( generateResourcesComponent->isGeneratingEnabled() )
-	{
-		IGenerateResourcesComponent::StaticData::ResourcesByMinuteCollectionIterator
-				begin = generateResourcesComponent->getStaticData().m_resourcesByMinute.begin()
-			,	end = generateResourcesComponent->getStaticData().m_resourcesByMinute.end();
+	IGenerateResourcesComponent::StaticData::ResourcesByMinuteCollectionIterator
+			begin = generateResourcesComponent->getStaticData().m_resourcesByMinute.begin()
+		,	end = generateResourcesComponent->getStaticData().m_resourcesByMinute.end();
 
-		for ( ; begin != end; ++begin )
-		{
-			int incTo = static_cast< float >( _deltaTime * begin->second ) / 60000;
-			m_player.incResource( begin->first, incTo );
-		}
+	for ( ; begin != end; ++begin )
+	{
+		int incTo = static_cast< float >( _deltaTime * begin->second ) / 60000;
+		m_player.incResource( begin->first, incTo );
 	}
 
 } // GenerateResourcesAction::processAction

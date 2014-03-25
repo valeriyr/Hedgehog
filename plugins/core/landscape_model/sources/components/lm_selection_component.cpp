@@ -57,7 +57,6 @@ SelectionComponent::isSelected() const
 void
 SelectionComponent::setSelection( const bool _selection )
 {
-	assert( m_staticData.m_canBeSelected );
 	m_isSelected = _selection;
 
 } // SelectionComponent::setSelection

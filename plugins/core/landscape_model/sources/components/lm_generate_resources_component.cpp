@@ -19,7 +19,6 @@ GenerateResourcesComponent::GenerateResourcesComponent(
 	)
 	:	BaseComponent< IGenerateResourcesComponent >( _object )
 	,	m_staticData( _staticData )
-	,	m_enableGenerating( true )
 {
 } // GenerateResourcesComponent::GenerateResourcesComponent
 
@@ -41,28 +40,6 @@ GenerateResourcesComponent::getStaticData() const
 	return m_staticData;
 
 } // GenerateResourcesComponent::getStaticData
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-GenerateResourcesComponent::isGeneratingEnabled() const
-{
-	return m_enableGenerating;
-
-} // GenerateResourcesComponent::isGeneratingEnabled
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-GenerateResourcesComponent::enableGenerating( const bool _enable )
-{
-	m_enableGenerating = _enable;
-
-} // GenerateResourcesComponent::enableGenerating
 
 
 /*---------------------------------------------------------------------------*/

@@ -22,11 +22,6 @@ struct ISelectionComponent
 
 	struct StaticData
 	{
-		StaticData( const bool _canBeSelected )
-			:	m_canBeSelected( _canBeSelected )
-		{}
-
-		const bool m_canBeSelected;
 	};
 
 /*---------------------------------------------------------------------------*/
