@@ -90,15 +90,6 @@ TrainAction::processAction( const unsigned int _deltaTime )
 /*---------------------------------------------------------------------------*/
 
 
-void
-TrainAction::unprocessAction( const unsigned int _deltaTime )
-{
-} // TrainAction::unprocessAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
 bool
 TrainAction::hasFinished() const
 {

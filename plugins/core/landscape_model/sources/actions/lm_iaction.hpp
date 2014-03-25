@@ -24,8 +24,6 @@ struct IAction
 
 	virtual void processAction( const unsigned int _deltaTime ) = 0;
 
-	virtual void unprocessAction( const unsigned int _deltaTime ) = 0;
-
 	virtual bool hasFinished() const = 0;
 
 /*---------------------------------------------------------------------------*/

@@ -47,8 +47,6 @@ public:
 
 	/*virtual*/ void processAction( const unsigned int _deltaTime );
 
-	/*virtual*/ void unprocessAction( const unsigned int _deltaTime );
-
 	/*virtual*/ bool hasFinished() const;
 
 /*---------------------------------------------------------------------------*/

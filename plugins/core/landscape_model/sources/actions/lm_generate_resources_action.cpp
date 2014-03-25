@@ -62,15 +62,6 @@ GenerateResourcesAction::processAction( const unsigned int _deltaTime )
 /*---------------------------------------------------------------------------*/
 
 
-void
-GenerateResourcesAction::unprocessAction( const unsigned int _deltaTime )
-{
-} // GenerateResourcesAction::unprocessAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
 bool
 GenerateResourcesAction::hasFinished() const
 {

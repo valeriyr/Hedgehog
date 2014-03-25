@@ -297,15 +297,6 @@ MoveAction::processAction( const unsigned int _deltaTime )
 /*---------------------------------------------------------------------------*/
 
 
-void
-MoveAction::unprocessAction( const unsigned int _deltaTime )
-{
-} // MoveAction::unprocessAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
 bool
 MoveAction::hasFinished() const
 {

@@ -168,15 +168,6 @@ BuildAction::processAction( const unsigned int _deltaTime )
 /*---------------------------------------------------------------------------*/
 
 
-void
-BuildAction::unprocessAction( const unsigned int _deltaTime )
-{
-} // BuildAction::unprocessAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
 bool
 BuildAction::hasFinished() const
 {

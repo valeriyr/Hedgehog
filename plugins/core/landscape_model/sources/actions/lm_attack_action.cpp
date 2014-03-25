@@ -214,15 +214,6 @@ AttackAction::processAction( const unsigned int _deltaTime )
 /*---------------------------------------------------------------------------*/
 
 
-void
-AttackAction::unprocessAction( const unsigned int _deltaTime )
-{
-} // AttackAction::unprocessAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
 bool
 AttackAction::hasFinished() const
 {
