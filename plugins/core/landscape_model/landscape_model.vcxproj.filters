@@ -31,9 +31,6 @@
     <Filter Include="Landscape Model">
       <UniqueIdentifier>{5321bf5e-646e-46ce-8e19-8e9c73a70332}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Landscape Handle">
-      <UniqueIdentifier>{5ba58ded-4e19-4c40-b18d-54710cefc11e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Environment">
       <UniqueIdentifier>{fbf08fa7-b1bd-450a-9c00-c08e8e433b85}</UniqueIdentifier>
     </Filter>
@@ -61,6 +58,9 @@
     <Filter Include="Geometry">
       <UniqueIdentifier>{513acdd3-13cd-43c0-a756-6dbec313624f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Model Locker">
+      <UniqueIdentifier>{5ba58ded-4e19-4c40-b18d-54710cefc11e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -83,9 +83,6 @@
     </ClCompile>
     <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp">
       <Filter>Landscape Model</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\landscape_handle\lm_landscape_handle.cpp">
-      <Filter>Landscape Handle</Filter>
     </ClCompile>
     <ClCompile Include="sources\environment\lm_environment.cpp">
       <Filter>Environment</Filter>
@@ -153,6 +150,9 @@
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp">
       <Filter>Landscape Serializer</Filter>
     </ClCompile>
+    <ClCompile Include="sources\model_locker\lm_model_locker.cpp">
+      <Filter>Model Locker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -185,9 +185,6 @@
     <ClInclude Include="h\lm_terrain_map_data.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ih\lm_ilandscape_handle.hpp">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="ih\lm_ilandscape_model.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -208,9 +205,6 @@
     </ClInclude>
     <ClInclude Include="sources\landscape_model\lm_landscape_model.hpp">
       <Filter>Landscape Model</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\landscape_handle\lm_landscape_handle.hpp">
-      <Filter>Landscape Handle</Filter>
     </ClInclude>
     <ClInclude Include="sources\environment\lm_environment.hpp">
       <Filter>Environment</Filter>
@@ -279,9 +273,6 @@
       <Filter>Interfaces\Components</Filter>
     </ClInclude>
     <ClInclude Include="sources\actions\lm_base_action.hpp">
-      <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\actions\lm_iaction.hpp">
       <Filter>Actions</Filter>
     </ClInclude>
     <ClInclude Include="sources\actions\lm_move_action.hpp">
@@ -355,6 +346,15 @@
     </ClInclude>
     <ClInclude Include="h\lm_diplomacy.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_iaction.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_imodel_locker.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\model_locker\lm_model_locker.hpp">
+      <Filter>Model Locker</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

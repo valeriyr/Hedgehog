@@ -7,7 +7,6 @@
 
 #include "landscape_model/h/lm_events.hpp"
 
-#include "landscape_model/ih/lm_iplayer.hpp"
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
@@ -91,7 +90,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 				= m_object.getComponent< IMoveComponent >( ComponentId::Move );
 			moveComponent->getMovingData().m_movingTo = nearestPoint;
 
-			m_moveAction.reset( new MoveAction( m_environment, m_object, m_landscape, m_pathFinder, 1 ) );
+			m_moveAction.reset( new MoveAction( m_environment, m_object, m_landscape, m_pathFinder, 0 ) );
 		}
 	}
 

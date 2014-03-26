@@ -7,7 +7,7 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
 
@@ -132,8 +132,8 @@ PlayerInfoView::setDefaultText()
 void
 PlayerInfoView::updatePlayerInfo()
 {
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
 
 	if ( handle->getPlayer() )
 	{

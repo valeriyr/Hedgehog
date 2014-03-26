@@ -16,9 +16,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPlayer;
-struct ILandscape;
-struct IPathFinder;
+class MoveAction;
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,12 +32,17 @@ public:
 
 	AttackAction(
 			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel
 		,	Object& _object
-		,	IPlayer& _player
-		,	ILandscape& _landscape
-		,	boost::intrusive_ptr< IPathFinder > _pathFinder );
+		,	boost::shared_ptr< Object > _target );
 
 	virtual ~AttackAction();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool prepareToProcessingInternal();
+
+	/*virtual*/ bool cancelProcessingInternal();
 
 /*---------------------------------------------------------------------------*/
 
@@ -57,13 +60,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	IPlayer& m_player;
+	boost::shared_ptr< Object > m_target;
 
-	ILandscape& m_landscape;
-
-	boost::intrusive_ptr< IPathFinder > m_pathFinder;
-
-	boost::intrusive_ptr< IAction > m_moveAction;
+	boost::intrusive_ptr< MoveAction > m_moveAction;
 
 	bool m_attakingFinished;
 

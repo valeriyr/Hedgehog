@@ -24,7 +24,7 @@ struct IStaticData;
 struct ILandscapeSerializer;
 struct ILandscape;
 struct IPlayer;
-struct ILandscapeHandle;
+struct IModelLocker;
 struct IPathFinder;
 
 /*---------------------------------------------------------------------------*/
@@ -58,7 +58,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape();
+	/*virtual*/ boost::intrusive_ptr< IModelLocker > lockModel();
 
 /*---------------------------------------------------------------------------*/
 
@@ -139,8 +139,6 @@ private:
 	boost::intrusive_ptr< IPlayer > m_player;
 
 	QMutex m_mutex;
-
-	boost::intrusive_ptr< IPathFinder > m_pathFinder;
 
 /*---------------------------------------------------------------------------*/
 

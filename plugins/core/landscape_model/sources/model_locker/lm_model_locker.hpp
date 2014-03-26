@@ -1,10 +1,10 @@
 
-#ifndef __LM_LANDSCAPE_HANDLE_HPP__
-#define __LM_LANDSCAPE_HANDLE_HPP__
+#ifndef __LM_MODEL_LOCKER_HPP__
+#define __LM_MODEL_LOCKER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,12 +14,8 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeModelInternal;
-
-/*---------------------------------------------------------------------------*/
-
-class LandscapeHandle
-	:	public Tools::Core::BaseWrapper< ILandscapeHandle >
+class ModelLocker
+	:	public Tools::Core::BaseWrapper< IModelLocker >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,18 +24,18 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeHandle(
+	ModelLocker(
 			boost::intrusive_ptr< ILandscape >& _landscape
 		,	boost::intrusive_ptr< IPlayer >& _player
 		,	QMutex& _mutex );
 
-	virtual ~LandscapeHandle();
+	virtual ~ModelLocker();
 
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< ILandscape > getLandscape() const;
 
-	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer() const;
+	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -65,4 +61,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_LANDSCAPE_HANDLE_HPP__
+#endif // __LM_MODEL_LOCKER_HPP__

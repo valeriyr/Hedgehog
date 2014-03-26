@@ -58,6 +58,13 @@ bool checkDistance( const QPoint& _from, const QRect& _to, const float _distance
 
 /*---------------------------------------------------------------------------*/
 
+bool checkDistance( const QPoint& _from, const QPoint& _to, const float _distance )
+{
+	return getDistance( _from, getNearestPoint( _from, _to ) ) <= _distance;
+}
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Geometry
 } // namespace LandscapeModel
 } // namespace Core

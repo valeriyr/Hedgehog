@@ -7,7 +7,6 @@
 
 #include "landscape_model/h/lm_events.hpp"
 
-#include "landscape_model/ih/lm_iplayer.hpp"
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
@@ -64,18 +63,18 @@ TrainAction::processAction( const unsigned int _deltaTime )
 
 	int creatingTime
 		= trainComponent->getStaticData().m_trainObjects.find( trainData.m_trainQueue.front() )->second->m_creationTime;
-	int creatingDelta = ( static_cast< float >( _deltaTime ) / creatingTime ) * 100;
+	float creatingDelta = static_cast< float >( _deltaTime ) / creatingTime;
 
 	trainData.m_trainProgress += creatingDelta;
 
-	if ( trainData.m_trainProgress >= 100 )
+	if ( trainData.m_trainProgress >= 1.0f )
 	{
 		boost::intrusive_ptr< ILocateComponent > locateComponent
 			= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 
 		m_landscapeModel.createObject( m_landscape.getNearestLocation( m_object, trainData.m_trainQueue.front() ), trainData.m_trainQueue.front() );
 
-		trainData.m_trainProgress = 0;
+		trainData.m_trainProgress = 0.0f;
 		trainData.m_trainQueue.pop_front();
 	}
 

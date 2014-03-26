@@ -6,6 +6,8 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
+#include "landscape_model/ih/lm_iplayer.hpp"
+
 #include "landscape_model/h/lm_object_states.hpp"
 
 #include "landscape_model/h/lm_component_id.hpp"
@@ -44,9 +46,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Object( const QString& _name )
+	Object( const QString& _name, const IPlayer::Id _playerId )
 		:	m_name( _name )
 		,	m_id( ms_wrongId )
+		,	m_playerId( _playerId )
 		,	m_state( ObjectState::Standing )
 	{
 		static unsigned int s_uniqueIdsCounter = 0;
@@ -58,6 +61,8 @@ public:
 	const QString& getName() const { return m_name; }
 
 	const Id& getUniqueId() const { return m_id; }
+
+	const IPlayer::Id& getPlayerId() const { return m_playerId; }
 
 	const ObjectState::Enum getState() const { return m_state; }
 
@@ -106,6 +111,8 @@ private:
 	const QString m_name;
 
 	const Id m_id;
+
+	IPlayer::Id m_playerId;
 
 	ObjectState::Enum m_state;
 

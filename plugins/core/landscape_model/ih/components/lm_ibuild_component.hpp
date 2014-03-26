@@ -62,38 +62,20 @@ struct IBuildComponent
 
 	struct Data
 	{
-		typedef
-			std::list< std::pair< QString, QPoint > >
-			BuildObjectsQueue;
-		typedef
-			BuildObjectsQueue::const_iterator
-			BuildObjectsQueueIterator;
-
 		Data()
 			:	m_buildProgress( 0.0f )
 			,	m_objectId( Object::ms_wrongId )
-			,	m_buildQueue()
 		{}
 
-		void clear()
+		void reset()
 		{
 			 m_buildProgress = 0.0f;
 			 m_objectId = Object::ms_wrongId;
-			 m_buildQueue.clear();
-		}
-
-		void objectBuilt()
-		{
-			m_buildProgress = 0.0f;
-			m_objectId = Object::ms_wrongId;
-			m_buildQueue.pop_front();
 		}
 
 		float m_buildProgress;
 
 		Object::Id m_objectId;
-
-		BuildObjectsQueue m_buildQueue;
 	};
 
 /*---------------------------------------------------------------------------*/

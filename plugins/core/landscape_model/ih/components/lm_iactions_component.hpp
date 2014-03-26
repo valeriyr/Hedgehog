@@ -8,6 +8,8 @@
 
 #include "landscape_model/h/lm_actions.hpp"
 
+#include "iterators/it_iiterator.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -27,29 +29,26 @@ struct IActionsComponent
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::list< boost::intrusive_ptr< IAction > >
-		ActionsCollection;
-	typedef
-		ActionsCollection::const_iterator
-		ActionsCollectionIterator;
+		boost::shared_ptr< Tools::Core::IIterator< boost::intrusive_ptr< IAction > > >
+		ActionsIterator;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void pushAction( boost::intrusive_ptr< IAction > _action ) = 0;
+	virtual void flushActionsIfNeeded() = 0;
 
-	virtual void popFrontAction() = 0;
+/*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< IAction > frontAction() const = 0;
+	virtual void pushAction( boost::intrusive_ptr< IAction > _action, bool _flush ) = 0;
 
-	virtual boost::intrusive_ptr< IAction > getAction( const Actions::Enum _type ) const = 0;
+	virtual void processAction( unsigned int _deltaTime ) = 0;
+
+	virtual ActionsIterator getActionsIterator( const Actions::Enum _type ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
 	virtual void pushPeriodicalAction( boost::intrusive_ptr< IAction > _action ) = 0;
 
-	virtual bool hasPeriodicalActions() const = 0;
-
-	virtual void fetchPeriodicalActions( ActionsCollection& _collection ) const = 0;
+	virtual ActionsIterator getPeriodicalActionsIterator() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

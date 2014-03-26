@@ -19,7 +19,7 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
 #include "landscape_model/h/lm_events.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"

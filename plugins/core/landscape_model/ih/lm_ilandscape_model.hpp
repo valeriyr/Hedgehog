@@ -21,7 +21,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeHandle;
+struct IModelLocker;
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,7 +39,7 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< ILandscapeHandle > getCurrentLandscape() = 0;
+	virtual boost::intrusive_ptr< IModelLocker > lockModel() = 0;
 
 /*---------------------------------------------------------------------------*/
 

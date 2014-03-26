@@ -1,6 +1,6 @@
 
-#ifndef __LM_ILANDSCAPE_HANDLE_HPP__
-#define __LM_ILANDSCAPE_HANDLE_HPP__
+#ifndef __LM_IMODEL_LOCKER_HPP__
+#define __LM_IMODEL_LOCKER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,12 +15,12 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeHandle
+struct IModelLocker
 	:	public Tools::Core::IBase
 {
 	virtual boost::intrusive_ptr< ILandscape > getLandscape() const = 0;
 
-	virtual boost::intrusive_ptr< IPlayer > getPlayer() const = 0;
+	virtual boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const = 0;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -31,4 +31,4 @@ struct ILandscapeHandle
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_HANDLE_HPP__
+#endif // __LM_IMODEL_LOCKER_HPP__

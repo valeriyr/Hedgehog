@@ -3,7 +3,10 @@
 
 #include "landscape_model/sources/components/lm_actions_component.hpp"
 
-#include "landscape_model/sources/actions/lm_iaction.hpp"
+#include "landscape_model/ih/lm_iaction.hpp"
+
+#include "iterators/it_simple_iterator.hpp"
+#include "iterators/it_filter_iterator.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,6 +16,36 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+template< typename _TIteratorType, typename _TReturnType >
+struct ActionExtructor
+{
+	typedef boost::intrusive_ptr< IAction > ReturnType;
+
+	ReturnType extract( const _TIteratorType& _iterator ) const
+	{
+		return _iterator->m_action;
+	}
+};
+
+/*---------------------------------------------------------------------------*/
+
+template< typename _TIteratorType >
+struct ActionChecker
+{
+	ActionChecker ( const Actions::Enum _type )
+		:	m_type( _type )
+	{}
+
+	bool check( const _TIteratorType& _iterator ) const
+	{
+		return _iterator->m_action->getType() == m_type;
+	}
+
+	const Actions::Enum m_type;
+};
+
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 ActionsComponent::ActionsComponent( Object& _object )
 	:	BaseComponent< IActionsComponent >( _object )
@@ -34,9 +67,46 @@ ActionsComponent::~ActionsComponent()
 
 
 void
-ActionsComponent::pushAction( boost::intrusive_ptr< IAction > _action )
+ActionsComponent::flushActionsIfNeeded()
 {
-	m_actionsCollection.push_back( _action );
+	ActionsCollectionIterator
+			begin = m_actionsCollection.begin()
+		,	end = m_actionsCollection.end();
+
+	while ( begin != end )
+	{
+		if ( begin->m_shouldBeFlushed && begin->m_action->cancelProcessing() )
+		{
+			begin = m_actionsCollection.erase( begin );
+		}
+		else
+		{
+			++begin;
+		}
+	}
+
+} // ActionsComponent::flushActionsIfNeeded
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ActionsComponent::pushAction( boost::intrusive_ptr< IAction > _action, bool _flush )
+{
+	if ( _flush )
+	{
+		ActionsCollectionIterator
+				begin = m_actionsCollection.begin()
+			,	end = m_actionsCollection.end();
+
+		for ( ; begin != end; ++begin )
+		{
+			begin->m_shouldBeFlushed = true;
+		}
+	}
+
+	m_actionsCollection.push_back( ActionData( _action ) );
 
 } // ActionsComponent::pushAction
 
@@ -45,46 +115,50 @@ ActionsComponent::pushAction( boost::intrusive_ptr< IAction > _action )
 
 
 void
-ActionsComponent::popFrontAction()
+ActionsComponent::processAction( unsigned int _deltaTime )
 {
-	m_actionsCollection.pop_front();
+	flushActionsIfNeeded();
 
-} // ActionsComponent::popFrontAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< IAction >
-ActionsComponent::frontAction() const
-{
-	return
-			!m_actionsCollection.empty()
-		?	m_actionsCollection.front()
-		:	boost::intrusive_ptr< IAction >();
-
-} // ActionsComponent::frontAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< IAction >
-ActionsComponent::getAction( const Actions::Enum _type ) const
-{
-	ActionsCollectionIterator
-			begin = m_actionsCollection.begin()
-		,	end = m_actionsCollection.end();
-
-	for( ; begin != end; ++begin )
+	while ( !m_actionsCollection.empty() )
 	{
-		if ( ( *begin )->getType() == _type )
-			return *begin;
+		if ( !m_actionsCollection.front().m_actionInProgress )
+		{
+			if ( m_actionsCollection.front().m_action->prepareToProcessing() )
+			{
+				m_actionsCollection.front().m_actionInProgress = true;
+			}
+			else
+			{
+				m_actionsCollection.pop_front();
+				continue;
+			}
+
+			m_actionsCollection.front().m_action->processAction( _deltaTime );
+
+			if ( m_actionsCollection.front().m_action->hasFinished() )
+			{
+				m_actionsCollection.pop_front();
+			}
+
+			break;
+		}
 	}
 
-	return boost::intrusive_ptr< IAction >();
+} // ActionsComponent::processAction
 
-} // ActionsComponent::getAction
+
+/*---------------------------------------------------------------------------*/
+
+
+IActionsComponent::ActionsIterator
+ActionsComponent::getActionsIterator( const Actions::Enum _type ) const
+{
+	return
+		IActionsComponent::ActionsIterator(
+			new Tools::Core::FilterIterator< ActionsCollection, ActionChecker, ActionExtructor >(
+				m_actionsCollection, ActionChecker< ActionsCollectionConstIterator >( _type ) ) );
+
+} // ActionsComponent::getActionsIterator
 
 
 /*---------------------------------------------------------------------------*/
@@ -101,23 +175,15 @@ ActionsComponent::pushPeriodicalAction( boost::intrusive_ptr< IAction > _action 
 /*---------------------------------------------------------------------------*/
 
 
-bool
-ActionsComponent::hasPeriodicalActions() const
+IActionsComponent::ActionsIterator
+ActionsComponent::getPeriodicalActionsIterator() const
 {
-	return !m_periodicalActionsCollection.empty();
+	return
+		IActionsComponent::ActionsIterator(
+			new Tools::Core::SimpleIterator< ActionsCollection, ActionExtructor >(
+				m_periodicalActionsCollection ) );
 
-} // ActionsComponent::pushPeriodicalAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-ActionsComponent::fetchPeriodicalActions( IActionsComponent::ActionsCollection& _collection ) const
-{
-	_collection = m_periodicalActionsCollection;
-
-} // ActionsComponent::pushPeriodicalAction
+} // ActionsComponent::getPeriodicalActionsIterator
 
 
 /*---------------------------------------------------------------------------*/

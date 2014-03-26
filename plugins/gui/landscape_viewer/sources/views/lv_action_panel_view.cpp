@@ -9,7 +9,7 @@
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
 
 #include "landscape_model/ih/components/lm_itrain_component.hpp"
 #include "landscape_model/ih/components/lm_ibuild_component.hpp"
@@ -215,8 +215,8 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 	Core::LandscapeModel::Object::Id parentObjectId = Core::LandscapeModel::Object::ms_wrongId;
 
 	{
-		boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-			= m_environment.getCurrentLandscape();
+		boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+			= m_environment.lockModel();
 
 		if ( handle->getLandscape() )
 		{

@@ -38,9 +38,9 @@
     <ClCompile Include="sources\geometry\lm_geometry.cpp" />
     <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp" />
     <ClCompile Include="sources\landscape\lm_landscape.cpp" />
-    <ClCompile Include="sources\landscape_handle\lm_landscape_handle.cpp" />
     <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp" />
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp" />
+    <ClCompile Include="sources\model_locker\lm_model_locker.cpp" />
     <ClCompile Include="sources\notification_center\lm_notification_center.cpp" />
     <ClCompile Include="sources\path_finders\lm_jump_point_search.cpp" />
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -77,9 +77,10 @@
     <ClInclude Include="ih\components\lm_imove_component.hpp" />
     <ClInclude Include="ih\components\lm_iselection_component.hpp" />
     <ClInclude Include="ih\components\lm_itrain_component.hpp" />
+    <ClInclude Include="ih\lm_iaction.hpp" />
     <ClInclude Include="ih\lm_ilandscape.hpp" />
-    <ClInclude Include="ih\lm_ilandscape_handle.hpp" />
     <ClInclude Include="ih\lm_ilandscape_model.hpp" />
+    <ClInclude Include="ih\lm_imodel_locker.hpp" />
     <ClInclude Include="ih\lm_iplayer.hpp" />
     <ClInclude Include="ih\lm_istatic_data.hpp" />
     <ClInclude Include="ih\lm_isurface_item.hpp" />
@@ -88,7 +89,6 @@
     <ClInclude Include="sources\actions\lm_base_action.hpp" />
     <ClInclude Include="sources\actions\lm_build_action.hpp" />
     <ClInclude Include="sources\actions\lm_generate_resources_action.hpp" />
-    <ClInclude Include="sources\actions\lm_iaction.hpp" />
     <ClInclude Include="sources\actions\lm_move_action.hpp" />
     <ClInclude Include="sources\actions\lm_train_action.hpp" />
     <ClInclude Include="sources\components\lm_actions_component.hpp" />
@@ -107,10 +107,10 @@
     <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp" />
     <ClInclude Include="sources\landscape\lm_iobjects_creator.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
-    <ClInclude Include="sources\landscape_handle\lm_landscape_handle.hpp" />
     <ClInclude Include="sources\landscape_model\lm_landscape_model.hpp" />
     <ClInclude Include="sources\landscape_serializer\lm_ilandscape_serializer.hpp" />
     <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp" />
+    <ClInclude Include="sources\model_locker\lm_model_locker.hpp" />
     <ClInclude Include="sources\notification_center\lm_inotification_center.hpp" />
     <ClInclude Include="sources\notification_center\lm_inotifier.hpp" />
     <ClInclude Include="sources\notification_center\lm_notification_center.hpp" />

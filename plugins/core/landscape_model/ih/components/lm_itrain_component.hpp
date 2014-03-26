@@ -61,27 +61,20 @@ struct ITrainComponent
 
 	struct Data
 	{
-		typedef
-			std::list< QString >
-			TrainObjectsQueue;
-		typedef
-			TrainObjectsQueue::const_iterator
-			TrainObjectsQueueIterator;
-
 		Data()
-			:	m_trainProgress( 0 )
-			,	m_trainQueue()
+			:	m_trainProgress( 0.0f )
+			,	m_trainingObjectName()
 		{}
 
-		void clear()
+		void reset()
 		{
-			 m_trainProgress = 0;
-			 m_trainQueue.clear();
+			 m_trainProgress = 0.0f;
+			 m_trainingObjectName.clear();
 		}
 
-		int m_trainProgress;
+		float m_trainProgress;
 
-		TrainObjectsQueue m_trainQueue;
+		QString m_trainingObjectName;
 	};
 
 /*---------------------------------------------------------------------------*/

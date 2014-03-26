@@ -7,7 +7,6 @@
 
 #include "landscape_model/h/lm_events.hpp"
 
-#include "landscape_model/ih/lm_iplayer.hpp"
 #include "landscape_model/ih/lm_ilandscape.hpp"
 
 #include "landscape_model/sources/actions/lm_move_action.hpp"
@@ -29,15 +28,12 @@ namespace LandscapeModel {
 
 AttackAction::AttackAction(
 		const IEnvironment& _environment
+	,	ILandscapeModel& _landscapeModel
 	,	Object& _object
-	,	IPlayer& _player
-	,	ILandscape& _landscape
-	,	boost::intrusive_ptr< IPathFinder > _pathFinder
+	,	boost::shared_ptr< Object > _target
 	)
-	:	BaseAction( _environment, _object )
-	,	m_player( _player )
-	,	m_landscape( _landscape )
-	,	m_pathFinder( _pathFinder )
+	:	BaseAction( _environment, _landscapeModel, _object )
+	,	m_target( _target )
 	,	m_moveAction()
 	,	m_attakingFinished( false )
 	,	m_attackPhaseCounter( 0 )
@@ -51,6 +47,28 @@ AttackAction::AttackAction(
 AttackAction::~AttackAction()
 {
 } // AttackAction::~AttackAction
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+AttackAction::prepareToProcessingInternal()
+{
+	return true;
+
+} // GenerateResourcesAction::prepareToProcessingInternal
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+AttackAction::cancelProcessingInternal()
+{
+	return true;
+
+} // GenerateResourcesAction::cancelProcessingInternal
 
 
 /*---------------------------------------------------------------------------*/

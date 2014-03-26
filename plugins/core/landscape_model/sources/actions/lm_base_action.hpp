@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/sources/actions/lm_iaction.hpp"
+#include "landscape_model/ih/lm_iaction.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,6 +15,8 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
+struct ILandscapeModel;
+
 class Object;
 
 /*---------------------------------------------------------------------------*/
@@ -31,9 +33,26 @@ public:
 
 	BaseAction(
 			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel
 		,	Object& _object );
 
 	virtual ~BaseAction();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool prepareToProcessing();
+
+	/*virtual*/ bool cancelProcessing();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool isInProcessing() const;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual bool prepareToProcessingInternal() = 0;
+
+	virtual bool cancelProcessingInternal() = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,7 +62,11 @@ protected:
 
 	const IEnvironment& m_environment;
 
+	ILandscapeModel& m_landscapeModel;
+
 	Object& m_object;
+
+	bool m_isInProcessing;
 
 /*---------------------------------------------------------------------------*/
 

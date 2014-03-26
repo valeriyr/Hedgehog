@@ -8,7 +8,7 @@
 #include "landscape_model/sources/player/lm_player.hpp"
 
 #include "landscape_model/sources/landscape_serializer/lm_ilandscape_serializer.hpp"
-#include "landscape_model/sources/landscape_handle/lm_landscape_handle.hpp"
+#include "landscape_model/sources/landscape_handle/lm_model_locker.hpp"
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
 #include "landscape_model/sources/actions/lm_generate_resources_action.hpp"
@@ -16,7 +16,6 @@
 #include "landscape_model/sources/actions/lm_attack_action.hpp"
 #include "landscape_model/sources/actions/lm_train_action.hpp"
 #include "landscape_model/sources/actions/lm_build_action.hpp"
-#include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
@@ -124,12 +123,12 @@ LandscapeModel::saveModel( const QString& _filePath )
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILandscapeHandle >
-LandscapeModel::getCurrentLandscape()
+boost::intrusive_ptr< IModelLocker >
+LandscapeModel::lockModel()
 {
-	return boost::intrusive_ptr< ILandscapeHandle >( new LandscapeHandle( m_currentLandscape, m_player, m_mutex ) );
+	return boost::intrusive_ptr< IModelLocker >( new ModelLocker( m_currentLandscape, m_player, m_mutex ) );
 
-} // LandscapeModel::getCurrentLandscape
+} // LandscapeModel::lockModel
 
 
 /*---------------------------------------------------------------------------*/
@@ -138,7 +137,7 @@ LandscapeModel::getCurrentLandscape()
 void
 LandscapeModel::selectObjects( const QRect& _rect )
 {
-	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 	if ( handle->getLandscape() )
 	{
@@ -156,7 +155,7 @@ LandscapeModel::selectObjects( const QRect& _rect )
 void
 LandscapeModel::selectObject( const Object::Id& _id )
 {
-	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 	if ( handle->getLandscape() )
 	{
@@ -174,7 +173,7 @@ LandscapeModel::selectObject( const Object::Id& _id )
 void
 LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _pushCommand )
 {
-	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 	if ( handle->getLandscape() )
 	{
@@ -244,14 +243,12 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _pushCommand 
 
 
 void
-LandscapeModel::createObject(
-		const QPoint& _location
-	,	const QString& _objectName )
+LandscapeModel::createObject( const QPoint& _location, const QString& _objectName )
 {
 	Object::Id objectId = Object::ms_wrongId;
 
 	{
-		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+		boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 		if ( handle->getLandscape() )
 		{
@@ -289,7 +286,7 @@ LandscapeModel::setSurfaceItem(
 		const QPoint& _location
 	,	const Core::LandscapeModel::ISurfaceItem::Id& _id )
 {
-	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 	if ( handle->getLandscape() )
 	{
@@ -311,7 +308,7 @@ LandscapeModel::setSurfaceItem(
 void
 LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _objectName )
 {
-	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 	if ( handle->getPlayer() )
 	{
@@ -362,7 +359,7 @@ LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _ob
 void
 LandscapeModel::buildObject( const Object::Id& _builder, const QString& _objectName, const QPoint& _atLocation )
 {
-	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 	if ( handle->getPlayer() )
 	{
@@ -417,7 +414,7 @@ LandscapeModel::startBuild(
 	,	const QPoint& _location )
 {
 	{
-		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+		boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 		if ( handle->getLandscape() )
 		{
@@ -464,7 +461,7 @@ void
 LandscapeModel::stopBuild( const Object::Id& _id )
 {
 	{
-		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+		boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 		if ( handle->getLandscape() )
 		{
@@ -522,7 +519,7 @@ LandscapeModel::createObject( const QPoint& _location, const QString& _objectNam
 {
 	IStaticData::ObjectStaticData staticData = m_staticData.getObjectStaticData( _objectName );
 
-	boost::shared_ptr< Object > object( new Object( _objectName ) );
+	boost::shared_ptr< Object > object( new Object( _objectName, m_player->getUniqueId() ) );
 
 	object->addComponent(
 			ComponentId::Actions
@@ -592,7 +589,7 @@ LandscapeModel::gameMainLoop()
 	lastStartTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
 	{
-		boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+		boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 		if ( handle->getLandscape() )
 		{
@@ -608,37 +605,20 @@ LandscapeModel::gameMainLoop()
 				boost::intrusive_ptr< IActionsComponent > actionsComponent
 					= ( *begin )->getComponent< IActionsComponent >( ComponentId::Actions );
 
-				if ( actionsComponent )
+				// Periodical Actions loop
+
+				IActionsComponent::ActionsIterator periodocalActions
+					= actionsComponent->getPeriodicalActionsIterator();
+
+				while( periodocalActions->isValid() )
 				{
-					// Periodical Actions loop
-
-					if ( actionsComponent->hasPeriodicalActions() )
-					{
-						IActionsComponent::ActionsCollection periodicalActions;
-						actionsComponent->fetchPeriodicalActions( periodicalActions );
-
-						IActionsComponent::ActionsCollectionIterator
-								beginPeriodicalActions = periodicalActions.begin()
-							,	endPeriodicalActions = periodicalActions.end();
-
-						for ( ; beginPeriodicalActions != endPeriodicalActions; ++beginPeriodicalActions )
-						{
-							( *beginPeriodicalActions )->processAction( tickTime );
-						}
-					}
-
-					// Actions loop
-
-					boost::intrusive_ptr< IAction > action = actionsComponent->frontAction();
-
-					if ( action )
-					{
-						action->processAction( tickTime );
-
-						if ( action->hasFinished() )
-							actionsComponent->popFrontAction();
-					}
+					periodocalActions->current()->processAction( tickTime );
+					periodocalActions->next();
 				}
+
+				// Actions loop
+
+				actionsComponent->processAction( tickTime );
 			}
 		}
 	}
@@ -650,23 +630,7 @@ LandscapeModel::gameMainLoop()
 		,	end = m_builders.end();
 
 	for ( ; begin != end; ++begin )
-	{
-		boost::intrusive_ptr< IActionsComponent > actionsComponent
-			= begin->second->getComponent< IActionsComponent >( ComponentId::Actions );
-
-		if ( actionsComponent )
-		{
-			boost::intrusive_ptr< IAction > action = actionsComponent->frontAction();
-
-			if ( action )
-			{
-				action->processAction( tickTime );
-
-				if ( action->hasFinished() )
-					actionsComponent->popFrontAction();
-			}
-		}
-	}
+		begin->second->getComponent< IActionsComponent >( ComponentId::Actions )->processAction( tickTime );
 
 	// Fetch dying objects
 
@@ -692,7 +656,7 @@ LandscapeModel::gameMainLoop()
 void
 LandscapeModel::initTask( const QString& _filePath )
 {
-	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 	m_player.reset( new Player( m_environment, m_staticData ) );
 
@@ -727,7 +691,7 @@ LandscapeModel::initTask( const QString& _filePath )
 void
 LandscapeModel::resetTask()
 {
-	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 	m_currentLandscape.reset();
 	m_player.reset();
@@ -743,7 +707,7 @@ LandscapeModel::resetTask()
 void
 LandscapeModel::saveTask( const QString& _filePath )
 {
-	boost::intrusive_ptr< ILandscapeHandle > handle( getCurrentLandscape() );
+	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
 	if ( m_currentLandscape )
 	{

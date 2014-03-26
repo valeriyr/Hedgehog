@@ -25,7 +25,7 @@
 #include "sound_manager/ih/sm_isound_manager.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
@@ -191,12 +191,12 @@ Environment::resetLandscapeModel() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle >
-Environment::getCurrentLandscape() const
+boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+Environment::lockModel() const
 {
-	return m_pluginInstance.getLandscapeModel()->getCurrentLandscape();
+	return m_pluginInstance.getLandscapeModel()->lockModel();
 
-} // Environment::getCurrentLandscape
+} // Environment::lockModel
 
 
 /*---------------------------------------------------------------------------*/

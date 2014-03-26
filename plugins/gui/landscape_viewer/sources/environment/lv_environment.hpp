@@ -67,8 +67,8 @@ public:
 
 	/*virtual*/ void resetLandscapeModel() const;
 
-	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle >
-		getCurrentLandscape () const;
+	/*virtual*/ boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		lockModel () const;
 
 	/*virtual*/ void saveLandscape( const QString& _fileName ) const;
 

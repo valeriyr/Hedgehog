@@ -19,6 +19,8 @@ namespace Geometry {
 
 	bool checkDistance( const QPoint& _from, const QRect& _to, const float _distance );
 
+	bool checkDistance( const QPoint& _from, const QPoint& _to, const float _distance );
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Geometry

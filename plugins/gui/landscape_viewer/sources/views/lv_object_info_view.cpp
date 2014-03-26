@@ -7,7 +7,7 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
 
 #include "landscape_model/ih/components/lm_ihealth_component.hpp"
 #include "landscape_model/ih/components/lm_imove_component.hpp"
@@ -121,8 +121,8 @@ ObjectInfoView::landscapeWasClosed()
 void
 ObjectInfoView::onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event )
 {
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
 
 	if ( handle->getLandscape() )
 	{
@@ -180,8 +180,8 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 {
 	m_showingObjectId = Core::LandscapeModel::Object::ms_wrongId;
 
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
 
 	if ( handle->getLandscape() )
 	{

@@ -11,7 +11,7 @@
 #include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
 
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 
@@ -104,7 +104,7 @@ private:
 				,	m_landscapeScene.width()
 				,	m_landscapeScene.height()
 				,	LandscapeScene::convertToScenePosition(
-						m_environment.getCurrentLandscape()->getLandscape()->getObject( m_objectId )
+						m_environment.lockModel()->getLandscape()->getObject( m_objectId )
 							->getComponent< Core::LandscapeModel::ILocateComponent >( Core::LandscapeModel::ComponentId::Locate )->getLocation() )
 				,	m_objectName
 				,	pixmap() ) );
@@ -413,7 +413,7 @@ LandscapeScene::onCreateObjectFailed( const Framework::Core::EventManager::Event
 void
 LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event& _event )
 {
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle = m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle = m_environment.lockModel();
 
 	const Plugins::Core::LandscapeModel::ISurfaceItem::Id id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_surfaceItemIdAttribute ).toUInt();
@@ -635,8 +635,8 @@ LandscapeScene::onBuilderHasFinishedBuild( const Framework::Core::EventManager::
 void
 LandscapeScene::generateLandscape()
 {
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
 
 	if ( handle->getLandscape() )
 	{
@@ -703,8 +703,8 @@ LandscapeScene::generateLandscape()
 void
 LandscapeScene::generateTerrainMapLayer()
 {
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
 
 	if ( handle->getLandscape() )
 	{
@@ -801,8 +801,8 @@ LandscapeScene::regenerateTerrainMapLayer()
 void
 LandscapeScene::setCorrectSceneSize()
 {
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
 
 	if ( handle->getLandscape() )
 	{
@@ -862,8 +862,8 @@ LandscapeScene::addObject(
 void
 LandscapeScene::markSelectedObjects()
 {
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
 
 	if ( handle->getLandscape() )
 	{

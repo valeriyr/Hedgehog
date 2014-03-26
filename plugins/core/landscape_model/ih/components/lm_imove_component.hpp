@@ -42,7 +42,7 @@ struct IMoveComponent
 			,	m_movingToObject()
 		{}
 
-		void clear()
+		void reset()
 		{
 			m_path.clear();
 			m_movingProgress = 0.0f;

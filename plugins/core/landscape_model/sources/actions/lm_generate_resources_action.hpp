@@ -16,10 +16,6 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPlayer;
-
-/*---------------------------------------------------------------------------*/
-
 class GenerateResourcesAction
 	:	public BaseAction
 {
@@ -32,10 +28,16 @@ public:
 
 	GenerateResourcesAction(
 			const IEnvironment& _environment
-		,	Object& _object
-		,	IPlayer& _player );
+		,	ILandscapeModel& _landscapeModel
+		,	Object& _object );
 
 	virtual ~GenerateResourcesAction();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool prepareToProcessingInternal();
+
+	/*virtual*/ bool cancelProcessingInternal();
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,14 +48,6 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ const Actions::Enum getType() const;
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	IPlayer& m_player;
 
 /*---------------------------------------------------------------------------*/
 

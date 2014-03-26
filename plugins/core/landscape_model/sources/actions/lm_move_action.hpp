@@ -20,10 +20,6 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscape;
-
-/*---------------------------------------------------------------------------*/
-
 class MoveAction
 	:	public BaseAction
 {
@@ -36,12 +32,24 @@ public:
 
 	MoveAction(
 			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel
 		,	Object& _object
-		,	ILandscape& _landscape
-		,	boost::intrusive_ptr< IPathFinder > _pathFinder
+		,	const QPoint& _movingTo );
+
+	MoveAction(
+			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel
+		,	Object& _object
+		,	boost::shared_ptr< Object > _movingTo
 		,	const float _distance );
 
 	virtual ~MoveAction();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool prepareToProcessingInternal();
+
+	/*virtual*/ bool cancelProcessingInternal();
 
 /*---------------------------------------------------------------------------*/
 
@@ -55,13 +63,20 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	void setDistance( const float _distance );
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
 
 	void fillPossibleTargetPoints(
 			IPathFinder::PointsCollection& _points
-		,	const IMoveComponent::MovingData& _movingData ) const;
+		,	const IMoveComponent::MovingData& _movingData
+		,	const ILandscape& _landscape ) const;
+
+	void moveToLocation( const QPoint& _location );
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,13 +84,16 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	ILandscape& m_landscape;
-
 	boost::intrusive_ptr< IPathFinder > m_pathFinder;
 
 	bool m_movingFinished;
 
-	const float m_distance;
+	QPoint m_movingToPoint;
+
+	boost::shared_ptr< Object > m_movingToObject;
+	QPoint m_lastTargetObjectLocation;
+
+	float m_distance;
 
 /*---------------------------------------------------------------------------*/
 

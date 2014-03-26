@@ -32,21 +32,21 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void pushAction( boost::intrusive_ptr< IAction > _action );
+	/*virtual*/ void flushActionsIfNeeded();
 
-	/*virtual*/ void popFrontAction();
+/*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IAction > frontAction() const;
+	/*virtual*/ void pushAction( boost::intrusive_ptr< IAction > _action, bool _flush );
 
-	/*virtual*/ boost::intrusive_ptr< IAction > getAction( const Actions::Enum _type ) const;
+	/*virtual*/ void processAction( unsigned int _deltaTime );
+
+	/*virtual*/ IActionsComponent::ActionsIterator getActionsIterator( const Actions::Enum _type ) const;
 
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void pushPeriodicalAction( boost::intrusive_ptr< IAction > _action );
 
-	/*virtual*/ bool hasPeriodicalActions() const;
-
-	/*virtual*/ void fetchPeriodicalActions( IActionsComponent::ActionsCollection& _collection ) const;
+	/*virtual*/ ActionsIterator getPeriodicalActionsIterator() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,9 +54,35 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	IActionsComponent::ActionsCollection m_actionsCollection;
+	struct ActionData
+	{
+		ActionData( boost::intrusive_ptr< IAction > _action )
+			:	m_action( _action )
+			,	m_shouldBeFlushed( false )
+			,	m_actionInProgress( false )
+		{}
 
-	IActionsComponent::ActionsCollection m_periodicalActionsCollection;
+		boost::intrusive_ptr< IAction > m_action;
+
+		bool m_shouldBeFlushed;
+		bool m_actionInProgress;
+	};
+
+	typedef
+		std::list< ActionData >
+		ActionsCollection;
+	typedef
+		ActionsCollection::iterator
+		ActionsCollectionIterator;
+	typedef
+		ActionsCollection::const_iterator
+		ActionsCollectionConstIterator;
+
+/*---------------------------------------------------------------------------*/
+
+	ActionsCollection m_actionsCollection;
+
+	ActionsCollection m_periodicalActionsCollection;
 
 /*---------------------------------------------------------------------------*/
 

@@ -7,7 +7,7 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 
-#include "landscape_model/ih/lm_ilandscape_handle.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
@@ -217,8 +217,8 @@ MinimapWidget::onSurfaceItemChanged( const Framework::Core::EventManager::Event&
 void
 MinimapWidget::onObjectWereChanged( const Framework::Core::EventManager::Event& _event )
 {
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
 
 	renderObjects( *handle->getLandscape() );
 
@@ -326,8 +326,8 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 	if ( !m_environment.getBool( Resources::Properties::UpdateMinimap ) )
 		return;
 
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
 
 	if ( handle->getLandscape() )
 	{
@@ -381,8 +381,8 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 void
 MinimapWidget::regenerate()
 {
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeHandle > handle
-		= m_environment.getCurrentLandscape();
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
 
 	if ( handle->getLandscape() )
 	{

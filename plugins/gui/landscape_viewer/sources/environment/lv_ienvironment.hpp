@@ -52,7 +52,7 @@ namespace Plugins
 		namespace LandscapeModel
 		{
 			struct ILandscape;
-			struct ILandscapeHandle;
+			struct IModelLocker;
 		}
 	}
 }
@@ -108,8 +108,8 @@ struct IEnvironment
 
 	virtual void resetLandscapeModel() const = 0;
 
-	virtual boost::intrusive_ptr< Core::LandscapeModel::ILandscapeHandle >
-		getCurrentLandscape () const = 0;
+	virtual boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		lockModel () const = 0;
 
 	virtual void saveLandscape( const QString& _fileName ) const = 0;
 
