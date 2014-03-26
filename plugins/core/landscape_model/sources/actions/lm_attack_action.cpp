@@ -55,6 +55,11 @@ AttackAction::~AttackAction()
 bool
 AttackAction::prepareToProcessingInternal()
 {
+	boost::intrusive_ptr< IAttackComponent > attackComponent
+		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
+
+	attackComponent->setTargetObject( m_target );
+
 	return true;
 
 } // GenerateResourcesAction::prepareToProcessingInternal
@@ -66,7 +71,13 @@ AttackAction::prepareToProcessingInternal()
 bool
 AttackAction::cancelProcessingInternal()
 {
-	return true;
+	boost::intrusive_ptr< IAttackComponent > attackComponent
+		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
+
+	attackComponent->setTargetObject( boost::shared_ptr< Object >() );
+	m_attakingFinished = true;
+
+	return !m_moveAction || m_moveAction->cancelProcessing();
 
 } // GenerateResourcesAction::cancelProcessingInternal
 
@@ -77,8 +88,12 @@ AttackAction::cancelProcessingInternal()
 void
 AttackAction::processAction( const unsigned int _deltaTime )
 {
+	// Common variables
+
 	boost::intrusive_ptr< IAttackComponent > attackComponent
 		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
+
+	// Check if object is dying
 
 	if ( m_object.getState() == ObjectState::Dying )
 	{

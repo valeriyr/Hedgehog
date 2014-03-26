@@ -8,7 +8,7 @@
 #include "landscape_model/sources/player/lm_player.hpp"
 
 #include "landscape_model/sources/landscape_serializer/lm_ilandscape_serializer.hpp"
-#include "landscape_model/sources/landscape_handle/lm_model_locker.hpp"
+#include "landscape_model/sources/model_locker/lm_model_locker.hpp"
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
 #include "landscape_model/sources/actions/lm_generate_resources_action.hpp"
@@ -58,7 +58,6 @@ LandscapeModel::LandscapeModel(
 	,	m_currentLandscape()
 	,	m_player()
 	,	m_mutex( QMutex::Recursive )
-	,	m_pathFinder( new JumpPointSearch() )
 	,	m_builders()
 {
 	m_environment.startThread( Resources::ModelThreadName );
@@ -171,7 +170,7 @@ LandscapeModel::selectObject( const Object::Id& _id )
 
 
 void
-LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _pushCommand )
+LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _flush )
 {
 	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
@@ -195,43 +194,17 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _pushCommand 
 			boost::intrusive_ptr< IAttackComponent > attackComponent
 				= ( *begin )->getComponent< IAttackComponent >( ComponentId::Attack );
 
-			if ( targetObject )
+			if ( targetObject && targetObject != *begin && attackComponent )
 			{
-				if ( targetObject != *begin && attackComponent )
-				{
-					attackComponent->setTargetObject( targetObject );
-
-					boost::intrusive_ptr< IAction > action = actionsComponent->getAction( Actions::Attack );
-
-					if ( !action )
-					{
-						actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >(
-								new AttackAction( m_environment, **begin, *handle->getPlayer(), *handle->getLandscape(), m_pathFinder ) ) );
-					}
-				}
+				actionsComponent->pushAction(
+						boost::intrusive_ptr< IAction >( new AttackAction( m_environment, *this, **begin, targetObject ) )
+					,	_flush );
 			}
 			else if ( moveComponent )
 			{
-				moveComponent->getMovingData().m_movingTo = _to;
-
-				boost::intrusive_ptr< IAction > action = actionsComponent->getAction( Actions::Move );
-
-				if ( action )
-				{
-					if ( !moveComponent->getMovingData().m_path.empty() )
-					{
-						QPoint inProgressPoint( moveComponent->getMovingData().m_path.front() );
-						moveComponent->getMovingData().m_path.clear();
-						moveComponent->getMovingData().m_path.push_back( inProgressPoint );
-					}
-				}
-				else
-				{
-					actionsComponent->pushAction(
-						boost::intrusive_ptr< IAction >(
-							new MoveAction( m_environment, **begin, *handle->getLandscape(), m_pathFinder, 0 ) ) );
-				}
+				actionsComponent->pushAction(
+						boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, **begin, _to ) )
+					,	_flush );
 			}
 		}
 	}

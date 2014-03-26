@@ -78,7 +78,7 @@ public:
 
 	/*virtual*/ void selectItemModel( const Core::LandscapeModel::Object::Id& _id ) const;
 
-	/*virtual*/ void sendSelectedObjects( const QPoint& _to, const bool _pushCommand ) const;
+	/*virtual*/ void sendSelectedObjects( const QPoint& _to, const bool _flush ) const;
 
 	/*virtual*/ void createObject( const QPoint& _location, const QString& _name ) const;
 

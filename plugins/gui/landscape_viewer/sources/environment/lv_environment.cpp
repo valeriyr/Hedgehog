@@ -236,9 +236,9 @@ Environment::selectItemModel( const Core::LandscapeModel::Object::Id& _id ) cons
 
 
 void
-Environment::sendSelectedObjects( const QPoint& _to, const bool _pushCommand ) const
+Environment::sendSelectedObjects( const QPoint& _to, const bool _flush ) const
 {
-	m_pluginInstance.getLandscapeModel()->sendSelectedObjects( _to, _pushCommand );
+	m_pluginInstance.getLandscapeModel()->sendSelectedObjects( _to, _flush );
 
 } // Environment::sendSelectedObjects
 

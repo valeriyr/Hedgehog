@@ -362,7 +362,8 @@ Landscape::selectObjects( const QRect& _rect )
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( ( *begin )->getComponent< ILocateComponent >( ComponentId::Locate )->getRect().intersects( _rect ) )
+		if (	( *begin )->getState() != ObjectState::Dying
+			&&	( *begin )->getComponent< ILocateComponent >( ComponentId::Locate )->getRect().intersects( _rect ) )
 		{
 			m_selectedObjects.push_back( *begin );
 		}
@@ -385,7 +386,8 @@ Landscape::selectObject( const Object::Id& _id )
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( ( *begin )->getUniqueId() == _id )
+		if (	( *begin )->getState() != ObjectState::Dying
+			&&	( *begin )->getUniqueId() == _id )
 		{
 			m_selectedObjects.push_back( *begin );
 			break;
