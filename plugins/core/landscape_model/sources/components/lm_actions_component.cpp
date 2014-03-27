@@ -132,15 +132,18 @@ ActionsComponent::processAction( unsigned int _deltaTime )
 				m_actionsCollection.pop_front();
 				continue;
 			}
+		}
 
-			m_actionsCollection.front().m_action->processAction( _deltaTime );
+		break;
+	}
 
-			if ( m_actionsCollection.front().m_action->hasFinished() )
-			{
-				m_actionsCollection.pop_front();
-			}
+	if ( !m_actionsCollection.empty() )
+	{
+		m_actionsCollection.front().m_action->processAction( _deltaTime );
 
-			break;
+		if ( m_actionsCollection.front().m_action->hasFinished() )
+		{
+			m_actionsCollection.pop_front();
 		}
 	}
 

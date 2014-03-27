@@ -54,7 +54,7 @@ BaseAction::cancelProcessing()
 	if ( isInProcessing() )
 		m_isInProcessing = !cancelProcessingInternal();
 
-	return m_isInProcessing;
+	return !m_isInProcessing;
 
 } // BaseAction::cancelProcessing
 
