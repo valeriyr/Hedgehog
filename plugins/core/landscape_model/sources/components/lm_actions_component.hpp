@@ -32,7 +32,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void flushActionsIfNeeded();
+	/*virtual*/ void flushActions( const FlushPolicy::Enum _flushPolicy );
 
 /*---------------------------------------------------------------------------*/
 

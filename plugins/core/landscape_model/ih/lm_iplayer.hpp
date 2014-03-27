@@ -32,7 +32,9 @@ struct IPlayer
 
 	virtual ResourcesData& getResourcesData() = 0;
 
-	virtual void incResource( const QString& _resourceName, const int _incTo ) = 0;
+	virtual void substructResources( const ResourcesData& _data ) = 0;
+
+	virtual void addResources( const ResourcesData& _data ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

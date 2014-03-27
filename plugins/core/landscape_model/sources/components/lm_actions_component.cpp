@@ -67,7 +67,7 @@ ActionsComponent::~ActionsComponent()
 
 
 void
-ActionsComponent::flushActionsIfNeeded()
+ActionsComponent::flushActions( const FlushPolicy::Enum _flushPolicy )
 {
 	ActionsCollectionIterator
 			begin = m_actionsCollection.begin()
@@ -75,7 +75,7 @@ ActionsComponent::flushActionsIfNeeded()
 
 	while ( begin != end )
 	{
-		if ( begin->m_shouldBeFlushed && begin->m_action->cancelProcessing() )
+		if ( ( _flushPolicy == FlushPolicy::Force || begin->m_shouldBeFlushed ) && begin->m_action->cancelProcessing() )
 		{
 			begin = m_actionsCollection.erase( begin );
 		}
@@ -85,7 +85,7 @@ ActionsComponent::flushActionsIfNeeded()
 		}
 	}
 
-} // ActionsComponent::flushActionsIfNeeded
+} // ActionsComponent::flushActions
 
 
 /*---------------------------------------------------------------------------*/
@@ -117,7 +117,7 @@ ActionsComponent::pushAction( boost::intrusive_ptr< IAction > _action, bool _flu
 void
 ActionsComponent::processAction( unsigned int _deltaTime )
 {
-	flushActionsIfNeeded();
+	flushActions( FlushPolicy::AsNeeded );
 
 	while ( !m_actionsCollection.empty() )
 	{

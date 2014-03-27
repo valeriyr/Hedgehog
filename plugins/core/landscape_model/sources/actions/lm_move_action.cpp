@@ -118,6 +118,12 @@ MoveAction::cancelProcessingInternal()
 		boost::intrusive_ptr< IMoveComponent > moveComponent
 			= m_object.getComponent< IMoveComponent >( ComponentId::Move );
 
+		if ( m_object.getState() == ObjectState::Dying )
+		{
+			moveComponent->getMovingData().reset();
+			return true;
+		}
+
 		if ( !moveComponent->getMovingData().m_path.empty() )
 		{
 			QPoint inProgressPoint( moveComponent->getMovingData().m_path.front() );

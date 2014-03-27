@@ -283,44 +283,15 @@ LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _ob
 {
 	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
-	if ( handle->getPlayer() )
+	boost::shared_ptr< Object > object = handle->getLandscape()->getObject( _parentObject );
+
+	if ( object )
 	{
-		boost::shared_ptr< Object > object = handle->getLandscape()->getObject( _parentObject );
+		boost::intrusive_ptr< IActionsComponent > actionsComponent
+			= object->getComponent< IActionsComponent >( ComponentId::Actions );
 
-		if ( object )
-		{
-			boost::intrusive_ptr< ITrainComponent > trainComponent
-				= object->getComponent< ITrainComponent >( ComponentId::Train );
-
-			if ( trainComponent )
-			{
-				ITrainComponent::StaticData::TrainDataCollectionIterator
-					iterator = trainComponent->getStaticData().m_trainObjects.find( _objectName );
-
-				if (	iterator != trainComponent->getStaticData().m_trainObjects.end()
-					&&	handle->getPlayer()->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
-				{
-					handle->getPlayer()->getResourcesData().substruct( iterator->second->m_resourcesData );
-
-					boost::intrusive_ptr< IActionsComponent > actionsComponent
-						= object->getComponent< IActionsComponent >( ComponentId::Actions );
-
-					if ( !actionsComponent->getAction( Actions::Train ) )
-					{
-						actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >(
-								new TrainAction( m_environment, *object, *handle->getPlayer(), *handle->getLandscape(), *this ) ) );
-					}
-
-					trainComponent->getTrainData().m_trainQueue.push_back( _objectName );
-
-					Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
-					trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, object->getUniqueId() );
-	
-					m_environment.riseEvent( trainQueueChangedEvent );
-				}
-			}
-		}
+		actionsComponent->pushAction(
+			boost::intrusive_ptr< IAction >( new TrainAction( m_environment, *this, *object, _objectName ) ) );
 	}
 
 } // LandscapeModel::trainObject

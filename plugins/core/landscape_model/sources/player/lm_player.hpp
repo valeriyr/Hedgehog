@@ -43,7 +43,9 @@ public:
 
 	/*virtual*/ ResourcesData& getResourcesData();
 
-	/*virtual*/ void incResource( const QString& _resourceName, const int _incTo );
+	/*virtual*/ void substructResources( const ResourcesData& _data );
+
+	/*virtual*/ void addResources( const ResourcesData& _data );
 
 /*---------------------------------------------------------------------------*/
 

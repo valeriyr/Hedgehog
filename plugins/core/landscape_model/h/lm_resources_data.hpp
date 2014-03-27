@@ -73,6 +73,23 @@ struct ResourcesData
 		}
 	}
 
+	void add( const ResourcesData& _data )
+	{
+		ResourcesDataCollectionConstIterator
+				begin = _data.m_data.begin()
+			,	end = _data.m_data.end();
+
+		for ( ; begin != end; ++begin )
+		{
+			ResourcesDataCollectionIterator iterator = m_data.find( begin->first );
+
+			if ( iterator == m_data.end() )
+				continue;
+
+			iterator->second += begin->second;
+		}
+	}
+
 	ResourcesDataCollection m_data;
 };
 

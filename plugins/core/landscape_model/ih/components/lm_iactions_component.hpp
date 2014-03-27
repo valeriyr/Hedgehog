@@ -28,13 +28,24 @@ struct IActionsComponent
 
 /*---------------------------------------------------------------------------*/
 
+	struct FlushPolicy
+	{
+		enum Enum
+		{
+				Force = 0
+			,	AsNeeded
+		};
+	};
+
+/*---------------------------------------------------------------------------*/
+
 	typedef
 		boost::shared_ptr< Tools::Core::IIterator< boost::intrusive_ptr< IAction > > >
 		ActionsIterator;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void flushActionsIfNeeded() = 0;
+	virtual void flushActions( const FlushPolicy::Enum _flushPolicy ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

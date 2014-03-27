@@ -77,11 +77,15 @@ GenerateResourcesAction::processAction( const unsigned int _deltaTime )
 			begin = generateResourcesComponent->getStaticData().m_resourcesByMinute.begin()
 		,	end = generateResourcesComponent->getStaticData().m_resourcesByMinute.end();
 
+	ResourcesData resources;
+
 	for ( ; begin != end; ++begin )
 	{
 		int incTo = static_cast< float >( _deltaTime * begin->second ) / 60000;
-		handle->getPlayer( m_object.getPlayerId() )->incResource( begin->first, incTo );
+		resources.pushResource( begin->first, incTo );
 	}
+
+	handle->getPlayer( m_object.getPlayerId() )->addResources( resources );
 
 } // GenerateResourcesAction::processAction
 

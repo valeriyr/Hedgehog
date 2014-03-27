@@ -16,13 +16,6 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPlayer;
-struct ILandscape;
-
-struct ILandscapeModel;
-
-/*---------------------------------------------------------------------------*/
-
 class TrainAction
 	:	public BaseAction
 {
@@ -35,12 +28,17 @@ public:
 
 	TrainAction(
 			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel
 		,	Object& _object
-		,	IPlayer& _player
-		,	ILandscape& _landscape
-		,	ILandscapeModel& _landscapeModel );
+		,	const QString& _trainUnitName );
 
 	virtual ~TrainAction();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool prepareToProcessingInternal();
+
+	/*virtual*/ bool cancelProcessingInternal();
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,11 +56,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	IPlayer& m_player;
+	const QString m_trainUnitName;
 
-	ILandscape& m_landscape;
-
-	ILandscapeModel& m_landscapeModel;
+	bool m_trainingFinished;
 
 /*---------------------------------------------------------------------------*/
 

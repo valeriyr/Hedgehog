@@ -76,18 +76,24 @@ Player::getResourcesData()
 
 
 void
-Player::incResource( const QString& _resourceName, const int _incTo )
+Player::substructResources( const ResourcesData& _data )
 {
-	ResourcesData::ResourcesDataCollectionIterator iterator
-		= m_resourceData.m_data.find( _resourceName );
+	m_resourceData.substruct( _data );
+	m_notifier.pushNotifyFunction( &Player::riseResourcesChanedEvent );
 
-	if ( iterator != m_resourceData.m_data.end() )
-	{
-		iterator->second += _incTo;
-		m_notifier.pushNotifyFunction( &Player::riseResourcesChanedEvent );
-	}
+} // Player::substructResources
 
-} // Player::incResource
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Player::addResources( const ResourcesData& _data )
+{
+	m_resourceData.add( _data );
+	m_notifier.pushNotifyFunction( &Player::riseResourcesChanedEvent );
+
+} // Player::addResources
 
 
 /*---------------------------------------------------------------------------*/
