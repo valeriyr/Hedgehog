@@ -93,37 +93,30 @@ TrainAction::prepareToProcessingInternal()
 bool
 TrainAction::cancelProcessingInternal()
 {
-	if ( isInProcessing() )
+	boost::intrusive_ptr< ITrainComponent > trainComponent
+		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
+
+	trainComponent->getTrainData().reset();
+	m_trainingFinished = true;
+
+	boost::intrusive_ptr< IModelLocker > handle( m_landscapeModel.lockModel() );
+	boost::intrusive_ptr< IPlayer > player = handle->getPlayer( m_object.getPlayerId() );
+
+	if ( player )
 	{
-		boost::intrusive_ptr< ITrainComponent > trainComponent
-			= m_object.getComponent< ITrainComponent >( ComponentId::Train );
+		ITrainComponent::StaticData::TrainDataCollectionIterator
+			iterator = trainComponent->getStaticData().m_trainObjects.find( m_trainUnitName );
 
-		trainComponent->getTrainData().m_trainingObjectName.clear();
-		m_trainingFinished = true;
-
-		boost::intrusive_ptr< IModelLocker > handle( m_landscapeModel.lockModel() );
-		boost::intrusive_ptr< IPlayer > player = handle->getPlayer( m_object.getPlayerId() );
-
-		if ( player )
+		if ( iterator != trainComponent->getStaticData().m_trainObjects.end() )
 		{
-			boost::intrusive_ptr< ITrainComponent > trainComponent
-				= m_object.getComponent< ITrainComponent >( ComponentId::Train );
-
-			if ( trainComponent )
-			{
-				ITrainComponent::StaticData::TrainDataCollectionIterator
-					iterator = trainComponent->getStaticData().m_trainObjects.find( m_trainUnitName );
-
-				if ( iterator != trainComponent->getStaticData().m_trainObjects.end() )
-				{
-					player->addResources( iterator->second->m_resourcesData );
-				}
-			}
+			player->addResources( iterator->second->m_resourcesData );
 		}
-
-		Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
-		trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() );
 	}
+
+	Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
+	trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() );
+
+	m_environment.riseEvent( trainQueueChangedEvent );
 
 	return true;
 

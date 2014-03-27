@@ -89,9 +89,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::shared_ptr< Object > createObject(
+	/*virtual*/ boost::shared_ptr< Object > create(
 			const QPoint& _location
-		,	const QString& _objectName ) const;
+		,	const QString& _objectName );
 
 /*---------------------------------------------------------------------------*/
 

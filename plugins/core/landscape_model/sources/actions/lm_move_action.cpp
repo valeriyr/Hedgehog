@@ -113,33 +113,28 @@ MoveAction::prepareToProcessingInternal()
 bool
 MoveAction::cancelProcessingInternal()
 {
-	if ( isInProcessing() )
+	boost::intrusive_ptr< IMoveComponent > moveComponent
+		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
+
+	if ( m_object.getState() == ObjectState::Dying )
 	{
-		boost::intrusive_ptr< IMoveComponent > moveComponent
-			= m_object.getComponent< IMoveComponent >( ComponentId::Move );
+		moveComponent->getMovingData().reset();
+		return true;
+	}
 
-		if ( m_object.getState() == ObjectState::Dying )
-		{
-			moveComponent->getMovingData().reset();
-			return true;
-		}
+	if ( !moveComponent->getMovingData().m_path.empty() )
+	{
+		QPoint inProgressPoint( moveComponent->getMovingData().m_path.front() );
 
-		if ( !moveComponent->getMovingData().m_path.empty() )
-		{
-			QPoint inProgressPoint( moveComponent->getMovingData().m_path.front() );
+		moveComponent->getMovingData().m_path.clear();
+		moveToLocation( inProgressPoint );
+		moveComponent->getMovingData().m_path.push_back( inProgressPoint );
 
-			moveComponent->getMovingData().m_path.clear();
-
-			moveToLocation( inProgressPoint );
-
-			moveComponent->getMovingData().m_path.push_back( inProgressPoint );
-
-			return false;
-		}
-		else
-		{
-			moveComponent->getMovingData().reset();
-		}
+		return false;
+	}
+	else
+	{
+		moveComponent->getMovingData().reset();
 	}
 
 	return true;

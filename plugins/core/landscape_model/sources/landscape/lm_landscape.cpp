@@ -26,7 +26,7 @@ namespace LandscapeModel {
 Landscape::Landscape(
 		const ISurfaceItemsCache& _surfaceItemsCache
 	,	const IStaticData& _staticData
-	,	const IObjectCreator& _objectCreator
+	,	IObjectCreator& _objectCreator
 	)
 	:	m_surfaceItemsCache( _surfaceItemsCache )
 	,	m_staticData( _staticData )
@@ -240,7 +240,7 @@ Landscape::createObject( const QPoint& _location, const QString& _objectName )
 
 	if ( canObjectBePlaced( _location, _objectName ) )
 	{
-		boost::shared_ptr< Object > object = m_objectCreator.createObject( _location, _objectName );
+		boost::shared_ptr< Object > object = m_objectCreator.create( _location, _objectName );
 
 		m_objects.push_back( object );
 

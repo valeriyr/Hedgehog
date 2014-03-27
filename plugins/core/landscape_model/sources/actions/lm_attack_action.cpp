@@ -72,18 +72,13 @@ AttackAction::prepareToProcessingInternal()
 bool
 AttackAction::cancelProcessingInternal()
 {
-	if ( isInProcessing() )
-	{
-		boost::intrusive_ptr< IAttackComponent > attackComponent
-			= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
+	boost::intrusive_ptr< IAttackComponent > attackComponent
+		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
 
-		attackComponent->setTargetObject( boost::shared_ptr< Object >() );
-		m_attakingFinished = true;
+	attackComponent->setTargetObject( boost::shared_ptr< Object >() );
+	m_attakingFinished = true;
 
-		return !m_moveAction || m_moveAction->cancelProcessing();
-	}
-
-	return true;
+	return !m_moveAction || m_moveAction->cancelProcessing();
 
 } // AttackAction::cancelProcessingInternal
 
@@ -136,7 +131,7 @@ AttackAction::processAction( const unsigned int _deltaTime )
 			if ( m_moveAction->hasFinished() )
 				m_moveAction.reset();
 		}
-		else
+		else if ( !m_attakingFinished )
 		{
 			bool stateChanged = false;
 			bool readyToAttack = false;

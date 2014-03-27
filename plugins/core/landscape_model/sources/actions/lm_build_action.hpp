@@ -16,12 +16,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IPlayer;
-struct ILandscape;
-
-struct ILandscapeModel;
-struct IPathFinder;
-struct IStaticData;
+class MoveAction;
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,14 +32,18 @@ public:
 
 	BuildAction(
 			const IEnvironment& _environment
-		,	Object& _object
-		,	IPlayer& _player
-		,	ILandscape& _landscape
 		,	ILandscapeModel& _landscapeModel
-		,	const IStaticData& _staticData
-		,	boost::intrusive_ptr< IPathFinder > _pathFinder );
+		,	Object& _object
+		,	const QString& _objectName
+		,	const QPoint& _atLocation );
 
 	virtual ~BuildAction();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool prepareToProcessingInternal();
+
+	/*virtual*/ bool cancelProcessingInternal();
 
 /*---------------------------------------------------------------------------*/
 
@@ -62,17 +61,13 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	IPlayer& m_player;
+	const QString m_objectName;
 
-	ILandscape& m_landscape;
+	const QPoint m_atLocation;
 
-	ILandscapeModel& m_landscapeModel;
+	bool m_buildingFinished;
 
-	const IStaticData& m_staticData;
-
-	boost::intrusive_ptr< IPathFinder > m_pathFinder;
-
-	boost::intrusive_ptr< IAction > m_moveAction;
+	boost::intrusive_ptr< MoveAction > m_moveAction;
 
 /*---------------------------------------------------------------------------*/
 

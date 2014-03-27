@@ -63,15 +63,23 @@ struct IBuildComponent
 	struct Data
 	{
 		Data()
-			:	m_buildProgress( 0.0f )
+			:	m_objectName()
+			,	m_atLocation()
+			,	m_buildProgress( 0.0f )
 			,	m_objectId( Object::ms_wrongId )
 		{}
 
 		void reset()
 		{
-			 m_buildProgress = 0.0f;
-			 m_objectId = Object::ms_wrongId;
+			m_objectName.clear();
+			m_atLocation = QPoint();
+			m_buildProgress = 0.0f;
+			m_objectId = Object::ms_wrongId;
 		}
+
+		QString m_objectName;
+
+		QPoint m_atLocation;
 
 		float m_buildProgress;
 

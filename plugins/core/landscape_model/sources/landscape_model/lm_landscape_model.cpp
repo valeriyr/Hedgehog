@@ -194,11 +194,14 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _flush )
 			boost::intrusive_ptr< IAttackComponent > attackComponent
 				= ( *begin )->getComponent< IAttackComponent >( ComponentId::Attack );
 
-			if ( targetObject && targetObject != *begin && attackComponent )
+			if ( targetObject )
 			{
-				actionsComponent->pushAction(
-						boost::intrusive_ptr< IAction >( new AttackAction( m_environment, *this, **begin, targetObject ) )
-					,	_flush );
+				if ( targetObject != *begin && attackComponent )
+				{
+					actionsComponent->pushAction(
+							boost::intrusive_ptr< IAction >( new AttackAction( m_environment, *this, **begin, targetObject ) )
+						,	_flush );
+				}
 			}
 			else if ( moveComponent )
 			{
@@ -291,7 +294,7 @@ LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _ob
 			= object->getComponent< IActionsComponent >( ComponentId::Actions );
 
 		actionsComponent->pushAction(
-			boost::intrusive_ptr< IAction >( new TrainAction( m_environment, *this, *object, _objectName ) ) );
+			boost::intrusive_ptr< IAction >( new TrainAction( m_environment, *this, *object, _objectName ) ), false );
 	}
 
 } // LandscapeModel::trainObject
@@ -305,44 +308,15 @@ LandscapeModel::buildObject( const Object::Id& _builder, const QString& _objectN
 {
 	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
-	if ( handle->getPlayer() )
+	boost::shared_ptr< Object > object = handle->getLandscape()->getObject( _builder );
+
+	if ( object )
 	{
-		boost::shared_ptr< Object > object = handle->getLandscape()->getObject( _builder );
+		boost::intrusive_ptr< IActionsComponent > actionsComponent
+			= object->getComponent< IActionsComponent >( ComponentId::Actions );
 
-		if ( object )
-		{
-			boost::intrusive_ptr< IBuildComponent > buildComponent
-				= object->getComponent< IBuildComponent >( ComponentId::Build );
-
-			if ( buildComponent )
-			{
-				IBuildComponent::StaticData::BuildDataCollectionIterator
-					iterator = buildComponent->getStaticData().m_buildDatas.find( _objectName );
-
-				if (	iterator != buildComponent->getStaticData().m_buildDatas.end()
-					&&	handle->getPlayer()->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
-				{
-					handle->getPlayer()->getResourcesData().substruct( iterator->second->m_resourcesData );
-
-					boost::intrusive_ptr< IActionsComponent > actionsComponent
-						= object->getComponent< IActionsComponent >( ComponentId::Actions );
-
-					if ( !actionsComponent->getAction( Actions::Build ) )
-					{
-						actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >(
-								new BuildAction( m_environment, *object, *handle->getPlayer(), *handle->getLandscape(), *this, m_staticData, m_pathFinder ) ) );
-					}
-
-					buildComponent->getBuildData().m_buildQueue.push_back( std::make_pair( _objectName, _atLocation ) );
-
-					Framework::Core::EventManager::Event buildQueueChangedEvent( Events::BuildQueueChanged::ms_type );
-					buildQueueChangedEvent.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, object->getUniqueId() );
-	
-					m_environment.riseEvent( buildQueueChangedEvent );
-				}
-			}
-		}
+		actionsComponent->pushAction(
+			boost::intrusive_ptr< IAction >( new BuildAction( m_environment, *this, *object, _objectName, _atLocation ) ), true );
 	}
 
 } // LandscapeModel::buildObject
@@ -459,7 +433,7 @@ LandscapeModel::stopBuild( const Object::Id& _id )
 
 
 boost::shared_ptr< Object >
-LandscapeModel::createObject( const QPoint& _location, const QString& _objectName ) const
+LandscapeModel::create( const QPoint& _location, const QString& _objectName )
 {
 	IStaticData::ObjectStaticData staticData = m_staticData.getObjectStaticData( _objectName );
 
@@ -512,12 +486,12 @@ LandscapeModel::createObject( const QPoint& _location, const QString& _objectNam
 
 		boost::intrusive_ptr< IActionsComponent > actionsComponent
 			= object->getComponent< IActionsComponent >( ComponentId::Actions );
-		actionsComponent->pushPeriodicalAction( boost::intrusive_ptr< IAction >( new GenerateResourcesAction( m_environment, *object, *m_player ) ) );
+		actionsComponent->pushPeriodicalAction( boost::intrusive_ptr< IAction >( new GenerateResourcesAction( m_environment, *this, *object ) ) );
 	}
 
 	return object;
 
-} // LandscapeModel::createObject
+} // LandscapeModel::create
 
 
 /*---------------------------------------------------------------------------*/

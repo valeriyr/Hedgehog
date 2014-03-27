@@ -19,9 +19,9 @@ struct IObjectCreator
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::shared_ptr< Object > createObject(
+	virtual boost::shared_ptr< Object > create(
 			const QPoint& _location
-		,	const QString& _objectName ) const = 0;
+		,	const QString& _objectName ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
