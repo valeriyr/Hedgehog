@@ -174,7 +174,7 @@ ObjectStatusView::updateBuildQueue()
 {
 	clear();
 
-	if ( m_builderId != Core::LandscapeModel::Object::ms_wrongId )
+	/*if ( m_builderId != Core::LandscapeModel::Object::ms_wrongId )
 	{
 		boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 			= m_environment.lockModel();
@@ -208,7 +208,7 @@ ObjectStatusView::updateBuildQueue()
 				}
 			}
 		}
-	}
+	}*/
 
 } // ObjectStatusView::updateBuildQueue
 

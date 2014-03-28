@@ -51,38 +51,12 @@ TrainAction::~TrainAction()
 bool
 TrainAction::prepareToProcessingInternal()
 {
-	boost::intrusive_ptr< IModelLocker > handle( m_landscapeModel.lockModel() );
-
-	boost::intrusive_ptr< IPlayer > player = handle->getPlayer( m_object.getPlayerId() );
-
-	if ( !player )
-		return false;
-
 	boost::intrusive_ptr< ITrainComponent > trainComponent
 		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
 
-	if ( trainComponent )
-	{
-		ITrainComponent::StaticData::TrainDataCollectionIterator
-			iterator = trainComponent->getStaticData().m_trainObjects.find( m_trainUnitName );
+	trainComponent->getTrainData().m_trainingObjectName = m_trainUnitName;
 
-		if (	iterator != trainComponent->getStaticData().m_trainObjects.end()
-			&&	player->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
-		{
-			player->substructResources( iterator->second->m_resourcesData );
-
-			trainComponent->getTrainData().m_trainingObjectName = m_trainUnitName;
-
-			Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
-			trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() );
-	
-			m_environment.riseEvent( trainQueueChangedEvent );
-
-			return true;
-		}
-	}
-
-	return false;
+	return true;
 
 } // TrainAction::prepareToProcessingInternal
 
@@ -91,7 +65,7 @@ TrainAction::prepareToProcessingInternal()
 
 
 bool
-TrainAction::cancelProcessingInternal()
+TrainAction::cancelProcessing()
 {
 	boost::intrusive_ptr< ITrainComponent > trainComponent
 		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
@@ -118,9 +92,11 @@ TrainAction::cancelProcessingInternal()
 
 	m_environment.riseEvent( trainQueueChangedEvent );
 
+	m_isInProcessing = false;
+
 	return true;
 
-} // TrainAction::cancelProcessingInternal
+} // TrainAction::cancelProcessing
 
 
 /*---------------------------------------------------------------------------*/

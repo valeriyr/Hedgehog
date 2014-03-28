@@ -162,8 +162,8 @@ BuildAction::processAction( const unsigned int _deltaTime )
 
 		QPoint nearestPoint = Geometry::getNearestPoint( locateComponent->getLocation(), buildData.m_atLocation );
 
-		if (	Geometry::getDistance( locateComponent->getLocation(), nearestPoint ) > 1.0f
-			&&	!m_moveAction )
+		if (	!m_moveAction
+			&&	Geometry::getDistance( locateComponent->getLocation(), nearestPoint ) > 1.0f )
 		{
 			m_moveAction.reset(
 				new MoveAction(
@@ -171,6 +171,8 @@ BuildAction::processAction( const unsigned int _deltaTime )
 					,	m_landscapeModel
 					,	m_object
 					,	nearestPoint ) );
+
+			m_moveAction->prepareToProcessing();
 		}
 
 		// Do action

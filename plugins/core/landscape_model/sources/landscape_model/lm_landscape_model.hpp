@@ -76,7 +76,11 @@ public:
 
 	/*virtual*/ void trainObject( const Object::Id& _parentObject, const QString& _objectName );
 
-	/*virtual*/ void buildObject( const Object::Id& _builder, const QString& _objectName, const QPoint& _atLocation );
+	/*virtual*/ void buildObject(
+			const Object::Id& _builder
+		,	const QString& _objectName
+		,	const QPoint& _atLocation
+		,	const bool _flush );
 
 /*---------------------------------------------------------------------------*/
 

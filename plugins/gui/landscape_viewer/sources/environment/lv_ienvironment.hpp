@@ -127,7 +127,11 @@ struct IEnvironment
 
 	virtual void trainObject( const Core::LandscapeModel::Object::Id& _parentId, const QString& _objectName ) const = 0;
 
-	virtual void buildObject( const Core::LandscapeModel::Object::Id& _builderId, const QString& _objectName, const QPoint& _atLocation ) const = 0;
+	virtual void buildObject(
+			const Core::LandscapeModel::Object::Id& _builderId
+		,	const QString& _objectName
+		,	const QPoint& _atLocation
+		,	const bool _flush ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

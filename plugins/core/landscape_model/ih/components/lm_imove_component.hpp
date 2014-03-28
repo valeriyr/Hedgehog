@@ -50,6 +50,16 @@ struct IMoveComponent
 			m_movingToObject.reset();
 		}
 
+		void leaveOnlyFirstPoint()
+		{
+			if ( !m_path.empty() )
+			{
+				QPoint inProgressPoint( m_path.front() );
+				m_path.clear();
+				m_path.push_back( inProgressPoint );
+			}
+		}
+
 		IPathFinder::PointsCollection m_path;
 		float m_movingProgress;
 		QPoint m_movingTo;

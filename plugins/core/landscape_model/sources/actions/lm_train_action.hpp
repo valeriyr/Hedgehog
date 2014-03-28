@@ -38,7 +38,7 @@ public:
 
 	/*virtual*/ bool prepareToProcessingInternal();
 
-	/*virtual*/ bool cancelProcessingInternal();
+	/*virtual*/ bool cancelProcessing();
 
 /*---------------------------------------------------------------------------*/
 

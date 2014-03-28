@@ -179,6 +179,8 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 		// Check if goal reached
 
+		bool goalReached = false;
+
 		if ( moveComponent->getMovingData().m_movingToObject )
 		{
 			boost::intrusive_ptr< ILocateComponent > targetLocateComponent
@@ -186,121 +188,115 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 			if ( Geometry::checkDistance( locateComponent->getLocation(), targetLocateComponent->getRect(), m_distance ) )
 			{
-				m_movingFinished = true;
+				goalReached = true;
 			}
 		}
 		else if ( Geometry::checkDistance( locateComponent->getLocation(), movingData.m_movingTo, m_distance ) )
 		{
-			m_movingFinished = true;
+			goalReached = true;
 		}
 
-		// If goal is not reached
+		if ( goalReached )
+		{
+			moveComponent->getMovingData().leaveOnlyFirstPoint();
+		}
+
+		// Check that our path is correct
+
+		if ( moveComponent->getMovingData().m_movingToObject )
+		{
+			boost::intrusive_ptr< ILocateComponent > targetLocateComponent
+				= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+
+			if ( targetLocateComponent->getLocation() != m_lastTargetObjectLocation )
+			{
+				m_lastTargetObjectLocation = targetLocateComponent->getLocation();
+				moveComponent->getMovingData().leaveOnlyFirstPoint();
+			}
+		}
+
+		// Calculate new path
+
+		if ( movingData.m_path.empty() )
+		{
+			IMoveComponent::MovingData newMovingData;
+			newMovingData.m_movingTo = moveComponent->getMovingData().m_movingTo;
+			newMovingData.m_movingToObject = moveComponent->getMovingData().m_movingToObject;
+
+			IPathFinder::PointsCollection targetPoints;
+			fillPossibleTargetPoints( targetPoints, moveComponent->getMovingData(), *handle->getLandscape() );
+
+			m_pathFinder->findPath( newMovingData.m_path, *handle->getLandscape(), m_object, targetPoints );
+
+			if ( newMovingData.m_path.empty() )
+			{
+				m_movingFinished = true;
+			}
+			else
+			{
+				movingData = newMovingData;
+
+				handle->getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
+				handle->getLandscape()->setEngaged( movingData.m_path.front(), locateComponent->getStaticData().m_emplacement, true );
+			}
+		}
+
+		// Do moving
 
 		if ( !m_movingFinished )
 		{
-			// Check that our path is correct
+			float movingDelta = ( static_cast< float >( _deltaTime ) / moveComponent->getStaticData().m_movingSpeed );
+			movingData.m_movingProgress += movingDelta;
 
-			if ( moveComponent->getMovingData().m_movingToObject )
+			while ( movingData.m_movingProgress >= 1.0f )
 			{
-				boost::intrusive_ptr< ILocateComponent > targetLocateComponent
-					= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+				movingData.m_movingProgress = movingData.m_movingProgress - 1.0f;
 
-				if ( targetLocateComponent->getLocation() != m_lastTargetObjectLocation )
-				{
-					m_lastTargetObjectLocation = targetLocateComponent->getLocation();
+				QPoint location( QPoint( movingData.m_path.front() ) );
 
-					if ( !movingData.m_path.empty() )
-					{
-						QPoint inProgressPoint( moveComponent->getMovingData().m_path.front() );
-						moveComponent->getMovingData().m_path.clear();
-						moveComponent->getMovingData().m_path.push_back( inProgressPoint );
-					}
-				}
-			}
+				locateComponent->setLocation( location );
 
-			// Calculate new path
-
-			if ( movingData.m_path.empty() )
-			{
-				IMoveComponent::MovingData newMovingData;
-				newMovingData.m_movingTo = moveComponent->getMovingData().m_movingTo;
-				newMovingData.m_movingToObject = moveComponent->getMovingData().m_movingToObject;
-
-				IPathFinder::PointsCollection targetPoints;
-				fillPossibleTargetPoints( targetPoints, moveComponent->getMovingData(), *handle->getLandscape() );
-
-				m_pathFinder->findPath( newMovingData.m_path, *handle->getLandscape(), m_object, targetPoints );
-
-				if ( newMovingData.m_path.empty() )
-				{
-					m_movingFinished = true;
-				}
-				else
-				{
-					movingData = newMovingData;
-
-					handle->getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
-					handle->getLandscape()->setEngaged( movingData.m_path.front(), locateComponent->getStaticData().m_emplacement, true );
-				}
-			}
-
-			// Do moving
-
-			if ( !m_movingFinished )
-			{
-				float movingDelta = ( static_cast< float >( _deltaTime ) / moveComponent->getStaticData().m_movingSpeed );
-				movingData.m_movingProgress += movingDelta;
-
-				while ( movingData.m_movingProgress >= 1.0f )
-				{
-					movingData.m_movingProgress = movingData.m_movingProgress - 1.0f;
-
-					QPoint location( QPoint( movingData.m_path.front() ) );
-
-					locateComponent->setLocation( location );
-
-					movingData.m_path.pop_front();
-
-					if ( !movingData.m_path.empty() )
-					{
-						if ( handle->getLandscape()->canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getName() ) )
-						{
-							handle->getLandscape()->setEngaged( location, locateComponent->getStaticData().m_emplacement, false );
-							handle->getLandscape()->setEngaged( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData().m_emplacement, true );
-						}
-						else
-						{
-							movingData.m_path.clear();
-						}
-					}
-
-					if ( movingData.m_path.empty() )
-						break;
-				}
+				movingData.m_path.pop_front();
 
 				if ( !movingData.m_path.empty() )
 				{
-					Direction::Enum currentDirection = locateComponent->getDirection();
-
-					QPoint currentLocation( locateComponent->getLocation() );
-					QPoint nextLocation = movingData.m_path.front();
-
-					Direction::Enum nextDirection = Direction::getDirection( currentLocation, nextLocation );
-
-					ObjectState::Enum currentState = m_object.getState();
-					ObjectState::Enum nextState = ObjectState::Moving;
-
-					if ( currentDirection != nextDirection || currentState != nextState )
+					if ( handle->getLandscape()->canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getName() ) )
 					{
-						locateComponent->setDirection( nextDirection );
-						m_object.setState( nextState );
-
-						unitChangeState = true;
+						handle->getLandscape()->setEngaged( location, locateComponent->getStaticData().m_emplacement, false );
+						handle->getLandscape()->setEngaged( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData().m_emplacement, true );
+					}
+					else
+					{
+						movingData.m_path.clear();
 					}
 				}
 
-				unitMoved = true;
+				if ( movingData.m_path.empty() )
+					break;
 			}
+
+			if ( !movingData.m_path.empty() )
+			{
+				Direction::Enum currentDirection = locateComponent->getDirection();
+
+				QPoint currentLocation( locateComponent->getLocation() );
+				QPoint nextLocation = movingData.m_path.front();
+
+				Direction::Enum nextDirection = Direction::getDirection( currentLocation, nextLocation );
+
+				ObjectState::Enum currentState = m_object.getState();
+				ObjectState::Enum nextState = ObjectState::Moving;
+
+				if ( currentDirection != nextDirection || currentState != nextState )
+				{
+					locateComponent->setDirection( nextDirection );
+					m_object.setState( nextState );
+
+					unitChangeState = true;
+				}
+			}
+
+			unitMoved = true;
 		}
 	}
 

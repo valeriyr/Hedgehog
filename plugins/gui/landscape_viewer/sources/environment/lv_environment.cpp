@@ -280,9 +280,13 @@ Environment::trainObject( const Core::LandscapeModel::Object::Id& _parentId, con
 
 
 void
-Environment::buildObject( const Core::LandscapeModel::Object::Id& _builderId, const QString& _objectName, const QPoint& _atLocation ) const
+Environment::buildObject(
+		const Core::LandscapeModel::Object::Id& _builderId
+	,	const QString& _objectName
+	,	const QPoint& _atLocation
+	,	const bool _flush ) const
 {
-	m_pluginInstance.getLandscapeModel()->buildObject( _builderId, _objectName, _atLocation );
+	m_pluginInstance.getLandscapeModel()->buildObject( _builderId, _objectName, _atLocation, _flush );
 
 } // Environment::buildObject
 

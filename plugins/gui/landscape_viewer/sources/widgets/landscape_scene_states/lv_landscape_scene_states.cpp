@@ -517,10 +517,11 @@ LandscapeObjectBuildState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEven
 		if ( objectPixmap.height() > ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
 			ypos += ( objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2;
 
-		m_environment.buildObject( m_builderId, m_name, LandscapeScene::convertFromScenePosition( QPointF( xpos, ypos ) ) );
-
-		// After call of the onControlItemSelected method LandscapeObjectBuildState can be deleted. So it's should be last call in this method.
-		m_scene.onControlItemSelected();
+		m_environment.buildObject(
+				m_builderId
+			,	m_name
+			,	LandscapeScene::convertFromScenePosition( QPointF( xpos, ypos ) )
+			,	!( _mouseEvent->modifiers() & Qt::ShiftModifier ) );
 	}
 
 } // LandscapeObjectBuildState::mousePressEvent
@@ -541,6 +542,9 @@ LandscapeObjectBuildState::mouseMoveEvent( QGraphicsSceneMouseEvent* _mouseEvent
 void
 LandscapeObjectBuildState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEvent )
 {
+	// After call of the onControlItemSelected method LandscapeObjectBuildState can be deleted. So it's should be last call in this method.
+	m_scene.onControlItemSelected();
+
 } // LandscapeObjectBuildState::mouseReleaseEvent
 
 

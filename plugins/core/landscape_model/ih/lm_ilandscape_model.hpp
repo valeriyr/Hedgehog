@@ -59,7 +59,11 @@ struct ILandscapeModel
 
 	virtual void trainObject( const Object::Id& _parentObject, const QString& _objectName ) = 0;
 
-	virtual void buildObject( const Object::Id& _builder, const QString& _objectName, const QPoint& _atLocation ) = 0;
+	virtual void buildObject(
+			const Object::Id& _builder
+		,	const QString& _objectName
+		,	const QPoint& _atLocation
+		,	const bool _flush ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

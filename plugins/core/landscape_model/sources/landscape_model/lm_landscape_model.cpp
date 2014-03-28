@@ -290,11 +290,35 @@ LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _ob
 
 	if ( object )
 	{
-		boost::intrusive_ptr< IActionsComponent > actionsComponent
-			= object->getComponent< IActionsComponent >( ComponentId::Actions );
+		boost::intrusive_ptr< IPlayer > player = handle->getPlayer( object->getPlayerId() );
 
-		actionsComponent->pushAction(
-			boost::intrusive_ptr< IAction >( new TrainAction( m_environment, *this, *object, _objectName ) ), false );
+		if ( player )
+		{
+			boost::intrusive_ptr< IActionsComponent > actionsComponent
+				= object->getComponent< IActionsComponent >( ComponentId::Actions );
+			boost::intrusive_ptr< ITrainComponent > trainComponent
+				= object->getComponent< ITrainComponent >( ComponentId::Train );
+
+			if ( trainComponent )
+			{
+				ITrainComponent::StaticData::TrainDataCollectionIterator
+					iterator = trainComponent->getStaticData().m_trainObjects.find( _objectName );
+
+				if (	iterator != trainComponent->getStaticData().m_trainObjects.end()
+					&&	player->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
+				{
+					player->substructResources( iterator->second->m_resourcesData );
+
+					actionsComponent->pushAction(
+						boost::intrusive_ptr< IAction >( new TrainAction( m_environment, *this, *object, _objectName ) ), false );
+
+					Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
+					trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, object->getUniqueId() );
+	
+					m_environment.riseEvent( trainQueueChangedEvent );
+				}
+			}
+		}
 	}
 
 } // LandscapeModel::trainObject
@@ -304,7 +328,11 @@ LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _ob
 
 
 void
-LandscapeModel::buildObject( const Object::Id& _builder, const QString& _objectName, const QPoint& _atLocation )
+LandscapeModel::buildObject(
+		const Object::Id& _builder
+	,	const QString& _objectName
+	,	const QPoint& _atLocation
+	,	const bool _flush )
 {
 	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
 
@@ -316,7 +344,7 @@ LandscapeModel::buildObject( const Object::Id& _builder, const QString& _objectN
 			= object->getComponent< IActionsComponent >( ComponentId::Actions );
 
 		actionsComponent->pushAction(
-			boost::intrusive_ptr< IAction >( new BuildAction( m_environment, *this, *object, _objectName, _atLocation ) ), true );
+			boost::intrusive_ptr< IAction >( new BuildAction( m_environment, *this, *object, _objectName, _atLocation ) ), _flush );
 	}
 
 } // LandscapeModel::buildObject

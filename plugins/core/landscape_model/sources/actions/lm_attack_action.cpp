@@ -96,9 +96,6 @@ AttackAction::processAction( const unsigned int _deltaTime )
 	boost::intrusive_ptr< ILocateComponent > locateComponent
 		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 
-	boost::intrusive_ptr< ILocateComponent > targetObjectLocate
-		= attackComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate );
-
 	// Check if object is dying
 
 	if ( m_object.getState() == ObjectState::Dying )
@@ -109,9 +106,13 @@ AttackAction::processAction( const unsigned int _deltaTime )
 	{
 		// Check distance
 
-		if (	Geometry::getDistance( locateComponent->getLocation(), Geometry::getNearestPoint( locateComponent->getLocation(), targetObjectLocate->getRect() ) )
-			>	attackComponent->getStaticData().m_distance
-			&&	!m_moveAction )
+		if (	!m_moveAction
+			&&	Geometry::getDistance(
+						locateComponent->getLocation()
+					,	Geometry::getNearestPoint(
+								locateComponent->getLocation()
+							,	attackComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate )->getRect() ) )
+			>	attackComponent->getStaticData().m_distance )
 		{
 			m_moveAction.reset(
 				new MoveAction(
@@ -120,6 +121,8 @@ AttackAction::processAction( const unsigned int _deltaTime )
 					,	m_object
 					,	attackComponent->getTargetObject()
 					,	attackComponent->getStaticData().m_distance ) );
+
+			m_moveAction->prepareToProcessing();
 		}
 
 		// Do action
@@ -133,6 +136,9 @@ AttackAction::processAction( const unsigned int _deltaTime )
 		}
 		else if ( !m_attakingFinished )
 		{
+			boost::intrusive_ptr< ILocateComponent > targetObjectLocate
+				= attackComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate );
+
 			bool stateChanged = false;
 			bool readyToAttack = false;
 
