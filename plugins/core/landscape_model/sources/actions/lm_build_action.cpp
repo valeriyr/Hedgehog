@@ -60,39 +60,18 @@ BuildAction::~BuildAction()
 bool
 BuildAction::prepareToProcessingInternal()
 {
-	boost::intrusive_ptr< IModelLocker > handle( m_landscapeModel.lockModel() );
-
-	boost::intrusive_ptr< IPlayer > player = handle->getPlayer( m_object.getPlayerId() );
-
-	if ( !player )
-		return false;
-
 	boost::intrusive_ptr< IBuildComponent > buildComponent
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
 
-	if ( buildComponent )
-	{
-		IBuildComponent::StaticData::BuildDataCollectionIterator
-			iterator = buildComponent->getStaticData().m_buildDatas.find( m_objectName );
+	buildComponent->getBuildData().m_objectName = m_objectName;
+	buildComponent->getBuildData().m_atLocation = m_atLocation;
 
-		if (	iterator != buildComponent->getStaticData().m_buildDatas.end()
-			&&	player->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
-		{
-			player->substructResources( iterator->second->m_resourcesData );
+	Framework::Core::EventManager::Event buildQueueChangedEvent( Events::BuildQueueChanged::ms_type );
+	buildQueueChangedEvent.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
 
-			buildComponent->getBuildData().m_objectName = m_objectName;
-			buildComponent->getBuildData().m_atLocation = m_atLocation;
+	m_environment.riseEvent( buildQueueChangedEvent );
 
-			Framework::Core::EventManager::Event buildQueueChangedEvent( Events::BuildQueueChanged::ms_type );
-			buildQueueChangedEvent.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
-	
-			m_environment.riseEvent( buildQueueChangedEvent );
-
-			return true;
-		}
-	}
-
-	return false;
+	return true;
 
 } // BuildAction::prepareToProcessingInternal
 
@@ -106,22 +85,25 @@ BuildAction::cancelProcessingInternal()
 	boost::intrusive_ptr< IBuildComponent > buildComponent
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
 
-	buildComponent->getBuildData().reset();
-	m_buildingFinished = true;
-
-	boost::intrusive_ptr< IModelLocker > handle( m_landscapeModel.lockModel() );
-	boost::intrusive_ptr< IPlayer > player = handle->getPlayer( m_object.getPlayerId() );
-
-	if ( player )
+	if ( buildComponent->getBuildData().m_buildProgress != 0.0f )
 	{
-		IBuildComponent::StaticData::BuildDataCollectionIterator
-			iterator = buildComponent->getStaticData().m_buildDatas.find( m_objectName );
+		boost::intrusive_ptr< IModelLocker > handle( m_landscapeModel.lockModel() );
+		boost::intrusive_ptr< IPlayer > player = handle->getPlayer( m_object.getPlayerId() );
 
-		if ( iterator != buildComponent->getStaticData().m_buildDatas.end() )
+		if ( player )
 		{
-			player->addResources( iterator->second->m_resourcesData );
+			IBuildComponent::StaticData::BuildDataCollectionIterator
+				iterator = buildComponent->getStaticData().m_buildDatas.find( m_objectName );
+
+			if ( iterator != buildComponent->getStaticData().m_buildDatas.end() )
+			{
+				player->addResources( iterator->second->m_resourcesData );
+			}
 		}
 	}
+
+	buildComponent->getBuildData().reset();
+	m_buildingFinished = true;
 
 	Framework::Core::EventManager::Event buildQueueChangedEvent( Events::BuildQueueChanged::ms_type );
 	buildQueueChangedEvent.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
@@ -192,18 +174,28 @@ BuildAction::processAction( const unsigned int _deltaTime )
 			{
 				handle->getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
 
+				boost::intrusive_ptr< IPlayer > player = handle->getPlayer( m_object.getPlayerId() );
+
 				bool newObjectCanBePlaced
 					= handle->getLandscape()->canObjectBePlaced( buildData.m_atLocation, buildData.m_objectName );
 
-				if ( newObjectCanBePlaced )
-				{
-					m_landscapeModel.startBuild( m_object.getUniqueId(), buildData.m_objectName, buildData.m_atLocation );
-				}
-				else
+				IBuildComponent::StaticData::BuildDataCollectionIterator
+					iterator = buildComponent->getStaticData().m_buildDatas.find( m_objectName );
+
+				if (	!newObjectCanBePlaced
+					||	!player
+					||	iterator == buildComponent->getStaticData().m_buildDatas.end()
+					||	!player->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
 				{
 					handle->getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );
 					m_buildingFinished = true;
 					shouldBuildObject = false;
+				}
+				else
+				{
+					player->substructResources( iterator->second->m_resourcesData );
+
+					m_landscapeModel.startBuild( m_object.getUniqueId(), buildData.m_objectName, buildData.m_atLocation );
 				}
 			}
 
