@@ -64,8 +64,8 @@ Player::getUniqueId() const
 /*---------------------------------------------------------------------------*/
 
 
-ResourcesData&
-Player::getResourcesData()
+const ResourcesData&
+Player::getResourcesData() const
 {
 	return m_resourceData;
 

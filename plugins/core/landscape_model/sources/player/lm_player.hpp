@@ -41,7 +41,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ ResourcesData& getResourcesData();
+	/*virtual*/ const ResourcesData& getResourcesData() const;
 
 	/*virtual*/ void substructResources( const ResourcesData& _data );
 
