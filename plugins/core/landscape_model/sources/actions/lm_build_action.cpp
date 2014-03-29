@@ -15,6 +15,7 @@
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_ihealth_component.hpp"
 
+#include "landscape_model/sources/actions/lm_ibuilders_holder.hpp"
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 
 #include "landscape_model/sources/geometry/lm_geometry.hpp"
@@ -34,11 +35,13 @@ namespace LandscapeModel {
 BuildAction::BuildAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
+	,	IBuildersHolder& _buildersHolder
 	,	Object& _object
 	,	const QString& _objectName
 	,	const QPoint& _atLocation
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
+	,	m_buildersHolder( _buildersHolder )
 	,	m_objectName( _objectName )
 	,	m_atLocation( _atLocation )
 	,	m_buildingFinished( false )
@@ -192,7 +195,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 				{
 					player->substructResources( iterator->second->m_resourcesData );
 
-					m_landscapeModel.startBuild( m_object.getUniqueId(), buildData.m_objectName, buildData.m_atLocation );
+					startBuild( m_object.getUniqueId(), buildData.m_objectName, buildData.m_atLocation );
 				}
 			}
 
@@ -221,7 +224,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 
 				if ( buildData.m_buildProgress >= 1.0f )
 				{
-					m_landscapeModel.stopBuild( m_object.getUniqueId() );
+					stopBuild( m_object.getUniqueId() );
 					m_buildingFinished = true;
 				}
 			}
@@ -261,6 +264,106 @@ BuildAction::getType() const
 	return Actions::Build;
 
 } // BuildAction::getType
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+BuildAction::startBuild(
+		const Object::Id& _id
+	,	const QString& _objectName
+	,	const QPoint& _location )
+{
+	if ( m_landscapeModel.getLandscape() )
+	{
+		boost::shared_ptr< Object > object = m_landscapeModel.getLandscape()->removeObject( _id );
+
+		if ( object )
+		{
+			object->setState( ObjectState::Building );
+
+			m_buildersHolder.addBuilder( object );
+
+			const Object::Id objectId
+				= m_landscapeModel.getLandscape()->createObjectForBuilding( _location, _objectName );
+			assert( objectId != Object::ms_wrongId );
+
+			boost::intrusive_ptr< IBuildComponent > buildComponent
+				= object->getComponent< IBuildComponent >( ComponentId::Build );
+			boost::intrusive_ptr< ILocateComponent > locateComponent
+				= object->getComponent< ILocateComponent >( ComponentId::Locate );
+
+			buildComponent->getBuildData().m_objectId = objectId;
+
+			Framework::Core::EventManager::Event objectRemovedEvent( Events::ObjectRemoved::ms_type );
+			objectRemovedEvent.pushAttribute( Events::ObjectRemoved::ms_objectUniqueIdAttribute, _id );
+
+			m_environment.riseEvent( objectRemovedEvent );
+
+			Framework::Core::EventManager::Event objectStartBuildingEvent( Events::ObjectStartBuilding::ms_type );
+			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, _objectName );
+			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, _location );
+			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId );
+			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
+
+			m_environment.riseEvent( objectStartBuildingEvent );
+		}
+	}
+
+} // BuildAction::startBuild
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+BuildAction::stopBuild( const Object::Id& _id )
+{
+	if ( m_landscapeModel.getLandscape() )
+	{
+		boost::shared_ptr< Object > builder = m_buildersHolder.getBuilder( _id );
+		assert( builder );
+
+		boost::intrusive_ptr< ILocateComponent >
+			locateComponent = builder->getComponent< ILocateComponent >( ComponentId::Locate );
+		boost::intrusive_ptr< IBuildComponent >
+			buildComponent = builder->getComponent< IBuildComponent >( ComponentId::Build );
+
+		boost::shared_ptr< Object > targetObject
+			= m_landscapeModel.getLandscape()->getObject( buildComponent->getBuildData().m_objectId );
+		targetObject->setState( ObjectState::Standing );
+
+		Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, targetObject->getName() );
+		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, targetObject->getUniqueId() );
+		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, targetObject->getState() );
+		objectStateChangedEvent.pushAttribute(
+				Events::ObjectStateChanged::ms_objectDirection
+			,	targetObject->getComponent< ILocateComponent >( ComponentId::Locate )->getDirection() );
+
+		m_environment.riseEvent( objectStateChangedEvent );
+
+		locateComponent->setLocation(
+			m_landscapeModel.getLandscape()->getNearestLocation(
+					*targetObject
+				,	builder->getName() ) );
+		builder->setState( ObjectState::Standing );
+
+		m_landscapeModel.getLandscape()->addObject( builder );
+
+		Framework::Core::EventManager::Event builderHasFinishedBuildEvent( Events::BuilderHasFinishedBuild::ms_type );
+		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectNameAttribute, builder->getName() );
+		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectLocationAttribute, locateComponent->getLocation() );
+		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute, _id );
+		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
+
+		m_environment.riseEvent( builderHasFinishedBuildEvent );
+
+		m_buildersHolder.removeBuilder( _id );
+	}
+
+} // BuildAction::stopBuild
 
 
 /*---------------------------------------------------------------------------*/

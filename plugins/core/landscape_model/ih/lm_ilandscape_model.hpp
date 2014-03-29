@@ -58,15 +58,6 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void startBuild(
-			const Object::Id& _id
-		,	const QString& _objectName
-		,	const QPoint& _location ) = 0;
-
-	virtual void stopBuild( const Object::Id& _id ) = 0;
-
-/*---------------------------------------------------------------------------*/
-
 	virtual boost::intrusive_ptr< ILandscape > getLandscape() const = 0;
 
 	virtual boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const = 0;

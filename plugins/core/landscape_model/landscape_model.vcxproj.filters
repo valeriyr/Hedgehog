@@ -356,5 +356,8 @@
     <ClInclude Include="sources\model_locker\lm_model_locker.hpp">
       <Filter>Model Locker</Filter>
     </ClInclude>
+    <ClInclude Include="sources\actions\lm_ibuilders_holder.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

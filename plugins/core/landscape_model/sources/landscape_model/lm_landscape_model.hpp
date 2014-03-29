@@ -7,6 +7,7 @@
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
 #include "landscape_model/sources/landscape/lm_iobjects_creator.hpp"
+#include "landscape_model/sources/actions/lm_ibuilders_holder.hpp"
 
 #include "multithreading_manager/h/mm_task_handle.hpp"
 
@@ -31,7 +32,8 @@ struct IPathFinder;
 
 class LandscapeModel
 	:	public Tools::Core::BaseWrapper< ILandscapeModel >
-	,	public IObjectCreator
+	,	private IObjectCreator
+	,	private IBuildersHolder
 {
 
 /*---------------------------------------------------------------------------*/
@@ -77,22 +79,6 @@ public:
 		,	const QString& _objectName
 		,	const QPoint& _atLocation
 		,	const bool _flush );
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void startBuild(
-			const Object::Id& _id
-		,	const QString& _objectName
-		,	const QPoint& _location );
-
-	/*virtual*/ void stopBuild( const Object::Id& _id );
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ boost::shared_ptr< Object > create(
-			const QPoint& _location
-		,	const QString& _objectName );
-
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< ILandscape > getLandscape() const;
@@ -102,6 +88,24 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	QMutex& getMutex();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::shared_ptr< Object > create(
+			const QPoint& _location
+		,	const QString& _objectName );
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::shared_ptr< Object > getBuilder( const Object::Id& _id ) const;
+
+	/*virtual*/ void removeBuilder( const Object::Id& _id );
+
+	/*virtual*/ void addBuilder( boost::shared_ptr< Object > _builder );
 
 /*---------------------------------------------------------------------------*/
 
@@ -127,7 +131,7 @@ private:
 		std::map< Object::Id, boost::shared_ptr< Object > >
 		BuildersCollection;
 	typedef
-		BuildersCollection::iterator
+		BuildersCollection::const_iterator
 		BuildersCollectionIterator;
 
 /*---------------------------------------------------------------------------*/

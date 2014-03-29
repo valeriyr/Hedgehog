@@ -89,6 +89,7 @@
     <ClInclude Include="sources\actions\lm_base_action.hpp" />
     <ClInclude Include="sources\actions\lm_build_action.hpp" />
     <ClInclude Include="sources\actions\lm_generate_resources_action.hpp" />
+    <ClInclude Include="sources\actions\lm_ibuilders_holder.hpp" />
     <ClInclude Include="sources\actions\lm_move_action.hpp" />
     <ClInclude Include="sources\actions\lm_train_action.hpp" />
     <ClInclude Include="sources\components\lm_actions_component.hpp" />

@@ -318,7 +318,7 @@ LandscapeModel::buildObject(
 			= object->getComponent< IActionsComponent >( ComponentId::Actions );
 
 		actionsComponent->pushAction(
-			boost::intrusive_ptr< IAction >( new BuildAction( m_environment, *this, *object, _objectName, _atLocation ) ), _flush );
+			boost::intrusive_ptr< IAction >( new BuildAction( m_environment, *this, *this, *object, _objectName, _atLocation ) ), _flush );
 	}
 
 } // LandscapeModel::buildObject
@@ -327,100 +327,34 @@ LandscapeModel::buildObject(
 /*---------------------------------------------------------------------------*/
 
 
-void
-LandscapeModel::startBuild(
-		const Object::Id& _id
-	,	const QString& _objectName
-	,	const QPoint& _location )
+boost::intrusive_ptr< ILandscape >
+LandscapeModel::getLandscape() const
 {
-	if ( m_landscape )
-	{
-		boost::shared_ptr< Object > object = m_landscape->removeObject( _id );
+	return m_landscape;
 
-		if ( object )
-		{
-			object->setState( ObjectState::Building );
-
-			assert( m_builders.find( _id ) == m_builders.end() );
-			m_builders.insert( std::make_pair( _id, object ) );
-
-			const Object::Id objectId
-				= m_landscape->createObjectForBuilding( _location, _objectName );
-			assert( objectId != Object::ms_wrongId );
-
-			boost::intrusive_ptr< IBuildComponent > buildComponent
-				= object->getComponent< IBuildComponent >( ComponentId::Build );
-			buildComponent->getBuildData().m_objectId = objectId;
-
-			Framework::Core::EventManager::Event objectRemovedEvent( Events::ObjectRemoved::ms_type );
-			objectRemovedEvent.pushAttribute( Events::ObjectRemoved::ms_objectUniqueIdAttribute, _id );
-
-			m_environment.riseEvent( objectRemovedEvent );
-
-			Framework::Core::EventManager::Event objectStartBuildingEvent( Events::ObjectStartBuilding::ms_type );
-			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, _objectName );
-			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, _location );
-			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId );
-			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( _objectName ).m_locateData->m_emplacement );
-
-			m_environment.riseEvent( objectStartBuildingEvent );
-		}
-	}
-
-} // LandscapeModel::startBuild
+} // LandscapeModel::getLandscape
 
 
 /*---------------------------------------------------------------------------*/
 
 
-void
-LandscapeModel::stopBuild( const Object::Id& _id )
+boost::intrusive_ptr< IPlayer >
+LandscapeModel::getPlayer( const IPlayer::Id& _id ) const
 {
-	if ( m_landscape )
-	{
-		BuildersCollectionIterator iterator = m_builders.find( _id );
+	return m_player;
 
-		assert( iterator != m_builders.end() );
+} // LandscapeModel::getPlayer
 
-		boost::intrusive_ptr< ILocateComponent >
-			locateComponent = iterator->second->getComponent< ILocateComponent >( ComponentId::Locate );
-		boost::intrusive_ptr< IBuildComponent >
-			buildComponent = iterator->second->getComponent< IBuildComponent >( ComponentId::Build );
 
-		boost::shared_ptr< Object > targetObject
-			= m_landscape->getObject( buildComponent->getBuildData().m_objectId );
-		targetObject->setState( ObjectState::Standing );
+/*---------------------------------------------------------------------------*/
 
-		Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, targetObject->getName() );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, targetObject->getUniqueId() );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, targetObject->getState() );
-		objectStateChangedEvent.pushAttribute(
-				Events::ObjectStateChanged::ms_objectDirection
-			,	targetObject->getComponent< ILocateComponent >( ComponentId::Locate )->getDirection() );
 
-		m_environment.riseEvent( objectStateChangedEvent );
+QMutex&
+LandscapeModel::getMutex()
+{
+	return m_mutex;
 
-		locateComponent->setLocation(
-			m_landscape->getNearestLocation(
-					*targetObject
-				,	iterator->second->getName() ) );
-		iterator->second->setState( ObjectState::Standing );
-
-		m_landscape->addObject( iterator->second );
-
-		Framework::Core::EventManager::Event builderHasFinishedBuildEvent( Events::BuilderHasFinishedBuild::ms_type );
-		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectNameAttribute, iterator->second->getName() );
-		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectLocationAttribute, locateComponent->getLocation() );
-		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute, _id );
-		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
-
-		m_environment.riseEvent( builderHasFinishedBuildEvent );
-
-		m_builders.erase( _id );
-	}
-
-} // LandscapeModel::stopBuild
+} // LandscapeModel::getMutex
 
 
 /*---------------------------------------------------------------------------*/
@@ -491,34 +425,39 @@ LandscapeModel::create( const QPoint& _location, const QString& _objectName )
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILandscape >
-LandscapeModel::getLandscape() const
+boost::shared_ptr< Object >
+LandscapeModel::getBuilder( const Object::Id& _id ) const
 {
-	return m_landscape;
+	BuildersCollectionIterator iterator = m_builders.find( _id );
 
-} // LandscapeModel::getLandscape
+	return		iterator != m_builders.end()
+			?	iterator->second
+			:	boost::shared_ptr< Object >();
+
+} // LandscapeModel::getBuilder
 
 
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IPlayer >
-LandscapeModel::getPlayer( const IPlayer::Id& _id ) const
+void
+LandscapeModel::removeBuilder( const Object::Id& _id )
 {
-	return m_player;
+	m_builders.erase( _id );
 
-} // LandscapeModel::getPlayer
+} // LandscapeModel::removeBuilder
 
 
 /*---------------------------------------------------------------------------*/
 
 
-QMutex&
-LandscapeModel::getMutex()
+void
+LandscapeModel::addBuilder( boost::shared_ptr< Object > _builder )
 {
-	return m_mutex;
+	assert( m_builders.find( _builder->getUniqueId() ) == m_builders.end() );
+	m_builders.insert( std::make_pair( _builder->getUniqueId(), _builder ) );
 
-} // LandscapeModel::getMutex
+} // LandscapeModel::addBuilder
 
 
 /*---------------------------------------------------------------------------*/
