@@ -13,7 +13,8 @@ namespace PluginsManager {
 
 #define INTERFACE_MAP_DECLARATION()														\
 																						\
-	/*virtual*/ Tools::Core::IBase* getInterface( const unsigned int _interfaceId );	\
+	/*virtual*/ boost::intrusive_ptr< Tools::Core::IBase >								\
+		getInterface( const unsigned int _interfaceId );								\
 
 
 /*---------------------------------------------------------------------------*/
@@ -21,7 +22,7 @@ namespace PluginsManager {
 
 #define BEGIN_INTERFACE_MAP( PLUGIN_INSTANCE )											\
 																						\
-Tools::Core::IBase*																		\
+boost::intrusive_ptr< Tools::Core::IBase >												\
 PLUGIN_INSTANCE::getInterface( const unsigned int _interfaceId )						\
 {																						\
 	switch( _interfaceId )																\

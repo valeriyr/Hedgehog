@@ -40,35 +40,11 @@ GenerateResourcesAction::~GenerateResourcesAction()
 /*---------------------------------------------------------------------------*/
 
 
-bool
-GenerateResourcesAction::prepareToProcessingInternal()
-{
-	return true;
-
-} // GenerateResourcesAction::prepareToProcessingInternal
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-GenerateResourcesAction::cancelProcessingInternal()
-{
-	return true;
-
-} // GenerateResourcesAction::cancelProcessingInternal
-
-
-/*---------------------------------------------------------------------------*/
-
-
 void
 GenerateResourcesAction::processAction( const unsigned int _deltaTime )
 {
 	if ( m_object.getState() == ObjectState::Dying )
 		return;
-
-	boost::intrusive_ptr< IModelLocker > handle( m_landscapeModel.lockModel() );
 
 	boost::intrusive_ptr< IGenerateResourcesComponent > generateResourcesComponent
 		= m_object.getComponent< IGenerateResourcesComponent >( ComponentId::ResourcesGenerating );
@@ -85,7 +61,7 @@ GenerateResourcesAction::processAction( const unsigned int _deltaTime )
 		resources.pushResource( begin->first, incTo );
 	}
 
-	handle->getPlayer( m_object.getPlayerId() )->addResources( resources );
+	m_landscapeModel.getPlayer( m_object.getPlayerId() )->addResources( resources );
 
 } // GenerateResourcesAction::processAction
 

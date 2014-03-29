@@ -118,13 +118,15 @@ LandscapeSceneGameState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEven
 		QPoint pos2 = LandscapeScene::convertFromScenePosition( QPoint(		m_selectionItem->scenePos().x() + m_selectionItem->rect().width()
 																		,	m_selectionItem->scenePos().y() + m_selectionItem->rect().height() ) );
 
-		m_environment.selectItemsInModel( QRect( pos1, pos2 ) );
+		m_environment.lockModel()->getLandscapeModel()->selectObjects( QRect( pos1, pos2 ) );
 
 		removeSceneObjects();
 	}
 	else if ( isInSceneRect( _mouseEvent->scenePos() ) )
 	{
-		m_environment.sendSelectedObjects( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ), !( _mouseEvent->modifiers() & Qt::ShiftModifier ) );
+		m_environment.lockModel()->getLandscapeModel()->sendSelectedObjects(
+				LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() )
+			,	!( _mouseEvent->modifiers() & Qt::ShiftModifier ) );
 	}
 
 } // LandscapeSceneGameState::mouseReleaseEvent
@@ -312,7 +314,7 @@ LandscapeSurfaceItemEditingState::addSceneObjects()
 void
 LandscapeSurfaceItemEditingState::setNewItemInPosition( const QPointF& _point )
 {
-	m_environment.setSurfaceItem( LandscapeScene::convertFromScenePosition( _point ), m_id );
+	m_environment.lockModel()->getLandscapeModel()->setSurfaceItem( LandscapeScene::convertFromScenePosition( _point ), m_id );
 
 } // LandscapeSurfaceItemEditingState::setNewItemInPosition
 
@@ -459,7 +461,7 @@ LandscapeObjectEditingState::addSceneObjects()
 void
 LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 {
-	m_environment.createObject( LandscapeScene::convertFromScenePosition( _point ), m_name );
+	m_environment.lockModel()->getLandscapeModel()->createObject( LandscapeScene::convertFromScenePosition( _point ), m_name );
 
 } // LandscapeObjectEditingState::setNewItemInPosition
 
@@ -517,7 +519,7 @@ LandscapeObjectBuildState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEven
 		if ( objectPixmap.height() > ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
 			ypos += ( objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2;
 
-		m_environment.buildObject(
+		m_environment.lockModel()->getLandscapeModel()->buildObject(
 				m_builderId
 			,	m_name
 			,	LandscapeScene::convertFromScenePosition( QPointF( xpos, ypos ) )

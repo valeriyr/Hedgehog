@@ -19,7 +19,7 @@ namespace Logger {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE_DECLARATION( Tools::Core::IID_MESSENGER, m_consoleLogger.get() )
+	INTERFACE_DECLARATION( Tools::Core::IID_MESSENGER, m_consoleLogger )
 
 END_INTERFACE_MAP()
 

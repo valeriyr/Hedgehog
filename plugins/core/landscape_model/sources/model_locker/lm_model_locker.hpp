@@ -14,6 +14,11 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct ILandscapeModel;
+class LandscapeModel;
+
+/*---------------------------------------------------------------------------*/
+
 class ModelLocker
 	:	public Tools::Core::BaseWrapper< IModelLocker >
 {
@@ -24,18 +29,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ModelLocker(
-			boost::intrusive_ptr< ILandscape >& _landscape
-		,	boost::intrusive_ptr< IPlayer >& _player
-		,	QMutex& _mutex );
+	ModelLocker( boost::intrusive_ptr< LandscapeModel >& _landscapeModel );
 
 	virtual ~ModelLocker();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< ILandscape > getLandscape() const;
-
-	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const;
+	/*virtual*/ boost::intrusive_ptr< ILandscapeModel > getLandscapeModel() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,9 +45,7 @@ private:
 
 	QMutexLocker m_lockerHolder;
 
-	boost::intrusive_ptr< ILandscape > m_landscape;
-
-	boost::intrusive_ptr< IPlayer > m_player;
+	boost::intrusive_ptr< LandscapeModel > m_landscapeModel;
 
 /*---------------------------------------------------------------------------*/
 

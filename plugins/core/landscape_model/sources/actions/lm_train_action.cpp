@@ -73,8 +73,7 @@ TrainAction::cancelProcessing()
 	trainComponent->getTrainData().reset();
 	m_trainingFinished = true;
 
-	boost::intrusive_ptr< IModelLocker > handle( m_landscapeModel.lockModel() );
-	boost::intrusive_ptr< IPlayer > player = handle->getPlayer( m_object.getPlayerId() );
+	boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( m_object.getPlayerId() );
 
 	if ( player )
 	{
@@ -127,7 +126,7 @@ TrainAction::processAction( const unsigned int _deltaTime )
 		if ( trainData.m_trainProgress >= 1.0f )
 		{
 			m_landscapeModel.createObject(
-					m_landscapeModel.lockModel()->getLandscape()->getNearestLocation( m_object, trainData.m_trainingObjectName )
+					m_landscapeModel.getLandscape()->getNearestLocation( m_object, trainData.m_trainingObjectName )
 				,	trainData.m_trainingObjectName );
 
 			m_trainingFinished = true;

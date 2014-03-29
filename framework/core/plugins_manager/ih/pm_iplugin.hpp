@@ -26,7 +26,8 @@ struct IPlugin
 
 	virtual void close() = 0;
 
-	virtual Tools::Core::IBase* getInterface( const unsigned int _interfaceId ) = 0;
+	virtual boost::intrusive_ptr< Tools::Core::IBase >
+		getInterface( const unsigned int _interfaceId ) = 0;
 };
 
 

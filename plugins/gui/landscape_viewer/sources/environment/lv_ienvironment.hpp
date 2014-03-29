@@ -104,34 +104,8 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initLandscapeModel( const QString& _fileName ) const = 0;
-
-	virtual void resetLandscapeModel() const = 0;
-
 	virtual boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
 		lockModel () const = 0;
-
-	virtual void saveLandscape( const QString& _fileName ) const = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual void selectItemsInModel( const QRect& _rect ) const = 0;
-
-	virtual void selectItemModel( const Core::LandscapeModel::Object::Id& _id ) const = 0;
-
-	virtual void sendSelectedObjects( const QPoint& _to, const bool _flush ) const = 0;
-
-	virtual void createObject( const QPoint& _location, const QString& _name ) const = 0;
-
-	virtual void setSurfaceItem( const QPoint& _location, const Core::LandscapeModel::ISurfaceItem::Id& _id ) const = 0;
-
-	virtual void trainObject( const Core::LandscapeModel::Object::Id& _parentId, const QString& _objectName ) const = 0;
-
-	virtual void buildObject(
-			const Core::LandscapeModel::Object::Id& _builderId
-		,	const QString& _objectName
-		,	const QPoint& _atLocation
-		,	const bool _flush ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -22,7 +22,7 @@ namespace ImagesManager {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE_DECLARATION( IID_IMAGES_MANAGER, m_imagesManager.get() )
+	INTERFACE_DECLARATION( IID_IMAGES_MANAGER, m_imagesManager )
 
 END_INTERFACE_MAP()
 

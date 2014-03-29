@@ -35,12 +35,6 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ bool prepareToProcessingInternal();
-
-	/*virtual*/ bool cancelProcessingInternal();
-
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ void processAction( const unsigned int _deltaTime );
 
 	/*virtual*/ bool hasFinished() const;

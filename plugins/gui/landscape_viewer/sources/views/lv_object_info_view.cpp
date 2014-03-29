@@ -124,10 +124,10 @@ ObjectInfoView::onObjectsSelectionChanged( const Framework::Core::EventManager::
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	if ( handle->getLandscape() )
+	if ( handle->getLandscapeModel()->getLandscape() )
 	{
 		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
-		handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
+		handle->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
 		setDescriptionForObject(
 				selectedObjectsCollection.empty()
@@ -183,9 +183,9 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	if ( handle->getLandscape() )
+	if ( handle->getLandscapeModel()->getLandscape() )
 	{
-		boost::shared_ptr< Core::LandscapeModel::Object > object = handle->getLandscape()->getObject( _objectId );
+		boost::shared_ptr< Core::LandscapeModel::Object > object = handle->getLandscapeModel()->getLandscape()->getObject( _objectId );
 
 		if ( object )
 		{

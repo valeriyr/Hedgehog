@@ -55,7 +55,7 @@ LandscapeModel::LandscapeModel(
 	,	m_landscapeSerializer( _landscapeSerializer )
 	,	m_surfaceItemsCache( _surfaceItemsCache )
 	,	m_staticData( _staticData )
-	,	m_currentLandscape()
+	,	m_landscape()
 	,	m_player()
 	,	m_mutex( QMutex::Recursive )
 	,	m_builders()
@@ -122,26 +122,12 @@ LandscapeModel::saveModel( const QString& _filePath )
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IModelLocker >
-LandscapeModel::lockModel()
-{
-	return boost::intrusive_ptr< IModelLocker >( new ModelLocker( m_currentLandscape, m_player, m_mutex ) );
-
-} // LandscapeModel::lockModel
-
-
-/*---------------------------------------------------------------------------*/
-
-
 void
 LandscapeModel::selectObjects( const QRect& _rect )
 {
-	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
-
-	if ( handle->getLandscape() )
+	if ( m_landscape )
 	{
-		handle->getLandscape()->selectObjects( _rect );
-
+		m_landscape->selectObjects( _rect );
 		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 	}
 
@@ -154,12 +140,9 @@ LandscapeModel::selectObjects( const QRect& _rect )
 void
 LandscapeModel::selectObject( const Object::Id& _id )
 {
-	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
-
-	if ( handle->getLandscape() )
+	if ( m_landscape )
 	{
-		handle->getLandscape()->selectObject( _id );
-
+		m_landscape->selectObject( _id );
 		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 	}
 
@@ -172,12 +155,10 @@ LandscapeModel::selectObject( const Object::Id& _id )
 void
 LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _flush )
 {
-	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
-
-	if ( handle->getLandscape() )
+	if ( m_landscape )
 	{
 		ILandscape::ObjectsCollection selectedObjects;
-		handle->getLandscape()->fetchSelectedObjects( selectedObjects );
+		m_landscape->fetchSelectedObjects( selectedObjects );
 
 		ILandscape::ObjectsCollectionIterator
 				begin = selectedObjects.begin()
@@ -185,7 +166,7 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _flush )
 
 		for ( ; begin != end; ++begin )
 		{
-			boost::shared_ptr< Object > targetObject = handle->getLandscape()->getObject( _to );
+			boost::shared_ptr< Object > targetObject = m_landscape->getObject( _to );
 
 			boost::intrusive_ptr< IActionsComponent > actionsComponent
 				= ( *begin )->getComponent< IActionsComponent >( ComponentId::Actions );
@@ -223,13 +204,9 @@ LandscapeModel::createObject( const QPoint& _location, const QString& _objectNam
 {
 	Object::Id objectId = Object::ms_wrongId;
 
+	if ( m_landscape )
 	{
-		boost::intrusive_ptr< IModelLocker > handle( lockModel() );
-
-		if ( handle->getLandscape() )
-		{
-			objectId = handle->getLandscape()->createObject( _location, _objectName );
-		}
+		objectId = m_landscape->createObject( _location, _objectName );
 	}
 
 	if ( objectId != Object::ms_wrongId )
@@ -262,11 +239,9 @@ LandscapeModel::setSurfaceItem(
 		const QPoint& _location
 	,	const Core::LandscapeModel::ISurfaceItem::Id& _id )
 {
-	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
-
-	if ( handle->getLandscape() )
+	if ( m_landscape )
 	{
-		handle->getLandscape()->setSurfaceItem( _location, _id );
+		m_landscape->setSurfaceItem( _location, _id );
 
 		Framework::Core::EventManager::Event surfaceItemChangedEvent( Events::SurfaceItemChanged::ms_type );
 		surfaceItemChangedEvent.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemIdAttribute, _id );
@@ -284,13 +259,14 @@ LandscapeModel::setSurfaceItem(
 void
 LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _objectName )
 {
-	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
+	if ( !m_landscape )
+		return;
 
-	boost::shared_ptr< Object > object = handle->getLandscape()->getObject( _parentObject );
+	boost::shared_ptr< Object > object = m_landscape->getObject( _parentObject );
 
 	if ( object )
 	{
-		boost::intrusive_ptr< IPlayer > player = handle->getPlayer( object->getPlayerId() );
+		boost::intrusive_ptr< IPlayer > player = getPlayer( object->getPlayerId() );
 
 		if ( player )
 		{
@@ -334,9 +310,7 @@ LandscapeModel::buildObject(
 	,	const QPoint& _atLocation
 	,	const bool _flush )
 {
-	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
-
-	boost::shared_ptr< Object > object = handle->getLandscape()->getObject( _builder );
+	boost::shared_ptr< Object > object = m_landscape->getObject( _builder );
 
 	if ( object )
 	{
@@ -359,41 +333,37 @@ LandscapeModel::startBuild(
 	,	const QString& _objectName
 	,	const QPoint& _location )
 {
+	if ( m_landscape )
 	{
-		boost::intrusive_ptr< IModelLocker > handle( lockModel() );
+		boost::shared_ptr< Object > object = m_landscape->removeObject( _id );
 
-		if ( handle->getLandscape() )
+		if ( object )
 		{
-			boost::shared_ptr< Object > object = handle->getLandscape()->removeObject( _id );
+			object->setState( ObjectState::Building );
 
-			if ( object )
-			{
-				object->setState( ObjectState::Building );
+			assert( m_builders.find( _id ) == m_builders.end() );
+			m_builders.insert( std::make_pair( _id, object ) );
 
-				assert( m_builders.find( _id ) == m_builders.end() );
-				m_builders.insert( std::make_pair( _id, object ) );
+			const Object::Id objectId
+				= m_landscape->createObjectForBuilding( _location, _objectName );
+			assert( objectId != Object::ms_wrongId );
 
-				const Object::Id objectId
-					= handle->getLandscape()->createObjectForBuilding( _location, _objectName );
-				assert( objectId != Object::ms_wrongId );
+			boost::intrusive_ptr< IBuildComponent > buildComponent
+				= object->getComponent< IBuildComponent >( ComponentId::Build );
+			buildComponent->getBuildData().m_objectId = objectId;
 
-				boost::intrusive_ptr< IBuildComponent > buildComponent
-					= object->getComponent< IBuildComponent >( ComponentId::Build );
-				buildComponent->getBuildData().m_objectId = objectId;
+			Framework::Core::EventManager::Event objectRemovedEvent( Events::ObjectRemoved::ms_type );
+			objectRemovedEvent.pushAttribute( Events::ObjectRemoved::ms_objectUniqueIdAttribute, _id );
 
-				Framework::Core::EventManager::Event objectRemovedEvent( Events::ObjectRemoved::ms_type );
-				objectRemovedEvent.pushAttribute( Events::ObjectRemoved::ms_objectUniqueIdAttribute, _id );
+			m_environment.riseEvent( objectRemovedEvent );
 
-				m_environment.riseEvent( objectRemovedEvent );
+			Framework::Core::EventManager::Event objectStartBuildingEvent( Events::ObjectStartBuilding::ms_type );
+			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, _objectName );
+			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, _location );
+			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId );
+			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( _objectName ).m_locateData->m_emplacement );
 
-				Framework::Core::EventManager::Event objectStartBuildingEvent( Events::ObjectStartBuilding::ms_type );
-				objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, _objectName );
-				objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, _location );
-				objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId );
-				objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( _objectName ).m_locateData->m_emplacement );
-
-				m_environment.riseEvent( objectStartBuildingEvent );
-			}
+			m_environment.riseEvent( objectStartBuildingEvent );
 		}
 	}
 
@@ -406,52 +376,48 @@ LandscapeModel::startBuild(
 void
 LandscapeModel::stopBuild( const Object::Id& _id )
 {
+	if ( m_landscape )
 	{
-		boost::intrusive_ptr< IModelLocker > handle( lockModel() );
+		BuildersCollectionIterator iterator = m_builders.find( _id );
 
-		if ( handle->getLandscape() )
-		{
-			BuildersCollectionIterator iterator = m_builders.find( _id );
+		assert( iterator != m_builders.end() );
 
-			assert( iterator != m_builders.end() );
+		boost::intrusive_ptr< ILocateComponent >
+			locateComponent = iterator->second->getComponent< ILocateComponent >( ComponentId::Locate );
+		boost::intrusive_ptr< IBuildComponent >
+			buildComponent = iterator->second->getComponent< IBuildComponent >( ComponentId::Build );
 
-			boost::intrusive_ptr< ILocateComponent >
-				locateComponent = iterator->second->getComponent< ILocateComponent >( ComponentId::Locate );
-			boost::intrusive_ptr< IBuildComponent >
-				buildComponent = iterator->second->getComponent< IBuildComponent >( ComponentId::Build );
+		boost::shared_ptr< Object > targetObject
+			= m_landscape->getObject( buildComponent->getBuildData().m_objectId );
+		targetObject->setState( ObjectState::Standing );
 
-			boost::shared_ptr< Object > targetObject
-				= handle->getLandscape()->getObject( buildComponent->getBuildData().m_objectId );
-			targetObject->setState( ObjectState::Standing );
+		Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, targetObject->getName() );
+		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, targetObject->getUniqueId() );
+		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, targetObject->getState() );
+		objectStateChangedEvent.pushAttribute(
+				Events::ObjectStateChanged::ms_objectDirection
+			,	targetObject->getComponent< ILocateComponent >( ComponentId::Locate )->getDirection() );
 
-			Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, targetObject->getName() );
-			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, targetObject->getUniqueId() );
-			objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, targetObject->getState() );
-			objectStateChangedEvent.pushAttribute(
-					Events::ObjectStateChanged::ms_objectDirection
-				,	targetObject->getComponent< ILocateComponent >( ComponentId::Locate )->getDirection() );
+		m_environment.riseEvent( objectStateChangedEvent );
 
-			m_environment.riseEvent( objectStateChangedEvent );
+		locateComponent->setLocation(
+			m_landscape->getNearestLocation(
+					*targetObject
+				,	iterator->second->getName() ) );
+		iterator->second->setState( ObjectState::Standing );
 
-			locateComponent->setLocation(
-				handle->getLandscape()->getNearestLocation(
-						*targetObject
-					,	iterator->second->getName() ) );
-			iterator->second->setState( ObjectState::Standing );
+		m_landscape->addObject( iterator->second );
 
-			handle->getLandscape()->addObject( iterator->second );
+		Framework::Core::EventManager::Event builderHasFinishedBuildEvent( Events::BuilderHasFinishedBuild::ms_type );
+		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectNameAttribute, iterator->second->getName() );
+		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectLocationAttribute, locateComponent->getLocation() );
+		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute, _id );
+		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
 
-			Framework::Core::EventManager::Event builderHasFinishedBuildEvent( Events::BuilderHasFinishedBuild::ms_type );
-			builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectNameAttribute, iterator->second->getName() );
-			builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectLocationAttribute, locateComponent->getLocation() );
-			builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute, _id );
-			builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
+		m_environment.riseEvent( builderHasFinishedBuildEvent );
 
-			m_environment.riseEvent( builderHasFinishedBuildEvent );
-
-			m_builders.erase( _id );
-		}
+		m_builders.erase( _id );
 	}
 
 } // LandscapeModel::stopBuild
@@ -525,6 +491,39 @@ LandscapeModel::create( const QPoint& _location, const QString& _objectName )
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< ILandscape >
+LandscapeModel::getLandscape() const
+{
+	return m_landscape;
+
+} // LandscapeModel::getLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IPlayer >
+LandscapeModel::getPlayer( const IPlayer::Id& _id ) const
+{
+	return m_player;
+
+} // LandscapeModel::getPlayer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QMutex&
+LandscapeModel::getMutex()
+{
+	return m_mutex;
+
+} // LandscapeModel::getMutex
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 LandscapeModel::gameMainLoop()
 {
@@ -535,12 +534,12 @@ LandscapeModel::gameMainLoop()
 	lastStartTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
 	{
-		boost::intrusive_ptr< IModelLocker > handle( lockModel() );
+		QMutexLocker locker( &m_mutex );
 
-		if ( handle->getLandscape() )
+		if ( m_landscape )
 		{
 			ILandscape::ObjectsCollection objects;
-			handle->getLandscape()->fetchObjects( objects );
+			m_landscape->fetchObjects( objects );
 
 			ILandscape::ObjectsCollectionIterator
 					begin = objects.begin()
@@ -602,7 +601,7 @@ LandscapeModel::gameMainLoop()
 void
 LandscapeModel::initTask( const QString& _filePath )
 {
-	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
+	QMutexLocker locker( &m_mutex );
 
 	m_player.reset( new Player( m_environment, m_staticData ) );
 
@@ -619,7 +618,7 @@ LandscapeModel::initTask( const QString& _filePath )
 		landscape->setSize( 20, 20 );
 	}
 
-	m_currentLandscape = landscape;
+	m_landscape = landscape;
 
 	Framework::Core::EventManager::Event modelInitEvent( Events::LandscapeWasInitialized::ms_type );
 	modelInitEvent.pushAttribute( Events::LandscapeWasInitialized::ms_filePathAttribute, _filePath );
@@ -637,9 +636,9 @@ LandscapeModel::initTask( const QString& _filePath )
 void
 LandscapeModel::resetTask()
 {
-	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
+	QMutexLocker locker( &m_mutex );
 
-	m_currentLandscape.reset();
+	m_landscape.reset();
 	m_player.reset();
 
 	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::LandscapeWasReset::ms_type ) );
@@ -653,11 +652,11 @@ LandscapeModel::resetTask()
 void
 LandscapeModel::saveTask( const QString& _filePath )
 {
-	boost::intrusive_ptr< IModelLocker > handle( lockModel() );
+	QMutexLocker locker( &m_mutex );
 
-	if ( m_currentLandscape )
+	if ( m_landscape )
 	{
-		m_landscapeSerializer.save( *m_currentLandscape, _filePath );
+		m_landscapeSerializer.save( *m_landscape, _filePath );
 
 		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::LandscapeWasSaved::ms_type ) );
 	}

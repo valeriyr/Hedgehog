@@ -169,126 +169,12 @@ Environment::removeFrameworkView( boost::intrusive_ptr< Framework::GUI::WindowMa
 /*---------------------------------------------------------------------------*/
 
 
-void
-Environment::initLandscapeModel( const QString& _fileName ) const
-{
-	m_pluginInstance.getLandscapeModel()->initModel( _fileName );
-
-} // Environment::initLandscapeModel
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Environment::resetLandscapeModel() const
-{
-	m_pluginInstance.getLandscapeModel()->resetModel();
-
-} // Environment::resetLandscapeModel
-
-
-/*---------------------------------------------------------------------------*/
-
-
 boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
 Environment::lockModel() const
 {
-	return m_pluginInstance.getLandscapeModel()->lockModel();
+	return m_pluginInstance.getModelLocker();
 
 } // Environment::lockModel
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Environment::saveLandscape( const QString& _fileName ) const
-{
-	m_pluginInstance.getLandscapeModel()->saveModel( _fileName );
-
-} // Environment::saveLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Environment::selectItemsInModel( const QRect& _rect ) const
-{
-	m_pluginInstance.getLandscapeModel()->selectObjects( _rect );
-
-} // Environment::selectItemsInModel
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Environment::selectItemModel( const Core::LandscapeModel::Object::Id& _id ) const
-{
-	m_pluginInstance.getLandscapeModel()->selectObject( _id );
-
-} // Environment::selectItemModel
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Environment::sendSelectedObjects( const QPoint& _to, const bool _flush ) const
-{
-	m_pluginInstance.getLandscapeModel()->sendSelectedObjects( _to, _flush );
-
-} // Environment::sendSelectedObjects
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Environment::createObject( const QPoint& _location, const QString& _name ) const
-{
-	m_pluginInstance.getLandscapeModel()->createObject( _location, _name );
-
-} // Environment::createObject
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Environment::setSurfaceItem( const QPoint& _location, const Core::LandscapeModel::ISurfaceItem::Id& _id ) const
-{
-	m_pluginInstance.getLandscapeModel()->setSurfaceItem( _location, _id );
-
-} // Environment::setSurfaceItem
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Environment::trainObject( const Core::LandscapeModel::Object::Id& _parentId, const QString& _objectName ) const
-{
-	m_pluginInstance.getLandscapeModel()->trainObject( _parentId, _objectName );
-
-} // Environment::trainObject
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Environment::buildObject(
-		const Core::LandscapeModel::Object::Id& _builderId
-	,	const QString& _objectName
-	,	const QPoint& _atLocation
-	,	const bool _flush ) const
-{
-	m_pluginInstance.getLandscapeModel()->buildObject( _builderId, _objectName, _atLocation, _flush );
-
-} // Environment::buildObject
 
 
 /*---------------------------------------------------------------------------*/

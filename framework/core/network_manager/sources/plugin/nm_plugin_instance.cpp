@@ -19,7 +19,7 @@ namespace NetworkManager {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE_DECLARATION( IID_CONNECTION_MANAGER, m_connectionManager.get() )
+	INTERFACE_DECLARATION( IID_CONNECTION_MANAGER, m_connectionManager )
 
 END_INTERFACE_MAP()
 

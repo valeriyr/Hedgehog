@@ -7,6 +7,9 @@
 #include "intrusive_base/ib_ibase.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/ih/lm_ilandscape.hpp"
+#include "landscape_model/ih/lm_iplayer.hpp"
+
 #include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -14,14 +17,6 @@
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
-
-/*---------------------------------------------------------------------------*/
-
-	const unsigned int IID_LANDSCAPE_MODEL = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct IModelLocker;
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,10 +31,6 @@ struct ILandscapeModel
 	virtual void resetModel() = 0;
 
 	virtual void saveModel( const QString& _filePath ) = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual boost::intrusive_ptr< IModelLocker > lockModel() = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -73,6 +64,12 @@ struct ILandscapeModel
 		,	const QPoint& _location ) = 0;
 
 	virtual void stopBuild( const Object::Id& _id ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual boost::intrusive_ptr< ILandscape > getLandscape() const = 0;
+
+	virtual boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

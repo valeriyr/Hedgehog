@@ -186,7 +186,7 @@ ActionPanelView::onItemClicked( QListWidgetItem* _item )
 
 	if ( trainListItem )
 	{
-		m_environment.trainObject( trainListItem->getParentObjectId(), trainListItem->getTargetObjectName() );
+		m_environment.lockModel()->getLandscapeModel()->trainObject( trainListItem->getParentObjectId(), trainListItem->getTargetObjectName() );
 		return;
 	}
 
@@ -218,10 +218,10 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 		boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 			= m_environment.lockModel();
 
-		if ( handle->getLandscape() )
+		if ( handle->getLandscapeModel()->getLandscape() )
 		{
 			Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
-			handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
+			handle->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
 			if ( !selectedObjectsCollection.empty() )
 			{

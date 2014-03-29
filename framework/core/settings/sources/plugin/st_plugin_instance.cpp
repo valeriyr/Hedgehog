@@ -23,7 +23,7 @@ namespace Settings {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE_DECLARATION( IID_SETTINGS, m_settings.get() )
+	INTERFACE_DECLARATION( IID_SETTINGS, m_settings )
 
 END_INTERFACE_MAP()
 

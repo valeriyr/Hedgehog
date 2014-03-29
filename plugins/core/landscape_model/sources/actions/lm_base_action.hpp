@@ -50,9 +50,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual bool prepareToProcessingInternal() = 0;
+	virtual bool prepareToProcessingInternal();
 
-	virtual bool cancelProcessingInternal() = 0;
+	virtual bool cancelProcessingInternal();
 
 /*---------------------------------------------------------------------------*/
 

@@ -220,7 +220,7 @@ MinimapWidget::onObjectWereChanged( const Framework::Core::EventManager::Event& 
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	renderObjects( *handle->getLandscape() );
+	renderObjects( *handle->getLandscapeModel()->getLandscape() );
 
 	update();
 
@@ -329,7 +329,7 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	if ( handle->getLandscape() )
+	if ( handle->getLandscapeModel()->getLandscape() )
 	{
 		m_objectsLayer = QPixmap( ms_fixedWidgetSize );
 
@@ -343,7 +343,7 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 		painter.setRenderHint( QPainter::Antialiasing );
 
 		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection objectsCollection;
-		handle->getLandscape()->fetchObjects( objectsCollection );
+		handle->getLandscapeModel()->getLandscape()->fetchObjects( objectsCollection );
 
 		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
 				begin = objectsCollection.begin()
@@ -384,10 +384,10 @@ MinimapWidget::regenerate()
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	if ( handle->getLandscape() )
+	if ( handle->getLandscapeModel()->getLandscape() )
 	{
-		renderSurface( *handle->getLandscape() );
-		renderObjects( *handle->getLandscape() );
+		renderSurface( *handle->getLandscapeModel()->getLandscape() );
+		renderObjects( *handle->getLandscapeModel()->getLandscape() );
 	}
 
 	update();

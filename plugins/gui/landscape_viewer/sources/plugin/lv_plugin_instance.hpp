@@ -85,7 +85,7 @@ namespace Plugins
 	{
 		namespace LandscapeModel
 		{
-			struct ILandscapeModel;
+			struct IModelLocker;
 			struct ILandscapeEditor;
 			struct ISurfaceItemsCache;
 			struct IStaticData;
@@ -183,8 +183,8 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeModel >
-		getLandscapeModel() const;
+	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IModelLocker >
+		getModelLocker() const;
 
 	boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItemsCache >
 		getSurfaceItemsCache() const;

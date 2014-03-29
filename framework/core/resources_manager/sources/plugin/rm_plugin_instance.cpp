@@ -22,7 +22,7 @@ namespace ResourcesManager {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE_DECLARATION( IID_RESOURCES_MANAGER, m_resourcesManager.get() )
+	INTERFACE_DECLARATION( IID_RESOURCES_MANAGER, m_resourcesManager )
 
 END_INTERFACE_MAP()
 

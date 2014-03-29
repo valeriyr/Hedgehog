@@ -144,7 +144,7 @@ SelectionView::onItemClicked( QListWidgetItem* _item )
 	SelectionViewItem* listItem = dynamic_cast< SelectionViewItem* >( _item );
 	assert( listItem );
 
-	m_environment.selectItemModel( listItem->getUniqueId() );
+	m_environment.lockModel()->getLandscapeModel()->selectObject( listItem->getUniqueId() );
 
 } // SelectionView::onItemClicked
 
@@ -160,10 +160,10 @@ SelectionView::onObjectsSelectionChanged( const Framework::Core::EventManager::E
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	if ( handle->getLandscape() )
+	if ( handle->getLandscapeModel()->getLandscape() )
 	{
 		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
-		handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
+		handle->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
 		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
 				selectedObjectsBegin = selectedObjectsCollection.begin()

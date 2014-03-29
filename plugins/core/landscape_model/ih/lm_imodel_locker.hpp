@@ -4,8 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_ilandscape.hpp"
-#include "landscape_model/ih/lm_iplayer.hpp"
+#include "landscape_model/ih/lm_ilandscape_model.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,12 +14,20 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+	const unsigned int IID_LANDSCAPE_MODEL_LOCKER = 0;
+
+/*---------------------------------------------------------------------------*/
+
 struct IModelLocker
 	:	public Tools::Core::IBase
 {
-	virtual boost::intrusive_ptr< ILandscape > getLandscape() const = 0;
 
-	virtual boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const = 0;
+/*---------------------------------------------------------------------------*/
+
+	virtual boost::intrusive_ptr< ILandscapeModel > getLandscapeModel() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
 };
 
 /*---------------------------------------------------------------------------*/

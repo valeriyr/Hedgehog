@@ -21,6 +21,7 @@
 #include "script_engine/h/se_resources.hpp"
 
 #include "landscape_model/sources/environment/lm_environment.hpp"
+#include "landscape_model/sources/model_locker/lm_model_locker.hpp"
 #include "landscape_model/sources/landscape_model/lm_landscape_model.hpp"
 #include "landscape_model/sources/landscape_serializer/lm_landscape_serializer.hpp"
 #include "landscape_model/sources/surface_items_cache/lm_surface_items_cache.hpp"
@@ -43,9 +44,9 @@ namespace LandscapeModel {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE_DECLARATION( IID_LANDSCAPE_MODEL, m_landscapeModel.get() )
-	INTERFACE_DECLARATION( IID_SURFACE_ITEMS_CACHE, m_surfaceItemsCache.get() )
-	INTERFACE_DECLARATION( IID_STATIC_DATA, m_staticData.get() )
+	INTERFACE_DECLARATION( IID_LANDSCAPE_MODEL_LOCKER, getLandscapeModelLocker() )
+	INTERFACE_DECLARATION( IID_SURFACE_ITEMS_CACHE, m_surfaceItemsCache )
+	INTERFACE_DECLARATION( IID_STATIC_DATA, m_staticData )
 
 END_INTERFACE_MAP()
 
@@ -355,6 +356,17 @@ PluginInstance::executeConfigurationScripts()
 	}
 
 } // PluginInstance::executeConfigurationScripts
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IModelLocker >
+PluginInstance::getLandscapeModelLocker()
+{
+	return boost::intrusive_ptr< IModelLocker >( new ModelLocker( m_landscapeModel ) );
+
+} // PluginInstance::getLandscapeModelLocker
 
 
 /*---------------------------------------------------------------------------*/

@@ -150,8 +150,6 @@ MoveAction::processAction( const unsigned int _deltaTime )
 {
 	// Common variables
 
-	boost::intrusive_ptr< IModelLocker > handle( m_landscapeModel.lockModel() );
-
 	boost::intrusive_ptr< ILocateComponent > locateComponent
 		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 	boost::intrusive_ptr< IMoveComponent > moveComponent
@@ -224,9 +222,9 @@ MoveAction::processAction( const unsigned int _deltaTime )
 			newMovingData.m_movingToObject = moveComponent->getMovingData().m_movingToObject;
 
 			IPathFinder::PointsCollection targetPoints;
-			fillPossibleTargetPoints( targetPoints, moveComponent->getMovingData(), *handle->getLandscape() );
+			fillPossibleTargetPoints( targetPoints, moveComponent->getMovingData(), *m_landscapeModel.getLandscape() );
 
-			m_pathFinder->findPath( newMovingData.m_path, *handle->getLandscape(), m_object, targetPoints );
+			m_pathFinder->findPath( newMovingData.m_path, *m_landscapeModel.getLandscape(), m_object, targetPoints );
 
 			if ( newMovingData.m_path.empty() )
 			{
@@ -236,8 +234,8 @@ MoveAction::processAction( const unsigned int _deltaTime )
 			{
 				movingData = newMovingData;
 
-				handle->getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
-				handle->getLandscape()->setEngaged( movingData.m_path.front(), locateComponent->getStaticData().m_emplacement, true );
+				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
+				m_landscapeModel.getLandscape()->setEngaged( movingData.m_path.front(), locateComponent->getStaticData().m_emplacement, true );
 			}
 		}
 
@@ -260,10 +258,10 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 				if ( !movingData.m_path.empty() )
 				{
-					if ( handle->getLandscape()->canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getName() ) )
+					if ( m_landscapeModel.getLandscape()->canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getName() ) )
 					{
-						handle->getLandscape()->setEngaged( location, locateComponent->getStaticData().m_emplacement, false );
-						handle->getLandscape()->setEngaged( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData().m_emplacement, true );
+						m_landscapeModel.getLandscape()->setEngaged( location, locateComponent->getStaticData().m_emplacement, false );
+						m_landscapeModel.getLandscape()->setEngaged( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData().m_emplacement, true );
 					}
 					else
 					{

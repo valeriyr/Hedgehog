@@ -3,6 +3,8 @@
 
 #include "landscape_model/sources/model_locker/lm_model_locker.hpp"
 
+#include "landscape_model/sources/landscape_model/lm_landscape_model.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,14 +15,9 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-ModelLocker::ModelLocker(
-		boost::intrusive_ptr< ILandscape >& _landscape
-	,	boost::intrusive_ptr< IPlayer >& _player
-	,	QMutex& _mutex
-	)
-	:	m_lockerHolder( &_mutex )
-	,	m_landscape( _landscape )
-	,	m_player( _player )
+ModelLocker::ModelLocker( boost::intrusive_ptr< LandscapeModel >& _landscapeModel )
+	:	m_lockerHolder( &_landscapeModel->getMutex() )
+	,	m_landscapeModel( _landscapeModel )
 {
 } // ModelLocker::ModelLocker
 
@@ -36,23 +33,12 @@ ModelLocker::~ModelLocker()
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< ILandscape >
-ModelLocker::getLandscape() const
+boost::intrusive_ptr< ILandscapeModel >
+ModelLocker::getLandscapeModel() const
 {
-	return m_landscape;
+	return m_landscapeModel;
 
 } // ModelLocker::getLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< IPlayer >
-ModelLocker::getPlayer( const IPlayer::Id& _id ) const
-{
-	return m_player;
-
-} // ModelLocker::getPlayer
 
 
 /*---------------------------------------------------------------------------*/

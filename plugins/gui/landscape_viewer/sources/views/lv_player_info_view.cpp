@@ -135,22 +135,23 @@ PlayerInfoView::updatePlayerInfo()
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	if ( handle->getPlayer(1) )
+	boost::intrusive_ptr< Core::LandscapeModel::IPlayer > player
+		= handle->getLandscapeModel()->getPlayer(1);
+
+	if ( player )
 	{
 		QString resourcesInfo;
 
-		const Core::LandscapeModel::ResourcesData& resourcesData = handle->getPlayer(1)->getResourcesData();
-
 		Core::LandscapeModel::ResourcesData::ResourcesDataCollectionConstIterator
-				begin = resourcesData.m_data.begin()
-			,	end = resourcesData.m_data.end();
+				begin = player->getResourcesData().m_data.begin()
+			,	end = player->getResourcesData().m_data.end();
 
 		for ( ; begin != end; ++begin )
 			resourcesInfo += QString( Resources::Views::PlayerResourceInfoFormat ).arg( begin->first ).arg( begin->second );
 
 		m_mainWidget->setHtml(
 			QString( Resources::Views::PlayerInfoTextFormat )
-				.arg( handle->getPlayer(1)->getUniqueId() )
+				.arg( player->getUniqueId() )
 				.arg( resourcesInfo ) );
 	}
 

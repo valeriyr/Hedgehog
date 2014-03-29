@@ -6,6 +6,8 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
 
+#include "landscape_model/ih/lm_imodel_locker.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -77,7 +79,7 @@ CommandsExecutor::closeLandscape()
 void
 CommandsExecutor::saveLandscape()
 {
-	m_environment.saveLandscape( m_landscapeViewer.getLandscapeFilePath() );
+	m_environment.lockModel()->getLandscapeModel()->saveModel( m_landscapeViewer.getLandscapeFilePath() );
 
 } // CommandsExecutor::saveLandscape
 
@@ -88,7 +90,7 @@ CommandsExecutor::saveLandscape()
 void
 CommandsExecutor::saveAsLandscape()
 {
-	m_environment.saveLandscape( m_environment.showSaveFileDialog() );
+	m_environment.lockModel()->getLandscapeModel()->saveModel( m_environment.showSaveFileDialog() );
 
 } // CommandsExecutor::saveAsLandscape
 

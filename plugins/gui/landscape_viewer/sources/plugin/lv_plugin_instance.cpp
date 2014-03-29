@@ -25,7 +25,7 @@
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 #include "window_manager/h/wm_plugin_id.hpp"
 
-#include "landscape_model/ih/lm_ilandscape_model.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 #include "landscape_model/ih/lm_istatic_data.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
@@ -314,13 +314,13 @@ PluginInstance::getEventManager() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< Plugins::Core::LandscapeModel::ILandscapeModel >
-PluginInstance::getLandscapeModel() const
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::IModelLocker >
+PluginInstance::getModelLocker() const
 {
 	return
-		getPluginInterface< Plugins::Core::LandscapeModel::ILandscapeModel >(
+		getPluginInterface< Plugins::Core::LandscapeModel::IModelLocker >(
 				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
-			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_MODEL );
+			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_MODEL_LOCKER );
 
 } // PluginInstance::getLandscapeModel
 

@@ -58,10 +58,6 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IModelLocker > lockModel();
-
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ void selectObjects( const QRect& _rect );
 
 	/*virtual*/ void selectObject( const Object::Id& _id );
@@ -96,6 +92,16 @@ public:
 	/*virtual*/ boost::shared_ptr< Object > create(
 			const QPoint& _location
 		,	const QString& _objectName );
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ boost::intrusive_ptr< ILandscape > getLandscape() const;
+
+	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const;
+
+/*---------------------------------------------------------------------------*/
+
+	QMutex& getMutex();
 
 /*---------------------------------------------------------------------------*/
 
@@ -138,7 +144,7 @@ private:
 
 	Framework::Core::MultithreadingManager::TaskHandle m_actionsProcessingTaskHandle;
 
-	boost::intrusive_ptr< ILandscape > m_currentLandscape;
+	boost::intrusive_ptr< ILandscape > m_landscape;
 
 	boost::intrusive_ptr< IPlayer > m_player;
 

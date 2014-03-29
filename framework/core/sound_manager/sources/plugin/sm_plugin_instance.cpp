@@ -28,7 +28,7 @@ namespace SoundManager {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE_DECLARATION( IID_SOUND_MANAGER, m_soundManager.get() )
+	INTERFACE_DECLARATION( IID_SOUND_MANAGER, m_soundManager )
 
 END_INTERFACE_MAP()
 

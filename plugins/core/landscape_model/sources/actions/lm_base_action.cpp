@@ -72,6 +72,28 @@ BaseAction::isInProcessing() const
 
 /*---------------------------------------------------------------------------*/
 
+
+bool
+BaseAction::prepareToProcessingInternal()
+{
+	return true;
+
+} // BaseAction::prepareToProcessingInternal
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+BaseAction::cancelProcessingInternal()
+{
+	return true;
+
+} // BaseAction::cancelProcessingInternal
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

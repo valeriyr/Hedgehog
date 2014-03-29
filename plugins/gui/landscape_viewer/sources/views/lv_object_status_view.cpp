@@ -135,10 +135,10 @@ ObjectStatusView::onObjectsSelectionChanged( const Framework::Core::EventManager
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	if ( handle->getLandscape() )
+	if ( handle->getLandscapeModel()->getLandscape() )
 	{
 		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
-		handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
+		handle->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
 		m_builderId = Core::LandscapeModel::Object::ms_wrongId;
 
@@ -179,9 +179,9 @@ ObjectStatusView::updateBuildQueue()
 		boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 			= m_environment.lockModel();
 
-		if ( handle->getLandscape() )
+		if ( handle->getLandscapeModel()->getLandscape() )
 		{
-			boost::shared_ptr< Core::LandscapeModel::Object > object = handle->getLandscape()->getObject( m_builderId );
+			boost::shared_ptr< Core::LandscapeModel::Object > object = handle->getLandscapeModel()->getLandscape()->getObject( m_builderId );
 
 			boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent
 				= object->getComponent< Core::LandscapeModel::ITrainComponent >( Core::LandscapeModel::ComponentId::Train );

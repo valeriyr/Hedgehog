@@ -26,7 +26,7 @@ namespace EventManager {
 
 BEGIN_INTERFACE_MAP( PluginInstance )
 
-	INTERFACE_DECLARATION( IID_EVENT_MANAGER, m_eventManager.get() )
+	INTERFACE_DECLARATION( IID_EVENT_MANAGER, m_eventManager )
 
 END_INTERFACE_MAP()
 

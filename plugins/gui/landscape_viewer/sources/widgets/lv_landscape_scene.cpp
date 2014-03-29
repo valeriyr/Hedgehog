@@ -104,7 +104,7 @@ private:
 				,	m_landscapeScene.width()
 				,	m_landscapeScene.height()
 				,	LandscapeScene::convertToScenePosition(
-						m_environment.lockModel()->getLandscape()->getObject( m_objectId )
+						m_environment.lockModel()->getLandscapeModel()->getLandscape()->getObject( m_objectId )
 							->getComponent< Core::LandscapeModel::ILocateComponent >( Core::LandscapeModel::ComponentId::Locate )->getLocation() )
 				,	m_objectName
 				,	pixmap() ) );
@@ -420,7 +420,7 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 	const QPoint location
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute ).toPoint();
 
-	if ( handle->getLandscape() )
+	if ( handle->getLandscapeModel()->getLandscape() )
 	{
 		QPointF scenePosition( LandscapeScene::convertToScenePosition( location ) );
 
@@ -638,14 +638,14 @@ LandscapeScene::generateLandscape()
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	if ( handle->getLandscape() )
+	if ( handle->getLandscapeModel()->getLandscape() )
 	{
-		for ( int i = 0; i < handle->getLandscape()->getWidth(); ++i )
+		for ( int i = 0; i < handle->getLandscapeModel()->getLandscape()->getWidth(); ++i )
 		{
-			for ( int j = 0; j < handle->getLandscape()->getHeight(); ++j )
+			for ( int j = 0; j < handle->getLandscapeModel()->getLandscape()->getHeight(); ++j )
 			{
 				boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-					surfaceItem = handle->getLandscape()->getSurfaceItem( QPoint( i, j ) );
+					surfaceItem = handle->getLandscapeModel()->getLandscape()->getSurfaceItem( QPoint( i, j ) );
 
 				boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 					surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo(
@@ -663,7 +663,7 @@ LandscapeScene::generateLandscape()
 		}
 
 		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection objectsCollection;
-		handle->getLandscape()->fetchObjects( objectsCollection );
+		handle->getLandscapeModel()->getLandscape()->fetchObjects( objectsCollection );
 
 		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
 				begin = objectsCollection.begin()
@@ -706,14 +706,14 @@ LandscapeScene::generateTerrainMapLayer()
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	if ( handle->getLandscape() )
+	if ( handle->getLandscapeModel()->getLandscape() )
 	{
-		for ( int i = 0; i < handle->getLandscape()->getWidth(); ++i )
+		for ( int i = 0; i < handle->getLandscapeModel()->getLandscape()->getWidth(); ++i )
 		{
-			for ( int j = 0; j < handle->getLandscape()->getHeight(); ++j )
+			for ( int j = 0; j < handle->getLandscapeModel()->getLandscape()->getHeight(); ++j )
 			{
 				Plugins::Core::LandscapeModel::TerrainMapData
-					terrainMapData = handle->getLandscape()->getTerrainMapData( QPoint( i, j ) );
+					terrainMapData = handle->getLandscapeModel()->getLandscape()->getTerrainMapData( QPoint( i, j ) );
 
 				QColor color;
 
@@ -804,9 +804,13 @@ LandscapeScene::setCorrectSceneSize()
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	if ( handle->getLandscape() )
+	if ( handle->getLandscapeModel()->getLandscape() )
 	{
-		setSceneRect( 0, 0, handle->getLandscape()->getWidth() * Resources::Landscape::CellSize, handle->getLandscape()->getHeight() * Resources::Landscape::CellSize );
+		setSceneRect(
+				0
+			,	0
+			,	handle->getLandscapeModel()->getLandscape()->getWidth() * Resources::Landscape::CellSize
+			,	handle->getLandscapeModel()->getLandscape()->getHeight() * Resources::Landscape::CellSize );
 	}
 	else
 	{
@@ -865,7 +869,7 @@ LandscapeScene::markSelectedObjects()
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	if ( handle->getLandscape() )
+	if ( handle->getLandscapeModel()->getLandscape() )
 	{
 		ObjectsCollectionIterator
 				objectsBegin = m_objectsCollection.begin()
@@ -877,7 +881,7 @@ LandscapeScene::markSelectedObjects()
 		}
 
 		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
-		handle->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
+		handle->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
 		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
 				selectedObjectsBegin = selectedObjectsCollection.begin()

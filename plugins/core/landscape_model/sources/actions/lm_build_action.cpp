@@ -87,8 +87,7 @@ BuildAction::cancelProcessingInternal()
 
 	if ( buildComponent->getBuildData().m_buildProgress != 0.0f )
 	{
-		boost::intrusive_ptr< IModelLocker > handle( m_landscapeModel.lockModel() );
-		boost::intrusive_ptr< IPlayer > player = handle->getPlayer( m_object.getPlayerId() );
+		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( m_object.getPlayerId() );
 
 		if ( player )
 		{
@@ -122,8 +121,6 @@ void
 BuildAction::processAction( const unsigned int _deltaTime )
 {
 	// Common variables
-
-	boost::intrusive_ptr< IModelLocker > handle( m_landscapeModel.lockModel() );
 
 	boost::intrusive_ptr< ILocateComponent > locateComponent
 		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
@@ -172,12 +169,12 @@ BuildAction::processAction( const unsigned int _deltaTime )
 
 			if ( buildData.m_buildProgress == 0.0f )
 			{
-				handle->getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
+				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
 
-				boost::intrusive_ptr< IPlayer > player = handle->getPlayer( m_object.getPlayerId() );
+				boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( m_object.getPlayerId() );
 
 				bool newObjectCanBePlaced
-					= handle->getLandscape()->canObjectBePlaced( buildData.m_atLocation, buildData.m_objectName );
+					= m_landscapeModel.getLandscape()->canObjectBePlaced( buildData.m_atLocation, buildData.m_objectName );
 
 				IBuildComponent::StaticData::BuildDataCollectionIterator
 					iterator = buildComponent->getStaticData().m_buildDatas.find( m_objectName );
@@ -187,7 +184,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 					||	iterator == buildComponent->getStaticData().m_buildDatas.end()
 					||	!player->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
 				{
-					handle->getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );
+					m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );
 					m_buildingFinished = true;
 					shouldBuildObject = false;
 				}
@@ -208,7 +205,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 				buildData.m_buildProgress += buildingDelta;
 
 				boost::shared_ptr< Object > targetObject
-					= handle->getLandscape()->getObject( buildData.m_objectId );
+					= m_landscapeModel.getLandscape()->getObject( buildData.m_objectId );
 
 				boost::intrusive_ptr< IHealthComponent > targetHealthComponent
 					= targetObject->getComponent< IHealthComponent >( ComponentId::Health );

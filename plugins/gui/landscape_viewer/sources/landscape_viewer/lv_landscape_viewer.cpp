@@ -107,7 +107,7 @@ LandscapeViewer::getLandscapeFilePath() const
 void
 LandscapeViewer::openLandscape( const QString& _filePath )
 {
-	m_environment.initLandscapeModel( _filePath );
+	m_environment.lockModel()->getLandscapeModel()->initModel( _filePath );
 
 } // LandscapeViewer::openLandscape
 
@@ -129,7 +129,7 @@ LandscapeViewer::closeLandscape()
 
 	m_landscapeFilePath.clear();
 
-	m_environment.resetLandscapeModel();
+	m_environment.lockModel()->getLandscapeModel()->resetModel();
 
 } // LandscapeViewer::closeLandscape
 
