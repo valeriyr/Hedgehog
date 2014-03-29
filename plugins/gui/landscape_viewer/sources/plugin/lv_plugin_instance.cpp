@@ -320,7 +320,7 @@ PluginInstance::getModelLocker() const
 	return
 		getPluginInterface< Plugins::Core::LandscapeModel::IModelLocker >(
 				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
-			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_MODEL_LOCKER );
+			,	Plugins::Core::LandscapeModel::IID_LANDSCAPE_MODEL );
 
 } // PluginInstance::getLandscapeModel
 

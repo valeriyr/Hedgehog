@@ -14,7 +14,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_LANDSCAPE_MODEL_LOCKER = 0;
+	const unsigned int IID_LANDSCAPE_MODEL = 0;
 
 /*---------------------------------------------------------------------------*/
 
