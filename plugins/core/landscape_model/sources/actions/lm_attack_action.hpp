@@ -16,7 +16,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class MoveAction;
+struct IAction;
 
 /*---------------------------------------------------------------------------*/
 
@@ -62,7 +62,7 @@ private:
 
 	boost::shared_ptr< Object > m_target;
 
-	boost::intrusive_ptr< MoveAction > m_moveAction;
+	boost::intrusive_ptr< IAction > m_moveAction;
 
 	bool m_attakingFinished;
 

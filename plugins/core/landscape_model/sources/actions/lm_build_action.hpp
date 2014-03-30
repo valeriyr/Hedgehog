@@ -19,7 +19,7 @@ namespace LandscapeModel {
 struct IBuildersHolder;
 struct IStaticData;
 
-class MoveAction;
+struct IAction;
 
 /*---------------------------------------------------------------------------*/
 
@@ -88,7 +88,7 @@ private:
 
 	bool m_buildingFinished;
 
-	boost::intrusive_ptr< MoveAction > m_moveAction;
+	boost::intrusive_ptr< IAction > m_moveAction;
 
 /*---------------------------------------------------------------------------*/
 

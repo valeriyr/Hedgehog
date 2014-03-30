@@ -52,7 +52,7 @@ public:
 		,	m_playerId( _playerId )
 		,	m_state( ObjectState::Standing )
 	{
-		static unsigned int s_uniqueIdsCounter = 0;
+		static int s_uniqueIdsCounter = 0;
 		*const_cast< Id* >( &m_id ) = ++s_uniqueIdsCounter;
 	}
 

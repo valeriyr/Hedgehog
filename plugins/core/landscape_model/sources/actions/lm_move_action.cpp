@@ -362,17 +362,6 @@ MoveAction::getType() const
 
 
 void
-MoveAction::setDistance( const float _distance )
-{
-	m_distance = _distance;
-
-} // MoveAction::setDistance
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
 MoveAction::fillPossibleTargetPoints(
 		IPathFinder::PointsCollection& _points
 	,	const IMoveComponent::MovingData& _movingData
