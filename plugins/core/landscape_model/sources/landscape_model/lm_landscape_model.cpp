@@ -184,7 +184,7 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _flush )
 							boost::intrusive_ptr< IAction >( new AttackAction( m_environment, *this, **begin, targetObject ) )
 						,	_flush );
 				}
-				else
+				else if ( moveComponent )
 				{
 					actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, **begin, targetObject, 1.5f ) )
