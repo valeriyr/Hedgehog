@@ -7,7 +7,7 @@ peon.m_healthData = HealthComponentStaticData( 50 )
 peon.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground, Emplacement.Ground )
 peon.m_moveData = MoveComponentStaticData( 900 )
 peon.m_selectionData = SelectionComponentStaticData()
-peon.m_attackData = AttackComponentStaticData(  4, 6, 1.0, 400, 1500 )
+peon.m_attackData = AttackComponentStaticData(  4, 6, 1.5, 400, 1500 )
 
 peon.m_resourceHolderData = ResourceHolderComponentStaticData()
 peon.m_resourceHolderData:hold( QString( "Gold" ), 10 )
