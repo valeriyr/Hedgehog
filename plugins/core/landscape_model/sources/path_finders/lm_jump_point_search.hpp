@@ -43,13 +43,18 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	bool allPointsFound(
+			const Tools::Core::Containers::Matrix< int >& matrix
+		,	const IPathFinder::PointsCollection& _targets ) const;
+
 	bool hasFoundPoint(
 			const Tools::Core::Containers::Matrix< int >& matrix
 		,	const IPathFinder::PointsCollection& _targets ) const;
 
-	QPoint getFoundPoint(
+	QPoint getNearestFoundPoint(
 			const Tools::Core::Containers::Matrix< int >& matrix
-		,	const IPathFinder::PointsCollection& _targets ) const;
+		,	const IPathFinder::PointsCollection& _targets
+		,	const QPoint& _startPoint ) const;
 
 /*---------------------------------------------------------------------------*/
 

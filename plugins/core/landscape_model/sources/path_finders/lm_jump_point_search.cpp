@@ -7,6 +7,8 @@
 
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 
+#include "landscape_model/sources/geometry/lm_geometry.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -105,12 +107,12 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 			}
 		}
 		++d;
-	} while ( !stop && !hasFoundPoint( matrix, _targets ) );
+	} while ( !stop && !allPointsFound( matrix, _targets ) );
 
 	if ( !hasFoundPoint( matrix, _targets ) )
 		return;
 
-	QPoint finishPoint = getFoundPoint( matrix, _targets );
+	QPoint finishPoint = getNearestFoundPoint( matrix, _targets, startPoint );
 
 	int len = matrix.getConstElement( finishPoint.x(), finishPoint.y() );
 	d = len;
@@ -149,6 +151,29 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 
 
 bool
+JumpPointSearch::allPointsFound(
+		const Tools::Core::Containers::Matrix< int >& matrix
+	,	const IPathFinder::PointsCollection& _targets ) const
+{
+	IPathFinder::PointsCollectionConstIterator
+			begin = _targets.begin()
+		,	end = _targets.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( matrix.getConstElement( begin->x(), begin->y() ) == ms_freeCell )
+			return false;
+	}
+
+	return true;
+
+} // JumpPointSearch::allPointsFound
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
 JumpPointSearch::hasFoundPoint(
 		const Tools::Core::Containers::Matrix< int >& matrix
 	,	const IPathFinder::PointsCollection& _targets ) const
@@ -172,10 +197,14 @@ JumpPointSearch::hasFoundPoint(
 
 
 QPoint
-JumpPointSearch::getFoundPoint(
+JumpPointSearch::getNearestFoundPoint(
 		const Tools::Core::Containers::Matrix< int >& matrix
-	,	const IPathFinder::PointsCollection& _targets ) const
+	,	const IPathFinder::PointsCollection& _targets
+	,	const QPoint& _startPoint ) const
 {
+	float distance = FLT_MAX;
+	QPoint result;
+
 	IPathFinder::PointsCollectionConstIterator
 			begin = _targets.begin()
 		,	end = _targets.end();
@@ -183,12 +212,18 @@ JumpPointSearch::getFoundPoint(
 	for ( ; begin != end; ++begin )
 	{
 		if ( matrix.getConstElement( begin->x(), begin->y() ) >= 0 )
-			return *begin;
+		{
+			float temp = Geometry::getDistance( _startPoint, *begin );
+
+			if ( temp < distance )
+			{
+				distance = temp;
+				result = *begin;
+			}
+		}
 	}
 
-	assert( !"You should check collection before call this function!" );
-
-	return QPoint();
+	return result;
 
 } // JumpPointSearch::getFoundPoint
 
