@@ -315,6 +315,12 @@ PluginInstance::exportScriptAPI()
 	// ResourceHolderComponent
 
 	exporter.exportClassWithShared< IResourceHolderComponent::StaticData >( "ResourceHolderComponentStaticData" )
+		->withConstructor()
+		.withMethod( "hold", &IResourceHolderComponent::StaticData::hold );
+
+	// ResourceSourceComponent
+
+	exporter.exportClassWithShared< IResourceSourceComponent::StaticData >( "ResourceSourceComponentStaticData" )
 		->withConstructor< const QString& >();
 
 	// StaticData
@@ -329,7 +335,8 @@ PluginInstance::exportScriptAPI()
 		.withRWProperty( "m_generateResourcesData", &IStaticData::ObjectStaticData::m_generateResourcesData )
 		.withRWProperty( "m_attackData", &IStaticData::ObjectStaticData::m_attackData )
 		.withRWProperty( "m_buildData", &IStaticData::ObjectStaticData::m_buildData )
-		.withRWProperty( "m_resourceHolderData", &IStaticData::ObjectStaticData::m_resourceHolderData );
+		.withRWProperty( "m_resourceHolderData", &IStaticData::ObjectStaticData::m_resourceHolderData )
+		.withRWProperty( "m_resourceSourceData", &IStaticData::ObjectStaticData::m_resourceSourceData );
 
 	exporter.exportClass< IStaticData >( "IStaticData" )
 		->withMethod( "regObjectStaticData", &IStaticData::regObjectStaticData )

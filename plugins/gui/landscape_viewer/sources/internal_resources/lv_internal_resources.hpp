@@ -71,6 +71,10 @@ namespace Views {
 
 	extern const char* const DamageInfoFormat;
 
+	extern const char* const ResourcesSourceFormat;
+
+	extern const char* const ResourcesHoldFormat;
+
 	extern const char* const NoneString;
 
 /*---------------------------------------------------------------------------*/

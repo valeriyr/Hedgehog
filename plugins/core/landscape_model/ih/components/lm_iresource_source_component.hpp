@@ -1,11 +1,10 @@
 
-#ifndef __LM_IRESOURCE_HOLDER_COMPONENT_HPP__
-#define __LM_IRESOURCE_HOLDER_COMPONENT_HPP__
+#ifndef __LM_IRESOURCE_SOURCE_COMPONENT_HPP__
+#define __LM_IRESOURCE_SOURCE_COMPONENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
-#include "landscape_model/h/lm_resources_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,7 +14,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IResourceHolderComponent
+struct IResourceSourceComponent
 	:	public IComponent
 {
 
@@ -23,16 +22,11 @@ struct IResourceHolderComponent
 
 	struct StaticData
 	{
-		StaticData()
-			:	m_maxResourcesValue()
+		StaticData( const QString& _resource )
+			:	m_resource( _resource )
 		{}
 
-		void hold( const QString& _resourceName, const int _maxValue )
-		{
-			m_maxResourcesValue.pushResource( _resourceName, _maxValue );
-		}
-
-		ResourcesData m_maxResourcesValue;
+		const QString m_resource;
 	};
 
 /*---------------------------------------------------------------------------*/
@@ -41,7 +35,9 @@ struct IResourceHolderComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual ResourcesData& holdResources() = 0;
+	virtual const int getResourceValue() const = 0;
+
+	virtual void setResourceValue( const int _value ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -55,4 +51,4 @@ struct IResourceHolderComponent
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IRESOURCE_HOLDER_COMPONENT_HPP__
+#endif // __LM_IRESOURCE_SOURCE_COMPONENT_HPP__

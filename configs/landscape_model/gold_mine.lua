@@ -5,7 +5,7 @@ goldMine = ObjectStaticData()
 
 goldMine.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground, Emplacement.Ground )
 goldMine.m_selectionData = SelectionComponentStaticData()
-goldMine.m_resourceHolderData = ResourceHolderComponentStaticData( QString( "Gold" ) )
+goldMine.m_resourceSourceData = ResourceSourceComponentStaticData( QString( "Gold" ) )
 
 StaticData:regObjectStaticData( QString( "Gold Mine" ), goldMine )
 

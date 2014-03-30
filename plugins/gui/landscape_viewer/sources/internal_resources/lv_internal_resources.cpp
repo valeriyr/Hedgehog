@@ -118,11 +118,19 @@ namespace Views {
 			"			<b>Damage:</b> %11													"	\
 			"			<br>																"	\
 			"			<b>Attack distance:</b> %12											"	\
+			"			<br>																"	\
+			"			<b>Resource inside:</b> %13											"	\
+			"			<br>																"	\
+			"			<b>Resources hold:</b> %14											"	\
 			"		</div>																	"	\
 			"	</body>																		"	\
 			"</html>																		";
 
 	const char* const DamageInfoFormat = "( %1 - %2 )";
+
+	const char* const ResourcesSourceFormat = "%1: %2";
+
+	const char* const ResourcesHoldFormat = "%1: %2 / %3";
 
 	const char* const NoneString = "none";
 

@@ -31,6 +31,7 @@
 #include "landscape_model/sources/components/lm_attack_component.hpp"
 #include "landscape_model/sources/components/lm_build_component.hpp"
 #include "landscape_model/sources/components/lm_resource_holder_component.hpp"
+#include "landscape_model/sources/components/lm_resource_source_component.hpp"
 
 #include "landscape_model/ih/lm_istatic_data.hpp"
 
@@ -445,6 +446,11 @@ LandscapeModel::create( const QPoint& _location, const QString& _objectName )
 		object->addComponent(
 				ComponentId::ResourceHolder
 			,	boost::intrusive_ptr< IComponent >( new ResourceHolderComponent( *object, *staticData.m_resourceHolderData ) ) );
+
+	if ( staticData.m_resourceSourceData )
+		object->addComponent(
+				ComponentId::ResourceSource
+			,	boost::intrusive_ptr< IComponent >( new ResourceSourceComponent( *object, *staticData.m_resourceSourceData ) ) );
 
 	if ( staticData.m_generateResourcesData )
 	{

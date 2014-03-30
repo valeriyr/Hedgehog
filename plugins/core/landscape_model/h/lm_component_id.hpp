@@ -20,10 +20,11 @@ struct ComponentId
 		,	Selection
 		,	Actions
 		,	Move
-		,	ResourcesGenerating
 		,	Attack
 		,	Build
+		,	ResourcesGenerating
 		,	ResourceHolder
+		,	ResourceSource
 	};
 };
 

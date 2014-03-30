@@ -1,10 +1,10 @@
 
-#ifndef __LM_RESOURCE_HOLDER_COMPONENT_HPP__
-#define __LM_RESOURCE_HOLDER_COMPONENT_HPP__
+#ifndef __LM_RESOURCE_SOURCE_COMPONENT_HPP__
+#define __LM_RESOURCE_SOURCE_COMPONENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
+#include "landscape_model/ih/components/lm_iresource_source_component.hpp"
 
 #include "landscape_model/sources/components/lm_base_component.hpp"
 
@@ -16,8 +16,8 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class ResourceHolderComponent
-	:	public BaseComponent< IResourceHolderComponent >
+class ResourceSourceComponent
+	:	public BaseComponent< IResourceSourceComponent >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -26,19 +26,21 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ResourceHolderComponent(
+	ResourceSourceComponent(
 			Object& _object
-		,	const IResourceHolderComponent::StaticData& _staticData );
+		,	const IResourceSourceComponent::StaticData& _staticData );
 
-	virtual ~ResourceHolderComponent();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ const IResourceHolderComponent::StaticData& getStaticData() const;
+	virtual ~ResourceSourceComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ ResourcesData& holdResources();
+	/*virtual*/ const IResourceSourceComponent::StaticData& getStaticData() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ const int getResourceValue() const;
+
+	/*virtual*/ void setResourceValue( const int _value );
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,9 +48,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const IResourceHolderComponent::StaticData& m_staticData;
+	const IResourceSourceComponent::StaticData& m_staticData;
 
-	ResourcesData m_resourcesValue;
+	int m_resourceValue;
 
 /*---------------------------------------------------------------------------*/
 
@@ -62,4 +64,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_RESOURCE_HOLDER_COMPONENT_HPP__
+#endif // __LM_RESOURCE_SOURCE_COMPONENT_HPP__

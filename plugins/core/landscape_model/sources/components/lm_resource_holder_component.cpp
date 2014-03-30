@@ -19,8 +19,17 @@ ResourceHolderComponent::ResourceHolderComponent(
 	)
 	:	BaseComponent< IResourceHolderComponent >( _object )
 	,	m_staticData( _staticData )
-	,	m_resourceValue( 20000 )
+	,	m_resourcesValue()
 {
+	Core::LandscapeModel::ResourcesData::ResourcesDataCollectionConstIterator
+			begin = m_staticData.m_maxResourcesValue.m_data.begin()
+		,	end = m_staticData.m_maxResourcesValue.m_data.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		m_resourcesValue.pushResource( begin->first, 0 );
+	}
+
 } // ResourceHolderComponent::ResourceHolderComponent
 
 
@@ -41,6 +50,17 @@ ResourceHolderComponent::getStaticData() const
 	return m_staticData;
 
 } // ResourceHolderComponent::getStaticData
+
+
+/*---------------------------------------------------------------------------*/
+
+
+ResourcesData&
+ResourceHolderComponent::holdResources()
+{
+	return m_resourcesValue;
+
+} // ResourceHolderComponent::holdResources
 
 
 /*---------------------------------------------------------------------------*/

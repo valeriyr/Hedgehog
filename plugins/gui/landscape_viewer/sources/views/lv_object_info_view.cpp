@@ -13,6 +13,8 @@
 #include "landscape_model/ih/components/lm_imove_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iattack_component.hpp"
+#include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
+#include "landscape_model/ih/components/lm_iresource_source_component.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
 
@@ -199,6 +201,41 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 				= object->getComponent< Core::LandscapeModel::IMoveComponent >( Plugins::Core::LandscapeModel::ComponentId::Move );
 			boost::intrusive_ptr< Core::LandscapeModel::IAttackComponent > attackComponent
 				= object->getComponent< Core::LandscapeModel::IAttackComponent >( Plugins::Core::LandscapeModel::ComponentId::Attack );
+			boost::intrusive_ptr< Core::LandscapeModel::IResourceHolderComponent > resourceHolderComponent
+				= object->getComponent< Core::LandscapeModel::IResourceHolderComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceHolder );
+			boost::intrusive_ptr< Core::LandscapeModel::IResourceSourceComponent > resourceSourceComponent
+				= object->getComponent< Core::LandscapeModel::IResourceSourceComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceSource );
+
+			QString resourceHolderData;
+
+			if ( resourceHolderComponent )
+			{
+				const Core::LandscapeModel::ResourcesData& maxResources
+					= resourceHolderComponent->getStaticData().m_maxResourcesValue;
+
+				Core::LandscapeModel::ResourcesData::ResourcesDataCollectionConstIterator
+						begin = maxResources.m_data.begin()
+					,	end = maxResources.m_data.end()
+					,	it = maxResources.m_data.begin();
+
+				for ( ; it != end; ++it )
+				{
+					if ( it != begin )
+					{
+						resourceHolderData += ", ";
+					}
+
+					resourceHolderData
+						+= QString( Resources::Views::ResourcesHoldFormat )
+								.arg( it->first )
+								.arg( resourceHolderComponent->holdResources().getResourceValue( it->first ) )
+								.arg( it->second );
+				}
+			}
+			else
+			{
+				resourceHolderData = Resources::Views::NoneString;
+			}
 
 			m_mainWidget->setHtml(
 				QString( Resources::Views::ObjectInfoFormat )
@@ -217,7 +254,13 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 								.arg( attackComponent->getStaticData().m_minDamage )
 								.arg( attackComponent->getStaticData().m_maxDamage )
 						:	Resources::Views::NoneString )
-						.arg( attackComponent ? QString::number( attackComponent->getStaticData().m_distance ) : Resources::Views::NoneString ) );
+						.arg( attackComponent ? QString::number( attackComponent->getStaticData().m_distance ) : Resources::Views::NoneString )
+					.arg(	resourceSourceComponent
+						?	QString( Resources::Views::ResourcesSourceFormat )
+								.arg( resourceSourceComponent->getStaticData().m_resource )
+								.arg( resourceSourceComponent->getResourceValue() )
+						:	Resources::Views::NoneString )
+					.arg( resourceHolderData ) );
 		}
 	}
 
