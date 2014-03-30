@@ -129,13 +129,19 @@ TrainAction::processAction( const unsigned int _deltaTime )
 					m_landscapeModel.getLandscape()->getNearestLocation( m_object, trainData.m_trainingObjectName )
 				,	trainData.m_trainingObjectName );
 
+			Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
+			trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() );
+	
+			m_environment.riseEvent( trainQueueChangedEvent );
+
 			m_trainingFinished = true;
 		}
 
-		Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
-		trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() );
-	
-		m_environment.riseEvent( trainQueueChangedEvent );
+		Framework::Core::EventManager::Event trainProgressChangedEvent( Events::TrainProgressChanged::ms_type );
+		trainProgressChangedEvent.pushAttribute( Events::TrainProgressChanged::ms_trainerIdAttribute, m_object.getUniqueId() );
+		trainProgressChangedEvent.pushAttribute( Events::TrainProgressChanged::ms_trainerProgressAttribute, trainData.m_trainProgress );
+
+		m_environment.riseEvent( trainProgressChangedEvent );
 	}
 
 	if ( m_trainingFinished )

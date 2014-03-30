@@ -63,11 +63,17 @@ private:
 
 	void onTrainQueueChanged( const Framework::Core::EventManager::Event& _event );
 
+	void onTrainProgressChanged( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 	void updateBuildQueue();
 
-	void clear();
+	void updateProgressLabel( const int _progress );
+	void updateProgressLabel();
+
+	void clearBuildQueue();
+	void clearProgressLabel();
 
 /*---------------------------------------------------------------------------*/
 

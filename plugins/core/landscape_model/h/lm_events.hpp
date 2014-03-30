@@ -162,6 +162,16 @@ namespace TrainQueueChanged
 
 /*---------------------------------------------------------------------------*/
 
+namespace TrainProgressChanged
+{
+	const char* const ms_type = "TrainProgressChanged";
+
+	const char* const ms_trainerIdAttribute = "TrainerId";
+	const char* const ms_trainerProgressAttribute = "TrainerProgress";
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace BuildQueueChanged
 {
 	const char* const ms_type = "BuildQueueChanged";

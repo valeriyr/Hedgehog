@@ -111,6 +111,10 @@ ObjectStatusView::landscapeWasOpened()
 							,	Plugins::Core::LandscapeModel::Events::TrainQueueChanged::ms_type
 							,	boost::bind( &ObjectStatusView::onTrainQueueChanged, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::TrainProgressChanged::ms_type
+							,	boost::bind( &ObjectStatusView::onTrainProgressChanged, this, _1 ) );
+
 } // ObjectStatusView::landscapeWasOpened
 
 
@@ -121,7 +125,8 @@ void
 ObjectStatusView::landscapeWasClosed()
 {
 	m_subscriber.unsubscribe();
-	clear();
+	clearBuildQueue();
+	clearProgressLabel();
 
 } // ObjectStatusView::landscapeWasClosed
 
@@ -150,6 +155,7 @@ ObjectStatusView::onObjectsSelectionChanged( const Framework::Core::EventManager
 	}
 
 	updateBuildQueue();
+	updateProgressLabel();
 
 } // ObjectStatusView::onObjectsSelectionChanged
 
@@ -170,9 +176,23 @@ ObjectStatusView::onTrainQueueChanged( const Framework::Core::EventManager::Even
 
 
 void
+ObjectStatusView::onTrainProgressChanged( const Framework::Core::EventManager::Event& _event )
+{
+	if ( m_builderId == _event.getAttribute( Core::LandscapeModel::Events::TrainProgressChanged::ms_trainerIdAttribute ).toInt() )
+	{
+		updateProgressLabel( static_cast< int >( _event.getAttribute( Core::LandscapeModel::Events::TrainProgressChanged::ms_trainerProgressAttribute ).toFloat() * 100 ) );
+	}
+
+} // ObjectStatusView::onTrainProgressChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 ObjectStatusView::updateBuildQueue()
 {
-	clear();
+	clearBuildQueue();
 
 	if ( m_builderId != Core::LandscapeModel::Object::ms_wrongId )
 	{
@@ -183,11 +203,6 @@ ObjectStatusView::updateBuildQueue()
 		{
 			boost::shared_ptr< Core::LandscapeModel::Object > object
 				= handle->getLandscapeModel()->getLandscape()->getObject( m_builderId );
-
-			boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent
-				= object->getComponent< Core::LandscapeModel::ITrainComponent >( Core::LandscapeModel::ComponentId::Train );
-
-			m_label->setText( QString( "Built: %1 %" ).arg( static_cast< int >( trainComponent->getTrainData().m_trainProgress * 100 ) ) );
 
 			Core::LandscapeModel::ILandscapeModel::TrainObjectsList trainObjectsList;
 			handle->getLandscapeModel()->getTrainObjectsList( object, trainObjectsList );
@@ -221,13 +236,62 @@ ObjectStatusView::updateBuildQueue()
 
 
 void
-ObjectStatusView::clear()
+ObjectStatusView::clearBuildQueue()
 {
 	m_currentObject->setIcon( QIcon() );
 	m_listWidget->clear();
+
+} // ObjectStatusView::clearBuildQueue
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectStatusView::clearProgressLabel()
+{
 	m_label->clear();
 
-} // ObjectStatusView::clear
+} // ObjectStatusView::clearProgressLabel
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectStatusView::updateProgressLabel( const int _progress )
+{
+	m_label->setText( QString( "Built: %1 %" ).arg( _progress ) );
+
+} // ObjectStatusView::updateProgressLabel
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectStatusView::updateProgressLabel()
+{
+	clearProgressLabel();
+
+	if ( m_builderId != Core::LandscapeModel::Object::ms_wrongId )
+	{
+		boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+			= m_environment.lockModel();
+
+		if ( handle->getLandscapeModel()->getLandscape() )
+		{
+			boost::shared_ptr< Core::LandscapeModel::Object > object
+				= handle->getLandscapeModel()->getLandscape()->getObject( m_builderId );
+
+			boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent
+				= object->getComponent< Core::LandscapeModel::ITrainComponent >( Core::LandscapeModel::ComponentId::Train );
+
+			m_label->setText( QString( "Built: %1 %" ).arg( static_cast< int >( trainComponent->getTrainData().m_trainProgress * 100 ) ) );
+		}
+	}
+
+} // ObjectStatusView::updateProgressLabel
 
 
 /*---------------------------------------------------------------------------*/
