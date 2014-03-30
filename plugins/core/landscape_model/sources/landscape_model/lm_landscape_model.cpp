@@ -318,7 +318,7 @@ LandscapeModel::buildObject(
 			= object->getComponent< IActionsComponent >( ComponentId::Actions );
 
 		actionsComponent->pushAction(
-			boost::intrusive_ptr< IAction >( new BuildAction( m_environment, *this, *this, *object, _objectName, _atLocation ) ), _flush );
+			boost::intrusive_ptr< IAction >( new BuildAction( m_environment, *this, *this, m_staticData, *object, _objectName, _atLocation ) ), _flush );
 	}
 
 } // LandscapeModel::buildObject

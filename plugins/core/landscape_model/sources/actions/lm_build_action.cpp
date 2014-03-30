@@ -36,14 +36,16 @@ BuildAction::BuildAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
 	,	IBuildersHolder& _buildersHolder
+	,	const IStaticData& _staticData
 	,	Object& _object
 	,	const QString& _objectName
 	,	const QPoint& _atLocation
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_buildersHolder( _buildersHolder )
+	,	m_staticData( _staticData )
 	,	m_objectName( _objectName )
-	,	m_atLocation( _atLocation )
+	,	m_atRect( _atLocation, _staticData.getObjectStaticData( _objectName ).m_locateData->m_size )
 	,	m_buildingFinished( false )
 {
 } // BuildAction::BuildAction
@@ -67,7 +69,7 @@ BuildAction::prepareToProcessingInternal()
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
 
 	buildComponent->getBuildData().m_objectName = m_objectName;
-	buildComponent->getBuildData().m_atLocation = m_atLocation;
+	buildComponent->getBuildData().m_atRect = m_atRect;
 
 	Framework::Core::EventManager::Event buildQueueChangedEvent( Events::BuildQueueChanged::ms_type );
 	buildQueueChangedEvent.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
@@ -142,7 +144,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 	{
 		// Check distance
 
-		QPoint nearestPoint = Geometry::getNearestPoint( locateComponent->getLocation(), buildData.m_atLocation );
+		QPoint nearestPoint = Geometry::getNearestPoint( locateComponent->getLocation(), buildData.m_atRect );
 
 		if (	!m_moveAction
 			&&	Geometry::getDistance( locateComponent->getLocation(), nearestPoint ) > 1.0f )
@@ -177,7 +179,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 				boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( m_object.getPlayerId() );
 
 				bool newObjectCanBePlaced
-					= m_landscapeModel.getLandscape()->canObjectBePlaced( buildData.m_atLocation, buildData.m_objectName );
+					= m_landscapeModel.getLandscape()->canObjectBePlaced( buildData.m_atRect.topLeft(), buildData.m_objectName );
 
 				IBuildComponent::StaticData::BuildDataCollectionIterator
 					iterator = buildComponent->getStaticData().m_buildDatas.find( m_objectName );
@@ -195,7 +197,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 				{
 					player->substructResources( iterator->second->m_resourcesData );
 
-					startBuild( m_object.getUniqueId(), buildData.m_objectName, buildData.m_atLocation );
+					startBuild( m_object.getUniqueId(), buildData.m_objectName, buildData.m_atRect.topLeft() );
 				}
 			}
 

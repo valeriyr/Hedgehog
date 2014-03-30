@@ -17,6 +17,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct IBuildersHolder;
+struct IStaticData;
 
 class MoveAction;
 
@@ -36,6 +37,7 @@ public:
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
 		,	IBuildersHolder& _buildersHolder
+		,	const IStaticData& _staticData
 		,	Object& _object
 		,	const QString& _objectName
 		,	const QPoint& _atLocation );
@@ -79,9 +81,10 @@ private:
 
 	IBuildersHolder& m_buildersHolder;
 
-	const QString m_objectName;
+	const IStaticData& m_staticData;
 
-	const QPoint m_atLocation;
+	const QString m_objectName;
+	const QRect m_atRect;
 
 	bool m_buildingFinished;
 
