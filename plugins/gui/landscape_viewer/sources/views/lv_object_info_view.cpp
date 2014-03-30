@@ -15,6 +15,7 @@
 #include "landscape_model/ih/components/lm_iattack_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_source_component.hpp"
+#include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
 
@@ -205,6 +206,8 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 				= object->getComponent< Core::LandscapeModel::IResourceHolderComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceHolder );
 			boost::intrusive_ptr< Core::LandscapeModel::IResourceSourceComponent > resourceSourceComponent
 				= object->getComponent< Core::LandscapeModel::IResourceSourceComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceSource );
+			boost::intrusive_ptr< Core::LandscapeModel::IResourceStorageComponent > resourceStorageComponent
+				= object->getComponent< Core::LandscapeModel::IResourceStorageComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceStorage );
 
 			QString resourceHolderData;
 
@@ -237,6 +240,30 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 				resourceHolderData = Resources::Views::NoneString;
 			}
 
+			QString resourceStorageData;
+
+			if ( resourceStorageComponent )
+			{
+				Core::LandscapeModel::IResourceStorageComponent::StaticData::StoredResourcesCollectionIterator
+						begin = resourceStorageComponent->getStaticData().m_storedResources.begin()
+					,	end = resourceStorageComponent->getStaticData().m_storedResources.end()
+					,	it = resourceStorageComponent->getStaticData().m_storedResources.begin();
+
+				for ( ; it != end; ++it )
+				{
+					if ( it != begin )
+					{
+						resourceStorageData += ", ";
+					}
+
+					resourceStorageData += *it;
+				}
+			}
+			else
+			{
+				resourceStorageData = Resources::Views::NoneString;
+			}
+
 			m_mainWidget->setHtml(
 				QString( Resources::Views::ObjectInfoFormat )
 					.arg( object->getName() )
@@ -260,7 +287,8 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 								.arg( resourceSourceComponent->getStaticData().m_resource )
 								.arg( resourceSourceComponent->getResourceValue() )
 						:	Resources::Views::NoneString )
-					.arg( resourceHolderData ) );
+					.arg( resourceHolderData )
+					.arg( resourceStorageData ) );
 		}
 	}
 

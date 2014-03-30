@@ -19,8 +19,6 @@ namespace LandscapeModel {
 struct IBuildersHolder;
 struct IStaticData;
 
-struct IAction;
-
 /*---------------------------------------------------------------------------*/
 
 class BuildAction

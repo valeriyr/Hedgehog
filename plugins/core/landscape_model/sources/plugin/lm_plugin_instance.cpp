@@ -220,14 +220,6 @@ PluginInstance::exportScriptAPI()
 			.withItem( "Ground", Emplacement::Ground )
 			.withItem( "Air", Emplacement::Air);
 
-	exporter.exportClass< Actions >( "Actions" )
-		->withEnum< Actions::Enum >( "Enum" )
-			.withItem( "Move", Actions::Move )
-			.withItem( "Train", Actions::Train )
-			.withItem( "GenerateResources", Actions::GenerateResources )
-			.withItem( "Attack", Actions::Attack )
-			.withItem( "Build", Actions::Build );
-
 	exporter.exportClass< ObjectState >( "ObjectState" )
 		->withEnum< ObjectState::Enum >( "Enum" )
 			.withItem( "Standing", ObjectState::Standing )
@@ -323,6 +315,12 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClassWithShared< IResourceSourceComponent::StaticData >( "ResourceSourceComponentStaticData" )
 		->withConstructor< const QString& >();
 
+	// ResourceStorageComponent
+
+	exporter.exportClassWithShared< IResourceStorageComponent::StaticData >( "ResourceStorageComponentStaticData" )
+		->withConstructor()
+		.withMethod( "canStore", &IResourceStorageComponent::StaticData::canStore );
+
 	// StaticData
 
 	exporter.exportClass< IStaticData::ObjectStaticData >( "ObjectStaticData" )
@@ -336,7 +334,8 @@ PluginInstance::exportScriptAPI()
 		.withRWProperty( "m_attackData", &IStaticData::ObjectStaticData::m_attackData )
 		.withRWProperty( "m_buildData", &IStaticData::ObjectStaticData::m_buildData )
 		.withRWProperty( "m_resourceHolderData", &IStaticData::ObjectStaticData::m_resourceHolderData )
-		.withRWProperty( "m_resourceSourceData", &IStaticData::ObjectStaticData::m_resourceSourceData );
+		.withRWProperty( "m_resourceSourceData", &IStaticData::ObjectStaticData::m_resourceSourceData )
+		.withRWProperty( "m_resourceStorageData", &IStaticData::ObjectStaticData::m_resourceStorageData );
 
 	exporter.exportClass< IStaticData >( "IStaticData" )
 		->withMethod( "regObjectStaticData", &IStaticData::regObjectStaticData )

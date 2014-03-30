@@ -25,6 +25,7 @@ struct ComponentId
 		,	ResourcesGenerating
 		,	ResourceHolder
 		,	ResourceSource
+		,	ResourceStorage
 	};
 };
 

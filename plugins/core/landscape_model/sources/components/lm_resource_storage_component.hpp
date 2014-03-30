@@ -1,12 +1,12 @@
 
-#ifndef __LM_ATTACK_ACTION_HPP__
-#define __LM_ATTACK_ACTION_HPP__
+#ifndef __LM_RESOURCE_STORAGE_COMPONENT_HPP__
+#define __LM_RESOURCE_STORAGE_COMPONENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/sources/actions/lm_base_action.hpp"
+#include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
 
-#include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/sources/components/lm_base_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,8 +16,8 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class AttackAction
-	:	public BaseAction
+class ResourceStorageComponent
+	:	public BaseComponent< IResourceStorageComponent >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -26,29 +26,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	AttackAction(
-			const IEnvironment& _environment
-		,	ILandscapeModel& _landscapeModel
-		,	Object& _object
-		,	boost::shared_ptr< Object > _target );
+	ResourceStorageComponent(
+			Object& _object
+		,	const IResourceStorageComponent::StaticData& _staticData );
 
-	virtual ~AttackAction();
+	virtual ~ResourceStorageComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ bool prepareToProcessingInternal();
-
-	/*virtual*/ bool cancelProcessingInternal();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void processAction( const unsigned int _deltaTime );
-
-	/*virtual*/ bool hasFinished() const;
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ const Actions::Enum getType() const;
+	/*virtual*/ const IResourceStorageComponent::StaticData& getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,13 +42,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< Object > m_target;
-
-	boost::intrusive_ptr< IAction > m_moveAction;
-
-	bool m_attakingFinished;
-
-	int m_attackPhaseCounter;
+	const IResourceStorageComponent::StaticData& m_staticData;
 
 /*---------------------------------------------------------------------------*/
 
@@ -76,4 +56,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ATTACK_ACTION_HPP__
+#endif // __LM_RESOURCE_STORAGE_COMPONENT_HPP__

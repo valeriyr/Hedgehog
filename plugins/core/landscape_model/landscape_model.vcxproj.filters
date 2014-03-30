@@ -159,6 +159,12 @@
     <ClCompile Include="sources\components\lm_resource_source_component.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="sources\actions\lm_collect_resource_action.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\components\lm_resource_storage_component.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -376,6 +382,15 @@
     </ClInclude>
     <ClInclude Include="sources\components\lm_resource_source_component.hpp">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_collect_resource_action.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\components\lm_resource_storage_component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\components\lm_iresource_storage_component.hpp">
+      <Filter>Interfaces\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

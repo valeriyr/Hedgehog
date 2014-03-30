@@ -122,6 +122,8 @@ namespace Views {
 			"			<b>Resource inside:</b> %13											"	\
 			"			<br>																"	\
 			"			<b>Resources hold:</b> %14											"	\
+			"			<br>																"	\
+			"			<b>Can store resources:</b> %15										"	\
 			"		</div>																	"	\
 			"	</body>																		"	\
 			"</html>																		";

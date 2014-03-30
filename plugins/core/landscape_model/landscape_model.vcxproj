@@ -22,6 +22,7 @@
     <ClCompile Include="sources\actions\lm_attack_action.cpp" />
     <ClCompile Include="sources\actions\lm_base_action.cpp" />
     <ClCompile Include="sources\actions\lm_build_action.cpp" />
+    <ClCompile Include="sources\actions\lm_collect_resource_action.cpp" />
     <ClCompile Include="sources\actions\lm_generate_resources_action.cpp" />
     <ClCompile Include="sources\actions\lm_move_action.cpp" />
     <ClCompile Include="sources\actions\lm_train_action.cpp" />
@@ -34,6 +35,7 @@
     <ClCompile Include="sources\components\lm_move_component.cpp" />
     <ClCompile Include="sources\components\lm_resource_holder_component.cpp" />
     <ClCompile Include="sources\components\lm_resource_source_component.cpp" />
+    <ClCompile Include="sources\components\lm_resource_storage_component.cpp" />
     <ClCompile Include="sources\components\lm_selection_component.cpp" />
     <ClCompile Include="sources\components\lm_train_component.cpp" />
     <ClCompile Include="sources\environment\lm_environment.cpp" />
@@ -79,6 +81,7 @@
     <ClInclude Include="ih\components\lm_imove_component.hpp" />
     <ClInclude Include="ih\components\lm_iresource_holder_component.hpp" />
     <ClInclude Include="ih\components\lm_iresource_source_component.hpp" />
+    <ClInclude Include="ih\components\lm_iresource_storage_component.hpp" />
     <ClInclude Include="ih\components\lm_iselection_component.hpp" />
     <ClInclude Include="ih\components\lm_itrain_component.hpp" />
     <ClInclude Include="ih\lm_iaction.hpp" />
@@ -92,6 +95,7 @@
     <ClInclude Include="sources\actions\lm_attack_action.hpp" />
     <ClInclude Include="sources\actions\lm_base_action.hpp" />
     <ClInclude Include="sources\actions\lm_build_action.hpp" />
+    <ClInclude Include="sources\actions\lm_collect_resource_action.hpp" />
     <ClInclude Include="sources\actions\lm_generate_resources_action.hpp" />
     <ClInclude Include="sources\actions\lm_ibuilders_holder.hpp" />
     <ClInclude Include="sources\actions\lm_move_action.hpp" />
@@ -106,6 +110,7 @@
     <ClInclude Include="sources\components\lm_move_component.hpp" />
     <ClInclude Include="sources\components\lm_resource_holder_component.hpp" />
     <ClInclude Include="sources\components\lm_resource_source_component.hpp" />
+    <ClInclude Include="sources\components\lm_resource_storage_component.hpp" />
     <ClInclude Include="sources\components\lm_selection_component.hpp" />
     <ClInclude Include="sources\components\lm_train_component.hpp" />
     <ClInclude Include="sources\environment\lm_environment.hpp" />

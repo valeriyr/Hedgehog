@@ -1,6 +1,6 @@
 
-#ifndef __LM_ATTACK_ACTION_HPP__
-#define __LM_ATTACK_ACTION_HPP__
+#ifndef __LM_COLLECT_RESOURCE_ACTION_HPP__
+#define __LM_COLLECT_RESOURCE_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,7 +16,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class AttackAction
+class CollectResourceAction
 	:	public BaseAction
 {
 
@@ -26,13 +26,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	AttackAction(
+	CollectResourceAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
 		,	Object& _object
-		,	boost::shared_ptr< Object > _target );
+		,	boost::shared_ptr< Object > _resourceSource );
 
-	virtual ~AttackAction();
+	virtual ~CollectResourceAction();
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,13 +56,11 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< Object > m_target;
+	boost::shared_ptr< Object > m_resourceSource;
+
+	bool m_collectingFinished;
 
 	boost::intrusive_ptr< IAction > m_moveAction;
-
-	bool m_attakingFinished;
-
-	int m_attackPhaseCounter;
 
 /*---------------------------------------------------------------------------*/
 
@@ -76,4 +74,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ATTACK_ACTION_HPP__
+#endif // __LM_COLLECT_RESOURCE_ACTION_HPP__
