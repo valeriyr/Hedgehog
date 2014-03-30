@@ -153,6 +153,9 @@
     <ClCompile Include="sources\model_locker\lm_model_locker.cpp">
       <Filter>Model Locker</Filter>
     </ClCompile>
+    <ClCompile Include="sources\components\lm_resource_holder_component.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -358,6 +361,12 @@
     </ClInclude>
     <ClInclude Include="sources\actions\lm_ibuilders_holder.hpp">
       <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\components\lm_resource_holder_component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\components\lm_iresource_holder_component.hpp">
+      <Filter>Interfaces\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

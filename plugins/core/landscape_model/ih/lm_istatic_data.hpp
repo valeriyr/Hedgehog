@@ -15,6 +15,7 @@
 #include "landscape_model/ih/components/lm_igenerate_resources_component.hpp"
 #include "landscape_model/ih/components/lm_iattack_component.hpp"
 #include "landscape_model/ih/components/lm_ibuild_component.hpp"
+#include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,6 +45,7 @@ struct IStaticData
 		boost::shared_ptr< IGenerateResourcesComponent::StaticData > m_generateResourcesData;
 		boost::shared_ptr< IAttackComponent::StaticData > m_attackData;
 		boost::shared_ptr< IBuildComponent::StaticData > m_buildData;
+		boost::shared_ptr< IResourceHolderComponent::StaticData > m_resourceHolderData;
 	};
 
 /*---------------------------------------------------------------------------*/

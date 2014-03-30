@@ -23,6 +23,7 @@ struct ComponentId
 		,	ResourcesGenerating
 		,	Attack
 		,	Build
+		,	ResourceHolder
 	};
 };
 

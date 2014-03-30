@@ -147,7 +147,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 		QPoint nearestPoint = Geometry::getNearestPoint( locateComponent->getLocation(), buildData.m_atRect );
 
 		if (	!m_moveAction
-			&&	Geometry::getDistance( locateComponent->getLocation(), nearestPoint ) > 1.0f )
+			&&	Geometry::getDistance( locateComponent->getLocation(), nearestPoint ) > 0.0f )
 		{
 			m_moveAction.reset(
 				new MoveAction(

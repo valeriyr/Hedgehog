@@ -30,6 +30,7 @@
 #include "landscape_model/sources/components/lm_generate_resources_component.hpp"
 #include "landscape_model/sources/components/lm_attack_component.hpp"
 #include "landscape_model/sources/components/lm_build_component.hpp"
+#include "landscape_model/sources/components/lm_resource_holder_component.hpp"
 
 #include "landscape_model/ih/lm_istatic_data.hpp"
 
@@ -175,12 +176,18 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _flush )
 			boost::intrusive_ptr< IAttackComponent > attackComponent
 				= ( *begin )->getComponent< IAttackComponent >( ComponentId::Attack );
 
-			if ( targetObject )
+			if ( targetObject && targetObject != *begin )
 			{
-				if ( targetObject != *begin && attackComponent )
+				if ( attackComponent && targetObject->getComponent< IHealthComponent >( ComponentId::Health ) )
 				{
 					actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >( new AttackAction( m_environment, *this, **begin, targetObject ) )
+						,	_flush );
+				}
+				else
+				{
+					actionsComponent->pushAction(
+							boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, **begin, targetObject, 1.5f ) )
 						,	_flush );
 				}
 			}
@@ -433,6 +440,11 @@ LandscapeModel::create( const QPoint& _location, const QString& _objectName )
 		object->addComponent(
 				ComponentId::Build
 			,	boost::intrusive_ptr< IComponent >( new BuildComponent( *object, *staticData.m_buildData ) ) );
+
+	if ( staticData.m_resourceHolderData )
+		object->addComponent(
+				ComponentId::ResourceHolder
+			,	boost::intrusive_ptr< IComponent >( new ResourceHolderComponent( *object, *staticData.m_resourceHolderData ) ) );
 
 	if ( staticData.m_generateResourcesData )
 	{
