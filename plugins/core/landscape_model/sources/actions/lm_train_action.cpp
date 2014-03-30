@@ -28,10 +28,10 @@ TrainAction::TrainAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
 	,	Object& _object
-	,	const QString& _trainUnitName
+	,	const QString& _trainObjectName
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
-	,	m_trainUnitName( _trainUnitName )
+	,	m_trainObjectName( _trainObjectName )
 	,	m_trainingFinished( false )
 {
 } // TrainAction::TrainAction
@@ -54,7 +54,7 @@ TrainAction::prepareToProcessingInternal()
 	boost::intrusive_ptr< ITrainComponent > trainComponent
 		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
 
-	trainComponent->getTrainData().m_trainingObjectName = m_trainUnitName;
+	trainComponent->getTrainData().m_trainingObjectName = m_trainObjectName;
 
 	return true;
 
@@ -78,7 +78,7 @@ TrainAction::cancelProcessing()
 	if ( player )
 	{
 		ITrainComponent::StaticData::TrainDataCollectionIterator
-			iterator = trainComponent->getStaticData().m_trainObjects.find( m_trainUnitName );
+			iterator = trainComponent->getStaticData().m_trainObjects.find( m_trainObjectName );
 
 		if ( iterator != trainComponent->getStaticData().m_trainObjects.end() )
 		{
@@ -166,6 +166,17 @@ TrainAction::getType() const
 	return Actions::Train;
 
 } // TrainAction::getType
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QString&
+TrainAction::getTrainObjectName() const
+{
+	return m_trainObjectName;
+
+} // TrainAction::getTrainObjectName
 
 
 /*---------------------------------------------------------------------------*/

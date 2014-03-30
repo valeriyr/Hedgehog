@@ -30,7 +30,7 @@ public:
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
 		,	Object& _object
-		,	const QString& _trainUnitName );
+		,	const QString& _trainObjectName );
 
 	virtual ~TrainAction();
 
@@ -52,11 +52,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	const QString& getTrainObjectName() const;
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
 
-	const QString m_trainUnitName;
+	const QString m_trainObjectName;
 
 	bool m_trainingFinished;
 

@@ -79,6 +79,13 @@ public:
 		,	const QString& _objectName
 		,	const QPoint& _atLocation
 		,	const bool _flush );
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void getTrainObjectsList(
+			boost::shared_ptr< Object > _forObject
+		,	ILandscapeModel::TrainObjectsList& _list ) const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< ILandscape > getLandscape() const;

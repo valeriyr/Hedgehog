@@ -327,6 +327,34 @@ LandscapeModel::buildObject(
 /*---------------------------------------------------------------------------*/
 
 
+void
+LandscapeModel::getTrainObjectsList(
+		boost::shared_ptr< Object > _forObject
+	,	ILandscapeModel::TrainObjectsList& _list ) const
+{
+	_list.clear();
+
+	if ( _forObject )
+	{
+		boost::intrusive_ptr< IActionsComponent > actionsComponent
+			= _forObject->getComponent< IActionsComponent >( ComponentId::Actions );
+
+		IActionsComponent::ActionsIterator actionsIterator = actionsComponent->getActionsIterator( Actions::Train );
+
+		while( actionsIterator->isValid() )
+		{
+			// TODO: костыль
+			_list.push_back( dynamic_cast< TrainAction* >( actionsIterator->current().get() )->getTrainObjectName() );
+			actionsIterator->next();
+		}
+	}
+
+} // LandscapeModel::getTrainObjectsList
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< ILandscape >
 LandscapeModel::getLandscape() const
 {

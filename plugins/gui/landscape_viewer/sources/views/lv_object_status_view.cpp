@@ -174,27 +174,31 @@ ObjectStatusView::updateBuildQueue()
 {
 	clear();
 
-	/*if ( m_builderId != Core::LandscapeModel::Object::ms_wrongId )
+	if ( m_builderId != Core::LandscapeModel::Object::ms_wrongId )
 	{
 		boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 			= m_environment.lockModel();
 
 		if ( handle->getLandscapeModel()->getLandscape() )
 		{
-			boost::shared_ptr< Core::LandscapeModel::Object > object = handle->getLandscapeModel()->getLandscape()->getObject( m_builderId );
+			boost::shared_ptr< Core::LandscapeModel::Object > object
+				= handle->getLandscapeModel()->getLandscape()->getObject( m_builderId );
 
 			boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent
 				= object->getComponent< Core::LandscapeModel::ITrainComponent >( Core::LandscapeModel::ComponentId::Train );
 
-			m_label->setText( QString( "Built: %1 %" ).arg( trainComponent->getTrainData().m_trainProgress ) );
+			m_label->setText( QString( "Built: %1 %" ).arg( static_cast< int >( trainComponent->getTrainData().m_trainProgress * 100 ) ) );
 
-			if ( !trainComponent->getTrainData().m_trainQueue.empty() )
+			Core::LandscapeModel::ILandscapeModel::TrainObjectsList trainObjectsList;
+			handle->getLandscapeModel()->getTrainObjectsList( object, trainObjectsList );
+
+			if ( !trainObjectsList.empty() )
 			{
-				m_currentObject->setIcon( QIcon( m_environment.getPixmap( *trainComponent->getTrainData().m_trainQueue.begin() ) ) );
+				m_currentObject->setIcon( QIcon( m_environment.getPixmap( *trainObjectsList.begin() ) ) );
 
-				Core::LandscapeModel::ITrainComponent::Data::TrainObjectsQueueIterator
-						begin = trainComponent->getTrainData().m_trainQueue.begin()
-					,	end = trainComponent->getTrainData().m_trainQueue.end();
+				Core::LandscapeModel::ILandscapeModel::TrainObjectsListIterator
+						begin = trainObjectsList.begin()
+					,	end = trainObjectsList.end();
 
 				++begin;
 
@@ -208,7 +212,7 @@ ObjectStatusView::updateBuildQueue()
 				}
 			}
 		}
-	}*/
+	}
 
 } // ObjectStatusView::updateBuildQueue
 

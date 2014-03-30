@@ -58,6 +58,17 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
+	typedef
+		std::vector< QString >
+		TrainObjectsList;
+	typedef
+		TrainObjectsList::const_iterator
+		TrainObjectsListIterator;
+
+	virtual void getTrainObjectsList( boost::shared_ptr< Object > _forObject, TrainObjectsList& _list ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual boost::intrusive_ptr< ILandscape > getLandscape() const = 0;
 
 	virtual boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const = 0;
