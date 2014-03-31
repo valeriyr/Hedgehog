@@ -293,6 +293,10 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					unitChangeState = true;
 				}
 			}
+			else
+			{
+				m_movingFinished = true;
+			}
 
 			unitMoved = true;
 		}
