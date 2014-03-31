@@ -12,6 +12,7 @@
 #include <QtCore/QRect>
 #include <QtCore/QMutex>
 #include <QtCore/QDateTime>
+#include <QtCore/QXmlStreamWriter>
 
 #include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>

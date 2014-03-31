@@ -6,6 +6,7 @@
 #include "xml_library/sources/elements/xl_attribute_element.hpp"
 #include "xml_library/sources/elements/xl_tag_element.hpp"
 #include "xml_library/sources/elements/xl_and_element.hpp"
+#include "xml_library/sources/elements/xl_or_element.hpp"
 
 #include "xml_library/sources/resources/xl_resources.hpp"
 
@@ -99,10 +100,31 @@ FormatChecker::visit ( const AttributeElement& _attribute )
 
 
 void
+FormatChecker::visit ( const CDATAElement& _cdataElement )
+{
+} // FormatChecker::visit
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 FormatChecker::visit ( const AndElement& _andElement )
 {
 	_andElement.getLeft().accept( *this );
 	_andElement.getRight().accept( *this );
+
+} // FormatChecker::visit
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+FormatChecker::visit ( const OrElement& _orElement )
+{
+	_orElement.getLeft().accept( *this );
+	_orElement.getRight().accept( *this );
 
 } // FormatChecker::visit
 

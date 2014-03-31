@@ -1,10 +1,8 @@
 
-#ifndef __XL_XML_PARSER_HPP__
-#define __XL_XML_PARSER_HPP__
+#ifndef __XL_BINARY_RULE_HPP__
+#define __XL_BINARY_RULE_HPP__
 
-#include "xml_library/ih/xl_ivisitor.hpp"
-
-#include <QtXml/QDomElement>
+#include "xml_library/sources/rules/xl_rule.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -19,19 +17,9 @@ struct IElement;
 
 /*---------------------------------------------------------------------------*/
 
-class Parser
-	:	public IVisitor
+class BinaryRule
+	:	public Rule
 {
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	Parser( QDomElement& _domElement );
-
-	virtual ~Parser();
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,19 +27,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	static void parse ( const IElement& _element, QIODevice& _ioDevise );
+	BinaryRule( boost::shared_ptr< IElement > _element );
+
+	virtual ~BinaryRule();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void visit ( const TagElement& _tag );
-
-	/*virtual*/ void visit ( const AttributeElement& _attribute );
-
-	/*virtual*/ void visit ( const CDATAElement& _cdataElement );
-
-	/*virtual*/ void visit ( const AndElement& _andElement );
-
-	/*virtual*/ void visit ( const OrElement& _orElement );
+	/*virtual*/ boost::shared_ptr< IElement > getElement() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,7 +41,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	QDomElement m_domElement;
+	boost::shared_ptr< IElement > m_element;
 
 /*---------------------------------------------------------------------------*/
 
@@ -73,4 +55,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_XML_PARSER_HPP__
+#endif // __XL_BINARY_RULE_HPP__

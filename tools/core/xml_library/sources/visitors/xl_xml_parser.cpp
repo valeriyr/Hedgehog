@@ -8,6 +8,7 @@
 #include "xml_library/sources/elements/xl_attribute_element.hpp"
 #include "xml_library/sources/elements/xl_tag_element.hpp"
 #include "xml_library/sources/elements/xl_and_element.hpp"
+#include "xml_library/sources/elements/xl_or_element.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -59,6 +60,9 @@ Parser::parse ( const IElement& _element, QIODevice& _ioDevise )
 void
 Parser::visit ( const TagElement& _tag )
 {
+	if ( _tag.getName() != m_domElement.tagName() )
+		return;
+
 	TagElement::HandlesCollectionIteratorTypePtr handlesIterator( _tag.getHandles() );
 
 	while ( handlesIterator->isValid() )
@@ -69,8 +73,15 @@ Parser::visit ( const TagElement& _tag )
 
 	if ( _tag.getChildrenRule() )
 	{
-		Parser parser( m_domElement.firstChildElement() );
-		_tag.getChildrenRule()->accept( parser );
+		QDomElement childElement( m_domElement.firstChildElement() );
+
+		while( !childElement.isNull() )
+		{
+			Parser parser( childElement );
+			_tag.getChildrenRule()->accept( parser );
+
+			childElement = childElement.nextSiblingElement();
+		}
 	}
 
 	TagElement::HandlesCollectionIteratorTypePtr postHandlesIterator( _tag.getPostHandles() );
@@ -97,13 +108,37 @@ Parser::visit ( const AttributeElement& _attribute )
 
 
 void
+Parser::visit ( const CDATAElement& _cdataElement )
+{
+} // Parser::visit
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 Parser::visit ( const AndElement& _andElement )
 {
-	/*Parser parserForLeftElement( m_domElement.nextElement() );
+	Parser parserForLeftElement( m_domElement );
 	_andElement.getLeft().accept( parserForLeftElement );
 
-	Parser parserForRightElement( m_domElement.nextElement() );
-	_andElement.getRight().accept( parserForRightElement );*/
+	Parser parserForRightElement( m_domElement );
+	_andElement.getRight().accept( parserForRightElement );
+
+} // Parser::visit
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Parser::visit ( const OrElement& _orElement )
+{
+	Parser parserForLeftElement( m_domElement );
+	_orElement.getLeft().accept( parserForLeftElement );
+
+	Parser parserForRightElement( m_domElement );
+	_orElement.getRight().accept( parserForRightElement );
 
 } // Parser::visit
 

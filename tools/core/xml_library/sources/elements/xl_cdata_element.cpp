@@ -1,6 +1,10 @@
 
-#ifndef __XL_REPEAT_MODE_HPP__
-#define __XL_REPEAT_MODE_HPP__
+#include "xml_library/sources/ph/xl_ph.hpp"
+
+#include "xml_library/sources/elements/xl_cdata_element.hpp"
+
+#include "xml_library/ih/xl_ivisitor.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -10,15 +14,23 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-struct RepeatMode
+
+CDATAElement::CDATAElement()
+	:	BaseType( "CDATA" )
 {
-	enum Enum
-	{
-			Once = 0
-		,	ZeroAndMore
-		,	OneOrMore
-	};
-};
+} // CDATAElement::CDATAElement
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+CDATAElement::accept ( IVisitor& _visitor ) const
+{
+	_visitor.visit( *this );
+
+} // CDATAElement::accept
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,5 +39,3 @@ struct RepeatMode
 } // namespace Tools
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __XL_REPEAT_MODE_HPP__

@@ -49,6 +49,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Intrusive Base", "Intrusive
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "landscape_model", "plugins\core\landscape_model\landscape_model.vcxproj", "{4AA8342B-324C-4FE2-97AB-34F55A2D45F5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EB038621-670A-403C-BC68-18746DECFD48} = {EB038621-670A-403C-BC68-18746DECFD48}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messenger", "Messenger", "{AA106785-6171-444E-930D-1235578580A7}"
 	ProjectSection(SolutionItems) = preProject

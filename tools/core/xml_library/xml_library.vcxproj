@@ -22,6 +22,7 @@
     <ClInclude Include="h\xl_attribute_type.hpp" />
     <ClInclude Include="h\xl_repeat_mode.hpp" />
     <ClInclude Include="ih\xl_iattribute_element.hpp" />
+    <ClInclude Include="ih\xl_icdata_element.hpp" />
     <ClInclude Include="ih\xl_ielement.hpp" />
     <ClInclude Include="ih\xl_itag_element.hpp" />
     <ClInclude Include="ih\xl_ivisitor.hpp" />
@@ -29,6 +30,8 @@
     <ClInclude Include="sources\elements\xl_attribute_element.hpp" />
     <ClInclude Include="sources\elements\xl_base_element.hpp" />
     <ClInclude Include="sources\elements\xl_binary_element.hpp" />
+    <ClInclude Include="sources\elements\xl_cdata_element.hpp" />
+    <ClInclude Include="sources\elements\xl_or_element.hpp" />
     <ClInclude Include="sources\elements\xl_tag_element.hpp" />
     <ClInclude Include="sources\handle\xl_handle.hpp" />
     <ClInclude Include="sources\handle\xl_ihandle.hpp" />
@@ -36,6 +39,8 @@
     <ClInclude Include="sources\resources\xl_resources.hpp" />
     <ClInclude Include="sources\rules\xl_attribute_rule.hpp" />
     <ClInclude Include="sources\rules\xl_base_attribute_rule.hpp" />
+    <ClInclude Include="sources\rules\xl_binary_rule.hpp" />
+    <ClInclude Include="sources\rules\xl_cdata_rule.hpp" />
     <ClInclude Include="sources\rules\xl_rule.hpp" />
     <ClInclude Include="sources\rules\xl_tag_rule.hpp" />
     <ClInclude Include="sources\visitors\xl_xml_format_checker.hpp" />
@@ -46,6 +51,8 @@
     <ClCompile Include="sources\elements\xl_attribute_element.cpp" />
     <ClCompile Include="sources\elements\xl_base_element.cpp" />
     <ClCompile Include="sources\elements\xl_binary_element.cpp" />
+    <ClCompile Include="sources\elements\xl_cdata_element.cpp" />
+    <ClCompile Include="sources\elements\xl_or_element.cpp" />
     <ClCompile Include="sources\elements\xl_tag_element.cpp" />
     <ClCompile Include="sources\handle\xl_handle.cpp" />
     <ClCompile Include="sources\ph\xl_ph.cpp">
@@ -57,6 +64,8 @@
     <ClCompile Include="sources\resources\xl_resources.cpp" />
     <ClCompile Include="sources\rules\xl_attribute_rule.cpp" />
     <ClCompile Include="sources\rules\xl_base_attribute_rule.cpp" />
+    <ClCompile Include="sources\rules\xl_binary_rule.cpp" />
+    <ClCompile Include="sources\rules\xl_cdata_rule.cpp" />
     <ClCompile Include="sources\rules\xl_rule.cpp" />
     <ClCompile Include="sources\rules\xl_tag_rule.cpp" />
     <ClCompile Include="sources\visitors\xl_xml_format_checker.cpp" />

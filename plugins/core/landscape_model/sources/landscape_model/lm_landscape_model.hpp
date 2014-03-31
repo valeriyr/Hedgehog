@@ -44,7 +44,7 @@ public:
 
 	LandscapeModel(
 			const IEnvironment& _environment
-		,	const ILandscapeSerializer& _landscapeSerializer
+		,	ILandscapeSerializer& _landscapeSerializer
 		,	const ISurfaceItemsCache& _surfaceItemsCache
 		,	const IStaticData& _staticData );
 
@@ -102,9 +102,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::shared_ptr< Object > create(
-			const QPoint& _location
-		,	const QString& _objectName );
+	/*virtual*/ boost::shared_ptr< Object > create( const QPoint& _location, const QString& _objectName );
 
 /*---------------------------------------------------------------------------*/
 
@@ -145,7 +143,7 @@ private:
 
 	const IEnvironment& m_environment;
 
-	const ILandscapeSerializer& m_landscapeSerializer;
+	ILandscapeSerializer& m_landscapeSerializer;
 
 	const ISurfaceItemsCache& m_surfaceItemsCache;
 

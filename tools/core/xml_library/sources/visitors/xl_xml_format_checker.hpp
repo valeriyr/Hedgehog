@@ -45,7 +45,11 @@ public:
 
 	/*virtual*/ void visit ( const AttributeElement& _attribute );
 
+	/*virtual*/ void visit ( const CDATAElement& _cdataElement );
+
 	/*virtual*/ void visit ( const AndElement& _andElement );
+
+	/*virtual*/ void visit ( const OrElement& _orElement );
 
 /*---------------------------------------------------------------------------*/
 

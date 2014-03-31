@@ -90,6 +90,21 @@
     <ClInclude Include="sources\handle\xl_ihandle.hpp">
       <Filter>Handle</Filter>
     </ClInclude>
+    <ClInclude Include="sources\elements\xl_cdata_element.hpp">
+      <Filter>Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\xl_icdata_element.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\rules\xl_cdata_rule.hpp">
+      <Filter>Rules</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\elements\xl_or_element.hpp">
+      <Filter>Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\rules\xl_binary_rule.hpp">
+      <Filter>Rules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\xl_ph.cpp">
@@ -133,6 +148,18 @@
     </ClCompile>
     <ClCompile Include="sources\handle\xl_handle.cpp">
       <Filter>Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\elements\xl_cdata_element.cpp">
+      <Filter>Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\rules\xl_cdata_rule.cpp">
+      <Filter>Rules</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\elements\xl_or_element.cpp">
+      <Filter>Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\rules\xl_binary_rule.cpp">
+      <Filter>Rules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

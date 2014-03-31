@@ -1,32 +1,38 @@
 
-#ifndef __LM_ILANDSCAPE_SERIALIZER_HPP__
-#define __LM_ILANDSCAPE_SERIALIZER_HPP__
+#ifndef __XL_OR_ELEMENT_HPP__
+#define __XL_OR_ELEMENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "xml_library/sources/elements/xl_binary_element.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins {
+namespace Tools {
 namespace Core {
-namespace LandscapeModel {
+namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscape;
 
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeSerializer
-	:	public Tools::Core::IBase
+class OrElement
+	:	public BinaryElement
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void load( ILandscape& _landscape, const QString& _filePath ) = 0;
+public:
 
-	virtual void save( const ILandscape& _landscape, const QString& _filePath ) const = 0;
+/*---------------------------------------------------------------------------*/
+
+	OrElement(
+			boost::shared_ptr< IElement > _left
+		,	boost::shared_ptr< IElement > _right
+		);
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void accept ( IVisitor& _visitor ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,10 +40,10 @@ struct ILandscapeSerializer
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeModel
+} // namespace XmlLibrary
 } // namespace Core
-} // namespace Plugins
+} // namespace Tools
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ILANDSCAPE_SERIALIZER_HPP__
+#endif // __XL_OR_ELEMENT_HPP__

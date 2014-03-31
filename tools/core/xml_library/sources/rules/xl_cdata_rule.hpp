@@ -1,11 +1,8 @@
 
-#ifndef __XL_XML_PARSER_HPP__
-#define __XL_XML_PARSER_HPP__
+#ifndef __XL_CDATA_RULE_HPP__
+#define __XL_CDATA_RULE_HPP__
 
-#include "xml_library/ih/xl_ivisitor.hpp"
-
-#include <QtXml/QDomElement>
-
+#include "xml_library/sources/rules/xl_rule.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,23 +12,13 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-struct IElement;
+class CDATAElement;
 
 /*---------------------------------------------------------------------------*/
 
-class Parser
-	:	public IVisitor
+class CDATA
+	:	public Rule
 {
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	Parser( QDomElement& _domElement );
-
-	virtual ~Parser();
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,19 +26,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	static void parse ( const IElement& _element, QIODevice& _ioDevise );
+	CDATA();
+
+	virtual ~CDATA();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void visit ( const TagElement& _tag );
-
-	/*virtual*/ void visit ( const AttributeElement& _attribute );
-
-	/*virtual*/ void visit ( const CDATAElement& _cdataElement );
-
-	/*virtual*/ void visit ( const AndElement& _andElement );
-
-	/*virtual*/ void visit ( const OrElement& _orElement );
+	/*virtual*/ boost::shared_ptr< IElement > getElement() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,7 +40,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	QDomElement m_domElement;
+	boost::shared_ptr< CDATAElement > m_CDATAElement;
 
 /*---------------------------------------------------------------------------*/
 
@@ -73,4 +54,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_XML_PARSER_HPP__
+#endif // __XL_CDATA_RULE_HPP__

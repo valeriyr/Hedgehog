@@ -16,6 +16,7 @@
 #include "landscape_model/sources/actions/lm_attack_action.hpp"
 #include "landscape_model/sources/actions/lm_train_action.hpp"
 #include "landscape_model/sources/actions/lm_build_action.hpp"
+#include "landscape_model/sources/actions/lm_collect_resource_action.hpp"
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
@@ -50,7 +51,7 @@ namespace LandscapeModel {
 
 LandscapeModel::LandscapeModel(
 		const IEnvironment& _environment
-	,	const ILandscapeSerializer& _landscapeSerializer
+	,	ILandscapeSerializer& _landscapeSerializer
 	,	const ISurfaceItemsCache& _surfaceItemsCache
 	,	const IStaticData& _staticData
 	)
@@ -177,10 +178,18 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _flush )
 				= ( *begin )->getComponent< IMoveComponent >( ComponentId::Move );
 			boost::intrusive_ptr< IAttackComponent > attackComponent
 				= ( *begin )->getComponent< IAttackComponent >( ComponentId::Attack );
+			boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
+				= ( *begin )->getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
 
 			if ( targetObject && targetObject != *begin )
 			{
-				if ( attackComponent && targetObject->getComponent< IHealthComponent >( ComponentId::Health ) )
+				if ( resourceHolderComponent && targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource ) )
+				{
+					actionsComponent->pushAction(
+							boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, **begin, targetObject ) )
+						,	_flush );
+				}
+				else if ( attackComponent && targetObject->getComponent< IHealthComponent >( ComponentId::Health ) )
 				{
 					actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >( new AttackAction( m_environment, *this, **begin, targetObject ) )
@@ -606,7 +615,7 @@ LandscapeModel::initTask( const QString& _filePath )
 	catch( ... )
 	{
 		landscape.reset( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
-		landscape->setSize( 20, 20 );
+		landscape->setSize( 200, 200 );
 	}
 
 	m_landscape = landscape;

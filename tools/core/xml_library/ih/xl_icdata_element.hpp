@@ -1,6 +1,10 @@
 
-#ifndef __XL_REPEAT_MODE_HPP__
-#define __XL_REPEAT_MODE_HPP__
+#ifndef __XL_ICDATA_ELEMENT_HPP__
+#define __XL_ICDATA_ELEMENT_HPP__
+
+/*---------------------------------------------------------------------------*/
+
+#include "xml_library/ih/xl_ielement.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -10,14 +14,9 @@ namespace XmlLibrary {
 
 /*---------------------------------------------------------------------------*/
 
-struct RepeatMode
+struct ICDATAElement
+	:	public IElement
 {
-	enum Enum
-	{
-			Once = 0
-		,	ZeroAndMore
-		,	OneOrMore
-	};
 };
 
 /*---------------------------------------------------------------------------*/
@@ -28,4 +27,4 @@ struct RepeatMode
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __XL_REPEAT_MODE_HPP__
+#endif // __XL_ICDATA_ELEMENT_HPP__

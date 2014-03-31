@@ -5,6 +5,7 @@
 
 #include "xml_library/ih/xl_itag_element.hpp"
 #include "xml_library/ih/xl_iattribute_element.hpp"
+#include "xml_library/ih/xl_icdata_element.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -39,6 +40,7 @@ BaseElement< _TBaseInterface >::getName() const
 
 template class BaseElement< ITagElement >;
 template class BaseElement< IAttributeElement >;
+template class BaseElement< ICDATAElement >;
 
 /*---------------------------------------------------------------------------*/
 
