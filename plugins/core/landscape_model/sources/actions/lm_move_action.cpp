@@ -246,6 +246,8 @@ MoveAction::processAction( const unsigned int _deltaTime )
 			float movingDelta = ( static_cast< float >( _deltaTime ) / moveComponent->getStaticData().m_movingSpeed );
 			movingData.m_movingProgress += movingDelta;
 
+			bool pathWasBlocked = false;
+
 			while ( movingData.m_movingProgress >= 1.0f )
 			{
 				movingData.m_movingProgress = movingData.m_movingProgress - 1.0f;
@@ -266,6 +268,8 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					else
 					{
 						movingData.m_path.clear();
+						movingData.m_movingProgress = 0.0f;
+						pathWasBlocked = true;
 					}
 				}
 
@@ -293,7 +297,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					unitChangeState = true;
 				}
 			}
-			else
+			else if ( !pathWasBlocked )
 			{
 				m_movingFinished = true;
 			}
