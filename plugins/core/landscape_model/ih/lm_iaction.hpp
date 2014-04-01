@@ -30,9 +30,7 @@ struct IAction
 
 	virtual void processAction( const unsigned int _deltaTime ) = 0;
 
-	virtual bool hasFinished() const = 0;
-
-	virtual bool isInitialized() const = 0;
+	virtual bool isInProcessing() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

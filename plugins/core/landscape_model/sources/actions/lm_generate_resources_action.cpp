@@ -69,17 +69,6 @@ GenerateResourcesAction::processAction( const unsigned int _deltaTime )
 /*---------------------------------------------------------------------------*/
 
 
-bool
-GenerateResourcesAction::hasFinished() const
-{
-	return m_object.getState() != ObjectState::Dying;
-
-} // GenerateResourcesAction::hasFinished
-
-
-/*---------------------------------------------------------------------------*/
-
-
 const Actions::Enum
 GenerateResourcesAction::getType() const
 {

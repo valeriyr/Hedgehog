@@ -70,8 +70,6 @@ public:
 
 	/*virtual*/ void processAction( const unsigned int _deltaTime );
 
-	/*virtual*/ bool hasFinished() const;
-
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ const Actions::Enum getType() const;
@@ -89,8 +87,6 @@ private:
 private:
 
 /*---------------------------------------------------------------------------*/
-
-	bool m_movingFinished;
 
 	QPoint m_movingToPoint;
 

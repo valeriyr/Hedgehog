@@ -37,8 +37,6 @@ public:
 
 	/*virtual*/ void processAction( const unsigned int _deltaTime );
 
-	/*virtual*/ bool hasFinished() const;
-
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ const Actions::Enum getType() const;

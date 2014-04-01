@@ -52,8 +52,6 @@ public:
 
 	/*virtual*/ void processAction( const unsigned int _deltaTime );
 
-	/*virtual*/ bool hasFinished() const;
-
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ const Actions::Enum getType() const;
@@ -83,8 +81,6 @@ private:
 
 	const QString m_objectName;
 	const QRect m_atRect;
-
-	bool m_buildingFinished;
 
 /*---------------------------------------------------------------------------*/
 

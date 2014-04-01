@@ -21,7 +21,7 @@ BaseAction::BaseAction(
 	:	m_environment( _environment )
 	,	m_landscapeModel( _landscapeModel )
 	,	m_object( _object )
-	,	m_isInitialized( false )
+	,	m_isInProcessing( false )
 {
 } // BaseAction::BaseAction
 
@@ -40,7 +40,7 @@ BaseAction::~BaseAction()
 bool
 BaseAction::prepareToProcessing()
 {
-	return m_isInitialized = prepareToProcessingInternal();
+	return m_isInProcessing = prepareToProcessingInternal();
 
 } // BaseAction::prepareToProcessing
 
@@ -51,10 +51,10 @@ BaseAction::prepareToProcessing()
 bool
 BaseAction::cancelProcessing()
 {
-	if ( isInitialized() )
-		m_isInitialized = !cancelProcessingInternal();
+	if ( isInProcessing() )
+		m_isInProcessing = !cancelProcessingInternal();
 
-	return !m_isInitialized;
+	return !m_isInProcessing;
 
 } // BaseAction::cancelProcessing
 
@@ -63,11 +63,11 @@ BaseAction::cancelProcessing()
 
 
 bool
-BaseAction::isInitialized() const
+BaseAction::isInProcessing() const
 {
-	return m_isInitialized;
+	return m_isInProcessing;
 
-} // BaseAction::isInitialized
+} // BaseAction::isInProcessing
 
 
 /*---------------------------------------------------------------------------*/

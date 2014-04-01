@@ -33,7 +33,6 @@ MoveAction::MoveAction(
 	,	const QPoint& _movingTo
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
-	,	m_movingFinished( false )
 	,	m_movingToPoint( _movingTo )
 	,	m_movingToObject()
 	,	m_lastTargetObjectLocation()
@@ -54,7 +53,6 @@ MoveAction::MoveAction(
 	,	IPathFinder::PointsCollection& _path
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
-	,	m_movingFinished( false )
 	,	m_movingToPoint( _movingTo )
 	,	m_movingToObject()
 	,	m_lastTargetObjectLocation()
@@ -75,7 +73,6 @@ MoveAction::MoveAction(
 	,	const float _distance
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
-	,	m_movingFinished( false )
 	,	m_movingToPoint()
 	,	m_movingToObject( _movingTo )
 	,	m_lastTargetObjectLocation( _movingTo->getComponent< ILocateComponent >( ComponentId::Locate )->getLocation() )
@@ -94,9 +91,9 @@ MoveAction::MoveAction(
 	,	Object& _object
 	,	boost::shared_ptr< Object > _movingTo
 	,	IPathFinder::PointsCollection& _path
-	,	const float _distance )
+	,	const float _distance
+	)
 	:	BaseAction( _environment, _landscapeModel, _object )
-	,	m_movingFinished( false )
 	,	m_movingToPoint()
 	,	m_movingToObject( _movingTo )
 	,	m_lastTargetObjectLocation( _movingTo->getComponent< ILocateComponent >( ComponentId::Locate )->getLocation() )
@@ -219,7 +216,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 	if ( m_object.getState() == ObjectState::Dying )
 	{
-		m_movingFinished = true;
+		m_isInProcessing = false;
 	}
 	else
 	{
@@ -287,7 +284,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 			if ( newMovingData.m_path.empty() )
 			{
-				m_movingFinished = true;
+				m_isInProcessing = false;
 			}
 			else
 			{
@@ -300,7 +297,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 		// Do moving
 
-		if ( !m_movingFinished )
+		if ( m_isInProcessing )
 		{
 			float movingDelta = ( static_cast< float >( _deltaTime ) / moveComponent->getStaticData().m_movingSpeed );
 			movingData.m_movingProgress += movingDelta;
@@ -358,7 +355,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 			}
 			else if ( !pathWasBlocked )
 			{
-				m_movingFinished = true;
+				m_isInProcessing = false;
 			}
 
 			unitMoved = true;
@@ -367,7 +364,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 	// Finish moving
 
-	if ( m_movingFinished && m_object.getState() == ObjectState::Moving )
+	if ( !m_isInProcessing && m_object.getState() == ObjectState::Moving )
 	{
 		movingData.reset();
 		m_object.setState( ObjectState::Standing );
@@ -401,17 +398,6 @@ MoveAction::processAction( const unsigned int _deltaTime )
 	}
 
 } // MoveAction::processAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-MoveAction::hasFinished() const
-{
-	return m_movingFinished;
-
-} // MoveAction::hasFinished
 
 
 /*---------------------------------------------------------------------------*/

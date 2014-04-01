@@ -38,7 +38,6 @@ AttackAction::AttackAction(
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_target( _target )
-	,	m_attakingFinished( false )
 	,	m_attackPhaseCounter( 0 )
 {
 } // AttackAction::AttackAction
@@ -78,7 +77,6 @@ AttackAction::cancelProcessingInternal()
 		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
 
 	attackComponent->setTargetObject( boost::shared_ptr< Object >() );
-	m_attakingFinished = true;
 
 	return true;
 
@@ -104,7 +102,7 @@ AttackAction::processAction( const unsigned int _deltaTime )
 
 	if ( m_object.getState() == ObjectState::Dying )
 	{
-		m_attakingFinished = true;
+		m_isInProcessing = false;
 	}
 	else
 	{
@@ -135,13 +133,13 @@ AttackAction::processAction( const unsigned int _deltaTime )
 			}
 			else
 			{
-				m_attakingFinished = true;
+				m_isInProcessing = false;
 			}
 		}
 
 		// Do action
 
-		if ( !m_attakingFinished )
+		if ( m_isInProcessing )
 		{
 			boost::intrusive_ptr< ILocateComponent > targetObjectLocate
 				= attackComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate );
@@ -157,7 +155,7 @@ AttackAction::processAction( const unsigned int _deltaTime )
 					stateChanged = true;
 				}
 
-				m_attakingFinished = true;
+				m_isInProcessing = false;
 			}
 			else
 			{
@@ -229,7 +227,7 @@ AttackAction::processAction( const unsigned int _deltaTime )
 						m_object.setState( ObjectState::Standing );
 						stateChanged = true;
 
-						m_attakingFinished = true;
+						m_isInProcessing = false;
 					}
 				}
 
@@ -257,23 +255,12 @@ AttackAction::processAction( const unsigned int _deltaTime )
 		}
 	}
 
-	if ( m_attakingFinished )
+	if ( !m_isInProcessing )
 	{
 		attackComponent->setTargetObject( boost::shared_ptr< Object >() );
 	}
 
 } // AttackAction::processAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-AttackAction::hasFinished() const
-{
-	return m_attakingFinished;
-
-} // AttackAction::hasFinished
 
 
 /*---------------------------------------------------------------------------*/

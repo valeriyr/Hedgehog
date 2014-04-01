@@ -44,8 +44,6 @@ public:
 
 	/*virtual*/ void processAction( const unsigned int _deltaTime );
 
-	/*virtual*/ bool hasFinished() const;
-
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ const Actions::Enum getType() const;
@@ -61,8 +59,6 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const QString m_trainObjectName;
-
-	bool m_trainingFinished;
 
 /*---------------------------------------------------------------------------*/
 

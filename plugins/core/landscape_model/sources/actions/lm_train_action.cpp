@@ -32,7 +32,6 @@ TrainAction::TrainAction(
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_trainObjectName( _trainObjectName )
-	,	m_trainingFinished( false )
 {
 } // TrainAction::TrainAction
 
@@ -71,7 +70,6 @@ TrainAction::cancelProcessing()
 		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
 
 	trainComponent->getTrainData().reset();
-	m_trainingFinished = true;
 
 	boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( m_object.getPlayerId() );
 
@@ -91,7 +89,7 @@ TrainAction::cancelProcessing()
 
 	m_environment.riseEvent( trainQueueChangedEvent );
 
-	m_isInitialized = false;
+	m_isInProcessing = false;
 
 	return true;
 
@@ -113,7 +111,7 @@ TrainAction::processAction( const unsigned int _deltaTime )
 
 	if ( m_object.getState() == ObjectState::Dying )
 	{
-		m_trainingFinished = true;
+		m_isInProcessing = false;
 	}
 	else
 	{
@@ -134,7 +132,7 @@ TrainAction::processAction( const unsigned int _deltaTime )
 	
 			m_environment.riseEvent( trainQueueChangedEvent );
 
-			m_trainingFinished = true;
+			m_isInProcessing = false;
 		}
 
 		Framework::Core::EventManager::Event trainProgressChangedEvent( Events::TrainProgressChanged::ms_type );
@@ -144,23 +142,12 @@ TrainAction::processAction( const unsigned int _deltaTime )
 		m_environment.riseEvent( trainProgressChangedEvent );
 	}
 
-	if ( m_trainingFinished )
+	if ( !m_isInProcessing )
 	{
 		trainData.reset();
 	}
 
 } // TrainAction::processAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-TrainAction::hasFinished() const
-{
-	return m_trainingFinished;
-
-} // TrainAction::hasFinished
 
 
 /*---------------------------------------------------------------------------*/

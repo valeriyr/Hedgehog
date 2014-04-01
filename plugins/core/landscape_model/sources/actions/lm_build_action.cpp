@@ -48,7 +48,6 @@ BuildAction::BuildAction(
 	,	m_staticData( _staticData )
 	,	m_objectName( _objectName )
 	,	m_atRect( _atLocation, _staticData.getObjectStaticData( _objectName ).m_locateData->m_size )
-	,	m_buildingFinished( false )
 {
 } // BuildAction::BuildAction
 
@@ -109,7 +108,6 @@ BuildAction::cancelProcessingInternal()
 	}
 
 	buildComponent->getBuildData().reset();
-	m_buildingFinished = true;
 
 	Framework::Core::EventManager::Event buildQueueChangedEvent( Events::BuildQueueChanged::ms_type );
 	buildQueueChangedEvent.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
@@ -142,7 +140,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 
 	if ( m_object.getState() == ObjectState::Dying )
 	{
-		m_buildingFinished = true;
+		m_isInProcessing = false;
 	}
 	else
 	{
@@ -169,13 +167,13 @@ BuildAction::processAction( const unsigned int _deltaTime )
 			}
 			else
 			{
-				m_buildingFinished = true;
+				m_isInProcessing = false;
 			}
 		}
 
 		// Do action
 
-		if ( !m_buildingFinished )
+		if ( m_isInProcessing )
 		{
 			bool shouldBuildObject = true;
 
@@ -197,7 +195,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 					||	!player->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
 				{
 					m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );
-					m_buildingFinished = true;
+					m_isInProcessing = false;
 					shouldBuildObject = false;
 				}
 				else
@@ -234,7 +232,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 				if ( buildData.m_buildProgress >= 1.0f )
 				{
 					stopBuild( m_object.getUniqueId() );
-					m_buildingFinished = true;
+					m_isInProcessing = false;
 				}
 			}
 
@@ -245,23 +243,12 @@ BuildAction::processAction( const unsigned int _deltaTime )
 		}
 	}
 
-	if ( m_buildingFinished )
+	if ( !m_isInProcessing )
 	{
 		buildData.reset();
 	}
 
 } // BuildAction::processAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-BuildAction::hasFinished() const
-{
-	return m_buildingFinished;
-
-} // BuildAction::hasFinished
 
 
 /*---------------------------------------------------------------------------*/

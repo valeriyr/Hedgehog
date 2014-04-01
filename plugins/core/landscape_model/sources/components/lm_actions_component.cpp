@@ -154,7 +154,7 @@ ActionsComponent::processAction( unsigned int _deltaTime )
 
 		action->processAction( _deltaTime );
 
-		if ( action->hasFinished() )
+		if ( !action->isInProcessing() )
 		{
 			removeFinishedAction( action );
 		}

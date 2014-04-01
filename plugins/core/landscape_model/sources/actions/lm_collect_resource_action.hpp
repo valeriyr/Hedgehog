@@ -44,8 +44,6 @@ public:
 
 	/*virtual*/ void processAction( const unsigned int _deltaTime );
 
-	/*virtual*/ bool hasFinished() const;
-
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ const Actions::Enum getType() const;
@@ -57,10 +55,6 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	boost::shared_ptr< Object > m_resourceSource;
-
-	bool m_collectingFinished;
-
-	boost::intrusive_ptr< IAction > m_moveAction;
 
 /*---------------------------------------------------------------------------*/
 

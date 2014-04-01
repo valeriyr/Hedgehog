@@ -33,8 +33,6 @@ CollectResourceAction::CollectResourceAction(
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_resourceSource( _resourceSource )
-	,	m_collectingFinished( false )
-	,	m_moveAction()
 {
 } // CollectResourceAction::CollectResourceAction
 
@@ -64,9 +62,7 @@ CollectResourceAction::prepareToProcessingInternal()
 bool
 CollectResourceAction::cancelProcessingInternal()
 {
-	m_collectingFinished = true;
-
-	return !m_moveAction || m_moveAction->cancelProcessing();
+	return true;
 
 } // CollectResourceAction::cancelProcessingInternal
 
@@ -78,17 +74,6 @@ void
 CollectResourceAction::processAction( const unsigned int _deltaTime )
 {
 } // CollectResourceAction::processAction
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-CollectResourceAction::hasFinished() const
-{
-	return ( !m_moveAction || m_moveAction->hasFinished() ) && m_collectingFinished;
-
-} // CollectResourceAction::hasFinished
 
 
 /*---------------------------------------------------------------------------*/
