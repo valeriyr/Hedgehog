@@ -3,7 +3,7 @@
 
 greatHall = ObjectStaticData()
 
-greatHall.m_healthData = HealthComponentStaticData( 2500 )
+greatHall.m_healthData = HealthComponentStaticData( 2500, true )
 greatHall.m_locateData = LocateComponentStaticData( QSize( 4, 4 ), TerrainMapItem.Ground, Emplacement.Ground )
 greatHall.m_selectionData = SelectionComponentStaticData()
 

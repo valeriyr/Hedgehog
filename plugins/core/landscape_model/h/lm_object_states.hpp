@@ -19,6 +19,7 @@ struct ObjectState
 		,	Attacking
 		,	Training
 		,	Building
+		,	Repairing
 		,	Dying
 		,	UnderConstruction
 	};

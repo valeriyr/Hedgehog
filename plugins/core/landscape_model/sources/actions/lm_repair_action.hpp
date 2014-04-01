@@ -1,12 +1,10 @@
 
-#ifndef __LM_COLLECT_RESOURCE_ACTION_HPP__
-#define __LM_COLLECT_RESOURCE_ACTION_HPP__
+#ifndef __LM_REPAIR_RESOURCE_ACTION_HPP__
+#define __LM_REPAIR_RESOURCE_ACTION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "landscape_model/sources/actions/lm_base_action.hpp"
-
-#include "landscape_model/h/lm_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,7 +14,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class CollectResourceAction
+class RepairAction
 	:	public BaseAction
 {
 
@@ -26,13 +24,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	CollectResourceAction(
+	RepairAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
 		,	Object& _object
-		,	boost::shared_ptr< Object > _resourceSource );
+		,	boost::shared_ptr< Object > _target );
 
-	virtual ~CollectResourceAction();
+	virtual ~RepairAction();
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,7 +52,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< Object > m_resourceSource;
+	boost::shared_ptr< Object > m_target;
 
 /*---------------------------------------------------------------------------*/
 
@@ -68,4 +66,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_COLLECT_RESOURCE_ACTION_HPP__
+#endif // __LM_REPAIR_RESOURCE_ACTION_HPP__

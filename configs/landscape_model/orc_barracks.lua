@@ -3,7 +3,7 @@
 
 orcBarracks = ObjectStaticData()
 
-orcBarracks.m_healthData = HealthComponentStaticData( 1200 )
+orcBarracks.m_healthData = HealthComponentStaticData( 1200, true )
 orcBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground, Emplacement.Ground )
 orcBarracks.m_selectionData = SelectionComponentStaticData()
 

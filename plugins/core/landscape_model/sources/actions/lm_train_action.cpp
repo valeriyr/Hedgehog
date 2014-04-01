@@ -13,7 +13,6 @@
 #include "landscape_model/ih/components/lm_itrain_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 
-#include "landscape_model/ih/lm_imodel_locker.hpp"
 
 /*---------------------------------------------------------------------------*/
 

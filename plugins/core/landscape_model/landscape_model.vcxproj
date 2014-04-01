@@ -22,9 +22,9 @@
     <ClCompile Include="sources\actions\lm_attack_action.cpp" />
     <ClCompile Include="sources\actions\lm_base_action.cpp" />
     <ClCompile Include="sources\actions\lm_build_action.cpp" />
-    <ClCompile Include="sources\actions\lm_collect_resource_action.cpp" />
     <ClCompile Include="sources\actions\lm_generate_resources_action.cpp" />
     <ClCompile Include="sources\actions\lm_move_action.cpp" />
+    <ClCompile Include="sources\actions\lm_repair_action.cpp" />
     <ClCompile Include="sources\actions\lm_train_action.cpp" />
     <ClCompile Include="sources\components\lm_actions_component.cpp" />
     <ClCompile Include="sources\components\lm_attack_component.cpp" />
@@ -33,6 +33,7 @@
     <ClCompile Include="sources\components\lm_health_component.cpp" />
     <ClCompile Include="sources\components\lm_locate_component.cpp" />
     <ClCompile Include="sources\components\lm_move_component.cpp" />
+    <ClCompile Include="sources\components\lm_repair_component.cpp" />
     <ClCompile Include="sources\components\lm_resource_holder_component.cpp" />
     <ClCompile Include="sources\components\lm_resource_source_component.cpp" />
     <ClCompile Include="sources\components\lm_resource_storage_component.cpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="ih\components\lm_ihealth_component.hpp" />
     <ClInclude Include="ih\components\lm_ilocate_component.hpp" />
     <ClInclude Include="ih\components\lm_imove_component.hpp" />
+    <ClInclude Include="ih\components\lm_irepair_component.hpp" />
     <ClInclude Include="ih\components\lm_iresource_holder_component.hpp" />
     <ClInclude Include="ih\components\lm_iresource_source_component.hpp" />
     <ClInclude Include="ih\components\lm_iresource_storage_component.hpp" />
@@ -95,10 +97,10 @@
     <ClInclude Include="sources\actions\lm_attack_action.hpp" />
     <ClInclude Include="sources\actions\lm_base_action.hpp" />
     <ClInclude Include="sources\actions\lm_build_action.hpp" />
-    <ClInclude Include="sources\actions\lm_collect_resource_action.hpp" />
     <ClInclude Include="sources\actions\lm_generate_resources_action.hpp" />
     <ClInclude Include="sources\actions\lm_ibuilders_holder.hpp" />
     <ClInclude Include="sources\actions\lm_move_action.hpp" />
+    <ClInclude Include="sources\actions\lm_repair_action.hpp" />
     <ClInclude Include="sources\actions\lm_train_action.hpp" />
     <ClInclude Include="sources\components\lm_actions_component.hpp" />
     <ClInclude Include="sources\components\lm_attack_component.hpp" />
@@ -108,6 +110,7 @@
     <ClInclude Include="sources\components\lm_health_component.hpp" />
     <ClInclude Include="sources\components\lm_locate_component.hpp" />
     <ClInclude Include="sources\components\lm_move_component.hpp" />
+    <ClInclude Include="sources\components\lm_repair_component.hpp" />
     <ClInclude Include="sources\components\lm_resource_holder_component.hpp" />
     <ClInclude Include="sources\components\lm_resource_source_component.hpp" />
     <ClInclude Include="sources\components\lm_resource_storage_component.hpp" />

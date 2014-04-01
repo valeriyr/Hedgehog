@@ -1,6 +1,6 @@
 
-#ifndef __LM_IHEALTH_COMPONENT_HPP__
-#define __LM_IHEALTH_COMPONENT_HPP__
+#ifndef __LM_IREPAIR_COMPONENT_HPP__
+#define __LM_IREPAIR_COMPONENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,7 +14,11 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IHealthComponent
+class Object;
+
+/*---------------------------------------------------------------------------*/
+
+struct IRepairComponent
 	:	public IComponent
 {
 
@@ -22,14 +26,17 @@ struct IHealthComponent
 
 	struct StaticData
 	{
-		StaticData( const int _maximumHealth, const bool _canBeRepair )
-			:	m_maximumHealth( _maximumHealth )
-			,	m_canBeRepair( _canBeRepair )
+		StaticData(
+				const int _healthBySecond
+			,	const float _costPercent
+			)
+			:	m_healthBySecond( _healthBySecond )
+			,	m_costPercent( _costPercent )
 		{}
 
-		const int m_maximumHealth;
+		const int m_healthBySecond;
 
-		const bool m_canBeRepair;
+		const float m_costPercent;
 	};
 
 /*---------------------------------------------------------------------------*/
@@ -38,9 +45,9 @@ struct IHealthComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const int getHealth() const = 0;
+	virtual boost::shared_ptr< Object > getTargetObject() const = 0;
 
-	virtual void setHealth( const int _health ) = 0;
+	virtual void setTargetObject( boost::shared_ptr< Object > _object ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,4 +61,4 @@ struct IHealthComponent
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IHEALTH_COMPONENT_HPP__
+#endif // __LM_IREPAIR_COMPONENT_HPP__

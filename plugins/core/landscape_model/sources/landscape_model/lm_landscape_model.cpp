@@ -16,7 +16,7 @@
 #include "landscape_model/sources/actions/lm_attack_action.hpp"
 #include "landscape_model/sources/actions/lm_train_action.hpp"
 #include "landscape_model/sources/actions/lm_build_action.hpp"
-#include "landscape_model/sources/actions/lm_collect_resource_action.hpp"
+#include "landscape_model/sources/actions/lm_repair_action.hpp"
 
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
@@ -31,6 +31,7 @@
 #include "landscape_model/sources/components/lm_generate_resources_component.hpp"
 #include "landscape_model/sources/components/lm_attack_component.hpp"
 #include "landscape_model/sources/components/lm_build_component.hpp"
+#include "landscape_model/sources/components/lm_repair_component.hpp"
 #include "landscape_model/sources/components/lm_resource_holder_component.hpp"
 #include "landscape_model/sources/components/lm_resource_source_component.hpp"
 #include "landscape_model/sources/components/lm_resource_storage_component.hpp"
@@ -180,13 +181,25 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _flush )
 				= ( *begin )->getComponent< IAttackComponent >( ComponentId::Attack );
 			boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
 				= ( *begin )->getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
+			boost::intrusive_ptr< IRepairComponent > repairComponent
+				= ( *begin )->getComponent< IRepairComponent >( ComponentId::Repair );
 
 			if ( targetObject && targetObject != *begin )
 			{
-				if ( resourceHolderComponent && targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource ) )
+				boost::intrusive_ptr< IHealthComponent > targetHealthComponent
+					= targetObject->getComponent< IHealthComponent >( ComponentId::Health );
+
+				/*if ( resourceHolderComponent && targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource ) )
 				{
 					actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, **begin, targetObject ) )
+						,	_flush );
+				}
+				else*/
+				if ( repairComponent && targetHealthComponent && targetHealthComponent->getHealth() != targetHealthComponent->getStaticData().m_maximumHealth )
+				{
+					actionsComponent->pushAction(
+							boost::intrusive_ptr< IAction >( new RepairAction( m_environment, *this, **begin, targetObject ) )
 						,	_flush );
 				}
 				else if ( attackComponent && targetObject->getComponent< IHealthComponent >( ComponentId::Health ) )
@@ -451,6 +464,11 @@ LandscapeModel::create( const QPoint& _location, const QString& _objectName )
 		object->addComponent(
 				ComponentId::Build
 			,	boost::intrusive_ptr< IComponent >( new BuildComponent( *object, *staticData.m_buildData ) ) );
+
+	if ( staticData.m_repairData )
+		object->addComponent(
+				ComponentId::Repair
+			,	boost::intrusive_ptr< IComponent >( new RepairComponent( *object, *staticData.m_repairData ) ) );
 
 	if ( staticData.m_resourceHolderData )
 		object->addComponent(

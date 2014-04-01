@@ -90,6 +90,20 @@ struct ResourcesData
 		}
 	}
 
+	ResourcesData getResourceDataPart( const float _percent ) const
+	{
+		ResourcesData returnValue;
+
+		ResourcesDataCollectionConstIterator
+				begin = m_data.begin()
+			,	end = m_data.end();
+
+		for ( ; begin != end; ++begin )
+			returnValue.pushResource( begin->first, static_cast< float >( begin->second ) * _percent );
+
+		return returnValue;
+	}
+
 	ResourcesDataCollection m_data;
 };
 

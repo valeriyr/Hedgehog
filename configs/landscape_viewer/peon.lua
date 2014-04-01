@@ -341,6 +341,134 @@ do
 
 	end
 
+	do -- repair north animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.North )
+
+		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 432, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 504, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 576, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
+	do -- repair north east animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.NorthEast )
+
+		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 72,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 432, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 504, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 576, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 72,   0, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
+	do -- repair east animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.East )
+
+		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 504, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 576, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
+	do -- repair south east animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.SouthEast )
+
+		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 216,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 432, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 504, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 576, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 216,   0, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
+	do -- repair south animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.South )
+
+		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 360, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 432, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 504, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 576, 72, 72 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
+	do -- repair south west animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.SouthWest )
+
+		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 216,   0, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 360, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 432, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 504, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 576, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 216,   0, 72, 72 ), true ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
+	do -- repair west animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.West )
+
+		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 360, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 504, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 576, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
+	do -- repair north west animation
+
+		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.NorthWest )
+
+		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 72,   0, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 360, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 432, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 504, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 576, 72, 72 ), true ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 72,   0, 72, 72 ), true ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
 	do -- dying north animation
 
 		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Dying, Direction.North )

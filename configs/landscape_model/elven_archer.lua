@@ -3,7 +3,7 @@
 
 elvenArcher = ObjectStaticData()
 
-elvenArcher.m_healthData = HealthComponentStaticData( 100 )
+elvenArcher.m_healthData = HealthComponentStaticData( 100, false )
 elvenArcher.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground, Emplacement.Ground )
 elvenArcher.m_moveData = MoveComponentStaticData( 800 )
 elvenArcher.m_selectionData = SelectionComponentStaticData()

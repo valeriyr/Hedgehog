@@ -1,10 +1,12 @@
 
-#ifndef __LM_GENERATE_RESOURCES_ACTION_HPP__
-#define __LM_GENERATE_RESOURCES_ACTION_HPP__
+#ifndef __LM_REPAIR_COMPONENT_HPP__
+#define __LM_REPAIR_COMPONENT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/sources/actions/lm_base_action.hpp"
+#include "landscape_model/ih/components/lm_irepair_component.hpp"
+
+#include "landscape_model/sources/components/lm_base_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,8 +16,8 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class GenerateResourcesAction
-	:	public BaseAction
+class RepairComponent
+	:	public BaseComponent< IRepairComponent >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,20 +26,29 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	GenerateResourcesAction(
-			const IEnvironment& _environment
-		,	ILandscapeModel& _landscapeModel
-		,	Object& _object );
+	RepairComponent( Object& _object, const IRepairComponent::StaticData& _staticData );
 
-	virtual ~GenerateResourcesAction();
+	virtual ~RepairComponent();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void processAction( const unsigned int _deltaTime );
+	/*virtual*/ const IRepairComponent::StaticData& getStaticData() const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const Actions::Enum getType() const;
+	/*virtual*/ boost::shared_ptr< Object > getTargetObject() const;
+
+	/*virtual*/ void setTargetObject( boost::shared_ptr< Object > _object );
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const IRepairComponent::StaticData& m_staticData;
+
+	boost::shared_ptr< Object > m_targetObject;
 
 /*---------------------------------------------------------------------------*/
 
@@ -51,4 +62,4 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_GENERATE_RESOURCES_ACTION_HPP__
+#endif // __LM_REPAIR_COMPONENT_HPP__

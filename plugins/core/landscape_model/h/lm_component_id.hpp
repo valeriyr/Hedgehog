@@ -22,6 +22,7 @@ struct ComponentId
 		,	Move
 		,	Attack
 		,	Build
+		,	Repair
 		,	ResourcesGenerating
 		,	ResourceHolder
 		,	ResourceSource

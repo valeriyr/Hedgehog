@@ -3,7 +3,7 @@
 
 grunt = ObjectStaticData()
 
-grunt.m_healthData = HealthComponentStaticData( 200 )
+grunt.m_healthData = HealthComponentStaticData( 200, false )
 grunt.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground, Emplacement.Ground )
 grunt.m_moveData = MoveComponentStaticData( 1000 )
 grunt.m_selectionData = SelectionComponentStaticData()

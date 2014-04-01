@@ -6,8 +6,6 @@
 
 #include "landscape_model/sources/actions/lm_base_action.hpp"
 
-#include "landscape_model/h/lm_object.hpp"
-
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {

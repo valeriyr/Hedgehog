@@ -3,7 +3,7 @@
 
 humanBarracks = ObjectStaticData()
 
-humanBarracks.m_healthData = HealthComponentStaticData( 1000 )
+humanBarracks.m_healthData = HealthComponentStaticData( 1000, true )
 humanBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground, Emplacement.Ground )
 humanBarracks.m_selectionData = SelectionComponentStaticData()
 

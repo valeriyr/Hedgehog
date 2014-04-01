@@ -227,6 +227,7 @@ PluginInstance::exportScriptAPI()
 			.withItem( "Attacking", ObjectState::Attacking )
 			.withItem( "Training", ObjectState::Training )
 			.withItem( "Building", ObjectState::Building )
+			.withItem( "Repairing", ObjectState::Repairing )
 			.withItem( "Dying", ObjectState::Dying )
 			.withItem( "UnderConstruction", ObjectState::UnderConstruction );
 
@@ -273,10 +274,15 @@ PluginInstance::exportScriptAPI()
 		->withConstructor()
 		.withMethod( "pushBuildData", &IBuildComponent::StaticData::pushBuildData );
 
+	// RepairComponent
+
+	exporter.exportClassWithShared< IRepairComponent::StaticData >( "RepairComponentStaticData" )
+		->withConstructor< const int, const float >();
+
 	// HealthComponent
 
 	exporter.exportClassWithShared< IHealthComponent::StaticData >( "HealthComponentStaticData" )
-		->withConstructor< const int >();
+		->withConstructor< const int, const bool >();
 
 	// LocateComponent
 
@@ -333,6 +339,7 @@ PluginInstance::exportScriptAPI()
 		.withRWProperty( "m_generateResourcesData", &IStaticData::ObjectStaticData::m_generateResourcesData )
 		.withRWProperty( "m_attackData", &IStaticData::ObjectStaticData::m_attackData )
 		.withRWProperty( "m_buildData", &IStaticData::ObjectStaticData::m_buildData )
+		.withRWProperty( "m_repairData", &IStaticData::ObjectStaticData::m_repairData )
 		.withRWProperty( "m_resourceHolderData", &IStaticData::ObjectStaticData::m_resourceHolderData )
 		.withRWProperty( "m_resourceSourceData", &IStaticData::ObjectStaticData::m_resourceSourceData )
 		.withRWProperty( "m_resourceStorageData", &IStaticData::ObjectStaticData::m_resourceStorageData );

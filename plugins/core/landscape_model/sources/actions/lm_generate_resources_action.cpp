@@ -6,7 +6,6 @@
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
-#include "landscape_model/ih/lm_imodel_locker.hpp"
 
 #include "landscape_model/ih/components/lm_igenerate_resources_component.hpp"
 
