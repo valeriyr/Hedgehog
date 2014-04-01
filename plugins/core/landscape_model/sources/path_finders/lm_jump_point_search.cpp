@@ -150,6 +150,54 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 /*---------------------------------------------------------------------------*/
 
 
+void
+JumpPointSearch::pathToObject(	PointsCollection& _path
+							 ,	const ILandscape& _landscape
+							 ,	const Object& _forObject
+							 ,	const Object& _targetObject
+							 ,	const float _distance )
+{
+	boost::intrusive_ptr< ILocateComponent > targetLocateComponent
+		= _targetObject.getComponent< ILocateComponent >( ComponentId::Locate );
+
+	QRect targetRect = targetLocateComponent->getRect();
+	IPathFinder::PointsCollection targetPoints;
+
+	for ( int x = targetRect.x() - static_cast< int >( _distance ); x < targetRect.x() + targetRect.width() + static_cast< int >( _distance ); ++x )
+	{
+		for ( int y = targetRect.y() - static_cast< int >( _distance ); y < targetRect.y() + targetRect.height() + static_cast< int >( _distance ); ++y )
+		{
+			QPoint location( x, y );
+			if ( _landscape.isLocationInLandscape( location ) && Geometry::checkDistance( location, targetRect, _distance ) )
+				targetPoints.push_back( location );
+		}
+	}
+
+	JumpPointSearch().findPath( _path, _landscape, _forObject, targetPoints );
+
+} // JumpPointSearch::pathToObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+JumpPointSearch::pathToPoint(	PointsCollection& _path
+							 ,	const ILandscape& _landscape
+							 ,	const Object& _forObject
+							 ,	const QPoint& _targetPoint )
+{
+	IPathFinder::PointsCollection targetPoints;
+	targetPoints.push_back( _targetPoint );
+
+	JumpPointSearch().findPath( _path, _landscape, _forObject, targetPoints );
+
+} // JumpPointSearch::pathToPoint
+
+
+/*---------------------------------------------------------------------------*/
+
+
 bool
 JumpPointSearch::allPointsFound(
 		const Tools::Core::Containers::Matrix< int >& matrix

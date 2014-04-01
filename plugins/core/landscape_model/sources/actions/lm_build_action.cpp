@@ -22,6 +22,8 @@
 
 #include "landscape_model/ih/lm_istatic_data.hpp"
 
+#include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -114,7 +116,7 @@ BuildAction::cancelProcessingInternal()
 	
 	m_environment.riseEvent( buildQueueChangedEvent );
 
-	return !m_moveAction || m_moveAction->cancelProcessing();
+	return true;
 
 } // BuildAction::cancelProcessingInternal
 
@@ -131,6 +133,8 @@ BuildAction::processAction( const unsigned int _deltaTime )
 		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 	boost::intrusive_ptr< IBuildComponent > buildComponent
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
+	boost::intrusive_ptr< IActionsComponent > actionsComponent
+		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
 
 	IBuildComponent::Data& buildData = buildComponent->getBuildData();
 
@@ -146,29 +150,32 @@ BuildAction::processAction( const unsigned int _deltaTime )
 
 		QPoint nearestPoint = Geometry::getNearestPoint( locateComponent->getLocation(), buildData.m_atRect );
 
-		if (	!m_moveAction
-			&&	Geometry::getDistance( locateComponent->getLocation(), nearestPoint ) > 0.0f )
+		if ( Geometry::getDistance( locateComponent->getLocation(), nearestPoint ) > 0.0f )
 		{
-			m_moveAction.reset(
-				new MoveAction(
-						m_environment
-					,	m_landscapeModel
-					,	m_object
-					,	nearestPoint ) );
+			IPathFinder::PointsCollection path;
+			JumpPointSearch::pathToPoint( path, *m_landscapeModel.getLandscape(), m_object, nearestPoint );
 
-			m_moveAction->prepareToProcessing();
+			if ( !path.empty() )
+			{
+				actionsComponent->pushFrontAction(
+					boost::intrusive_ptr< IAction >(
+						new MoveAction(
+								m_environment
+							,	m_landscapeModel
+							,	m_object
+							,	nearestPoint
+							,	path ) ) );
+				return;
+			}
+			else
+			{
+				m_buildingFinished = true;
+			}
 		}
 
 		// Do action
 
-		if ( m_moveAction )
-		{
-			m_moveAction->processAction( _deltaTime );
-
-			if ( m_moveAction->hasFinished() )
-				m_moveAction.reset();
-		}
-		else if ( !m_buildingFinished )
+		if ( !m_buildingFinished )
 		{
 			bool shouldBuildObject = true;
 
@@ -252,7 +259,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 bool
 BuildAction::hasFinished() const
 {
-	return ( !m_moveAction || m_moveAction->hasFinished() ) && m_buildingFinished;
+	return m_buildingFinished;
 
 } // BuildAction::hasFinished
 

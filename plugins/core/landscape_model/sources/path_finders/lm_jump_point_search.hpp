@@ -39,6 +39,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	static void pathToObject(	PointsCollection& _path
+							 ,	const ILandscape& _landscape
+							 ,	const Object& _forObject
+							 ,	const Object& _targetObject
+							 ,	const float _distance );
+
+	static void pathToPoint(	PointsCollection& _path
+							 ,	const ILandscape& _landscape
+							 ,	const Object& _forObject
+							 ,	const QPoint& _targetPoint );
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/

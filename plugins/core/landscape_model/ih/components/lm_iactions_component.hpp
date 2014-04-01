@@ -51,6 +51,8 @@ struct IActionsComponent
 
 	virtual void pushAction( boost::intrusive_ptr< IAction > _action, bool _flush ) = 0;
 
+	virtual void pushFrontAction( boost::intrusive_ptr< IAction > _action ) = 0;
+
 	virtual void processAction( unsigned int _deltaTime ) = 0;
 
 	virtual ActionsIterator getActionsIterator( const Actions::Enum _type ) const = 0;

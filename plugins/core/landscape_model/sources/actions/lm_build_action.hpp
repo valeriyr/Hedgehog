@@ -86,8 +86,6 @@ private:
 
 	bool m_buildingFinished;
 
-	boost::intrusive_ptr< IAction > m_moveAction;
-
 /*---------------------------------------------------------------------------*/
 
 };

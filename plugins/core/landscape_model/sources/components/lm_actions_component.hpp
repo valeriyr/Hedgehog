@@ -38,6 +38,8 @@ public:
 
 	/*virtual*/ void pushAction( boost::intrusive_ptr< IAction > _action, bool _flush );
 
+	/*virtual*/ void pushFrontAction( boost::intrusive_ptr< IAction > _action );
+
 	/*virtual*/ void processAction( unsigned int _deltaTime );
 
 	/*virtual*/ IActionsComponent::ActionsIterator getActionsIterator( const Actions::Enum _type ) const;
@@ -47,6 +49,14 @@ public:
 	/*virtual*/ void pushPeriodicalAction( boost::intrusive_ptr< IAction > _action );
 
 	/*virtual*/ ActionsIterator getPeriodicalActionsIterator() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	void removeFinishedAction( boost::intrusive_ptr< IAction > _action );
 
 /*---------------------------------------------------------------------------*/
 

@@ -115,6 +115,17 @@ ActionsComponent::pushAction( boost::intrusive_ptr< IAction > _action, bool _flu
 
 
 void
+ActionsComponent::pushFrontAction( boost::intrusive_ptr< IAction > _action )
+{
+	m_actionsCollection.push_front( ActionData( _action ) );
+
+} // ActionsComponent::pushFrontAction
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 ActionsComponent::processAction( unsigned int _deltaTime )
 {
 	flushActions( FlushPolicy::AsNeeded );
@@ -139,11 +150,13 @@ ActionsComponent::processAction( unsigned int _deltaTime )
 
 	if ( !m_actionsCollection.empty() )
 	{
-		m_actionsCollection.front().m_action->processAction( _deltaTime );
+		boost::intrusive_ptr< IAction > action = m_actionsCollection.front().m_action;
 
-		if ( m_actionsCollection.front().m_action->hasFinished() )
+		action->processAction( _deltaTime );
+
+		if ( action->hasFinished() )
 		{
-			m_actionsCollection.pop_front();
+			removeFinishedAction( action );
 		}
 	}
 
@@ -187,6 +200,28 @@ ActionsComponent::getPeriodicalActionsIterator() const
 				m_periodicalActionsCollection ) );
 
 } // ActionsComponent::getPeriodicalActionsIterator
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ActionsComponent::removeFinishedAction( boost::intrusive_ptr< IAction > _action )
+{
+	ActionsCollectionIterator
+			begin = m_actionsCollection.begin()
+		,	end = m_actionsCollection.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( begin->m_action == _action )
+		{
+			m_actionsCollection.erase( begin );
+			break;
+		}
+	}
+
+} // ActionsComponent::removeFinishedAction
 
 
 /*---------------------------------------------------------------------------*/

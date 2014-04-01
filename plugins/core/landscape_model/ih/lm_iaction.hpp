@@ -32,7 +32,7 @@ struct IAction
 
 	virtual bool hasFinished() const = 0;
 
-	virtual bool isInProcessing() const = 0;
+	virtual bool isInitialized() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

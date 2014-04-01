@@ -33,11 +33,32 @@ MoveAction::MoveAction(
 	,	const QPoint& _movingTo
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
-	,	m_pathFinder( new JumpPointSearch() )
 	,	m_movingFinished( false )
 	,	m_movingToPoint( _movingTo )
 	,	m_movingToObject()
 	,	m_lastTargetObjectLocation()
+	,	m_preprocessedPath()
+	,	m_distance( 0.0f )
+{
+} // MoveAction::MoveAction
+
+
+/*---------------------------------------------------------------------------*/
+
+
+MoveAction::MoveAction(
+		const IEnvironment& _environment
+	,	ILandscapeModel& _landscapeModel
+	,	Object& _object
+	,	const QPoint& _movingTo
+	,	IPathFinder::PointsCollection& _path
+	)
+	:	BaseAction( _environment, _landscapeModel, _object )
+	,	m_movingFinished( false )
+	,	m_movingToPoint( _movingTo )
+	,	m_movingToObject()
+	,	m_lastTargetObjectLocation()
+	,	m_preprocessedPath( _path )
 	,	m_distance( 0.0f )
 {
 } // MoveAction::MoveAction
@@ -54,11 +75,32 @@ MoveAction::MoveAction(
 	,	const float _distance
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
-	,	m_pathFinder( new JumpPointSearch() )
 	,	m_movingFinished( false )
 	,	m_movingToPoint()
 	,	m_movingToObject( _movingTo )
-	,	m_lastTargetObjectLocation( m_object.getComponent< ILocateComponent >( ComponentId::Locate )->getLocation() )
+	,	m_lastTargetObjectLocation( _movingTo->getComponent< ILocateComponent >( ComponentId::Locate )->getLocation() )
+	,	m_preprocessedPath()
+	,	m_distance( _distance )
+{
+} // MoveAction::MoveAction
+
+
+/*---------------------------------------------------------------------------*/
+
+
+MoveAction::MoveAction(
+		const IEnvironment& _environment
+	,	ILandscapeModel& _landscapeModel
+	,	Object& _object
+	,	boost::shared_ptr< Object > _movingTo
+	,	IPathFinder::PointsCollection& _path
+	,	const float _distance )
+	:	BaseAction( _environment, _landscapeModel, _object )
+	,	m_movingFinished( false )
+	,	m_movingToPoint()
+	,	m_movingToObject( _movingTo )
+	,	m_lastTargetObjectLocation( _movingTo->getComponent< ILocateComponent >( ComponentId::Locate )->getLocation() )
+	,	m_preprocessedPath( _path )
 	,	m_distance( _distance )
 {
 } // MoveAction::MoveAction
@@ -80,6 +122,8 @@ MoveAction::prepareToProcessingInternal()
 {
 	boost::intrusive_ptr< IMoveComponent > moveComponent
 		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
+	boost::intrusive_ptr< ILocateComponent > locateComponent
+		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 
 	moveComponent->getMovingData().reset();
 
@@ -88,19 +132,30 @@ MoveAction::prepareToProcessingInternal()
 		if ( m_movingToObject->getState() == ObjectState::Dying )
 		{
 			moveToLocation( m_lastTargetObjectLocation );
+			m_preprocessedPath.clear();
 			return true;
 		}
 		else
 		{
-			boost::intrusive_ptr< ILocateComponent > targetLocateComponent
-				= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
-
-			m_lastTargetObjectLocation = targetLocateComponent->getLocation();
+			m_lastTargetObjectLocation = m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate )->getLocation();
 		}
 	}
 
 	moveComponent->getMovingData().m_movingTo = m_movingToPoint;
 	moveComponent->getMovingData().m_movingToObject = m_movingToObject;
+
+	if ( !m_preprocessedPath.empty() )
+	{
+		if ( m_landscapeModel.getLandscape()->canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getName() ) )
+		{
+			moveComponent->getMovingData().m_path = m_preprocessedPath;
+
+			m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
+			m_landscapeModel.getLandscape()->setEngaged( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData().m_emplacement, true );
+		}
+
+		m_preprocessedPath.clear();
+	}
 
 	return true;
 
@@ -204,7 +259,7 @@ MoveAction::processAction( const unsigned int _deltaTime )
 		if ( moveComponent->getMovingData().m_movingToObject )
 		{
 			boost::intrusive_ptr< ILocateComponent > targetLocateComponent
-				= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+				= moveComponent->getMovingData().m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate );
 
 			if ( targetLocateComponent->getLocation() != m_lastTargetObjectLocation )
 			{
@@ -221,10 +276,14 @@ MoveAction::processAction( const unsigned int _deltaTime )
 			newMovingData.m_movingTo = moveComponent->getMovingData().m_movingTo;
 			newMovingData.m_movingToObject = moveComponent->getMovingData().m_movingToObject;
 
-			IPathFinder::PointsCollection targetPoints;
-			fillPossibleTargetPoints( targetPoints, moveComponent->getMovingData(), *m_landscapeModel.getLandscape() );
-
-			m_pathFinder->findPath( newMovingData.m_path, *m_landscapeModel.getLandscape(), m_object, targetPoints );
+			if ( newMovingData.m_movingToObject )
+			{
+				JumpPointSearch::pathToObject( newMovingData.m_path, *m_landscapeModel.getLandscape(), m_object, *newMovingData.m_movingToObject, m_distance );
+			}
+			else
+			{
+				JumpPointSearch::pathToPoint( newMovingData.m_path, *m_landscapeModel.getLandscape(), m_object, newMovingData.m_movingTo );
+			}
 
 			if ( newMovingData.m_path.empty() )
 			{
@@ -364,40 +423,6 @@ MoveAction::getType() const
 	return Actions::Move;
 
 } // MoveAction::getType
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-MoveAction::fillPossibleTargetPoints(
-		IPathFinder::PointsCollection& _points
-	,	const IMoveComponent::MovingData& _movingData
-	,	const ILandscape& _landscape ) const
-{
-	if ( _movingData.m_movingToObject )
-	{
-		boost::intrusive_ptr< ILocateComponent > targetLocateComponent
-			= _movingData.m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate );
-
-		QRect targetRect = targetLocateComponent->getRect();
-
-		for ( int x = targetRect.x() - static_cast< int >( m_distance ); x < targetRect.x() + targetRect.width() + static_cast< int >( m_distance ); ++x )
-		{
-			for ( int y = targetRect.y() - static_cast< int >( m_distance ); y < targetRect.y() + targetRect.height() + static_cast< int >( m_distance ); ++y )
-			{
-				QPoint location( x, y );
-				if ( _landscape.isLocationInLandscape( location ) && Geometry::checkDistance( location, targetRect, m_distance ) )
-					_points.push_back( location );
-			}
-		}
-	}
-	else
-	{
-		_points.push_back( _movingData.m_movingTo );
-	}
-
-} // MoveAction::fillPossibleTargetPoints
 
 
 /*---------------------------------------------------------------------------*/

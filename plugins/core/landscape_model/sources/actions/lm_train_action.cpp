@@ -91,7 +91,7 @@ TrainAction::cancelProcessing()
 
 	m_environment.riseEvent( trainQueueChangedEvent );
 
-	m_isInProcessing = false;
+	m_isInitialized = false;
 
 	return true;
 

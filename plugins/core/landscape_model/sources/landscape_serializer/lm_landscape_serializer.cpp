@@ -57,7 +57,7 @@ LandscapeSerializer::load( ILandscape& _landscape, const QString& _filePath )
 			[
 					Tools::Core::XmlLibrary::Tag( "surface" )
 					[
-							Tools::Core::XmlLibrary::CDATA()
+						Tools::Core::XmlLibrary::CDATA()
 					]
 					.handle(
 							boost::bind( &LandscapeSerializer::onSurfaceElement, this, _1 )

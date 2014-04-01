@@ -58,8 +58,6 @@ private:
 
 	boost::shared_ptr< Object > m_target;
 
-	boost::intrusive_ptr< IAction > m_moveAction;
-
 	bool m_attakingFinished;
 
 	int m_attackPhaseCounter;

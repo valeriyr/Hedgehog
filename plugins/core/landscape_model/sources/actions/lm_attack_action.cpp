@@ -8,6 +8,7 @@
 #include "landscape_model/h/lm_events.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
+#include "landscape_model/ih/lm_ilandscape_model.hpp"
 
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 
@@ -17,6 +18,8 @@
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_ihealth_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
+
+#include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,7 +38,6 @@ AttackAction::AttackAction(
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_target( _target )
-	,	m_moveAction()
 	,	m_attakingFinished( false )
 	,	m_attackPhaseCounter( 0 )
 {
@@ -78,7 +80,7 @@ AttackAction::cancelProcessingInternal()
 	attackComponent->setTargetObject( boost::shared_ptr< Object >() );
 	m_attakingFinished = true;
 
-	return !m_moveAction || m_moveAction->cancelProcessing();
+	return true;
 
 } // AttackAction::cancelProcessingInternal
 
@@ -95,6 +97,8 @@ AttackAction::processAction( const unsigned int _deltaTime )
 		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
 	boost::intrusive_ptr< ILocateComponent > locateComponent
 		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+	boost::intrusive_ptr< IActionsComponent > actionsComponent
+		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
 
 	// Check if object is dying
 
@@ -106,35 +110,38 @@ AttackAction::processAction( const unsigned int _deltaTime )
 	{
 		// Check distance
 
-		if (	!m_moveAction
-			&&	Geometry::getDistance(
+		if (	Geometry::getDistance(
 						locateComponent->getLocation()
 					,	Geometry::getNearestPoint(
 								locateComponent->getLocation()
 							,	attackComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate )->getRect() ) )
 			>	attackComponent->getStaticData().m_distance )
 		{
-			m_moveAction.reset(
-				new MoveAction(
-						m_environment
-					,	m_landscapeModel
-					,	m_object
-					,	attackComponent->getTargetObject()
-					,	attackComponent->getStaticData().m_distance ) );
+			IPathFinder::PointsCollection path;
+			JumpPointSearch::pathToObject( path, *m_landscapeModel.getLandscape(), m_object, *attackComponent->getTargetObject(), attackComponent->getStaticData().m_distance );
 
-			m_moveAction->prepareToProcessing();
+			if ( !path.empty() )
+			{
+				actionsComponent->pushFrontAction(
+					boost::intrusive_ptr< IAction >(
+						new MoveAction(
+								m_environment
+							,	m_landscapeModel
+							,	m_object
+							,	attackComponent->getTargetObject()
+							,	path
+							,	attackComponent->getStaticData().m_distance ) ) );
+				return;
+			}
+			else
+			{
+				m_attakingFinished = true;
+			}
 		}
 
 		// Do action
 
-		if ( m_moveAction )
-		{
-			m_moveAction->processAction( _deltaTime );
-
-			if ( m_moveAction->hasFinished() )
-				m_moveAction.reset();
-		}
-		else if ( !m_attakingFinished )
+		if ( !m_attakingFinished )
 		{
 			boost::intrusive_ptr< ILocateComponent > targetObjectLocate
 				= attackComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate );
@@ -225,27 +232,27 @@ AttackAction::processAction( const unsigned int _deltaTime )
 						m_attakingFinished = true;
 					}
 				}
-			}
 
-			if ( stateChanged )
-			{
-				Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
-				objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
+				if ( stateChanged )
+				{
+					Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
+					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
+					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
+					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
 
-				m_environment.riseEvent( objectStateChangedEvent );
-			}
+					m_environment.riseEvent( objectStateChangedEvent );
+				}
 
-			if ( readyToAttack )
-			{
-				Framework::Core::EventManager::Event objectReadyToAttackEvent( Events::ObjectReadyToAttack::ms_type );
-				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectNameAttribute, m_object.getName() );
-				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectIdAttribute, m_object.getUniqueId() );
-				objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectDirection, locateComponent->getDirection() );
+				if ( readyToAttack )
+				{
+					Framework::Core::EventManager::Event objectReadyToAttackEvent( Events::ObjectReadyToAttack::ms_type );
+					objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectNameAttribute, m_object.getName() );
+					objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectIdAttribute, m_object.getUniqueId() );
+					objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectDirection, locateComponent->getDirection() );
 
-				m_environment.riseEvent( objectReadyToAttackEvent );
+					m_environment.riseEvent( objectReadyToAttackEvent );
+				}
 			}
 		}
 	}
@@ -264,7 +271,7 @@ AttackAction::processAction( const unsigned int _deltaTime )
 bool
 AttackAction::hasFinished() const
 {
-	return ( !m_moveAction || m_moveAction->hasFinished() ) && m_attakingFinished;
+	return m_attakingFinished;
 
 } // AttackAction::hasFinished
 

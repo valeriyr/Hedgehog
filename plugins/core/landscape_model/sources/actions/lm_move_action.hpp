@@ -40,7 +40,22 @@ public:
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
 		,	Object& _object
+		,	const QPoint& _movingTo
+		,	IPathFinder::PointsCollection& _path );
+
+	MoveAction(
+			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel
+		,	Object& _object
 		,	boost::shared_ptr< Object > _movingTo
+		,	const float _distance );
+
+	MoveAction(
+			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel
+		,	Object& _object
+		,	boost::shared_ptr< Object > _movingTo
+		,	IPathFinder::PointsCollection& _path
 		,	const float _distance );
 
 	virtual ~MoveAction();
@@ -67,11 +82,6 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void fillPossibleTargetPoints(
-			IPathFinder::PointsCollection& _points
-		,	const IMoveComponent::MovingData& _movingData
-		,	const ILandscape& _landscape ) const;
-
 	void moveToLocation( const QPoint& _location );
 
 /*---------------------------------------------------------------------------*/
@@ -80,14 +90,13 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::intrusive_ptr< IPathFinder > m_pathFinder;
-
 	bool m_movingFinished;
 
 	QPoint m_movingToPoint;
 
 	boost::shared_ptr< Object > m_movingToObject;
 	QPoint m_lastTargetObjectLocation;
+	IPathFinder::PointsCollection m_preprocessedPath;
 
 	float m_distance;
 
