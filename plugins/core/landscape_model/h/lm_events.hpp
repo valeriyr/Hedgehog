@@ -96,9 +96,9 @@ namespace ObjectStateChanged
 
 /*---------------------------------------------------------------------------*/
 
-namespace ObjectDataChanged
+namespace ObjectHealthChanged
 {
-	const char* const ms_type = "ObjectDataChanged";
+	const char* const ms_type = "ObjectHealthChanged";
 
 	const char* const ms_objectNameAttribute = "ObjectName";
 	const char* const ms_objectIdAttribute = "ObjectId";

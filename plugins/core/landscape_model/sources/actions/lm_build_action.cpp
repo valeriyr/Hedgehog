@@ -221,12 +221,12 @@ BuildAction::processAction( const unsigned int _deltaTime )
 
 				targetHealthComponent->setHealth( buildData.m_buildProgress * targetHealthComponent->getStaticData().m_maximumHealth );
 
-				Framework::Core::EventManager::Event objectDataChangedEvent( Events::ObjectDataChanged::ms_type );
-				objectDataChangedEvent.pushAttribute( Events::ObjectDataChanged::ms_objectNameAttribute, targetObject->getName() );
-				objectDataChangedEvent.pushAttribute( Events::ObjectDataChanged::ms_objectIdAttribute, targetObject->getUniqueId() );
-				objectDataChangedEvent.pushAttribute( Events::ObjectDataChanged::ms_objectHealth, targetHealthComponent->getHealth() );
+				Framework::Core::EventManager::Event objectHealthChangedEvent( Events::ObjectHealthChanged::ms_type );
+				objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, targetObject->getName() );
+				objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectIdAttribute, targetObject->getUniqueId() );
+				objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() );
 
-				m_environment.riseEvent( objectDataChangedEvent );
+				m_environment.riseEvent( objectHealthChangedEvent );
 
 				if ( buildData.m_buildProgress >= 1.0f )
 				{
