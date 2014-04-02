@@ -180,38 +180,51 @@ RepairAction::processAction( const unsigned int _deltaTime )
 					stateChanged = true;
 				}
 
-				const ResourcesData& repairCostData 
-					= buildComponent->getStaticData().m_buildDatas.find( repairComponent->getTargetObject()->getName() )
-						->second->m_resourcesData.getResourceDataPart( repairComponent->getStaticData().m_costPercent );
-
 				int repairHealth = repairComponent->getStaticData().m_healthBySecond * _deltaTime / 1000;
 
-				targetHealthComponent->setHealth( targetHealthComponent->getHealth() + repairHealth );
+				float repairHealthPercent = static_cast< float >( repairHealth ) / targetHealthComponent->getStaticData().m_maximumHealth;
 
-				Framework::Core::EventManager::Event objectHealthChangedEvent( Events::ObjectHealthChanged::ms_type );
-				objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, repairComponent->getTargetObject()->getName() );
-				objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectIdAttribute, repairComponent->getTargetObject()->getUniqueId() );
-				objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() );
+				ResourcesData repairCostData 
+					= buildComponent->getStaticData().m_buildDatas.find( repairComponent->getTargetObject()->getName() )
+						->second->m_resourcesData.getResourceDataPart( repairComponent->getStaticData().m_costPercent ).getResourceDataPart( repairHealthPercent );
 
-				m_environment.riseEvent( objectHealthChangedEvent );
+				boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( m_object.getPlayerId() );
 
-				if ( targetHealthComponent->getHealth() == targetHealthComponent->getStaticData().m_maximumHealth )
+				if ( player && player->getResourcesData().hasEnaught( repairCostData ) )
 				{
-					m_object.setState( ObjectState::Standing );
-					stateChanged = true;
+					player->substructResources( repairCostData );
 
-					m_isInProcessing = false;
+					targetHealthComponent->setHealth( targetHealthComponent->getHealth() + repairHealth );
+
+					Framework::Core::EventManager::Event objectHealthChangedEvent( Events::ObjectHealthChanged::ms_type );
+					objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, repairComponent->getTargetObject()->getName() );
+					objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectIdAttribute, repairComponent->getTargetObject()->getUniqueId() );
+					objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() );
+
+					m_environment.riseEvent( objectHealthChangedEvent );
+
+					if ( targetHealthComponent->getHealth() == targetHealthComponent->getStaticData().m_maximumHealth )
+					{
+						m_object.setState( ObjectState::Standing );
+						stateChanged = true;
+
+						m_isInProcessing = false;
+					}
+
+					if ( stateChanged )
+					{
+						Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+						objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
+						objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
+						objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
+						objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
+
+						m_environment.riseEvent( objectStateChangedEvent );
+					}
 				}
-
-				if ( stateChanged )
+				else
 				{
-					Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
-
-					m_environment.riseEvent( objectStateChangedEvent );
+					m_isInProcessing = false;
 				}
 			}
 		}
