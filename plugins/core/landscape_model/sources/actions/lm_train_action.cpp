@@ -99,7 +99,7 @@ TrainAction::cancelProcessing()
 
 
 void
-TrainAction::processAction( const unsigned int _deltaTime )
+TrainAction::processAction()
 {
 	boost::intrusive_ptr< ILocateComponent > locateComponent
 		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
@@ -114,13 +114,19 @@ TrainAction::processAction( const unsigned int _deltaTime )
 	}
 	else
 	{
-		int creatingTime
+		++trainData.m_trainProgress;
+
+		TickType creationTime
 			= trainComponent->getStaticData().m_trainObjects.find( trainData.m_trainingObjectName )->second->m_creationTime;
-		float creatingDelta = static_cast< float >( _deltaTime ) / creatingTime;
 
-		trainData.m_trainProgress += creatingDelta;
+		Framework::Core::EventManager::Event trainProgressChangedEvent( Events::TrainProgressChanged::ms_type );
+		trainProgressChangedEvent.pushAttribute( Events::TrainProgressChanged::ms_trainerIdAttribute, m_object.getUniqueId() );
+		trainProgressChangedEvent.pushAttribute( Events::TrainProgressChanged::ms_trainerProgressAttribute, trainData.m_trainProgress );
+		trainProgressChangedEvent.pushAttribute( Events::TrainProgressChanged::ms_creationTimeAttribute, creationTime );
 
-		if ( trainData.m_trainProgress >= 1.0f )
+		m_environment.riseEvent( trainProgressChangedEvent );
+
+		if ( trainData.m_trainProgress == creationTime )
 		{
 			m_landscapeModel.createObject(
 					m_landscapeModel.getLandscape()->getNearestLocation( m_object, trainData.m_trainingObjectName )
@@ -133,12 +139,6 @@ TrainAction::processAction( const unsigned int _deltaTime )
 
 			m_isInProcessing = false;
 		}
-
-		Framework::Core::EventManager::Event trainProgressChangedEvent( Events::TrainProgressChanged::ms_type );
-		trainProgressChangedEvent.pushAttribute( Events::TrainProgressChanged::ms_trainerIdAttribute, m_object.getUniqueId() );
-		trainProgressChangedEvent.pushAttribute( Events::TrainProgressChanged::ms_trainerProgressAttribute, trainData.m_trainProgress );
-
-		m_environment.riseEvent( trainProgressChangedEvent );
 	}
 
 	if ( !m_isInProcessing )

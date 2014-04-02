@@ -15,7 +15,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const float LandscapeVersion;
+	extern const char* const LandscapeVersion;
 
 /*---------------------------------------------------------------------------*/
 

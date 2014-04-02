@@ -6,6 +6,8 @@
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
 
+#include "landscape_model/h/lm_constants.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -27,16 +29,16 @@ struct IRepairComponent
 	struct StaticData
 	{
 		StaticData(
-				const int _healthBySecond
-			,	const float _costPercent
+				const TickType _healthByTick
+			,	const int _costPercent
 			)
-			:	m_healthBySecond( _healthBySecond )
+			:	m_healthByTick( _healthByTick )
 			,	m_costPercent( _costPercent )
 		{}
 
-		const int m_healthBySecond;
+		const TickType m_healthByTick;
 
-		const float m_costPercent;
+		const int m_costPercent; /* 0 - 100 */
 	};
 
 /*---------------------------------------------------------------------------*/

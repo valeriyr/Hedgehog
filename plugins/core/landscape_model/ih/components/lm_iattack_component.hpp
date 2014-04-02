@@ -6,6 +6,8 @@
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
 
+#include "landscape_model/h/lm_constants.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -29,9 +31,9 @@ struct IAttackComponent
 		StaticData(
 				const int _minDamage
 			,	const int _maxDamage
-			,	const float _distance
-			,	const int _aiming
-			,	const int _reloading
+			,	const int _distance
+			,	const TickType _aiming
+			,	const TickType _reloading
 			)
 			:	m_minDamage( _minDamage )
 			,	m_maxDamage( _maxDamage )
@@ -44,11 +46,11 @@ struct IAttackComponent
 
 		const int m_maxDamage;
 
-		const float m_distance;
+		const int m_distance;
 
-		const int m_aiming;
+		const TickType m_aiming;
 
-		const int m_reloading;
+		const TickType m_reloading;
 	};
 
 /*---------------------------------------------------------------------------*/

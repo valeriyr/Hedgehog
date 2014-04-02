@@ -46,7 +46,7 @@ public:
 		,	ILandscapeModel& _landscapeModel
 		,	Object& _object
 		,	boost::shared_ptr< Object > _movingTo
-		,	const float _distance );
+		,	const int _distance );
 
 	MoveAction(
 			const IEnvironment& _environment
@@ -54,7 +54,7 @@ public:
 		,	Object& _object
 		,	boost::shared_ptr< Object > _movingTo
 		,	IPathFinder::PointsCollection& _path
-		,	const float _distance );
+		,	const int _distance );
 
 	virtual ~MoveAction();
 
@@ -66,7 +66,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void processAction( const unsigned int _deltaTime );
+	/*virtual*/ void processAction();
 
 /*---------------------------------------------------------------------------*/
 
@@ -92,7 +92,7 @@ private:
 	QPoint m_lastTargetObjectLocation;
 	IPathFinder::PointsCollection m_preprocessedPath;
 
-	float m_distance;
+	int m_distance;
 
 /*---------------------------------------------------------------------------*/
 

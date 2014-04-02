@@ -144,15 +144,19 @@ PlayerInfoView::updatePlayerInfo()
 
 		Core::LandscapeModel::ResourcesData::ResourcesDataCollectionConstIterator
 				begin = player->getResourcesData().m_data.begin()
-			,	end = player->getResourcesData().m_data.end();
+			,	end = player->getResourcesData().m_data.end()
+			,	it = player->getResourcesData().m_data.begin();
 
-		for ( ; begin != end; ++begin )
-			resourcesInfo += QString( Resources::Views::PlayerResourceInfoFormat ).arg( begin->first ).arg( begin->second );
+		for ( ; it != end; ++it )
+		{
+			if ( it != begin )
+				resourcesInfo += ", ";
+			resourcesInfo += QString( Resources::Views::PlayerResourceInfoFormat ).arg( it->first ).arg( it->second );
+		}
 
 		m_mainWidget->setHtml(
-			QString( Resources::Views::PlayerInfoTextFormat )
-				.arg( player->getUniqueId() )
-				.arg( resourcesInfo ) );
+			QString( Resources::Views::PlayersInfoTextFormat )
+				.arg( QString( Resources::Views::PlayerInfoTextFormat ).arg( player->getUniqueId() ).arg( resourcesInfo ) ) );
 	}
 
 } // PlayerInfoView::updatePlayerInfo

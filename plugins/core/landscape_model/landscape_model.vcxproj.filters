@@ -55,11 +55,11 @@
     <Filter Include="Notification Center">
       <UniqueIdentifier>{df6cf411-8739-4917-8afe-6a9390fd4da5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Geometry">
-      <UniqueIdentifier>{513acdd3-13cd-43c0-a756-6dbec313624f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Model Locker">
       <UniqueIdentifier>{5ba58ded-4e19-4c40-b18d-54710cefc11e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{513acdd3-13cd-43c0-a756-6dbec313624f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -129,9 +129,6 @@
     <ClCompile Include="sources\components\lm_attack_component.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="sources\geometry\lm_geometry.cpp">
-      <Filter>Geometry</Filter>
-    </ClCompile>
     <ClCompile Include="sources\path_finders\lm_jump_point_search.cpp">
       <Filter>Path Finders</Filter>
     </ClCompile>
@@ -167,6 +164,12 @@
     </ClCompile>
     <ClCompile Include="sources\components\lm_repair_component.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\utils\lm_geometry.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\utils\lm_math.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,9 +338,6 @@
     <ClInclude Include="sources\components\lm_attack_component.hpp">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="sources\geometry\lm_geometry.hpp">
-      <Filter>Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="sources\actions\lm_train_action.hpp">
       <Filter>Actions</Filter>
     </ClInclude>
@@ -400,6 +400,15 @@
     </ClInclude>
     <ClInclude Include="sources\components\lm_repair_component.hpp">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_constants.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\utils\lm_geometry.hpp">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\utils\lm_math.hpp">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

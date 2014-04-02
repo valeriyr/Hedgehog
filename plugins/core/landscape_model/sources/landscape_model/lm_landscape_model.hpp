@@ -9,6 +9,8 @@
 #include "landscape_model/sources/landscape/lm_iobjects_creator.hpp"
 #include "landscape_model/sources/actions/lm_ibuilders_holder.hpp"
 
+#include "landscape_model/h/lm_constants.hpp"
+
 #include "multithreading_manager/h/mm_task_handle.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -158,6 +160,8 @@ private:
 	boost::intrusive_ptr< IPlayer > m_player;
 
 	QMutex m_mutex;
+
+	TickType m_ticksCounter;
 
 /*---------------------------------------------------------------------------*/
 

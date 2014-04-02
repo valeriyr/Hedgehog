@@ -1,7 +1,7 @@
 
 #include "landscape_model/sources/ph/lm_ph.hpp"
 
-#include "landscape_model/sources/geometry/lm_geometry.hpp"
+#include "landscape_model/sources/utils/lm_geometry.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -12,10 +12,18 @@ namespace Geometry {
 
 /*---------------------------------------------------------------------------*/
 
-float getDistance( const QPoint& _from, const QPoint& _to )
+const int ZeroDistance = 0;
+
+const int NeighborDistance = 10;
+
+const int DiagonalDistance = 15;
+
+/*---------------------------------------------------------------------------*/
+
+int getDistance( const QPoint& _from, const QPoint& _to )
 {
 	QPoint point = _from - _to;
-	return sqrt( pow( static_cast< float >( point.x() ), 2 ) + pow( static_cast< float >( point.y() ), 2 ) );
+	return sqrt( static_cast< float >( point.x() * point.x() + point.y() * point.y() ) ) * NeighborDistance;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -30,13 +38,13 @@ QPoint getNearestPoint( const QPoint& _from, const QPoint& _to )
 QPoint getNearestPoint( const QPoint& _from, const QRect& _in )
 {
 	QPoint result( _in.x(), _in.y() );
-	float distance = FLT_MAX;
+	int distance = INT_MAX;
 
 	for ( int x = _in.x(); x < _in.x() + _in.width(); ++x )
 	{
 		for ( int y = _in.y(); y < _in.y() + _in.height(); ++y )
 		{
-			float temp = getDistance( _from, QPoint( x, y ) );
+			int temp = getDistance( _from, QPoint( x, y ) );
 
 			if ( temp < distance )
 			{
@@ -51,14 +59,14 @@ QPoint getNearestPoint( const QPoint& _from, const QRect& _in )
 
 /*---------------------------------------------------------------------------*/
 
-bool checkDistance( const QPoint& _from, const QRect& _to, const float _distance )
+bool checkDistance( const QPoint& _from, const QRect& _to, const int _distance )
 {
 	return getDistance( _from, getNearestPoint( _from, _to ) ) <= _distance;
 }
 
 /*---------------------------------------------------------------------------*/
 
-bool checkDistance( const QPoint& _from, const QPoint& _to, const float _distance )
+bool checkDistance( const QPoint& _from, const QPoint& _to, const int _distance )
 {
 	return getDistance( _from, getNearestPoint( _from, _to ) ) <= _distance;
 }

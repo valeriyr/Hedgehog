@@ -36,6 +36,8 @@
 #include "landscape_model/sources/components/lm_resource_source_component.hpp"
 #include "landscape_model/sources/components/lm_resource_storage_component.hpp"
 
+#include "landscape_model/sources/utils/lm_geometry.hpp"
+
 #include "landscape_model/ih/lm_istatic_data.hpp"
 
 #include "landscape_model/h/lm_resources.hpp"
@@ -63,13 +65,10 @@ LandscapeModel::LandscapeModel(
 	,	m_landscape()
 	,	m_player()
 	,	m_mutex( QMutex::Recursive )
+	,	m_ticksCounter( 0 )
 	,	m_builders()
 {
 	m_environment.startThread( Resources::ModelThreadName );
-	m_actionsProcessingTaskHandle = m_environment.pushPeriodicalTask(
-			Resources::ModelThreadName
-		,	boost::bind( &LandscapeModel::gameMainLoop, this )
-		,	Resources::TimeLimit );
 
 } // LandscapeModel::LandscapeModel
 
@@ -211,7 +210,7 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _flush )
 				else if ( moveComponent )
 				{
 					actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, **begin, targetObject, 1.5f ) )
+							boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, **begin, targetObject, Geometry::DiagonalDistance ) )
 						,	_flush );
 				}
 			}
@@ -312,7 +311,7 @@ LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _ob
 					iterator = trainComponent->getStaticData().m_trainObjects.find( _objectName );
 
 				if (	iterator != trainComponent->getStaticData().m_trainObjects.end()
-					&&	player->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
+					&&	player->getResourcesData().isEnaught( iterator->second->m_resourcesData ) )
 				{
 					player->substructResources( iterator->second->m_resourcesData );
 
@@ -545,14 +544,12 @@ LandscapeModel::addBuilder( boost::shared_ptr< Object > _builder )
 void
 LandscapeModel::gameMainLoop()
 {
-	static qint64 lastStartTime = QDateTime::currentDateTime().toMSecsSinceEpoch() - 100;
-
-	qint64 tickTime = QDateTime::currentDateTime().toMSecsSinceEpoch() - lastStartTime;
-
-	lastStartTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+	qint64 startTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
 	{
 		QMutexLocker locker( &m_mutex );
+
+		++m_ticksCounter;
 
 		if ( m_landscape )
 		{
@@ -575,33 +572,33 @@ LandscapeModel::gameMainLoop()
 
 				while( periodocalActions->isValid() )
 				{
-					periodocalActions->current()->processAction( tickTime );
+					periodocalActions->current()->processAction();
 					periodocalActions->next();
 				}
 
 				// Actions loop
 
-				actionsComponent->processAction( tickTime );
+				actionsComponent->processAction();
 			}
 		}
+
+		// Process builders
+
+		BuildersCollectionIterator
+				begin = m_builders.begin()
+			,	end = m_builders.end();
+
+		for ( ; begin != end; ++begin )
+			begin->second->getComponent< IActionsComponent >( ComponentId::Actions )->processAction();
+
+		// Fetch dying objects
+
+		// Process notifications
+
+		m_environment.getNotificationCenter()->processNotifiers();
 	}
 
-	// Process builders
-
-	BuildersCollectionIterator
-			begin = m_builders.begin()
-		,	end = m_builders.end();
-
-	for ( ; begin != end; ++begin )
-		begin->second->getComponent< IActionsComponent >( ComponentId::Actions )->processAction( tickTime );
-
-	// Fetch dying objects
-
-	// Process notifications
-
-	m_environment.getNotificationCenter()->processNotifiers();
-
-	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - lastStartTime;
+	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime;
 
 	if ( time > Resources::TimeLimit )
 	{
@@ -645,6 +642,13 @@ LandscapeModel::initTask( const QString& _filePath )
 
 	m_environment.riseEvent( modelInitEvent );
 
+	m_ticksCounter = 0;
+
+	m_actionsProcessingTaskHandle = m_environment.pushPeriodicalTask(
+			Resources::ModelThreadName
+		,	boost::bind( &LandscapeModel::gameMainLoop, this )
+		,	Resources::TimeLimit );
+
 } // LandscapeModel::initTask
 
 
@@ -655,6 +659,9 @@ void
 LandscapeModel::resetTask()
 {
 	QMutexLocker locker( &m_mutex );
+
+	m_environment.removeTask( m_actionsProcessingTaskHandle );
+	m_ticksCounter = 0;
 
 	m_landscape.reset();
 	m_player.reset();

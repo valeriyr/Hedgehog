@@ -5,6 +5,7 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+
 #include "landscape_model/h/lm_actions.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -28,7 +29,7 @@ struct IAction
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void processAction( const unsigned int _deltaTime ) = 0;
+	virtual void processAction() = 0;
 
 	virtual bool isInProcessing() const = 0;
 

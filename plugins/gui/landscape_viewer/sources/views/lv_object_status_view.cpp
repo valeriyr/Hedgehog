@@ -180,7 +180,10 @@ ObjectStatusView::onTrainProgressChanged( const Framework::Core::EventManager::E
 {
 	if ( m_builderId == _event.getAttribute( Core::LandscapeModel::Events::TrainProgressChanged::ms_trainerIdAttribute ).toInt() )
 	{
-		updateProgressLabel( static_cast< int >( _event.getAttribute( Core::LandscapeModel::Events::TrainProgressChanged::ms_trainerProgressAttribute ).toFloat() * 100 ) );
+		Core::LandscapeModel::TickType progress = _event.getAttribute( Core::LandscapeModel::Events::TrainProgressChanged::ms_trainerProgressAttribute ).toLongLong();
+		Core::LandscapeModel::TickType total = _event.getAttribute( Core::LandscapeModel::Events::TrainProgressChanged::ms_creationTimeAttribute ).toLongLong();
+
+		updateProgressLabel( static_cast< float >( progress ) / total * 100 );
 	}
 
 } // ObjectStatusView::onTrainProgressChanged
@@ -225,6 +228,10 @@ ObjectStatusView::updateBuildQueue()
 
 					m_listWidget->addItem( listItem );
 				}
+			}
+			else
+			{
+				clearProgressLabel();
 			}
 		}
 	}

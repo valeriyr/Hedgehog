@@ -80,6 +80,7 @@ namespace ObjectMoved
 	const char* const ms_movingFromAttribute = "MovingFrom";
 	const char* const ms_movingToAttribute = "MovingTo";
 	const char* const ms_movingProgressAttribute = "MovingProgress";
+	const char* const ms_movingSpeedAttribute = "MovingSpeed";
 }
 
 /*---------------------------------------------------------------------------*/
@@ -168,6 +169,7 @@ namespace TrainProgressChanged
 
 	const char* const ms_trainerIdAttribute = "TrainerId";
 	const char* const ms_trainerProgressAttribute = "TrainerProgress";
+	const char* const ms_creationTimeAttribute = "CreationTime";
 }
 
 /*---------------------------------------------------------------------------*/

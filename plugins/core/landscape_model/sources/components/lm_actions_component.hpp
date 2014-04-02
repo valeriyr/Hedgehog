@@ -40,7 +40,7 @@ public:
 
 	/*virtual*/ void pushFrontAction( boost::intrusive_ptr< IAction > _action );
 
-	/*virtual*/ void processAction( unsigned int _deltaTime );
+	/*virtual*/ void processAction();
 
 	/*virtual*/ IActionsComponent::ActionsIterator getActionsIterator( const Actions::Enum _type ) const;
 

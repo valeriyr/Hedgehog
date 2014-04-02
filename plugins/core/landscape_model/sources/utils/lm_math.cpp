@@ -1,25 +1,28 @@
 
-#ifndef __LM_GEOMETRY_HPP__
-#define __LM_GEOMETRY_HPP__
+#include "landscape_model/sources/ph/lm_ph.hpp"
+
+#include "landscape_model/sources/utils/lm_math.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
-namespace Geometry {
+namespace Math {
 
 /*---------------------------------------------------------------------------*/
 
-	float getDistance( const QPoint& _from, const QPoint& _to );
+int calculatePart( const int _maxValue, const int _part, const int _maxPart )
+{
+	return ( ( ( _maxValue  * _maxPart ) * _part ) / _maxPart ) / _maxPart;
+}
 
-	QPoint getNearestPoint( const QPoint& _from, const QPoint& _to );
+/*---------------------------------------------------------------------------*/
 
-	QPoint getNearestPoint( const QPoint& _from, const QRect& _in );
-
-	bool checkDistance( const QPoint& _from, const QRect& _to, const float _distance );
-
-	bool checkDistance( const QPoint& _from, const QPoint& _to, const float _distance );
+int calculatePercent( const int _value, const int _maxValue )
+{
+	return _value * 100 / _maxValue;
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,5 +32,3 @@ namespace Geometry {
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LM_GEOMETRY_HPP__

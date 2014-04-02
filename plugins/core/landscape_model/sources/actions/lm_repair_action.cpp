@@ -11,7 +11,8 @@
 
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 
-#include "landscape_model/sources/geometry/lm_geometry.hpp"
+#include "landscape_model/sources/utils/lm_geometry.hpp"
+#include "landscape_model/sources/utils/lm_math.hpp"
 
 #include "landscape_model/ih/components/lm_irepair_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
@@ -39,6 +40,7 @@ RepairAction::RepairAction(
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_target( _target )
+	,	m_healthRepaired( 0 )
 {
 } // RepairAction::RepairAction
 
@@ -87,7 +89,7 @@ RepairAction::cancelProcessingInternal()
 
 
 void
-RepairAction::processAction( const unsigned int _deltaTime )
+RepairAction::processAction()
 {
 	// Common variables
 
@@ -115,10 +117,10 @@ RepairAction::processAction( const unsigned int _deltaTime )
 					,	Geometry::getNearestPoint(
 								locateComponent->getLocation()
 							,	repairComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate )->getRect() ) )
-			>	1.5f )
+			>	Geometry::DiagonalDistance )
 		{
 			IPathFinder::PointsCollection path;
-			JumpPointSearch::pathToObject( path, *m_landscapeModel.getLandscape(), m_object, *repairComponent->getTargetObject(), 1.5f );
+			JumpPointSearch::pathToObject( path, *m_landscapeModel.getLandscape(), m_object, *repairComponent->getTargetObject(), Geometry::DiagonalDistance );
 
 			if ( !path.empty() )
 			{
@@ -130,7 +132,7 @@ RepairAction::processAction( const unsigned int _deltaTime )
 							,	m_object
 							,	repairComponent->getTargetObject()
 							,	path
-							,	1.5f ) ) );
+							,	Geometry::DiagonalDistance ) ) );
 				return;
 			}
 			else
@@ -180,51 +182,54 @@ RepairAction::processAction( const unsigned int _deltaTime )
 					stateChanged = true;
 				}
 
-				int repairHealth = repairComponent->getStaticData().m_healthBySecond * _deltaTime / 1000;
+				m_healthRepaired += repairComponent->getStaticData().m_healthByTick;
+				int repairHealthPercent = Math::calculatePercent( m_healthRepaired, targetHealthComponent->getStaticData().m_maximumHealth );
 
-				float repairHealthPercent = static_cast< float >( repairHealth ) / targetHealthComponent->getStaticData().m_maximumHealth;
-
-				ResourcesData repairCostData 
-					= buildComponent->getStaticData().m_buildDatas.find( repairComponent->getTargetObject()->getName() )
-						->second->m_resourcesData.getResourceDataPart( repairComponent->getStaticData().m_costPercent ).getResourceDataPart( repairHealthPercent );
-
-				boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( m_object.getPlayerId() );
-
-				if ( player && player->getResourcesData().hasEnaught( repairCostData ) )
+				if ( repairHealthPercent != 0 )
 				{
-					player->substructResources( repairCostData );
+					boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( m_object.getPlayerId() );
 
-					targetHealthComponent->setHealth( targetHealthComponent->getHealth() + repairHealth );
+					ResourcesData repairCostData 
+						= buildComponent->getStaticData().m_buildDatas.find( repairComponent->getTargetObject()->getName() )
+							->second->m_resourcesData.getResourceDataPart( repairComponent->getStaticData().m_costPercent ).getResourceDataPart( repairHealthPercent );
 
-					Framework::Core::EventManager::Event objectHealthChangedEvent( Events::ObjectHealthChanged::ms_type );
-					objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, repairComponent->getTargetObject()->getName() );
-					objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectIdAttribute, repairComponent->getTargetObject()->getUniqueId() );
-					objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() );
-
-					m_environment.riseEvent( objectHealthChangedEvent );
-
-					if ( targetHealthComponent->getHealth() == targetHealthComponent->getStaticData().m_maximumHealth )
+					if ( player && player->getResourcesData().isEnaught( repairCostData ) )
 					{
-						m_object.setState( ObjectState::Standing );
-						stateChanged = true;
+						player->substructResources( repairCostData );
 
+						targetHealthComponent->setHealth( targetHealthComponent->getHealth() + m_healthRepaired );
+						m_healthRepaired = 0;
+
+						Framework::Core::EventManager::Event objectHealthChangedEvent( Events::ObjectHealthChanged::ms_type );
+						objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, repairComponent->getTargetObject()->getName() );
+						objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectIdAttribute, repairComponent->getTargetObject()->getUniqueId() );
+						objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() );
+
+						m_environment.riseEvent( objectHealthChangedEvent );
+
+						if ( targetHealthComponent->getHealth() == targetHealthComponent->getStaticData().m_maximumHealth )
+						{
+							m_object.setState( ObjectState::Standing );
+							stateChanged = true;
+
+							m_isInProcessing = false;
+						}
+					}
+					else
+					{
 						m_isInProcessing = false;
 					}
-
-					if ( stateChanged )
-					{
-						Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-						objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
-						objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
-						objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
-						objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
-
-						m_environment.riseEvent( objectStateChangedEvent );
-					}
 				}
-				else
+
+				if ( stateChanged )
 				{
-					m_isInProcessing = false;
+					Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
+					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
+					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
+					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
+					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
+
+					m_environment.riseEvent( objectStateChangedEvent );
 				}
 			}
 		}

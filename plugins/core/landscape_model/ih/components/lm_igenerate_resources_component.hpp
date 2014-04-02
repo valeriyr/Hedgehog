@@ -6,6 +6,8 @@
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
 
+#include "landscape_model/h/lm_resources_data.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -22,25 +24,16 @@ struct IGenerateResourcesComponent
 
 	struct StaticData
 	{
-		typedef
-			std::map< QString, int >
-			ResourcesByMinuteCollection;
-		typedef
-			ResourcesByMinuteCollection::const_iterator
-			ResourcesByMinuteCollectionIterator;
-
 		StaticData()
-			:	m_resourcesByMinute()
+			:	m_resourcesByTick()
 		{}
 
 		void canGenerate( const QString& _resourceName, const int _value )
 		{
-			assert( m_resourcesByMinute.find( _resourceName ) == m_resourcesByMinute.end() );
-
-			m_resourcesByMinute.insert( std::make_pair( _resourceName, _value ) );
+			m_resourcesByTick.pushResource( _resourceName, _value );
 		}
 
-		ResourcesByMinuteCollection m_resourcesByMinute;
+		ResourcesData m_resourcesByTick;
 	};
 
 /*---------------------------------------------------------------------------*/

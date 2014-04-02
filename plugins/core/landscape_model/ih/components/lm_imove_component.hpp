@@ -6,6 +6,8 @@
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
 
+#include "landscape_model/h/lm_constants.hpp"
+
 #include "landscape_model/sources/path_finders/lm_ipath_finder.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -24,11 +26,11 @@ struct IMoveComponent
 
 	struct StaticData
 	{
-		StaticData( const int _movingSpeed )
+		StaticData( const TickType _movingSpeed )
 			:	m_movingSpeed( _movingSpeed )
 		{}
 
-		const int m_movingSpeed;
+		const TickType m_movingSpeed;
 	};
 
 /*---------------------------------------------------------------------------*/
@@ -45,7 +47,7 @@ struct IMoveComponent
 		void reset()
 		{
 			m_path.clear();
-			m_movingProgress = 0.0f;
+			m_movingProgress = 0;
 			m_movingTo = QPoint( 0, 0 );
 			m_movingToObject.reset();
 		}
@@ -61,7 +63,7 @@ struct IMoveComponent
 		}
 
 		IPathFinder::PointsCollection m_path;
-		float m_movingProgress;
+		TickType m_movingProgress;
 		QPoint m_movingTo;
 		boost::shared_ptr< Object > m_movingToObject;
 	};

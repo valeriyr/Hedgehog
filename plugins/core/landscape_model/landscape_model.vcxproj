@@ -40,7 +40,6 @@
     <ClCompile Include="sources\components\lm_selection_component.cpp" />
     <ClCompile Include="sources\components\lm_train_component.cpp" />
     <ClCompile Include="sources\environment\lm_environment.cpp" />
-    <ClCompile Include="sources\geometry\lm_geometry.cpp" />
     <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp" />
     <ClCompile Include="sources\landscape\lm_landscape.cpp" />
     <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp" />
@@ -59,10 +58,13 @@
     <ClCompile Include="sources\static_data\lm_static_data.cpp" />
     <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp" />
     <ClCompile Include="sources\surface_item\lm_surface_item.cpp" />
+    <ClCompile Include="sources\utils\lm_geometry.cpp" />
+    <ClCompile Include="sources\utils\lm_math.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\lm_actions.hpp" />
     <ClInclude Include="h\lm_component_id.hpp" />
+    <ClInclude Include="h\lm_constants.hpp" />
     <ClInclude Include="h\lm_diplomacy.hpp" />
     <ClInclude Include="h\lm_directions.hpp" />
     <ClInclude Include="h\lm_events.hpp" />
@@ -118,7 +120,6 @@
     <ClInclude Include="sources\components\lm_train_component.hpp" />
     <ClInclude Include="sources\environment\lm_environment.hpp" />
     <ClInclude Include="sources\environment\lm_ienvironment.hpp" />
-    <ClInclude Include="sources\geometry\lm_geometry.hpp" />
     <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp" />
     <ClInclude Include="sources\landscape\lm_iobjects_creator.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
@@ -138,6 +139,8 @@
     <ClInclude Include="sources\static_data\lm_static_data.hpp" />
     <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp" />
     <ClInclude Include="sources\surface_item\lm_surface_item.hpp" />
+    <ClInclude Include="sources\utils\lm_geometry.hpp" />
+    <ClInclude Include="sources\utils\lm_math.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4AA8342B-324C-4FE2-97AB-34F55A2D45F5}</ProjectGuid>

@@ -17,7 +17,7 @@
 #include "landscape_model/sources/actions/lm_ibuilders_holder.hpp"
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 
-#include "landscape_model/sources/geometry/lm_geometry.hpp"
+#include "landscape_model/sources/utils/lm_geometry.hpp"
 
 #include "landscape_model/ih/lm_istatic_data.hpp"
 
@@ -90,7 +90,7 @@ BuildAction::cancelProcessingInternal()
 	boost::intrusive_ptr< IBuildComponent > buildComponent
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
 
-	if ( buildComponent->getBuildData().m_buildProgress != 0.0f )
+	if ( buildComponent->getBuildData().m_buildProgress != 0 )
 	{
 		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( m_object.getPlayerId() );
 
@@ -122,7 +122,7 @@ BuildAction::cancelProcessingInternal()
 
 
 void
-BuildAction::processAction( const unsigned int _deltaTime )
+BuildAction::processAction()
 {
 	// Common variables
 
@@ -147,7 +147,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 
 		QPoint nearestPoint = Geometry::getNearestPoint( locateComponent->getLocation(), buildData.m_atRect );
 
-		if ( Geometry::getDistance( locateComponent->getLocation(), nearestPoint ) > 0.0f )
+		if ( Geometry::getDistance( locateComponent->getLocation(), nearestPoint ) > Geometry::ZeroDistance )
 		{
 			IPathFinder::PointsCollection path;
 			JumpPointSearch::pathToPoint( path, *m_landscapeModel.getLandscape(), m_object, nearestPoint );
@@ -176,7 +176,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 		{
 			bool shouldBuildObject = true;
 
-			if ( buildData.m_buildProgress == 0.0f )
+			if ( buildData.m_buildProgress == 0 )
 			{
 				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
 
@@ -191,7 +191,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 				if (	!newObjectCanBePlaced
 					||	!player
 					||	iterator == buildComponent->getStaticData().m_buildDatas.end()
-					||	!player->getResourcesData().hasEnaught( iterator->second->m_resourcesData ) )
+					||	!player->getResourcesData().isEnaught( iterator->second->m_resourcesData ) )
 				{
 					m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );
 					m_isInProcessing = false;
@@ -207,11 +207,8 @@ BuildAction::processAction( const unsigned int _deltaTime )
 
 			if ( shouldBuildObject )
 			{
-				int buildingTime = buildComponent->getStaticData().m_buildDatas.find( buildData.m_objectName )->second->m_buildTime;
-
-				float buildingDelta = static_cast< float >( _deltaTime ) / buildingTime;
-
-				buildData.m_buildProgress += buildingDelta;
+				++buildData.m_buildProgress;
+				TickType totalTicks = buildComponent->getStaticData().m_buildDatas.find( buildData.m_objectName )->second->m_ticksCount;
 
 				boost::shared_ptr< Object > targetObject
 					= m_landscapeModel.getLandscape()->getObject( buildData.m_objectId );
@@ -219,7 +216,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 				boost::intrusive_ptr< IHealthComponent > targetHealthComponent
 					= targetObject->getComponent< IHealthComponent >( ComponentId::Health );
 
-				targetHealthComponent->setHealth( buildData.m_buildProgress * targetHealthComponent->getStaticData().m_maximumHealth );
+				targetHealthComponent->setHealth( buildData.m_buildProgress * targetHealthComponent->getStaticData().m_maximumHealth / totalTicks );
 
 				Framework::Core::EventManager::Event objectHealthChangedEvent( Events::ObjectHealthChanged::ms_type );
 				objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, targetObject->getName() );
@@ -228,7 +225,7 @@ BuildAction::processAction( const unsigned int _deltaTime )
 
 				m_environment.riseEvent( objectHealthChangedEvent );
 
-				if ( buildData.m_buildProgress >= 1.0f )
+				if ( buildData.m_buildProgress == totalTicks )
 				{
 					stopBuild( m_object.getUniqueId() );
 					m_isInProcessing = false;

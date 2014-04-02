@@ -47,7 +47,7 @@ namespace Views {
 
 	const char* const ObjectInfoViewTitle = "Object Information";
 
-	const char* const PlayerInfoViewTitle = "Player Information";
+	const char* const PlayerInfoViewTitle = "Players Information";
 
 	const char* const EditorViewDefaultTitle = "Landscape Editor";
 
@@ -148,17 +148,16 @@ namespace Views {
 			"	</body>														"	\
 			"</html>														";
 
-	const char* const PlayerInfoTextFormat
+	const char* const PlayersInfoTextFormat
 		=	"<html>																			"	\
 			"	<head></head>																"	\
-			"	<body>																		"	\
-			"		<font><center><b>Player ( id: %1 )</b></center></font>					"	\
-			"		<br>																	"	\
-			"		<div>%2</div>															"	\
-			"	</body>																		"	\
+			"	<body>%1</body>																"	\
 			"</html>																		";
 
-	const char* const PlayerResourceInfoFormat = "<b>%1:</b> %2<br>";
+	const char* const PlayerInfoTextFormat
+		=	"<b>id: %1 - </b>%2																";
+
+	const char* const PlayerResourceInfoFormat = "%1: %2";
 
 /*---------------------------------------------------------------------------*/
 

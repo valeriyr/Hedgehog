@@ -13,7 +13,7 @@
 
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 
-#include "landscape_model/sources/geometry/lm_geometry.hpp"
+#include "landscape_model/sources/utils/lm_geometry.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -36,7 +36,7 @@ MoveAction::MoveAction(
 	,	m_movingToObject()
 	,	m_lastTargetObjectLocation()
 	,	m_preprocessedPath()
-	,	m_distance( 0.0f )
+	,	m_distance( 0 )
 {
 } // MoveAction::MoveAction
 
@@ -56,7 +56,7 @@ MoveAction::MoveAction(
 	,	m_movingToObject()
 	,	m_lastTargetObjectLocation()
 	,	m_preprocessedPath( _path )
-	,	m_distance( 0.0f )
+	,	m_distance( 0 )
 {
 } // MoveAction::MoveAction
 
@@ -69,7 +69,7 @@ MoveAction::MoveAction(
 	,	ILandscapeModel& _landscapeModel
 	,	Object& _object
 	,	boost::shared_ptr< Object > _movingTo
-	,	const float _distance
+	,	const int _distance
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_movingToPoint()
@@ -90,7 +90,7 @@ MoveAction::MoveAction(
 	,	Object& _object
 	,	boost::shared_ptr< Object > _movingTo
 	,	IPathFinder::PointsCollection& _path
-	,	const float _distance
+	,	const int _distance
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_movingToPoint()
@@ -197,7 +197,7 @@ MoveAction::cancelProcessingInternal()
 
 
 void
-MoveAction::processAction( const unsigned int _deltaTime )
+MoveAction::processAction()
 {
 	// Common variables
 
@@ -298,14 +298,13 @@ MoveAction::processAction( const unsigned int _deltaTime )
 
 		if ( m_isInProcessing )
 		{
-			float movingDelta = ( static_cast< float >( _deltaTime ) / moveComponent->getStaticData().m_movingSpeed );
-			movingData.m_movingProgress += movingDelta;
+			++movingData.m_movingProgress;
 
 			bool pathWasBlocked = false;
 
-			while ( movingData.m_movingProgress >= 1.0f )
+			if ( movingData.m_movingProgress == moveComponent->getStaticData().m_movingSpeed )
 			{
-				movingData.m_movingProgress = movingData.m_movingProgress - 1.0f;
+				movingData.m_movingProgress = 0;
 
 				QPoint location( QPoint( movingData.m_path.front() ) );
 
@@ -323,13 +322,9 @@ MoveAction::processAction( const unsigned int _deltaTime )
 					else
 					{
 						movingData.m_path.clear();
-						movingData.m_movingProgress = 0.0f;
 						pathWasBlocked = true;
 					}
 				}
-
-				if ( movingData.m_path.empty() )
-					break;
 			}
 
 			if ( !movingData.m_path.empty() )
@@ -391,7 +386,8 @@ MoveAction::processAction( const unsigned int _deltaTime )
 		objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_objectIdAttribute, m_object.getUniqueId() );
 		objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingFromAttribute, locateComponent->getLocation() );
 		objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingToAttribute, movingData.m_path.empty() ? locateComponent->getLocation() : movingData.m_path.front() );
-		objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingProgressAttribute, movingData.m_path.empty() ? 1.0f : movingData.m_movingProgress );
+		objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingProgressAttribute, movingData.m_path.empty() ? moveComponent->getStaticData().m_movingSpeed : movingData.m_movingProgress );
+		objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingSpeedAttribute, moveComponent->getStaticData().m_movingSpeed );
 
 		m_environment.riseEvent( objectMovedEvent );
 	}
@@ -421,7 +417,7 @@ MoveAction::moveToLocation( const QPoint& _location )
 	m_movingToObject.reset();
 	m_lastTargetObjectLocation = QPoint();
 
-	m_distance = 0.0f;
+	m_distance = 0;
 
 	boost::intrusive_ptr< IMoveComponent > moveComponent
 		= m_object.getComponent< IMoveComponent >( ComponentId::Move );

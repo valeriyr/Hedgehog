@@ -7,6 +7,7 @@
 #include "landscape_model/ih/components/lm_icomponent.hpp"
 
 #include "landscape_model/h/lm_resources_data.hpp"
+#include "landscape_model/h/lm_constants.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,14 +28,14 @@ struct ITrainComponent
 		struct TrainData
 		{
 			TrainData(
-					const int _creationTime
+					const TickType _creationTime
 				,	const ResourcesData& _resourcesData
 				)
 				:	m_creationTime( _creationTime )
 				,	m_resourcesData( _resourcesData )
 			{}
 
-			const int m_creationTime;
+			const TickType m_creationTime;
 			const ResourcesData m_resourcesData;
 		};
 
@@ -62,17 +63,17 @@ struct ITrainComponent
 	struct Data
 	{
 		Data()
-			:	m_trainProgress( 0.0f )
+			:	m_trainProgress( 0 )
 			,	m_trainingObjectName()
 		{}
 
 		void reset()
 		{
-			 m_trainProgress = 0.0f;
+			 m_trainProgress = 0;
 			 m_trainingObjectName.clear();
 		}
 
-		float m_trainProgress;
+		TickType m_trainProgress;
 
 		QString m_trainingObjectName;
 	};

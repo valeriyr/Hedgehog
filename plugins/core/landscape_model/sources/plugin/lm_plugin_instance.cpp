@@ -259,7 +259,7 @@ PluginInstance::exportScriptAPI()
 	// TrainComponent
 
 	exporter.exportClassWithShared< ITrainComponent::StaticData::TrainData >( "TrainData" )
-		->withConstructor< const int, const ResourcesData& >();
+		->withConstructor< const TickType, const ResourcesData& >();
 
 	exporter.exportClassWithShared< ITrainComponent::StaticData >( "TrainComponentStaticData" )
 		->withConstructor()
@@ -268,7 +268,7 @@ PluginInstance::exportScriptAPI()
 	// BuildComponent
 
 	exporter.exportClassWithShared< IBuildComponent::StaticData::BuildData >( "BuildData" )
-		->withConstructor< const int, const ResourcesData& >();
+		->withConstructor< const TickType, const ResourcesData& >();
 
 	exporter.exportClassWithShared< IBuildComponent::StaticData >( "BuildComponentStaticData" )
 		->withConstructor()
@@ -277,7 +277,7 @@ PluginInstance::exportScriptAPI()
 	// RepairComponent
 
 	exporter.exportClassWithShared< IRepairComponent::StaticData >( "RepairComponentStaticData" )
-		->withConstructor< const int, const float >();
+		->withConstructor< const TickType, const int >();
 
 	// HealthComponent
 
@@ -297,12 +297,12 @@ PluginInstance::exportScriptAPI()
 	// MoveComponent
 
 	exporter.exportClassWithShared< IMoveComponent::StaticData >( "MoveComponentStaticData" )
-		->withConstructor< const int >();
+		->withConstructor< const TickType >();
 
 	// AttackComponent
 
 	exporter.exportClassWithShared< IAttackComponent::StaticData >( "AttackComponentStaticData" )
-		->withConstructor< const int, const int, const float, const int, const int >();
+		->withConstructor< const int, const int, const int, const TickType, const TickType >();
 
 	// GenerateResourcesComponent
 

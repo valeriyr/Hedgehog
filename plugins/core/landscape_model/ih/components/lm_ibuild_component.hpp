@@ -6,6 +6,7 @@
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
 
+#include "landscape_model/h/lm_constants.hpp"
 #include "landscape_model/h/lm_resources_data.hpp"
 #include "landscape_model/h/lm_object.hpp"
 
@@ -28,14 +29,14 @@ struct IBuildComponent
 		struct BuildData
 		{
 			BuildData(
-					const int _buildTime
+					const TickType _ticksCount
 				,	const ResourcesData& _resourcesData
 				)
-				:	m_buildTime( _buildTime )
+				:	m_ticksCount( _ticksCount )
 				,	m_resourcesData( _resourcesData )
 			{}
 
-			const int m_buildTime;
+			const TickType m_ticksCount;
 			const ResourcesData m_resourcesData;
 		};
 
@@ -65,7 +66,7 @@ struct IBuildComponent
 		Data()
 			:	m_objectName()
 			,	m_atRect()
-			,	m_buildProgress( 0.0f )
+			,	m_buildProgress( 0 )
 			,	m_objectId( Object::ms_wrongId )
 		{}
 
@@ -73,14 +74,14 @@ struct IBuildComponent
 		{
 			m_objectName.clear();
 			m_atRect = QRect();
-			m_buildProgress = 0.0f;
+			m_buildProgress = 0;
 			m_objectId = Object::ms_wrongId;
 		}
 
 		QString m_objectName;
 		QRect m_atRect;
 
-		float m_buildProgress;
+		TickType m_buildProgress;
 
 		Object::Id m_objectId;
 	};

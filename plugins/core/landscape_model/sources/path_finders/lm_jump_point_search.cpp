@@ -7,7 +7,7 @@
 
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 
-#include "landscape_model/sources/geometry/lm_geometry.hpp"
+#include "landscape_model/sources/utils/lm_geometry.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -155,7 +155,7 @@ JumpPointSearch::pathToObject(	PointsCollection& _path
 							 ,	const ILandscape& _landscape
 							 ,	const Object& _forObject
 							 ,	const Object& _targetObject
-							 ,	const float _distance )
+							 ,	const int _distance )
 {
 	boost::intrusive_ptr< ILocateComponent > targetLocateComponent
 		= _targetObject.getComponent< ILocateComponent >( ComponentId::Locate );
@@ -163,9 +163,11 @@ JumpPointSearch::pathToObject(	PointsCollection& _path
 	QRect targetRect = targetLocateComponent->getRect();
 	IPathFinder::PointsCollection targetPoints;
 
-	for ( int x = targetRect.x() - static_cast< int >( _distance ); x < targetRect.x() + targetRect.width() + static_cast< int >( _distance ); ++x )
+	int distance = _distance / Geometry::NeighborDistance;
+
+	for ( int x = targetRect.x() - distance; x < targetRect.x() + targetRect.width() + distance; ++x )
 	{
-		for ( int y = targetRect.y() - static_cast< int >( _distance ); y < targetRect.y() + targetRect.height() + static_cast< int >( _distance ); ++y )
+		for ( int y = targetRect.y() - distance; y < targetRect.y() + targetRect.height() + distance; ++y )
 		{
 			QPoint location( x, y );
 			if ( _landscape.isLocationInLandscape( location ) && Geometry::checkDistance( location, targetRect, _distance ) )
@@ -250,7 +252,7 @@ JumpPointSearch::getNearestFoundPoint(
 	,	const IPathFinder::PointsCollection& _targets
 	,	const QPoint& _startPoint ) const
 {
-	float distance = FLT_MAX;
+	int distance = INT_MAX;
 	QPoint result;
 
 	IPathFinder::PointsCollectionConstIterator
@@ -261,7 +263,7 @@ JumpPointSearch::getNearestFoundPoint(
 	{
 		if ( matrix.getConstElement( begin->x(), begin->y() ) >= 0 )
 		{
-			float temp = Geometry::getDistance( _startPoint, *begin );
+			int temp = Geometry::getDistance( _startPoint, *begin );
 
 			if ( temp < distance )
 			{

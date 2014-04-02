@@ -40,7 +40,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void onHMapElement( const float _version, const int _width, const int _height );
+	void onHMapElement( const QString& _version, const int _width, const int _height );
 	void onSurfaceElement( const QString& _data );
 	void onObjectElement( const QString& _name, const int _x, const int _y );
 

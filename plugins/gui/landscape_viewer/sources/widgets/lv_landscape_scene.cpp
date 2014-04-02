@@ -476,8 +476,10 @@ LandscapeScene::onObjectMoved( const Framework::Core::EventManager::Event& _even
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingFromAttribute ).toPoint();
 	const QPoint movedTo
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingToAttribute ).toPoint();
-	const float progress
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingProgressAttribute ).toFloat();
+	const Core::LandscapeModel::TickType progress
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingProgressAttribute ).toLongLong();
+	const Core::LandscapeModel::TickType movingSpeed
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingSpeedAttribute ).toLongLong();
 
 	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
 	assert( iterator != m_objectsCollection.end() );
@@ -491,8 +493,8 @@ LandscapeScene::onObjectMoved( const Framework::Core::EventManager::Event& _even
 			,	width()
 			,	height()
 			,	QPoint(
-						movedFromInScene.x() + ( ( movedToInScene.x() - movedFromInScene.x() ) * progress )
-					,	movedFromInScene.y() + ( ( movedToInScene.y() - movedFromInScene.y() ) * progress ) )
+						movedFromInScene.x() + ( ( movedToInScene.x() - movedFromInScene.x() ) * ( static_cast< float >( progress ) / movingSpeed ) )
+					,	movedFromInScene.y() + ( ( movedToInScene.y() - movedFromInScene.y() ) * ( static_cast< float >( progress ) / movingSpeed ) ) )
 			,	name ) );
 
 	iterator->second->setPos( correctedPosition );

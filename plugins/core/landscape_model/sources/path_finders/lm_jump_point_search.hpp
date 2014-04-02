@@ -43,7 +43,7 @@ public:
 							 ,	const ILandscape& _landscape
 							 ,	const Object& _forObject
 							 ,	const Object& _targetObject
-							 ,	const float _distance );
+							 ,	const int _distance );
 
 	static void pathToPoint(	PointsCollection& _path
 							 ,	const ILandscape& _landscape

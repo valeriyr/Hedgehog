@@ -126,7 +126,7 @@ ActionsComponent::pushFrontAction( boost::intrusive_ptr< IAction > _action )
 
 
 void
-ActionsComponent::processAction( unsigned int _deltaTime )
+ActionsComponent::processAction()
 {
 	flushActions( FlushPolicy::AsNeeded );
 
@@ -152,7 +152,7 @@ ActionsComponent::processAction( unsigned int _deltaTime )
 	{
 		boost::intrusive_ptr< IAction > action = m_actionsCollection.front().m_action;
 
-		action->processAction( _deltaTime );
+		action->processAction();
 
 		if ( !action->isInProcessing() )
 		{

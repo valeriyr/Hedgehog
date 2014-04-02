@@ -12,7 +12,7 @@
 
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 
-#include "landscape_model/sources/geometry/lm_geometry.hpp"
+#include "landscape_model/sources/utils/lm_geometry.hpp"
 
 #include "landscape_model/ih/components/lm_iattack_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
@@ -87,7 +87,7 @@ AttackAction::cancelProcessingInternal()
 
 
 void
-AttackAction::processAction( const unsigned int _deltaTime )
+AttackAction::processAction()
 {
 	// Common variables
 
@@ -178,8 +178,8 @@ AttackAction::processAction( const unsigned int _deltaTime )
 					readyToAttack = true;
 				}
 
-				int prevAttackPhaseCounter = m_attackPhaseCounter;
-				m_attackPhaseCounter += _deltaTime;
+				TickType prevAttackPhaseCounter = m_attackPhaseCounter;
+				++m_attackPhaseCounter;
 
 				if ( m_attackPhaseCounter >= attackComponent->getStaticData().m_aiming + attackComponent->getStaticData().m_reloading )
 				{

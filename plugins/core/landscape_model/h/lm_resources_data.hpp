@@ -4,6 +4,10 @@
 
 /*---------------------------------------------------------------------------*/
 
+#include "landscape_model/sources/utils/lm_math.hpp"
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
@@ -37,7 +41,7 @@ struct ResourcesData
 		m_data.insert( std::make_pair( _resourceName, _value ) );
 	}
 
-	bool hasEnaught( const ResourcesData& _data ) const
+	bool isEnaught( const ResourcesData& _data ) const
 	{
 		ResourcesDataCollectionConstIterator
 				begin = _data.m_data.begin()
@@ -90,7 +94,7 @@ struct ResourcesData
 		}
 	}
 
-	ResourcesData getResourceDataPart( const float _percent ) const
+	ResourcesData getResourceDataPart( const int _percent ) const
 	{
 		ResourcesData returnValue;
 
@@ -99,7 +103,7 @@ struct ResourcesData
 			,	end = m_data.end();
 
 		for ( ; begin != end; ++begin )
-			returnValue.pushResource( begin->first, static_cast< float >( begin->second ) * _percent );
+			returnValue.pushResource( begin->first, Math::calculatePart( begin->second, _percent, 100 ) );
 
 		return returnValue;
 	}

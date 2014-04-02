@@ -5,9 +5,9 @@ dragon = ObjectStaticData()
 
 dragon.m_healthData = HealthComponentStaticData( 800, false )
 dragon.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), AnyTerrain, Emplacement.Air )
-dragon.m_moveData = MoveComponentStaticData( 1300 )
+dragon.m_moveData = MoveComponentStaticData( 13 )
 dragon.m_selectionData = SelectionComponentStaticData()
-dragon.m_attackData = AttackComponentStaticData(  56, 64, 3.0, 400, 1500 )
+dragon.m_attackData = AttackComponentStaticData(  56, 64, 30, 4, 15 )
 
 StaticData:regObjectStaticData( QString( "Dragon" ), dragon )
 

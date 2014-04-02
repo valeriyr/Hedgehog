@@ -12,7 +12,7 @@ elvenArcherResourceData:pushResource( QString( "Gold" ), 300 )
 elvenArcherResourceData:pushResource( QString( "Wood" ), 100 )
 
 humanBarracks.m_trainData = TrainComponentStaticData()
-humanBarracks.m_trainData:pushTrainData( QString( "Elven Archer" ), TrainData( 4500, elvenArcherResourceData ) )
+humanBarracks.m_trainData:pushTrainData( QString( "Elven Archer" ), TrainData( 45, elvenArcherResourceData ) )
 
 StaticData:regObjectStaticData( QString( "Human Barracks" ), humanBarracks )
 

@@ -40,7 +40,7 @@ GenerateResourcesAction::~GenerateResourcesAction()
 
 
 void
-GenerateResourcesAction::processAction( const unsigned int _deltaTime )
+GenerateResourcesAction::processAction()
 {
 	if ( m_object.getState() == ObjectState::Dying )
 		return;
@@ -48,19 +48,7 @@ GenerateResourcesAction::processAction( const unsigned int _deltaTime )
 	boost::intrusive_ptr< IGenerateResourcesComponent > generateResourcesComponent
 		= m_object.getComponent< IGenerateResourcesComponent >( ComponentId::ResourcesGenerating );
 
-	IGenerateResourcesComponent::StaticData::ResourcesByMinuteCollectionIterator
-			begin = generateResourcesComponent->getStaticData().m_resourcesByMinute.begin()
-		,	end = generateResourcesComponent->getStaticData().m_resourcesByMinute.end();
-
-	ResourcesData resources;
-
-	for ( ; begin != end; ++begin )
-	{
-		int incTo = static_cast< float >( _deltaTime * begin->second ) / 60000;
-		resources.pushResource( begin->first, incTo );
-	}
-
-	m_landscapeModel.getPlayer( m_object.getPlayerId() )->addResources( resources );
+	m_landscapeModel.getPlayer( m_object.getPlayerId() )->addResources( generateResourcesComponent->getStaticData().m_resourcesByTick );
 
 } // GenerateResourcesAction::processAction
 

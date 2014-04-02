@@ -11,7 +11,7 @@ peonResourceData = ResourcesData()
 peonResourceData:pushResource( QString( "Gold" ), 50 )
 
 greatHall.m_trainData = TrainComponentStaticData()
-greatHall.m_trainData:pushTrainData( QString( "Peon" ), TrainData( 1000, peonResourceData ) )
+greatHall.m_trainData:pushTrainData( QString( "Peon" ), TrainData( 10, peonResourceData ) )
 
 greatHall.m_resourceStorageData = ResourceStorageComponentStaticData()
 greatHall.m_resourceStorageData:canStore( QString( "Gold" ) )

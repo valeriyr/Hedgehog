@@ -87,7 +87,7 @@ LandscapeSerializer::load( ILandscape& _landscape, const QString& _filePath )
 			]
 			.handle(
 					boost::bind( &LandscapeSerializer::onHMapElement, this, _1, _2, _3 )
-				,	Tools::Core::XmlLibrary::FloatAttributeExtructor( "version" )
+				,	Tools::Core::XmlLibrary::StringAttributeExtructor( "version" )
 				,	Tools::Core::XmlLibrary::IntAttributeExtructor( "width" )
 				,	Tools::Core::XmlLibrary::IntAttributeExtructor( "height" )
 				)
@@ -124,7 +124,7 @@ LandscapeSerializer::save(
 
     xmlStream.writeStartElement("hmap");
 
-	xmlStream.writeAttribute("version", QString::number( Resources::LandscapeVersion ) );
+	xmlStream.writeAttribute("version", Resources::LandscapeVersion );
 	xmlStream.writeAttribute("width", QString::number( _landscape.getWidth() ) );
 	xmlStream.writeAttribute("height", QString::number( _landscape.getHeight() ) );
 
@@ -187,7 +187,7 @@ LandscapeSerializer::save(
 
 
 void
-LandscapeSerializer::onHMapElement( const float _version, const int _width, const int _height )
+LandscapeSerializer::onHMapElement( const QString& _version, const int _width, const int _height )
 {
 	assert( m_currentLoadLandscape );
 
@@ -246,7 +246,7 @@ LandscapeSerializer::onFinishParsing()
 	assert( m_currentLoadLandscape );
 	m_currentLoadLandscape = NULL;
 
-} // LandscapeSerializer::onHMapElement
+} // LandscapeSerializer::onFinishParsing
 
 
 /*---------------------------------------------------------------------------*/
