@@ -304,6 +304,11 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClassWithShared< IAttackComponent::StaticData >( "AttackComponentStaticData" )
 		->withConstructor< const int, const int, const int, const TickType, const TickType >();
 
+	// PlayerComponent
+
+	exporter.exportClassWithShared< IPlayerComponent::StaticData >( "PlayerComponentStaticData" )
+		->withConstructor();
+
 	// GenerateResourcesComponent
 
 	exporter.exportClassWithShared< IGenerateResourcesComponent::StaticData >( "GenerateResourcesComponentStaticData" )
@@ -342,7 +347,8 @@ PluginInstance::exportScriptAPI()
 		.withRWProperty( "m_repairData", &IStaticData::ObjectStaticData::m_repairData )
 		.withRWProperty( "m_resourceHolderData", &IStaticData::ObjectStaticData::m_resourceHolderData )
 		.withRWProperty( "m_resourceSourceData", &IStaticData::ObjectStaticData::m_resourceSourceData )
-		.withRWProperty( "m_resourceStorageData", &IStaticData::ObjectStaticData::m_resourceStorageData );
+		.withRWProperty( "m_resourceStorageData", &IStaticData::ObjectStaticData::m_resourceStorageData )
+		.withRWProperty( "m_playerData", &IStaticData::ObjectStaticData::m_playerData );
 
 	exporter.exportClass< IStaticData >( "IStaticData" )
 		->withMethod( "regObjectStaticData", &IStaticData::regObjectStaticData )

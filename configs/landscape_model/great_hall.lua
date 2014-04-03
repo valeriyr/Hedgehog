@@ -6,6 +6,7 @@ greatHall = ObjectStaticData()
 greatHall.m_healthData = HealthComponentStaticData( 2500, true )
 greatHall.m_locateData = LocateComponentStaticData( QSize( 4, 4 ), TerrainMapItem.Ground, Emplacement.Ground )
 greatHall.m_selectionData = SelectionComponentStaticData()
+greatHall.m_playerData = PlayerComponentStaticData()
 
 peonResourceData = ResourcesData()
 peonResourceData:pushResource( QString( "Gold" ), 50 )

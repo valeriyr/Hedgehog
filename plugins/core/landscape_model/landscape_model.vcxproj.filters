@@ -171,6 +171,9 @@
     <ClCompile Include="sources\utils\lm_math.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="sources\components\lm_player_component.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -409,6 +412,12 @@
     </ClInclude>
     <ClInclude Include="sources\utils\lm_math.hpp">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\components\lm_iplayer_component.hpp">
+      <Filter>Interfaces\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\components\lm_player_component.hpp">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

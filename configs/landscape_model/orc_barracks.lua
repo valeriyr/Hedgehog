@@ -6,6 +6,7 @@ orcBarracks = ObjectStaticData()
 orcBarracks.m_healthData = HealthComponentStaticData( 1200, true )
 orcBarracks.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground, Emplacement.Ground )
 orcBarracks.m_selectionData = SelectionComponentStaticData()
+orcBarracks.m_playerData = PlayerComponentStaticData()
 
 gruntResourceData = ResourcesData()
 gruntResourceData:pushResource( QString( "Gold" ), 400 )

@@ -19,6 +19,7 @@
 #include "landscape_model/ih/components/lm_ihealth_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 #include "landscape_model/ih/components/lm_ibuild_component.hpp"
+#include "landscape_model/ih/components/lm_iplayer_component.hpp"
 
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
@@ -101,6 +102,8 @@ RepairAction::processAction()
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
 	boost::intrusive_ptr< IBuildComponent > buildComponent
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
+	boost::intrusive_ptr< IPlayerComponent > playerComponent
+		= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
 
 	boost::intrusive_ptr< IHealthComponent > targetHealthComponent
 		= repairComponent->getTargetObject()->getComponent< IHealthComponent >( ComponentId::Health );
@@ -188,7 +191,7 @@ RepairAction::processAction()
 
 				if ( repairHealthPercent != 0 )
 				{
-					boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( m_object.getPlayerId() );
+					boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getPlayerId() );
 
 					ResourcesData repairCostData 
 						= buildComponent->getStaticData().m_buildDatas.find( repairComponent->getTargetObject()->getName() )

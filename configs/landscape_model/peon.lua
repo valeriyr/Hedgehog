@@ -9,6 +9,7 @@ peon.m_moveData = MoveComponentStaticData( 9 )
 peon.m_selectionData = SelectionComponentStaticData()
 peon.m_attackData = AttackComponentStaticData( 4, 6, 15, 4, 15 )
 peon.m_repairData = RepairComponentStaticData( 1, 30 )
+peon.m_playerData = PlayerComponentStaticData()
 
 peon.m_resourceHolderData = ResourceHolderComponentStaticData()
 peon.m_resourceHolderData:hold( QString( "Gold" ), 10 )

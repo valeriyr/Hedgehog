@@ -27,6 +27,7 @@ struct ComponentId
 		,	ResourceHolder
 		,	ResourceSource
 		,	ResourceStorage
+		,	Player
 	};
 };
 

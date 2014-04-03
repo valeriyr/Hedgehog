@@ -105,25 +105,27 @@ namespace Views {
 			"		<div>																	"	\
 			"			<b>Unique Id:</b> %2												"	\
 			"			<br>																"	\
-			"			<b>Health:</b> %3 / %4												"	\
+			"			<b>Player Id:</b> %3												"	\
 			"			<br>																"	\
-			"			<b>Moving speed:</b> %5												"	\
+			"			<b>Health:</b> %4 / %5												"	\
 			"			<br>																"	\
-			"			<b>Position:</b> ( %6, %7 )											"	\
+			"			<b>Moving speed:</b> %6												"	\
 			"			<br>																"	\
-			"			<b>Size:</b> ( %8, %9 )												"	\
+			"			<b>Position:</b> ( %7, %8 )											"	\
 			"			<br>																"	\
-			"			<b>Emplacement:</b> %10												"	\
+			"			<b>Size:</b> ( %9, %10 )											"	\
 			"			<br>																"	\
-			"			<b>Damage:</b> %11													"	\
+			"			<b>Emplacement:</b> %11												"	\
 			"			<br>																"	\
-			"			<b>Attack distance:</b> %12											"	\
+			"			<b>Damage:</b> %12													"	\
 			"			<br>																"	\
-			"			<b>Resource inside:</b> %13											"	\
+			"			<b>Attack distance:</b> %13											"	\
 			"			<br>																"	\
-			"			<b>Resources hold:</b> %14											"	\
+			"			<b>Resource inside:</b> %14											"	\
 			"			<br>																"	\
-			"			<b>Can store resources:</b> %15										"	\
+			"			<b>Resources hold:</b> %15											"	\
+			"			<br>																"	\
+			"			<b>Can store resources:</b> %16										"	\
 			"		</div>																	"	\
 			"	</body>																		"	\
 			"</html>																		";

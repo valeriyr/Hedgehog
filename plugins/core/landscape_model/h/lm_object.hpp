@@ -21,17 +21,6 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ITrainComponent;
-struct IHealthComponent;
-struct ILocateComponent;
-struct IMoveComponent;
-struct IActionsComponent;
-struct IGenerateResourcesComponent;
-struct IAttackComponent;
-struct IBuildComponent;
-
-/*---------------------------------------------------------------------------*/
-
 class Object
 {
 
@@ -46,10 +35,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Object( const QString& _name, const IPlayer::Id _playerId )
+	Object( const QString& _name )
 		:	m_name( _name )
 		,	m_id( ms_wrongId )
-		,	m_playerId( _playerId )
 		,	m_state( ObjectState::Standing )
 	{
 		static int s_uniqueIdsCounter = 0;
@@ -61,8 +49,6 @@ public:
 	const QString& getName() const { return m_name; }
 
 	const Id& getUniqueId() const { return m_id; }
-
-	const IPlayer::Id& getPlayerId() const { return m_playerId; }
 
 	const ObjectState::Enum getState() const { return m_state; }
 
@@ -111,8 +97,6 @@ private:
 	const QString m_name;
 
 	const Id m_id;
-
-	IPlayer::Id m_playerId;
 
 	ObjectState::Enum m_state;
 

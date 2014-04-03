@@ -35,6 +35,7 @@
 #include "landscape_model/sources/components/lm_resource_holder_component.hpp"
 #include "landscape_model/sources/components/lm_resource_source_component.hpp"
 #include "landscape_model/sources/components/lm_resource_storage_component.hpp"
+#include "landscape_model/sources/components/lm_player_component.hpp"
 
 #include "landscape_model/sources/utils/lm_geometry.hpp"
 
@@ -296,7 +297,7 @@ LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _ob
 
 	if ( object )
 	{
-		boost::intrusive_ptr< IPlayer > player = getPlayer( object->getPlayerId() );
+		boost::intrusive_ptr< IPlayer > player = getPlayer( object->getComponent< IPlayerComponent >( ComponentId::Player )->getPlayerId() );
 
 		if ( player )
 		{
@@ -423,7 +424,7 @@ LandscapeModel::create( const QPoint& _location, const QString& _objectName )
 {
 	IStaticData::ObjectStaticData staticData = m_staticData.getObjectStaticData( _objectName );
 
-	boost::shared_ptr< Object > object( new Object( _objectName, m_player->getUniqueId() ) );
+	boost::shared_ptr< Object > object( new Object( _objectName ) );
 
 	object->addComponent(
 			ComponentId::Actions
@@ -483,6 +484,11 @@ LandscapeModel::create( const QPoint& _location, const QString& _objectName )
 		object->addComponent(
 				ComponentId::ResourceStorage
 			,	boost::intrusive_ptr< IComponent >( new ResourceStorageComponent( *object, *staticData.m_resourceStorageData ) ) );
+
+	if ( staticData.m_playerData )
+		object->addComponent(
+				ComponentId::Player
+			,	boost::intrusive_ptr< IComponent >( new PlayerComponent( *object, *staticData.m_playerData, m_player->getUniqueId() ) ) );
 
 	if ( staticData.m_generateResourcesData )
 	{

@@ -8,6 +8,7 @@ elvenArcher.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapI
 elvenArcher.m_moveData = MoveComponentStaticData( 8 )
 elvenArcher.m_selectionData = SelectionComponentStaticData()
 elvenArcher.m_attackData = AttackComponentStaticData(  14, 17, 40, 5, 15 )
+elvenArcher.m_playerData = PlayerComponentStaticData()
 
 StaticData:regObjectStaticData( QString( "Elven Archer" ), elvenArcher )
 

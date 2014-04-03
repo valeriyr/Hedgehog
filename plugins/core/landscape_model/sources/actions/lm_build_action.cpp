@@ -13,6 +13,7 @@
 #include "landscape_model/ih/components/lm_ibuild_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_ihealth_component.hpp"
+#include "landscape_model/ih/components/lm_iplayer_component.hpp"
 
 #include "landscape_model/sources/actions/lm_ibuilders_holder.hpp"
 #include "landscape_model/sources/actions/lm_move_action.hpp"
@@ -89,10 +90,12 @@ BuildAction::cancelProcessingInternal()
 {
 	boost::intrusive_ptr< IBuildComponent > buildComponent
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
+	boost::intrusive_ptr< IPlayerComponent > playerComponent
+		= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
 
 	if ( buildComponent->getBuildData().m_buildProgress != 0 )
 	{
-		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( m_object.getPlayerId() );
+		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getPlayerId() );
 
 		if ( player )
 		{
@@ -132,6 +135,8 @@ BuildAction::processAction()
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
+	boost::intrusive_ptr< IPlayerComponent > playerComponent
+		= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
 
 	IBuildComponent::Data& buildData = buildComponent->getBuildData();
 
@@ -180,7 +185,7 @@ BuildAction::processAction()
 			{
 				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
 
-				boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( m_object.getPlayerId() );
+				boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getPlayerId() );
 
 				bool newObjectCanBePlaced
 					= m_landscapeModel.getLandscape()->canObjectBePlaced( buildData.m_atRect.topLeft(), buildData.m_objectName );

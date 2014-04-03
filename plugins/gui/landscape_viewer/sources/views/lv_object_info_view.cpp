@@ -208,6 +208,8 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 				= object->getComponent< Core::LandscapeModel::IResourceSourceComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceSource );
 			boost::intrusive_ptr< Core::LandscapeModel::IResourceStorageComponent > resourceStorageComponent
 				= object->getComponent< Core::LandscapeModel::IResourceStorageComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceStorage );
+			boost::intrusive_ptr< Core::LandscapeModel::IPlayerComponent > playerComponent
+				= object->getComponent< Core::LandscapeModel::IPlayerComponent >( Plugins::Core::LandscapeModel::ComponentId::Player );
 
 			QString resourceHolderData;
 
@@ -268,6 +270,7 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 				QString( Resources::Views::ObjectInfoFormat )
 					.arg( object->getName() )
 					.arg( object->getUniqueId() )
+					.arg( playerComponent ? QString::number( playerComponent->getPlayerId() ) : Resources::Views::NoneString )
 					.arg( healthComponent ? QString::number( healthComponent->getHealth() ) : Resources::Views::NoneString )
 					.arg( healthComponent ? QString::number( healthComponent->getStaticData().m_maximumHealth ) : Resources::Views::NoneString )
 					.arg( moveComponent ? QString::number( moveComponent->getStaticData().m_movingSpeed ) : Resources::Views::NoneString )

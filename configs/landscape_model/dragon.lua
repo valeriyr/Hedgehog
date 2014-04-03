@@ -8,6 +8,7 @@ dragon.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), AnyTerrain, Empl
 dragon.m_moveData = MoveComponentStaticData( 13 )
 dragon.m_selectionData = SelectionComponentStaticData()
 dragon.m_attackData = AttackComponentStaticData(  56, 64, 30, 4, 15 )
+dragon.m_playerData = PlayerComponentStaticData()
 
 StaticData:regObjectStaticData( QString( "Dragon" ), dragon )
 
