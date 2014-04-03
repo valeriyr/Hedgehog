@@ -66,6 +66,15 @@ HealthComponent::setHealth( const int _health )
 
 } // HealthComponent::setHealth
 
+/*---------------------------------------------------------------------------*/
+
+bool
+HealthComponent::isHealthy() const
+{
+	return m_health == m_staticData.m_maximumHealth;
+
+} // HealthComponent::isHealthy
+
 
 /*---------------------------------------------------------------------------*/
 

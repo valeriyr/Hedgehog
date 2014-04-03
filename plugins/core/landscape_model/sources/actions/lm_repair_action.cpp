@@ -102,9 +102,12 @@ RepairAction::processAction()
 	boost::intrusive_ptr< IBuildComponent > buildComponent
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
 
+	boost::intrusive_ptr< IHealthComponent > targetHealthComponent
+		= repairComponent->getTargetObject()->getComponent< IHealthComponent >( ComponentId::Health );
+
 	// Check if object is dying
 
-	if ( m_object.getState() == ObjectState::Dying )
+	if ( m_object.getState() == ObjectState::Dying || targetHealthComponent->isHealthy() )
 	{
 		m_isInProcessing = false;
 	}
@@ -145,8 +148,6 @@ RepairAction::processAction()
 
 		if ( m_isInProcessing )
 		{
-			boost::intrusive_ptr< IHealthComponent > targetHealthComponent
-				= repairComponent->getTargetObject()->getComponent< IHealthComponent >( ComponentId::Health );
 			boost::intrusive_ptr< ILocateComponent > targetLocateComponent
 				= repairComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate );
 

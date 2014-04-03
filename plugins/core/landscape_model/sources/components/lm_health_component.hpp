@@ -40,6 +40,8 @@ public:
 
 	/*virtual*/ void setHealth( const int _health );
 
+	/*virtual*/ bool isHealthy() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:

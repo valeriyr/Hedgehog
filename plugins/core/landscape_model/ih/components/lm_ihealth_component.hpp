@@ -42,6 +42,8 @@ struct IHealthComponent
 
 	virtual void setHealth( const int _health ) = 0;
 
+	virtual bool isHealthy() const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };
