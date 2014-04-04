@@ -29,6 +29,40 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+	extern const char* const DocTypeString;
+
+	extern const char* const HMapTagName;
+
+	extern const char* const VersionAttributeName;
+
+	extern const char* const WidthAttributeName;
+	extern const char* const HeightAttributeName;
+
+	extern const char* const StartPointsTagName;
+	extern const char* const StartPointTagName;
+
+	extern const char* const PlayerIdAttributeName;
+
+	extern const char* const SurfaceTagName;
+
+	extern const char* const ObjectsTagName;
+	extern const char* const ObjectTagName;
+
+	extern const char* const CountAttributeName;
+
+	extern const char* const NameAttributeName;
+
+	extern const char* const LocationTagName;
+
+	extern const char* const XAttributeName;
+	extern const char* const YAttributeName;
+
+	extern const char* const PlayerTagName;
+
+	extern const char* const IdAttributeName;
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace LandscapeModel
 } // namespace Core

@@ -15,6 +15,8 @@ namespace XmlLibrary {
 
 struct IElement;
 
+class Tag;
+
 /*---------------------------------------------------------------------------*/
 
 class BinaryRule
@@ -30,6 +32,10 @@ public:
 	BinaryRule( boost::shared_ptr< IElement > _element );
 
 	virtual ~BinaryRule();
+
+/*---------------------------------------------------------------------------*/
+
+	BinaryRule operator || ( const Tag& _tag );
 
 /*---------------------------------------------------------------------------*/
 

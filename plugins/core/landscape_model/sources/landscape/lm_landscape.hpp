@@ -49,6 +49,14 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void setStartPoint( const IPlayer::Id& _playerId, const QPoint& _point );
+
+	/*virtual*/ QPoint getStartPoint( const IPlayer::Id& _playerId ) const;
+
+	/*virtual*/ ILandscape::StartPointsIterator getStartPointsIterator() const;
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ boost::intrusive_ptr< ISurfaceItem > getSurfaceItem( const QPoint& _point ) const;
 
 	/*virtual*/ void setSurfaceItem(
@@ -73,9 +81,9 @@ public:
 
 	/*virtual*/ void fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) const;
 
-	/*virtual*/ Object::Id createObject( const QPoint& _location, const QString& _objectName );
+	/*virtual*/ Object::Id createObject( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId );
 
-	/*virtual*/ Object::Id createObjectForBuilding( const QPoint& _location, const QString& _objectName );
+	/*virtual*/ Object::Id createObjectForBuilding( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId );
 
 	/*virtual*/ boost::shared_ptr< Object > removeObject( const Object::Id& _id );
 
@@ -114,6 +122,20 @@ private:
 
 	Tools::Core::Containers::Matrix< boost::intrusive_ptr< ISurfaceItem > > m_surfaceItems;
 	Tools::Core::Containers::Matrix< TerrainMapData > m_terrainMap;
+
+/*---------------------------------------------------------------------------*/
+
+	typedef
+		std::map< IPlayer::Id, QPoint >
+		StartsPointsCollection;
+	typedef
+		StartsPointsCollection::iterator
+		StartsPointsCollectionIterator;
+	typedef
+		StartsPointsCollection::const_iterator
+		StartsPointsCollectionConstIterator;
+
+	StartsPointsCollection m_startPoints;
 
 /*---------------------------------------------------------------------------*/
 

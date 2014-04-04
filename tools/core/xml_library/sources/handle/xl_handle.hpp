@@ -391,6 +391,41 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+class ChildTagIntAttributeExtructor
+{
+
+public:
+
+	ChildTagIntAttributeExtructor( const QString& _childTagName, const QString& _attributeName )
+		:	m_childTagName( _childTagName )
+		,	m_attributeName( _attributeName )
+	{}
+
+	int operator () ( const QDomElement& _element )
+	{
+		QDomElement childElement( _element.firstChildElement() );
+
+		while( !childElement.isNull() )
+		{
+			if ( childElement.nodeName() == m_childTagName )
+				return childElement.toElement().attribute( m_attributeName ).toInt();
+
+			childElement = childElement.nextSiblingElement();
+		}
+
+		return INT_MAX;
+	}
+
+private:
+
+	const QString m_childTagName;
+
+	const QString m_attributeName;
+};
+
+
+/*---------------------------------------------------------------------------*/
+
 class CDATAExtructor
 {
 

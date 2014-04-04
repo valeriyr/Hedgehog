@@ -237,7 +237,7 @@ LandscapeModel::createObject( const QPoint& _location, const QString& _objectNam
 
 	if ( m_landscape )
 	{
-		objectId = m_landscape->createObject( _location, _objectName );
+		objectId = m_landscape->createObject( _objectName, _location, m_player->getUniqueId() );
 	}
 
 	if ( objectId != Object::ms_wrongId )
@@ -420,7 +420,7 @@ LandscapeModel::getMutex()
 
 
 boost::shared_ptr< Object >
-LandscapeModel::create( const QPoint& _location, const QString& _objectName )
+LandscapeModel::create( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId )
 {
 	IStaticData::ObjectStaticData staticData = m_staticData.getObjectStaticData( _objectName );
 
@@ -488,7 +488,7 @@ LandscapeModel::create( const QPoint& _location, const QString& _objectName )
 	if ( staticData.m_playerData )
 		object->addComponent(
 				ComponentId::Player
-			,	boost::intrusive_ptr< IComponent >( new PlayerComponent( *object, *staticData.m_playerData, m_player->getUniqueId() ) ) );
+			,	boost::intrusive_ptr< IComponent >( new PlayerComponent( *object, *staticData.m_playerData, _playerId ) ) );
 
 	if ( staticData.m_generateResourcesData )
 	{
@@ -641,6 +641,8 @@ LandscapeModel::initTask( const QString& _filePath )
 
 	m_landscape = landscape;
 
+	locateStartPointObjects();
+
 	Framework::Core::EventManager::Event modelInitEvent( Events::LandscapeWasInitialized::ms_type );
 	modelInitEvent.pushAttribute( Events::LandscapeWasInitialized::ms_filePathAttribute, _filePath );
 	modelInitEvent.pushAttribute( Events::LandscapeWasInitialized::ms_landscapeWidthAttribute, landscape->getWidth() );
@@ -693,6 +695,23 @@ LandscapeModel::saveTask( const QString& _filePath )
 	}
 
 } // LandscapeModel::saveTask
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::locateStartPointObjects()
+{
+	ILandscape::StartPointsIterator startPoints = m_landscape->getStartPointsIterator();
+
+	while( startPoints->isValid() )
+	{
+		m_landscape->createObject( "Peon", startPoints->current().second, startPoints->current().first );
+		startPoints->next();
+	}
+
+} // LandscapeModel::locateStartPointObjects
 
 
 /*---------------------------------------------------------------------------*/

@@ -72,9 +72,6 @@
     <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp">
       <Filter>Internal Resources</Filter>
     </ClCompile>
-    <ClCompile Include="sources\landscape\lm_landscape.cpp">
-      <Filter>Landscape</Filter>
-    </ClCompile>
     <ClCompile Include="sources\surface_item\lm_surface_item.cpp">
       <Filter>Surface Item</Filter>
     </ClCompile>
@@ -173,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="sources\components\lm_player_component.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape\lm_landscape.cpp">
+      <Filter>Landscape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

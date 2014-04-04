@@ -6,6 +6,8 @@
 
 #include "landscape_model/sources/landscape_serializer/lm_ilandscape_serializer.hpp"
 
+#include "landscape_model/ih/lm_iplayer.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -42,7 +44,8 @@ private:
 
 	void onHMapElement( const QString& _version, const int _width, const int _height );
 	void onSurfaceElement( const QString& _data );
-	void onObjectElement( const QString& _name, const int _x, const int _y );
+	void onObjectElement( const QString& _name, const int _x, const int _y, const IPlayer::Id& _playerId );
+	void onStartPoint( const IPlayer::Id& _playerId, const int _x, const int _y );
 
 	void onFinishParsing();
 

@@ -6,7 +6,7 @@
 #include "xml_library/sources/rules/xl_attribute_rule.hpp"
 
 #include "xml_library/sources/elements/xl_tag_element.hpp"
-
+#include "xml_library/sources/elements/xl_or_element.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,6 +29,17 @@ BinaryRule::BinaryRule( boost::shared_ptr< IElement > _element )
 BinaryRule::~BinaryRule()
 {
 } // BinaryRule::~BinaryRule
+
+
+/*---------------------------------------------------------------------------*/
+
+
+BinaryRule
+BinaryRule::operator || ( const Tag& _tag )
+{
+	return BinaryRule( boost::shared_ptr< IElement >( new OrElement( m_element, _tag.getElement() ) ) );
+
+} // BinaryRule::operator || ( const Tag& _tag )
 
 
 /*---------------------------------------------------------------------------*/

@@ -104,7 +104,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::shared_ptr< Object > create( const QPoint& _location, const QString& _objectName );
+	/*virtual*/ boost::shared_ptr< Object > create(
+			const QString& _objectName
+		,	const QPoint& _location
+		,	const IPlayer::Id& _playerId );
 
 /*---------------------------------------------------------------------------*/
 
@@ -127,6 +130,8 @@ private:
 	void resetTask();
 
 	void saveTask( const QString& _filePath );
+
+	void locateStartPointObjects();
 
 /*---------------------------------------------------------------------------*/
 

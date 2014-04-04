@@ -14,6 +14,9 @@
 
 #include "landscape_model/sources/landscape/lm_iobjects_creator.hpp"
 
+#include "iterators/it_simple_iterator.hpp"
+
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -91,6 +94,51 @@ Landscape::setSize( const int _width, const int _height )
 	}
 
 } // Landscape::setSize
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Landscape::setStartPoint( const IPlayer::Id& _playerId, const QPoint& _point )
+{
+	StartsPointsCollectionIterator iterator = m_startPoints.find( _playerId );
+
+	if ( iterator == m_startPoints.end() )
+		m_startPoints.insert( std::make_pair( _playerId, _point ) );
+	else
+		iterator->second = _point;
+
+} // Landscape::setStartPoint
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QPoint
+Landscape::getStartPoint( const IPlayer::Id& _playerId ) const
+{
+	StartsPointsCollectionConstIterator iterator = m_startPoints.find( _playerId );
+
+	return
+			iterator != m_startPoints.end()
+		?	iterator->second
+		:	QPoint();
+
+} // Landscape::getStartPoint
+
+
+/*---------------------------------------------------------------------------*/
+
+
+ILandscape::StartPointsIterator
+Landscape::getStartPointsIterator() const
+{
+	return
+		ILandscape::StartPointsIterator(
+			new Tools::Core::SimpleIterator< StartsPointsCollection >( m_startPoints ) );
+
+} // Landscape::getStartPointsIterator
 
 
 /*---------------------------------------------------------------------------*/
@@ -234,13 +282,13 @@ Landscape::fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) co
 
 
 Object::Id
-Landscape::createObject( const QPoint& _location, const QString& _objectName )
+Landscape::createObject( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId )
 {
 	IStaticData::ObjectStaticData staticData = m_staticData.getObjectStaticData( _objectName );
 
 	if ( canObjectBePlaced( _location, _objectName ) )
 	{
-		boost::shared_ptr< Object > object = m_objectCreator.create( _location, _objectName );
+		boost::shared_ptr< Object > object = m_objectCreator.create( _objectName, _location, _playerId );
 
 		m_objects.push_back( object );
 
@@ -266,9 +314,9 @@ Landscape::createObject( const QPoint& _location, const QString& _objectName )
 
 
 Object::Id
-Landscape::createObjectForBuilding( const QPoint& _location, const QString& _objectName )
+Landscape::createObjectForBuilding( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId )
 {
-	boost::shared_ptr< Object > object = getObject( createObject( _location, _objectName ) );
+	boost::shared_ptr< Object > object = getObject( createObject( _objectName, _location, _playerId ) );
 
 	if ( object )
 	{

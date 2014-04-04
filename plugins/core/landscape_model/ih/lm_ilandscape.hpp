@@ -11,6 +11,8 @@
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
+#include "iterators/it_iiterator.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -37,11 +39,25 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
+	typedef
+		boost::shared_ptr< Tools::Core::IIterator< std::pair< const IPlayer::Id, QPoint > > >
+		StartPointsIterator;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual int getWidth() const = 0;
 
 	virtual int getHeight() const = 0;
 
 	virtual void setSize( const int _width, const int _height ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void setStartPoint( const IPlayer::Id& _playerId, const QPoint& _point ) = 0;
+
+	virtual QPoint getStartPoint( const IPlayer::Id& _playerId ) const = 0;
+
+	virtual StartPointsIterator getStartPointsIterator() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,9 +85,9 @@ struct ILandscape
 
 	virtual void fetchSelectedObjects( ObjectsCollection& _collection ) const = 0;
 
-	virtual Object::Id createObject( const QPoint& _location, const QString& _objectName ) = 0;
+	virtual Object::Id createObject( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId ) = 0;
 
-	virtual Object::Id createObjectForBuilding( const QPoint& _location, const QString& _objectName ) = 0;
+	virtual Object::Id createObjectForBuilding( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId ) = 0;
 
 	virtual boost::shared_ptr< Object > removeObject( const Object::Id& _id ) = 0;
 

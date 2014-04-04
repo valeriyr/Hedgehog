@@ -147,6 +147,42 @@ public:
 		return *this;
 	}
 
+	template <
+			typename _TCallbackFunction
+		,	typename _TExtructor1
+		,	typename _TExtructor2
+		,	typename _TExtructor3
+		,	typename _TExtructor4
+		>
+	Tag& handle(
+			_TCallbackFunction _callBack
+		,	_TExtructor1& _extructor1
+		,	_TExtructor2& _extructor2
+		,	_TExtructor3& _extructor3
+		,	_TExtructor4& _extructor4
+		)
+	{
+		typedef
+			 Handle4<
+					_TCallbackFunction
+				,	_TExtructor1
+				,	_TExtructor2
+				,	_TExtructor3
+				,	_TExtructor4
+				>
+				HandleType;
+
+		m_tagElement->addHandle(
+			boost::shared_ptr< HandleType >(
+				new HandleType(
+						_callBack
+					,	_extructor1
+					,	_extructor2
+					,	_extructor3
+					,	_extructor4 ) ) );
+		return *this;
+	}
+
 	template < typename _TCallbackFunction >
 	Tag& postHandle( _TCallbackFunction _callBack )
 	{

@@ -283,7 +283,10 @@ BuildAction::startBuild(
 			m_buildersHolder.addBuilder( object );
 
 			const Object::Id objectId
-				= m_landscapeModel.getLandscape()->createObjectForBuilding( _location, _objectName );
+				= m_landscapeModel.getLandscape()->createObjectForBuilding(
+						_objectName
+					,	_location
+					,	object->getComponent< IPlayerComponent >( ComponentId::Player )->getPlayerId() );
 			assert( objectId != Object::ms_wrongId );
 
 			boost::intrusive_ptr< IBuildComponent > buildComponent
