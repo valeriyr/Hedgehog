@@ -637,7 +637,7 @@ LandscapeModel::initTask( const QString& _filePath )
 	catch( ... )
 	{
 		landscape.reset( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
-		landscape->setSize( 200, 200 );
+		landscape->setSize( 100, 100 );
 	}
 
 	m_landscape = landscape;

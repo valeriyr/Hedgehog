@@ -114,7 +114,7 @@ LandscapeSerializer::load( ILandscape& _landscape, const QString& _filePath )
 									,	Tools::Core::XmlLibrary::StringAttributeExtructor( Resources::NameAttributeName )
 									,	Tools::Core::XmlLibrary::ChildTagIntAttributeExtructor( Resources::LocationTagName, Resources::XAttributeName )
 									,	Tools::Core::XmlLibrary::ChildTagIntAttributeExtructor( Resources::LocationTagName, Resources::YAttributeName )
-									,	Tools::Core::XmlLibrary::ChildTagIntAttributeExtructor( Resources::PlayerTagName, Resources::IdAttributeName )
+									,	Tools::Core::XmlLibrary::ChildTagIntAttributeExtructor( Resources::PlayerTagName, Resources::PlayerIdAttributeName )
 									)
 					]
 			]
@@ -225,6 +225,8 @@ LandscapeSerializer::save(
 		xmlStream.writeAttribute( Resources::XAttributeName, QString::number( locateComponent->getLocation().x() ) );
 		xmlStream.writeAttribute( Resources::YAttributeName, QString::number( locateComponent->getLocation().y() ) );
 
+		xmlStream.writeEndElement();
+
 		if ( playerComponent )
 		{
 			xmlStream.writeStartElement( Resources::PlayerTagName );
@@ -234,7 +236,6 @@ LandscapeSerializer::save(
 			xmlStream.writeEndElement();
 		}
 
-		xmlStream.writeEndElement();
 		xmlStream.writeEndElement();
 	}
 
