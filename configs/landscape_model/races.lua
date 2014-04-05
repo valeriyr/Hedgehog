@@ -2,7 +2,7 @@
 -- Resources
 
 StaticData:regRace( QString( "Orc" ), QString( "Peon" ) )
-StaticData:regRace( QString( "Human" ), QString( "Peon" ) )
+StaticData:regRace( QString( "Human" ), QString( "Peasant" ) )
 
 -- End script message
 
