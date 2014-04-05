@@ -96,6 +96,12 @@ struct IStaticData
 
 /*---------------------------------------------------------------------------*/
 
+	virtual void regRace( const QString& _raceName, const QString& _startPointObjectName ) = 0;
+
+	virtual QString getStartPointObjectName( const QString& _raceName ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
 };
 
 /*---------------------------------------------------------------------------*/

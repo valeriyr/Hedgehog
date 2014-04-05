@@ -31,13 +31,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Player( const IEnvironment& _environment, const IStaticData& _staticData );
+	Player( const IEnvironment& _environment, const IStaticData& _staticData, const QString& _race );
 
 	virtual ~Player();
 
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ IPlayer::Id getUniqueId() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ const QString& getRace() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -66,6 +70,8 @@ private:
 	const IStaticData& m_staticData;
 
 	const IPlayer::Id m_id;
+
+	const QString m_race;
 
 	ResourcesData m_resourceData;
 

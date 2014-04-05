@@ -30,6 +30,10 @@ struct IPlayer
 
 /*---------------------------------------------------------------------------*/
 
+	virtual const QString& getRace() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual const ResourcesData& getResourcesData() const = 0;
 
 	virtual void substructResources( const ResourcesData& _data ) = 0;

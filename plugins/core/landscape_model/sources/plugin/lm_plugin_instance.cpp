@@ -352,7 +352,8 @@ PluginInstance::exportScriptAPI()
 
 	exporter.exportClass< IStaticData >( "IStaticData" )
 		->withMethod( "regObjectStaticData", &IStaticData::regObjectStaticData )
-		.withMethod( "regResource", &IStaticData::regResource );
+		.withMethod( "regResource", &IStaticData::regResource )
+		.withMethod( "regRace", &IStaticData::regRace );
 
 	exporter.exportVariable( "StaticData", m_staticData.get() );
 

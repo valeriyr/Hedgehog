@@ -156,7 +156,7 @@ PlayerInfoView::updatePlayerInfo()
 
 		m_mainWidget->setHtml(
 			QString( Resources::Views::PlayersInfoTextFormat )
-				.arg( QString( Resources::Views::PlayerInfoTextFormat ).arg( player->getUniqueId() ).arg( resourcesInfo ) ) );
+				.arg( QString( Resources::Views::PlayerInfoTextFormat ).arg( player->getUniqueId() ).arg( player->getRace() ).arg( resourcesInfo ) ) );
 	}
 
 } // PlayerInfoView::updatePlayerInfo

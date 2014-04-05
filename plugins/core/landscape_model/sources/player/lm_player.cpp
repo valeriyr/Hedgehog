@@ -22,10 +22,11 @@ static IPlayer::Id IdGenerator = 0;
 /*---------------------------------------------------------------------------*/
 
 
-Player::Player( const IEnvironment& _environment, const IStaticData& _staticData )
+Player::Player( const IEnvironment& _environment, const IStaticData& _staticData, const QString& _race )
 	:	m_environment( _environment )
 	,	m_staticData( _staticData )
 	,	m_id( ++IdGenerator )
+	,	m_race( _race )
 	,	m_resourceData()
 	,	m_notifier( *m_environment.getNotificationCenter(), this )
 {
@@ -59,6 +60,17 @@ Player::getUniqueId() const
 	return m_id;
 
 } // Player::getUniqueId
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QString&
+Player::getRace() const
+{
+	return m_race;
+
+} // Player::getRace
 
 
 /*---------------------------------------------------------------------------*/

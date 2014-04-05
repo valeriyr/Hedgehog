@@ -624,7 +624,7 @@ LandscapeModel::initTask( const QString& _filePath )
 {
 	QMutexLocker locker( &m_mutex );
 
-	m_player.reset( new Player( m_environment, m_staticData ) );
+	m_player.reset( new Player( m_environment, m_staticData, "Orc" ) );
 
 	boost::intrusive_ptr< ILandscape >
 		landscape( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );

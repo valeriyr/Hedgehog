@@ -16,6 +16,7 @@ namespace LandscapeModel {
 StaticData::StaticData()
 	:	m_staticData()
 	,	m_resources()
+	,	m_races()
 {
 } // StaticData::StaticData
 
@@ -89,6 +90,33 @@ StaticData::fetchResources( ResourcesCollection& _collection ) const
 	_collection = m_resources;
 
 } // StaticData::fetchResources
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+StaticData::regRace( const QString& _raceName, const QString& _startPointObjectName )
+{
+	m_races.insert( std::make_pair( _raceName, _startPointObjectName ) );
+
+} // StaticData::regRace
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+StaticData::getStartPointObjectName( const QString& _raceName ) const
+{
+	RacesCollectionIterator iterator = m_races.find( _raceName );
+
+	return
+				iterator != m_races.end()
+			?	iterator->second
+			:	QString();
+
+} // StaticData::getStartPointObjectName
 
 
 /*---------------------------------------------------------------------------*/

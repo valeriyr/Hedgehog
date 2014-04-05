@@ -157,7 +157,7 @@ namespace Views {
 			"</html>																		";
 
 	const char* const PlayerInfoTextFormat
-		=	"<b>id: %1 - </b>%2																";
+		=	"<b>id: %1 (%2) - </b>%3														";
 
 	const char* const PlayerResourceInfoFormat = "%1: %2";
 
