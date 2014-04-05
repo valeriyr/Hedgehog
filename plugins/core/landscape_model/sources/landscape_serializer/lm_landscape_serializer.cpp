@@ -161,6 +161,24 @@ LandscapeSerializer::save(
 	xmlStream.writeAttribute( Resources::WidthAttributeName, QString::number( _landscape.getWidth() ) );
 	xmlStream.writeAttribute( Resources::HeightAttributeName, QString::number( _landscape.getHeight() ) );
 
+	xmlStream.writeStartElement( Resources::SurfaceTagName );
+
+	QString surfaceData;
+
+	for ( int i = 0; i < _landscape.getWidth(); ++i )
+	{
+		for ( int j = 0; j < _landscape.getHeight(); ++j )
+		{
+			if ( !surfaceData.isEmpty() )
+				surfaceData += " ";
+			surfaceData += QString::number( _landscape.getSurfaceItem( QPoint( i, j ) )->getId() );
+		}
+	}
+
+	xmlStream.writeCDATA( surfaceData );
+
+	xmlStream.writeEndElement();
+
 	xmlStream.writeStartElement( Resources::StartPointsTagName );
 
 	ILandscape::StartPointsIterator startPoints = _landscape.getStartPointsIterator();
@@ -177,24 +195,6 @@ LandscapeSerializer::save(
 
 		startPoints->next();
 	}
-
-	xmlStream.writeEndElement();
-
-	xmlStream.writeStartElement( Resources::SurfaceTagName );
-
-	QString surfaceData;
-
-	for ( int i = 0; i < _landscape.getWidth(); ++i )
-	{
-		for ( int j = 0; j < _landscape.getHeight(); ++j )
-		{
-			if ( !surfaceData.isEmpty() )
-				surfaceData += " ";
-			surfaceData += QString::number( _landscape.getSurfaceItem( QPoint( i, j ) )->getId() );
-		}
-	}
-
-	xmlStream.writeCDATA( surfaceData );
 
 	xmlStream.writeEndElement();
 

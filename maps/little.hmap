@@ -3,55 +3,76 @@
 <hmap version="1.0.0" width="20" height="20">
     <surface><![CDATA[101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 1 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 7 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 2 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 8 101 101 3 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 9 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101 101]]></surface>
     <start_points>
-		<start_point player_id="1" x="2" y="9"/>
-	</start_points>
-	<objects count="13">
+        <start_point player_id="1" x="2" y="9"/>
+    </start_points>
+    <objects count="14">
         <object name="Elven Archer">
-            <location x="14" y="2"/>
-			<player id="1"/>
-        </object>
-        <object name="Elven Archer">
-            <location x="16" y="2"/>
-			<player id="1"/>
+            <location x="14" y="2">
+                <player player_id="1"/>
+            </location>
         </object>
         <object name="Elven Archer">
-            <location x="16" y="4"/>
-			<player id="1"/>
+            <location x="16" y="2">
+                <player player_id="1"/>
+            </location>
+        </object>
+        <object name="Elven Archer">
+            <location x="16" y="4">
+                <player player_id="1"/>
+            </location>
         </object>
         <object name="Grunt">
-            <location x="2" y="15"/>
-			<player id="1"/>
+            <location x="2" y="15">
+                <player player_id="1"/>
+            </location>
         </object>
         <object name="Grunt">
-            <location x="6" y="17"/>
-			<player id="1"/>
+            <location x="6" y="17">
+                <player player_id="1"/>
+            </location>
         </object>
         <object name="Grunt">
-            <location x="3" y="17"/>
-			<player id="1"/>
+            <location x="3" y="17">
+                <player player_id="1"/>
+            </location>
         </object>
         <object name="Human Barracks">
-            <location x="10" y="2"/>
-			<player id="1"/>
+            <location x="10" y="2">
+                <player player_id="1"/>
+            </location>
         </object>
         <object name="Orc Barracks">
-            <location x="9" y="15"/>
-			<player id="1"/>
+            <location x="9" y="15">
+                <player player_id="1"/>
+            </location>
         </object>
         <object name="Dragon">
-            <location x="5" y="5"/>
-			<player id="1"/>
+            <location x="5" y="5">
+                <player player_id="1"/>
+            </location>
         </object>
         <object name="Dragon">
-            <location x="15" y="14"/>
-			<player id="1"/>
+            <location x="15" y="14">
+                <player player_id="1"/>
+            </location>
         </object>
         <object name="Peon">
-            <location x="7" y="9"/>
-			<player id="1"/>
+            <location x="7" y="9">
+                <player player_id="1"/>
+            </location>
         </object>
         <object name="Gold Mine">
             <location x="14" y="7"/>
+        </object>
+        <object name="Peon">
+            <location x="2" y="9">
+                <player player_id="1"/>
+            </location>
+        </object>
+        <object name="Peasant">
+            <location x="13" y="5">
+                <player player_id="1"/>
+            </location>
         </object>
     </objects>
 </hmap>
