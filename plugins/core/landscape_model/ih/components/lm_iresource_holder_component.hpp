@@ -23,16 +23,43 @@ struct IResourceHolderComponent
 
 	struct StaticData
 	{
+		struct ResourceData
+		{
+			ResourceData(
+					const int _maxValue
+				,	const int _collectTime
+				)
+				:	m_maxValue( _maxValue )
+				,	m_collectTime( _collectTime )
+			{}
+
+			const int m_maxValue;
+			const int m_collectTime;
+		};
+
+		typedef
+			std::map< QString, ResourceData >
+			ResourcesDataCollection;
+		typedef
+			ResourcesDataCollection::const_iterator
+			ResourcesDataCollectionIterator;
+
 		StaticData()
-			:	m_maxResourcesValue()
+			:	m_resourcesData()
 		{}
 
-		void hold( const QString& _resourceName, const int _maxValue )
+		void hold( const QString& _resourceName, const int _maxValue, const int _collectTime )
 		{
-			m_maxResourcesValue.pushResource( _resourceName, _maxValue );
+			ResourcesDataCollectionIterator iterator = m_resourcesData.find( _resourceName );
+
+			if ( iterator == m_resourcesData.end() )
+			{
+				m_resourcesData.insert( std::make_pair( _resourceName, ResourceData( _maxValue, _collectTime ) ) );
+			}
 		}
 
-		ResourcesData m_maxResourcesValue;
+		ResourcesDataCollection m_resourcesData;
+		
 	};
 
 /*---------------------------------------------------------------------------*/

@@ -215,13 +215,10 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 
 			if ( resourceHolderComponent )
 			{
-				const Core::LandscapeModel::ResourcesData& maxResources
-					= resourceHolderComponent->getStaticData().m_maxResourcesValue;
-
-				Core::LandscapeModel::ResourcesData::ResourcesDataCollectionConstIterator
-						begin = maxResources.m_data.begin()
-					,	end = maxResources.m_data.end()
-					,	it = maxResources.m_data.begin();
+				Core::LandscapeModel::IResourceHolderComponent::StaticData::ResourcesDataCollectionIterator
+						begin = resourceHolderComponent->getStaticData().m_resourcesData.begin()
+					,	end = resourceHolderComponent->getStaticData().m_resourcesData.end()
+					,	it = resourceHolderComponent->getStaticData().m_resourcesData.begin();
 
 				for ( ; it != end; ++it )
 				{
@@ -234,7 +231,7 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 						+= QString( Resources::Views::ResourcesHoldFormat )
 								.arg( it->first )
 								.arg( resourceHolderComponent->holdResources().getResourceValue( it->first ) )
-								.arg( it->second );
+								.arg( it->second.m_maxValue );
 				}
 			}
 			else

@@ -20,10 +20,6 @@ orcBarracks.m_trainData = TrainComponentStaticData()
 orcBarracks.m_trainData:pushTrainData( QString( "Grunt" ), TrainData( 30, gruntResourceData ) )
 orcBarracks.m_trainData:pushTrainData( QString( "Dragon" ), TrainData( 40, dragonResourceData ) )
 
-orcBarracks.m_generateResourcesData = GenerateResourcesComponentStaticData()
-orcBarracks.m_generateResourcesData:canGenerate( QString( "Gold" ), 16 )
-orcBarracks.m_generateResourcesData:canGenerate( QString( "Wood" ), 13 )
-
 StaticData:regObjectStaticData( QString( "Orc Barracks" ), orcBarracks )
 
 -- End script message

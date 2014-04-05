@@ -20,6 +20,7 @@ struct Actions
 		,	Attack
 		,	Build
 		,	Repair
+		,	CollectResource
 	};
 };
 

@@ -38,7 +38,7 @@ Player::Player( const IEnvironment& _environment, const IStaticData& _staticData
 		,	end = resources.end();
 
 	for ( ; begin != end; ++begin )
-		m_resourceData.pushResource( *begin, 0 );
+		m_resourceData.pushResource( *begin, 3000 );
 
 } // Player::Player
 

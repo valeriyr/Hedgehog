@@ -12,8 +12,8 @@ peon.m_repairData = RepairComponentStaticData( 1, 30 )
 peon.m_playerData = PlayerComponentStaticData()
 
 peon.m_resourceHolderData = ResourceHolderComponentStaticData()
-peon.m_resourceHolderData:hold( QString( "Gold" ), 10 )
-peon.m_resourceHolderData:hold( QString( "Wood" ), 20 )
+peon.m_resourceHolderData:hold( QString( "Gold" ), 10, 30 )
+peon.m_resourceHolderData:hold( QString( "Wood" ), 20, 30 )
 
 orcBarracksResourceData = ResourcesData()
 orcBarracksResourceData:pushResource( QString( "Gold" ), 400 )

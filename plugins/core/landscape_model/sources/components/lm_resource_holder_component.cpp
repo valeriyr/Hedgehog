@@ -21,14 +21,12 @@ ResourceHolderComponent::ResourceHolderComponent(
 	,	m_staticData( _staticData )
 	,	m_resourcesValue()
 {
-	Core::LandscapeModel::ResourcesData::ResourcesDataCollectionConstIterator
-			begin = m_staticData.m_maxResourcesValue.m_data.begin()
-		,	end = m_staticData.m_maxResourcesValue.m_data.end();
+	IResourceHolderComponent::StaticData::ResourcesDataCollectionIterator
+			begin = m_staticData.m_resourcesData.begin()
+		,	end = m_staticData.m_resourcesData.end();
 
 	for ( ; begin != end; ++begin )
-	{
 		m_resourcesValue.pushResource( begin->first, 0 );
-	}
 
 } // ResourceHolderComponent::ResourceHolderComponent
 
