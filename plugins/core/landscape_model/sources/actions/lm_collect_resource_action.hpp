@@ -56,6 +56,8 @@ private:
 
 	boost::shared_ptr< Object > m_resourceSource;
 
+	TickType m_collectingTicksCounter;
+
 /*---------------------------------------------------------------------------*/
 
 };

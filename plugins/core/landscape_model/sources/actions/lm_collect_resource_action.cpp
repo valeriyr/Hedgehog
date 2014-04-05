@@ -34,6 +34,7 @@ CollectResourceAction::CollectResourceAction(
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_resourceSource( _resourceSource )
+	,	m_collectingTicksCounter( 0 )
 {
 } // CollectResourceAction::CollectResourceAction
 
