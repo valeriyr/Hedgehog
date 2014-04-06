@@ -40,6 +40,8 @@ struct IPlayer
 
 	virtual void addResources( const ResourcesData& _data ) = 0;
 
+	virtual void addResources( const QString& _resourceName, const int _value ) = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };

@@ -65,6 +65,8 @@ private:
 
 	void onObjectDataChanged( const Framework::Core::EventManager::Event& _event );
 
+	void onHolderResourceCountChanged( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 	void setDescriptionForObject( const Core::LandscapeModel::Object::Id& _objectId );

@@ -112,6 +112,18 @@ Player::addResources( const ResourcesData& _data )
 
 
 void
+Player::addResources( const QString& _resourceName, const int _value )
+{
+	m_resourceData.add( _resourceName, _value );
+	m_notifier.pushNotifyFunction( &Player::riseResourcesChanedEvent );
+
+} // Player::addResources
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 Player::riseResourcesChanedEvent()
 {
 	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ResourceValueChanged::ms_type ) );

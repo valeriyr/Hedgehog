@@ -235,6 +235,15 @@ namespace HolderHasStopCollect
 
 /*---------------------------------------------------------------------------*/
 
+namespace HolderResourceCountChanged
+{
+	const char* const ms_type = "HolderResourceCountChanged";
+
+	const char* const ms_objectUniqueIdAttribute = "ObjectUniqueId";
+}
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Events
 } // namespace LandscapeModel
 } // namespace Core

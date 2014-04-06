@@ -51,6 +51,8 @@ public:
 
 	/*virtual*/ void addResources( const ResourcesData& _data );
 
+	/*virtual*/ void addResources( const QString& _resourceName, const int _value );
+
 /*---------------------------------------------------------------------------*/
 
 private:

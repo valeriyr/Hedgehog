@@ -196,12 +196,14 @@ CollectResourceAction::processAction()
 
 	// Do action
 
-	boost::intrusive_ptr< IResourceSourceComponent > targetResourceSource
-		= targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource );
+	bool holderResourcesCountCahnged = false;
 
 	// FIX
 	if ( !resourceHolderComponent->isFull( "Gold" ) )
 	{
+		boost::intrusive_ptr< IResourceSourceComponent > targetResourceSource
+			= targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource );
+
 		if ( m_resourceSource->getState() == ObjectState::UnderCollecting )
 			return;
 
@@ -222,6 +224,7 @@ CollectResourceAction::processAction()
 		{
 			// FIX
 			resourceHolderComponent->holdResources().add( targetResourceSource->getStaticData().m_resource, 10 );
+			holderResourcesCountCahnged = true;
 
 			if ( targetResourceSource->getResourceValue() == 0 )
 			{
@@ -253,9 +256,33 @@ CollectResourceAction::processAction()
 	}
 	else
 	{
-		// Store resources
-		// FIX
-		resourceHolderComponent->holdResources().substruct( "Gold", 10 );
+		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getPlayerId() );
+
+		boost::intrusive_ptr< IResourceStorageComponent > targetResourceStorage
+			= targetObject->getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
+
+		ResourcesData::ResourcesDataCollectionIterator
+				begin = resourceHolderComponent->holdResources().m_data.begin()
+			,	end = resourceHolderComponent->holdResources().m_data.end();
+
+		for ( ; begin != end; ++begin )
+		{
+			if ( targetResourceStorage->getStaticData().canBeStored( begin->first ) )
+			{
+				player->addResources( begin->first, begin->second );
+				begin->second = 0;
+
+				holderResourcesCountCahnged = true;
+			}
+		}
+	}
+
+	if ( holderResourcesCountCahnged )
+	{
+		Framework::Core::EventManager::Event holderResourceCountChanged( Events::HolderResourceCountChanged::ms_type );
+		holderResourceCountChanged.pushAttribute( Events::HolderResourceCountChanged::ms_objectUniqueIdAttribute, m_object.getUniqueId() );
+
+		m_environment.riseEvent( holderResourceCountChanged );
 	}
 
 } // CollectResourceAction::processAction
