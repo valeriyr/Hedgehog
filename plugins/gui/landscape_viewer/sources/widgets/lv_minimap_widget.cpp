@@ -91,6 +91,14 @@ MinimapWidget::landscapeWasOpened()
 							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_type
 							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ms_type
+							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_type
+							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
+
 } // MinimapWidget::landscapeWasOpened
 
 

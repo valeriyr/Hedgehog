@@ -39,6 +39,11 @@ struct IResourceStorageComponent
 			m_storedResources.insert( _resourceName );
 		}
 
+		bool canBeStored( const QString& _resourceName ) const
+		{
+			return m_storedResources.find( _resourceName ) != m_storedResources.end();
+		}
+
 		StoredResourcesCollection m_storedResources;
 	};
 

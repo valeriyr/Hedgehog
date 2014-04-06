@@ -27,6 +27,13 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
+	struct IObjectsFilter
+	{
+		virtual bool check( const Object& _object ) const = 0;
+	};
+
+/*---------------------------------------------------------------------------*/
+
 	typedef
 		std::vector< boost::shared_ptr< Object > >
 		ObjectsCollection;
@@ -82,6 +89,8 @@ struct ILandscape
 	virtual int getObjectsCount() const = 0;
 
 	virtual void fetchObjects( ObjectsCollection& _collection ) const = 0;
+
+	virtual void fetchObjects( ObjectsCollection& _collection, const IObjectsFilter& _filter ) const = 0;
 
 	virtual void fetchSelectedObjects( ObjectsCollection& _collection ) const = 0;
 

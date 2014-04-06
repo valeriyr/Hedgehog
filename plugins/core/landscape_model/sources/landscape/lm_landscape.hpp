@@ -79,6 +79,8 @@ public:
 
 	/*virtual*/ void fetchObjects( ILandscape::ObjectsCollection& _collection ) const;
 
+	/*virtual*/ void fetchObjects( ObjectsCollection& _collection, const IObjectsFilter& _filter ) const;
+
 	/*virtual*/ void fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) const;
 
 	/*virtual*/ Object::Id createObject( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId );

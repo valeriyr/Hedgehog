@@ -32,6 +32,31 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+class StorageObjectsFilter
+	:	public ILandscape::IObjectsFilter
+{
+
+public:
+
+	StorageObjectsFilter( const QString& _canStore )
+		:	m_canStore( _canStore )
+	{}
+
+	/*virtual*/ bool check( const Object& _object ) const
+	{
+		boost::intrusive_ptr< IResourceStorageComponent > resourceStorage
+			= _object.getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
+
+		return resourceStorage && resourceStorage->getStaticData().canBeStored( m_canStore );
+	}
+
+private:
+
+	const QString m_canStore;
+};
+
+/*---------------------------------------------------------------------------*/
+
 
 CollectResourceAction::CollectResourceAction(
 		const IEnvironment& _environment
@@ -101,123 +126,136 @@ CollectResourceAction::processAction()
 	if ( m_object.getState() == ObjectState::Dying )
 	{
 		m_isInProcessing = false;
+		return;
 	}
-	else
+
+	// Check objects
+
+	bool goToSource = shoulGoToSource();
+
+	if ( goToSource )
 	{
-		// Check objects
-
-		bool goToSource = shoulGoToSource();
-
-		if ( goToSource )
+		if ( !m_resourceSource )
 		{
 			// Find source
 		}
-		else
+	}
+	else if ( !m_resourceStarage )
+	{
+		// FIX
+		StorageObjectsFilter filter( "Gold" );
+		ILandscape::ObjectsCollection storageObjects;
+
+		m_landscapeModel.getLandscape()->fetchObjects( storageObjects, filter );
+
+		if ( storageObjects.empty() )
 		{
-			// Fing storage
+			m_isInProcessing = false;
+			return;
 		}
 
-		boost::shared_ptr< Object > targetObject = goToSource ? m_resourceSource : m_resourceStarage;
+		m_resourceStarage = storageObjects.front();
+	}
 
-		boost::intrusive_ptr< ILocateComponent > targetLocateComponent
-			= targetObject->getComponent< ILocateComponent >( ComponentId::Locate );
+	boost::shared_ptr< Object > targetObject = goToSource ? m_resourceSource : m_resourceStarage;
 
-		// Check distance
+	boost::intrusive_ptr< ILocateComponent > targetLocateComponent
+		= targetObject->getComponent< ILocateComponent >( ComponentId::Locate );
 
-		if (	Geometry::getDistance(
-						locateComponent->getLocation()
-					,	Geometry::getNearestPoint(
-								locateComponent->getLocation()
-							,	targetLocateComponent->getRect() ) )
-			>	Geometry::DiagonalDistance )
+	// Check distance
+
+	if (	Geometry::getDistance(
+					locateComponent->getLocation()
+				,	Geometry::getNearestPoint(
+							locateComponent->getLocation()
+						,	targetLocateComponent->getRect() ) )
+		>	Geometry::DiagonalDistance )
+	{
+		IPathFinder::PointsCollection path;
+		JumpPointSearch::pathToObject( path, *m_landscapeModel.getLandscape(), m_object, *targetObject, Geometry::DiagonalDistance );
+
+		if ( !path.empty() )
 		{
-			IPathFinder::PointsCollection path;
-			JumpPointSearch::pathToObject( path, *m_landscapeModel.getLandscape(), m_object, *targetObject, Geometry::DiagonalDistance );
+			actionsComponent->pushFrontAction(
+				boost::intrusive_ptr< IAction >(
+					new MoveAction(
+							m_environment
+						,	m_landscapeModel
+						,	m_object
+						,	targetObject
+						,	path
+						,	Geometry::DiagonalDistance ) ) );
+			return;
+		}
+		else
+		{
+			m_isInProcessing = false;
+			return;
+		}
+	}
 
-			if ( !path.empty() )
-			{
-				actionsComponent->pushFrontAction(
-					boost::intrusive_ptr< IAction >(
-						new MoveAction(
-								m_environment
-							,	m_landscapeModel
-							,	m_object
-							,	targetObject
-							,	path
-							,	Geometry::DiagonalDistance ) ) );
-				return;
-			}
-			else
+	// Do action
+
+	boost::intrusive_ptr< IResourceSourceComponent > targetResourceSource
+		= targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource );
+
+	// FIX
+	if ( !resourceHolderComponent->isFull( "Gold" ) )
+	{
+		if ( m_resourceSource->getState() == ObjectState::UnderCollecting )
+			return;
+
+		if ( !locateComponent->isHidden() /* add checking should be hidden or not */ )
+		{
+			m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
+
+			m_hiddenObject = m_landscapeModel.getLandscape()->hideObject( m_object.getUniqueId() );
+			m_hiddenObject->setState( ObjectState::Collecting );
+
+			Framework::Core::EventManager::Event holderStartCollecting( Events::HolderHasStartedCollect::ms_type );
+			holderStartCollecting.pushAttribute( Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute, m_object.getUniqueId() );
+
+			m_environment.riseEvent( holderStartCollecting );
+		}
+
+		if ( !resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) )
+		{
+			// FIX
+			resourceHolderComponent->holdResources().add( targetResourceSource->getStaticData().m_resource, 10 );
+
+			if ( targetResourceSource->getResourceValue() == 0 )
 			{
 				m_isInProcessing = false;
 			}
 		}
 
-		// Do action
-
-		if ( m_isInProcessing )
+		if ( resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) || !m_isInProcessing )
 		{
-			boost::intrusive_ptr< IResourceSourceComponent > targetResourceSource
-				= targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource );
+			locateComponent->setLocation(
+				m_landscapeModel.getLandscape()->getNearestLocation(
+						*targetObject
+					,	m_object.getName() ) );
+			m_object.setState( ObjectState::Standing );
 
-			if ( !resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) )
-			{
-				if ( m_resourceSource->getState() == ObjectState::UnderCollecting )
-					return;
+			m_landscapeModel.getLandscape()->showObject( m_hiddenObject );
+			m_hiddenObject.reset();
 
-				if ( !locateComponent->isHidden() /* add checking should be hidden or not */ )
-				{
-					m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
+			m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );
 
-					m_hiddenObject = m_landscapeModel.getLandscape()->hideObject( m_object.getUniqueId() );
-					m_hiddenObject->setState( ObjectState::Collecting );
+			Framework::Core::EventManager::Event holderStopCollecting( Events::HolderHasStopCollect::ms_type );
+			holderStopCollecting.pushAttribute( Events::HolderHasStopCollect::ms_objectNameAttribute, m_object.getName() );
+			holderStopCollecting.pushAttribute( Events::HolderHasStopCollect::ms_objectLocationAttribute, locateComponent->getLocation() );
+			holderStopCollecting.pushAttribute( Events::HolderHasStopCollect::ms_objectUniqueIdAttribute, m_object.getUniqueId() );
+			holderStopCollecting.pushAttribute( Events::HolderHasStopCollect::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
 
-					Framework::Core::EventManager::Event holderStartCollecting( Events::HolderHasStartedCollect::ms_type );
-					holderStartCollecting.pushAttribute( Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute, m_object.getUniqueId() );
-
-					m_environment.riseEvent( holderStartCollecting );
-				}
-
-				if ( !resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) )
-				{
-					// FIX
-					resourceHolderComponent->holdResources().add( targetResourceSource->getStaticData().m_resource, 10 );
-
-					if ( targetResourceSource->getResourceValue() == 0 )
-					{
-						m_isInProcessing = false;
-					}
-				}
-
-				if ( resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) || !m_isInProcessing )
-				{
-					locateComponent->setLocation(
-						m_landscapeModel.getLandscape()->getNearestLocation(
-								*targetObject
-							,	m_object.getName() ) );
-					m_object.setState( ObjectState::Standing );
-
-					m_landscapeModel.getLandscape()->showObject( m_hiddenObject );
-					m_hiddenObject.reset();
-
-					m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );
-
-					Framework::Core::EventManager::Event holderStopCollecting( Events::HolderHasStopCollect::ms_type );
-					holderStopCollecting.pushAttribute( Events::HolderHasStopCollect::ms_objectNameAttribute, m_object.getName() );
-					holderStopCollecting.pushAttribute( Events::HolderHasStopCollect::ms_objectLocationAttribute, locateComponent->getLocation() );
-					holderStopCollecting.pushAttribute( Events::HolderHasStopCollect::ms_objectUniqueIdAttribute, m_object.getUniqueId() );
-					holderStopCollecting.pushAttribute( Events::HolderHasStopCollect::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
-
-					m_environment.riseEvent( holderStopCollecting );
-				}
-			}
-			else
-			{
-				// Store resources
-				// FIX
-				resourceHolderComponent->holdResources().substruct( "Gold", 10 );
-			}
+			m_environment.riseEvent( holderStopCollecting );
 		}
+	}
+	else
+	{
+		// Store resources
+		// FIX
+		resourceHolderComponent->holdResources().substruct( "Gold", 10 );
 	}
 
 } // CollectResourceAction::processAction

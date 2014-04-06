@@ -271,6 +271,27 @@ Landscape::fetchObjects( ILandscape::ObjectsCollection& _collection ) const
 
 
 void
+Landscape::fetchObjects( ObjectsCollection& _collection, const IObjectsFilter& _filter ) const
+{
+	_collection.clear();
+
+	ILandscape::ObjectsCollectionConstIterator
+			begin = m_objects.begin()
+		,	end = m_objects.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( _filter.check( **begin ) )
+			_collection.push_back( *begin );
+	}
+
+} // Landscape::fetchObjects
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 Landscape::fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) const
 {
 	_collection = m_selectedObjects;
