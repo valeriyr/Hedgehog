@@ -133,6 +133,8 @@ private:
 
 	void locateStartPointObjects();
 
+	bool shouldStoreResources( boost::shared_ptr< Object > _holder, boost::shared_ptr< Object > _storage );
+
 /*---------------------------------------------------------------------------*/
 
 private:

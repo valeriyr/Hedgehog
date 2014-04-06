@@ -335,7 +335,7 @@ Landscape::createObjectForBuilding( const QString& _objectName, const QPoint& _l
 
 
 boost::shared_ptr< Object >
-Landscape::removeObject( const Object::Id& _id )
+Landscape::hideObject( const Object::Id& _id )
 {
 	ILandscape::ObjectsCollectionIterator
 			begin = m_objects.begin()
@@ -349,6 +349,7 @@ Landscape::removeObject( const Object::Id& _id )
 
 			boost::intrusive_ptr< ILocateComponent >
 				locateComponent = object->getComponent< ILocateComponent >( ComponentId::Locate );
+			locateComponent->setHidden( true );
 
 			QRect objectRect( locateComponent->getRect() );
 
@@ -368,20 +369,21 @@ Landscape::removeObject( const Object::Id& _id )
 
 	return boost::shared_ptr< Object >();
 
-} // Landscape::removeObject
+} // Landscape::hideObject
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-Landscape::addObject( boost::shared_ptr< Object > _object )
+Landscape::showObject( boost::shared_ptr< Object > _object )
 {
 	assert( !getObject( _object->getUniqueId() ) );
 	m_objects.push_back( _object );
 
 	boost::intrusive_ptr< ILocateComponent >
 		locateComponent = _object->getComponent< ILocateComponent >( ComponentId::Locate );
+	locateComponent->setHidden( false );
 
 	QRect objectRect( locateComponent->getRect() );
 
@@ -393,7 +395,7 @@ Landscape::addObject( boost::shared_ptr< Object > _object )
 		}
 	}
 
-} // Landscape::addObject
+} // Landscape::showObject
 
 
 /*---------------------------------------------------------------------------*/

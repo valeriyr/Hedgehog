@@ -23,6 +23,7 @@ struct ObjectState
 		,	Collecting
 		,	Dying
 		,	UnderConstruction
+		,	UnderCollecting
 	};
 };
 

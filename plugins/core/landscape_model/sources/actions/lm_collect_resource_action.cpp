@@ -16,6 +16,11 @@
 
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
+#include "landscape_model/ih/components/lm_iplayer_component.hpp"
+#include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
+
+#include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -31,11 +36,16 @@ CollectResourceAction::CollectResourceAction(
 	,	ILandscapeModel& _landscapeModel
 	,	Object& _object
 	,	boost::shared_ptr< Object > _resourceSource
+	,	boost::shared_ptr< Object > _resourceStorage
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_resourceSource( _resourceSource )
+	,	m_resourceStarage( _resourceStorage )
 	,	m_collectingTicksCounter( 0 )
 {
+	assert( m_resourceSource || m_resourceStarage );
+	assert( !m_resourceSource || !m_resourceStarage );
+
 } // CollectResourceAction::CollectResourceAction
 
 
@@ -53,11 +63,6 @@ CollectResourceAction::~CollectResourceAction()
 bool
 CollectResourceAction::prepareToProcessingInternal()
 {
-	/*boost::intrusive_ptr< IAttackComponent > attackComponent
-		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
-
-	attackComponent->setTargetObject( m_target );*/
-
 	return true;
 
 } // CollectResourceAction::prepareToProcessingInternal
@@ -69,11 +74,6 @@ CollectResourceAction::prepareToProcessingInternal()
 bool
 CollectResourceAction::cancelProcessingInternal()
 {
-	/*boost::intrusive_ptr< IAttackComponent > attackComponent
-		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
-
-	attackComponent->setTargetObject( boost::shared_ptr< Object >() );*/
-
 	return true;
 
 } // CollectResourceAction::cancelProcessingInternal
@@ -85,6 +85,78 @@ CollectResourceAction::cancelProcessingInternal()
 void
 CollectResourceAction::processAction()
 {
+	assert( m_resourceSource || m_resourceStarage );
+	assert( !m_resourceSource || !m_resourceStarage );
+
+	// Common variables
+
+	boost::intrusive_ptr< ILocateComponent > locateComponent
+		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+	boost::intrusive_ptr< IActionsComponent > actionsComponent
+		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
+	boost::intrusive_ptr< IPlayerComponent > playerComponent
+		= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
+	boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
+		= m_object.getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
+
+	// Check if object is dying
+
+	if ( m_object.getState() == ObjectState::Dying )
+	{
+		m_isInProcessing = false;
+	}
+	else
+	{
+		boost::shared_ptr< Object > targetObject = getTargetObject();
+		boost::intrusive_ptr< ILocateComponent > targetLocateComponent
+			= targetObject->getComponent< ILocateComponent >( ComponentId::Locate );
+
+		// Check distance
+
+		if (	Geometry::getDistance(
+						locateComponent->getLocation()
+					,	Geometry::getNearestPoint(
+								locateComponent->getLocation()
+							,	targetLocateComponent->getRect() ) )
+			>	Geometry::DiagonalDistance )
+		{
+			IPathFinder::PointsCollection path;
+			JumpPointSearch::pathToObject( path, *m_landscapeModel.getLandscape(), m_object, *targetObject, Geometry::DiagonalDistance );
+
+			if ( !path.empty() )
+			{
+				actionsComponent->pushFrontAction(
+					boost::intrusive_ptr< IAction >(
+						new MoveAction(
+								m_environment
+							,	m_landscapeModel
+							,	m_object
+							,	targetObject
+							,	path
+							,	Geometry::DiagonalDistance ) ) );
+				return;
+			}
+			else
+			{
+				m_isInProcessing = false;
+			}
+		}
+
+		// Do action
+
+		if ( m_isInProcessing )
+		{
+			if ( m_resourceSource )
+			{
+				if ( !locateComponent->isHidden() )
+				{
+				}
+			}
+			else if ( m_resourceStarage )
+			{
+			}
+		}
+	}
 
 } // CollectResourceAction::processAction
 
@@ -98,6 +170,20 @@ CollectResourceAction::getType() const
 	return Actions::CollectResource;
 
 } // CollectResourceAction::getType
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::shared_ptr< Object >
+CollectResourceAction::getTargetObject() const
+{
+	assert( m_resourceSource || m_resourceStarage );
+	assert( !m_resourceSource || !m_resourceStarage );
+
+	return m_resourceSource ? m_resourceSource : m_resourceStarage;
+
+} // CollectResourceAction::getTargetObject
 
 
 /*---------------------------------------------------------------------------*/

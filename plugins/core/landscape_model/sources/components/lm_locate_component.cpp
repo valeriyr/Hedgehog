@@ -22,6 +22,7 @@ LocateComponent::LocateComponent(
 	,	m_staticData( _staticData )
 	,	m_location( _location )
 	,	m_direction( Direction::South )
+	,	m_isHidden( false )
 {
 } // LocateComponent::LocateComponent
 
@@ -98,6 +99,28 @@ LocateComponent::setLocation( const QPoint& _location )
 	m_location = _location;
 
 } // LocateComponent::setLocation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+LocateComponent::isHidden() const
+{
+	return m_isHidden;
+
+} // LocateComponent::isHidden
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LocateComponent::setHidden( const bool _hidden )
+{
+	m_isHidden = _hidden;
+
+} // LocateComponent::setHidden
 
 
 /*---------------------------------------------------------------------------*/

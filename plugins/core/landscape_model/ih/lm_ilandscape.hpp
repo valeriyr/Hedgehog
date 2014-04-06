@@ -89,9 +89,9 @@ struct ILandscape
 
 	virtual Object::Id createObjectForBuilding( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId ) = 0;
 
-	virtual boost::shared_ptr< Object > removeObject( const Object::Id& _id ) = 0;
+	virtual boost::shared_ptr< Object > hideObject( const Object::Id& _id ) = 0;
 
-	virtual void addObject( boost::shared_ptr< Object > _object ) = 0;
+	virtual void showObject( boost::shared_ptr< Object > _object ) = 0;
 
 	virtual void selectObjects( const QRect& _rect ) = 0;
 

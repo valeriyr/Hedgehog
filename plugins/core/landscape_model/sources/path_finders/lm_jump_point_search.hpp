@@ -65,7 +65,7 @@ private:
 		,	const IPathFinder::PointsCollection& _targets ) const;
 
 	QPoint getNearestFoundPoint(
-			const Tools::Core::Containers::Matrix< int >& matrix
+			const Tools::Core::Containers::Matrix< int >& _matrix
 		,	const IPathFinder::PointsCollection& _targets
 		,	const QPoint& _startPoint ) const;
 

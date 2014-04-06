@@ -236,6 +236,10 @@ LandscapeScene::landscapeWasOpened()
 							,	boost::bind( &LandscapeScene::onObjectStartBuilding, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ms_type
+							,	boost::bind( &LandscapeScene::onBuilderHasStartedBuild, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_type
 							,	boost::bind( &LandscapeScene::onBuilderHasFinishedBuild, this, _1 ) );
 
@@ -382,16 +386,7 @@ LandscapeScene::onObjectRemoved( const Framework::Core::EventManager::Event& _ev
 	const Plugins::Core::LandscapeModel::Object::Id id
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectRemoved::ms_objectUniqueIdAttribute ).toInt();
 
-	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
-
-	if ( iterator != m_objectsCollection.end() )
-	{
-		m_environment.stopAnimation( *iterator->second );
-
-		delete iterator->second;
-
-		m_objectsCollection.erase( id );
-	}
+	removeObject( id );
 
 } // LandscapeScene::onObjectRemoved
 
@@ -606,6 +601,20 @@ LandscapeScene::onObjectStartBuilding( const Framework::Core::EventManager::Even
 		,	Core::LandscapeModel::Direction::South );
 
 } // LandscapeScene::onObjectStartBuilding
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onBuilderHasStartedBuild( const Framework::Core::EventManager::Event& _event )
+{
+	const Plugins::Core::LandscapeModel::Object::Id id
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ms_objectUniqueIdAttribute ).toInt();
+
+	removeObject( id );
+
+} // LandscapeScene::onBuilderHasStartedBuild
 
 
 /*---------------------------------------------------------------------------*/
@@ -1087,6 +1096,26 @@ LandscapeScene::playAnimationOnce(
 	}
 
 } // LandscapeScene::playAnimationOnce
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::removeObject( const Plugins::Core::LandscapeModel::Object::Id _id )
+{
+	ObjectsCollectionIterator iterator = m_objectsCollection.find( _id );
+
+	if ( iterator != m_objectsCollection.end() )
+	{
+		m_environment.stopAnimation( *iterator->second );
+
+		delete iterator->second;
+
+		m_objectsCollection.erase( _id );
+	}
+
+} // LandscapeScene::removeObject
 
 
 /*---------------------------------------------------------------------------*/

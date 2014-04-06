@@ -35,7 +35,7 @@ struct ConnectionInfo
 
 	bool operator < ( const ConnectionInfo& _connectionId ) const
 	{
-		return m_port < _connectionId.m_port && m_address < _connectionId.m_address;
+		return m_port < _connectionId.m_port || m_address < _connectionId.m_address;
 	}
 
 /*---------------------------------------------------------------------------*/

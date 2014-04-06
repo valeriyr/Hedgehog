@@ -30,7 +30,8 @@ public:
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
 		,	Object& _object
-		,	boost::shared_ptr< Object > _resourceSource );
+		,	boost::shared_ptr< Object > _resourceSource
+		,	boost::shared_ptr< Object > _resourceStorage );
 
 	virtual ~CollectResourceAction();
 
@@ -54,7 +55,17 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	boost::shared_ptr< Object > getTargetObject() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
 	boost::shared_ptr< Object > m_resourceSource;
+
+	boost::shared_ptr< Object > m_resourceStarage;
 
 	TickType m_collectingTicksCounter;
 

@@ -85,9 +85,9 @@ public:
 
 	/*virtual*/ Object::Id createObjectForBuilding( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId );
 
-	/*virtual*/ boost::shared_ptr< Object > removeObject( const Object::Id& _id );
+	/*virtual*/ boost::shared_ptr< Object > hideObject( const Object::Id& _id );
 
-	/*virtual*/ void addObject( boost::shared_ptr< Object > _object );
+	/*virtual*/ void showObject( boost::shared_ptr< Object > _object );
 
 	/*virtual*/ void selectObjects( const QRect& _rect );
 

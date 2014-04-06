@@ -175,6 +175,7 @@ LandscapeSerializer::save(
 		}
 	}
 
+	// xmlStream.writeCDATA( QString( qCompress( surfaceData.toUtf8(), 9 ) ) );
 	xmlStream.writeCDATA( surfaceData );
 
 	xmlStream.writeEndElement();

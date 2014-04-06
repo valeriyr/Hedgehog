@@ -160,6 +160,8 @@ private:
 
 	void onObjectStartBuilding( const Framework::Core::EventManager::Event& _event );
 
+	void onBuilderHasStartedBuild( const Framework::Core::EventManager::Event& _event );
+
 	void onBuilderHasFinishedBuild( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/
@@ -205,6 +207,10 @@ private:
 		,	const QString& _typeName
 		,	const Core::LandscapeModel::ObjectState::Enum _state
 		,	const Core::LandscapeModel::Direction::Enum _direction );
+
+/*---------------------------------------------------------------------------*/
+
+	void removeObject( const Plugins::Core::LandscapeModel::Object::Id _id );
 
 /*---------------------------------------------------------------------------*/
 

@@ -194,10 +194,16 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _flush )
 					&&	targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource ) )
 				{
 					actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, **begin, targetObject ) )
+							boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, **begin, targetObject, boost::shared_ptr< Object >() ) )
 						,	_flush );
 				}
-				else if ( repairComponent && targetHealthComponent && targetHealthComponent->getHealth() != targetHealthComponent->getStaticData().m_maximumHealth )
+				else if ( shouldStoreResources( *begin, targetObject ) )
+				{
+					actionsComponent->pushAction(
+							boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, **begin, boost::shared_ptr< Object >(), targetObject ) )
+						,	_flush );
+				}
+				else if ( repairComponent && targetHealthComponent && !targetHealthComponent->isHealthy() )
 				{
 					actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >( new RepairAction( m_environment, *this, **begin, targetObject ) )
@@ -713,6 +719,35 @@ LandscapeModel::locateStartPointObjects()
 	}
 
 } // LandscapeModel::locateStartPointObjects
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+LandscapeModel::shouldStoreResources( boost::shared_ptr< Object > _holder, boost::shared_ptr< Object > _storage )
+{
+	boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
+		= _holder->getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
+	boost::intrusive_ptr< IResourceStorageComponent > resourceStorageComponent
+		= _storage->getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
+
+	if ( !resourceHolderComponent || !resourceStorageComponent )
+		return false;
+
+	IResourceStorageComponent::StaticData::StoredResourcesCollectionIterator
+			begin = resourceStorageComponent->getStaticData().m_storedResources.begin()
+		,	end = resourceStorageComponent->getStaticData().m_storedResources.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( resourceHolderComponent->holdResources().getResourceValue( *begin ) > 0 )
+			return true;
+	}
+
+	return false;
+
+} // LandscapeModel::shouldStoreResources
 
 
 /*---------------------------------------------------------------------------*/

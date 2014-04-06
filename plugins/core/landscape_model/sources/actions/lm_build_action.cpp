@@ -274,7 +274,7 @@ BuildAction::startBuild(
 {
 	if ( m_landscapeModel.getLandscape() )
 	{
-		boost::shared_ptr< Object > object = m_landscapeModel.getLandscape()->removeObject( _id );
+		boost::shared_ptr< Object > object = m_landscapeModel.getLandscape()->hideObject( _id );
 
 		if ( object )
 		{
@@ -296,16 +296,16 @@ BuildAction::startBuild(
 
 			buildComponent->getBuildData().m_objectId = objectId;
 
-			Framework::Core::EventManager::Event objectRemovedEvent( Events::ObjectRemoved::ms_type );
-			objectRemovedEvent.pushAttribute( Events::ObjectRemoved::ms_objectUniqueIdAttribute, _id );
+			Framework::Core::EventManager::Event builderHasStartedBuildEvent( Events::BuilderHasStartedBuild::ms_type );
+			builderHasStartedBuildEvent.pushAttribute( Events::BuilderHasStartedBuild::ms_objectUniqueIdAttribute, _id );
 
-			m_environment.riseEvent( objectRemovedEvent );
+			m_environment.riseEvent( builderHasStartedBuildEvent );
 
 			Framework::Core::EventManager::Event objectStartBuildingEvent( Events::ObjectStartBuilding::ms_type );
-			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, _objectName );
-			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, _location );
-			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId );
-			objectStartBuildingEvent.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
+			objectStartBuildingEvent.pushAttribute( Events::ObjectStartBuilding::ms_objectNameAttribute, _objectName );
+			objectStartBuildingEvent.pushAttribute( Events::ObjectStartBuilding::ms_objectLocationAttribute, _location );
+			objectStartBuildingEvent.pushAttribute( Events::ObjectStartBuilding::ms_objectUniqueIdAttribute, objectId );
+			objectStartBuildingEvent.pushAttribute( Events::ObjectStartBuilding::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
 
 			m_environment.riseEvent( objectStartBuildingEvent );
 		}
@@ -350,7 +350,7 @@ BuildAction::stopBuild( const Object::Id& _id )
 				,	builder->getName() ) );
 		builder->setState( ObjectState::Standing );
 
-		m_landscapeModel.getLandscape()->addObject( builder );
+		m_landscapeModel.getLandscape()->showObject( builder );
 
 		Framework::Core::EventManager::Event builderHasFinishedBuildEvent( Events::BuilderHasFinishedBuild::ms_type );
 		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectNameAttribute, builder->getName() );

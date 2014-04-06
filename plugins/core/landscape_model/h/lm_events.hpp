@@ -195,6 +195,14 @@ namespace ObjectStartBuilding
 
 /*---------------------------------------------------------------------------*/
 
+namespace BuilderHasStartedBuild
+{
+	const char* const ms_type = "BuilderHasStartedBuild";
+	const char* const ms_objectUniqueIdAttribute = "ObjectUniqueId";
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace BuilderHasFinishedBuild
 {
 	const char* const ms_type = "BuilderHasFinishedBuild";

@@ -248,7 +248,7 @@ JumpPointSearch::hasFoundPoint(
 
 QPoint
 JumpPointSearch::getNearestFoundPoint(
-		const Tools::Core::Containers::Matrix< int >& matrix
+		const Tools::Core::Containers::Matrix< int >& _matrix
 	,	const IPathFinder::PointsCollection& _targets
 	,	const QPoint& _startPoint ) const
 {
@@ -261,7 +261,7 @@ JumpPointSearch::getNearestFoundPoint(
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( matrix.getConstElement( begin->x(), begin->y() ) >= 0 )
+		if ( _matrix.getConstElement( begin->x(), begin->y() ) >= 0 )
 		{
 			int temp = Geometry::getDistance( _startPoint, *begin );
 
