@@ -14,6 +14,8 @@
 
 #include "landscape_model/sources/utils/lm_geometry.hpp"
 
+#include "landscape_model/sources/actions/lm_ibuilders_holder.hpp"
+
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 #include "landscape_model/ih/components/lm_iplayer_component.hpp"
@@ -86,10 +88,12 @@ private:
 CollectResourceAction::CollectResourceAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
+	,	IBuildersHolder& _buildersHolder
 	,	Object& _object
 	,	boost::shared_ptr< Object > _resourceSource
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
+	,	m_buildersHolder( _buildersHolder )
 	,	m_hiddenObject()
 	,	m_targetObject( _resourceSource )
 	,	m_resourceSource( _resourceSource )
@@ -105,10 +109,12 @@ CollectResourceAction::CollectResourceAction(
 CollectResourceAction::CollectResourceAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
+	,	IBuildersHolder& _buildersHolder
 	,	boost::shared_ptr< Object > _resourceStorage
 	,	Object& _object
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
+	,	m_buildersHolder( _buildersHolder )
 	,	m_hiddenObject()
 	,	m_targetObject( _resourceStorage )
 	,	m_resourceSource()
@@ -175,25 +181,6 @@ CollectResourceAction::processAction()
 
 	// Check objects
 
-	/*if ( !m_resourceSource )
-	{
-		// FIX
-		SourceObjectsFilter filter( "Gold" );
-		ILandscape::ObjectsCollection sourceObjects;
-
-		m_landscapeModel.getLandscape()->fetchObjects( sourceObjects, filter );
-
-		if ( sourceObjects.empty() )
-		{
-			m_isInProcessing = false;
-			return;
-		}
-
-		m_resourceStarage = sourceObjects.front();
-	}
-
-	*/
-
 	boost::intrusive_ptr< ILocateComponent > targetLocateComponent
 		= m_targetObject->getComponent< ILocateComponent >( ComponentId::Locate );
 
@@ -240,8 +227,11 @@ CollectResourceAction::processAction()
 		boost::intrusive_ptr< ILocateComponent > targetLocation
 			= m_targetObject->getComponent< ILocateComponent >( ComponentId::Locate );
 
-		if ( m_resourceSource->getState() == ObjectState::UnderCollecting )
+		if (	m_resourceSource->getState() == ObjectState::UnderCollecting
+			&&	targetResourceSource->getObjectInside() != m_object.getUniqueId() )
+		{
 			return;
+		}
 
 		if ( resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) )
 		{
@@ -257,6 +247,10 @@ CollectResourceAction::processAction()
 
 				m_hiddenObject = m_landscapeModel.getLandscape()->hideObject( m_object.getUniqueId() );
 				m_hiddenObject->setState( ObjectState::Collecting );
+
+				m_buildersHolder.addBuilder( m_hiddenObject );
+
+				targetResourceSource->setObjectInside( m_hiddenObject->getUniqueId() );
 
 				Framework::Core::EventManager::Event holderStartCollecting( Events::HolderHasStartedCollect::ms_type );
 				holderStartCollecting.pushAttribute( Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute, m_object.getUniqueId() );
@@ -276,13 +270,43 @@ CollectResourceAction::processAction()
 
 			if ( !resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) )
 			{
-				// FIX
-				resourceHolderComponent->holdResources().add( targetResourceSource->getStaticData().m_resource, 10 );
-				holderResourcesCountCahnged = true;
+				++m_collectingTicksCounter;
 
-				if ( targetResourceSource->getResourceValue() == 0 )
+				const IResourceHolderComponent::StaticData::ResourceData& resourceData
+					= resourceHolderComponent->getStaticData().getHoldData( targetResourceSource->getStaticData().m_resource );
+
+				if ( m_collectingTicksCounter == resourceData.m_collectTime )
 				{
-					m_isInProcessing = false;
+					m_collectingTicksCounter = 0;
+
+					int resourceSourceValue = targetResourceSource->getResourceValue();
+
+					if ( resourceSourceValue < resourceData.m_maxValue )
+					{
+						resourceHolderComponent->holdResources().add( targetResourceSource->getStaticData().m_resource, resourceSourceValue );
+						resourceSourceValue = 0;
+					}
+					else
+					{
+						resourceHolderComponent->holdResources().add( targetResourceSource->getStaticData().m_resource, resourceData.m_maxValue );
+						resourceSourceValue -= resourceData.m_maxValue;
+					}
+
+					targetResourceSource->setResourceValue( resourceSourceValue );
+
+					Framework::Core::EventManager::Event resourceSourceValueChanged( Events::ResourceSourceValueChanged::ms_type );
+					resourceSourceValueChanged.pushAttribute( Events::ResourceSourceValueChanged::ms_objectUniqueIdAttribute, m_resourceSource->getUniqueId() );
+					resourceSourceValueChanged.pushAttribute( Events::ResourceSourceValueChanged::ms_sourceResourceNameAttribute, targetResourceSource->getStaticData().m_resource );
+					resourceSourceValueChanged.pushAttribute( Events::ResourceSourceValueChanged::ms_sourceResourceValueAttribute, targetResourceSource->getResourceValue() );
+
+					m_environment.riseEvent( resourceSourceValueChanged );
+
+					holderResourcesCountCahnged = true;
+
+					if ( targetResourceSource->getResourceValue() == 0 )
+					{
+						m_isInProcessing = false;
+					}
 				}
 			}
 
@@ -292,6 +316,11 @@ CollectResourceAction::processAction()
 				m_object.setState( ObjectState::Standing );
 
 				m_landscapeModel.getLandscape()->showObject( m_hiddenObject );
+
+				m_buildersHolder.removeBuilder( m_hiddenObject->getUniqueId() );
+
+				targetResourceSource->setObjectInside( Object::ms_wrongId );
+
 				m_hiddenObject.reset();
 
 				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );

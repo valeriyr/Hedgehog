@@ -44,6 +44,12 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ const Object::Id& getObjectInside() const;
+
+	/*virtual*/ void setObjectInside( const Object::Id& _id );
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
@@ -51,6 +57,8 @@ private:
 	const IResourceSourceComponent::StaticData& m_staticData;
 
 	int m_resourceValue;
+
+	Object::Id m_objectInside;
 
 /*---------------------------------------------------------------------------*/
 

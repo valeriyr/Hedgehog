@@ -215,6 +215,17 @@ namespace BuilderHasFinishedBuild
 
 /*---------------------------------------------------------------------------*/
 
+namespace ResourceSourceValueChanged
+{
+	const char* const ms_type = "ResourceSourceValueChanged";
+
+	const char* const ms_objectUniqueIdAttribute = "ObjectUniqueId";
+	const char* const ms_sourceResourceNameAttribute = "SourceResourceNameAttribute";
+	const char* const ms_sourceResourceValueAttribute = "SourceResourceValueAttribute";
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace HolderHasStartedCollect
 {
 	const char* const ms_type = "HolderHasStartedCollect";

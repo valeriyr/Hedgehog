@@ -58,6 +58,15 @@ struct IResourceHolderComponent
 			}
 		}
 
+		const ResourceData& getHoldData( const QString& _resourceName ) const
+		{
+			ResourcesDataCollectionIterator iterator = m_resourcesData.find( _resourceName );
+
+			assert( iterator != m_resourcesData.end() );
+
+			return iterator->second;
+		}
+
 		ResourcesDataCollection m_resourcesData;
 		
 	};

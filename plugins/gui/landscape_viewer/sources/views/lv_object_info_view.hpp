@@ -77,6 +77,8 @@ private:
 
 	void onHolderHasStopCollect( const Framework::Core::EventManager::Event& _event );
 
+	void onResourceSourceValueChanged( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 	void setDescriptionForObject( const Core::LandscapeModel::Object::Id& _objectId );

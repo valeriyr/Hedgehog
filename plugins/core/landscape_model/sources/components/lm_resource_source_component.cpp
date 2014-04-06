@@ -20,6 +20,7 @@ ResourceSourceComponent::ResourceSourceComponent(
 	:	BaseComponent< IResourceSourceComponent >( _object )
 	,	m_staticData( _staticData )
 	,	m_resourceValue( 20000 )
+	,	m_objectInside( Object::ms_wrongId )
 {
 } // ResourceSourceComponent::ResourceSourceComponent
 
@@ -63,6 +64,28 @@ ResourceSourceComponent::setResourceValue( const int _value )
 	m_resourceValue = std::max( 0 , _value );
 
 } // ResourceSourceComponent::setResourceValue
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const Object::Id&
+ResourceSourceComponent::getObjectInside() const
+{
+	return m_objectInside;
+
+} // ResourceSourceComponent::getObjectInside
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ResourceSourceComponent::setObjectInside( const Object::Id& _id )
+{
+	m_objectInside = _id;
+
+} // ResourceSourceComponent::setObjectInside
 
 
 /*---------------------------------------------------------------------------*/

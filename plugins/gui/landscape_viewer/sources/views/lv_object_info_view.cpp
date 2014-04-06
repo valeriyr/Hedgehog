@@ -127,6 +127,10 @@ ObjectInfoView::landscapeWasOpened()
 							,	Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_type
 							,	boost::bind( &ObjectInfoView::onHolderHasStopCollect, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::ResourceSourceValueChanged::ms_type
+							,	boost::bind( &ObjectInfoView::onResourceSourceValueChanged, this, _1 ) );
+
 } // ObjectInfoView::landscapeWasOpened
 
 
@@ -299,6 +303,23 @@ ObjectInfoView::onHolderHasStopCollect( const Framework::Core::EventManager::Eve
 	}
 
 } // ObjectInfoView::onHolderHasStopCollect
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectInfoView::onResourceSourceValueChanged( const Framework::Core::EventManager::Event& _event )
+{
+	const Plugins::Core::LandscapeModel::Object::Id objectId
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ResourceSourceValueChanged::ms_objectUniqueIdAttribute ).toInt();
+
+	if ( m_showingObjectId == objectId )
+	{
+		setDescriptionForObject( objectId );
+	}
+
+} // ObjectInfoView::onResourceSourceValueChanged
 
 
 /*---------------------------------------------------------------------------*/

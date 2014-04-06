@@ -6,6 +6,8 @@
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
 
+#include "landscape_model/h/lm_object.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -38,6 +40,12 @@ struct IResourceSourceComponent
 	virtual const int getResourceValue() const = 0;
 
 	virtual void setResourceValue( const int _value ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual const Object::Id& getObjectInside() const = 0;
+
+	virtual void setObjectInside( const Object::Id& _id ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

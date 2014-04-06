@@ -16,6 +16,10 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct IBuildersHolder;
+
+/*---------------------------------------------------------------------------*/
+
 class CollectResourceAction
 	:	public BaseAction
 {
@@ -29,12 +33,14 @@ public:
 	CollectResourceAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
+		,	IBuildersHolder& _buildersHolder
 		,	Object& _object
 		,	boost::shared_ptr< Object > _resourceSource );
 
 	CollectResourceAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
+		,	IBuildersHolder& _buildersHolder
 		,	boost::shared_ptr< Object > _resourceStorage
 		,	Object& _object );
 
@@ -67,6 +73,8 @@ private:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	IBuildersHolder& m_buildersHolder;
 
 	boost::shared_ptr< Object > m_hiddenObject;
 
