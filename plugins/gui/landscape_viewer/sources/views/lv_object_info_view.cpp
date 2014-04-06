@@ -96,16 +96,36 @@ ObjectInfoView::landscapeWasOpened()
 							,	boost::bind( &ObjectInfoView::onObjectsSelectionChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_type
+							,	boost::bind( &ObjectInfoView::onObjectStateChanged, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_type
 							,	boost::bind( &ObjectInfoView::onObjectMoved, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::ObjectHealthChanged::ms_type
-							,	boost::bind( &ObjectInfoView::onObjectDataChanged, this, _1 ) );
+							,	boost::bind( &ObjectInfoView::onObjectHealthChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::HolderResourceCountChanged::ms_type
 							,	boost::bind( &ObjectInfoView::onHolderResourceCountChanged, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ms_type
+							,	boost::bind( &ObjectInfoView::onBuilderHasStartedBuild, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_type
+							,	boost::bind( &ObjectInfoView::onBuilderHasFinishedBuild, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ms_type
+							,	boost::bind( &ObjectInfoView::onHolderHasStartedCollect, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_type
+							,	boost::bind( &ObjectInfoView::onHolderHasStopCollect, this, _1 ) );
 
 } // ObjectInfoView::landscapeWasOpened
 
@@ -149,6 +169,23 @@ ObjectInfoView::onObjectsSelectionChanged( const Framework::Core::EventManager::
 
 
 void
+ObjectInfoView::onObjectStateChanged( const Framework::Core::EventManager::Event& _event )
+{
+	const Plugins::Core::LandscapeModel::Object::Id objectId
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute ).toInt();
+
+	if ( m_showingObjectId == objectId )
+	{
+		setDescriptionForObject( objectId );
+	}
+
+} // ObjectInfoView::onObjectStateChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 ObjectInfoView::onObjectMoved( const Framework::Core::EventManager::Event& _event )
 {
 	const Plugins::Core::LandscapeModel::Object::Id objectId
@@ -166,7 +203,7 @@ ObjectInfoView::onObjectMoved( const Framework::Core::EventManager::Event& _even
 
 
 void
-ObjectInfoView::onObjectDataChanged( const Framework::Core::EventManager::Event& _event )
+ObjectInfoView::onObjectHealthChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Plugins::Core::LandscapeModel::Object::Id objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectHealthChanged::ms_objectIdAttribute ).toInt();
@@ -176,7 +213,7 @@ ObjectInfoView::onObjectDataChanged( const Framework::Core::EventManager::Event&
 		setDescriptionForObject( objectId );
 	}
 
-} // ObjectInfoView::onObjectDataChanged
+} // ObjectInfoView::onObjectHealthChanged
 
 
 /*---------------------------------------------------------------------------*/
@@ -194,6 +231,74 @@ ObjectInfoView::onHolderResourceCountChanged( const Framework::Core::EventManage
 	}
 
 } // ObjectInfoView::onHolderResourceCountChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectInfoView::onBuilderHasStartedBuild( const Framework::Core::EventManager::Event& _event )
+{
+	const Plugins::Core::LandscapeModel::Object::Id objectId
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ms_objectUniqueIdAttribute ).toInt();
+
+	if ( m_showingObjectId == objectId )
+	{
+		setDescriptionForObject( objectId );
+	}
+
+} // ObjectInfoView::onBuilderHasStartedBuild
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectInfoView::onBuilderHasFinishedBuild( const Framework::Core::EventManager::Event& _event )
+{
+	const Plugins::Core::LandscapeModel::Object::Id objectId
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute ).toInt();
+
+	if ( m_showingObjectId == objectId )
+	{
+		setDescriptionForObject( objectId );
+	}
+
+} // ObjectInfoView::onBuilderHasFinishedBuild
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectInfoView::onHolderHasStartedCollect( const Framework::Core::EventManager::Event& _event )
+{
+	const Plugins::Core::LandscapeModel::Object::Id objectId
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute ).toInt();
+
+	if ( m_showingObjectId == objectId )
+	{
+		setDescriptionForObject( objectId );
+	}
+
+} // ObjectInfoView::onHolderHasStartedCollect
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectInfoView::onHolderHasStopCollect( const Framework::Core::EventManager::Event& _event )
+{
+	const Plugins::Core::LandscapeModel::Object::Id objectId
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectUniqueIdAttribute ).toInt();
+
+	if ( m_showingObjectId == objectId )
+	{
+		setDescriptionForObject( objectId );
+	}
+
+} // ObjectInfoView::onHolderHasStopCollect
 
 
 /*---------------------------------------------------------------------------*/
@@ -288,6 +393,7 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 				QString( Resources::Views::ObjectInfoFormat )
 					.arg( object->getName() )
 					.arg( object->getUniqueId() )
+					.arg( Core::LandscapeModel::ObjectState::toString( object->getState() ) )
 					.arg( playerComponent ? QString::number( playerComponent->getPlayerId() ) : Resources::Views::NoneString )
 					.arg( healthComponent ? QString::number( healthComponent->getHealth() ) : Resources::Views::NoneString )
 					.arg( healthComponent ? QString::number( healthComponent->getStaticData().m_maximumHealth ) : Resources::Views::NoneString )

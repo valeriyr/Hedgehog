@@ -193,6 +193,7 @@ RepairAction::processAction()
 				{
 					boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getPlayerId() );
 
+					// TODO: CRASH while repairing wrong building
 					ResourcesData repairCostData 
 						= buildComponent->getStaticData().m_buildDatas.find( repairComponent->getTargetObject()->getName() )
 							->second->m_resourcesData.getResourceDataPart( repairComponent->getStaticData().m_costPercent ).getResourceDataPart( repairHealthPercent );

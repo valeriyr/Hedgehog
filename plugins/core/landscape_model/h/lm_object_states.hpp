@@ -25,6 +25,37 @@ struct ObjectState
 		,	UnderConstruction
 		,	UnderCollecting
 	};
+
+	static QString toString( const Enum _state )
+	{
+		switch( _state )
+		{
+		case Standing:
+			return "Standing";
+		case Moving:
+			return "Moving";
+		case Attacking:
+			return "Attacking";
+		case Training:
+			return "Training";
+		case Building:
+			return "Building";
+		case Repairing:
+			return "Repairing";
+		case Collecting:
+			return "Collecting";
+		case Dying:
+			return "Dying";
+		case UnderConstruction:
+			return "UnderConstruction";
+		case UnderCollecting:
+			return "UnderCollecting";
+		}
+
+		assert( !"Unsupported state!" );
+
+		return QString();
+	}
 };
 
 /*---------------------------------------------------------------------------*/

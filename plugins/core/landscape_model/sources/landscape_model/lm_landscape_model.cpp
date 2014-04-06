@@ -194,13 +194,13 @@ LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _flush )
 					&&	targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource ) )
 				{
 					actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, **begin, targetObject, boost::shared_ptr< Object >() ) )
+							boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, **begin, targetObject ) )
 						,	_flush );
 				}
 				else if ( shouldStoreResources( *begin, targetObject ) )
 				{
 					actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, **begin, boost::shared_ptr< Object >(), targetObject ) )
+							boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, targetObject, **begin ) )
 						,	_flush );
 				}
 				else if ( repairComponent && targetHealthComponent && !targetHealthComponent->isHealthy() )

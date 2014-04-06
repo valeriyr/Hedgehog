@@ -61,11 +61,21 @@ private:
 
 	void onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event );
 
+	void onObjectStateChanged( const Framework::Core::EventManager::Event& _event );
+
 	void onObjectMoved( const Framework::Core::EventManager::Event& _event );
 
-	void onObjectDataChanged( const Framework::Core::EventManager::Event& _event );
+	void onObjectHealthChanged( const Framework::Core::EventManager::Event& _event );
 
 	void onHolderResourceCountChanged( const Framework::Core::EventManager::Event& _event );
+
+	void onBuilderHasStartedBuild( const Framework::Core::EventManager::Event& _event );
+
+	void onBuilderHasFinishedBuild( const Framework::Core::EventManager::Event& _event );
+
+	void onHolderHasStartedCollect( const Framework::Core::EventManager::Event& _event );
+
+	void onHolderHasStopCollect( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/
 

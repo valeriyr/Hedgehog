@@ -105,27 +105,29 @@ namespace Views {
 			"		<div>																	"	\
 			"			<b>Unique Id:</b> %2												"	\
 			"			<br>																"	\
-			"			<b>Player Id:</b> %3												"	\
+			"			<b>State:</b> %3													"	\
 			"			<br>																"	\
-			"			<b>Health:</b> %4 / %5												"	\
+			"			<b>Player Id:</b> %4												"	\
 			"			<br>																"	\
-			"			<b>Moving speed:</b> %6												"	\
+			"			<b>Health:</b> %5 / %6												"	\
 			"			<br>																"	\
-			"			<b>Position:</b> ( %7, %8 )											"	\
+			"			<b>Moving speed:</b> %7												"	\
 			"			<br>																"	\
-			"			<b>Size:</b> ( %9, %10 )											"	\
+			"			<b>Position:</b> ( %8, %9 )											"	\
 			"			<br>																"	\
-			"			<b>Emplacement:</b> %11												"	\
+			"			<b>Size:</b> ( %10, %11 )											"	\
 			"			<br>																"	\
-			"			<b>Damage:</b> %12													"	\
+			"			<b>Emplacement:</b> %12												"	\
 			"			<br>																"	\
-			"			<b>Attack distance:</b> %13											"	\
+			"			<b>Damage:</b> %13													"	\
 			"			<br>																"	\
-			"			<b>Resource inside:</b> %14											"	\
+			"			<b>Attack distance:</b> %14											"	\
 			"			<br>																"	\
-			"			<b>Resources hold:</b> %15											"	\
+			"			<b>Resource inside:</b> %15											"	\
 			"			<br>																"	\
-			"			<b>Can store resources:</b> %16										"	\
+			"			<b>Resources hold:</b> %16											"	\
+			"			<br>																"	\
+			"			<b>Can store resources:</b> %17										"	\
 			"		</div>																	"	\
 			"	</body>																		"	\
 			"</html>																		";

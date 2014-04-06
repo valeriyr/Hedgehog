@@ -30,8 +30,13 @@ public:
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
 		,	Object& _object
-		,	boost::shared_ptr< Object > _resourceSource
-		,	boost::shared_ptr< Object > _resourceStorage );
+		,	boost::shared_ptr< Object > _resourceSource );
+
+	CollectResourceAction(
+			const IEnvironment& _environment
+		,	ILandscapeModel& _landscapeModel
+		,	boost::shared_ptr< Object > _resourceStorage
+		,	Object& _object );
 
 	virtual ~CollectResourceAction();
 
@@ -55,7 +60,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	bool shoulGoToSource() const;
+	bool ensureStorage();
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,6 +69,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	boost::shared_ptr< Object > m_hiddenObject;
+
+	boost::shared_ptr< Object > m_targetObject;
 
 	boost::shared_ptr< Object > m_resourceSource;
 
