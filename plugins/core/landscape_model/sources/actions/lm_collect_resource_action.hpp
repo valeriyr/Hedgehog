@@ -55,13 +55,15 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< Object > getTargetObject() const;
+	bool shoulGoToSource() const;
 
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	boost::shared_ptr< Object > m_hiddenObject;
 
 	boost::shared_ptr< Object > m_resourceSource;
 

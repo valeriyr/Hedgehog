@@ -164,6 +164,10 @@ private:
 
 	void onBuilderHasFinishedBuild( const Framework::Core::EventManager::Event& _event );
 
+	void onHolderHasStartedCollect( const Framework::Core::EventManager::Event& _event );
+
+	void onHolderHasStopCollect( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 	void generateLandscape();

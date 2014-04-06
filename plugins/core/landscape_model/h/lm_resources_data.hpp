@@ -74,6 +74,9 @@ struct ResourcesData
 				continue;
 
 			iterator->second -= begin->second;
+
+			if ( iterator->second < 0 )
+				iterator->second = 0;
 		}
 	}
 
@@ -91,6 +94,27 @@ struct ResourcesData
 				continue;
 
 			iterator->second += begin->second;
+		}
+	}
+
+	void add( const QString& _resourceName, const int _value )
+	{
+		ResourcesDataCollectionIterator iterator = m_data.find( _resourceName );
+
+		if ( iterator != m_data.end() )
+			iterator->second += _value;
+	}
+
+	void substruct( const QString& _resourceName, const int _value )
+	{
+		ResourcesDataCollectionIterator iterator = m_data.find( _resourceName );
+
+		if ( iterator != m_data.end() )
+		{
+			iterator->second -= _value;
+
+			if ( iterator->second < 0 )
+				iterator->second = 0;
 		}
 	}
 

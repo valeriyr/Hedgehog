@@ -243,6 +243,14 @@ LandscapeScene::landscapeWasOpened()
 							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_type
 							,	boost::bind( &LandscapeScene::onBuilderHasFinishedBuild, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ms_type
+							,	boost::bind( &LandscapeScene::onHolderHasStartedCollect, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_type
+							,	boost::bind( &LandscapeScene::onHolderHasStopCollect, this, _1 ) );
+
 } // LandscapeScene::landscapeWasOpened
 
 
@@ -623,12 +631,12 @@ LandscapeScene::onBuilderHasStartedBuild( const Framework::Core::EventManager::E
 void
 LandscapeScene::onBuilderHasFinishedBuild( const Framework::Core::EventManager::Event& _event )
 {
-	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectNameAttribute ).toString();
-	const QPoint objectLocation = _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectLocationAttribute ).toPoint();
+	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectNameAttribute ).toString();
+	const QPoint objectLocation = _event.getAttribute( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectLocationAttribute ).toPoint();
 	const Plugins::Core::LandscapeModel::Object::Id id
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectUniqueIdAttribute ).toInt();
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute ).toInt();
 	const Core::LandscapeModel::Emplacement::Enum emplacement
-		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectEmplacementAttribute ).toInt() );
+		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectEmplacementAttribute ).toInt() );
 
 	playAnimationOnce(
 			*addObject( objectName, objectLocation, id, emplacement )
@@ -638,6 +646,43 @@ LandscapeScene::onBuilderHasFinishedBuild( const Framework::Core::EventManager::
 		,	Core::LandscapeModel::Direction::South );
 
 } // LandscapeScene::onBuilderHasFinishedBuild
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onHolderHasStartedCollect( const Framework::Core::EventManager::Event& _event )
+{
+	const Plugins::Core::LandscapeModel::Object::Id id
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute ).toInt();
+
+	removeObject( id );
+
+} // LandscapeScene::onHolderHasStartedCollect
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeScene::onHolderHasStopCollect( const Framework::Core::EventManager::Event& _event )
+{
+	const QString objectName = _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectNameAttribute ).toString();
+	const QPoint objectLocation = _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectLocationAttribute ).toPoint();
+	const Plugins::Core::LandscapeModel::Object::Id id
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectUniqueIdAttribute ).toInt();
+	const Core::LandscapeModel::Emplacement::Enum emplacement
+		= static_cast< Core::LandscapeModel::Emplacement::Enum >( _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectEmplacementAttribute ).toInt() );
+
+	playAnimationOnce(
+			*addObject( objectName, objectLocation, id, emplacement )
+		,	m_environment.getString( Resources::Properties::SkinId )
+		,	objectName
+		,	Core::LandscapeModel::ObjectState::Standing
+		,	Core::LandscapeModel::Direction::South );
+
+} // LandscapeScene::onHolderHasStopCollect
 
 
 /*---------------------------------------------------------------------------*/

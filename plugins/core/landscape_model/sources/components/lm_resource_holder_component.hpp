@@ -40,6 +40,8 @@ public:
 
 	/*virtual*/ ResourcesData& holdResources();
 
+	/*virtual*/ bool isFull( const QString& _resourceName ) const;
+
 /*---------------------------------------------------------------------------*/
 
 private:

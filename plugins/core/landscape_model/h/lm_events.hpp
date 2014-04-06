@@ -215,6 +215,26 @@ namespace BuilderHasFinishedBuild
 
 /*---------------------------------------------------------------------------*/
 
+namespace HolderHasStartedCollect
+{
+	const char* const ms_type = "HolderHasStartedCollect";
+	const char* const ms_objectUniqueIdAttribute = "ObjectUniqueId";
+}
+
+/*---------------------------------------------------------------------------*/
+
+namespace HolderHasStopCollect
+{
+	const char* const ms_type = "HolderHasStopCollect";
+
+	const char* const ms_objectNameAttribute = "ObjectName";
+	const char* const ms_objectLocationAttribute = "ObjectLocation";
+	const char* const ms_objectUniqueIdAttribute = "ObjectUniqueId";
+	const char* const ms_objectEmplacementAttribute = "ObjectEmplacement";
+}
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Events
 } // namespace LandscapeModel
 } // namespace Core

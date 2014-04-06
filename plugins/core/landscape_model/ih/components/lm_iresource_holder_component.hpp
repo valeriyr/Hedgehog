@@ -70,6 +70,8 @@ struct IResourceHolderComponent
 
 	virtual ResourcesData& holdResources() = 0;
 
+	virtual bool isFull( const QString& _resourceName ) const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };

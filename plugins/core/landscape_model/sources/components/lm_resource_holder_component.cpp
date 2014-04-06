@@ -63,6 +63,22 @@ ResourceHolderComponent::holdResources()
 
 /*---------------------------------------------------------------------------*/
 
+
+bool
+ResourceHolderComponent::isFull( const QString& _resourceName ) const
+{
+	IResourceHolderComponent::StaticData::ResourcesDataCollectionIterator
+		iterator = m_staticData.m_resourcesData.find( _resourceName );
+
+	assert( m_resourcesValue.getResourceValue( _resourceName ) <= iterator->second.m_maxValue );
+
+	return m_resourcesValue.getResourceValue( _resourceName ) == iterator->second.m_maxValue;
+
+} // ResourceHolderComponent::isFull
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins
