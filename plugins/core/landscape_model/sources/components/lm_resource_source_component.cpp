@@ -19,7 +19,7 @@ ResourceSourceComponent::ResourceSourceComponent(
 	)
 	:	BaseComponent< IResourceSourceComponent >( _object )
 	,	m_staticData( _staticData )
-	,	m_resourceValue( 20000 )
+	,	m_resourceValue( 200 )
 	,	m_objectInside( Object::ms_wrongId )
 {
 } // ResourceSourceComponent::ResourceSourceComponent

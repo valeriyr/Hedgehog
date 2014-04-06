@@ -241,6 +241,12 @@ CollectResourceAction::processAction()
 
 		if ( m_targetObject == m_resourceSource )
 		{
+			if ( targetResourceSource->getResourceValue() == 0 )
+			{
+				m_isInProcessing = false;
+				return;
+			}
+
 			if ( !locateComponent->isHidden() /* add checking should be hidden or not */ )
 			{
 				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
@@ -302,11 +308,6 @@ CollectResourceAction::processAction()
 					m_environment.riseEvent( resourceSourceValueChanged );
 
 					holderResourcesCountCahnged = true;
-
-					if ( targetResourceSource->getResourceValue() == 0 )
-					{
-						m_isInProcessing = false;
-					}
 				}
 			}
 
