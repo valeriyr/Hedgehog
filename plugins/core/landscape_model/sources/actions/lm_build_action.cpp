@@ -15,7 +15,7 @@
 #include "landscape_model/ih/components/lm_ihealth_component.hpp"
 #include "landscape_model/ih/components/lm_iplayer_component.hpp"
 
-#include "landscape_model/sources/actions/lm_ibuilders_holder.hpp"
+#include "landscape_model/sources/actions/lm_iworkers_holder.hpp"
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 
 #include "landscape_model/sources/utils/lm_geometry.hpp"
@@ -37,14 +37,14 @@ namespace LandscapeModel {
 BuildAction::BuildAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	IBuildersHolder& _buildersHolder
+	,	IWorkersHolder& _workersHolder
 	,	const IStaticData& _staticData
 	,	Object& _object
 	,	const QString& _objectName
 	,	const QPoint& _atLocation
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
-	,	m_buildersHolder( _buildersHolder )
+	,	m_workersHolder( _workersHolder )
 	,	m_staticData( _staticData )
 	,	m_objectName( _objectName )
 	,	m_atRect( _atLocation, _staticData.getObjectStaticData( _objectName ).m_locateData->m_size )
@@ -280,7 +280,7 @@ BuildAction::startBuild(
 		{
 			object->setState( ObjectState::Building );
 
-			m_buildersHolder.addBuilder( object );
+			m_workersHolder.addWorker( object );
 
 			const Object::Id objectId
 				= m_landscapeModel.getLandscape()->createObjectForBuilding(
@@ -322,7 +322,7 @@ BuildAction::stopBuild( const Object::Id& _id )
 {
 	if ( m_landscapeModel.getLandscape() )
 	{
-		boost::shared_ptr< Object > builder = m_buildersHolder.getBuilder( _id );
+		boost::shared_ptr< Object > builder = m_workersHolder.getWorker( _id );
 		assert( builder );
 
 		boost::intrusive_ptr< ILocateComponent >
@@ -360,7 +360,7 @@ BuildAction::stopBuild( const Object::Id& _id )
 
 		m_environment.riseEvent( builderHasFinishedBuildEvent );
 
-		m_buildersHolder.removeBuilder( _id );
+		m_workersHolder.removeWorker( _id );
 	}
 
 } // BuildAction::stopBuild

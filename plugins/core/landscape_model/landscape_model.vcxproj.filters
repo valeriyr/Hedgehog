@@ -377,9 +377,6 @@
     <ClInclude Include="sources\model_locker\lm_model_locker.hpp">
       <Filter>Model Locker</Filter>
     </ClInclude>
-    <ClInclude Include="sources\actions\lm_ibuilders_holder.hpp">
-      <Filter>Actions</Filter>
-    </ClInclude>
     <ClInclude Include="sources\components\lm_resource_holder_component.hpp">
       <Filter>Components</Filter>
     </ClInclude>
@@ -423,6 +420,9 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="sources\actions\lm_collect_resource_action.hpp">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\actions\lm_iworkers_holder.hpp">
       <Filter>Actions</Filter>
     </ClInclude>
   </ItemGroup>

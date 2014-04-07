@@ -14,7 +14,7 @@
 
 #include "landscape_model/sources/utils/lm_geometry.hpp"
 
-#include "landscape_model/sources/actions/lm_ibuilders_holder.hpp"
+#include "landscape_model/sources/actions/lm_iworkers_holder.hpp"
 
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
@@ -88,12 +88,12 @@ private:
 CollectResourceAction::CollectResourceAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	IBuildersHolder& _buildersHolder
+	,	IWorkersHolder& _workersHolder
 	,	Object& _object
 	,	boost::shared_ptr< Object > _resourceSource
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
-	,	m_buildersHolder( _buildersHolder )
+	,	m_workersHolder( _workersHolder )
 	,	m_hiddenObject()
 	,	m_targetObject( _resourceSource )
 	,	m_resourceSource( _resourceSource )
@@ -109,12 +109,12 @@ CollectResourceAction::CollectResourceAction(
 CollectResourceAction::CollectResourceAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	IBuildersHolder& _buildersHolder
+	,	IWorkersHolder& _workersHolder
 	,	boost::shared_ptr< Object > _resourceStorage
 	,	Object& _object
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
-	,	m_buildersHolder( _buildersHolder )
+	,	m_workersHolder( _workersHolder )
 	,	m_hiddenObject()
 	,	m_targetObject( _resourceStorage )
 	,	m_resourceSource()
@@ -243,6 +243,7 @@ CollectResourceAction::processAction()
 		{
 			if ( targetResourceSource->getResourceValue() == 0 )
 			{
+				// TODO: find nearest source
 				m_isInProcessing = false;
 				return;
 			}
@@ -254,7 +255,7 @@ CollectResourceAction::processAction()
 				m_hiddenObject = m_landscapeModel.getLandscape()->hideObject( m_object.getUniqueId() );
 				m_hiddenObject->setState( ObjectState::Collecting );
 
-				m_buildersHolder.addBuilder( m_hiddenObject );
+				m_workersHolder.addWorker( m_hiddenObject );
 
 				targetResourceSource->setObjectInside( m_hiddenObject->getUniqueId() );
 
@@ -318,7 +319,7 @@ CollectResourceAction::processAction()
 
 				m_landscapeModel.getLandscape()->showObject( m_hiddenObject );
 
-				m_buildersHolder.removeBuilder( m_hiddenObject->getUniqueId() );
+				m_workersHolder.removeWorker( m_hiddenObject->getUniqueId() );
 
 				targetResourceSource->setObjectInside( Object::ms_wrongId );
 
@@ -426,8 +427,7 @@ CollectResourceAction::ensureStorage()
 		}
 		else
 		{
-			// FIX
-			m_resourceStarage = storageObjects.front();
+			m_resourceStarage = JumpPointSearch::nearestObject( *m_landscapeModel.getLandscape(), m_object, storageObjects, Geometry::DiagonalDistance );
 		}
 	}
 

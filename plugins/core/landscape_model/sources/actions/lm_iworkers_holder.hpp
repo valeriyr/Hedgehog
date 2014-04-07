@@ -1,6 +1,6 @@
 
-#ifndef __LM_IBUILDERS_HOLDER_HPP__
-#define __LM_IBUILDERS_HOLDER_HPP__
+#ifndef __LM_IWORKERS_HOLDER_HPP__
+#define __LM_IWORKERS_HOLDER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,16 +14,16 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IBuildersHolder
+struct IWorkersHolder
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::shared_ptr< Object > getBuilder( const Object::Id& _id ) const = 0;
+	virtual boost::shared_ptr< Object > getWorker( const Object::Id& _id ) const = 0;
 
-	virtual void removeBuilder( const Object::Id& _id ) = 0;
+	virtual void removeWorker( const Object::Id& _id ) = 0;
 
-	virtual void addBuilder( boost::shared_ptr< Object > _builder ) = 0;
+	virtual void addWorker( boost::shared_ptr< Object > _worker ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,4 +37,4 @@ struct IBuildersHolder
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_IBUILDERS_HOLDER_HPP__
+#endif // __LM_IWORKERS_HOLDER_HPP__

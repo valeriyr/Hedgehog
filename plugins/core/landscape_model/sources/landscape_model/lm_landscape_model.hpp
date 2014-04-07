@@ -7,7 +7,7 @@
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
 #include "landscape_model/sources/landscape/lm_iobjects_creator.hpp"
-#include "landscape_model/sources/actions/lm_ibuilders_holder.hpp"
+#include "landscape_model/sources/actions/lm_iworkers_holder.hpp"
 
 #include "landscape_model/h/lm_constants.hpp"
 
@@ -35,7 +35,7 @@ struct IPathFinder;
 class LandscapeModel
 	:	public Tools::Core::BaseWrapper< ILandscapeModel >
 	,	private IObjectCreator
-	,	private IBuildersHolder
+	,	private IWorkersHolder
 {
 
 /*---------------------------------------------------------------------------*/
@@ -111,11 +111,11 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::shared_ptr< Object > getBuilder( const Object::Id& _id ) const;
+	/*virtual*/ boost::shared_ptr< Object > getWorker( const Object::Id& _id ) const;
 
-	/*virtual*/ void removeBuilder( const Object::Id& _id );
+	/*virtual*/ void removeWorker( const Object::Id& _id );
 
-	/*virtual*/ void addBuilder( boost::shared_ptr< Object > _builder );
+	/*virtual*/ void addWorker( boost::shared_ptr< Object > _worker );
 
 /*---------------------------------------------------------------------------*/
 
@@ -143,10 +143,10 @@ private:
 
 	typedef
 		std::map< Object::Id, boost::shared_ptr< Object > >
-		BuildersCollection;
+		WorkersCollection;
 	typedef
-		BuildersCollection::const_iterator
-		BuildersCollectionIterator;
+		WorkersCollection::const_iterator
+		WorkersCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -172,7 +172,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	BuildersCollection m_builders;
+	WorkersCollection m_workers;
 
 /*---------------------------------------------------------------------------*/
 

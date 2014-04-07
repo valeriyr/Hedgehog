@@ -157,11 +157,70 @@ JumpPointSearch::pathToObject(	PointsCollection& _path
 							 ,	const Object& _targetObject
 							 ,	const int _distance )
 {
+	IPathFinder::PointsCollection targetPoints;
+
+	fillTargetPoints( _targetObject, _landscape, _distance, targetPoints );
+
+	JumpPointSearch().findPath( _path, _landscape, _forObject, targetPoints );
+
+} // JumpPointSearch::pathToObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::shared_ptr< Object >
+JumpPointSearch::nearestObject(		const ILandscape& _landscape
+								,	const Object& _forObject
+								,	const ILandscape::ObjectsCollection& _targetObjects
+								,	const int _distance )
+{
+	IPathFinder::PointsCollection targetPoints;
+
+	ILandscape::ObjectsCollectionConstIterator
+			begin = _targetObjects.begin()
+		,	end = _targetObjects.end();
+
+	for ( ; begin != end; ++begin )
+		fillTargetPoints( **begin, _landscape, _distance, targetPoints );
+
+	PointsCollection path;
+	JumpPointSearch().findPath( path, _landscape, _forObject, targetPoints );
+
+	if ( path.empty() )
+		return boost::shared_ptr< Object >();
+
+	begin = _targetObjects.begin();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( Geometry::checkDistance(
+					path.back()
+				,	( *begin )->getComponent< ILocateComponent >( ComponentId::Locate )->getRect()
+				,	_distance ) )
+		{
+			return *begin;
+		}
+	}
+
+	return boost::shared_ptr< Object >();
+
+} // JumpPointSearch::nearestObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+JumpPointSearch::fillTargetPoints(	const Object& _targetObject
+								,	const ILandscape& _landscape
+								,	const int _distance
+								,	IPathFinder::PointsCollection& _targets )
+{
 	boost::intrusive_ptr< ILocateComponent > targetLocateComponent
 		= _targetObject.getComponent< ILocateComponent >( ComponentId::Locate );
 
 	QRect targetRect = targetLocateComponent->getRect();
-	IPathFinder::PointsCollection targetPoints;
 
 	int distance = _distance / Geometry::NeighborDistance;
 
@@ -171,13 +230,11 @@ JumpPointSearch::pathToObject(	PointsCollection& _path
 		{
 			QPoint location( x, y );
 			if ( _landscape.isLocationInLandscape( location ) && Geometry::checkDistance( location, targetRect, _distance ) )
-				targetPoints.push_back( location );
+				_targets.push_back( location );
 		}
 	}
 
-	JumpPointSearch().findPath( _path, _landscape, _forObject, targetPoints );
-
-} // JumpPointSearch::pathToObject
+} // JumpPointSearch::fillTargetPoints
 
 
 /*---------------------------------------------------------------------------*/

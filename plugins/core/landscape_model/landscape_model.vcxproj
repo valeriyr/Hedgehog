@@ -104,7 +104,7 @@
     <ClInclude Include="sources\actions\lm_build_action.hpp" />
     <ClInclude Include="sources\actions\lm_collect_resource_action.hpp" />
     <ClInclude Include="sources\actions\lm_generate_resources_action.hpp" />
-    <ClInclude Include="sources\actions\lm_ibuilders_holder.hpp" />
+    <ClInclude Include="sources\actions\lm_iworkers_holder.hpp" />
     <ClInclude Include="sources\actions\lm_move_action.hpp" />
     <ClInclude Include="sources\actions\lm_repair_action.hpp" />
     <ClInclude Include="sources\actions\lm_train_action.hpp" />

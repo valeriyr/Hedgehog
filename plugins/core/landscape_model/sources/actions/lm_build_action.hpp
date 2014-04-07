@@ -16,7 +16,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IBuildersHolder;
+struct IWorkersHolder;
 struct IStaticData;
 
 /*---------------------------------------------------------------------------*/
@@ -34,7 +34,7 @@ public:
 	BuildAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
-		,	IBuildersHolder& _buildersHolder
+		,	IWorkersHolder& _workersHolder
 		,	const IStaticData& _staticData
 		,	Object& _object
 		,	const QString& _objectName
@@ -75,7 +75,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	IBuildersHolder& m_buildersHolder;
+	IWorkersHolder& m_workersHolder;
 
 	const IStaticData& m_staticData;
 

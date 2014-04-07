@@ -6,6 +6,8 @@
 
 #include "landscape_model/sources/path_finders/lm_ipath_finder.hpp"
 
+#include "landscape_model/ih/lm_ilandscape.hpp"
+
 #include "containers/cn_matrix.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -45,6 +47,12 @@ public:
 							 ,	const Object& _targetObject
 							 ,	const int _distance );
 
+	static boost::shared_ptr< Object >
+		nearestObject(	const ILandscape& _landscape
+					,	const Object& _forObject
+					,	const ILandscape::ObjectsCollection& _targetObjects
+					,	const int _distance );
+
 	static void pathToPoint(	PointsCollection& _path
 							 ,	const ILandscape& _landscape
 							 ,	const Object& _forObject
@@ -53,6 +61,14 @@ public:
 /*---------------------------------------------------------------------------*/
 
 private:
+
+/*---------------------------------------------------------------------------*/
+
+	static void fillTargetPoints(
+			const Object& _targetObject
+		,	const ILandscape& _landscape
+		,	const int _distance
+		,	IPathFinder::PointsCollection& _targets );
 
 /*---------------------------------------------------------------------------*/
 

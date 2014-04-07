@@ -1158,6 +1158,8 @@ LandscapeScene::removeObject( const Plugins::Core::LandscapeModel::Object::Id _i
 		delete iterator->second;
 
 		m_objectsCollection.erase( _id );
+
+		regenerateTerrainMapLayer();
 	}
 
 } // LandscapeScene::removeObject

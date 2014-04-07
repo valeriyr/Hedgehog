@@ -68,7 +68,7 @@ LandscapeModel::LandscapeModel(
 	,	m_player()
 	,	m_mutex( QMutex::Recursive )
 	,	m_ticksCounter( 0 )
-	,	m_builders()
+	,	m_workers()
 {
 	m_environment.startThread( Resources::ModelThreadName );
 
@@ -517,38 +517,38 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 
 
 boost::shared_ptr< Object >
-LandscapeModel::getBuilder( const Object::Id& _id ) const
+LandscapeModel::getWorker( const Object::Id& _id ) const
 {
-	BuildersCollectionIterator iterator = m_builders.find( _id );
+	WorkersCollectionIterator iterator = m_workers.find( _id );
 
-	return		iterator != m_builders.end()
+	return		iterator != m_workers.end()
 			?	iterator->second
 			:	boost::shared_ptr< Object >();
 
-} // LandscapeModel::getBuilder
+} // LandscapeModel::getWorker
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-LandscapeModel::removeBuilder( const Object::Id& _id )
+LandscapeModel::removeWorker( const Object::Id& _id )
 {
-	m_builders.erase( _id );
+	m_workers.erase( _id );
 
-} // LandscapeModel::removeBuilder
+} // LandscapeModel::removeWorker
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-LandscapeModel::addBuilder( boost::shared_ptr< Object > _builder )
+LandscapeModel::addWorker( boost::shared_ptr< Object > _worker )
 {
-	assert( m_builders.find( _builder->getUniqueId() ) == m_builders.end() );
-	m_builders.insert( std::make_pair( _builder->getUniqueId(), _builder ) );
+	assert( m_workers.find( _worker->getUniqueId() ) == m_workers.end() );
+	m_workers.insert( std::make_pair( _worker->getUniqueId(), _worker ) );
 
-} // LandscapeModel::addBuilder
+} // LandscapeModel::addWorker
 
 
 /*---------------------------------------------------------------------------*/
@@ -595,11 +595,14 @@ LandscapeModel::gameMainLoop()
 			}
 		}
 
-		// Process builders
+		// Process workers
 
-		BuildersCollectionIterator
-				begin = m_builders.begin()
-			,	end = m_builders.end();
+		// TODO: workers can be removed during processing
+		WorkersCollection workers = m_workers;
+
+		WorkersCollectionIterator
+				begin = workers.begin()
+			,	end = workers.end();
 
 		for ( ; begin != end; ++begin )
 			begin->second->getComponent< IActionsComponent >( ComponentId::Actions )->processAction();
