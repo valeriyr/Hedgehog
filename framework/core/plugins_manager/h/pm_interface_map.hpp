@@ -44,7 +44,7 @@ PLUGIN_INSTANCE::getInterface( const unsigned int _interfaceId )						\
 #define END_INTERFACE_MAP()																\
 																						\
 		default:																		\
-			return NULL;																\
+			return boost::intrusive_ptr< Tools::Core::IBase >();						\
 	}																					\
 }																						\
 
