@@ -87,6 +87,8 @@ namespace Views {
 
 	extern const char* const PlayerResourceInfoFormat;
 
+	extern const char* const TickInfoTextFormat;
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Views

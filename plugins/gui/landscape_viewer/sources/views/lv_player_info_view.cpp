@@ -27,6 +27,8 @@ PlayerInfoView::PlayerInfoView( const IEnvironment& _environment )
 	:	m_environment( _environment )
 	,	m_subscriber( _environment.createSubscriber() )
 	,	m_viewTitle( Resources::Views::PlayerInfoViewTitle )
+	,	m_playersInfo()
+	,	m_tickInfo()
 	,	m_mainWidget( new QTextEdit() )
 {
 	m_mainWidget->setReadOnly( true );
@@ -84,10 +86,16 @@ PlayerInfoView::viewWasClosed()
 void
 PlayerInfoView::landscapeWasOpened()
 {
-	updatePlayerInfo();
+	updatePlayersInfo();
+	setInfoText();
+
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::ResourceValueChanged::ms_type
 							,	boost::bind( &PlayerInfoView::onResourceValueChanged, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::CurrentTickNumberChanged::ms_type
+							,	boost::bind( &PlayerInfoView::onCurrentTickNumberChanged, this, _1 ) );
 
 } // PlayerInfoView::landscapeWasOpened
 
@@ -99,6 +107,10 @@ void
 PlayerInfoView::landscapeWasClosed()
 {
 	m_subscriber.unsubscribe();
+
+	m_playersInfo.clear();
+	m_tickInfo.clear();
+
 	setDefaultText();
 
 } // PlayerInfoView::landscapeWasClosed
@@ -110,9 +122,24 @@ PlayerInfoView::landscapeWasClosed()
 void
 PlayerInfoView::onResourceValueChanged( const Framework::Core::EventManager::Event& _event )
 {
-	updatePlayerInfo();
+	updatePlayersInfo();
+	setInfoText();
 
 } // PlayerInfoView::onResourceValueChanged
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PlayerInfoView::onCurrentTickNumberChanged( const Framework::Core::EventManager::Event& _event )
+{
+	const Plugins::Core::LandscapeModel::TickType tickNumber
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::CurrentTickNumberChanged::ms_tickNumberAttribute ).toUInt();
+
+	updateTickInfo( tickNumber );
+	setInfoText();
+
+} // PlayerInfoView::onCurrentTickNumberChanged
 
 
 /*---------------------------------------------------------------------------*/
@@ -130,7 +157,18 @@ PlayerInfoView::setDefaultText()
 
 
 void
-PlayerInfoView::updatePlayerInfo()
+PlayerInfoView::setInfoText()
+{
+	m_mainWidget->setHtml( QString( Resources::Views::PlayersInfoTextFormat ).arg( m_playersInfo ).arg( m_tickInfo ) );
+
+} // PlayerInfoView::setInfoText
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PlayerInfoView::updatePlayersInfo()
 {
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
@@ -154,12 +192,22 @@ PlayerInfoView::updatePlayerInfo()
 			resourcesInfo += QString( Resources::Views::PlayerResourceInfoFormat ).arg( it->first ).arg( it->second );
 		}
 
-		m_mainWidget->setHtml(
-			QString( Resources::Views::PlayersInfoTextFormat )
-				.arg( QString( Resources::Views::PlayerInfoTextFormat ).arg( player->getUniqueId() ).arg( player->getRace() ).arg( resourcesInfo ) ) );
+		m_playersInfo
+			= QString( Resources::Views::PlayerInfoTextFormat ).arg( player->getUniqueId() ).arg( player->getRace() ).arg( resourcesInfo );
 	}
 
-} // PlayerInfoView::updatePlayerInfo
+} // PlayerInfoView::updatePlayersInfo
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+PlayerInfoView::updateTickInfo( const Plugins::Core::LandscapeModel::TickType& _tick )
+{
+	m_tickInfo = QString( Resources::Views::TickInfoTextFormat ).arg( _tick );
+
+} // PlayerInfoView::updateTickInfo
 
 
 /*---------------------------------------------------------------------------*/

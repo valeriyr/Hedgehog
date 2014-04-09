@@ -155,13 +155,15 @@ namespace Views {
 	const char* const PlayersInfoTextFormat
 		=	"<html>																			"	\
 			"	<head></head>																"	\
-			"	<body>%1</body>																"	\
+			"	<body>%1<br><br>%2</body>													"	\
 			"</html>																		";
 
 	const char* const PlayerInfoTextFormat
 		=	"<b>id: %1 (%2) - </b>%3														";
 
 	const char* const PlayerResourceInfoFormat = "%1: %2";
+
+	const char* const TickInfoTextFormat = "<b>Tick:</b> %1";
 
 /*---------------------------------------------------------------------------*/
 

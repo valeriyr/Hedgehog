@@ -564,6 +564,11 @@ LandscapeModel::gameMainLoop()
 
 		++m_ticksCounter;
 
+		Framework::Core::EventManager::Event currentTickNumberChangedEvent( Events::CurrentTickNumberChanged::ms_type );
+		currentTickNumberChangedEvent.pushAttribute( Events::CurrentTickNumberChanged::ms_tickNumberAttribute, m_ticksCounter );
+	
+		m_environment.riseEvent( currentTickNumberChangedEvent );
+
 		if ( m_landscape )
 		{
 			ILandscape::ObjectsCollection objects;

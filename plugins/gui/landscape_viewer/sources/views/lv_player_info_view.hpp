@@ -9,6 +9,8 @@
 #include "event_manager/h/em_subscriber.hpp"
 #include "event_manager/h/em_event.hpp"
 
+#include "landscape_model/h/lm_constants.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -59,11 +61,17 @@ private:
 
 	void onResourceValueChanged( const Framework::Core::EventManager::Event& _event );
 
+	void onCurrentTickNumberChanged( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 	void setDefaultText();
 
-	void updatePlayerInfo();
+	void setInfoText();
+
+	void updatePlayersInfo();
+
+	void updateTickInfo( const Plugins::Core::LandscapeModel::TickType& _tick );
 
 /*---------------------------------------------------------------------------*/
 
@@ -76,6 +84,9 @@ private:
 	Framework::Core::EventManager::Subscriber m_subscriber;
 
 	QString m_viewTitle;
+
+	QString m_playersInfo;
+	QString m_tickInfo;
 
 	boost::shared_ptr< QTextEdit > m_mainWidget;
 

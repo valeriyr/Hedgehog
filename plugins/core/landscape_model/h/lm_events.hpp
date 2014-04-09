@@ -14,6 +14,15 @@ namespace Events {
 
 /*---------------------------------------------------------------------------*/
 
+namespace CurrentTickNumberChanged
+{
+	const char* const ms_type = "CurrentTickNumberChanged";
+
+	const char* const ms_tickNumberAttribute = "TickNumber";
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace LandscapeWasInitialized
 {
 	const char* const ms_type = "LandscapeWasInitialized";
