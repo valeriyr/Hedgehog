@@ -147,15 +147,12 @@ Settings::setProperty( const QString& _key, const _TPropertyType& _value )
 {
 	assert( hasProperty( _key ) );
 
-	SettingsCollectionIterator iterator = m_settings.find( _key );
+	m_settings.find( _key )->second.setValue( _value );
 
-	EventManager::Event settingChangedEvent( Events::SettingChanged::ms_type );
-	settingChangedEvent.pushAttribute( Events::SettingChanged::ms_key, _key );
-	settingChangedEvent.pushAttribute( Events::SettingChanged::ms_value, _value );
-
-	iterator->second.setValue( _value );
-
-	m_environment.riseEvent( settingChangedEvent );
+	m_environment.riseEvent(
+		Framework::Core::EventManager::Event( Events::SettingChanged::ms_type )
+			.pushAttribute( Events::SettingChanged::ms_key, _key )
+			.pushAttribute( Events::SettingChanged::ms_value, _value ) );
 
 } // Settings::setProperty
 

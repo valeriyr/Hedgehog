@@ -197,32 +197,29 @@ AttackAction::processAction()
 
 					targetHealthComponent->setHealth( targetHealthComponent->getHealth() - damage );
 
-					Framework::Core::EventManager::Event objectHealthChangedEvent( Events::ObjectHealthChanged::ms_type );
-					objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, attackComponent->getTargetObject()->getName() );
-					objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectIdAttribute, attackComponent->getTargetObject()->getUniqueId() );
-					objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() );
+					m_environment.riseEvent(
+						Framework::Core::EventManager::Event( Events::ObjectHealthChanged::ms_type )
+							.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, attackComponent->getTargetObject()->getName() )
+							.pushAttribute( Events::ObjectHealthChanged::ms_objectIdAttribute, attackComponent->getTargetObject()->getUniqueId() )
+							.pushAttribute( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() ) );
 
-					m_environment.riseEvent( objectHealthChangedEvent );
-
-					Framework::Core::EventManager::Event objectWasHitEvent( Events::ObjectWasHit::ms_type );
-					objectWasHitEvent.pushAttribute( Events::ObjectWasHit::ms_objectNameAttribute, attackComponent->getTargetObject()->getName() );
-					objectWasHitEvent.pushAttribute( Events::ObjectWasHit::ms_objectIdAttribute, attackComponent->getTargetObject()->getUniqueId() );
-					objectWasHitEvent.pushAttribute( Events::ObjectWasHit::ms_objectHealth, targetHealthComponent->getHealth() );
-
-					m_environment.riseEvent( objectWasHitEvent );
+					m_environment.riseEvent(
+						Framework::Core::EventManager::Event( Events::ObjectWasHit::ms_type )
+							.pushAttribute( Events::ObjectWasHit::ms_objectNameAttribute, attackComponent->getTargetObject()->getName() )
+							.pushAttribute( Events::ObjectWasHit::ms_objectIdAttribute, attackComponent->getTargetObject()->getUniqueId() )
+							.pushAttribute( Events::ObjectWasHit::ms_objectHealth, targetHealthComponent->getHealth() ) );
 
 					if ( targetHealthComponent->getHealth() == 0 )
 					{
 						attackComponent->getTargetObject()->setState( ObjectState::Dying );
 						attackComponent->getTargetObject()->getComponent< IActionsComponent >( ComponentId::Actions )->flushActions( IActionsComponent::FlushPolicy::Force );
 
-						Framework::Core::EventManager::Event targetObjectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-						targetObjectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, attackComponent->getTargetObject()->getName() );
-						targetObjectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, attackComponent->getTargetObject()->getUniqueId() );
-						targetObjectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, attackComponent->getTargetObject()->getState() );
-						targetObjectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, targetObjectLocate->getDirection() );
-
-						m_environment.riseEvent( targetObjectStateChangedEvent );
+						m_environment.riseEvent(
+							Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
+								.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, attackComponent->getTargetObject()->getName() )
+								.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, attackComponent->getTargetObject()->getUniqueId() )
+								.pushAttribute( Events::ObjectStateChanged::ms_objectState, attackComponent->getTargetObject()->getState() )
+								.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, targetObjectLocate->getDirection() ) );
 
 						m_object.setState( ObjectState::Standing );
 						stateChanged = true;
@@ -233,23 +230,21 @@ AttackAction::processAction()
 
 				if ( stateChanged )
 				{
-					Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
-
-					m_environment.riseEvent( objectStateChangedEvent );
+					m_environment.riseEvent(
+						Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
+							.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() )
+							.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() )
+							.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() )
+							.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() ) );
 				}
 
 				if ( readyToAttack )
 				{
-					Framework::Core::EventManager::Event objectReadyToAttackEvent( Events::ObjectReadyToAttack::ms_type );
-					objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectNameAttribute, m_object.getName() );
-					objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectIdAttribute, m_object.getUniqueId() );
-					objectReadyToAttackEvent.pushAttribute( Events::ObjectReadyToAttack::ms_objectDirection, locateComponent->getDirection() );
-
-					m_environment.riseEvent( objectReadyToAttackEvent );
+					m_environment.riseEvent(
+						Framework::Core::EventManager::Event( Events::ObjectReadyToAttack::ms_type )
+							.pushAttribute( Events::ObjectReadyToAttack::ms_objectNameAttribute, m_object.getName() )
+							.pushAttribute( Events::ObjectReadyToAttack::ms_objectIdAttribute, m_object.getUniqueId() )
+							.pushAttribute( Events::ObjectReadyToAttack::ms_objectDirection, locateComponent->getDirection() ) );
 				}
 			}
 		}

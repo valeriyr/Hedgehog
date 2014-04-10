@@ -205,12 +205,11 @@ RepairAction::processAction()
 						targetHealthComponent->setHealth( targetHealthComponent->getHealth() + m_healthRepaired );
 						m_healthRepaired = 0;
 
-						Framework::Core::EventManager::Event objectHealthChangedEvent( Events::ObjectHealthChanged::ms_type );
-						objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, repairComponent->getTargetObject()->getName() );
-						objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectIdAttribute, repairComponent->getTargetObject()->getUniqueId() );
-						objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() );
-
-						m_environment.riseEvent( objectHealthChangedEvent );
+						m_environment.riseEvent(
+							Framework::Core::EventManager::Event( Events::ObjectHealthChanged::ms_type )
+								.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, repairComponent->getTargetObject()->getName() )
+								.pushAttribute( Events::ObjectHealthChanged::ms_objectIdAttribute, repairComponent->getTargetObject()->getUniqueId() )
+								.pushAttribute( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() ) );
 
 						if ( targetHealthComponent->getHealth() == targetHealthComponent->getStaticData().m_maximumHealth )
 						{
@@ -228,13 +227,12 @@ RepairAction::processAction()
 
 				if ( stateChanged )
 				{
-					Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
-					objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
-
-					m_environment.riseEvent( objectStateChangedEvent );
+					m_environment.riseEvent(
+						Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
+							.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() )
+							.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() )
+							.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() )
+							.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() ) );
 				}
 			}
 		}

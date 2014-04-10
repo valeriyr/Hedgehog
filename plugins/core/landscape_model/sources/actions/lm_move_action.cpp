@@ -370,26 +370,24 @@ MoveAction::processAction()
 
 	if ( unitChangeState )
 	{
-		Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() );
-
-		m_environment.riseEvent( objectStateChangedEvent );
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
+				.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() )
+				.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() )
+				.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() )
+				.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() ) );
 	}
 
 	if ( unitMoved )
 	{
-		Framework::Core::EventManager::Event objectMovedEvent( Events::ObjectMoved::ms_type );
-		objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_objectNameAttribute, m_object.getName() );
-		objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_objectIdAttribute, m_object.getUniqueId() );
-		objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingFromAttribute, locateComponent->getLocation() );
-		objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingToAttribute, movingData.m_path.empty() ? locateComponent->getLocation() : movingData.m_path.front() );
-		objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingProgressAttribute, movingData.m_path.empty() ? moveComponent->getStaticData().m_movingSpeed : movingData.m_movingProgress );
-		objectMovedEvent.pushAttribute( Events::ObjectMoved::ms_movingSpeedAttribute, moveComponent->getStaticData().m_movingSpeed );
-
-		m_environment.riseEvent( objectMovedEvent );
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::ObjectMoved::ms_type )
+				.pushAttribute( Events::ObjectMoved::ms_objectNameAttribute, m_object.getName() )
+				.pushAttribute( Events::ObjectMoved::ms_objectIdAttribute, m_object.getUniqueId() )
+				.pushAttribute( Events::ObjectMoved::ms_movingFromAttribute, locateComponent->getLocation() )
+				.pushAttribute( Events::ObjectMoved::ms_movingToAttribute, movingData.m_path.empty() ? locateComponent->getLocation() : movingData.m_path.front() )
+				.pushAttribute( Events::ObjectMoved::ms_movingProgressAttribute, movingData.m_path.empty() ? moveComponent->getStaticData().m_movingSpeed : movingData.m_movingProgress )
+				.pushAttribute( Events::ObjectMoved::ms_movingSpeedAttribute, moveComponent->getStaticData().m_movingSpeed ) );
 	}
 
 } // MoveAction::processAction

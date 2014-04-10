@@ -48,9 +48,10 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	template < typename _TAttributeType >
-	void pushAttribute( const QString& _attributeName, const _TAttributeType& _attribute )
+	Event& pushAttribute( const QString& _attributeName, const _TAttributeType& _attribute )
 	{
 		m_attributesCollection[ _attributeName ] = QVariant( _attribute );
+		return *this;
 	}
 
 /*---------------------------------------------------------------------------*/

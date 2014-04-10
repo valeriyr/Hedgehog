@@ -72,10 +72,9 @@ BuildAction::prepareToProcessingInternal()
 	buildComponent->getBuildData().m_objectName = m_objectName;
 	buildComponent->getBuildData().m_atRect = m_atRect;
 
-	Framework::Core::EventManager::Event buildQueueChangedEvent( Events::BuildQueueChanged::ms_type );
-	buildQueueChangedEvent.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
-
-	m_environment.riseEvent( buildQueueChangedEvent );
+	m_environment.riseEvent(
+		Framework::Core::EventManager::Event( Events::BuildQueueChanged::ms_type )
+			.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() ) );
 
 	return true;
 
@@ -111,10 +110,9 @@ BuildAction::cancelProcessingInternal()
 
 	buildComponent->getBuildData().reset();
 
-	Framework::Core::EventManager::Event buildQueueChangedEvent( Events::BuildQueueChanged::ms_type );
-	buildQueueChangedEvent.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
-	
-	m_environment.riseEvent( buildQueueChangedEvent );
+	m_environment.riseEvent(
+		Framework::Core::EventManager::Event( Events::BuildQueueChanged::ms_type )
+			.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() ) );
 
 	return true;
 
@@ -223,12 +221,11 @@ BuildAction::processAction()
 
 				targetHealthComponent->setHealth( buildData.m_buildProgress * targetHealthComponent->getStaticData().m_maximumHealth / totalTicks );
 
-				Framework::Core::EventManager::Event objectHealthChangedEvent( Events::ObjectHealthChanged::ms_type );
-				objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, targetObject->getName() );
-				objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectIdAttribute, targetObject->getUniqueId() );
-				objectHealthChangedEvent.pushAttribute( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() );
-
-				m_environment.riseEvent( objectHealthChangedEvent );
+				m_environment.riseEvent(
+					Framework::Core::EventManager::Event( Events::ObjectHealthChanged::ms_type )
+						.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, targetObject->getName() )
+						.pushAttribute( Events::ObjectHealthChanged::ms_objectIdAttribute, targetObject->getUniqueId() )
+						.pushAttribute( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() ) );
 
 				if ( buildData.m_buildProgress == totalTicks )
 				{
@@ -237,10 +234,9 @@ BuildAction::processAction()
 				}
 			}
 
-			Framework::Core::EventManager::Event buildQueueChangedEvent( Events::BuildQueueChanged::ms_type );
-			buildQueueChangedEvent.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() );
-	
-			m_environment.riseEvent( buildQueueChangedEvent );
+			m_environment.riseEvent(
+				Framework::Core::EventManager::Event( Events::BuildQueueChanged::ms_type )
+					.pushAttribute( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() ) );
 		}
 	}
 
@@ -296,18 +292,16 @@ BuildAction::startBuild(
 
 			buildComponent->getBuildData().m_objectId = objectId;
 
-			Framework::Core::EventManager::Event builderHasStartedBuildEvent( Events::BuilderHasStartedBuild::ms_type );
-			builderHasStartedBuildEvent.pushAttribute( Events::BuilderHasStartedBuild::ms_objectUniqueIdAttribute, _id );
+			m_environment.riseEvent(
+				Framework::Core::EventManager::Event( Events::BuilderHasStartedBuild::ms_type )
+					.pushAttribute( Events::BuilderHasStartedBuild::ms_objectUniqueIdAttribute, _id ) );
 
-			m_environment.riseEvent( builderHasStartedBuildEvent );
-
-			Framework::Core::EventManager::Event objectStartBuildingEvent( Events::ObjectStartBuilding::ms_type );
-			objectStartBuildingEvent.pushAttribute( Events::ObjectStartBuilding::ms_objectNameAttribute, _objectName );
-			objectStartBuildingEvent.pushAttribute( Events::ObjectStartBuilding::ms_objectLocationAttribute, _location );
-			objectStartBuildingEvent.pushAttribute( Events::ObjectStartBuilding::ms_objectUniqueIdAttribute, objectId );
-			objectStartBuildingEvent.pushAttribute( Events::ObjectStartBuilding::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
-
-			m_environment.riseEvent( objectStartBuildingEvent );
+			m_environment.riseEvent(
+				Framework::Core::EventManager::Event( Events::ObjectStartBuilding::ms_type )
+					.pushAttribute( Events::ObjectStartBuilding::ms_objectNameAttribute, _objectName )
+					.pushAttribute( Events::ObjectStartBuilding::ms_objectLocationAttribute, _location )
+					.pushAttribute( Events::ObjectStartBuilding::ms_objectUniqueIdAttribute, objectId )
+					.pushAttribute( Events::ObjectStartBuilding::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
 		}
 	}
 
@@ -334,15 +328,12 @@ BuildAction::stopBuild( const Object::Id& _id )
 			= m_landscapeModel.getLandscape()->getObject( buildComponent->getBuildData().m_objectId );
 		targetObject->setState( ObjectState::Standing );
 
-		Framework::Core::EventManager::Event objectStateChangedEvent( Events::ObjectStateChanged::ms_type );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, targetObject->getName() );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, targetObject->getUniqueId() );
-		objectStateChangedEvent.pushAttribute( Events::ObjectStateChanged::ms_objectState, targetObject->getState() );
-		objectStateChangedEvent.pushAttribute(
-				Events::ObjectStateChanged::ms_objectDirection
-			,	targetObject->getComponent< ILocateComponent >( ComponentId::Locate )->getDirection() );
-
-		m_environment.riseEvent( objectStateChangedEvent );
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
+				.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, targetObject->getName() )
+				.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, targetObject->getUniqueId() )
+				.pushAttribute( Events::ObjectStateChanged::ms_objectState, targetObject->getState() )
+				.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, targetObject->getComponent< ILocateComponent >( ComponentId::Locate )->getDirection() ) );
 
 		locateComponent->setLocation(
 			m_landscapeModel.getLandscape()->getNearestLocation(
@@ -352,13 +343,12 @@ BuildAction::stopBuild( const Object::Id& _id )
 
 		m_landscapeModel.getLandscape()->showObject( builder );
 
-		Framework::Core::EventManager::Event builderHasFinishedBuildEvent( Events::BuilderHasFinishedBuild::ms_type );
-		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectNameAttribute, builder->getName() );
-		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectLocationAttribute, locateComponent->getLocation() );
-		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute, _id );
-		builderHasFinishedBuildEvent.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement );
-
-		m_environment.riseEvent( builderHasFinishedBuildEvent );
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::BuilderHasFinishedBuild::ms_type )
+				.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectNameAttribute, builder->getName() )
+				.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectLocationAttribute, locateComponent->getLocation() )
+				.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute, _id )
+				.pushAttribute( Events::BuilderHasFinishedBuild::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
 
 		m_workersHolder.removeWorker( _id );
 	}

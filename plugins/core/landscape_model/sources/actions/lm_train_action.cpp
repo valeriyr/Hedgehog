@@ -86,10 +86,9 @@ TrainAction::cancelProcessing()
 		}
 	}
 
-	Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
-	trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() );
-
-	m_environment.riseEvent( trainQueueChangedEvent );
+	m_environment.riseEvent(
+		Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )
+			.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() ) );
 
 	m_isInProcessing = false;
 
@@ -122,12 +121,11 @@ TrainAction::processAction()
 		TickType creationTime
 			= trainComponent->getStaticData().m_trainObjects.find( trainData.m_trainingObjectName )->second->m_creationTime;
 
-		Framework::Core::EventManager::Event trainProgressChangedEvent( Events::TrainProgressChanged::ms_type );
-		trainProgressChangedEvent.pushAttribute( Events::TrainProgressChanged::ms_trainerIdAttribute, m_object.getUniqueId() );
-		trainProgressChangedEvent.pushAttribute( Events::TrainProgressChanged::ms_trainerProgressAttribute, trainData.m_trainProgress );
-		trainProgressChangedEvent.pushAttribute( Events::TrainProgressChanged::ms_creationTimeAttribute, creationTime );
-
-		m_environment.riseEvent( trainProgressChangedEvent );
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::TrainProgressChanged::ms_type )
+				.pushAttribute( Events::TrainProgressChanged::ms_trainerIdAttribute, m_object.getUniqueId() )
+				.pushAttribute( Events::TrainProgressChanged::ms_trainerProgressAttribute, trainData.m_trainProgress )
+				.pushAttribute( Events::TrainProgressChanged::ms_creationTimeAttribute, creationTime ) );
 
 		if ( trainData.m_trainProgress == creationTime )
 		{
@@ -135,10 +133,9 @@ TrainAction::processAction()
 					m_landscapeModel.getLandscape()->getNearestLocation( m_object, trainData.m_trainingObjectName )
 				,	trainData.m_trainingObjectName );
 
-			Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
-			trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() );
-	
-			m_environment.riseEvent( trainQueueChangedEvent );
+			m_environment.riseEvent(
+				Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )
+					.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() ) );
 
 			m_isInProcessing = false;
 		}

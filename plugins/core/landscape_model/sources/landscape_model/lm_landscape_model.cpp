@@ -249,21 +249,19 @@ LandscapeModel::createObject( const QPoint& _location, const QString& _objectNam
 
 	if ( objectId != Object::ms_wrongId )
 	{
-		Framework::Core::EventManager::Event objectAddedEvent( Events::ObjectAdded::ms_type );
-		objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, _objectName );
-		objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, _location );
-		objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId );
-		objectAddedEvent.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( _objectName ).m_locateData->m_emplacement );
-
-		m_environment.riseEvent( objectAddedEvent );
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::ObjectAdded::ms_type )
+				.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, _objectName )
+				.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, _location )
+				.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId )
+				.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( _objectName ).m_locateData->m_emplacement ) );
 	}
 	else
 	{
-		Framework::Core::EventManager::Event createObjectFailedEvent( Events::CreateObjectFailed::ms_type );
-		createObjectFailedEvent.pushAttribute( Events::CreateObjectFailed::ms_objectNameAttribute, _objectName );
-		createObjectFailedEvent.pushAttribute( Events::CreateObjectFailed::ms_objectLocationAttribute, _location );
-
-		m_environment.riseEvent( createObjectFailedEvent );
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::CreateObjectFailed::ms_type )
+				.pushAttribute( Events::CreateObjectFailed::ms_objectNameAttribute, _objectName )
+				.pushAttribute( Events::CreateObjectFailed::ms_objectLocationAttribute, _location ) );
 	}
 
 } // LandscapeModel::createObject
@@ -281,11 +279,10 @@ LandscapeModel::setSurfaceItem(
 	{
 		m_landscape->setSurfaceItem( _location, _id );
 
-		Framework::Core::EventManager::Event surfaceItemChangedEvent( Events::SurfaceItemChanged::ms_type );
-		surfaceItemChangedEvent.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemIdAttribute, _id );
-		surfaceItemChangedEvent.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute, _location );
-
-		m_environment.riseEvent( surfaceItemChangedEvent );
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::SurfaceItemChanged::ms_type )
+				.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemIdAttribute, _id )
+				.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute, _location ) );
 	}
 
 } // LandscapeModel::setSurfaceItem
@@ -326,10 +323,9 @@ LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _ob
 					actionsComponent->pushAction(
 						boost::intrusive_ptr< IAction >( new TrainAction( m_environment, *this, *object, _objectName ) ), false );
 
-					Framework::Core::EventManager::Event trainQueueChangedEvent( Events::TrainQueueChanged::ms_type );
-					trainQueueChangedEvent.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, object->getUniqueId() );
-	
-					m_environment.riseEvent( trainQueueChangedEvent );
+					m_environment.riseEvent(
+						Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )
+							.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, object->getUniqueId() ) );
 				}
 			}
 		}
@@ -564,10 +560,9 @@ LandscapeModel::gameMainLoop()
 
 		++m_ticksCounter;
 
-		Framework::Core::EventManager::Event currentTickNumberChangedEvent( Events::CurrentTickNumberChanged::ms_type );
-		currentTickNumberChangedEvent.pushAttribute( Events::CurrentTickNumberChanged::ms_tickNumberAttribute, m_ticksCounter );
-	
-		m_environment.riseEvent( currentTickNumberChangedEvent );
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::CurrentTickNumberChanged::ms_type )
+				.pushAttribute( Events::CurrentTickNumberChanged::ms_tickNumberAttribute, m_ticksCounter ) );
 
 		if ( m_landscape )
 		{
@@ -658,12 +653,11 @@ LandscapeModel::initTask( const QString& _filePath )
 
 	locateStartPointObjects();
 
-	Framework::Core::EventManager::Event modelInitEvent( Events::LandscapeWasInitialized::ms_type );
-	modelInitEvent.pushAttribute( Events::LandscapeWasInitialized::ms_filePathAttribute, _filePath );
-	modelInitEvent.pushAttribute( Events::LandscapeWasInitialized::ms_landscapeWidthAttribute, landscape->getWidth() );
-	modelInitEvent.pushAttribute( Events::LandscapeWasInitialized::ms_landscapeHeightAttribute, landscape->getHeight() );
-
-	m_environment.riseEvent( modelInitEvent );
+	m_environment.riseEvent(
+		Framework::Core::EventManager::Event( Events::LandscapeWasInitialized::ms_type )
+			.pushAttribute( Events::LandscapeWasInitialized::ms_filePathAttribute, _filePath )
+			.pushAttribute( Events::LandscapeWasInitialized::ms_landscapeWidthAttribute, landscape->getWidth() )
+			.pushAttribute( Events::LandscapeWasInitialized::ms_landscapeHeightAttribute, landscape->getHeight() ) );
 
 	m_ticksCounter = 0;
 
