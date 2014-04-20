@@ -133,6 +133,10 @@ namespace Commands {
 
 	extern const char* const SaveAsLandscapeCommandName;
 
+	extern const char* const CreateMultiplayerGameCommandName;
+
+	extern const char* const ConnectMultiplayerGameCommandName;
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Commands

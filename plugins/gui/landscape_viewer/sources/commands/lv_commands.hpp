@@ -39,8 +39,8 @@ DECLARE_COMMAND( CloseLandscapeCommand )
 DECLARE_COMMAND( SaveLandscapeCommand )
 DECLARE_COMMAND( SaveAsLandscapeCommand )
 
-DECLARE_COMMAND( RunGameCommand )
-DECLARE_COMMAND( StopGameCommand )
+DECLARE_COMMAND( CreateMultiplayerGameCommand )
+DECLARE_COMMAND( ConnectMultiplayerGameCommand )
 
 /*---------------------------------------------------------------------------*/
 

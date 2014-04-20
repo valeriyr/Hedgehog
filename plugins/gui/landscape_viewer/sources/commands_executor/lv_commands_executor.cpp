@@ -97,6 +97,24 @@ CommandsExecutor::saveAsLandscape()
 
 /*---------------------------------------------------------------------------*/
 
+
+void
+CommandsExecutor::createMultiplayerGame()
+{
+} // CommandsExecutor::createMultiplayerGame
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+CommandsExecutor::connectMultiplayerGame()
+{
+} // CommandsExecutor::connectMultiplayerGame
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins

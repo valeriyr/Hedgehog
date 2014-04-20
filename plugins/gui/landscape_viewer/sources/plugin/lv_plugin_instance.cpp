@@ -131,11 +131,21 @@ PluginInstance::initialize()
 			Resources::Commands::SaveAsLandscapeCommandName
 		,	boost::intrusive_ptr< ICommand >( new SaveAsLandscapeCommand( *m_commandsExecutor ) ) );
 
+	getCommandsManager()->registerCommand(
+			Resources::Commands::CreateMultiplayerGameCommandName
+		,	boost::intrusive_ptr< ICommand >( new CreateMultiplayerGameCommand( *m_commandsExecutor ) ) );
+	getCommandsManager()->registerCommand(
+			Resources::Commands::ConnectMultiplayerGameCommandName
+		,	boost::intrusive_ptr< ICommand >( new ConnectMultiplayerGameCommand( *m_commandsExecutor ) ) );
+
 	getWindowManager()->addCommandToMenu( "File/New", Resources::Commands::NewLandscapeCommandName );
 	getWindowManager()->addCommandToMenu( "File/Open", Resources::Commands::OpenLandscapeCommandName );
 	getWindowManager()->addCommandToMenu( "File/Close", Resources::Commands::CloseLandscapeCommandName );
 	getWindowManager()->addCommandToMenu( "File/Save", Resources::Commands::SaveLandscapeCommandName );
 	getWindowManager()->addCommandToMenu( "File/Save As", Resources::Commands::SaveAsLandscapeCommandName );
+
+	getWindowManager()->addCommandToMenu( "Multiplayer/Create", Resources::Commands::CreateMultiplayerGameCommandName );
+	getWindowManager()->addCommandToMenu( "Multiplayer/Connect", Resources::Commands::ConnectMultiplayerGameCommandName );
 
 } // PluginInstance::initialize
 
@@ -146,11 +156,17 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	getWindowManager()->removeCommandFromMenu( "Multiplayer/Connect" );
+	getWindowManager()->removeCommandFromMenu( "Multiplayer/Create" );
+
 	getWindowManager()->removeCommandFromMenu( "File/Save As" );
 	getWindowManager()->removeCommandFromMenu( "File/Save" );
 	getWindowManager()->removeCommandFromMenu( "File/Close" );
 	getWindowManager()->removeCommandFromMenu( "File/Open" );
 	getWindowManager()->removeCommandFromMenu( "File/New" );
+
+	getCommandsManager()->unregisterCommand( Resources::Commands::ConnectMultiplayerGameCommandName );
+	getCommandsManager()->unregisterCommand( Resources::Commands::CreateMultiplayerGameCommandName );
 
 	getCommandsManager()->unregisterCommand( Resources::Commands::SaveAsLandscapeCommandName );
 	getCommandsManager()->unregisterCommand( Resources::Commands::SaveLandscapeCommandName );
