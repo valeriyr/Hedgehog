@@ -59,6 +59,10 @@ namespace Views {
 
 	const char* const PlaySoundCheckboxName = "Play sound";
 
+	const char* const IpLabel = "Ip:";
+
+	const char* const PortLabel = "Port:";
+
 /*---------------------------------------------------------------------------*/
 
 	const char* const LandscapeDescriptionDefaultText
@@ -228,6 +232,10 @@ namespace Properties {
 	const char* const SkinId = "SkinIdProperty";
 
 	const char* const UpdateMinimap = "UpdateMinimap";
+
+	const char* const Port = "Port";
+
+	const char* const Ip = "Ip";
 
 /*---------------------------------------------------------------------------*/
 

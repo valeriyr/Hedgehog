@@ -38,17 +38,23 @@ public:
 
 	/*virtual*/ void regString( const QString& _key, const QString& _defaultValue );
 
+	/*virtual*/ void regUInt( const QString& _key, const unsigned int _defaultValue );
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ bool getBool( const QString& _key ) const;
 
 	/*virtual*/ QString getString( const QString& _key ) const;
 
+	/*virtual*/ unsigned int getUInt( const QString& _key ) const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void setBool( const QString& _key, const bool _value );
 
 	/*virtual*/ void setString( const QString& _key, const QString& _value );
+
+	/*virtual*/ void setUInt( const QString& _key, const unsigned int _Value );
 
 /*---------------------------------------------------------------------------*/
 

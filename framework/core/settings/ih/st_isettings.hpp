@@ -28,17 +28,23 @@ struct ISettings
 
 	virtual void regString( const QString& _key, const QString& _defaultValue ) = 0;
 
+	virtual void regUInt( const QString& _key, const unsigned int _defaultValue ) = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual bool getBool( const QString& _key ) const = 0;
 
 	virtual QString getString( const QString& _key ) const = 0;
 
+	virtual unsigned int getUInt( const QString& _key ) const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual void setBool( const QString& _key, const bool _value ) = 0;
 
 	virtual void setString( const QString& _key, const QString& _value ) = 0;
+
+	virtual void setUInt( const QString& _key, const unsigned int _Value ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

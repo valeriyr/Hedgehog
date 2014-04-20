@@ -114,6 +114,10 @@ public:
 
 	/*virtual*/ QString getString( const QString& _key ) const;
 
+	/*virtual*/ void setUInt( const QString& _key, const unsigned int _value ) const;
+
+	/*virtual*/ unsigned int getUInt( const QString& _key ) const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ Framework::Core::EventManager::Subscriber createSubscriber() const;

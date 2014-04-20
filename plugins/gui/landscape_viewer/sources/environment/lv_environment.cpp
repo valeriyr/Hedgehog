@@ -342,6 +342,28 @@ Environment::getString( const QString& _key ) const
 /*---------------------------------------------------------------------------*/
 
 
+void
+Environment::setUInt( const QString& _key, const unsigned int _value ) const
+{
+	m_pluginInstance.getSettings()->setUInt( _key, _value );
+
+} // Environment::setUInt
+
+
+/*---------------------------------------------------------------------------*/
+
+
+unsigned int
+Environment::getUInt( const QString& _key ) const
+{
+	return m_pluginInstance.getSettings()->getUInt( _key );
+
+} // Environment::getUInt
+
+
+/*---------------------------------------------------------------------------*/
+
+
 Framework::Core::EventManager::Subscriber
 Environment::createSubscriber() const
 {

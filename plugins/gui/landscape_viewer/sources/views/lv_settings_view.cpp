@@ -29,9 +29,27 @@ SettingsView::SettingsView( const IEnvironment& _environment )
 	,	m_playSound( new QCheckBox( Resources::Views::PlaySoundCheckboxName ) )
 	,	m_skinId( new QComboBox() )
 	,	m_viewTitle( Resources::Views::SettingsViewTitle )
+	,	m_ip( new QLineEdit() )
+	,	m_port( new QLineEdit() )
 {
+	m_port->setInputMask( "0000" );
+
 	QVBoxLayout* mainLayout = new QVBoxLayout();
 	mainLayout->setAlignment( Qt::AlignTop );
+
+	QHBoxLayout* networkLayout = new QHBoxLayout();
+
+	QLabel* ipLabel = new QLabel( Resources::Views::IpLabel );
+	ipLabel->setSizePolicy( QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ) );
+
+	QLabel* portLabel = new QLabel( Resources::Views::PortLabel );
+	portLabel->setSizePolicy( QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ) );
+
+	networkLayout->addWidget( ipLabel );
+	networkLayout->addWidget( m_ip );
+
+	networkLayout->addWidget( portLabel );
+	networkLayout->addWidget( m_port );
 
 	QHBoxLayout* skinIdLayout = new QHBoxLayout();
 
@@ -51,17 +69,22 @@ SettingsView::SettingsView( const IEnvironment& _environment )
 	mainLayout->addWidget( m_tarrainMapVisibility );
 	mainLayout->addWidget( m_updateMinimap );
 	mainLayout->addWidget( m_playSound );
+	mainLayout->addLayout( networkLayout );
 
 	m_mainWidget->setLayout( mainLayout );
 
 	m_tarrainMapVisibility->setChecked( m_environment.getBool( Resources::Properties::TerrainMapVisibility ) );
 	m_updateMinimap->setChecked( m_environment.getBool( Resources::Properties::UpdateMinimap ) );
 	m_playSound->setChecked( m_environment.getBool( Framework::Core::SoundManager::Resources::Properties::PlaySound ) );
+	m_ip->setText( m_environment.getString( Resources::Properties::Ip ) );
+	m_port->setText( QString::number( m_environment.getUInt( Resources::Properties::Port ) ) );
 
 	QObject::connect( m_tarrainMapVisibility, SIGNAL( clicked(bool) ), this, SLOT( onTarrainMapVisibilityChanged(bool) ) );
 	QObject::connect( m_updateMinimap, SIGNAL( clicked(bool) ), this, SLOT( onUpdateMinimapChanged(bool) ) );
 	QObject::connect( m_playSound, SIGNAL( clicked(bool) ), this, SLOT( onPlaySoundChanged(bool) ) );
 	QObject::connect( m_skinId, SIGNAL( currentIndexChanged(const QString&) ), this, SLOT( onSkinIdChanged(const QString&) ) );
+	QObject::connect( m_ip, SIGNAL( textChanged(const QString&) ), this, SLOT( onIpChanged(const QString&) ) );
+	QObject::connect( m_port, SIGNAL( textChanged(const QString&) ), this, SLOT( onPortChanged(const QString&) ) );
 
 } // SettingsView::SettingsView
 
@@ -106,6 +129,8 @@ SettingsView::viewWasClosed()
 	QObject::disconnect( m_updateMinimap, SIGNAL( clicked(bool) ), this, SLOT( onUpdateMinimapChanged(bool) ) );
 	QObject::disconnect( m_playSound, SIGNAL( clicked(bool) ), this, SLOT( onPlaySoundChanged(bool) ) );
 	QObject::disconnect( m_skinId, SIGNAL( currentIndexChanged(const QString&) ), this, SLOT( onSkinIdChanged(const QString&) ) );
+	QObject::disconnect( m_ip, SIGNAL( textChanged(const QString&) ), this, SLOT( onIpChanged(const QString&) ) );
+	QObject::disconnect( m_port, SIGNAL( textChanged(const QString&) ), this, SLOT( onPortChanged(const QString&) ) );
 
 	m_tarrainMapVisibility = NULL;
 	m_skinId = NULL;
@@ -157,6 +182,28 @@ SettingsView::onPlaySoundChanged( bool _play )
 	m_environment.setBool( Framework::Core::SoundManager::Resources::Properties::PlaySound, _play );
 
 } // SettingsView::onPlaySoundChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+SettingsView::onIpChanged( const QString& _ip )
+{
+	m_environment.setString( Resources::Properties::Ip, _ip );
+
+} // SettingsView::onIpChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+SettingsView::onPortChanged( const QString& _port )
+{
+	m_environment.setUInt( Resources::Properties::Port, _port.toUInt() );
+
+} // SettingsView::onPortChanged
 
 
 /*---------------------------------------------------------------------------*/

@@ -6,6 +6,7 @@
 #include <QtCore/QDir>
 
 #include <QtWidgets/QTextEdit>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
@@ -13,14 +14,14 @@
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QVBoxLayout>
 
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGraphicsScene>
 #include <QtWidgets/QGraphicsPixmapItem>
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 #include <QtWidgets/QGraphicsEffect>
-
-#include <QtWidgets/QVBoxLayout>
 
 #include <QtGui/QMouseEvent>
 

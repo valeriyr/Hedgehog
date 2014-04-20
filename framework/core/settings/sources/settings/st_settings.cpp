@@ -57,6 +57,17 @@ Settings::regString( const QString& _key, const QString& _defaultValue )
 /*---------------------------------------------------------------------------*/
 
 
+void
+Settings::regUInt( const QString& _key, const unsigned int _defaultValue )
+{
+	regProperty( _key, _defaultValue );
+
+} // Settings::regUInt
+
+
+/*---------------------------------------------------------------------------*/
+
+
 bool
 Settings::getBool( const QString& _key ) const
 {
@@ -83,6 +94,19 @@ Settings::getString( const QString& _key ) const
 /*---------------------------------------------------------------------------*/
 
 
+unsigned int
+Settings::getUInt( const QString& _key ) const
+{
+	assert( hasProperty( _key ) );
+
+	return m_settings.find( _key )->second.toUInt();
+
+} // Settings::getUInt
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 Settings::setBool( const QString& _key, const bool _value )
 {
@@ -100,6 +124,17 @@ Settings::setString( const QString& _key, const QString& _value )
 	setProperty( _key, _value );
 
 } // Settings::setString
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Settings::setUInt( const QString& _key, const unsigned int _value )
+{
+	setProperty( _key, _value );
+
+} // Settings::setUInt
 
 
 /*---------------------------------------------------------------------------*/

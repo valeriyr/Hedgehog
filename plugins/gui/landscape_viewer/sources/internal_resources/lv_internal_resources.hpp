@@ -57,6 +57,10 @@ namespace Views {
 
 	extern const char* const PlaySoundCheckboxName;
 
+	extern const char* const IpLabel;
+
+	extern const char* const PortLabel;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const LandscapeDescriptionDefaultText;
@@ -152,6 +156,10 @@ namespace Properties {
 	extern const char* const SkinId;
 
 	extern const char* const UpdateMinimap;
+
+	extern const char* const Port;
+
+	extern const char* const Ip;
 
 /*---------------------------------------------------------------------------*/
 

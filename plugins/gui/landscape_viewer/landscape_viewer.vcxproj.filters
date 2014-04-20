@@ -43,6 +43,9 @@
     <Filter Include="Animations">
       <UniqueIdentifier>{b0f88bf5-f256-4a0c-a05a-402aba85ef21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dialogs">
+      <UniqueIdentifier>{0c5a6e1f-5eef-4191-9039-f499c9b9d037}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lv_ph.cpp">
@@ -122,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="sources\views\lv_player_info_view.cpp">
       <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\dialogs\lv_multiplayer_dialog.cpp">
+      <Filter>Dialogs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +228,9 @@
     </CustomBuild>
     <CustomBuild Include="sources\views\lv_action_panel_view.hpp">
       <Filter>Views</Filter>
+    </CustomBuild>
+    <CustomBuild Include="sources\dialogs\lv_multiplayer_dialog.hpp">
+      <Filter>Dialogs</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

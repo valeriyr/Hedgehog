@@ -106,6 +106,8 @@ PluginInstance::initialize()
 	getSettings()->regBool( Resources::Properties::TerrainMapVisibility, false );
 	getSettings()->regString( Resources::Properties::SkinId, "winter" );
 	getSettings()->regBool( Resources::Properties::UpdateMinimap, true );
+	getSettings()->regUInt( Resources::Properties::Port, 1988 );
+	getSettings()->regString( Resources::Properties::Ip, "localhost" );
 
 	m_environment.reset( new Environment( *this ) );
 
@@ -181,6 +183,8 @@ PluginInstance::close()
 	getSettings()->unregProperty( Resources::Properties::SkinId );
 	getSettings()->unregProperty( Resources::Properties::TerrainMapVisibility );
 	getSettings()->unregProperty( Resources::Properties::UpdateMinimap );
+	getSettings()->unregProperty( Resources::Properties::Port );
+	getSettings()->unregProperty( Resources::Properties::Ip );
 
 	m_graphicsInfoCache.reset();
 

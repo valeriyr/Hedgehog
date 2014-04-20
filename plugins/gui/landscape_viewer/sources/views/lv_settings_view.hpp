@@ -61,6 +61,10 @@ private slots:
 
 	void onPlaySoundChanged( bool _play );
 
+	void onIpChanged( const QString& _ip );
+
+	void onPortChanged( const QString& _port );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -78,6 +82,9 @@ private:
 	QCheckBox* m_updateMinimap;
 
 	QCheckBox* m_playSound;
+
+	QLineEdit* m_ip;
+	QLineEdit* m_port;
 
 	QString m_viewTitle;
 

@@ -6,6 +6,8 @@
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
 
+#include "landscape_viewer/sources/dialogs/lv_multiplayer_dialog.hpp"
+
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 
 
@@ -101,6 +103,9 @@ CommandsExecutor::saveAsLandscape()
 void
 CommandsExecutor::createMultiplayerGame()
 {
+	MultiplayerDialog multiplayerDialog;
+	multiplayerDialog.exec();
+
 } // CommandsExecutor::createMultiplayerGame
 
 
@@ -110,6 +115,9 @@ CommandsExecutor::createMultiplayerGame()
 void
 CommandsExecutor::connectMultiplayerGame()
 {
+	MultiplayerDialog multiplayerDialog;
+	multiplayerDialog.exec();
+
 } // CommandsExecutor::connectMultiplayerGame
 
 
