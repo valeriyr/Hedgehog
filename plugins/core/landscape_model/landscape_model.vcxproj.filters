@@ -177,6 +177,9 @@
     <ClCompile Include="sources\actions\lm_collect_resource_action.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
+    <ClCompile Include="sources\path_finders\lm_astar_search.cpp">
+      <Filter>Path Finders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -424,6 +427,9 @@
     </ClInclude>
     <ClInclude Include="sources\actions\lm_iworkers_holder.hpp">
       <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\path_finders\lm_astar_search.hpp">
+      <Filter>Path Finders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

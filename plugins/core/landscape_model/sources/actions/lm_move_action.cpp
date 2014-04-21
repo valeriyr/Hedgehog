@@ -7,6 +7,7 @@
 
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
+#include "landscape_model/sources/path_finders/lm_astar_search.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
@@ -278,7 +279,7 @@ MoveAction::processAction()
 			}
 			else
 			{
-				JumpPointSearch::pathToPoint( newMovingData.m_path, *m_landscapeModel.getLandscape(), m_object, newMovingData.m_movingTo );
+				AStarSearch::pathToPoint( newMovingData.m_path, *m_landscapeModel.getLandscape(), m_object, newMovingData.m_movingTo );
 			}
 
 			if ( newMovingData.m_path.empty() )

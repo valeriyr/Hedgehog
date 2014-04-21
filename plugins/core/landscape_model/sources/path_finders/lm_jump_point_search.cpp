@@ -212,6 +212,23 @@ JumpPointSearch::nearestObject(		const ILandscape& _landscape
 
 
 void
+JumpPointSearch::pathToPoint(	PointsCollection& _path
+							 ,	const ILandscape& _landscape
+							 ,	const Object& _forObject
+							 ,	const QPoint& _targetPoint )
+{
+	IPathFinder::PointsCollection targetPoints;
+	targetPoints.push_back( _targetPoint );
+
+	JumpPointSearch().findPath( _path, _landscape, _forObject, targetPoints );
+
+} // JumpPointSearch::pathToPoint
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 JumpPointSearch::fillTargetPoints(	const Object& _targetObject
 								,	const ILandscape& _landscape
 								,	const int _distance
@@ -235,23 +252,6 @@ JumpPointSearch::fillTargetPoints(	const Object& _targetObject
 	}
 
 } // JumpPointSearch::fillTargetPoints
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-JumpPointSearch::pathToPoint(	PointsCollection& _path
-							 ,	const ILandscape& _landscape
-							 ,	const Object& _forObject
-							 ,	const QPoint& _targetPoint )
-{
-	IPathFinder::PointsCollection targetPoints;
-	targetPoints.push_back( _targetPoint );
-
-	JumpPointSearch().findPath( _path, _landscape, _forObject, targetPoints );
-
-} // JumpPointSearch::pathToPoint
 
 
 /*---------------------------------------------------------------------------*/
