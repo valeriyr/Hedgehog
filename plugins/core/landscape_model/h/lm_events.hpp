@@ -45,6 +45,8 @@ namespace LandscapeWasReset
 namespace LandscapeWasSaved
 {
 	const char* const ms_type = "LandscapeWasSaved";
+
+	const char* const ms_filePathAttribute = "FilePath";
 }
 
 /*---------------------------------------------------------------------------*/

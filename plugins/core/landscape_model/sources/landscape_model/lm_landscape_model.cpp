@@ -700,7 +700,9 @@ LandscapeModel::saveTask( const QString& _filePath )
 	{
 		m_landscapeSerializer.save( *m_landscape, _filePath );
 
-		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::LandscapeWasSaved::ms_type ) );
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::LandscapeWasSaved::ms_type )
+				.pushAttribute( Events::LandscapeWasSaved::ms_filePathAttribute, _filePath ) );
 	}
 
 } // LandscapeModel::saveTask

@@ -32,6 +32,7 @@
   <ItemGroup>
     <ClInclude Include="h\nm_connection_info.hpp" />
     <ClInclude Include="h\nm_plugin_id.hpp" />
+    <ClInclude Include="h\nm_resources.hpp" />
     <ClInclude Include="ih\nm_iconnection_listener.hpp" />
     <ClInclude Include="ih\nm_iconnection_manager.hpp" />
     <ClInclude Include="ih\nm_iudp_connection.hpp" />
