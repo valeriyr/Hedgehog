@@ -57,15 +57,15 @@ AStarSearch::findPath(
 
 	QPoint startPoint( locateComponent->getLocation() );
 
-	PointData pointData;
+	PointData startPointData;
 
-	pointData.m_point = startPoint;
-	pointData.m_parentPoint = startPoint;
-	pointData.m_g = 0;
-	pointData.m_h = Geometry::getDistance( startPoint, _targets.front() );
-	pointData.m_f = pointData.m_h + pointData.m_g;
+	startPointData.m_point = startPoint;
+	startPointData.m_parentPoint = startPoint;
+	startPointData.m_g = 0;
+	startPointData.m_h = Geometry::getDistance( startPoint, _targets.front() );
+	startPointData.m_f = startPointData.m_h + startPointData.m_g;
 
-	m_openedList.push_back( pointData );
+	m_openedList.push_back( startPointData );
 
 	while ( !m_openedList.empty() )
 		processOpenedList( _landscape, _object, locateComponent, _targets );
@@ -285,7 +285,7 @@ int
 AStarSearch::findWithMinDistanceInList( AStarSearch::PointsDataList& _inList )
 {
 	if ( _inList.empty() )
-		return NULL;
+		return -1;
 
 	int minDistance = _inList[ 0 ].m_f;
 	int result = 0;
