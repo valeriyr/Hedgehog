@@ -92,11 +92,19 @@ struct ILandscapeModel
 
 	virtual boost::intrusive_ptr< ILandscape > getLandscape() const = 0;
 
+/*---------------------------------------------------------------------------*/
+
+	typedef
+		boost::shared_ptr< Tools::Core::IIterator< boost::intrusive_ptr< IPlayer > > >
+		PlayersIterator;
+
 	virtual boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const = 0;
 
 	virtual boost::intrusive_ptr< IPlayer > getPlayerByStartPoint( const StartPoint::Id& _id ) const = 0;
 
 	virtual boost::intrusive_ptr< IPlayer > getMyPlayer() const = 0;
+
+	virtual PlayersIterator getPlayersIterator() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

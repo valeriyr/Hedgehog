@@ -94,11 +94,15 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< ILandscape > getLandscape() const;
 
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const;
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayerByStartPoint( const StartPoint::Id& _id ) const;
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getMyPlayer() const;
+
+	/*virtual*/ ILandscapeModel::PlayersIterator getPlayersIterator() const;
 
 /*---------------------------------------------------------------------------*/
 

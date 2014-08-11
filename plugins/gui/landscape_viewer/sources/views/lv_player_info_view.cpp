@@ -173,11 +173,14 @@ PlayerInfoView::updatePlayersInfo()
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
-	boost::intrusive_ptr< Core::LandscapeModel::IPlayer > player
-		= handle->getLandscapeModel()->getMyPlayer();
+	Core::LandscapeModel::ILandscapeModel::PlayersIterator
+		iterator = handle->getLandscapeModel()->getPlayersIterator();
 
-	if ( player )
+	while ( iterator->isValid() )
 	{
+		boost::intrusive_ptr< Core::LandscapeModel::IPlayer >
+			player = iterator->current();
+
 		QString resourcesInfo;
 
 		Core::LandscapeModel::ResourcesData::ResourcesDataCollectionConstIterator
@@ -193,7 +196,9 @@ PlayerInfoView::updatePlayersInfo()
 		}
 
 		m_playersInfo
-			= QString( Resources::Views::PlayerInfoTextFormat ).arg( player->getUniqueId() ).arg( player->getRace() ).arg( resourcesInfo );
+			+= QString( Resources::Views::PlayerInfoTextFormat ).arg( player->getUniqueId() ).arg( player->getRace() ).arg( resourcesInfo );
+
+		iterator->next();
 	}
 
 } // PlayerInfoView::updatePlayersInfo

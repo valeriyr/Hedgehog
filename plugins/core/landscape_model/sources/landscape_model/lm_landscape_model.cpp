@@ -45,6 +45,8 @@
 #include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/h/lm_events.hpp"
 
+#include "iterators/it_simple_iterator.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -454,6 +456,19 @@ LandscapeModel::getMyPlayer() const
 	return m_players.begin()->second;
 
 } // LandscapeModel::getMyPlayer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+ILandscapeModel::PlayersIterator
+LandscapeModel::getPlayersIterator() const
+{
+	return
+		ILandscapeModel::PlayersIterator(
+			new Tools::Core::SimpleIterator< PlayersCollection, Tools::Core::SecondExtractor >( m_players ) );
+
+} // LandscapeModel::getPlayersIterator
 
 
 /*---------------------------------------------------------------------------*/
