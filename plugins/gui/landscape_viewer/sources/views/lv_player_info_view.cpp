@@ -170,6 +170,8 @@ PlayerInfoView::setInfoText()
 void
 PlayerInfoView::updatePlayersInfo()
 {
+	m_playersInfo.clear();
+
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
 
