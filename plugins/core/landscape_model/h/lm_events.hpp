@@ -34,6 +34,13 @@ namespace LandscapeWasInitialized
 
 /*---------------------------------------------------------------------------*/
 
+namespace SimulationHasStarted
+{
+	const char* const ms_type = "SimulationHasStarted";
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace LandscapeWasReset
 {
 	const char* const ms_type = "LandscapeWasReset";

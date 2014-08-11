@@ -8,6 +8,7 @@
 
 #include "landscape_model/h/lm_terrain_map_data.hpp"
 #include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_start_point.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
@@ -47,7 +48,7 @@ struct ILandscape
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		boost::shared_ptr< Tools::Core::IIterator< std::pair< const IPlayer::Id, QPoint > > >
+		boost::shared_ptr< Tools::Core::IIterator< const StartPoint > >
 		StartPointsIterator;
 
 /*---------------------------------------------------------------------------*/
@@ -60,9 +61,9 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setStartPoint( const IPlayer::Id& _playerId, const QPoint& _point ) = 0;
+	virtual void addStartPoint( const StartPoint& _startPoint ) = 0;
 
-	virtual QPoint getStartPoint( const IPlayer::Id& _playerId ) const = 0;
+	virtual const StartPoint& getStartPoint( const StartPoint::Id& _startPointId ) = 0;
 
 	virtual StartPointsIterator getStartPointsIterator() const = 0;
 

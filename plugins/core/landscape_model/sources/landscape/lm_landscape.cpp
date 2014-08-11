@@ -100,30 +100,26 @@ Landscape::setSize( const int _width, const int _height )
 
 
 void
-Landscape::setStartPoint( const IPlayer::Id& _playerId, const QPoint& _point )
+Landscape::addStartPoint( const StartPoint& _startPoint )
 {
-	StartsPointsCollectionIterator iterator = m_startPoints.find( _playerId );
+	StartsPointsCollectionIterator iterator = m_startPoints.find( _startPoint.m_id );
+	assert( iterator == m_startPoints.end() );
 
-	if ( iterator == m_startPoints.end() )
-		m_startPoints.insert( std::make_pair( _playerId, _point ) );
-	else
-		iterator->second = _point;
+	m_startPoints.insert( std::make_pair( _startPoint.m_id, _startPoint ) );
 
-} // Landscape::setStartPoint
+} // Landscape::addStartPoint
 
 
 /*---------------------------------------------------------------------------*/
 
 
-QPoint
-Landscape::getStartPoint( const IPlayer::Id& _playerId ) const
+const StartPoint&
+Landscape::getStartPoint( const StartPoint::Id& _startPointId )
 {
-	StartsPointsCollectionConstIterator iterator = m_startPoints.find( _playerId );
+	StartsPointsCollectionConstIterator iterator = m_startPoints.find( _startPointId );
+	assert( iterator != m_startPoints.end() );
 
-	return
-			iterator != m_startPoints.end()
-		?	iterator->second
-		:	QPoint();
+	return iterator->second;
 
 } // Landscape::getStartPoint
 
@@ -136,7 +132,7 @@ Landscape::getStartPointsIterator() const
 {
 	return
 		ILandscape::StartPointsIterator(
-			new Tools::Core::SimpleIterator< StartsPointsCollection >( m_startPoints ) );
+			new Tools::Core::SimpleIterator< StartsPointsCollection, Tools::Core::SecondExtractor >( m_startPoints ) );
 
 } // Landscape::getStartPointsIterator
 

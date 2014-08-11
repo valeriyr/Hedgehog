@@ -64,6 +64,10 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 							,	Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_type
 							,	boost::bind( &LandscapeViewer::onLandscapeWasInitialized, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::SimulationHasStarted::ms_type
+							,	boost::bind( &LandscapeViewer::onSimulationHasStarted, this, _1 ) );
+
 } // LandscapeViewer::LandscapeViewer
 
 
@@ -107,7 +111,7 @@ LandscapeViewer::getLandscapeFilePath() const
 void
 LandscapeViewer::openLandscape( const QString& _filePath )
 {
-	m_environment.lockModel()->getLandscapeModel()->initModel( _filePath );
+	m_environment.lockModel()->getLandscapeModel()->initModelFirstPart( _filePath );
 
 } // LandscapeViewer::openLandscape
 
@@ -146,15 +150,41 @@ LandscapeViewer::onLandscapeWasInitialized( const Framework::Core::EventManager:
 	int landscapeHeight = _event.getAttribute( Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_landscapeHeightAttribute ).toInt();
 
 	m_descriptionView->landscapeWasOpened( QSize( landscapeWidth, landscapeHeight ), m_landscapeFilePath );
+
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
+	Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection collection;
+
+	Core::LandscapeModel::ILandscape::StartPointsIterator iterator
+		= locker->getLandscapeModel()->getLandscape()->getStartPointsIterator();
+
+	while ( iterator->isValid() )
+	{
+		collection.push_back( Plugins::Core::LandscapeModel::ILandscapeModel::PlayerStartupData( rand() % 2 ? "Orc" : "Human", iterator->current().m_id ) );
+		iterator->next();
+	}
+
+	locker->getLandscapeModel()->initModelSecondPart( m_landscapeFilePath, collection );
+
+} // LandscapeViewer::onLandscapeWasInitialized
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeViewer::onSimulationHasStarted( const Framework::Core::EventManager::Event& _event )
+{
+	m_playerInfoView->landscapeWasOpened();
 	m_minimapView->landscapeWasOpened();
 	m_LandscapeView->landscapeWasOpened();
 	m_selectionView->landscapeWasOpened();
 	m_objectInfoView->landscapeWasOpened();
 	m_actionPanelView->landscapeWasOpened();
 	m_objectStatusView->landscapeWasOpened();
-	m_playerInfoView->landscapeWasOpened();
 
-} // LandscapeViewer::onLandscapeWasInitialized
+} // LandscapeViewer::onSimulationHasStarted
 
 
 /*---------------------------------------------------------------------------*/

@@ -31,7 +31,11 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Player( const IEnvironment& _environment, const IStaticData& _staticData, const QString& _race );
+	Player(
+			const IEnvironment& _environment
+		,	const IStaticData& _staticData
+		,	const QString& _race
+		,	const StartPoint::Id& _startPointId );
 
 	virtual ~Player();
 
@@ -42,6 +46,8 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ const QString& getRace() const;
+
+	/*virtual*/ const StartPoint::Id& getStartPointId() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -74,6 +80,8 @@ private:
 	const IPlayer::Id m_id;
 
 	const QString m_race;
+
+	const StartPoint::Id m_startPointId;
 
 	ResourcesData m_resourceData;
 

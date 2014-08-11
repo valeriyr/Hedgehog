@@ -54,7 +54,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initModel( const QString& _filePath );
+	/*virtual*/ void initModelFirstPart( const QString& _filePath );
+
+	/*virtual*/ void initModelSecondPart( const QString& _filePath, const ILandscapeModel::PlayersSturtupDataCollection& _data );
 
 	/*virtual*/ void resetModel();
 
@@ -68,7 +70,7 @@ public:
 
 	/*virtual*/ void sendSelectedObjects( const QPoint& _to, const bool _flush );
 
-	/*virtual*/ void createObject( const QPoint& _location, const QString& _objectName );
+	/*virtual*/ void createObject( const QPoint& _location, const QString& _objectName, const IPlayer::Id& _playerId );
 
 	/*virtual*/ void setSurfaceItem(
 			const QPoint& _location
@@ -93,6 +95,10 @@ public:
 	/*virtual*/ boost::intrusive_ptr< ILandscape > getLandscape() const;
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const;
+
+	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayerByStartPoint( const StartPoint::Id& _id ) const;
+
+	/*virtual*/ boost::intrusive_ptr< IPlayer > getMyPlayer() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -125,11 +131,17 @@ private:
 
 	void gameMainLoop();
 
-	void initTask( const QString& _filePath );
+	void initFirstPartTask( const QString& _filePath );
+
+	void initSecondPartTask( const QString& _filePath, const ILandscapeModel::PlayersSturtupDataCollection& _data );
 
 	void resetTask();
 
 	void saveTask( const QString& _filePath );
+
+/*---------------------------------------------------------------------------*/
+
+	void initPlayers( const ILandscapeModel::PlayersSturtupDataCollection& _data );
 
 	void locateStartPointObjects();
 
@@ -148,6 +160,13 @@ private:
 		WorkersCollection::const_iterator
 		WorkersCollectionIterator;
 
+	typedef
+		std::map< IPlayer::Id, boost::intrusive_ptr< IPlayer > >
+		PlayersCollection;
+	typedef
+		PlayersCollection::const_iterator
+		PlayersCollectionIterator;
+
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
@@ -164,7 +183,7 @@ private:
 
 	boost::intrusive_ptr< ILandscape > m_landscape;
 
-	boost::intrusive_ptr< IPlayer > m_player;
+	PlayersCollection m_players;
 
 	QMutex m_mutex;
 

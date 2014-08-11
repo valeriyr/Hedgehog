@@ -28,6 +28,12 @@ namespace MultithreadingManager {
 			return !m_taskId.isEmpty();
 		}
 
+		void reset()
+		{
+			m_threadName.clear();
+			m_taskId.clear();
+		}
+
 		QString m_threadName;
 		QString m_taskId;
 	};

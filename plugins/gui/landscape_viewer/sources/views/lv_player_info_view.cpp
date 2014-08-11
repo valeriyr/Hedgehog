@@ -174,7 +174,7 @@ PlayerInfoView::updatePlayersInfo()
 		= m_environment.lockModel();
 
 	boost::intrusive_ptr< Core::LandscapeModel::IPlayer > player
-		= handle->getLandscapeModel()->getPlayer(1);
+		= handle->getLandscapeModel()->getMyPlayer();
 
 	if ( player )
 	{

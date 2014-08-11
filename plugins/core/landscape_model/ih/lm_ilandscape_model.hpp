@@ -26,7 +26,30 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initModel( const QString& _filePath ) = 0;
+	struct PlayerStartupData
+	{
+		PlayerStartupData( const QString& _race, const StartPoint::Id& _startPointId )
+			:	m_race( _race )
+			,	m_startPointId( _startPointId )
+		{}
+
+		const QString m_race;
+
+		const StartPoint::Id m_startPointId;
+	};
+
+	typedef
+		std::vector< PlayerStartupData >
+		PlayersSturtupDataCollection;
+	typedef
+		PlayersSturtupDataCollection::const_iterator
+		PlayersSturtupDataCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void initModelFirstPart( const QString& _filePath ) = 0;
+
+	virtual void initModelSecondPart( const QString& _filePath, const PlayersSturtupDataCollection& _data ) = 0;
 
 	virtual void resetModel() = 0;
 
@@ -40,9 +63,7 @@ struct ILandscapeModel
 
 	virtual void sendSelectedObjects( const QPoint& _to, const bool _flush ) = 0;
 
-	virtual void createObject(
-			const QPoint& _location
-		,	const QString& _objectName ) = 0;
+	virtual void createObject( const QPoint& _location, const QString& _objectName, const IPlayer::Id& _playerId ) = 0;
 
 	virtual void setSurfaceItem(
 			const QPoint& _location
@@ -72,6 +93,10 @@ struct ILandscapeModel
 	virtual boost::intrusive_ptr< ILandscape > getLandscape() const = 0;
 
 	virtual boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const = 0;
+
+	virtual boost::intrusive_ptr< IPlayer > getPlayerByStartPoint( const StartPoint::Id& _id ) const = 0;
+
+	virtual boost::intrusive_ptr< IPlayer > getMyPlayer() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

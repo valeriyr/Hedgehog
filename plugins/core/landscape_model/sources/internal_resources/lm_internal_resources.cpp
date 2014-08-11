@@ -43,8 +43,6 @@ namespace Resources {
 	const char* const StartPointsTagName = "start_points";
 	const char* const StartPointTagName = "start_point";
 
-	const char* const PlayerIdAttributeName = "player_id";
-
 	const char* const SurfaceTagName = "surface";
 
 	const char* const ObjectsTagName = "objects";
@@ -58,8 +56,6 @@ namespace Resources {
 
 	const char* const XAttributeName = "x";
 	const char* const YAttributeName = "y";
-
-	const char* const PlayerTagName = "player";
 
 	const char* const IdAttributeName = "id";
 

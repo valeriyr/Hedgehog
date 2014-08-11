@@ -88,6 +88,10 @@ MinimapWidget::landscapeWasOpened()
 							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ms_type
+							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_type
 							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 

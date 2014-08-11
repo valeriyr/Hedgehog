@@ -129,9 +129,13 @@ TrainAction::processAction()
 
 		if ( trainData.m_trainProgress == creationTime )
 		{
+			boost::intrusive_ptr< IPlayerComponent > playerComponent
+				= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
+
 			m_landscapeModel.createObject(
 					m_landscapeModel.getLandscape()->getNearestLocation( m_object, trainData.m_trainingObjectName )
-				,	trainData.m_trainingObjectName );
+				,	trainData.m_trainingObjectName
+				,	playerComponent ? playerComponent->getPlayerId() : IPlayer::ms_wrondId );
 
 			m_environment.riseEvent(
 				Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )

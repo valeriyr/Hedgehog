@@ -5,7 +5,9 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+
 #include "landscape_model/h/lm_resources_data.hpp"
+#include "landscape_model/h/lm_start_point.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -31,6 +33,8 @@ struct IPlayer
 /*---------------------------------------------------------------------------*/
 
 	virtual const QString& getRace() const = 0;
+
+	virtual const StartPoint::Id& getStartPointId() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

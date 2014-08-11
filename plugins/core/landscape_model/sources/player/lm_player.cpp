@@ -22,11 +22,17 @@ static IPlayer::Id IdGenerator = 0;
 /*---------------------------------------------------------------------------*/
 
 
-Player::Player( const IEnvironment& _environment, const IStaticData& _staticData, const QString& _race )
+Player::Player(
+		const IEnvironment& _environment
+	,	const IStaticData& _staticData
+	,	const QString& _race
+	,	const StartPoint::Id& _startPointId
+	)
 	:	m_environment( _environment )
 	,	m_staticData( _staticData )
 	,	m_id( ++IdGenerator )
 	,	m_race( _race )
+	,	m_startPointId( _startPointId )
 	,	m_resourceData()
 	,	m_notifier( *m_environment.getNotificationCenter(), this )
 {
@@ -71,6 +77,17 @@ Player::getRace() const
 	return m_race;
 
 } // Player::getRace
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const StartPoint::Id&
+Player::getStartPointId() const
+{
+	return m_startPointId;
+
+} // Player::getStartPointId
 
 
 /*---------------------------------------------------------------------------*/

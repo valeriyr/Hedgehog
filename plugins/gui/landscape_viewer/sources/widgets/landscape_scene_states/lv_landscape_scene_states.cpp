@@ -461,7 +461,13 @@ LandscapeObjectEditingState::addSceneObjects()
 void
 LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 {
-	m_environment.lockModel()->getLandscapeModel()->createObject( LandscapeScene::convertFromScenePosition( _point ), m_name );
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
+	locker->getLandscapeModel()->createObject(
+			LandscapeScene::convertFromScenePosition( _point )
+		,	m_name
+		,	locker->getLandscapeModel()->getMyPlayer()->getUniqueId() );
 
 } // LandscapeObjectEditingState::setNewItemInPosition
 

@@ -41,8 +41,6 @@ namespace Resources {
 	extern const char* const StartPointsTagName;
 	extern const char* const StartPointTagName;
 
-	extern const char* const PlayerIdAttributeName;
-
 	extern const char* const SurfaceTagName;
 
 	extern const char* const ObjectsTagName;
@@ -56,8 +54,6 @@ namespace Resources {
 
 	extern const char* const XAttributeName;
 	extern const char* const YAttributeName;
-
-	extern const char* const PlayerTagName;
 
 	extern const char* const IdAttributeName;
 

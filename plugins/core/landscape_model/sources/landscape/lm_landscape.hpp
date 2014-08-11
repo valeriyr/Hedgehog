@@ -49,9 +49,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void setStartPoint( const IPlayer::Id& _playerId, const QPoint& _point );
+	/*virtual*/ void addStartPoint( const StartPoint& _startPoint );
 
-	/*virtual*/ QPoint getStartPoint( const IPlayer::Id& _playerId ) const;
+	/*virtual*/ const StartPoint& getStartPoint( const StartPoint::Id& _startPointId );
 
 	/*virtual*/ ILandscape::StartPointsIterator getStartPointsIterator() const;
 
@@ -128,7 +128,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< IPlayer::Id, QPoint >
+		std::map< StartPoint::Id, const StartPoint >
 		StartsPointsCollection;
 	typedef
 		StartsPointsCollection::iterator

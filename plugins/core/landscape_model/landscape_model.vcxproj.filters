@@ -431,5 +431,8 @@
     <ClInclude Include="sources\path_finders\lm_astar_search.hpp">
       <Filter>Path Finders</Filter>
     </ClInclude>
+    <ClInclude Include="h\lm_start_point.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

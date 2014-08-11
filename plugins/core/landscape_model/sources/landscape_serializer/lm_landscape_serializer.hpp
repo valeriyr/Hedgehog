@@ -34,7 +34,9 @@ public:
 
 	/*virtual*/ void load( ILandscape& _landscape, const QString& _filePath );
 
-	/*virtual*/ void save( const ILandscape& _landscape, const QString& _filePath ) const;
+	/*virtual*/ void loadObjects( const ILandscapeModel& _landscapeModel, ILandscape& _landscape, const QString& _filePath );
+
+	/*virtual*/ void save( const ILandscapeModel& _landscapeModel, const ILandscape& _landscape, const QString& _filePath ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,8 +46,8 @@ private:
 
 	void onHMapElement( const QString& _version, const int _width, const int _height );
 	void onSurfaceElement( const QString& _data );
-	void onObjectElement( const QString& _name, const int _x, const int _y, const IPlayer::Id& _playerId );
-	void onStartPoint( const IPlayer::Id& _playerId, const int _x, const int _y );
+	void onObjectElement( const ILandscapeModel& _landscapeModel, const QString& _name, const int _x, const int _y, const StartPoint::Id& _id );
+	void onStartPoint( const StartPoint::Id& _id, const int _x, const int _y );
 
 	void onFinishParsing();
 

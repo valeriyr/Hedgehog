@@ -67,6 +67,8 @@ private:
 
 	void onLandscapeWasInitialized( const Framework::Core::EventManager::Event& _event );
 
+	void onSimulationHasStarted( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 private:
