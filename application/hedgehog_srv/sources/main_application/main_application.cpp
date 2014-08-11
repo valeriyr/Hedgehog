@@ -71,10 +71,12 @@ MainApplication::exec()
 /*---------------------------------------------------------------------------*/
 
 
-void MainApplication::exitQt( int _signal )
+void
+MainApplication::exitQt( int _signal )
 {
 	QCoreApplication::exit(0);
-}
+
+} // MainApplication::exitQt
 
 
 /*---------------------------------------------------------------------------*/
