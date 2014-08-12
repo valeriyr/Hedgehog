@@ -28,6 +28,7 @@
     <ClCompile Include="sources\graphics_info_cache\lv_graphics_info_cache.cpp" />
     <ClCompile Include="sources\internal_resources\lv_internal_resources.cpp" />
     <ClCompile Include="sources\landscape_viewer\lv_landscape_viewer.cpp" />
+    <ClCompile Include="sources\map_preview_generator\lv_map_preview_generator.cpp" />
     <ClCompile Include="sources\ph\lv_ph.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -83,6 +84,8 @@
     <ClInclude Include="sources\internal_resources\lv_internal_resources.hpp" />
     <ClInclude Include="sources\landscape_viewer\lv_ilandscape_viewer.hpp" />
     <ClInclude Include="sources\landscape_viewer\lv_landscape_viewer.hpp" />
+    <ClInclude Include="sources\map_preview_generator\lv_imap_preview_generator.hpp" />
+    <ClInclude Include="sources\map_preview_generator\lv_map_preview_generator.hpp" />
     <ClInclude Include="sources\ph\lv_ph.hpp" />
     <ClInclude Include="sources\plugin\lv_plugin_instance.hpp" />
     <ClInclude Include="sources\surface_item_graphics_info\lv_isurface_item_graphics_info.hpp" />

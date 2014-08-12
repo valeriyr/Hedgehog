@@ -46,6 +46,9 @@
     <Filter Include="Dialogs">
       <UniqueIdentifier>{0c5a6e1f-5eef-4191-9039-f499c9b9d037}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map Preview Generator">
+      <UniqueIdentifier>{13ed65df-90ac-4f77-8b96-eb5b4eacdb0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lv_ph.cpp">
@@ -129,6 +132,9 @@
     <ClCompile Include="sources\dialogs\lv_multiplayer_dialog.cpp">
       <Filter>Dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="sources\map_preview_generator\lv_map_preview_generator.cpp">
+      <Filter>Map Preview Generator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lv_ph.hpp">
@@ -202,6 +208,12 @@
     </ClInclude>
     <ClInclude Include="sources\views\lv_player_info_view.hpp">
       <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\map_preview_generator\lv_imap_preview_generator.hpp">
+      <Filter>Map Preview Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\map_preview_generator\lv_map_preview_generator.hpp">
+      <Filter>Map Preview Generator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

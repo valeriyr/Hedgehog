@@ -2,6 +2,8 @@
 #ifndef __LV_MULTIPLAYER_DIALOG_HPP__
 #define __LV_MULTIPLAYER_DIALOG_HPP__
 
+#include "event_manager/h/em_subscriber.hpp"
+#include "event_manager/h/em_event.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,7 +41,7 @@ private slots:
 
 /*---------------------------------------------------------------------------*/
 
-	void onLandscapeSelected( QListWidgetItem* _oldItem, QListWidgetItem* _newItem );
+	void onLandscapeSelected( QListWidgetItem* _newItem, QListWidgetItem* _oldItem );
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,11 +61,17 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void onLandscapeWasInitialized( const Framework::Core::EventManager::Event& _event );
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	Framework::Core::EventManager::Subscriber m_subscriber;
 
 /*---------------------------------------------------------------------------*/
 

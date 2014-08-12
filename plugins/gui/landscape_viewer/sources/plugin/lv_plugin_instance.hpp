@@ -111,6 +111,7 @@ struct IEnvironment;
 struct ILandscapeViewer;
 struct ICommandsExecutor;
 struct IGraphicsInfoCache;
+struct IMapPreviewGenerator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -200,6 +201,8 @@ public:
 
 	boost::intrusive_ptr< IGraphicsInfoCache > getGraphicsInfoCache() const;
 
+	boost::intrusive_ptr< IMapPreviewGenerator > getMapPreviewGenerator() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -223,6 +226,8 @@ private:
 	boost::intrusive_ptr< ICommandsExecutor > m_commandsExecutor;
 
 	boost::intrusive_ptr< IGraphicsInfoCache > m_graphicsInfoCache;
+
+	boost::intrusive_ptr< IMapPreviewGenerator > m_mapPreviewGenerator;
 
 /*---------------------------------------------------------------------------*/
 

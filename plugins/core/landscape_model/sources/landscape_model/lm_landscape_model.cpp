@@ -453,7 +453,7 @@ LandscapeModel::getPlayerByStartPoint( const StartPoint::Id& _id ) const
 boost::intrusive_ptr< IPlayer >
 LandscapeModel::getMyPlayer() const
 {
-	return m_players.begin()->second;
+	return !m_players.empty() ? m_players.begin()->second : boost::intrusive_ptr< IPlayer >();
 
 } // LandscapeModel::getMyPlayer
 
@@ -708,6 +708,7 @@ LandscapeModel::initFirstPartTask( const QString& _filePath )
 	{
 		landscape.reset( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
 		landscape->setSize( 100, 100 );
+		landscape->addStartPoint( StartPoint( 0, QPoint( 10, 10 ) ) );
 	}
 
 	m_landscape = landscape;

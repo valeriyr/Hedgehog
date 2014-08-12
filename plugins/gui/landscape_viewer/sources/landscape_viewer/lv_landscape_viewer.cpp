@@ -61,10 +61,6 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 	m_environment.addFrameworkView( m_selectionView, Framework::GUI::WindowManager::ViewPosition::Right );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_type
-							,	boost::bind( &LandscapeViewer::onLandscapeWasInitialized, this, _1 ) );
-
-	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::SimulationHasStarted::ms_type
 							,	boost::bind( &LandscapeViewer::onSimulationHasStarted, this, _1 ) );
 
@@ -111,6 +107,10 @@ LandscapeViewer::getLandscapeFilePath() const
 void
 LandscapeViewer::openLandscape( const QString& _filePath )
 {
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_type
+							,	boost::bind( &LandscapeViewer::onLandscapeWasInitialized, this, _1 ) );
+
 	m_environment.lockModel()->getLandscapeModel()->initModelFirstPart( _filePath );
 
 } // LandscapeViewer::openLandscape
@@ -144,6 +144,8 @@ LandscapeViewer::closeLandscape()
 void
 LandscapeViewer::onLandscapeWasInitialized( const Framework::Core::EventManager::Event& _event )
 {
+	m_subscriber.unsubscribe( Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_type );
+
 	m_landscapeFilePath = _event.getAttribute( Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_filePathAttribute ).toString();
 
 	int landscapeWidth = _event.getAttribute( Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_landscapeWidthAttribute ).toInt();

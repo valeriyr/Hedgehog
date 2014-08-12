@@ -6,8 +6,14 @@
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_environment.hpp"
 
-#include "network_manager/h/nm_resources.hpp"
 #include "landscape_model/h/lm_resources.hpp"
+#include "landscape_model/ih/lm_ilandscape.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
+#include "landscape_model/h/lm_events.hpp"
+
+#include "network_manager/h/nm_resources.hpp"
+
+#include "multithreading_manager/h/mm_external_resources.hpp"
 
 #include "lv_multiplayer_dialog.moc"
 
@@ -24,6 +30,7 @@ namespace LandscapeViewer {
 MultiplayerDialog::MultiplayerDialog( const IEnvironment& _environment )
 	:	QDialog()
 	,	m_environment( _environment )
+	,	m_subscriber( m_environment.createSubscriber() )
 	,	m_mapPreview( new QLabel() )
 	,	m_playersLayout( new QVBoxLayout() )
 	,	m_landscapesList( new QListWidget() )
@@ -39,6 +46,10 @@ MultiplayerDialog::MultiplayerDialog( const IEnvironment& _environment )
 
 	connectWidgets();
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_type
+							,	boost::bind( &MultiplayerDialog::onLandscapeWasInitialized, this, _1 ) );
+
 } // MultiplayerDialog::MultiplayerDialog
 
 
@@ -47,6 +58,8 @@ MultiplayerDialog::MultiplayerDialog( const IEnvironment& _environment )
 
 MultiplayerDialog::~MultiplayerDialog()
 {
+	m_subscriber.unsubscribe();
+
 	disconnectWidgets();
 
 } // MultiplayerDialog::~MultiplayerDialog
@@ -56,7 +69,7 @@ MultiplayerDialog::~MultiplayerDialog()
 
 
 void
-MultiplayerDialog::onLandscapeSelected( QListWidgetItem* /*_oldItem*/, QListWidgetItem* _newItem )
+MultiplayerDialog::onLandscapeSelected( QListWidgetItem* _newItem, QListWidgetItem* /*_oldItem*/ )
 {
 	if ( _newItem )
 		currentLandscapeWasChanged( _newItem->text() );
@@ -99,6 +112,7 @@ MultiplayerDialog::createWidgets()
 	// Left block
 
 	QVBoxLayout* leftBlockLayout = new QVBoxLayout();
+	leftBlockLayout->setAlignment( Qt::AlignTop );
 
 	leftBlockLayout->addWidget( m_mapPreview );
 	leftBlockLayout->addLayout( m_playersLayout );
@@ -130,7 +144,7 @@ MultiplayerDialog::createWidgets()
 void
 MultiplayerDialog::initWidgets()
 {
-	m_mapPreview->setFixedSize( 300, 200 );
+	m_mapPreview->setFixedSize( IMapPreviewGenerator::ms_fixedWidgetSize );
 
 	m_startButton->setEnabled( false );
 
@@ -191,11 +205,16 @@ MultiplayerDialog::updateLandscapesList()
 
 	QFileInfoList filesList = pluginsDirectory.entryInfoList( filesFilter );
 
+	if ( filesList.empty() )
+		return;
+
 	for ( int i = 0; i < filesList.size(); ++i )
 	{
          QFileInfo fileInfo = filesList.at( i );
-		 m_landscapesList->addItem( fileInfo.baseName() );
+		 m_landscapesList->addItem( fileInfo.fileName() );
 	}
+
+	m_landscapesList->setCurrentItem( m_landscapesList->item( 0 ) );
 
 } // MultiplayerDialog::updateLandscapesList
 
@@ -206,7 +225,27 @@ MultiplayerDialog::updateLandscapesList()
 void
 MultiplayerDialog::currentLandscapeWasChanged( const QString& _landscapeName )
 {
+	m_environment.lockModel()->getLandscapeModel()
+		->initModelFirstPart( m_environment.getLandscapesDirectory() + "/" + _landscapeName );
+
 } // MultiplayerDialog::currentLandscapeWasChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::onLandscapeWasInitialized( const Framework::Core::EventManager::Event& _event )
+{
+	QPixmap surface;
+	m_environment.generateMapPreview(
+			surface
+		,	*m_environment.lockModel()->getLandscapeModel()->getLandscape()
+		,	IMapPreviewGenerator::GenerateLayers::Surface | IMapPreviewGenerator::GenerateLayers::StartPoints );
+
+	m_mapPreview->setPixmap( surface );
+
+} // MultiplayerDialog::onLandscapeWasInitialized
 
 
 /*---------------------------------------------------------------------------*/

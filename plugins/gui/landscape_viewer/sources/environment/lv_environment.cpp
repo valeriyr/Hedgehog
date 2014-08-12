@@ -11,9 +11,7 @@
 #include "animation_manager/h/am_animation_info.hpp"
 
 #include "landscape_viewer/sources/animations/lv_animation_name_generator.hpp"
-
 #include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
-
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 
 #include "window_manager/ih/wm_idialogs_manager.hpp"
@@ -396,6 +394,20 @@ Environment::getLandscapesDirectory() const
 	return m_pluginInstance.getModelInformation()->getLandscapesDirectory();
 
 } // Environment::getLandscapesDirectory
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::generateMapPreview(
+		QPixmap& _generateTo
+	,	const Plugins::Core::LandscapeModel::ILandscape& _landscape
+	,	const IMapPreviewGenerator::GenerateLayers::Mask& _mask ) const
+{
+	m_pluginInstance.getMapPreviewGenerator()->generate( _generateTo, _landscape, _mask );
+
+} // Environment::generateMapPreview
 
 
 /*---------------------------------------------------------------------------*/

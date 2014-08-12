@@ -114,10 +114,6 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	static const QSize ms_fixedWidgetSize;
-
-/*---------------------------------------------------------------------------*/
-
 	const IEnvironment& m_environment;
 
 	Framework::Core::EventManager::Subscriber m_subscriber;

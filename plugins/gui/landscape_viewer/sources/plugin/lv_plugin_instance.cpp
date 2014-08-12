@@ -11,15 +11,12 @@
 
 #include "landscape_viewer/sources/environment/lv_environment.hpp"
 #include "landscape_viewer/sources/landscape_viewer/lv_landscape_viewer.hpp"
-
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
-
 #include "landscape_viewer/sources/animations/lv_animation_name_generator.hpp"
-
 #include "landscape_viewer/sources/commands/lv_commands.hpp"
 #include "landscape_viewer/sources/commands_executor/lv_commands_executor.hpp"
-
 #include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
+#include "landscape_viewer/sources/map_preview_generator/lv_map_preview_generator.hpp"
 
 #include "window_manager/ih/wm_iwindow_manager.hpp"
 #include "window_manager/ih/wm_idialogs_manager.hpp"
@@ -113,9 +110,8 @@ PluginInstance::initialize()
 	getSettings()->regString( Resources::Properties::Ip, Framework::Core::NetworkManager::Resources::LocalHost );
 
 	m_environment.reset( new Environment( *this ) );
-
+	m_mapPreviewGenerator.reset( new MapPreviewGenerator( *m_environment ) );
 	m_landscapeViewer.reset( new LandscapeViewer( *m_environment ) );
-
 	m_commandsExecutor.reset( new CommandsExecutor( *m_environment, *m_landscapeViewer ) );
 
 	using namespace Framework::Core::CommandsManager;
@@ -175,6 +171,7 @@ PluginInstance::close()
 
 	m_commandsExecutor.reset();
 	m_landscapeViewer.reset();
+	m_mapPreviewGenerator.reset();
 	m_environment.reset();
 
 	getSettings()->unregProperty( Resources::Properties::SkinId );
@@ -449,6 +446,17 @@ PluginInstance::getGraphicsInfoCache() const
 	return m_graphicsInfoCache;
 
 } // PluginInstance::getGraphicsInfoCache
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IMapPreviewGenerator >
+PluginInstance::getMapPreviewGenerator() const
+{
+	return m_mapPreviewGenerator;
+
+} // PluginInstance::getMapPreviewGenerator
 
 
 /*---------------------------------------------------------------------------*/

@@ -5,13 +5,8 @@
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
-#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
 
 #include "landscape_model/ih/lm_imodel_locker.hpp"
-#include "landscape_model/ih/lm_isurface_item.hpp"
-
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
-
 #include "landscape_model/h/lm_events.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
@@ -29,21 +24,15 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-const QSize MinimapWidget::ms_fixedWidgetSize = QSize( 300, 200 );
-
-
-/*---------------------------------------------------------------------------*/
-
-
 MinimapWidget::MinimapWidget( const IEnvironment& _environment,	QWidget* _parent )
 	:	QWidget( _parent )
 	,	m_environment( _environment )
 	,	m_subscriber( _environment.createSubscriber() )
-	,	m_surfaceLayer( ms_fixedWidgetSize )
-	,	m_objectsLayer( ms_fixedWidgetSize )
+	,	m_surfaceLayer( IMapPreviewGenerator::ms_fixedWidgetSize )
+	,	m_objectsLayer( IMapPreviewGenerator::ms_fixedWidgetSize )
 	,	m_visibleArea( 0, 0, 0, 0 )
 {
-	setFixedSize( ms_fixedWidgetSize );
+	setFixedSize( IMapPreviewGenerator::ms_fixedWidgetSize );
 
 	m_surfaceLayer.fill(Qt::white);
 	m_objectsLayer.fill(Qt::transparent);
@@ -130,7 +119,11 @@ MinimapWidget::landscapeWasClosed()
 void
 MinimapWidget::onChangeVisibilityRectSize( const float _visibleWidth, const float _visibleHeight )
 {
-	m_visibleArea = QRect( m_visibleArea.x(), m_visibleArea.y(), ms_fixedWidgetSize.width() * _visibleWidth, ms_fixedWidgetSize.height() * _visibleHeight );
+	m_visibleArea
+		= QRect(	m_visibleArea.x()
+				,	m_visibleArea.y()
+				,	IMapPreviewGenerator::ms_fixedWidgetSize.width() * _visibleWidth
+				,	IMapPreviewGenerator::ms_fixedWidgetSize.height() * _visibleHeight );
 	update();
 
 } // MinimapWidget::onChangeVisibilityRectSize
@@ -291,40 +284,7 @@ MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape
 	if ( !m_environment.getBool( Resources::Properties::UpdateMinimap ) )
 		return;
 
-	QPixmap surfaceLayer
-		= QPixmap( QSize(
-				_landscape.getWidth() * Resources::Landscape::CellSize
-			,	_landscape.getHeight() * Resources::Landscape::CellSize ) );
-
-	QPainter painter;
-	painter.begin( &surfaceLayer );
-	painter.setRenderHint( QPainter::Antialiasing );
-
-	for ( int i = 0; i < _landscape.getWidth(); ++i )
-	{
-		for ( int j = 0; j < _landscape.getHeight(); ++j )
-		{
-			boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
-				surfaceItem = _landscape.getSurfaceItem( QPoint( i, j ) );
-
-			boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-				surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo(
-						m_environment.getString( Resources::Properties::SkinId )
-					,	surfaceItem->getId() );
-
-			painter.drawPixmap(
-				QRect(
-						i * Resources::Landscape::CellSize
-					,	j * Resources::Landscape::CellSize
-					,	Resources::Landscape::CellSize
-					,	Resources::Landscape::CellSize )
-					,	m_environment.getPixmap(
-								surfaceItemGraphicsInfo->getAtlasName()
-							,	Framework::GUI::ImagesManager::IImagesManager::TransformationData( surfaceItemGraphicsInfo->getFrameRect() ) ) );
-		}
-	}
-
-	m_surfaceLayer = surfaceLayer.scaled( ms_fixedWidgetSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+	m_environment.generateMapPreview( m_surfaceLayer, _landscape, IMapPreviewGenerator::GenerateLayers::Surface );
 
 } // MinimapWidget::renderSurface
 
@@ -338,51 +298,7 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 	if ( !m_environment.getBool( Resources::Properties::UpdateMinimap ) )
 		return;
 
-	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
-		= m_environment.lockModel();
-
-	if ( handle->getLandscapeModel()->getLandscape() )
-	{
-		m_objectsLayer = QPixmap( ms_fixedWidgetSize );
-
-		m_objectsLayer.fill( Qt::transparent );
-
-		float scaleByX = static_cast< float >( ms_fixedWidgetSize.width() ) / ( _landscape.getWidth() * Resources::Landscape::CellSize );
-		float scaleByY = static_cast< float >( ms_fixedWidgetSize.height() ) / ( _landscape.getHeight() * Resources::Landscape::CellSize );
-
-		QPainter painter;
-		painter.begin( &m_objectsLayer );
-		painter.setRenderHint( QPainter::Antialiasing );
-
-		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection objectsCollection;
-		handle->getLandscapeModel()->getLandscape()->fetchObjects( objectsCollection );
-
-		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
-				begin = objectsCollection.begin()
-			,	end = objectsCollection.end();
-
-		for ( ; begin != end; ++begin )
-		{
-			boost::intrusive_ptr< Core::LandscapeModel::ILocateComponent > locateComponent
-				= ( *begin )->getComponent< Core::LandscapeModel::ILocateComponent >( Plugins::Core::LandscapeModel::ComponentId::Locate );
-
-			for ( int x = locateComponent->getLocation().x(); x < locateComponent->getLocation().x() + locateComponent->getStaticData().m_size.width(); ++x )
-			{
-				for ( int y = locateComponent->getLocation().y(); y < locateComponent->getLocation().y() + locateComponent->getStaticData().m_size.height(); ++y )
-				{
-					qreal posByX = ( x * Resources::Landscape::CellSize ) * scaleByX;
-					qreal posByY = ( y * Resources::Landscape::CellSize ) * scaleByY;
-
-					QPixmap pixmap( QSize( Resources::Landscape::CellSize * scaleByX, Resources::Landscape::CellSize * scaleByY ) );
-					pixmap.fill( QColor( 0, 255, 0 ) );
-
-					painter.drawPixmap(
-							QRect( posByX, posByY, pixmap.width(), pixmap.height() )
-						,	pixmap );
-				}
-			}
-		}
-	}
+	m_environment.generateMapPreview( m_objectsLayer, _landscape, IMapPreviewGenerator::GenerateLayers::Objects );
 
 } // MinimapWidget::renderObjects
 
