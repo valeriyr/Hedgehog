@@ -144,6 +144,8 @@ MultiplayerDialog::createWidgets()
 void
 MultiplayerDialog::initWidgets()
 {
+	setMinimumHeight( IMapPreviewGenerator::ms_fixedWidgetSize.height() * 2.5f );
+
 	m_mapPreview->setFixedSize( IMapPreviewGenerator::ms_fixedWidgetSize );
 
 	m_startButton->setEnabled( false );
