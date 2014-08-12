@@ -31,6 +31,8 @@ struct ISystemInformation
 
 /*---------------------------------------------------------------------------*/
 
+	virtual const QString& getApplicationDirectory() const = 0;
+
 	virtual const QString& getPluginsDirectory() const = 0;
 
 	virtual const QString& getConfigDirectory() const = 0;

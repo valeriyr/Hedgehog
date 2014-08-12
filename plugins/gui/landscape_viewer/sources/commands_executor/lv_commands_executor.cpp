@@ -9,6 +9,7 @@
 #include "landscape_viewer/sources/dialogs/lv_multiplayer_dialog.hpp"
 
 #include "landscape_model/ih/lm_imodel_locker.hpp"
+#include "landscape_model/h/lm_resources.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -42,7 +43,7 @@ void
 CommandsExecutor::newLandscape()
 {
 	m_landscapeViewer.closeLandscape();
-	m_landscapeViewer.openLandscape( "c:/temp/new.hmap" );
+	m_landscapeViewer.openLandscape( "" );
 
 } // CommandsExecutor::newLandscape
 
@@ -101,24 +102,12 @@ CommandsExecutor::saveAsLandscape()
 
 
 void
-CommandsExecutor::createMultiplayerGame()
+CommandsExecutor::startMultiplayerGame()
 {
-	MultiplayerDialog multiplayerDialog;
+	MultiplayerDialog multiplayerDialog( m_environment );
 	multiplayerDialog.exec();
 
-} // CommandsExecutor::createMultiplayerGame
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-CommandsExecutor::connectMultiplayerGame()
-{
-	MultiplayerDialog multiplayerDialog;
-	multiplayerDialog.exec();
-
-} // CommandsExecutor::connectMultiplayerGame
+} // CommandsExecutor::startMultiplayerGame
 
 
 /*---------------------------------------------------------------------------*/

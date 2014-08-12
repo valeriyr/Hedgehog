@@ -27,8 +27,10 @@
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
-
+#include "landscape_model/ih/lm_imodel_information.hpp"
 #include "landscape_model/ih/lm_ilandscape.hpp"
+
+#include "landscape_model/h/lm_resources.hpp"
 
 #include "settings/ih/st_isettings.hpp"
 
@@ -61,7 +63,7 @@ Environment::~Environment()
 QString
 Environment::showOpenFileDialog() const
 {
-	return m_pluginInstance.getDialogsManager()->getOpenFileName( "*.hmap" );
+	return m_pluginInstance.getDialogsManager()->getOpenFileName( Core::LandscapeModel::Resources::LandscapeFileFilter );
 
 } // Environment::showOpenFileDialog
 
@@ -72,7 +74,7 @@ Environment::showOpenFileDialog() const
 QString
 Environment::showSaveFileDialog() const
 {
-	return m_pluginInstance.getDialogsManager()->getSaveFileName( "*.hmap" );
+	return m_pluginInstance.getDialogsManager()->getSaveFileName( Core::LandscapeModel::Resources::LandscapeFileFilter );
 
 } // Environment::showSaveFileDialog
 
@@ -383,6 +385,17 @@ Environment::printMessage(
 	m_pluginInstance.getSystemMessenger()->printMessage( Resources::ModuleName, _messageLevel, _message );
 
 } // Environment::printMessage
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+Environment::getLandscapesDirectory() const
+{
+	return m_pluginInstance.getModelInformation()->getLandscapesDirectory();
+
+} // Environment::getLandscapesDirectory
 
 
 /*---------------------------------------------------------------------------*/

@@ -13,6 +13,10 @@ namespace Resources {
 
 	const char* const ModelThreadName = "ModelThread";
 
+	const char* const LandscapeFileExtension = "hmap";
+
+	const char* const LandscapeFileFilter = "*.hmap";
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Resources

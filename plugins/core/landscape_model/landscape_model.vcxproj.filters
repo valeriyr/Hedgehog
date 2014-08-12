@@ -61,6 +61,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{513acdd3-13cd-43c0-a756-6dbec313624f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Model Information">
+      <UniqueIdentifier>{b44ccb25-4c7e-4f64-bda5-e3a8ce0e30af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -179,6 +182,9 @@
     </ClCompile>
     <ClCompile Include="sources\path_finders\lm_astar_search.cpp">
       <Filter>Path Finders</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\model_information\lm_model_information.cpp">
+      <Filter>Model Information</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -433,6 +439,12 @@
     </ClInclude>
     <ClInclude Include="h\lm_start_point.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_imodel_information.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\model_information\lm_model_information.hpp">
+      <Filter>Model Information</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

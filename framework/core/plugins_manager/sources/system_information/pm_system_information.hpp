@@ -31,6 +31,8 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ const QString& getApplicationDirectory() const;
+
 	/*virtual*/ const QString& getPluginsDirectory() const;
 
 	/*virtual*/ const QString& getConfigDirectory() const;

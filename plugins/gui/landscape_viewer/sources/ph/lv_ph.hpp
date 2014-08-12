@@ -16,6 +16,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QGroupBox>
 
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGraphicsScene>

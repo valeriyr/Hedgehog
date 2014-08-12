@@ -58,6 +58,7 @@ struct ISurfaceItemsCache;
 struct INotificationCenter;
 struct IStaticData;
 struct IModelLocker;
+struct IModelInformation;
 
 class LandscapeModel;
 
@@ -133,6 +134,8 @@ private:
 	boost::intrusive_ptr< IEnvironment > m_environment;
 
 	boost::intrusive_ptr< IStaticData > m_staticData;
+
+	boost::intrusive_ptr< IModelInformation > m_modelInformation;
 
 	boost::intrusive_ptr< ISurfaceItemsCache > m_surfaceItemsCache;
 

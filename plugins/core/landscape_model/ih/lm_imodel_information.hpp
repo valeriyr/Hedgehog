@@ -1,6 +1,6 @@
 
-#ifndef __LV_ICOMMANDS_EXECUTOR_HPP__
-#define __LV_ICOMMANDS_EXECUTOR_HPP__
+#ifndef __LM_IMODEL_INFORMATION_HPP__
+#define __LM_IMODEL_INFORMATION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -9,30 +9,22 @@
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
-namespace GUI {
-namespace LandscapeViewer {
+namespace Core {
+namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ICommandsExecutor
+	const unsigned int IID_MODEL_INFORMATION = 3;
+
+/*---------------------------------------------------------------------------*/
+
+struct IModelInformation
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void newLandscape() = 0;
-
-	virtual void openLandscape() = 0;
-
-	virtual void closeLandscape() = 0;
-
-	virtual void saveLandscape() = 0;
-
-	virtual void saveAsLandscape() = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual void startMultiplayerGame() = 0;
+	virtual QString getLandscapesDirectory() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,10 +32,10 @@ struct ICommandsExecutor
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeViewer
-} // namespace GUI
+} // namespace LandscapeModel
+} // namespace Core
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ICOMMANDS_EXECUTOR_HPP__
+#endif // __LM_IMODEL_INFORMATION_HPP__

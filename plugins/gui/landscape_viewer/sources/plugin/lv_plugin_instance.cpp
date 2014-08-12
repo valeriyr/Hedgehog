@@ -28,6 +28,7 @@
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 #include "landscape_model/ih/lm_istatic_data.hpp"
+#include "landscape_model/ih/lm_imodel_information.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/h/lm_plugin_id.hpp"
 
@@ -58,6 +59,8 @@
 #include "script_engine/ih/se_iscripts_executor.hpp"
 #include "script_engine/h/se_plugin_id.hpp"
 #include "script_engine/h/se_resources.hpp"
+
+#include "network_manager/h/nm_resources.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -107,7 +110,7 @@ PluginInstance::initialize()
 	getSettings()->regString( Resources::Properties::SkinId, "winter" );
 	getSettings()->regBool( Resources::Properties::UpdateMinimap, true );
 	getSettings()->regUInt( Resources::Properties::Port, 1988 );
-	getSettings()->regString( Resources::Properties::Ip, "localhost" );
+	getSettings()->regString( Resources::Properties::Ip, Framework::Core::NetworkManager::Resources::LocalHost );
 
 	m_environment.reset( new Environment( *this ) );
 
@@ -134,11 +137,8 @@ PluginInstance::initialize()
 		,	boost::intrusive_ptr< ICommand >( new SaveAsLandscapeCommand( *m_commandsExecutor ) ) );
 
 	getCommandsManager()->registerCommand(
-			Resources::Commands::CreateMultiplayerGameCommandName
-		,	boost::intrusive_ptr< ICommand >( new CreateMultiplayerGameCommand( *m_commandsExecutor ) ) );
-	getCommandsManager()->registerCommand(
-			Resources::Commands::ConnectMultiplayerGameCommandName
-		,	boost::intrusive_ptr< ICommand >( new ConnectMultiplayerGameCommand( *m_commandsExecutor ) ) );
+			Resources::Commands::StartMultiplayerGameCommandName
+		,	boost::intrusive_ptr< ICommand >( new StartMultiplayerGameCommand( *m_commandsExecutor ) ) );
 
 	getWindowManager()->addCommandToMenu( "File/New", Resources::Commands::NewLandscapeCommandName );
 	getWindowManager()->addCommandToMenu( "File/Open", Resources::Commands::OpenLandscapeCommandName );
@@ -146,8 +146,7 @@ PluginInstance::initialize()
 	getWindowManager()->addCommandToMenu( "File/Save", Resources::Commands::SaveLandscapeCommandName );
 	getWindowManager()->addCommandToMenu( "File/Save As", Resources::Commands::SaveAsLandscapeCommandName );
 
-	getWindowManager()->addCommandToMenu( "Multiplayer/Create", Resources::Commands::CreateMultiplayerGameCommandName );
-	getWindowManager()->addCommandToMenu( "Multiplayer/Connect", Resources::Commands::ConnectMultiplayerGameCommandName );
+	getWindowManager()->addCommandToMenu( "Multiplayer/Start", Resources::Commands::StartMultiplayerGameCommandName );
 
 } // PluginInstance::initialize
 
@@ -158,8 +157,7 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
-	getWindowManager()->removeCommandFromMenu( "Multiplayer/Connect" );
-	getWindowManager()->removeCommandFromMenu( "Multiplayer/Create" );
+	getWindowManager()->removeCommandFromMenu( "Multiplayer/Start" );
 
 	getWindowManager()->removeCommandFromMenu( "File/Save As" );
 	getWindowManager()->removeCommandFromMenu( "File/Save" );
@@ -167,8 +165,7 @@ PluginInstance::close()
 	getWindowManager()->removeCommandFromMenu( "File/Open" );
 	getWindowManager()->removeCommandFromMenu( "File/New" );
 
-	getCommandsManager()->unregisterCommand( Resources::Commands::ConnectMultiplayerGameCommandName );
-	getCommandsManager()->unregisterCommand( Resources::Commands::CreateMultiplayerGameCommandName );
+	getCommandsManager()->unregisterCommand( Resources::Commands::StartMultiplayerGameCommandName );
 
 	getCommandsManager()->unregisterCommand( Resources::Commands::SaveAsLandscapeCommandName );
 	getCommandsManager()->unregisterCommand( Resources::Commands::SaveLandscapeCommandName );
@@ -427,6 +424,20 @@ PluginInstance::getStaticData() const
 			,	Plugins::Core::LandscapeModel::IID_STATIC_DATA );
 
 } // PluginInstance::getStaticData
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Plugins::Core::LandscapeModel::IModelInformation >
+PluginInstance::getModelInformation() const
+{
+	return
+		getPluginInterface< Plugins::Core::LandscapeModel::IModelInformation >(
+				Plugins::Core::LandscapeModel::PID_LANDSCAPE_MODEL
+			,	Plugins::Core::LandscapeModel::IID_MODEL_INFORMATION );
+
+} // PluginInstance::getModelInformation
 
 
 /*---------------------------------------------------------------------------*/

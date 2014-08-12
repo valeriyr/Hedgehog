@@ -95,6 +95,14 @@ namespace Views {
 
 /*---------------------------------------------------------------------------*/
 
+	extern const char* const CreateButtonName;
+
+	extern const char* const ConnectButtonName;
+
+	extern const char* const StartButtonName;
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Views
 
 /*---------------------------------------------------------------------------*/
@@ -137,9 +145,7 @@ namespace Commands {
 
 	extern const char* const SaveAsLandscapeCommandName;
 
-	extern const char* const CreateMultiplayerGameCommandName;
-
-	extern const char* const ConnectMultiplayerGameCommandName;
+	extern const char* const StartMultiplayerGameCommandName;
 
 /*---------------------------------------------------------------------------*/
 

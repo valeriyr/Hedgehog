@@ -33,6 +33,17 @@ SystemInformation::~SystemInformation()
 
 
 const QString&
+SystemInformation::getApplicationDirectory() const
+{
+	return m_systemData.m_applicationDirectory;
+
+} // SystemInformation::getApplicationDirectory
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QString&
 SystemInformation::getPluginsDirectory() const
 {
 	return m_systemData.m_pluginsDirectory;

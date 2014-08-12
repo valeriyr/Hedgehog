@@ -41,7 +41,8 @@ MainGuiApplication::exec()
 	QString applicationDirectory( m_qtApplicaiton.applicationDirPath() );
 
 	Framework::Core::PluginsManager::SystemData systemData(
-			applicationDirectory + "/" + Resources::PluginsDirectoryName
+			applicationDirectory
+		,	applicationDirectory + "/" + Resources::PluginsDirectoryName
 		,	applicationDirectory + "/" + Resources::ResourcesDirectoryName
 		,	applicationDirectory + "/" + Resources::ConfigsDirectoryName
 		,	Resources::ApplicationName

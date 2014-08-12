@@ -21,6 +21,10 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+	const char* const LandscapesDirectoryName = "maps";
+
+/*---------------------------------------------------------------------------*/
+
 	const int TimeLimit = 100;
 
 	const char* const TimeLimitWarning = "Time limit has been exceeded! Time: '%1' ( limit: '%2' )";

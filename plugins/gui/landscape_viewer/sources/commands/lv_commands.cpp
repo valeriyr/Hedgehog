@@ -40,8 +40,7 @@ DEFINE_COMMAND( CloseLandscapeCommand, closeLandscape )
 DEFINE_COMMAND( SaveLandscapeCommand, saveLandscape )
 DEFINE_COMMAND( SaveAsLandscapeCommand, saveAsLandscape )
 
-DEFINE_COMMAND( CreateMultiplayerGameCommand, createMultiplayerGame )
-DEFINE_COMMAND( ConnectMultiplayerGameCommand, connectMultiplayerGame )
+DEFINE_COMMAND( StartMultiplayerGameCommand, startMultiplayerGame )
 
 /*---------------------------------------------------------------------------*/
 

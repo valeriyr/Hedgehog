@@ -171,6 +171,14 @@ namespace Views {
 
 /*---------------------------------------------------------------------------*/
 
+	const char* const CreateButtonName = "Create";
+
+	const char* const ConnectButtonName = "Connect";
+
+	const char* const StartButtonName = "Start";
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Views
 
 /*---------------------------------------------------------------------------*/
@@ -213,9 +221,7 @@ namespace Commands {
 
 	const char* const SaveAsLandscapeCommandName = "lv.landscape.saveas";
 
-	const char* const CreateMultiplayerGameCommandName = "lv.multiplayer.create";
-
-	const char* const ConnectMultiplayerGameCommandName = "lv.multiplayer.connect";
+	const char* const StartMultiplayerGameCommandName = "lv.multiplayer.start";
 
 /*---------------------------------------------------------------------------*/
 

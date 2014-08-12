@@ -26,6 +26,7 @@
 #include "landscape_model/sources/landscape_serializer/lm_landscape_serializer.hpp"
 #include "landscape_model/sources/surface_items_cache/lm_surface_items_cache.hpp"
 #include "landscape_model/sources/static_data/lm_static_data.hpp"
+#include "landscape_model/sources/model_information/lm_model_information.hpp"
 
 #include "landscape_model/sources/surface_item/lm_surface_item.hpp"
 
@@ -47,6 +48,7 @@ BEGIN_INTERFACE_MAP( PluginInstance )
 	INTERFACE_DECLARATION( IID_LANDSCAPE_MODEL, getLandscapeModelLocker() )
 	INTERFACE_DECLARATION( IID_SURFACE_ITEMS_CACHE, m_surfaceItemsCache )
 	INTERFACE_DECLARATION( IID_STATIC_DATA, m_staticData )
+	INTERFACE_DECLARATION( IID_MODEL_INFORMATION, m_modelInformation )
 
 END_INTERFACE_MAP()
 
@@ -76,6 +78,7 @@ PluginInstance::initialize()
 	m_environment.reset( new Environment( *this ) );
 	m_notificationCenter.reset( new NotificationCenter() );
 	m_staticData.reset( new StaticData() );
+	m_modelInformation.reset( new ModelInformation( *m_environment ) );
 	m_surfaceItemsCache.reset( new SurfaceItemsCache() );
 	m_landscapeSerializer.reset( new LandscapeSerializer() );
 	m_landscapeModel.reset( new LandscapeModel( *m_environment, *m_landscapeSerializer, *m_surfaceItemsCache, *m_staticData ) );
@@ -95,6 +98,7 @@ PluginInstance::close()
 	m_landscapeModel.reset();
 	m_landscapeSerializer.reset();
 	m_surfaceItemsCache.reset();
+	m_modelInformation.reset();
 	m_staticData.reset();
 	m_notificationCenter.reset();
 	m_environment.reset();

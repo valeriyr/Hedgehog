@@ -1,26 +1,25 @@
 
-#ifndef __LV_COMMANDS_EXECUTOR_HPP__
-#define __LV_COMMANDS_EXECUTOR_HPP__
+#ifndef __LM_MODEL_INFORMATION_HPP__
+#define __LM_MODEL_INFORMATION_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_viewer/sources/commands_executor/lv_icommands_executor.hpp"
+#include "landscape_model/ih/lm_imodel_information.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
-namespace GUI {
-namespace LandscapeViewer {
+namespace Core {
+namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
-struct ILandscapeViewer;
 
 /*---------------------------------------------------------------------------*/
 
-class CommandsExecutor
-	:	public Tools::Core::BaseWrapper< ICommandsExecutor >
+class ModelInformation
+	:	public Tools::Core::BaseWrapper< IModelInformation >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -29,25 +28,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	CommandsExecutor( const IEnvironment& _environment, ILandscapeViewer& _landscapeViewer );
+	ModelInformation( const IEnvironment& _environment );
 
-	virtual ~CommandsExecutor();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void newLandscape();
-
-	/*virtual*/ void openLandscape();
-
-	/*virtual*/ void closeLandscape();
-
-	/*virtual*/ void saveLandscape();
-
-	/*virtual*/ void saveAsLandscape();
+	virtual ~ModelInformation();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void startMultiplayerGame();
+	/*virtual*/ QString getLandscapesDirectory() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -57,18 +44,16 @@ private:
 
 	const IEnvironment& m_environment;
 
-	ILandscapeViewer& m_landscapeViewer;
-
 /*---------------------------------------------------------------------------*/
 
 };
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeViewer
-} // namespace GUI
+} // namespace LandscapeModel
+} // namespace Core
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_COMMANDS_EXECUTOR_HPP__
+#endif // __LM_MODEL_INFORMATION_HPP__

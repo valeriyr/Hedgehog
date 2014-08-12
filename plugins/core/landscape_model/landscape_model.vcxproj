@@ -46,6 +46,7 @@
     <ClCompile Include="sources\landscape\lm_landscape.cpp" />
     <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp" />
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp" />
+    <ClCompile Include="sources\model_information\lm_model_information.cpp" />
     <ClCompile Include="sources\model_locker\lm_model_locker.cpp" />
     <ClCompile Include="sources\notification_center\lm_notification_center.cpp" />
     <ClCompile Include="sources\path_finders\lm_astar_search.cpp" />
@@ -96,6 +97,7 @@
     <ClInclude Include="ih\lm_iaction.hpp" />
     <ClInclude Include="ih\lm_ilandscape.hpp" />
     <ClInclude Include="ih\lm_ilandscape_model.hpp" />
+    <ClInclude Include="ih\lm_imodel_information.hpp" />
     <ClInclude Include="ih\lm_imodel_locker.hpp" />
     <ClInclude Include="ih\lm_iplayer.hpp" />
     <ClInclude Include="ih\lm_istatic_data.hpp" />
@@ -133,6 +135,7 @@
     <ClInclude Include="sources\landscape_model\lm_landscape_model.hpp" />
     <ClInclude Include="sources\landscape_serializer\lm_ilandscape_serializer.hpp" />
     <ClInclude Include="sources\landscape_serializer\lm_landscape_serializer.hpp" />
+    <ClInclude Include="sources\model_information\lm_model_information.hpp" />
     <ClInclude Include="sources\model_locker\lm_model_locker.hpp" />
     <ClInclude Include="sources\notification_center\lm_inotification_center.hpp" />
     <ClInclude Include="sources\notification_center\lm_inotifier.hpp" />

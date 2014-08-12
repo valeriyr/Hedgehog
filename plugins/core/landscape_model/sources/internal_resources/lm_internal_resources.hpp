@@ -19,6 +19,10 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+	extern const char* const LandscapesDirectoryName;
+
+/*---------------------------------------------------------------------------*/
+
 	extern const int TimeLimit;
 
 	extern const char* const TimeLimitWarning;
