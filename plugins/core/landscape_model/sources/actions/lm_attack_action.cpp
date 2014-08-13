@@ -193,7 +193,7 @@ AttackAction::processAction()
 
 					int damageBonus = attackComponent->getStaticData().m_maxDamage - attackComponent->getStaticData().m_minDamage;
 
-					int damage = attackComponent->getStaticData().m_minDamage + ( rand() % damageBonus ) + 1;
+					int damage = attackComponent->getStaticData().m_minDamage + ( rand() % ( damageBonus + 1 ) );
 
 					targetHealthComponent->setHealth( targetHealthComponent->getHealth() - damage );
 
