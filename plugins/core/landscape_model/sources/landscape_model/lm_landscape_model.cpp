@@ -82,8 +82,7 @@ LandscapeModel::LandscapeModel(
 
 LandscapeModel::~LandscapeModel()
 {
-	m_environment.removeTask( m_actionsProcessingTaskHandle );
-	m_actionsProcessingTaskHandle.reset();
+	resetModel();
 
 	m_environment.stopThread( Resources::ModelThreadName );
 
@@ -94,26 +93,54 @@ LandscapeModel::~LandscapeModel()
 
 
 void
-LandscapeModel::initModelFirstPart( const QString& _filePath )
+LandscapeModel::initLandscape( const QString& _filePath )
 {
-	m_environment.pushTask(
-			Resources::ModelThreadName
-		,	boost::bind( &LandscapeModel::initFirstPartTask, this, _filePath ) );
+	boost::intrusive_ptr< ILandscape >
+		landscape( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
 
-} // LandscapeModel::initModelFirstPart
+	try
+	{
+		m_landscapeSerializer.load( *landscape, _filePath );
+	}
+	catch( ... )
+	{
+		landscape.reset( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
+		landscape->setSize( 100, 100 );
+		landscape->addStartPoint( StartPoint( 0, QPoint( 10, 10 ) ) );
+	}
+
+	m_landscape = landscape;
+
+} // LandscapeModel::initLandscape
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-LandscapeModel::initModelSecondPart( const QString& _filePath, const ILandscapeModel::PlayersSturtupDataCollection& _data )
+LandscapeModel::initPlayers( const QString& _filePath, const ILandscapeModel::PlayersSturtupDataCollection& _data )
 {
-	m_environment.pushTask(
-			Resources::ModelThreadName
-		,	boost::bind( &LandscapeModel::initSecondPartTask, this, _filePath, _data ) );
+	ILandscapeModel::PlayersSturtupDataCollectionIterator
+			begin = _data.begin()
+		,	end = _data.end();
 
-} // LandscapeModel::initModelSecondPart
+	for ( ; begin != end; ++begin )
+	{
+		boost::intrusive_ptr< IPlayer > player( new Player( m_environment, m_staticData, begin->m_race, begin->m_startPointId ) );
+		m_players.insert( std::make_pair( player->getUniqueId(), player ) );
+	}
+
+	locateStartPointObjects();
+
+	try
+	{
+		m_landscapeSerializer.loadObjects( *this, *m_landscape, _filePath );
+	}
+	catch( ... )
+	{
+	}
+
+} // LandscapeModel::initPlayers
 
 
 /*---------------------------------------------------------------------------*/
@@ -122,9 +149,14 @@ LandscapeModel::initModelSecondPart( const QString& _filePath, const ILandscapeM
 void
 LandscapeModel::resetModel()
 {
-	m_environment.pushTask(
-			Resources::ModelThreadName
-		,	boost::bind( &LandscapeModel::resetTask, this ) );
+	m_environment.removeTask( m_actionsProcessingTaskHandle );
+	m_actionsProcessingTaskHandle.reset();
+
+	m_ticksCounter = 0;
+
+	m_landscape.reset();
+	m_players.clear();
+	m_workers.clear();
 
 } // LandscapeModel::resetModel
 
@@ -135,11 +167,31 @@ LandscapeModel::resetModel()
 void
 LandscapeModel::saveModel( const QString& _filePath )
 {
-	m_environment.pushTask(
-			Resources::ModelThreadName
-		,	boost::bind( &LandscapeModel::saveTask, this, _filePath ) );
+	if ( m_landscape )
+	{
+		m_landscapeSerializer.save( *this, *m_landscape, _filePath );
+	}
 
 } // LandscapeModel::saveModel
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::startSimulation()
+{
+	if ( m_actionsProcessingTaskHandle.isValid() )
+		return;
+
+	m_ticksCounter = 0;
+
+	m_actionsProcessingTaskHandle = m_environment.pushPeriodicalTask(
+			Resources::ModelThreadName
+		,	boost::bind( &LandscapeModel::gameMainLoop, this )
+		,	Resources::TimeLimit );
+
+} // LandscapeModel::startSimulation
 
 
 /*---------------------------------------------------------------------------*/
@@ -687,131 +739,6 @@ LandscapeModel::gameMainLoop()
 	}
 
 } // LandscapeModel::gameMainLoop
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::initFirstPartTask( const QString& _filePath )
-{
-	QMutexLocker locker( &m_mutex );
-
-	boost::intrusive_ptr< ILandscape >
-		landscape( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
-
-	try
-	{
-		m_landscapeSerializer.load( *landscape, _filePath );
-	}
-	catch( ... )
-	{
-		landscape.reset( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
-		landscape->setSize( 100, 100 );
-		landscape->addStartPoint( StartPoint( 0, QPoint( 10, 10 ) ) );
-	}
-
-	m_landscape = landscape;
-
-	m_ticksCounter = 0;
-
-	m_environment.riseEvent(
-		Framework::Core::EventManager::Event( Events::LandscapeWasInitialized::ms_type )
-			.pushAttribute( Events::LandscapeWasInitialized::ms_filePathAttribute, _filePath )
-			.pushAttribute( Events::LandscapeWasInitialized::ms_landscapeWidthAttribute, landscape->getWidth() )
-			.pushAttribute( Events::LandscapeWasInitialized::ms_landscapeHeightAttribute, landscape->getHeight() ) );
-
-} // LandscapeModel::initFirstPartTask
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::initSecondPartTask( const QString& _filePath, const ILandscapeModel::PlayersSturtupDataCollection& _data )
-{
-	assert( !m_actionsProcessingTaskHandle.isValid() && "Simulation should not be started here!" );
-
-	initPlayers( _data );
-
-	locateStartPointObjects();
-
-	try
-	{
-		m_landscapeSerializer.loadObjects( *this, *m_landscape, _filePath );
-	}
-	catch( ... )
-	{
-	}
-
-	m_actionsProcessingTaskHandle = m_environment.pushPeriodicalTask(
-			Resources::ModelThreadName
-		,	boost::bind( &LandscapeModel::gameMainLoop, this )
-		,	Resources::TimeLimit );
-
-	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::SimulationHasStarted::ms_type ) );
-
-} // LandscapeModel::initSecondPartTask
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::resetTask()
-{
-	QMutexLocker locker( &m_mutex );
-
-	m_environment.removeTask( m_actionsProcessingTaskHandle );
-	m_actionsProcessingTaskHandle.reset();
-
-	m_ticksCounter = 0;
-
-	m_landscape.reset();
-	m_players.clear();
-
-	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::LandscapeWasReset::ms_type ) );
-
-} // LandscapeModel::resetTask
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::saveTask( const QString& _filePath )
-{
-	QMutexLocker locker( &m_mutex );
-
-	if ( m_landscape )
-	{
-		m_landscapeSerializer.save( *this, *m_landscape, _filePath );
-
-		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::LandscapeWasSaved::ms_type )
-				.pushAttribute( Events::LandscapeWasSaved::ms_filePathAttribute, _filePath ) );
-	}
-
-} // LandscapeModel::saveTask
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::initPlayers( const ILandscapeModel::PlayersSturtupDataCollection& _data )
-{
-	ILandscapeModel::PlayersSturtupDataCollectionIterator
-			begin = _data.begin()
-		,	end = _data.end();
-
-	for ( ; begin != end; ++begin )
-	{
-		boost::intrusive_ptr< IPlayer > player( new Player( m_environment, m_staticData, begin->m_race, begin->m_startPointId ) );
-		m_players.insert( std::make_pair( player->getUniqueId(), player ) );
-	}
-
-} // LandscapeModel::initPlayers
 
 
 /*---------------------------------------------------------------------------*/

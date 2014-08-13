@@ -47,13 +47,15 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initModelFirstPart( const QString& _filePath ) = 0;
+	virtual void initLandscape( const QString& _filePath ) = 0;
 
-	virtual void initModelSecondPart( const QString& _filePath, const PlayersSturtupDataCollection& _data ) = 0;
+	virtual void initPlayers( const QString& _filePath, const PlayersSturtupDataCollection& _data ) = 0;
 
 	virtual void resetModel() = 0;
 
 	virtual void saveModel( const QString& _filePath ) = 0;
+
+	virtual void startSimulation() = 0;
 
 /*---------------------------------------------------------------------------*/
 

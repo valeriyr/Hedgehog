@@ -23,41 +23,6 @@ namespace CurrentTickNumberChanged
 
 /*---------------------------------------------------------------------------*/
 
-namespace LandscapeWasInitialized
-{
-	const char* const ms_type = "LandscapeWasInitialized";
-
-	const char* const ms_filePathAttribute = "FilePath";
-	const char* const ms_landscapeWidthAttribute = "LandscapeWidth";
-	const char* const ms_landscapeHeightAttribute = "LandscapeHeight";
-}
-
-/*---------------------------------------------------------------------------*/
-
-namespace SimulationHasStarted
-{
-	const char* const ms_type = "SimulationHasStarted";
-}
-
-/*---------------------------------------------------------------------------*/
-
-namespace LandscapeWasReset
-{
-	const char* const ms_type = "LandscapeWasReset";
-}
-
-
-/*---------------------------------------------------------------------------*/
-
-namespace LandscapeWasSaved
-{
-	const char* const ms_type = "LandscapeWasSaved";
-
-	const char* const ms_filePathAttribute = "FilePath";
-}
-
-/*---------------------------------------------------------------------------*/
-
 namespace ObjectAdded
 {
 	const char* const ms_type = "ObjectAdded";

@@ -35,7 +35,6 @@ namespace LandscapeViewer {
 
 LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 	:	m_environment( _environment )
-	,	m_subscriber( m_environment.createSubscriber() )
 	,	m_viewsMediator( new ViewsMediator() )
 	,	m_descriptionView( new DescriptionView() )
 	,	m_settingsView( new SettingsView( _environment ) )
@@ -60,10 +59,6 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 	m_environment.addFrameworkView( m_actionPanelView, Framework::GUI::WindowManager::ViewPosition::Right );
 	m_environment.addFrameworkView( m_selectionView, Framework::GUI::WindowManager::ViewPosition::Right );
 
-	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::SimulationHasStarted::ms_type
-							,	boost::bind( &LandscapeViewer::onSimulationHasStarted, this, _1 ) );
-
 } // LandscapeViewer::LandscapeViewer
 
 
@@ -72,8 +67,6 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 
 LandscapeViewer::~LandscapeViewer()
 {
-	m_subscriber.unsubscribe();
-
 	closeLandscape();
 
 	m_environment.removeFrameworkView( m_selectionView );
@@ -107,11 +100,39 @@ LandscapeViewer::getLandscapeFilePath() const
 void
 LandscapeViewer::openLandscape( const QString& _filePath )
 {
-	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_type
-							,	boost::bind( &LandscapeViewer::onLandscapeWasInitialized, this, _1 ) );
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
 
-	m_environment.lockModel()->getLandscapeModel()->initModelFirstPart( _filePath );
+	m_landscapeFilePath = _filePath;
+
+	locker->getLandscapeModel()->initLandscape( _filePath );
+
+	Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection collection;
+
+	Core::LandscapeModel::ILandscape::StartPointsIterator iterator
+		= locker->getLandscapeModel()->getLandscape()->getStartPointsIterator();
+
+	while ( iterator->isValid() )
+	{
+		collection.push_back( Plugins::Core::LandscapeModel::ILandscapeModel::PlayerStartupData( rand() % 2 ? "Orc" : "Human", iterator->current().m_id ) );
+		iterator->next();
+	}
+
+	locker->getLandscapeModel()->initPlayers( m_landscapeFilePath, collection );
+
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
+		landscape = locker->getLandscapeModel()->getLandscape();
+
+	m_descriptionView->landscapeWasOpened( QSize( landscape->getWidth(), landscape->getHeight() ), m_landscapeFilePath );
+	m_playerInfoView->landscapeWasOpened();
+	m_minimapView->landscapeWasOpened();
+	m_LandscapeView->landscapeWasOpened();
+	m_selectionView->landscapeWasOpened();
+	m_objectInfoView->landscapeWasOpened();
+	m_actionPanelView->landscapeWasOpened();
+	m_objectStatusView->landscapeWasOpened();
+
+	locker->getLandscapeModel()->startSimulation();
 
 } // LandscapeViewer::openLandscape
 
@@ -136,57 +157,6 @@ LandscapeViewer::closeLandscape()
 	m_environment.lockModel()->getLandscapeModel()->resetModel();
 
 } // LandscapeViewer::closeLandscape
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeViewer::onLandscapeWasInitialized( const Framework::Core::EventManager::Event& _event )
-{
-	m_subscriber.unsubscribe( Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_type );
-
-	m_landscapeFilePath = _event.getAttribute( Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_filePathAttribute ).toString();
-
-	int landscapeWidth = _event.getAttribute( Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_landscapeWidthAttribute ).toInt();
-	int landscapeHeight = _event.getAttribute( Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_landscapeHeightAttribute ).toInt();
-
-	m_descriptionView->landscapeWasOpened( QSize( landscapeWidth, landscapeHeight ), m_landscapeFilePath );
-
-	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
-		locker = m_environment.lockModel();
-
-	Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection collection;
-
-	Core::LandscapeModel::ILandscape::StartPointsIterator iterator
-		= locker->getLandscapeModel()->getLandscape()->getStartPointsIterator();
-
-	while ( iterator->isValid() )
-	{
-		collection.push_back( Plugins::Core::LandscapeModel::ILandscapeModel::PlayerStartupData( rand() % 2 ? "Orc" : "Human", iterator->current().m_id ) );
-		iterator->next();
-	}
-
-	locker->getLandscapeModel()->initModelSecondPart( m_landscapeFilePath, collection );
-
-} // LandscapeViewer::onLandscapeWasInitialized
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeViewer::onSimulationHasStarted( const Framework::Core::EventManager::Event& _event )
-{
-	m_playerInfoView->landscapeWasOpened();
-	m_minimapView->landscapeWasOpened();
-	m_LandscapeView->landscapeWasOpened();
-	m_selectionView->landscapeWasOpened();
-	m_objectInfoView->landscapeWasOpened();
-	m_actionPanelView->landscapeWasOpened();
-	m_objectStatusView->landscapeWasOpened();
-
-} // LandscapeViewer::onSimulationHasStarted
 
 
 /*---------------------------------------------------------------------------*/

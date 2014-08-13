@@ -46,10 +46,6 @@ MultiplayerDialog::MultiplayerDialog( const IEnvironment& _environment )
 
 	connectWidgets();
 
-	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::LandscapeWasInitialized::ms_type
-							,	boost::bind( &MultiplayerDialog::onLandscapeWasInitialized, this, _1 ) );
-
 } // MultiplayerDialog::MultiplayerDialog
 
 
@@ -228,17 +224,8 @@ void
 MultiplayerDialog::currentLandscapeWasChanged( const QString& _landscapeName )
 {
 	m_environment.lockModel()->getLandscapeModel()
-		->initModelFirstPart( m_environment.getLandscapesDirectory() + "/" + _landscapeName );
+		->initLandscape( m_environment.getLandscapesDirectory() + "/" + _landscapeName );
 
-} // MultiplayerDialog::currentLandscapeWasChanged
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-MultiplayerDialog::onLandscapeWasInitialized( const Framework::Core::EventManager::Event& _event )
-{
 	QPixmap surface;
 	m_environment.generateMapPreview(
 			surface
@@ -247,7 +234,7 @@ MultiplayerDialog::onLandscapeWasInitialized( const Framework::Core::EventManage
 
 	m_mapPreview->setPixmap( surface );
 
-} // MultiplayerDialog::onLandscapeWasInitialized
+} // MultiplayerDialog::currentLandscapeWasChanged
 
 
 /*---------------------------------------------------------------------------*/

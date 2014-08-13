@@ -54,13 +54,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void initModelFirstPart( const QString& _filePath );
+	/*virtual*/ void initLandscape( const QString& _filePath );
 
-	/*virtual*/ void initModelSecondPart( const QString& _filePath, const ILandscapeModel::PlayersSturtupDataCollection& _data );
+	/*virtual*/ void initPlayers( const QString& _filePath, const ILandscapeModel::PlayersSturtupDataCollection& _data );
 
 	/*virtual*/ void resetModel();
 
 	/*virtual*/ void saveModel( const QString& _filePath );
+
+	/*virtual*/ void startSimulation();
 
 /*---------------------------------------------------------------------------*/
 
@@ -135,17 +137,7 @@ private:
 
 	void gameMainLoop();
 
-	void initFirstPartTask( const QString& _filePath );
-
-	void initSecondPartTask( const QString& _filePath, const ILandscapeModel::PlayersSturtupDataCollection& _data );
-
-	void resetTask();
-
-	void saveTask( const QString& _filePath );
-
 /*---------------------------------------------------------------------------*/
-
-	void initPlayers( const ILandscapeModel::PlayersSturtupDataCollection& _data );
 
 	void locateStartPointObjects();
 
