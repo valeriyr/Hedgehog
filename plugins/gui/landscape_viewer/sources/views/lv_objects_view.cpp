@@ -241,7 +241,7 @@ void
 ObjectsView::fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _parentNode )
 {
 	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection collection;
-	m_environment.fetchSurfaceItemGraphicsInfos( _skinId, collection );
+	m_environment.getGraphicsInfoCache()->fetchSurfaceItemGraphicsInfos( _skinId, collection );
 
 	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollectionIterator
 			begin = collection.begin()

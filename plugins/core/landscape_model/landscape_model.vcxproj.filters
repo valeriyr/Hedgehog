@@ -446,5 +446,8 @@
     <ClInclude Include="sources\model_information\lm_model_information.hpp">
       <Filter>Model Information</Filter>
     </ClInclude>
+    <ClInclude Include="h\lm_player_type.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@
 
 #include "landscape_model/h/lm_resources_data.hpp"
 #include "landscape_model/h/lm_start_point.hpp"
+#include "landscape_model/h/lm_player_type.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,6 +30,8 @@ struct IPlayer
 /*---------------------------------------------------------------------------*/
 
 	virtual Id getUniqueId() const = 0;
+
+	virtual PlayerType::Enum getType() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

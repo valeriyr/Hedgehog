@@ -117,18 +117,13 @@ struct IEnvironment
 
 	virtual void fetchTypes( Core::LandscapeModel::IStaticData::StaticDataCollection& _collection ) const = 0;
 
+	virtual void fetchRaces( Core::LandscapeModel::IStaticData::RacesCollection& _collection ) const = 0;
+
 	virtual Core::LandscapeModel::IStaticData::ObjectStaticData getObjectStaticData( const QString& _objectName ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void fetchSurfaceItemGraphicsInfos(
-			const QString& _skinId
-		,	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection& _collection ) const = 0;
-
-	virtual boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-		getSurfaceItemGraphicsInfo(
-				const QString& _skinId
-			,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const = 0;
+	virtual boost::intrusive_ptr< IGraphicsInfoCache > getGraphicsInfoCache() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

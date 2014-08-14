@@ -126,7 +126,7 @@ LandscapeModel::initPlayers( const QString& _filePath, const ILandscapeModel::Pl
 
 	for ( ; begin != end; ++begin )
 	{
-		boost::intrusive_ptr< IPlayer > player( new Player( m_environment, m_staticData, begin->m_race, begin->m_startPointId ) );
+		boost::intrusive_ptr< IPlayer > player( new Player( m_environment, m_staticData, begin->m_race, begin->m_startPointId,  begin->m_playerType ) );
 		m_players.insert( std::make_pair( player->getUniqueId(), player ) );
 	}
 

@@ -27,12 +27,14 @@ Player::Player(
 	,	const IStaticData& _staticData
 	,	const QString& _race
 	,	const StartPoint::Id& _startPointId
+	,	const PlayerType::Enum _playerType
 	)
 	:	m_environment( _environment )
 	,	m_staticData( _staticData )
 	,	m_id( ++IdGenerator )
 	,	m_race( _race )
 	,	m_startPointId( _startPointId )
+	,	m_playerType( _playerType )
 	,	m_resourceData()
 	,	m_notifier( *m_environment.getNotificationCenter(), this )
 {
@@ -66,6 +68,17 @@ Player::getUniqueId() const
 	return m_id;
 
 } // Player::getUniqueId
+
+
+/*---------------------------------------------------------------------------*/
+
+
+PlayerType::Enum
+Player::getType() const
+{
+	return m_playerType;
+
+} // Player::getType
 
 
 /*---------------------------------------------------------------------------*/

@@ -5,7 +5,10 @@
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
+
 #include "landscape_model/ih/lm_isurface_item.hpp"
+
+#include "iterators/it_iiterator.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,6 +39,10 @@ struct IGraphicsInfoCache
 		SurfaceItemGraphicsInfoCollection::iterator
 		SurfaceItemGraphicsInfoCollectionIterator;
 
+	typedef
+		boost::shared_ptr< Tools::Core::IIterator< QColor > >
+		PossiblePlayersColorIterator;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual void regSurfaceItemGraphicsInfo(
@@ -44,18 +51,20 @@ struct IGraphicsInfoCache
 		,	const QString& _atlasName
 		,	const QRect _frameRect ) = 0;
 
-/*---------------------------------------------------------------------------*/
-
 	virtual boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 		getSurfaceItemGraphicsInfo(
 				const QString& _skinId
 			,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const = 0;
 
-/*---------------------------------------------------------------------------*/
-
 	virtual void fetchSurfaceItemGraphicsInfos(
 			const QString& _skinId
 		,	SurfaceItemGraphicsInfoCollection& _collection ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void regPossiblePlayersColor( const QColor& _color ) = 0;
+
+	virtual PossiblePlayersColorIterator getPossiblePlayersColors() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

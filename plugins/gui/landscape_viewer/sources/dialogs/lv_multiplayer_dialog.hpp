@@ -2,8 +2,23 @@
 #ifndef __LV_MULTIPLAYER_DIALOG_HPP__
 #define __LV_MULTIPLAYER_DIALOG_HPP__
 
+#include "landscape_model/h/lm_start_point.hpp"
+
 #include "event_manager/h/em_subscriber.hpp"
 #include "event_manager/h/em_event.hpp"
+
+/*---------------------------------------------------------------------------*/
+
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct ILandscape;
+		}
+	}
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,6 +74,11 @@ private:
 	void updateLandscapesList();
 	void currentLandscapeWasChanged( const QString& _landscapeName );
 
+	void updateMapPreview( const Core::LandscapeModel::ILandscape& _landscape );
+	void updatePlayersList( const Core::LandscapeModel::ILandscape& _landscape );
+
+	void clearLayout( QLayout* _layout );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -81,6 +101,28 @@ private:
 	QPushButton*	m_createButton;
 	QPushButton*	m_connectButton;
 	QPushButton*	m_startButton;
+
+/*---------------------------------------------------------------------------*/
+
+	struct PlayerData
+	{
+		PlayerData( const QString _race, const QColor _color )
+			:	m_race( _race )
+			,	m_color( _color )
+		{}
+
+		QString m_race;
+		QColor m_color;
+	};
+
+	typedef
+		std::map< Core::LandscapeModel::StartPoint::Id, PlayerData >
+		PlayersDataCollection;
+	typedef
+		PlayersDataCollection::iterator
+		PlayersDataCollectionIterator;
+
+	PlayersDataCollection m_playersData;
 
 /*---------------------------------------------------------------------------*/
 

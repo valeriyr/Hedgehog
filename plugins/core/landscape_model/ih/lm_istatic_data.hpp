@@ -78,6 +78,13 @@ struct IStaticData
 		ResourcesCollection::iterator
 		ResourcesCollectionIterator;
 
+	typedef
+		std::map< QString, QString >
+		RacesCollection;
+	typedef
+		RacesCollection::const_iterator
+		RacesCollectionIterator;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual const ObjectStaticData getObjectStaticData( const QString& _name ) const = 0;
@@ -97,6 +104,8 @@ struct IStaticData
 /*---------------------------------------------------------------------------*/
 
 	virtual void regRace( const QString& _raceName, const QString& _startPointObjectName ) = 0;
+
+	virtual void fetchRaces( RacesCollection& _collection ) const = 0;
 
 	virtual QString getStartPointObjectName( const QString& _raceName ) const = 0;
 

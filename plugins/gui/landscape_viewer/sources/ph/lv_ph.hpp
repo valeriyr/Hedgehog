@@ -4,6 +4,7 @@
 
 #include <QtCore/QTimer>
 #include <QtCore/QDir>
+#include <QtCore/QTextStream>
 
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QLineEdit>

@@ -35,13 +35,16 @@ public:
 			const IEnvironment& _environment
 		,	const IStaticData& _staticData
 		,	const QString& _race
-		,	const StartPoint::Id& _startPointId );
+		,	const StartPoint::Id& _startPointId
+		,	const PlayerType::Enum _playerType );
 
 	virtual ~Player();
 
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ IPlayer::Id getUniqueId() const;
+
+	/*virtual*/ PlayerType::Enum getType() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -82,6 +85,8 @@ private:
 	const QString m_race;
 
 	const StartPoint::Id m_startPointId;
+
+	const PlayerType::Enum m_playerType;
 
 	ResourcesData m_resourceData;
 

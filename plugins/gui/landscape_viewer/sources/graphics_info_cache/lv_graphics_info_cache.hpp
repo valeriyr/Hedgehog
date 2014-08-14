@@ -36,18 +36,20 @@ public:
 		,	const QString& _atlasName
 		,	const QRect _frameRect );
 
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 		getSurfaceItemGraphicsInfo(
 				const QString& _skinId
 			,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const;
 
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ void fetchSurfaceItemGraphicsInfos(
 			const QString& _skinId
 		,	SurfaceItemGraphicsInfoCollection& _collection ) const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void regPossiblePlayersColor( const QColor& _color );
+
+	/*virtual*/ IGraphicsInfoCache::PossiblePlayersColorIterator getPossiblePlayersColors() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -79,7 +81,13 @@ private:
 		GraphicsInfoCollection::const_iterator
 		GraphicsInfoCollectionConstIterator;
 
+	typedef
+		std::vector< QColor >
+		PossiblePlayersColorsCollection;
+
 	GraphicsInfoCollection m_graphicsInfoCollection;
+
+	PossiblePlayersColorsCollection m_possiblePlayersColors;
 
 /*---------------------------------------------------------------------------*/
 

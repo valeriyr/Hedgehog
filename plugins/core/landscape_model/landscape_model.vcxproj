@@ -74,6 +74,7 @@
     <ClInclude Include="h\lm_events.hpp" />
     <ClInclude Include="h\lm_object.hpp" />
     <ClInclude Include="h\lm_object_states.hpp" />
+    <ClInclude Include="h\lm_player_type.hpp" />
     <ClInclude Include="h\lm_plugin_id.hpp" />
     <ClInclude Include="h\lm_resources.hpp" />
     <ClInclude Include="h\lm_resources_data.hpp" />

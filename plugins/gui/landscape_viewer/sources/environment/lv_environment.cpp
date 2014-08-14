@@ -202,6 +202,17 @@ Environment::fetchTypes( Core::LandscapeModel::IStaticData::StaticDataCollection
 /*---------------------------------------------------------------------------*/
 
 
+void
+Environment::fetchRaces( Core::LandscapeModel::IStaticData::RacesCollection& _collection ) const
+{
+	m_pluginInstance.getStaticData()->fetchRaces( _collection );
+
+} // Environment::fetchRaces
+
+
+/*---------------------------------------------------------------------------*/
+
+
 Core::LandscapeModel::IStaticData::ObjectStaticData
 Environment::getObjectStaticData( const QString& _objectName ) const
 {
@@ -213,27 +224,12 @@ Environment::getObjectStaticData( const QString& _objectName ) const
 /*---------------------------------------------------------------------------*/
 
 
-void
-Environment::fetchSurfaceItemGraphicsInfos(
-		const QString& _skinId
-	,	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection& _collection ) const
+boost::intrusive_ptr< IGraphicsInfoCache >
+Environment::getGraphicsInfoCache() const
 {
-	m_pluginInstance.getGraphicsInfoCache()->fetchSurfaceItemGraphicsInfos( _skinId, _collection );
+	return m_pluginInstance.getGraphicsInfoCache();
 
-} // Environment::fetchSurfaceItemGraphicsInfos
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-Environment::getSurfaceItemGraphicsInfo(
-		const QString& _skinId
-	,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const
-{
-	return m_pluginInstance.getGraphicsInfoCache()->getSurfaceItemGraphicsInfo( _skinId, _id );
-
-} // Environment::getSurfaceItemGraphicsInfo
+} // Environment::getGraphicsInfoCache
 
 
 /*---------------------------------------------------------------------------*/

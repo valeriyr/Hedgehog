@@ -436,7 +436,8 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 		delete itemsList[LandscapeScene::ZValue::Surface];
 
 		boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-			surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( m_environment.getString( Resources::Properties::SkinId ), id );
+			surfaceItemGraphicsInfo = m_environment.getGraphicsInfoCache()
+				->getSurfaceItemGraphicsInfo( m_environment.getString( Resources::Properties::SkinId ), id );
 
 		QGraphicsPixmapItem* newItem
 			= addPixmap( m_environment.getPixmap(
@@ -704,7 +705,7 @@ LandscapeScene::generateLandscape()
 					surfaceItem = handle->getLandscapeModel()->getLandscape()->getSurfaceItem( QPoint( i, j ) );
 
 				boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-					surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo(
+					surfaceItemGraphicsInfo = m_environment.getGraphicsInfoCache()->getSurfaceItemGraphicsInfo(
 							m_environment.getString( Resources::Properties::SkinId )
 						,	surfaceItem->getId() );
 

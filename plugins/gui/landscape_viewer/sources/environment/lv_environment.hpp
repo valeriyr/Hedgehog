@@ -75,18 +75,13 @@ public:
 
 	/*virtual*/ void fetchTypes( Core::LandscapeModel::IStaticData::StaticDataCollection& _collection ) const;
 
+	/*virtual*/ void fetchRaces( Core::LandscapeModel::IStaticData::RacesCollection& _collection ) const;
+
 	/*virtual*/ Core::LandscapeModel::IStaticData::ObjectStaticData getObjectStaticData( const QString& _objectName ) const;
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void fetchSurfaceItemGraphicsInfos(
-			const QString& _skinId
-		,	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection& _collection ) const;
-
-	/*virtual*/ boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-		getSurfaceItemGraphicsInfo(
-				const QString& _skinId
-			,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const;
+	/*virtual*/ boost::intrusive_ptr< IGraphicsInfoCache > getGraphicsInfoCache() const;
 
 /*---------------------------------------------------------------------------*/
 

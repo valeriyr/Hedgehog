@@ -106,10 +106,21 @@ StaticData::regRace( const QString& _raceName, const QString& _startPointObjectN
 /*---------------------------------------------------------------------------*/
 
 
+void
+StaticData::fetchRaces( IStaticData::RacesCollection& _collection ) const
+{
+	_collection = m_races;
+
+} // StaticData::fetchRaces
+
+
+/*---------------------------------------------------------------------------*/
+
+
 QString
 StaticData::getStartPointObjectName( const QString& _raceName ) const
 {
-	RacesCollectionIterator iterator = m_races.find( _raceName );
+	IStaticData::RacesCollectionIterator iterator = m_races.find( _raceName );
 
 	return
 				iterator != m_races.end()

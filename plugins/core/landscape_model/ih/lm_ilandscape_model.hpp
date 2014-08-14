@@ -28,14 +28,21 @@ struct ILandscapeModel
 
 	struct PlayerStartupData
 	{
-		PlayerStartupData( const QString& _race, const StartPoint::Id& _startPointId )
+		PlayerStartupData(
+				const QString& _race
+			,	const StartPoint::Id& _startPointId
+			,	const PlayerType::Enum _playerType
+			)
 			:	m_race( _race )
 			,	m_startPointId( _startPointId )
+			,	m_playerType( _playerType )
 		{}
 
 		const QString m_race;
 
 		const StartPoint::Id m_startPointId;
+
+		const PlayerType::Enum m_playerType;
 	};
 
 	typedef

@@ -287,7 +287,8 @@ LandscapeSurfaceItemEditingState::addSceneObjects()
 	if ( !m_currentEditorItem )
 	{
 		boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-			surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo( m_environment.getString( Resources::Properties::SkinId ), m_id );
+			surfaceItemGraphicsInfo = m_environment.getGraphicsInfoCache()
+				->getSurfaceItemGraphicsInfo( m_environment.getString( Resources::Properties::SkinId ), m_id );
 
 		m_currentEditorItem
 			= new QGraphicsPixmapItem( m_environment.getPixmap(

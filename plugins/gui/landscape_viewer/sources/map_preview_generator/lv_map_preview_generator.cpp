@@ -90,7 +90,7 @@ MapPreviewGenerator::generateSurface(
 				surfaceItem = _landscape.getSurfaceItem( QPoint( i, j ) );
 
 			boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-				surfaceItemGraphicsInfo = m_environment.getSurfaceItemGraphicsInfo(
+				surfaceItemGraphicsInfo = m_environment.getGraphicsInfoCache()->getSurfaceItemGraphicsInfo(
 						m_environment.getString( Resources::Properties::SkinId )
 					,	surfaceItem->getId() );
 

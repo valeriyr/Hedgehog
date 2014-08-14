@@ -39,6 +39,7 @@ MultiplayerDialog::MultiplayerDialog( const IEnvironment& _environment )
 	,	m_createButton( new QPushButton( Resources::Views::CreateButtonName ) )
 	,	m_connectButton( new QPushButton( Resources::Views::ConnectButtonName ) )
 	,	m_startButton( new QPushButton( Resources::Views::StartButtonName ) )
+	,	m_playersData()
 {
 	createWidgets();
 
@@ -110,7 +111,10 @@ MultiplayerDialog::createWidgets()
 	QVBoxLayout* leftBlockLayout = new QVBoxLayout();
 	leftBlockLayout->setAlignment( Qt::AlignTop );
 
-	leftBlockLayout->addWidget( m_mapPreview );
+	QHBoxLayout* mapPreviewLayout = new QHBoxLayout();
+	mapPreviewLayout->addWidget( m_mapPreview );
+
+	leftBlockLayout->addLayout( mapPreviewLayout );
 	leftBlockLayout->addLayout( m_playersLayout );
 
 	// Buttons
@@ -223,18 +227,160 @@ MultiplayerDialog::updateLandscapesList()
 void
 MultiplayerDialog::currentLandscapeWasChanged( const QString& _landscapeName )
 {
-	m_environment.lockModel()->getLandscapeModel()
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
+	locker->getLandscapeModel()
 		->initLandscape( m_environment.getLandscapesDirectory() + "/" + _landscapeName );
 
+	updateMapPreview( *locker->getLandscapeModel()->getLandscape() );
+	updatePlayersList( *locker->getLandscapeModel()->getLandscape() );
+
+} // MultiplayerDialog::currentLandscapeWasChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::updateMapPreview( const Core::LandscapeModel::ILandscape& _landscape )
+{
 	QPixmap surface;
 	m_environment.generateMapPreview(
 			surface
-		,	*m_environment.lockModel()->getLandscapeModel()->getLandscape()
+		,	_landscape
 		,	IMapPreviewGenerator::GenerateLayers::Surface | IMapPreviewGenerator::GenerateLayers::StartPoints );
 
 	m_mapPreview->setPixmap( surface );
 
-} // MultiplayerDialog::currentLandscapeWasChanged
+} // MultiplayerDialog::updateMapPreview
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::updatePlayersList( const Core::LandscapeModel::ILandscape& _landscape )
+{
+	clearLayout( m_playersLayout );
+
+	m_playersData.clear();
+
+	Plugins::Core::LandscapeModel::ILandscape::StartPointsIterator
+		iterator = _landscape.getStartPointsIterator();
+
+	while( iterator->isValid() )
+	{
+		m_playersData.insert( std::make_pair( iterator->current().m_id, PlayerData( "Orc", QColor( 255, 255, 0 ) ) ) );
+		iterator->next();
+	}
+
+	Core::LandscapeModel::IStaticData::RacesCollection reces;
+	m_environment.fetchRaces( reces );
+
+	QStringList qraces;
+
+	Core::LandscapeModel::IStaticData::RacesCollectionIterator
+			beginRaces = reces.begin()
+		,	endRaces = reces.end();
+
+	for ( ; beginRaces != endRaces; ++beginRaces )
+		qraces.push_back( beginRaces->first );
+
+	QStringList qplayers;
+
+	for (	Core::LandscapeModel::PlayerType::Enum type = Core::LandscapeModel::PlayerType::Begin
+		;	type != Core::LandscapeModel::PlayerType::Size
+		;	type = static_cast< Core::LandscapeModel::PlayerType::Enum >( type + 1 ) )
+	{
+		qplayers.push_back( Core::LandscapeModel::PlayerType::toString( type ) );
+	}
+
+	typedef std::vector< std::pair< QIcon, QColor > > ColorsCollection;
+	typedef ColorsCollection::const_iterator ColorsCollectionIterator;
+
+	ColorsCollection colors;
+
+	IGraphicsInfoCache::PossiblePlayersColorIterator
+		colorsIterator = m_environment.getGraphicsInfoCache()->getPossiblePlayersColors();
+
+	while( colorsIterator->isValid() )
+	{
+		QPixmap pixmap( 32, 16 );
+		pixmap.fill( colorsIterator->current() );
+
+		colors.push_back( std::make_pair( QIcon( pixmap ), colorsIterator->current() ) );
+
+		colorsIterator->next();
+	}
+
+	PlayersDataCollectionIterator
+			playersBegin = m_playersData.begin()
+		,	playersEnd = m_playersData.end();
+
+	for ( ; playersBegin != playersEnd; ++playersBegin )
+	{
+		QHBoxLayout* playerLayout = new QHBoxLayout();
+
+		playerLayout->addWidget( new QLabel( "User:" ) );
+
+		QComboBox* playerComboBox = new QComboBox();
+		playerComboBox->addItems( qplayers );
+
+		playerLayout->addWidget( playerComboBox );
+
+		playerLayout->addWidget( new QLabel( "Race:" ) );
+
+		QComboBox* raceComboBox = new QComboBox();
+		raceComboBox->addItems( qraces );
+
+		playerLayout->addWidget( raceComboBox );
+
+		playerLayout->addWidget( new QLabel( "Color:" ) );
+
+		QComboBox* colorsComboBox = new QComboBox();
+
+		ColorsCollectionIterator
+				colorsBegin = colors.begin()
+			,	colorsEnd = colors.end();
+
+		for ( ; colorsBegin != colorsEnd; ++colorsBegin )
+		{
+			QString text;
+			QTextStream stream( &text );
+
+			stream << "( " << colorsBegin->second.red() << ", " << colorsBegin->second.green() << ", " << colorsBegin->second.blue() << " )";
+
+			colorsComboBox->addItem( colorsBegin->first, text );
+		}
+
+		playerLayout->addWidget( colorsComboBox );
+
+		m_playersLayout->addLayout( playerLayout );
+	}
+
+} // MultiplayerDialog::updatePlayersList
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::clearLayout( QLayout* _layout )
+{
+	while ( QLayoutItem* item = _layout->takeAt( 0 ) )
+	{
+		QWidget* widget;
+		if ( widget = item->widget() )
+			delete widget;
+
+		if ( QLayout* childLayout = item->layout() )
+			clearLayout( childLayout );
+
+		delete item;
+	}
+
+} // MultiplayerDialog::clearLayout
 
 
 /*---------------------------------------------------------------------------*/

@@ -469,8 +469,14 @@ PluginInstance::exportScriptAPI()
 
 	// Graphics info cache
 
+	exporter.exportClass< QColor >( "QColor" )
+		->withConstructor< int, int, int >();
+
+	// Graphics info cache
+
 	exporter.exportClass< IGraphicsInfoCache >( "IGraphicsInfoCache" )
-		->withMethod( "regSurfaceItemGraphicsInfo", &IGraphicsInfoCache::regSurfaceItemGraphicsInfo );
+		->withMethod( "regSurfaceItemGraphicsInfo", &IGraphicsInfoCache::regSurfaceItemGraphicsInfo )
+		.withMethod( "regPossiblePlayersColor", &IGraphicsInfoCache::regPossiblePlayersColor );
 
 	exporter.exportVariable( "GraphicsInfoCache", m_graphicsInfoCache.get() );
 

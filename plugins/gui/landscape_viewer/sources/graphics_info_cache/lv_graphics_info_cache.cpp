@@ -5,6 +5,9 @@
 
 #include "landscape_viewer/sources/surface_item_graphics_info/lv_surface_item_graphics_info.hpp"
 
+#include "iterators/it_simple_iterator.hpp"
+
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -109,6 +112,30 @@ GraphicsInfoCache::fetchSurfaceItemGraphicsInfos(
 	}
 
 } // GraphicsInfoCache::fetchSurfaceItemGraphicsInfos
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+GraphicsInfoCache::regPossiblePlayersColor( const QColor& _color )
+{
+	m_possiblePlayersColors.push_back( _color );
+
+} // GraphicsInfoCache::regPossiblePlayersColor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+IGraphicsInfoCache::PossiblePlayersColorIterator
+GraphicsInfoCache::getPossiblePlayersColors() const
+{
+	return
+		IGraphicsInfoCache::PossiblePlayersColorIterator(
+			new Tools::Core::SimpleIterator< PossiblePlayersColorsCollection >( m_possiblePlayersColors ) );
+
+} // GraphicsInfoCache::getPossiblePlayersColors
 
 
 /*---------------------------------------------------------------------------*/

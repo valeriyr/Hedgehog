@@ -114,7 +114,11 @@ LandscapeViewer::openLandscape( const QString& _filePath )
 
 	while ( iterator->isValid() )
 	{
-		collection.push_back( Plugins::Core::LandscapeModel::ILandscapeModel::PlayerStartupData( rand() % 2 ? "Orc" : "Human", iterator->current().m_id ) );
+		collection.push_back(
+			Plugins::Core::LandscapeModel::ILandscapeModel::PlayerStartupData(
+					rand() % 2 ? "Orc" : "Human"
+				,	iterator->current().m_id
+				,	Plugins::Core::LandscapeModel::PlayerType::Player ) );
 		iterator->next();
 	}
 

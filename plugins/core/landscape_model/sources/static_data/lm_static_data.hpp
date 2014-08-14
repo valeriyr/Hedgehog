@@ -48,6 +48,8 @@ public:
 
 	/*virtual*/ void regRace( const QString& _raceName, const QString& _startPointObjectName );
 
+	/*virtual*/ void fetchRaces( IStaticData::RacesCollection& _collection ) const;
+
 	/*virtual*/ QString getStartPointObjectName( const QString& _raceName ) const;
 
 /*---------------------------------------------------------------------------*/
@@ -60,16 +62,7 @@ private:
 
 	IStaticData::ResourcesCollection m_resources;
 
-/*---------------------------------------------------------------------------*/
-
-	typedef
-		std::map< QString, QString >
-		RacesCollection;
-	typedef
-		RacesCollection::const_iterator
-		RacesCollectionIterator;
-
-	RacesCollection m_races;
+	IStaticData::RacesCollection m_races;
 
 /*---------------------------------------------------------------------------*/
 
