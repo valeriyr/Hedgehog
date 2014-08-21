@@ -8,6 +8,20 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Plugins
+{
+	namespace Core
+	{
+		namespace LandscapeModel
+		{
+			struct ILandscape;
+			struct ILandscapeModel;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -36,7 +50,6 @@ public:
 
 	/*virtual*/ void generate(
 			QPixmap& _generateTo
-		,	const Plugins::Core::LandscapeModel::ILandscape& _landscape
 		,	const GenerateLayers::Mask& _mask ) const;
 
 /*---------------------------------------------------------------------------*/
@@ -55,7 +68,7 @@ private:
 
 	void generateObjects(
 			QPixmap& _generateTo
-		,	const Plugins::Core::LandscapeModel::ILandscape& _landscape ) const;
+		,	const Plugins::Core::LandscapeModel::ILandscapeModel& _landscapeModel ) const;
 
 /*---------------------------------------------------------------------------*/
 

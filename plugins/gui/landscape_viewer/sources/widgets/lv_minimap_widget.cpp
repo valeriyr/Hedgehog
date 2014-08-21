@@ -222,11 +222,7 @@ MinimapWidget::onSurfaceItemChanged( const Framework::Core::EventManager::Event&
 void
 MinimapWidget::onObjectWereChanged( const Framework::Core::EventManager::Event& _event )
 {
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IModelLocker > handle
-		= m_environment.lockModel();
-
-	renderObjects( *handle->getLandscapeModel()->getLandscape() );
-
+	renderObjects();
 	update();
 
 } // MinimapWidget::onObjectWereChanged
@@ -279,12 +275,12 @@ MinimapWidget::wasClickedOnWidget( const QPoint& _atPoint )
 
 
 void
-MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape )
+MinimapWidget::renderSurface()
 {
 	if ( !m_environment.getBool( Resources::Properties::UpdateMinimap ) )
 		return;
 
-	m_environment.generateMapPreview( m_surfaceLayer, _landscape, IMapPreviewGenerator::GenerateLayers::Surface );
+	m_environment.generateMapPreview( m_surfaceLayer, IMapPreviewGenerator::GenerateLayers::Surface );
 
 } // MinimapWidget::renderSurface
 
@@ -293,12 +289,12 @@ MinimapWidget::renderSurface( const Core::LandscapeModel::ILandscape& _landscape
 
 
 void
-MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape )
+MinimapWidget::renderObjects()
 {
 	if ( !m_environment.getBool( Resources::Properties::UpdateMinimap ) )
 		return;
 
-	m_environment.generateMapPreview( m_objectsLayer, _landscape, IMapPreviewGenerator::GenerateLayers::Objects );
+	m_environment.generateMapPreview( m_objectsLayer, IMapPreviewGenerator::GenerateLayers::Objects );
 
 } // MinimapWidget::renderObjects
 
@@ -309,15 +305,8 @@ MinimapWidget::renderObjects( const Core::LandscapeModel::ILandscape& _landscape
 void
 MinimapWidget::regenerate()
 {
-	boost::intrusive_ptr< Plugins::Core::LandscapeModel::IModelLocker > handle
-		= m_environment.lockModel();
-
-	if ( handle->getLandscapeModel()->getLandscape() )
-	{
-		renderSurface( *handle->getLandscapeModel()->getLandscape() );
-		renderObjects( *handle->getLandscapeModel()->getLandscape() );
-	}
-
+	renderSurface();
+	renderObjects();
 	update();
 
 } // MinimapWidget::regenerate

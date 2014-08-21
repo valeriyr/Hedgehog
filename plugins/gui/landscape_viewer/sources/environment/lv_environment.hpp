@@ -133,7 +133,6 @@ public:
 
 	/*virtual*/ void generateMapPreview(
 			QPixmap& _generateTo
-		,	const Plugins::Core::LandscapeModel::ILandscape& _landscape
 		,	const IMapPreviewGenerator::GenerateLayers::Mask& _mask ) const;
 
 /*---------------------------------------------------------------------------*/

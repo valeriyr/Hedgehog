@@ -6,6 +6,7 @@
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_environment.hpp"
 #include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
+#include "landscape_viewer/sources/utilities/lv_utilities.hpp"
 
 #include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/ih/lm_ilandscape.hpp"
@@ -266,11 +267,8 @@ MultiplayerDialog::currentLandscapeWasChanged( const QString& _landscapeName )
 	m_environment.getLandscapeViewer()
 		->initLandscape( m_environment.getLandscapesDirectory() + "/" + _landscapeName );
 
-	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
-		locker = m_environment.lockModel();
-
-	updateMapPreview( *locker->getLandscapeModel()->getLandscape() );
-	updatePlayersList( *locker->getLandscapeModel()->getLandscape() );
+	updateMapPreview();
+	updatePlayersList();
 
 } // MultiplayerDialog::currentLandscapeWasChanged
 
@@ -279,12 +277,11 @@ MultiplayerDialog::currentLandscapeWasChanged( const QString& _landscapeName )
 
 
 void
-MultiplayerDialog::updateMapPreview( const Core::LandscapeModel::ILandscape& _landscape )
+MultiplayerDialog::updateMapPreview()
 {
 	QPixmap surface;
 	m_environment.generateMapPreview(
 			surface
-		,	_landscape
 		,	IMapPreviewGenerator::GenerateLayers::Surface | IMapPreviewGenerator::GenerateLayers::StartPoints );
 
 	m_mapPreview->setPixmap( surface );
@@ -296,20 +293,49 @@ MultiplayerDialog::updateMapPreview( const Core::LandscapeModel::ILandscape& _la
 
 
 void
-MultiplayerDialog::updatePlayersList( const Core::LandscapeModel::ILandscape& _landscape )
+MultiplayerDialog::updatePlayersList()
 {
 	clearLayout( m_playersLayout );
 
 	m_playersData.clear();
 
-	Plugins::Core::LandscapeModel::ILandscape::StartPointsIterator
-		iterator = _landscape.getStartPointsIterator();
+	buildPlayerList();
 
-	while( iterator->isValid() )
+} // MultiplayerDialog::updatePlayersList
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::clearLayout( QLayout* _layout )
+{
+	while ( QLayoutItem* item = _layout->takeAt( 0 ) )
 	{
-		m_playersData.insert( std::make_pair( iterator->current().m_id, PlayerData( "Orc", QColor( 255, 255, 0 ) ) ) );
-		iterator->next();
+		QWidget* widget;
+		if ( widget = item->widget() )
+			delete widget;
+
+		if ( QLayout* childLayout = item->layout() )
+			clearLayout( childLayout );
+
+		delete item;
 	}
+
+} // MultiplayerDialog::clearLayout
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::buildPlayerList()
+{
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
+		landscape = locker->getLandscapeModel()->getLandscape();
 
 	Core::LandscapeModel::IStaticData::RacesCollection reces;
 	m_environment.fetchRaces( reces );
@@ -349,17 +375,16 @@ MultiplayerDialog::updatePlayersList( const Core::LandscapeModel::ILandscape& _l
 
 		colorsIterator->next();
 	}
+	//m_playersData.insert( std::make_pair( iterator->current().m_id, PlayerData( "Orc", QColor( 255, 255, 0 ) ) ) );
+	Plugins::Core::LandscapeModel::ILandscape::StartPointsIterator
+		iterator = landscape->getStartPointsIterator();
 
-	PlayersDataCollectionIterator
-			playersBegin = m_playersData.begin()
-		,	playersEnd = m_playersData.end();
-
-	for ( ; playersBegin != playersEnd; ++playersBegin )
+	while( iterator->isValid() )
 	{
 		QHBoxLayout* playerLayout = new QHBoxLayout();
 
 		QString startPointFormat( "StartPoint %1:" );
-		startPointFormat = startPointFormat.arg( playersBegin->first );
+		startPointFormat = startPointFormat.arg( iterator->current().m_id );
 
 		playerLayout->addWidget( new QLabel( startPointFormat ) );
 
@@ -384,42 +409,16 @@ MultiplayerDialog::updatePlayersList( const Core::LandscapeModel::ILandscape& _l
 			,	colorsEnd = colors.end();
 
 		for ( ; colorsBegin != colorsEnd; ++colorsBegin )
-		{
-			QString text;
-			QTextStream stream( &text );
-
-			stream << "( " << colorsBegin->second.red() << ", " << colorsBegin->second.green() << ", " << colorsBegin->second.blue() << " )";
-
-			colorsComboBox->addItem( colorsBegin->first, text );
-		}
+			colorsComboBox->addItem( colorsBegin->first, Utilities::colorToString( colorsBegin->second ) );
 
 		playerLayout->addWidget( colorsComboBox );
 
 		m_playersLayout->addLayout( playerLayout );
+
+		iterator->next();
 	}
 
-} // MultiplayerDialog::updatePlayersList
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-MultiplayerDialog::clearLayout( QLayout* _layout )
-{
-	while ( QLayoutItem* item = _layout->takeAt( 0 ) )
-	{
-		QWidget* widget;
-		if ( widget = item->widget() )
-			delete widget;
-
-		if ( QLayout* childLayout = item->layout() )
-			clearLayout( childLayout );
-
-		delete item;
-	}
-
-} // MultiplayerDialog::clearLayout
+} // MultiplayerDialog::buildPlayerList
 
 
 /*---------------------------------------------------------------------------*/

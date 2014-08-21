@@ -9,19 +9,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct ILandscape;
-		}
-	}
-}
-
-/*---------------------------------------------------------------------------*/
-
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -78,10 +65,11 @@ private:
 	void updateLandscapesList();
 	void currentLandscapeWasChanged( const QString& _landscapeName );
 
-	void updateMapPreview( const Core::LandscapeModel::ILandscape& _landscape );
-	void updatePlayersList( const Core::LandscapeModel::ILandscape& _landscape );
+	void updateMapPreview();
+	void updatePlayersList();
 
 	void clearLayout( QLayout* _layout );
+	void buildPlayerList();
 
 /*---------------------------------------------------------------------------*/
 
@@ -110,13 +98,19 @@ private:
 
 	struct PlayerData
 	{
-		PlayerData( const QString _race, const QColor _color )
-			:	m_race( _race )
+		PlayerData(
+				QComboBox& _type
+			,	QComboBox& _race
+			,	QComboBox& _color
+			)
+			:	m_type( _type )
+			,	m_race( _race )
 			,	m_color( _color )
 		{}
 
-		QString m_race;
-		QColor m_color;
+		QComboBox& m_type;
+		QComboBox& m_race;
+		QComboBox& m_color;
 	};
 
 	typedef

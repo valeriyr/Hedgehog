@@ -37,6 +37,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sources\plugin\lv_plugin_instance.cpp" />
+    <ClCompile Include="sources\utilities\lv_utilities.cpp" />
     <ClCompile Include="sources\views\lv_action_panel_view.cpp" />
     <ClCompile Include="sources\views\lv_description_view.cpp" />
     <ClCompile Include="sources\views\lv_landscape_view.cpp" />
@@ -108,6 +109,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)temp/x64/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Outputs>
     </CustomBuild>
+    <ClInclude Include="sources\utilities\lv_utilities.hpp" />
     <ClInclude Include="sources\views\lv_description_view.hpp" />
     <ClInclude Include="sources\views\lv_landscape_view.hpp" />
     <ClInclude Include="sources\views\lv_minimap_view.hpp">

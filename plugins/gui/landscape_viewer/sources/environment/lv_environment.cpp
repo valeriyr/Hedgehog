@@ -410,10 +410,9 @@ Environment::getLandscapesDirectory() const
 void
 Environment::generateMapPreview(
 		QPixmap& _generateTo
-	,	const Plugins::Core::LandscapeModel::ILandscape& _landscape
 	,	const IMapPreviewGenerator::GenerateLayers::Mask& _mask ) const
 {
-	m_pluginInstance.getMapPreviewGenerator()->generate( _generateTo, _landscape, _mask );
+	m_pluginInstance.getMapPreviewGenerator()->generate( _generateTo, _mask );
 
 } // Environment::generateMapPreview
 

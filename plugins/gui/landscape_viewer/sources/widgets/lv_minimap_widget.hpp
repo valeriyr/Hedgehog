@@ -102,9 +102,9 @@ private:
 
 	void wasClickedOnWidget( const QPoint& _atPoint );
 
-	void renderSurface( const Core::LandscapeModel::ILandscape& _landscape );
+	void renderSurface();
 
-	void renderObjects( const Core::LandscapeModel::ILandscape& _landscape );
+	void renderObjects();
 
 	void regenerate();
 

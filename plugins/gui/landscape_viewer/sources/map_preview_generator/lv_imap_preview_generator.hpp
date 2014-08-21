@@ -8,19 +8,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Plugins
-{
-	namespace Core
-	{
-		namespace LandscapeModel
-		{
-			struct ILandscape;
-		}
-	}
-}
-
-/*---------------------------------------------------------------------------*/
-
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
@@ -53,7 +40,6 @@ struct IMapPreviewGenerator
 
 	virtual void generate(
 			QPixmap& _generateTo
-		,	const Plugins::Core::LandscapeModel::ILandscape& _landscape
 		,	const GenerateLayers::Mask& _mask ) const = 0;
 
 /*---------------------------------------------------------------------------*/

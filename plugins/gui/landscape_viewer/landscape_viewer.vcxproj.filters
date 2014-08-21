@@ -46,6 +46,9 @@
     <Filter Include="Graphics Info">
       <UniqueIdentifier>{f2093f24-71b5-4925-aea9-7f8f68cc867c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{b36bd03d-29cc-4cc6-a6e4-9eaf86f8c130}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lv_ph.cpp">
@@ -132,6 +135,9 @@
     <ClCompile Include="sources\graphics_info\lv_surface_item_graphics_info.cpp">
       <Filter>Graphics Info</Filter>
     </ClCompile>
+    <ClCompile Include="sources\utilities\lv_utilities.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lv_ph.hpp">
@@ -211,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="sources\graphics_info\lv_surface_item_graphics_info.hpp">
       <Filter>Graphics Info</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\utilities\lv_utilities.hpp">
+      <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
