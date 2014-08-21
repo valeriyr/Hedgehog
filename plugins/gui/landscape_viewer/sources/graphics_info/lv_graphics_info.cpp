@@ -24,6 +24,7 @@ GraphicsInfo::GraphicsInfo()
 	:	m_surfaceGraphicsInfoCollection()
 	,	m_possiblePlayersColors()
 	,	m_startPointsData()
+	,	m_nobodyObjectColor()
 {
 } // GraphicsInfo::GraphicsInfo
 
@@ -138,6 +139,28 @@ GraphicsInfo::getPossiblePlayersColors() const
 			new Tools::Core::SimpleIterator< PossiblePlayersColorsCollection >( m_possiblePlayersColors ) );
 
 } // GraphicsInfo::getPossiblePlayersColors
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+GraphicsInfo::setNobodyObjectColor( const QColor& _color )
+{
+	m_nobodyObjectColor = _color;
+
+} // GraphicsInfo::setNobodyObjectColor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QColor&
+GraphicsInfo::getNobodyObjectColor()const
+{
+	return m_nobodyObjectColor;
+
+} // GraphicsInfo::getNobodyObjectColor
 
 
 /*---------------------------------------------------------------------------*/

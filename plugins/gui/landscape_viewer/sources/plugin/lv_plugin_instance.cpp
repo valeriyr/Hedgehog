@@ -487,7 +487,8 @@ PluginInstance::exportScriptAPI()
 
 	exporter.exportClass< IGraphicsInfo >( "IGraphicsInfo" )
 		->withMethod( "regSurfaceItemGraphicsInfo", &IGraphicsInfo::regSurfaceItemGraphicsInfo )
-		.withMethod( "regPossiblePlayersColor", &IGraphicsInfo::regPossiblePlayersColor );
+		.withMethod( "regPossiblePlayersColor", &IGraphicsInfo::regPossiblePlayersColor )
+		.withMethod( "setNobodyObjectColor", &IGraphicsInfo::setNobodyObjectColor );
 
 	exporter.exportVariable( "GraphicsInfo", m_graphicsInfo.get() );
 

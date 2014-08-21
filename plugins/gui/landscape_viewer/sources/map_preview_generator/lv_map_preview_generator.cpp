@@ -185,7 +185,7 @@ MapPreviewGenerator::generateObjects(
 				qreal posByY = ( y * Resources::Landscape::CellSize ) * scaleByY;
 
 				QPixmap pixmap( QSize( Resources::Landscape::CellSize * scaleByX, Resources::Landscape::CellSize * scaleByY ) );
-				pixmap.fill( player ? m_environment.getGraphicsInfo()->getStartPointColor( player->getStartPointId() ) : QColor( 32, 32, 32 ) );
+				pixmap.fill( player ? m_environment.getGraphicsInfo()->getStartPointColor( player->getStartPointId() ) : m_environment.getGraphicsInfo()->getNobodyObjectColor() );
 
 				painter.drawPixmap(
 						QRect( posByX, posByY, pixmap.width(), pixmap.height() )

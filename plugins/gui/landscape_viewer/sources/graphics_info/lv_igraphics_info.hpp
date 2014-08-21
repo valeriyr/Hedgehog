@@ -67,6 +67,10 @@ struct IGraphicsInfo
 
 	virtual PossiblePlayersColorIterator getPossiblePlayersColors() const = 0;
 
+	virtual void setNobodyObjectColor( const QColor& _color ) = 0;
+
+	virtual const QColor& getNobodyObjectColor() const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual void setStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId, const QColor& _color ) = 0;

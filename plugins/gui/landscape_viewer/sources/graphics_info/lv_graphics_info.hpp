@@ -51,6 +51,10 @@ public:
 
 	/*virtual*/ IGraphicsInfo::PossiblePlayersColorIterator getPossiblePlayersColors() const;
 
+	/*virtual*/ void setNobodyObjectColor( const QColor& _color );
+
+	/*virtual*/ const QColor& getNobodyObjectColor()const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void setStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId, const QColor& _color );
@@ -109,6 +113,8 @@ private:
 	PossiblePlayersColorsCollection m_possiblePlayersColors;
 
 	StartPointsDataCollection m_startPointsData;
+
+	QColor m_nobodyObjectColor;
 
 /*---------------------------------------------------------------------------*/
 
