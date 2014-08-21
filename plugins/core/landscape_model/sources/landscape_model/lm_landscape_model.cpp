@@ -370,7 +370,7 @@ LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _ob
 
 	if ( object )
 	{
-		boost::intrusive_ptr< IPlayer > player = getPlayer( object->getComponent< IPlayerComponent >( ComponentId::Player )->getPlayerId() );
+		boost::intrusive_ptr< IPlayer > player = getPlayer( *object );
 
 		if ( player )
 		{
@@ -474,6 +474,23 @@ LandscapeModel::getPlayer( const IPlayer::Id& _id ) const
 {
 	PlayersCollectionIterator iterator = m_players.find( _id );
 	return iterator != m_players.end() ? iterator->second : boost::intrusive_ptr< IPlayer >();
+
+} // LandscapeModel::getPlayer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IPlayer >
+LandscapeModel::getPlayer( const Object& _object ) const
+{
+	boost::intrusive_ptr< IPlayerComponent > playerComponent
+		= _object.getComponent< IPlayerComponent >( ComponentId::Player );
+
+	if ( !playerComponent )
+		return boost::intrusive_ptr< IPlayer >();
+
+	return getPlayer( playerComponent->getPlayerId() );
 
 } // LandscapeModel::getPlayer
 

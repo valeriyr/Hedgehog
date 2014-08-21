@@ -41,8 +41,7 @@ CommandsExecutor::~CommandsExecutor()
 void
 CommandsExecutor::newLandscape()
 {
-	m_environment.getLandscapeViewer()->closeLandscape();
-	m_environment.getLandscapeViewer()->openLandscape( "" );
+	openLandscape( "" );
 
 } // CommandsExecutor::newLandscape
 
@@ -56,10 +55,7 @@ CommandsExecutor::openLandscape()
 	QString landscapeFilePath = m_environment.showOpenFileDialog();
 
 	if ( !landscapeFilePath.isEmpty() )
-	{
-		m_environment.getLandscapeViewer()->closeLandscape();
-		m_environment.getLandscapeViewer()->openLandscape( landscapeFilePath );
-	}
+		openLandscape( landscapeFilePath );
 
 } // CommandsExecutor::openLandscape
 
@@ -112,6 +108,38 @@ CommandsExecutor::startGame()
 	multiplayerDialog.exec();
 
 } // CommandsExecutor::startGame
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+CommandsExecutor::openLandscape( const QString& _fileName )
+{
+	m_environment.getLandscapeViewer()->closeLandscape();
+	m_environment.getLandscapeViewer()->initLandscape( _fileName );
+
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
+	Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection collection;
+
+	Core::LandscapeModel::ILandscape::StartPointsIterator iterator
+		= locker->getLandscapeModel()->getLandscape()->getStartPointsIterator();
+
+	while ( iterator->isValid() )
+	{
+		collection.push_back(
+			Plugins::Core::LandscapeModel::ILandscapeModel::PlayerStartupData(
+					rand() % 2 ? "Orc" : "Human"
+				,	iterator->current().m_id
+				,	Plugins::Core::LandscapeModel::PlayerType::Player ) );
+		iterator->next();
+	}
+
+	m_environment.getLandscapeViewer()->startSimulation( collection );
+
+} // CommandsExecutor::openLandscape
 
 
 /*---------------------------------------------------------------------------*/

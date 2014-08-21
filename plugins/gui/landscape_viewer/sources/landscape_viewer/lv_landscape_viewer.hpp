@@ -52,9 +52,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void openLandscape( const QString& _filePath );
+	/*virtual*/ void initLandscape( const QString& _filePath );
+
+	/*virtual*/ void startSimulation( const Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection& _collection );
 
 	/*virtual*/ void closeLandscape();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	void initDefaulrStartpointsColors();
 
 /*---------------------------------------------------------------------------*/
 

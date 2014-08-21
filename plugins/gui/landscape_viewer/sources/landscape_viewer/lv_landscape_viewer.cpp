@@ -98,7 +98,7 @@ LandscapeViewer::getLandscapeFilePath() const
 
 
 void
-LandscapeViewer::openLandscape( const QString& _filePath )
+LandscapeViewer::initLandscape( const QString& _filePath )
 {
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
 		locker = m_environment.lockModel();
@@ -107,22 +107,21 @@ LandscapeViewer::openLandscape( const QString& _filePath )
 
 	locker->getLandscapeModel()->initLandscape( _filePath );
 
-	Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection collection;
+	initDefaulrStartpointsColors();
 
-	Core::LandscapeModel::ILandscape::StartPointsIterator iterator
-		= locker->getLandscapeModel()->getLandscape()->getStartPointsIterator();
+} // LandscapeViewer::initLandscape
 
-	while ( iterator->isValid() )
-	{
-		collection.push_back(
-			Plugins::Core::LandscapeModel::ILandscapeModel::PlayerStartupData(
-					rand() % 2 ? "Orc" : "Human"
-				,	iterator->current().m_id
-				,	Plugins::Core::LandscapeModel::PlayerType::Player ) );
-		iterator->next();
-	}
 
-	locker->getLandscapeModel()->initPlayers( m_landscapeFilePath, collection );
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeViewer::startSimulation( const Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection& _collection )
+{
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
+	locker->getLandscapeModel()->initPlayers( m_landscapeFilePath, _collection );
 
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
 		landscape = locker->getLandscapeModel()->getLandscape();
@@ -138,7 +137,7 @@ LandscapeViewer::openLandscape( const QString& _filePath )
 
 	locker->getLandscapeModel()->startSimulation();
 
-} // LandscapeViewer::openLandscape
+} // LandscapeViewer::startSimulation
 
 
 /*---------------------------------------------------------------------------*/
@@ -162,6 +161,34 @@ LandscapeViewer::closeLandscape()
 	m_environment.getGraphicsInfo()->clearStartPointData();
 
 } // LandscapeViewer::closeLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeViewer::initDefaulrStartpointsColors()
+{
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
+	Core::LandscapeModel::ILandscape::StartPointsIterator startPointsIterator
+		= locker->getLandscapeModel()->getLandscape()->getStartPointsIterator();
+
+	IGraphicsInfo::PossiblePlayersColorIterator colorsIterator
+		= m_environment.getGraphicsInfo()->getPossiblePlayersColors();
+
+	while ( startPointsIterator->isValid() )
+	{
+		assert( colorsIterator->isValid() );
+
+		m_environment.getGraphicsInfo()->setStartPointColor( startPointsIterator->current().m_id, colorsIterator->current() );
+
+		startPointsIterator->next();
+		colorsIterator->next();
+	}
+
+} // LandscapeViewer::initDefaulrStartpointsColors
 
 
 /*---------------------------------------------------------------------------*/

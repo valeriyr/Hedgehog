@@ -100,6 +100,8 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const;
 
+	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const Object& _object ) const;
+
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayerByStartPoint( const StartPoint::Id& _id ) const;
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getMyPlayer() const;

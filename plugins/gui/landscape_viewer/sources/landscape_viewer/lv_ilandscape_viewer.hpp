@@ -6,6 +6,8 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
+#include "landscape_model/ih/lm_ilandscape_model.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -28,7 +30,9 @@ struct ILandscapeViewer
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void openLandscape( const QString& _filePath ) = 0;
+	virtual void initLandscape( const QString& _filePath ) = 0;
+
+	virtual void startSimulation( const Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection& _collection ) = 0;
 
 	virtual void closeLandscape() = 0;
 

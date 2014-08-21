@@ -5,6 +5,7 @@
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_environment.hpp"
+#include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
 
 #include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/ih/lm_ilandscape.hpp"
@@ -96,8 +97,10 @@ MultiplayerDialog::onConnectButtonPressed( bool _checked )
 
 
 void
-MultiplayerDialog::onStartButtonPressed( bool _checked )
+MultiplayerDialog::onStartButtonPressed( bool /*_checked*/ )
 {
+	//m_environment.getLandscapeViewer()->startSimulation();
+
 } // MultiplayerDialog::onCreateButtonPressed
 
 
@@ -260,11 +263,11 @@ MultiplayerDialog::updateLandscapesList()
 void
 MultiplayerDialog::currentLandscapeWasChanged( const QString& _landscapeName )
 {
+	m_environment.getLandscapeViewer()
+		->initLandscape( m_environment.getLandscapesDirectory() + "/" + _landscapeName );
+
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
 		locker = m_environment.lockModel();
-
-	locker->getLandscapeModel()
-		->initLandscape( m_environment.getLandscapesDirectory() + "/" + _landscapeName );
 
 	updateMapPreview( *locker->getLandscapeModel()->getLandscape() );
 	updatePlayersList( *locker->getLandscapeModel()->getLandscape() );

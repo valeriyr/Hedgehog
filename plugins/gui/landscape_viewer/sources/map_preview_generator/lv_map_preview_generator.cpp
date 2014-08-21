@@ -8,7 +8,7 @@
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
-
+#include "landscape_model/ih/lm_imodel_locker.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -135,7 +135,7 @@ MapPreviewGenerator::generateStartPoints(
 		qreal posByY = ( iterator->current().m_point.y() * Resources::Landscape::CellSize ) * scaleByY;
 
 		QPixmap pixmap( QSize( Resources::Landscape::CellSize * scaleByX, Resources::Landscape::CellSize * scaleByY ) );
-		pixmap.fill( QColor( 0, 0, 255 ) );
+		pixmap.fill( m_environment.getGraphicsInfo()->getStartPointColor( iterator->current().m_id ) );
 
 		painter.drawPixmap(
 				QRect( posByX, posByY, pixmap.width(), pixmap.height() )
@@ -155,6 +155,8 @@ MapPreviewGenerator::generateObjects(
 		QPixmap& _generateTo
 	,	const Plugins::Core::LandscapeModel::ILandscape& _landscape ) const
 {
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > locker = m_environment.lockModel();
+
 	float scaleByX = static_cast< float >( ms_fixedWidgetSize.width() ) / ( _landscape.getWidth() * Resources::Landscape::CellSize );
 	float scaleByY = static_cast< float >( ms_fixedWidgetSize.height() ) / ( _landscape.getHeight() * Resources::Landscape::CellSize );
 
@@ -173,6 +175,7 @@ MapPreviewGenerator::generateObjects(
 	{
 		boost::intrusive_ptr< Core::LandscapeModel::ILocateComponent > locateComponent
 			= ( *begin )->getComponent< Core::LandscapeModel::ILocateComponent >( Plugins::Core::LandscapeModel::ComponentId::Locate );
+		boost::intrusive_ptr< Core::LandscapeModel::IPlayer > player = locker->getLandscapeModel()->getPlayer( **begin );
 
 		for ( int x = locateComponent->getLocation().x(); x < locateComponent->getLocation().x() + locateComponent->getStaticData().m_size.width(); ++x )
 		{
@@ -182,7 +185,7 @@ MapPreviewGenerator::generateObjects(
 				qreal posByY = ( y * Resources::Landscape::CellSize ) * scaleByY;
 
 				QPixmap pixmap( QSize( Resources::Landscape::CellSize * scaleByX, Resources::Landscape::CellSize * scaleByY ) );
-				pixmap.fill( QColor( 0, 255, 0 ) );
+				pixmap.fill( player ? m_environment.getGraphicsInfo()->getStartPointColor( player->getStartPointId() ) : QColor( 32, 32, 32 ) );
 
 				painter.drawPixmap(
 						QRect( posByX, posByY, pixmap.width(), pixmap.height() )
