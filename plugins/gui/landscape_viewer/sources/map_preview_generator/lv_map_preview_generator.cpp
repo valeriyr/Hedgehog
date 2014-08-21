@@ -3,7 +3,7 @@
 
 #include "landscape_viewer/sources/map_preview_generator/lv_map_preview_generator.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
-#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_isurface_item_graphics_info.hpp"
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 
@@ -90,7 +90,7 @@ MapPreviewGenerator::generateSurface(
 				surfaceItem = _landscape.getSurfaceItem( QPoint( i, j ) );
 
 			boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-				surfaceItemGraphicsInfo = m_environment.getGraphicsInfoCache()->getSurfaceItemGraphicsInfo(
+				surfaceItemGraphicsInfo = m_environment.getGraphicsInfo()->getSurfaceItemGraphicsInfo(
 						m_environment.getString( Resources::Properties::SkinId )
 					,	surfaceItem->getId() );
 

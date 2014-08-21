@@ -5,10 +5,10 @@
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
-#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_isurface_item_graphics_info.hpp"
 #include "landscape_viewer/sources/widgets/landscape_scene_states/lv_landscape_scene_states.hpp"
 #include "landscape_viewer/sources/animations/lv_animation_name_generator.hpp"
-#include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_igraphics_info.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_imodel_locker.hpp"
@@ -436,7 +436,7 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 		delete itemsList[LandscapeScene::ZValue::Surface];
 
 		boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-			surfaceItemGraphicsInfo = m_environment.getGraphicsInfoCache()
+			surfaceItemGraphicsInfo = m_environment.getGraphicsInfo()
 				->getSurfaceItemGraphicsInfo( m_environment.getString( Resources::Properties::SkinId ), id );
 
 		QGraphicsPixmapItem* newItem
@@ -705,7 +705,7 @@ LandscapeScene::generateLandscape()
 					surfaceItem = handle->getLandscapeModel()->getLandscape()->getSurfaceItem( QPoint( i, j ) );
 
 				boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-					surfaceItemGraphicsInfo = m_environment.getGraphicsInfoCache()->getSurfaceItemGraphicsInfo(
+					surfaceItemGraphicsInfo = m_environment.getGraphicsInfo()->getSurfaceItemGraphicsInfo(
 							m_environment.getString( Resources::Properties::SkinId )
 						,	surfaceItem->getId() );
 
@@ -1112,7 +1112,7 @@ LandscapeScene::playAnimation(
 	}
 	else
 	{
-		playAnimation( _animateObject, IGraphicsInfoCache::ms_anySkinIdentifier, _typeName, _state, _direction );
+		playAnimation( _animateObject, IGraphicsInfo::ms_anySkinIdentifier, _typeName, _state, _direction );
 	}
 
 } // LandscapeScene::playAnimation
@@ -1138,7 +1138,7 @@ LandscapeScene::playAnimationOnce(
 	}
 	else
 	{
-		playAnimationOnce( _animateObject, IGraphicsInfoCache::ms_anySkinIdentifier, _typeName, _state, _direction );
+		playAnimationOnce( _animateObject, IGraphicsInfo::ms_anySkinIdentifier, _typeName, _state, _direction );
 	}
 
 } // LandscapeScene::playAnimationOnce

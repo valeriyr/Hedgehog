@@ -1,7 +1,7 @@
 
 #include "landscape_viewer/sources/ph/lv_ph.hpp"
 
-#include "landscape_viewer/sources/surface_item_graphics_info/lv_surface_item_graphics_info.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_surface_item_graphics_info.hpp"
 
 
 /*---------------------------------------------------------------------------*/

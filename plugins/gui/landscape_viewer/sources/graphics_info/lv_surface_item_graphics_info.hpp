@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_isurface_item_graphics_info.hpp"
 
 /*---------------------------------------------------------------------------*/
 

@@ -25,7 +25,8 @@
     <ClCompile Include="sources\commands_executor\lv_commands_executor.cpp" />
     <ClCompile Include="sources\dialogs\lv_multiplayer_dialog.cpp" />
     <ClCompile Include="sources\environment\lv_environment.cpp" />
-    <ClCompile Include="sources\graphics_info_cache\lv_graphics_info_cache.cpp" />
+    <ClCompile Include="sources\graphics_info\lv_graphics_info.cpp" />
+    <ClCompile Include="sources\graphics_info\lv_surface_item_graphics_info.cpp" />
     <ClCompile Include="sources\internal_resources\lv_internal_resources.cpp" />
     <ClCompile Include="sources\landscape_viewer\lv_landscape_viewer.cpp" />
     <ClCompile Include="sources\map_preview_generator\lv_map_preview_generator.cpp" />
@@ -36,7 +37,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="sources\plugin\lv_plugin_instance.cpp" />
-    <ClCompile Include="sources\surface_item_graphics_info\lv_surface_item_graphics_info.cpp" />
     <ClCompile Include="sources\views\lv_action_panel_view.cpp" />
     <ClCompile Include="sources\views\lv_description_view.cpp" />
     <ClCompile Include="sources\views\lv_landscape_view.cpp" />
@@ -79,8 +79,10 @@
     </CustomBuild>
     <ClInclude Include="sources\environment\lv_environment.hpp" />
     <ClInclude Include="sources\environment\lv_ienvironment.hpp" />
-    <ClInclude Include="sources\graphics_info_cache\lv_graphics_info_cache.hpp" />
-    <ClInclude Include="sources\graphics_info_cache\lv_igraphics_info_cache.hpp" />
+    <ClInclude Include="sources\graphics_info\lv_graphics_info.hpp" />
+    <ClInclude Include="sources\graphics_info\lv_igraphics_info.hpp" />
+    <ClInclude Include="sources\graphics_info\lv_isurface_item_graphics_info.hpp" />
+    <ClInclude Include="sources\graphics_info\lv_surface_item_graphics_info.hpp" />
     <ClInclude Include="sources\internal_resources\lv_internal_resources.hpp" />
     <ClInclude Include="sources\landscape_viewer\lv_ilandscape_viewer.hpp" />
     <ClInclude Include="sources\landscape_viewer\lv_landscape_viewer.hpp" />
@@ -88,8 +90,6 @@
     <ClInclude Include="sources\map_preview_generator\lv_map_preview_generator.hpp" />
     <ClInclude Include="sources\ph\lv_ph.hpp" />
     <ClInclude Include="sources\plugin\lv_plugin_instance.hpp" />
-    <ClInclude Include="sources\surface_item_graphics_info\lv_isurface_item_graphics_info.hpp" />
-    <ClInclude Include="sources\surface_item_graphics_info\lv_surface_item_graphics_info.hpp" />
     <CustomBuild Include="sources\views\lv_action_panel_view.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc %(FullPath) -o $(SolutionDir)temp/x86/gen/$(Configuration)/$(ProjectName)/%(Filename).moc</Command>

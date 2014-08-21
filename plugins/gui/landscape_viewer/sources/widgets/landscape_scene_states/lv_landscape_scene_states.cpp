@@ -6,8 +6,8 @@
 #include "landscape_viewer/sources/widgets/lv_landscape_scene.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
-#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
-#include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_isurface_item_graphics_info.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_igraphics_info.hpp"
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_imodel_locker.hpp"
@@ -287,7 +287,7 @@ LandscapeSurfaceItemEditingState::addSceneObjects()
 	if ( !m_currentEditorItem )
 	{
 		boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-			surfaceItemGraphicsInfo = m_environment.getGraphicsInfoCache()
+			surfaceItemGraphicsInfo = m_environment.getGraphicsInfo()
 				->getSurfaceItemGraphicsInfo( m_environment.getString( Resources::Properties::SkinId ), m_id );
 
 		m_currentEditorItem

@@ -78,6 +78,33 @@ MultiplayerDialog::onLandscapeSelected( QListWidgetItem* _newItem, QListWidgetIt
 
 
 void
+MultiplayerDialog::onCreateButtonPressed( bool _checked )
+{
+} // MultiplayerDialog::onCreateButtonPressed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::onConnectButtonPressed( bool _checked )
+{
+} // MultiplayerDialog::onCreateButtonPressed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::onStartButtonPressed( bool _checked )
+{
+} // MultiplayerDialog::onCreateButtonPressed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 MultiplayerDialog::createWidgets()
 {
 	QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -148,8 +175,6 @@ MultiplayerDialog::initWidgets()
 
 	m_mapPreview->setFixedSize( IMapPreviewGenerator::ms_fixedWidgetSize );
 
-	m_startButton->setEnabled( false );
-
 	m_connectToIp->setText( Framework::Core::NetworkManager::Resources::LocalHost );
 	m_connectToPort->setText( "0212" );
 
@@ -173,6 +198,10 @@ MultiplayerDialog::connectWidgets()
 		,	this
 		,	SLOT( onLandscapeSelected( QListWidgetItem*, QListWidgetItem* ) ) );
 
+	QObject::connect( m_createButton, SIGNAL( clicked( bool ) ), this, SLOT( onCreateButtonPressed( bool ) ) );
+	QObject::connect( m_connectButton, SIGNAL( clicked( bool ) ), this, SLOT( onConnectButtonPressed( bool ) ) );
+	QObject::connect( m_startButton, SIGNAL( clicked( bool ) ), this, SLOT( onStartButtonPressed( bool ) ) );
+
 } // MultiplayerDialog::connectWidgets
 
 
@@ -187,6 +216,10 @@ MultiplayerDialog::disconnectWidgets()
 		,	SIGNAL( currentItemChanged( QListWidgetItem*, QListWidgetItem* ) )
 		,	this
 		,	SLOT( onLandscapeSelected( QListWidgetItem*, QListWidgetItem* ) ) );
+
+	QObject::disconnect( m_createButton, SIGNAL( clicked( bool ) ), this, SLOT( onCreateButtonPressed( bool ) ) );
+	QObject::disconnect( m_connectButton, SIGNAL( clicked( bool ) ), this, SLOT( onConnectButtonPressed( bool ) ) );
+	QObject::disconnect( m_startButton, SIGNAL( clicked( bool ) ), this, SLOT( onStartButtonPressed( bool ) ) );
 
 } // MultiplayerDialog::disconnectWidgets
 
@@ -301,8 +334,8 @@ MultiplayerDialog::updatePlayersList( const Core::LandscapeModel::ILandscape& _l
 
 	ColorsCollection colors;
 
-	IGraphicsInfoCache::PossiblePlayersColorIterator
-		colorsIterator = m_environment.getGraphicsInfoCache()->getPossiblePlayersColors();
+	IGraphicsInfo::PossiblePlayersColorIterator
+		colorsIterator = m_environment.getGraphicsInfo()->getPossiblePlayersColors();
 
 	while( colorsIterator->isValid() )
 	{
@@ -322,7 +355,10 @@ MultiplayerDialog::updatePlayersList( const Core::LandscapeModel::ILandscape& _l
 	{
 		QHBoxLayout* playerLayout = new QHBoxLayout();
 
-		playerLayout->addWidget( new QLabel( "User:" ) );
+		QString startPointFormat( "StartPoint %1:" );
+		startPointFormat = startPointFormat.arg( playersBegin->first );
+
+		playerLayout->addWidget( new QLabel( startPointFormat ) );
 
 		QComboBox* playerComboBox = new QComboBox();
 		playerComboBox->addItems( qplayers );

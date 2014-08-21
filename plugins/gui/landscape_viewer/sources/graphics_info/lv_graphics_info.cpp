@@ -1,9 +1,9 @@
 
 #include "landscape_viewer/sources/ph/lv_ph.hpp"
 
-#include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_graphics_info.hpp"
 
-#include "landscape_viewer/sources/surface_item_graphics_info/lv_surface_item_graphics_info.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_surface_item_graphics_info.hpp"
 
 #include "iterators/it_simple_iterator.hpp"
 
@@ -16,38 +16,39 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-const QString IGraphicsInfoCache::ms_anySkinIdentifier = "Any";
+const QString IGraphicsInfo::ms_anySkinIdentifier = "Any";
 
 /*---------------------------------------------------------------------------*/
 
-GraphicsInfoCache::GraphicsInfoCache()
-	:	m_graphicsInfoCollection()
+GraphicsInfo::GraphicsInfo()
+	:	m_surfaceGraphicsInfoCollection()
+	,	m_possiblePlayersColors()
 {
-} // GraphicsInfoCache::GraphicsInfoCache
+} // GraphicsInfo::GraphicsInfo
 
 
 /*---------------------------------------------------------------------------*/
 
 
-GraphicsInfoCache::~GraphicsInfoCache()
+GraphicsInfo::~GraphicsInfo()
 {
-} // GraphicsInfoCache::~GraphicsInfoCache
+} // GraphicsInfo::~GraphicsInfo
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-GraphicsInfoCache::regSurfaceItemGraphicsInfo(
+GraphicsInfo::regSurfaceItemGraphicsInfo(
 		const QString& _skinId
 	,	const Core::LandscapeModel::ISurfaceItem::Id& _id
 	,	const QString& _atlasName
 	,	const QRect _frameRect )
 {
-	GraphicsInfoCollectionIterator graphicsInfoIterator = m_graphicsInfoCollection.find( _skinId );
+	SurfaceGraphicsInfoCollectionIterator graphicsInfoIterator = m_surfaceGraphicsInfoCollection.find( _skinId );
 
-	if ( graphicsInfoIterator == m_graphicsInfoCollection.end() )
-		graphicsInfoIterator = m_graphicsInfoCollection.insert( std::make_pair( _skinId, GraphicsInfo() ) ).first;
+	if ( graphicsInfoIterator == m_surfaceGraphicsInfoCollection.end() )
+		graphicsInfoIterator = m_surfaceGraphicsInfoCollection.insert( std::make_pair( _skinId, SurfaceGraphicsInfo() ) ).first;
 
 	assert(	graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.find( _id )
 		==	graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.end() );
@@ -57,52 +58,52 @@ GraphicsInfoCache::regSurfaceItemGraphicsInfo(
 				_id
 			,	boost::intrusive_ptr< ISurfaceItemGraphicsInfo >( new SurfaceItemGraphicsInfo( _id, QString( "skins" ) + "/" + _skinId + "/" + _atlasName, _frameRect ) ) ) );
 
-} // GraphicsInfoCache::regSurfaceItemGraphicsInfo
+} // GraphicsInfo::regSurfaceItemGraphicsInfo
 
 
 /*---------------------------------------------------------------------------*/
 
 
 boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
-GraphicsInfoCache::getSurfaceItemGraphicsInfo(
+GraphicsInfo::getSurfaceItemGraphicsInfo(
 		const QString& _skinId
 	,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const
 {
-	GraphicsInfoCollectionConstIterator graphicsInfoIterator = m_graphicsInfoCollection.find( _skinId );
+	SurfaceGraphicsInfoCollectionConstIterator graphicsInfoIterator = m_surfaceGraphicsInfoCollection.find( _skinId );
 
-	if ( graphicsInfoIterator != m_graphicsInfoCollection.end() )
+	if ( graphicsInfoIterator != m_surfaceGraphicsInfoCollection.end() )
 	{
-		GraphicsInfo::SurfaceItemGraphicsInfoCollectionIterator iterator
+		SurfaceGraphicsInfo::SurfaceItemGraphicsInfoCollectionIterator iterator
 			= graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.find( _id );
 
 		if ( iterator != graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.end() )
 			return iterator->second;
 	}
 
-	if ( _skinId != IGraphicsInfoCache::ms_anySkinIdentifier )
-		return getSurfaceItemGraphicsInfo( IGraphicsInfoCache::ms_anySkinIdentifier, _id );
+	if ( _skinId != IGraphicsInfo::ms_anySkinIdentifier )
+		return getSurfaceItemGraphicsInfo( IGraphicsInfo::ms_anySkinIdentifier, _id );
 
 	return boost::intrusive_ptr< ISurfaceItemGraphicsInfo >();
 
-} // GraphicsInfoCache::getSurfaceItemGraphicsInfo
+} // GraphicsInfo::getSurfaceItemGraphicsInfo
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-GraphicsInfoCache::fetchSurfaceItemGraphicsInfos(
+GraphicsInfo::fetchSurfaceItemGraphicsInfos(
 		const QString& _skinId
 	,	SurfaceItemGraphicsInfoCollection& _collection ) const
 {
 	_collection.clear();
 
-	GraphicsInfoCollectionConstIterator graphicsInfoIterator = m_graphicsInfoCollection.find( _skinId );
+	SurfaceGraphicsInfoCollectionConstIterator graphicsInfoIterator = m_surfaceGraphicsInfoCollection.find( _skinId );
 
-	if ( graphicsInfoIterator == m_graphicsInfoCollection.end() )
+	if ( graphicsInfoIterator == m_surfaceGraphicsInfoCollection.end() )
 		return;
 
-	GraphicsInfo::SurfaceItemGraphicsInfoCollectionIterator
+	SurfaceGraphicsInfo::SurfaceItemGraphicsInfoCollectionIterator
 			begin = graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.begin()
 		,	end = graphicsInfoIterator->second.m_surfaceItemGraphicsInfos.end();
 
@@ -111,31 +112,31 @@ GraphicsInfoCache::fetchSurfaceItemGraphicsInfos(
 		_collection.push_back( begin->second );
 	}
 
-} // GraphicsInfoCache::fetchSurfaceItemGraphicsInfos
+} // GraphicsInfo::fetchSurfaceItemGraphicsInfos
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-GraphicsInfoCache::regPossiblePlayersColor( const QColor& _color )
+GraphicsInfo::regPossiblePlayersColor( const QColor& _color )
 {
 	m_possiblePlayersColors.push_back( _color );
 
-} // GraphicsInfoCache::regPossiblePlayersColor
+} // GraphicsInfo::regPossiblePlayersColor
 
 
 /*---------------------------------------------------------------------------*/
 
 
-IGraphicsInfoCache::PossiblePlayersColorIterator
-GraphicsInfoCache::getPossiblePlayersColors() const
+IGraphicsInfo::PossiblePlayersColorIterator
+GraphicsInfo::getPossiblePlayersColors() const
 {
 	return
-		IGraphicsInfoCache::PossiblePlayersColorIterator(
+		IGraphicsInfo::PossiblePlayersColorIterator(
 			new Tools::Core::SimpleIterator< PossiblePlayersColorsCollection >( m_possiblePlayersColors ) );
 
-} // GraphicsInfoCache::getPossiblePlayersColors
+} // GraphicsInfo::getPossiblePlayersColors
 
 
 /*---------------------------------------------------------------------------*/

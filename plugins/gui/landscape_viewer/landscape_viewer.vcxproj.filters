@@ -31,12 +31,6 @@
     <Filter Include="Views\Views Mediator">
       <UniqueIdentifier>{322492f8-5b4a-4045-b70b-7259b6439177}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics Info Cache">
-      <UniqueIdentifier>{f2093f24-71b5-4925-aea9-7f8f68cc867c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Surface Item Graphics Info">
-      <UniqueIdentifier>{f1333970-26ce-41a7-a18d-fb33aa3c008e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Widgets\Landscape Scene States">
       <UniqueIdentifier>{bf8cbd10-9a46-47f2-a5b8-e3981aa557fc}</UniqueIdentifier>
     </Filter>
@@ -48,6 +42,9 @@
     </Filter>
     <Filter Include="Map Preview Generator">
       <UniqueIdentifier>{13ed65df-90ac-4f77-8b96-eb5b4eacdb0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics Info">
+      <UniqueIdentifier>{f2093f24-71b5-4925-aea9-7f8f68cc867c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,12 +96,6 @@
     <ClCompile Include="sources\views\views_mediator\lv_views_mediator.cpp">
       <Filter>Views\Views Mediator</Filter>
     </ClCompile>
-    <ClCompile Include="sources\graphics_info_cache\lv_graphics_info_cache.cpp">
-      <Filter>Graphics Info Cache</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\surface_item_graphics_info\lv_surface_item_graphics_info.cpp">
-      <Filter>Surface Item Graphics Info</Filter>
-    </ClCompile>
     <ClCompile Include="sources\views\lv_settings_view.cpp">
       <Filter>Views</Filter>
     </ClCompile>
@@ -134,6 +125,12 @@
     </ClCompile>
     <ClCompile Include="sources\map_preview_generator\lv_map_preview_generator.cpp">
       <Filter>Map Preview Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\graphics_info\lv_graphics_info.cpp">
+      <Filter>Graphics Info</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\graphics_info\lv_surface_item_graphics_info.cpp">
+      <Filter>Graphics Info</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -179,18 +176,6 @@
     <ClInclude Include="sources\views\lv_minimap_view.hpp">
       <Filter>Views</Filter>
     </ClInclude>
-    <ClInclude Include="sources\graphics_info_cache\lv_graphics_info_cache.hpp">
-      <Filter>Graphics Info Cache</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\graphics_info_cache\lv_igraphics_info_cache.hpp">
-      <Filter>Graphics Info Cache</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\surface_item_graphics_info\lv_isurface_item_graphics_info.hpp">
-      <Filter>Surface Item Graphics Info</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\surface_item_graphics_info\lv_surface_item_graphics_info.hpp">
-      <Filter>Surface Item Graphics Info</Filter>
-    </ClInclude>
     <ClInclude Include="sources\widgets\landscape_scene_states\lv_ilandscape_scene_state.hpp">
       <Filter>Widgets\Landscape Scene States</Filter>
     </ClInclude>
@@ -214,6 +199,18 @@
     </ClInclude>
     <ClInclude Include="sources\map_preview_generator\lv_map_preview_generator.hpp">
       <Filter>Map Preview Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\graphics_info\lv_graphics_info.hpp">
+      <Filter>Graphics Info</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\graphics_info\lv_igraphics_info.hpp">
+      <Filter>Graphics Info</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\graphics_info\lv_isurface_item_graphics_info.hpp">
+      <Filter>Graphics Info</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\graphics_info\lv_surface_item_graphics_info.hpp">
+      <Filter>Graphics Info</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

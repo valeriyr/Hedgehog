@@ -15,7 +15,7 @@
 #include "landscape_viewer/sources/animations/lv_animation_name_generator.hpp"
 #include "landscape_viewer/sources/commands/lv_commands.hpp"
 #include "landscape_viewer/sources/commands_executor/lv_commands_executor.hpp"
-#include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_graphics_info.hpp"
 #include "landscape_viewer/sources/map_preview_generator/lv_map_preview_generator.hpp"
 
 #include "window_manager/ih/wm_iwindow_manager.hpp"
@@ -98,7 +98,7 @@ PluginInstance::initialize()
 	// Force loading of the sound manager. Needs to use it's properties.
 	getSoundManager();
 
-	m_graphicsInfoCache.reset( new GraphicsInfoCache() );
+	m_graphicsInfo.reset( new GraphicsInfo() );
 
 	exportScriptAPI();
 	executeConfigurationScripts();
@@ -180,7 +180,7 @@ PluginInstance::close()
 	getSettings()->unregProperty( Resources::Properties::Port );
 	getSettings()->unregProperty( Resources::Properties::Ip );
 
-	m_graphicsInfoCache.reset();
+	m_graphicsInfo.reset();
 
 } // PluginInstance::close
 
@@ -440,12 +440,12 @@ PluginInstance::getModelInformation() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IGraphicsInfoCache >
-PluginInstance::getGraphicsInfoCache() const
+boost::intrusive_ptr< IGraphicsInfo >
+PluginInstance::getGraphicsInfo() const
 {
-	return m_graphicsInfoCache;
+	return m_graphicsInfo;
 
-} // PluginInstance::getGraphicsInfoCache
+} // PluginInstance::getGraphicsInfo
 
 
 /*---------------------------------------------------------------------------*/
@@ -474,17 +474,17 @@ PluginInstance::exportScriptAPI()
 
 	// Graphics info cache
 
-	exporter.exportClass< IGraphicsInfoCache >( "IGraphicsInfoCache" )
-		->withMethod( "regSurfaceItemGraphicsInfo", &IGraphicsInfoCache::regSurfaceItemGraphicsInfo )
-		.withMethod( "regPossiblePlayersColor", &IGraphicsInfoCache::regPossiblePlayersColor );
+	exporter.exportClass< IGraphicsInfo >( "IGraphicsInfo" )
+		->withMethod( "regSurfaceItemGraphicsInfo", &IGraphicsInfo::regSurfaceItemGraphicsInfo )
+		.withMethod( "regPossiblePlayersColor", &IGraphicsInfo::regPossiblePlayersColor );
 
-	exporter.exportVariable( "GraphicsInfoCache", m_graphicsInfoCache.get() );
+	exporter.exportVariable( "GraphicsInfo", m_graphicsInfo.get() );
 
 	// Helpers
 
 	exporter.exportFunction( "generateAnimationName", &generateAnimationName );
 
-	exporter.exportVariable( "AnySkinIdentifier", &IGraphicsInfoCache::ms_anySkinIdentifier );
+	exporter.exportVariable( "AnySkinIdentifier", &IGraphicsInfo::ms_anySkinIdentifier );
 
 } // PluginInstance::exportScriptAPI
 

@@ -6,8 +6,8 @@
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/views/views_mediator/lv_views_mediator.hpp"
-#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
-#include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_isurface_item_graphics_info.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_igraphics_info.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
 #include "settings/h/st_events.hpp"
@@ -240,10 +240,10 @@ ObjectsView::onSettingChanged( const Framework::Core::EventManager::Event& _even
 void
 ObjectsView::fillWithSurfaceItems( const QString& _skinId, QTreeWidgetItem* _parentNode )
 {
-	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollection collection;
-	m_environment.getGraphicsInfoCache()->fetchSurfaceItemGraphicsInfos( _skinId, collection );
+	IGraphicsInfo::SurfaceItemGraphicsInfoCollection collection;
+	m_environment.getGraphicsInfo()->fetchSurfaceItemGraphicsInfos( _skinId, collection );
 
-	IGraphicsInfoCache::SurfaceItemGraphicsInfoCollectionIterator
+	IGraphicsInfo::SurfaceItemGraphicsInfoCollectionIterator
 			begin = collection.begin()
 		,	end = collection.end();
 

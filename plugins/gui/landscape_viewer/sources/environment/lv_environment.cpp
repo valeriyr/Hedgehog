@@ -4,14 +4,14 @@
 #include "landscape_viewer/sources/environment/lv_environment.hpp"
 
 #include "landscape_viewer/sources/plugin/lv_plugin_instance.hpp"
-#include "landscape_viewer/sources/surface_item_graphics_info/lv_isurface_item_graphics_info.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_isurface_item_graphics_info.hpp"
 
 #include "animation_manager/ih/am_ianimation_manager.hpp"
 #include "animation_manager/ih/am_ianimations_cache.hpp"
 #include "animation_manager/h/am_animation_info.hpp"
 
 #include "landscape_viewer/sources/animations/lv_animation_name_generator.hpp"
-#include "landscape_viewer/sources/graphics_info_cache/lv_graphics_info_cache.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_graphics_info.hpp"
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 
 #include "window_manager/ih/wm_idialogs_manager.hpp"
@@ -114,7 +114,7 @@ Environment::getPixmap( const QString& _objectName, const QString& _skinId ) con
 	}
 	else
 	{
-		return getPixmap( _objectName, IGraphicsInfoCache::ms_anySkinIdentifier );
+		return getPixmap( _objectName, IGraphicsInfo::ms_anySkinIdentifier );
 	}
 
 } // Environment::getPixmap
@@ -224,12 +224,12 @@ Environment::getObjectStaticData( const QString& _objectName ) const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IGraphicsInfoCache >
-Environment::getGraphicsInfoCache() const
+boost::intrusive_ptr< IGraphicsInfo >
+Environment::getGraphicsInfo() const
 {
-	return m_pluginInstance.getGraphicsInfoCache();
+	return m_pluginInstance.getGraphicsInfo();
 
-} // Environment::getGraphicsInfoCache
+} // Environment::getGraphicsInfo
 
 
 /*---------------------------------------------------------------------------*/

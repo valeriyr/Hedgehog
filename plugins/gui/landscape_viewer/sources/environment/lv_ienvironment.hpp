@@ -13,7 +13,7 @@
 
 #include "landscape_model/h/lm_object.hpp"
 
-#include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_igraphics_info.hpp"
 #include "landscape_viewer/sources/map_preview_generator/lv_imap_preview_generator.hpp"
 
 #include "images_manager/ih/im_iimages_manager.hpp"
@@ -123,7 +123,7 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< IGraphicsInfoCache > getGraphicsInfoCache() const = 0;
+	virtual boost::intrusive_ptr< IGraphicsInfo > getGraphicsInfo() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

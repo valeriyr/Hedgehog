@@ -1,10 +1,10 @@
 
-#ifndef __LV_GRAPHICS_INFO_CACHE_HPP__
-#define __LV_GRAPHICS_INFO_CACHE_HPP__
+#ifndef __LV_GRAPHICS_INFO_HPP__
+#define __LV_GRAPHICS_INFO_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_viewer/sources/graphics_info_cache/lv_igraphics_info_cache.hpp"
+#include "landscape_viewer/sources/graphics_info/lv_igraphics_info.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,8 +14,8 @@ namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
 
-class GraphicsInfoCache
-	:	public Tools::Core::BaseWrapper< IGraphicsInfoCache >
+class GraphicsInfo
+	:	public Tools::Core::BaseWrapper< IGraphicsInfo >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,9 +24,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	GraphicsInfoCache();
+	GraphicsInfo();
 
-	virtual ~GraphicsInfoCache();
+	virtual ~GraphicsInfo();
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,7 +49,7 @@ public:
 
 	/*virtual*/ void regPossiblePlayersColor( const QColor& _color );
 
-	/*virtual*/ IGraphicsInfoCache::PossiblePlayersColorIterator getPossiblePlayersColors() const;
+	/*virtual*/ IGraphicsInfo::PossiblePlayersColorIterator getPossiblePlayersColors() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -57,7 +57,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	struct GraphicsInfo
+	struct SurfaceGraphicsInfo
 	{
 		typedef
 			std::map< Core::LandscapeModel::ISurfaceItem::Id, boost::intrusive_ptr< ISurfaceItemGraphicsInfo > >
@@ -72,20 +72,20 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< QString, GraphicsInfo >
-		GraphicsInfoCollection;
+		std::map< QString, SurfaceGraphicsInfo >
+		SurfaceGraphicsInfoCollection;
 	typedef
-		GraphicsInfoCollection::iterator
-		GraphicsInfoCollectionIterator;
+		SurfaceGraphicsInfoCollection::iterator
+		SurfaceGraphicsInfoCollectionIterator;
 	typedef
-		GraphicsInfoCollection::const_iterator
-		GraphicsInfoCollectionConstIterator;
+		SurfaceGraphicsInfoCollection::const_iterator
+		SurfaceGraphicsInfoCollectionConstIterator;
 
 	typedef
 		std::vector< QColor >
 		PossiblePlayersColorsCollection;
 
-	GraphicsInfoCollection m_graphicsInfoCollection;
+	SurfaceGraphicsInfoCollection m_surfaceGraphicsInfoCollection;
 
 	PossiblePlayersColorsCollection m_possiblePlayersColors;
 
@@ -101,4 +101,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_SURFACE_ITEM_GRAPHICS_INFO_CACHE_HPP__
+#endif // __LV_GRAPHICS_INFO_HPP__

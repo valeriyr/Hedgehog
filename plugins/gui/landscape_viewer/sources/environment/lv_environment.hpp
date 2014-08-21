@@ -81,7 +81,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IGraphicsInfoCache > getGraphicsInfoCache() const;
+	/*virtual*/ boost::intrusive_ptr< IGraphicsInfo > getGraphicsInfo() const;
 
 /*---------------------------------------------------------------------------*/
 

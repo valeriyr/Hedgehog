@@ -1,6 +1,6 @@
 
-#ifndef __LV_IGRAPHICS_INFO_CACHE_HPP__
-#define __LV_IGRAPHICS_INFO_CACHE_HPP__
+#ifndef __LV_IGRAPHICS_INFO_HPP__
+#define __LV_IGRAPHICS_INFO_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -22,7 +22,7 @@ struct ISurfaceItemGraphicsInfo;
 
 /*---------------------------------------------------------------------------*/
 
-struct IGraphicsInfoCache
+struct IGraphicsInfo
 	:	public Tools::Core::IBase
 {
 
@@ -78,4 +78,4 @@ struct IGraphicsInfoCache
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_IGRAPHICS_INFO_CACHE_HPP__
+#endif // __LV_IGRAPHICS_INFO_HPP__

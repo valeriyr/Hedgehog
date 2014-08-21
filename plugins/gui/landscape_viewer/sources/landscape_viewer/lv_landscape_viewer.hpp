@@ -15,7 +15,7 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
-struct IGraphicsInfoCache;
+struct IGraphicsInfo;
 
 class DescriptionView;
 class SettingsView;

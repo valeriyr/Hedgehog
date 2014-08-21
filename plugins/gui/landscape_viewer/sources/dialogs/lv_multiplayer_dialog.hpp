@@ -58,6 +58,10 @@ private slots:
 
 	void onLandscapeSelected( QListWidgetItem* _newItem, QListWidgetItem* _oldItem );
 
+	void onCreateButtonPressed( bool _checked );
+	void onConnectButtonPressed( bool _checked );
+	void onStartButtonPressed( bool _checked );
+
 /*---------------------------------------------------------------------------*/
 
 private:
