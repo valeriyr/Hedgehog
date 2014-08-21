@@ -221,7 +221,7 @@ namespace Commands {
 
 	const char* const SaveAsLandscapeCommandName = "lv.landscape.saveas";
 
-	const char* const StartMultiplayerGameCommandName = "lv.multiplayer.start";
+	const char* const StartGameCommandName = "lv.game.start";
 
 /*---------------------------------------------------------------------------*/
 

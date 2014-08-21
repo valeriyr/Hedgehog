@@ -159,6 +159,7 @@ LandscapeViewer::closeLandscape()
 	m_landscapeFilePath.clear();
 
 	m_environment.lockModel()->getLandscapeModel()->resetModel();
+	m_environment.getGraphicsInfo()->clearStartPointData();
 
 } // LandscapeViewer::closeLandscape
 

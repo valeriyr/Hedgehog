@@ -83,6 +83,8 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< IGraphicsInfo > getGraphicsInfo() const;
 
+	/*virtual*/ boost::intrusive_ptr< ILandscapeViewer > getLandscapeViewer() const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void playAnimation(

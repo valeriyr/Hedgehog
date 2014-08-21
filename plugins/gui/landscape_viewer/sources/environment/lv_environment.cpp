@@ -13,6 +13,7 @@
 #include "landscape_viewer/sources/animations/lv_animation_name_generator.hpp"
 #include "landscape_viewer/sources/graphics_info/lv_graphics_info.hpp"
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
+#include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
 
 #include "window_manager/ih/wm_idialogs_manager.hpp"
 #include "window_manager/ih/wm_iwindow_manager.hpp"
@@ -230,6 +231,17 @@ Environment::getGraphicsInfo() const
 	return m_pluginInstance.getGraphicsInfo();
 
 } // Environment::getGraphicsInfo
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ILandscapeViewer >
+Environment::getLandscapeViewer() const
+{
+	return m_pluginInstance.getLandscapeViewer();
+
+} // Environment::getLandscapeViewer
 
 
 /*---------------------------------------------------------------------------*/

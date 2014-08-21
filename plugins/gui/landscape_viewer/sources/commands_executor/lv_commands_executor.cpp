@@ -21,9 +21,8 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-CommandsExecutor::CommandsExecutor( const IEnvironment& _environment, ILandscapeViewer& _landscapeViewer )
+CommandsExecutor::CommandsExecutor( const IEnvironment& _environment )
 	:	m_environment( _environment )
-	,	m_landscapeViewer( _landscapeViewer )
 {
 } // CommandsExecutor::CommandsExecutor
 
@@ -42,8 +41,8 @@ CommandsExecutor::~CommandsExecutor()
 void
 CommandsExecutor::newLandscape()
 {
-	m_landscapeViewer.closeLandscape();
-	m_landscapeViewer.openLandscape( "" );
+	m_environment.getLandscapeViewer()->closeLandscape();
+	m_environment.getLandscapeViewer()->openLandscape( "" );
 
 } // CommandsExecutor::newLandscape
 
@@ -58,8 +57,8 @@ CommandsExecutor::openLandscape()
 
 	if ( !landscapeFilePath.isEmpty() )
 	{
-		m_landscapeViewer.closeLandscape();
-		m_landscapeViewer.openLandscape( landscapeFilePath );
+		m_environment.getLandscapeViewer()->closeLandscape();
+		m_environment.getLandscapeViewer()->openLandscape( landscapeFilePath );
 	}
 
 } // CommandsExecutor::openLandscape
@@ -71,7 +70,7 @@ CommandsExecutor::openLandscape()
 void
 CommandsExecutor::closeLandscape()
 {
-	m_landscapeViewer.closeLandscape();
+	m_environment.getLandscapeViewer()->closeLandscape();
 
 } // CommandsExecutor::closeLandscape
 
@@ -82,7 +81,12 @@ CommandsExecutor::closeLandscape()
 void
 CommandsExecutor::saveLandscape()
 {
-	m_environment.lockModel()->getLandscapeModel()->saveModel( m_landscapeViewer.getLandscapeFilePath() );
+	QString fileName = m_environment.getLandscapeViewer()->getLandscapeFilePath();
+
+	if ( m_environment.getLandscapeViewer()->getLandscapeFilePath().isEmpty() )
+		fileName = m_environment.showSaveFileDialog();
+
+	m_environment.lockModel()->getLandscapeModel()->saveModel( fileName );
 
 } // CommandsExecutor::saveLandscape
 
@@ -102,12 +106,12 @@ CommandsExecutor::saveAsLandscape()
 
 
 void
-CommandsExecutor::startMultiplayerGame()
+CommandsExecutor::startGame()
 {
 	MultiplayerDialog multiplayerDialog( m_environment );
 	multiplayerDialog.exec();
 
-} // CommandsExecutor::startMultiplayerGame
+} // CommandsExecutor::startGame
 
 
 /*---------------------------------------------------------------------------*/

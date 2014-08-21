@@ -7,6 +7,7 @@
 #include "intrusive_base/ib_ibase.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
+#include "landscape_model/h/lm_start_point.hpp"
 
 #include "iterators/it_iiterator.hpp"
 
@@ -65,6 +66,14 @@ struct IGraphicsInfo
 	virtual void regPossiblePlayersColor( const QColor& _color ) = 0;
 
 	virtual PossiblePlayersColorIterator getPossiblePlayersColors() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void setStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId, const QColor& _color ) = 0;
+
+	virtual const QColor& getStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId ) const = 0;
+
+	virtual void clearStartPointData() = 0;
 
 /*---------------------------------------------------------------------------*/
 

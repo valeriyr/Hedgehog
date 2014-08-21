@@ -112,7 +112,7 @@ PluginInstance::initialize()
 	m_environment.reset( new Environment( *this ) );
 	m_mapPreviewGenerator.reset( new MapPreviewGenerator( *m_environment ) );
 	m_landscapeViewer.reset( new LandscapeViewer( *m_environment ) );
-	m_commandsExecutor.reset( new CommandsExecutor( *m_environment, *m_landscapeViewer ) );
+	m_commandsExecutor.reset( new CommandsExecutor( *m_environment ) );
 
 	using namespace Framework::Core::CommandsManager;
 
@@ -133,8 +133,8 @@ PluginInstance::initialize()
 		,	boost::intrusive_ptr< ICommand >( new SaveAsLandscapeCommand( *m_commandsExecutor ) ) );
 
 	getCommandsManager()->registerCommand(
-			Resources::Commands::StartMultiplayerGameCommandName
-		,	boost::intrusive_ptr< ICommand >( new StartMultiplayerGameCommand( *m_commandsExecutor ) ) );
+			Resources::Commands::StartGameCommandName
+		,	boost::intrusive_ptr< ICommand >( new StartGameCommand( *m_commandsExecutor ) ) );
 
 	getWindowManager()->addCommandToMenu( "File/New", Resources::Commands::NewLandscapeCommandName );
 	getWindowManager()->addCommandToMenu( "File/Open", Resources::Commands::OpenLandscapeCommandName );
@@ -142,7 +142,7 @@ PluginInstance::initialize()
 	getWindowManager()->addCommandToMenu( "File/Save", Resources::Commands::SaveLandscapeCommandName );
 	getWindowManager()->addCommandToMenu( "File/Save As", Resources::Commands::SaveAsLandscapeCommandName );
 
-	getWindowManager()->addCommandToMenu( "Multiplayer/Start", Resources::Commands::StartMultiplayerGameCommandName );
+	getWindowManager()->addCommandToMenu( "Game/Start", Resources::Commands::StartGameCommandName );
 
 } // PluginInstance::initialize
 
@@ -161,7 +161,7 @@ PluginInstance::close()
 	getWindowManager()->removeCommandFromMenu( "File/Open" );
 	getWindowManager()->removeCommandFromMenu( "File/New" );
 
-	getCommandsManager()->unregisterCommand( Resources::Commands::StartMultiplayerGameCommandName );
+	getCommandsManager()->unregisterCommand( Resources::Commands::StartGameCommandName );
 
 	getCommandsManager()->unregisterCommand( Resources::Commands::SaveAsLandscapeCommandName );
 	getCommandsManager()->unregisterCommand( Resources::Commands::SaveLandscapeCommandName );
@@ -457,6 +457,17 @@ PluginInstance::getMapPreviewGenerator() const
 	return m_mapPreviewGenerator;
 
 } // PluginInstance::getMapPreviewGenerator
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ILandscapeViewer >
+PluginInstance::getLandscapeViewer() const
+{
+	return m_landscapeViewer;
+
+} // PluginInstance::getLandscapeViewer
 
 
 /*---------------------------------------------------------------------------*/

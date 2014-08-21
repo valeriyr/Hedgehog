@@ -15,7 +15,6 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
-struct ILandscapeViewer;
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	CommandsExecutor( const IEnvironment& _environment, ILandscapeViewer& _landscapeViewer );
+	CommandsExecutor( const IEnvironment& _environment );
 
 	virtual ~CommandsExecutor();
 
@@ -47,7 +46,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void startMultiplayerGame();
+	/*virtual*/ void startGame();
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,8 +55,6 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
-
-	ILandscapeViewer& m_landscapeViewer;
 
 /*---------------------------------------------------------------------------*/
 

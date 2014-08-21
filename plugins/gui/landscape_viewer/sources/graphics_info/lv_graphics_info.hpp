@@ -53,6 +53,14 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void setStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId, const QColor& _color );
+
+	/*virtual*/ const QColor& getStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId ) const;
+
+	/*virtual*/ void clearStartPointData();
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/
@@ -69,8 +77,6 @@ private:
 		SurfaceItemGraphicsInfoCollection m_surfaceItemGraphicsInfos;
 	};
 
-/*---------------------------------------------------------------------------*/
-
 	typedef
 		std::map< QString, SurfaceGraphicsInfo >
 		SurfaceGraphicsInfoCollection;
@@ -81,13 +87,28 @@ private:
 		SurfaceGraphicsInfoCollection::const_iterator
 		SurfaceGraphicsInfoCollectionConstIterator;
 
+/*---------------------------------------------------------------------------*/
+
 	typedef
 		std::vector< QColor >
 		PossiblePlayersColorsCollection;
 
+/*---------------------------------------------------------------------------*/
+
+	typedef
+		std::map< Core::LandscapeModel::StartPoint::Id, QColor >
+		StartPointsDataCollection;
+	typedef
+		StartPointsDataCollection::const_iterator
+		StartPointsDataCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
 	SurfaceGraphicsInfoCollection m_surfaceGraphicsInfoCollection;
 
 	PossiblePlayersColorsCollection m_possiblePlayersColors;
+
+	StartPointsDataCollection m_startPointsData;
 
 /*---------------------------------------------------------------------------*/
 

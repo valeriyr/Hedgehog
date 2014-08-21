@@ -67,6 +67,7 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 struct IAnimateObject;
+struct ILandscapeViewer;
 
 /*---------------------------------------------------------------------------*/
 
@@ -124,6 +125,8 @@ struct IEnvironment
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< IGraphicsInfo > getGraphicsInfo() const = 0;
+
+	virtual boost::intrusive_ptr< ILandscapeViewer > getLandscapeViewer() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -167,7 +167,7 @@ LandscapeModel::resetModel()
 void
 LandscapeModel::saveModel( const QString& _filePath )
 {
-	if ( m_landscape )
+	if ( m_landscape && !_filePath.isEmpty() )
 	{
 		m_landscapeSerializer.save( *this, *m_landscape, _filePath );
 	}

@@ -203,6 +203,8 @@ public:
 
 	boost::intrusive_ptr< IMapPreviewGenerator > getMapPreviewGenerator() const;
 
+	boost::intrusive_ptr< ILandscapeViewer > getLandscapeViewer() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:

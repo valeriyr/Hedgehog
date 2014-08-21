@@ -145,7 +145,7 @@ namespace Commands {
 
 	extern const char* const SaveAsLandscapeCommandName;
 
-	extern const char* const StartMultiplayerGameCommandName;
+	extern const char* const StartGameCommandName;
 
 /*---------------------------------------------------------------------------*/
 

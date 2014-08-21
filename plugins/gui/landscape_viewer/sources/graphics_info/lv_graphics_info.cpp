@@ -23,6 +23,7 @@ const QString IGraphicsInfo::ms_anySkinIdentifier = "Any";
 GraphicsInfo::GraphicsInfo()
 	:	m_surfaceGraphicsInfoCollection()
 	,	m_possiblePlayersColors()
+	,	m_startPointsData()
 {
 } // GraphicsInfo::GraphicsInfo
 
@@ -137,6 +138,42 @@ GraphicsInfo::getPossiblePlayersColors() const
 			new Tools::Core::SimpleIterator< PossiblePlayersColorsCollection >( m_possiblePlayersColors ) );
 
 } // GraphicsInfo::getPossiblePlayersColors
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+GraphicsInfo::setStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId, const QColor& _color )
+{
+	m_startPointsData[ _startPointId ] = _color;
+
+} // GraphicsInfo::setStartPointColor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QColor&
+GraphicsInfo::getStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId ) const
+{
+	StartPointsDataCollectionIterator iterator = m_startPointsData.find( _startPointId );
+	assert( iterator != m_startPointsData.end() );
+
+	return iterator->second;
+
+} // GraphicsInfo::getStartPointColor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+GraphicsInfo::clearStartPointData()
+{
+	m_startPointsData.clear();
+
+} // GraphicsInfo::clearStartPointData
 
 
 /*---------------------------------------------------------------------------*/
