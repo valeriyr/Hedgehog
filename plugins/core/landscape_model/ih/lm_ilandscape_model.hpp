@@ -64,6 +64,8 @@ struct ILandscapeModel
 
 	virtual void startSimulation() = 0;
 
+	virtual bool isSimulationRunning() const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual void selectObjects( const QRect& _rect ) = 0;

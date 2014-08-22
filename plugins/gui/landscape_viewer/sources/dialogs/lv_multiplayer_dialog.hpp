@@ -49,6 +49,8 @@ private slots:
 	void onConnectButtonPressed( bool _checked );
 	void onStartButtonPressed( bool _checked );
 
+	void onPlayerColorChanged();
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -69,7 +71,9 @@ private:
 	void updatePlayersList();
 
 	void clearLayout( QLayout* _layout );
-	void buildPlayerList();
+
+	void buildPlayersList();
+	void updatePlayersColors();
 
 /*---------------------------------------------------------------------------*/
 

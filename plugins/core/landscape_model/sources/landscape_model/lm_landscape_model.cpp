@@ -95,6 +95,9 @@ LandscapeModel::~LandscapeModel()
 void
 LandscapeModel::initLandscape( const QString& _filePath )
 {
+	if ( isSimulationRunning() )
+		return;
+
 	boost::intrusive_ptr< ILandscape >
 		landscape( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
 
@@ -120,6 +123,9 @@ LandscapeModel::initLandscape( const QString& _filePath )
 void
 LandscapeModel::initPlayers( const QString& _filePath, const ILandscapeModel::PlayersSturtupDataCollection& _data )
 {
+	if ( isSimulationRunning() )
+		return;
+
 	ILandscapeModel::PlayersSturtupDataCollectionIterator
 			begin = _data.begin()
 		,	end = _data.end();
@@ -181,7 +187,7 @@ LandscapeModel::saveModel( const QString& _filePath )
 void
 LandscapeModel::startSimulation()
 {
-	if ( m_actionsProcessingTaskHandle.isValid() )
+	if ( isSimulationRunning() )
 		return;
 
 	m_ticksCounter = 0;
@@ -192,6 +198,17 @@ LandscapeModel::startSimulation()
 		,	Resources::TimeLimit );
 
 } // LandscapeModel::startSimulation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+LandscapeModel::isSimulationRunning() const
+{
+	return m_actionsProcessingTaskHandle.isValid();
+
+} // LandscapeModel::isSimulationRunning
 
 
 /*---------------------------------------------------------------------------*/

@@ -64,6 +64,8 @@ public:
 
 	/*virtual*/ void startSimulation();
 
+	/*virtual*/ bool isSimulationRunning() const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void selectObjects( const QRect& _rect );

@@ -107,7 +107,7 @@ LandscapeViewer::initLandscape( const QString& _filePath )
 
 	locker->getLandscapeModel()->initLandscape( _filePath );
 
-	initDefaulrStartpointsColors();
+	initDefaultStartpointsColors();
 
 } // LandscapeViewer::initLandscape
 
@@ -167,8 +167,10 @@ LandscapeViewer::closeLandscape()
 
 
 void
-LandscapeViewer::initDefaulrStartpointsColors()
+LandscapeViewer::initDefaultStartpointsColors()
 {
+	m_environment.getGraphicsInfo()->clearStartPointData();
+
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
 		locker = m_environment.lockModel();
 
@@ -188,7 +190,7 @@ LandscapeViewer::initDefaulrStartpointsColors()
 		colorsIterator->next();
 	}
 
-} // LandscapeViewer::initDefaulrStartpointsColors
+} // LandscapeViewer::initDefaultStartpointsColors
 
 
 /*---------------------------------------------------------------------------*/

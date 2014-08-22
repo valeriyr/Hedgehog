@@ -63,6 +63,8 @@ public:
 
 	/*virtual*/ void clearStartPointData();
 
+	/*virtual*/ bool colorIsUsed( const QColor& _color ) const;
+
 /*---------------------------------------------------------------------------*/
 
 private:

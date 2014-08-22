@@ -86,10 +86,10 @@ struct TerrainMapData
 		switch( _emplacement )
 		{
 		case Emplacement::Air:
-			return m_engagedWithAir == true;
+			return m_engagedWithAir;
 			break;
 		case Emplacement::Ground:
-			return m_engagedWithGround == true;
+			return m_engagedWithGround;
 			break;
 		}
 

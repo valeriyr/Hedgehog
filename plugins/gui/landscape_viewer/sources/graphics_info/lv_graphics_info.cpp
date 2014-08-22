@@ -201,6 +201,27 @@ GraphicsInfo::clearStartPointData()
 
 /*---------------------------------------------------------------------------*/
 
+
+bool
+GraphicsInfo::colorIsUsed( const QColor& _color ) const
+{
+	StartPointsDataCollectionIterator
+			begin = m_startPointsData.begin()
+		,	end = m_startPointsData.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( begin->second == _color )
+			return true;
+	}
+
+	return false;
+
+} // GraphicsInfo::colorIsUsed
+
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeViewer
 } // namespace GUI
 } // namespace Plugins

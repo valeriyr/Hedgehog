@@ -5,7 +5,7 @@
 
 #include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
 #include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
-
+#include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
 #include "landscape_viewer/sources/dialogs/lv_multiplayer_dialog.hpp"
 
 #include "landscape_model/ih/lm_imodel_locker.hpp"
@@ -104,6 +104,12 @@ CommandsExecutor::saveAsLandscape()
 void
 CommandsExecutor::startGame()
 {
+	if ( m_environment.lockModel()->getLandscapeModel()->isSimulationRunning() )
+	{
+		m_environment.printMessage( Tools::Core::IMessenger::MessegeLevel::Error, Resources::Messages::SimulationIsRunningNow );
+		return;
+	}
+
 	MultiplayerDialog multiplayerDialog( m_environment );
 	multiplayerDialog.exec();
 

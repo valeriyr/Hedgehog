@@ -80,7 +80,7 @@ MultiplayerDialog::onLandscapeSelected( QListWidgetItem* _newItem, QListWidgetIt
 
 
 void
-MultiplayerDialog::onCreateButtonPressed( bool _checked )
+MultiplayerDialog::onCreateButtonPressed( bool /*_checked*/ )
 {
 } // MultiplayerDialog::onCreateButtonPressed
 
@@ -89,7 +89,7 @@ MultiplayerDialog::onCreateButtonPressed( bool _checked )
 
 
 void
-MultiplayerDialog::onConnectButtonPressed( bool _checked )
+MultiplayerDialog::onConnectButtonPressed( bool /*_checked*/ )
 {
 } // MultiplayerDialog::onCreateButtonPressed
 
@@ -100,9 +100,47 @@ MultiplayerDialog::onConnectButtonPressed( bool _checked )
 void
 MultiplayerDialog::onStartButtonPressed( bool /*_checked*/ )
 {
-	//m_environment.getLandscapeViewer()->startSimulation();
+	Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection collection;
+
+	PlayersDataCollectionIterator
+			begin = m_playersData.begin()
+		,	end = m_playersData.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		collection.push_back(
+			Plugins::Core::LandscapeModel::ILandscapeModel::PlayerStartupData(
+					begin->second.m_race.currentText()
+				,	begin->first
+				,	Plugins::Core::LandscapeModel::PlayerType::fromString( begin->second.m_type.currentText() ) ) );
+	}
+
+	m_environment.getLandscapeViewer()->startSimulation( collection );
+
+	close();
 
 } // MultiplayerDialog::onCreateButtonPressed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::onPlayerColorChanged()
+{
+	PlayersDataCollectionIterator
+			begin = m_playersData.begin()
+		,	end = m_playersData.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		m_environment.getGraphicsInfo()->setStartPointColor( begin->first, Utilities::colorFromString( begin->second.m_color.currentText() ) );
+	}
+
+	updatePlayersColors();
+	updateMapPreview();
+
+} // MultiplayerDialog::onPlayerColorChanged
 
 
 /*---------------------------------------------------------------------------*/
@@ -299,7 +337,7 @@ MultiplayerDialog::updatePlayersList()
 
 	m_playersData.clear();
 
-	buildPlayerList();
+	buildPlayersList();
 
 } // MultiplayerDialog::updatePlayersList
 
@@ -329,13 +367,15 @@ MultiplayerDialog::clearLayout( QLayout* _layout )
 
 
 void
-MultiplayerDialog::buildPlayerList()
+MultiplayerDialog::buildPlayersList()
 {
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
 		locker = m_environment.lockModel();
 
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
 		landscape = locker->getLandscapeModel()->getLandscape();
+
+	// Races
 
 	Core::LandscapeModel::IStaticData::RacesCollection reces;
 	m_environment.fetchRaces( reces );
@@ -349,6 +389,8 @@ MultiplayerDialog::buildPlayerList()
 	for ( ; beginRaces != endRaces; ++beginRaces )
 		qraces.push_back( beginRaces->first );
 
+	// Players
+
 	QStringList qplayers;
 
 	for (	Core::LandscapeModel::PlayerType::Enum type = Core::LandscapeModel::PlayerType::Begin
@@ -358,6 +400,56 @@ MultiplayerDialog::buildPlayerList()
 		qplayers.push_back( Core::LandscapeModel::PlayerType::toString( type ) );
 	}
 
+	// List
+
+	Plugins::Core::LandscapeModel::ILandscape::StartPointsIterator
+		iterator = landscape->getStartPointsIterator();
+
+	while( iterator->isValid() )
+	{
+		QHBoxLayout* playerLayout = new QHBoxLayout();
+
+		QString startPointFormat( "StartPoint %1:" );
+		startPointFormat = startPointFormat.arg( iterator->current().m_id );
+
+		playerLayout->addWidget( new QLabel( startPointFormat ) );
+
+		QComboBox* playerComboBox = new QComboBox();
+		playerComboBox->addItems( qplayers );
+
+		playerComboBox->setCurrentText( Core::LandscapeModel::PlayerType::toString( Core::LandscapeModel::PlayerType::Player ) );
+
+		playerLayout->addWidget( playerComboBox );
+		playerLayout->addWidget( new QLabel( "Race:" ) );
+
+		QComboBox* raceComboBox = new QComboBox();
+		raceComboBox->addItems( qraces );
+
+		playerLayout->addWidget( raceComboBox );
+		playerLayout->addWidget( new QLabel( "Color:" ) );
+
+		QComboBox* colorsComboBox = new QComboBox();
+
+		playerLayout->addWidget( colorsComboBox );
+
+		m_playersLayout->addLayout( playerLayout );
+
+		m_playersData.insert( std::make_pair( iterator->current().m_id, PlayerData( *playerComboBox, *raceComboBox, *colorsComboBox ) ) );
+
+		iterator->next();
+	}
+
+	updatePlayersColors();
+
+} // MultiplayerDialog::buildPlayersList
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::updatePlayersColors()
+{
 	typedef std::vector< std::pair< QIcon, QColor > > ColorsCollection;
 	typedef ColorsCollection::const_iterator ColorsCollectionIterator;
 
@@ -375,50 +467,38 @@ MultiplayerDialog::buildPlayerList()
 
 		colorsIterator->next();
 	}
-	//m_playersData.insert( std::make_pair( iterator->current().m_id, PlayerData( "Orc", QColor( 255, 255, 0 ) ) ) );
-	Plugins::Core::LandscapeModel::ILandscape::StartPointsIterator
-		iterator = landscape->getStartPointsIterator();
 
-	while( iterator->isValid() )
+	PlayersDataCollectionIterator
+			begin = m_playersData.begin()
+		,	end = m_playersData.end();
+
+	for ( ; begin != end; ++begin )
 	{
-		QHBoxLayout* playerLayout = new QHBoxLayout();
+		QObject::disconnect( &begin->second.m_color, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerColorChanged() ) );
 
-		QString startPointFormat( "StartPoint %1:" );
-		startPointFormat = startPointFormat.arg( iterator->current().m_id );
+		begin->second.m_color.clear();
 
-		playerLayout->addWidget( new QLabel( startPointFormat ) );
-
-		QComboBox* playerComboBox = new QComboBox();
-		playerComboBox->addItems( qplayers );
-
-		playerLayout->addWidget( playerComboBox );
-
-		playerLayout->addWidget( new QLabel( "Race:" ) );
-
-		QComboBox* raceComboBox = new QComboBox();
-		raceComboBox->addItems( qraces );
-
-		playerLayout->addWidget( raceComboBox );
-
-		playerLayout->addWidget( new QLabel( "Color:" ) );
-
-		QComboBox* colorsComboBox = new QComboBox();
+		const QColor color( m_environment.getGraphicsInfo()->getStartPointColor( begin->first ) );
 
 		ColorsCollectionIterator
 				colorsBegin = colors.begin()
 			,	colorsEnd = colors.end();
 
 		for ( ; colorsBegin != colorsEnd; ++colorsBegin )
-			colorsComboBox->addItem( colorsBegin->first, Utilities::colorToString( colorsBegin->second ) );
+		{
+			if (	color == colorsBegin->second
+				||	!m_environment.getGraphicsInfo()->colorIsUsed( colorsBegin->second ) )
+			{
+				begin->second.m_color.addItem( colorsBegin->first, Utilities::colorToString( colorsBegin->second ) );
+			}
+		}
 
-		playerLayout->addWidget( colorsComboBox );
+		begin->second.m_color.setCurrentText( Utilities::colorToString( color ) );
 
-		m_playersLayout->addLayout( playerLayout );
-
-		iterator->next();
+		QObject::connect( &begin->second.m_color, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerColorChanged() ) );
 	}
 
-} // MultiplayerDialog::buildPlayerList
+} // MultiplayerDialog::updatePlayersColors
 
 
 /*---------------------------------------------------------------------------*/

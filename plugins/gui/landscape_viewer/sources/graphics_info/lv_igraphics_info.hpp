@@ -79,6 +79,8 @@ struct IGraphicsInfo
 
 	virtual void clearStartPointData() = 0;
 
+	virtual bool colorIsUsed( const QColor& _color ) const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };
