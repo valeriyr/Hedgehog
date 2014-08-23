@@ -15,6 +15,20 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Framework
+{
+	namespace Core
+	{
+		namespace NetworkManager
+		{
+			struct IUdpConnection;
+			struct ConnectionInfo;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
@@ -65,6 +79,13 @@ struct IEnvironment
 /*---------------------------------------------------------------------------*/
 
 	virtual QString getApplicationDirectory() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual Framework::Core::NetworkManager::IUdpConnection&
+		getConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const = 0;
+
+	virtual void closeConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -71,6 +71,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ Framework::Core::NetworkManager::IUdpConnection&
+		getConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const;
+
+	/*virtual*/ void closeConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const;
+
+/*---------------------------------------------------------------------------*/
+
 private:
 
 /*---------------------------------------------------------------------------*/

@@ -41,6 +41,11 @@ namespace Framework
 			struct IExporter;
 			struct IScriptsExecutor;
 		}
+
+		namespace NetworkManager
+		{
+			struct IConnectionManager;
+		}
 	}
 }
 
@@ -106,6 +111,9 @@ public:
 
 	boost::intrusive_ptr< Framework::Core::ScriptEngine::IScriptsExecutor >
 		getScriptsExecutor() const;
+
+	boost::intrusive_ptr< Framework::Core::NetworkManager::IConnectionManager >
+		getConnectionManager() const;
 
 /*---------------------------------------------------------------------------*/
 

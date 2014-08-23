@@ -20,6 +20,9 @@
 #include "script_engine/h/se_plugin_id.hpp"
 #include "script_engine/h/se_resources.hpp"
 
+#include "network_manager/h/nm_plugin_id.hpp"
+#include "network_manager/ih/nm_iconnection_manager.hpp"
+
 #include "landscape_model/sources/environment/lm_environment.hpp"
 #include "landscape_model/sources/model_locker/lm_model_locker.hpp"
 #include "landscape_model/sources/landscape_model/lm_landscape_model.hpp"
@@ -29,9 +32,7 @@
 #include "landscape_model/sources/model_information/lm_model_information.hpp"
 
 #include "landscape_model/sources/surface_item/lm_surface_item.hpp"
-
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
-
 #include "landscape_model/sources/notification_center/lm_notification_center.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -188,6 +189,20 @@ PluginInstance::getScriptsExecutor() const
 			,	Framework::Core::ScriptEngine::IID_SCRIPTS_EXECUTOR );
 
 } // PluginInstance::getScriptsExecutor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::NetworkManager::IConnectionManager >
+PluginInstance::getConnectionManager() const
+{
+	return
+		getPluginInterface< Framework::Core::NetworkManager::IConnectionManager >(
+				Framework::Core::NetworkManager::PID_NETWORK_MANAGER
+			,	Framework::Core::NetworkManager::IID_CONNECTION_MANAGER );
+
+} // PluginInstance::getConnectionManager
 
 
 /*---------------------------------------------------------------------------*/

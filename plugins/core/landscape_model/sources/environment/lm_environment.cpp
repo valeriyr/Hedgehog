@@ -10,6 +10,7 @@
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 #include "event_manager/ih/em_ievent_manager.hpp"
 #include "plugins_manager/ih/pm_isystem_information.hpp"
+#include "network_manager/ih/nm_iconnection_manager.hpp"
 
 #include "messenger/ms_imessenger.hpp"
 
@@ -141,6 +142,28 @@ Environment::getApplicationDirectory() const
 	return m_pluginInstance.getSystemInformation()->getApplicationDirectory();
 
 } // Environment::getApplicationDirectory
+
+
+/*---------------------------------------------------------------------------*/
+
+
+Framework::Core::NetworkManager::IUdpConnection&
+Environment::getConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const
+{
+	return m_pluginInstance.getConnectionManager()->getUdpConnection( _connectionInfo );
+
+} // Environment::getConnection
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::closeConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const
+{
+	m_pluginInstance.getConnectionManager()->closeUdpConnection( _connectionInfo );
+
+} // Environment::closeConnection
 
 
 /*---------------------------------------------------------------------------*/
