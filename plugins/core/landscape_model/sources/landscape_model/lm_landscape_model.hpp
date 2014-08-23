@@ -13,6 +13,8 @@
 
 #include "multithreading_manager/h/mm_task_handle.hpp"
 
+#include "time/t_time.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -180,6 +182,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	Framework::Core::MultithreadingManager::TaskHandle m_actionsProcessingTaskHandle;
+
+	Tools::Core::Time::Milliseconds m_simulationStartTimeStamp;
 
 	boost::intrusive_ptr< ILandscape > m_landscape;
 

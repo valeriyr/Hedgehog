@@ -29,6 +29,8 @@ namespace Resources {
 
 	const char* const TimeLimitWarning = "Time limit has been exceeded! Time: '%1' ( limit: '%2' )";
 
+	const char* const SimulationHasStartedMessage = "Simulation has started at: '%1' msec";
+
 /*---------------------------------------------------------------------------*/
 
 	const char* const ConfigurationScriptsDirectory = "landscape_model";

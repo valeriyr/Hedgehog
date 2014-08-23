@@ -47,6 +47,7 @@
 
 #include "iterators/it_simple_iterator.hpp"
 
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -66,6 +67,8 @@ LandscapeModel::LandscapeModel(
 	,	m_landscapeSerializer( _landscapeSerializer )
 	,	m_surfaceItemsCache( _surfaceItemsCache )
 	,	m_staticData( _staticData )
+	,	m_actionsProcessingTaskHandle()
+	,	m_simulationStartTimeStamp( 0 )
 	,	m_landscape()
 	,	m_players()
 	,	m_mutex( QMutex::Recursive )
@@ -158,6 +161,8 @@ LandscapeModel::resetModel()
 	m_environment.removeTask( m_actionsProcessingTaskHandle );
 	m_actionsProcessingTaskHandle.reset();
 
+	m_simulationStartTimeStamp = 0;
+
 	m_ticksCounter = 0;
 
 	m_landscape.reset();
@@ -191,6 +196,12 @@ LandscapeModel::startSimulation()
 		return;
 
 	m_ticksCounter = 0;
+
+	m_simulationStartTimeStamp = Tools::Core::Time::currentTime();
+
+	m_environment.printMessage(
+			Tools::Core::IMessenger::MessegeLevel::Info
+		,	QString( Resources::SimulationHasStartedMessage ).arg( m_simulationStartTimeStamp ) );
 
 	m_actionsProcessingTaskHandle = m_environment.pushPeriodicalTask(
 			Resources::ModelThreadName

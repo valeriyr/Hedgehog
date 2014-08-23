@@ -27,6 +27,8 @@ namespace Resources {
 
 	extern const char* const TimeLimitWarning;
 
+	extern const char* const SimulationHasStartedMessage;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const ConfigurationScriptsDirectory;
