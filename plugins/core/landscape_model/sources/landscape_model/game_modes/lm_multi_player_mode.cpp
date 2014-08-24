@@ -39,6 +39,7 @@ MultiPlayerMode::MultiPlayerMode(
 MultiPlayerMode::~MultiPlayerMode()
 {
 	m_connection->removeConnectionListener( this );
+	m_environment.closeConnection( m_connectionInfo );
 
 } // MultiPlayerMode::~MultiPlayerMode
 

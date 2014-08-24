@@ -60,6 +60,12 @@ MultiplayerDialog::~MultiplayerDialog()
 {
 	disconnectWidgets();
 
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
+	if ( !locker->getLandscapeModel()->isSimulationRunning() )
+		locker->getLandscapeModel()->resetModel();
+
 } // MultiplayerDialog::~MultiplayerDialog
 
 
