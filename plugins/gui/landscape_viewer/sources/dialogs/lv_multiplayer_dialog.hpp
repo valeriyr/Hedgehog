@@ -25,6 +25,29 @@ class MultiplayerDialog
 
 /*---------------------------------------------------------------------------*/
 
+	struct PlayerData
+	{
+		PlayerData(
+				QComboBox& _type
+			,	QComboBox& _race
+			,	QComboBox& _color
+			,	const Core::LandscapeModel::StartPoint::Id& _id
+			)
+			:	m_type( _type )
+			,	m_race( _race )
+			,	m_color( _color )
+			,	m_id( _id )
+		{}
+
+		QComboBox& m_type;
+		QComboBox& m_race;
+		QComboBox& m_color;
+
+		const Core::LandscapeModel::StartPoint::Id m_id;
+	};
+
+/*---------------------------------------------------------------------------*/
+
 	Q_OBJECT
 
 /*---------------------------------------------------------------------------*/
@@ -50,10 +73,17 @@ private slots:
 	void onStartButtonPressed( bool _checked );
 
 	void onPlayerColorChanged();
+	void onPlayerRaceChanged();
+	void onPlayerTypeChanged();
 
 /*---------------------------------------------------------------------------*/
 
 private:
+
+/*---------------------------------------------------------------------------*/
+
+	void onStartPointRaceChanged( const Framework::Core::EventManager::Event& _event );
+	void onStartPointTypeChanged( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/
 
@@ -74,6 +104,9 @@ private:
 
 	void buildPlayersList();
 	void updatePlayersColors();
+
+	PlayerData* getPlayerDataByRace( const QObject* _race );
+	PlayerData* getPlayerDataByType( const QObject* _type );
 
 /*---------------------------------------------------------------------------*/
 
@@ -99,23 +132,6 @@ private:
 	QPushButton*	m_startButton;
 
 /*---------------------------------------------------------------------------*/
-
-	struct PlayerData
-	{
-		PlayerData(
-				QComboBox& _type
-			,	QComboBox& _race
-			,	QComboBox& _color
-			)
-			:	m_type( _type )
-			,	m_race( _race )
-			,	m_color( _color )
-		{}
-
-		QComboBox& m_type;
-		QComboBox& m_race;
-		QComboBox& m_color;
-	};
 
 	typedef
 		std::map< Core::LandscapeModel::StartPoint::Id, PlayerData >

@@ -1,21 +1,25 @@
 
-#ifndef __NM_CONNECTION_MANAGER_HPP__
-#define __NM_CONNECTION_MANAGER_HPP__
+#ifndef __LM_SINGLE_PLAYER_MODE_HPP__
+#define __LM_SINGLE_PLAYER_MODE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "network_manager/ih/nm_iconnection_manager.hpp"
+#include "landscape_model/sources/landscape_model/game_modes/lm_igame_mode.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Plugins {
 namespace Core {
-namespace NetworkManager {
+namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class ConnectionManager
-	:	public Tools::Core::BaseWrapper< IConnectionManager >
+struct ILandscapeModel;
+
+/*---------------------------------------------------------------------------*/
+
+class SinglePlayerMode
+	:	public Tools::Core::BaseWrapper< IGameMode >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -24,15 +28,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ConnectionManager();
+	SinglePlayerMode( ILandscapeModel& _landscapeModel );
 
-	virtual ~ConnectionManager();
+	virtual ~SinglePlayerMode();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IUdpConnection > getUdpConnection( const ConnectionInfo& _connectionInfo );
-
-	/*virtual*/ void closeUdpConnection( const ConnectionInfo& _connectionInfo  );
+	/*virtual*/ void processCommand();
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,16 +42,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	typedef
-		std::map< ConnectionInfo, boost::intrusive_ptr< IUdpConnection > >
-		ConnectionsCollection;
-	typedef
-		ConnectionsCollection::iterator
-		ConnectionsCollectionIterator;
-
-/*---------------------------------------------------------------------------*/
-
-	ConnectionsCollection m_connectionsCollection;
+	ILandscapeModel& m_landscapeModel;
 
 /*---------------------------------------------------------------------------*/
 
@@ -57,10 +50,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace NetworkManager
+} // namespace LandscapeModel
 } // namespace Core
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __NM_CONNECTION_MANAGER_HPP__
+#endif // __LM_SINGLE_PLAYER_MODE_HPP__

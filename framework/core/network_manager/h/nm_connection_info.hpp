@@ -25,12 +25,6 @@ struct ConnectionInfo
 		,	m_port( _port )
 	{}
 
-	ConnectionInfo( const ConnectionInfo& _connectionId )
-		:	m_address( _connectionId.m_address )
-		,	m_port( _connectionId.m_port )
-	{
-	}
-
 /*---------------------------------------------------------------------------*/
 
 	bool operator < ( const ConnectionInfo& _connectionId ) const

@@ -14,6 +14,19 @@
 
 /*---------------------------------------------------------------------------*/
 
+namespace Framework
+{
+	namespace Core
+	{
+		namespace NetworkManager
+		{
+			struct ConnectionInfo;
+		}
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
@@ -26,37 +39,13 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-	struct PlayerStartupData
-	{
-		PlayerStartupData(
-				const QString& _race
-			,	const StartPoint::Id& _startPointId
-			,	const PlayerType::Enum _playerType
-			)
-			:	m_race( _race )
-			,	m_startPointId( _startPointId )
-			,	m_playerType( _playerType )
-		{}
-
-		const QString m_race;
-
-		const StartPoint::Id m_startPointId;
-
-		const PlayerType::Enum m_playerType;
-	};
-
-	typedef
-		std::vector< PlayerStartupData >
-		PlayersSturtupDataCollection;
-	typedef
-		PlayersSturtupDataCollection::const_iterator
-		PlayersSturtupDataCollectionIterator;
-
-/*---------------------------------------------------------------------------*/
-
 	virtual void initLandscape( const QString& _filePath ) = 0;
 
-	virtual void initPlayers( const QString& _filePath, const PlayersSturtupDataCollection& _data ) = 0;
+	virtual void setupMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) = 0;
+
+	virtual void connectToMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) = 0;
+
+	virtual void setupSinglePlayerGame() = 0;
 
 	virtual void resetModel() = 0;
 
@@ -65,6 +54,16 @@ struct ILandscapeModel
 	virtual void startSimulation() = 0;
 
 	virtual bool isSimulationRunning() const = 0;
+
+	virtual bool isConfigurated() const = 0;
+
+	virtual const QString& getFilePath() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void setStartPointRace( const StartPoint::Id& _id, const QString& _race ) = 0;
+
+	virtual void setStartPointType( const StartPoint::Id& _id, const PlayerType::Enum& _type ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

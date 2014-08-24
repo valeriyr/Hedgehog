@@ -1,36 +1,26 @@
 
-#ifndef __LV_ILANDSCAPE_VIEWER_HPP__
-#define __LV_ILANDSCAPE_VIEWER_HPP__
+#ifndef __LM_IGAME_MODE_HPP__
+#define __LM_IGAME_MODE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
 
-#include "landscape_model/ih/lm_ilandscape_model.hpp"
-
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
-namespace GUI {
-namespace LandscapeViewer {
+namespace Core {
+namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IViewMode;
-
-/*---------------------------------------------------------------------------*/
-
-struct ILandscapeViewer
-	:	public Tools::Core::IBase
+struct IGameMode
+	: public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initLandscape( const QString& _filePath ) = 0;
-
-	virtual void startSimulation() = 0;
-
-	virtual void closeLandscape() = 0;
+	virtual void processCommand() = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,10 +28,10 @@ struct ILandscapeViewer
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeViewer
-} // namespace GUI
+} // namespace LandscapeModel
+} // namespace Core
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ILANDSCAPE_VIEWER_HPP__
+#endif // __LM_IGAME_MODE_HPP__

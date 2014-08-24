@@ -64,6 +64,9 @@
     <Filter Include="Model Information">
       <UniqueIdentifier>{b44ccb25-4c7e-4f64-bda5-e3a8ce0e30af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Landscape Model\Game Modes">
+      <UniqueIdentifier>{1dc378db-8895-49ae-8759-40a3b5cbe857}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -185,6 +188,12 @@
     </ClCompile>
     <ClCompile Include="sources\model_information\lm_model_information.cpp">
       <Filter>Model Information</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_model\game_modes\lm_multi_player_mode.cpp">
+      <Filter>Landscape Model\Game Modes</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_model\game_modes\lm_single_player_mode.cpp">
+      <Filter>Landscape Model\Game Modes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -448,6 +457,15 @@
     </ClInclude>
     <ClInclude Include="h\lm_player_type.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_model\game_modes\lm_igame_mode.hpp">
+      <Filter>Landscape Model\Game Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_model\game_modes\lm_multi_player_mode.hpp">
+      <Filter>Landscape Model\Game Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_model\game_modes\lm_single_player_mode.hpp">
+      <Filter>Landscape Model\Game Modes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

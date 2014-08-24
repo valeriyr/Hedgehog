@@ -13,6 +13,7 @@
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 #include "landscape_model/h/lm_events.hpp"
 
+#include "network_manager/h/nm_connection_info.hpp"
 #include "network_manager/h/nm_resources.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
@@ -57,8 +58,6 @@ MultiplayerDialog::MultiplayerDialog( const IEnvironment& _environment )
 
 MultiplayerDialog::~MultiplayerDialog()
 {
-	m_subscriber.unsubscribe();
-
 	disconnectWidgets();
 
 } // MultiplayerDialog::~MultiplayerDialog
@@ -82,6 +81,11 @@ MultiplayerDialog::onLandscapeSelected( QListWidgetItem* _newItem, QListWidgetIt
 void
 MultiplayerDialog::onCreateButtonPressed( bool /*_checked*/ )
 {
+	m_environment.lockModel()->getLandscapeModel()->setupMultiPlayerGame(
+		Framework::Core::NetworkManager::ConnectionInfo(
+				m_environment.getString( Resources::Properties::Ip )
+			,	m_environment.getUInt( Resources::Properties::Port ) ) );
+
 } // MultiplayerDialog::onCreateButtonPressed
 
 
@@ -91,6 +95,11 @@ MultiplayerDialog::onCreateButtonPressed( bool /*_checked*/ )
 void
 MultiplayerDialog::onConnectButtonPressed( bool /*_checked*/ )
 {
+	m_environment.lockModel()->getLandscapeModel()->connectToMultiPlayerGame(
+		Framework::Core::NetworkManager::ConnectionInfo(
+				m_connectToIp->text()
+			,	m_connectToPort->text().toUInt() ) );
+
 } // MultiplayerDialog::onCreateButtonPressed
 
 
@@ -100,23 +109,13 @@ MultiplayerDialog::onConnectButtonPressed( bool /*_checked*/ )
 void
 MultiplayerDialog::onStartButtonPressed( bool /*_checked*/ )
 {
-	Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection collection;
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
 
-	PlayersDataCollectionIterator
-			begin = m_playersData.begin()
-		,	end = m_playersData.end();
+	if ( !locker->getLandscapeModel()->isConfigurated() )
+		locker->getLandscapeModel()->setupSinglePlayerGame();
 
-	for ( ; begin != end; ++begin )
-	{
-		collection.push_back(
-			Plugins::Core::LandscapeModel::ILandscapeModel::PlayerStartupData(
-					begin->second.m_race.currentText()
-				,	begin->first
-				,	Plugins::Core::LandscapeModel::PlayerType::fromString( begin->second.m_type.currentText() ) ) );
-	}
-
-	m_environment.getLandscapeViewer()->startSimulation( collection );
-
+	m_environment.getLandscapeViewer()->startSimulation();
 	close();
 
 } // MultiplayerDialog::onCreateButtonPressed
@@ -141,6 +140,87 @@ MultiplayerDialog::onPlayerColorChanged()
 	updateMapPreview();
 
 } // MultiplayerDialog::onPlayerColorChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::onPlayerRaceChanged()
+{
+	PlayerData* playerData = getPlayerDataByRace( sender() );
+
+	if ( playerData )
+	{
+		m_environment.lockModel()->getLandscapeModel()->setStartPointRace( playerData->m_id, playerData->m_race.currentText() );
+	}
+
+} // MultiplayerDialog::onPlayerRaceChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::onPlayerTypeChanged()
+{
+	PlayerData* playerData = getPlayerDataByRace( sender() );
+
+	if ( playerData )
+	{
+		m_environment.lockModel()->getLandscapeModel()
+			->setStartPointType(
+					playerData->m_id
+				,	Core::LandscapeModel::PlayerType::fromString( playerData->m_type.currentText() ) );
+	}
+
+} // MultiplayerDialog::onPlayerTypeChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::onStartPointRaceChanged( const Framework::Core::EventManager::Event& _event )
+{
+	const Core::LandscapeModel::StartPoint::Id id
+		= _event.getAttribute( Core::LandscapeModel::Events::StartPointRaceChanged::ms_startPointIdAttribute ).toInt();
+	const QString race
+		= _event.getAttribute( Core::LandscapeModel::Events::StartPointRaceChanged::ms_startPointRaceAttribute ).toString();
+
+	PlayersDataCollectionIterator iterator = m_playersData.find( id );
+	assert( iterator != m_playersData.end() );
+
+	QObject::disconnect( &iterator->second.m_race, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerRaceChanged() ) );
+
+	iterator->second.m_race.setCurrentText( race );
+
+	QObject::connect( &iterator->second.m_race, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerRaceChanged() ) );
+
+} // MultiplayerDialog::onStartPointRaceChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::onStartPointTypeChanged( const Framework::Core::EventManager::Event& _event )
+{
+	const Core::LandscapeModel::StartPoint::Id id
+		= _event.getAttribute( Core::LandscapeModel::Events::StartPointTypeChanged::ms_startPointIdAttribute ).toInt();
+	const Core::LandscapeModel::PlayerType::Enum type = static_cast< Core::LandscapeModel::PlayerType::Enum >(
+		_event.getAttribute( Core::LandscapeModel::Events::StartPointTypeChanged::ms_startPointTypeAttribute ).toInt() );
+
+	PlayersDataCollectionIterator iterator = m_playersData.find( id );
+	assert( iterator != m_playersData.end() );
+
+	QObject::disconnect( &iterator->second.m_type, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerTypeChanged() ) );
+
+	iterator->second.m_type.setCurrentText( Core::LandscapeModel::PlayerType::toString( type ) );
+
+	QObject::connect( &iterator->second.m_type, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerTypeChanged() ) );
+
+} // MultiplayerDialog::onStartPointTypeChanged
 
 
 /*---------------------------------------------------------------------------*/
@@ -244,6 +324,14 @@ MultiplayerDialog::connectWidgets()
 	QObject::connect( m_connectButton, SIGNAL( clicked( bool ) ), this, SLOT( onConnectButtonPressed( bool ) ) );
 	QObject::connect( m_startButton, SIGNAL( clicked( bool ) ), this, SLOT( onStartButtonPressed( bool ) ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::StartPointRaceChanged::ms_type
+							,	boost::bind( &MultiplayerDialog::onStartPointRaceChanged, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::StartPointTypeChanged::ms_type
+							,	boost::bind( &MultiplayerDialog::onStartPointTypeChanged, this, _1 ) );
+
 } // MultiplayerDialog::connectWidgets
 
 
@@ -253,6 +341,8 @@ MultiplayerDialog::connectWidgets()
 void
 MultiplayerDialog::disconnectWidgets()
 {
+	m_subscriber.unsubscribe();
+
 	QObject::disconnect(
 			m_landscapesList
 		,	SIGNAL( currentItemChanged( QListWidgetItem*, QListWidgetItem* ) )
@@ -419,11 +509,15 @@ MultiplayerDialog::buildPlayersList()
 
 		playerComboBox->setCurrentText( Core::LandscapeModel::PlayerType::toString( Core::LandscapeModel::PlayerType::Player ) );
 
+		QObject::connect( playerComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerTypeChanged() ) );
+
 		playerLayout->addWidget( playerComboBox );
 		playerLayout->addWidget( new QLabel( "Race:" ) );
 
 		QComboBox* raceComboBox = new QComboBox();
 		raceComboBox->addItems( qraces );
+
+		QObject::connect( raceComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerRaceChanged() ) );
 
 		playerLayout->addWidget( raceComboBox );
 		playerLayout->addWidget( new QLabel( "Color:" ) );
@@ -434,7 +528,10 @@ MultiplayerDialog::buildPlayersList()
 
 		m_playersLayout->addLayout( playerLayout );
 
-		m_playersData.insert( std::make_pair( iterator->current().m_id, PlayerData( *playerComboBox, *raceComboBox, *colorsComboBox ) ) );
+		m_playersData.insert(
+			std::make_pair(
+					iterator->current().m_id
+				,	PlayerData( *playerComboBox, *raceComboBox, *colorsComboBox, iterator->current().m_id ) ) );
 
 		iterator->next();
 	}
@@ -499,6 +596,48 @@ MultiplayerDialog::updatePlayersColors()
 	}
 
 } // MultiplayerDialog::updatePlayersColors
+
+
+/*---------------------------------------------------------------------------*/
+
+
+MultiplayerDialog::PlayerData*
+MultiplayerDialog::getPlayerDataByRace( const QObject* _race )
+{
+	PlayersDataCollectionIterator
+			begin = m_playersData.begin()
+		,	end = m_playersData.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( &begin->second.m_race == _race )
+			return &begin->second;
+	}
+
+	return NULL;
+
+} // MultiplayerDialog::getPlayerDataByRace
+
+
+/*---------------------------------------------------------------------------*/
+
+
+MultiplayerDialog::PlayerData*
+MultiplayerDialog::getPlayerDataByType( const QObject* _type )
+{
+	PlayersDataCollectionIterator
+			begin = m_playersData.begin()
+		,	end = m_playersData.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( &begin->second.m_type == _type )
+			return &begin->second;
+	}
+
+	return NULL;
+
+} // MultiplayerDialog::getPlayerDataByType
 
 
 /*---------------------------------------------------------------------------*/

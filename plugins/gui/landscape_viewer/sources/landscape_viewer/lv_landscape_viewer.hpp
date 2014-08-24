@@ -48,13 +48,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ QString getLandscapeFilePath() const;
-
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ void initLandscape( const QString& _filePath );
 
-	/*virtual*/ void startSimulation( const Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection& _collection );
+	/*virtual*/ void startSimulation();
 
 	/*virtual*/ void closeLandscape();
 
@@ -86,8 +82,6 @@ private:
 	boost::intrusive_ptr< ActionPanelView > m_actionPanelView;
 	boost::intrusive_ptr< ObjectStatusView > m_objectStatusView;
 	boost::intrusive_ptr< PlayerInfoView > m_playerInfoView;
-
-	QString m_landscapeFilePath;
 
 /*---------------------------------------------------------------------------*/
 

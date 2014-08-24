@@ -23,6 +23,26 @@ namespace CurrentTickNumberChanged
 
 /*---------------------------------------------------------------------------*/
 
+namespace StartPointRaceChanged
+{
+	const char* const ms_type = "StartPointRaceChanged";
+
+	const char* const ms_startPointIdAttribute = "StartPointId";
+	const char* const ms_startPointRaceAttribute = "StartPointRace";
+}
+
+/*---------------------------------------------------------------------------*/
+
+namespace StartPointTypeChanged
+{
+	const char* const ms_type = "HolderResourceCountChanged";
+
+	const char* const ms_startPointIdAttribute = "StartPointId";
+	const char* const ms_startPointTypeAttribute = "StartPointType";
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace ObjectAdded
 {
 	const char* const ms_type = "ObjectAdded";

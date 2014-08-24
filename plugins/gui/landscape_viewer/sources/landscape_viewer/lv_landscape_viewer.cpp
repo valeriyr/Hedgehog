@@ -46,7 +46,6 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 	,	m_actionPanelView( new ActionPanelView( _environment, *m_viewsMediator ) )
 	,	m_objectStatusView( new ObjectStatusView( _environment ) )
 	,	m_playerInfoView( new PlayerInfoView( _environment ) )
-	,	m_landscapeFilePath()
 {
 	m_environment.addFrameworkView( m_objectsView, Framework::GUI::WindowManager::ViewPosition::Left );
 	m_environment.addFrameworkView( m_settingsView, Framework::GUI::WindowManager::ViewPosition::Left );
@@ -86,27 +85,10 @@ LandscapeViewer::~LandscapeViewer()
 /*---------------------------------------------------------------------------*/
 
 
-QString
-LandscapeViewer::getLandscapeFilePath() const
-{
-	return m_landscapeFilePath;
-
-} // LandscapeViewer::getLandscapeFilePath
-
-
-/*---------------------------------------------------------------------------*/
-
-
 void
 LandscapeViewer::initLandscape( const QString& _filePath )
 {
-	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
-		locker = m_environment.lockModel();
-
-	m_landscapeFilePath = _filePath;
-
-	locker->getLandscapeModel()->initLandscape( _filePath );
-
+	m_environment.lockModel()->getLandscapeModel()->initLandscape( _filePath );
 	initDefaultStartpointsColors();
 
 } // LandscapeViewer::initLandscape
@@ -116,17 +98,17 @@ LandscapeViewer::initLandscape( const QString& _filePath )
 
 
 void
-LandscapeViewer::startSimulation( const Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection& _collection )
+LandscapeViewer::startSimulation()
 {
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
 		locker = m_environment.lockModel();
 
-	locker->getLandscapeModel()->initPlayers( m_landscapeFilePath, _collection );
-
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
 		landscape = locker->getLandscapeModel()->getLandscape();
 
-	m_descriptionView->landscapeWasOpened( QSize( landscape->getWidth(), landscape->getHeight() ), m_landscapeFilePath );
+	locker->getLandscapeModel()->startSimulation();
+
+	m_descriptionView->landscapeWasOpened( QSize( landscape->getWidth(), landscape->getHeight() ), locker->getLandscapeModel()->getFilePath() );
 	m_playerInfoView->landscapeWasOpened();
 	m_minimapView->landscapeWasOpened();
 	m_LandscapeView->landscapeWasOpened();
@@ -134,8 +116,6 @@ LandscapeViewer::startSimulation( const Plugins::Core::LandscapeModel::ILandscap
 	m_objectInfoView->landscapeWasOpened();
 	m_actionPanelView->landscapeWasOpened();
 	m_objectStatusView->landscapeWasOpened();
-
-	locker->getLandscapeModel()->startSimulation();
 
 } // LandscapeViewer::startSimulation
 
@@ -154,8 +134,6 @@ LandscapeViewer::closeLandscape()
 	m_actionPanelView->landscapeWasClosed();
 	m_objectStatusView->landscapeWasClosed();
 	m_playerInfoView->landscapeWasClosed();
-
-	m_landscapeFilePath.clear();
 
 	m_environment.lockModel()->getLandscapeModel()->resetModel();
 	m_environment.getGraphicsInfo()->clearStartPointData();

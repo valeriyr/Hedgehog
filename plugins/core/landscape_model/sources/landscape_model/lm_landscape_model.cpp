@@ -38,6 +38,9 @@
 #include "landscape_model/sources/components/lm_resource_storage_component.hpp"
 #include "landscape_model/sources/components/lm_player_component.hpp"
 
+#include "landscape_model/sources/landscape_model/game_modes/lm_multi_player_mode.hpp"
+#include "landscape_model/sources/landscape_model/game_modes/lm_single_player_mode.hpp"
+
 #include "landscape_model/sources/utils/lm_geometry.hpp"
 
 #include "landscape_model/ih/lm_istatic_data.hpp"
@@ -70,10 +73,13 @@ LandscapeModel::LandscapeModel(
 	,	m_actionsProcessingTaskHandle()
 	,	m_simulationStartTimeStamp( 0 )
 	,	m_landscape()
+	,	m_filePath()
 	,	m_players()
+	,	m_startPointData()
 	,	m_mutex( QMutex::Recursive )
 	,	m_ticksCounter( 0 )
 	,	m_workers()
+	,	m_gameMode()
 {
 	m_environment.startThread( Resources::ModelThreadName );
 
@@ -110,12 +116,12 @@ LandscapeModel::initLandscape( const QString& _filePath )
 	}
 	catch( ... )
 	{
-		landscape.reset( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
-		landscape->setSize( 100, 100 );
-		landscape->addStartPoint( StartPoint( 0, QPoint( 10, 10 ) ) );
 	}
 
 	m_landscape = landscape;
+	m_filePath = _filePath;
+
+	fillStartPointDefaultData();
 
 } // LandscapeModel::initLandscape
 
@@ -124,32 +130,42 @@ LandscapeModel::initLandscape( const QString& _filePath )
 
 
 void
-LandscapeModel::initPlayers( const QString& _filePath, const ILandscapeModel::PlayersSturtupDataCollection& _data )
+LandscapeModel::setupMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo )
 {
 	if ( isSimulationRunning() )
 		return;
 
-	ILandscapeModel::PlayersSturtupDataCollectionIterator
-			begin = _data.begin()
-		,	end = _data.end();
+	m_gameMode.reset( new MultiPlayerMode( *this, m_environment, _connectionInfo ) );
 
-	for ( ; begin != end; ++begin )
-	{
-		boost::intrusive_ptr< IPlayer > player( new Player( m_environment, m_staticData, begin->m_race, begin->m_startPointId,  begin->m_playerType ) );
-		m_players.insert( std::make_pair( player->getUniqueId(), player ) );
-	}
+} // LandscapeModel::setupMultiPlayerGame
 
-	locateStartPointObjects();
 
-	try
-	{
-		m_landscapeSerializer.loadObjects( *this, *m_landscape, _filePath );
-	}
-	catch( ... )
-	{
-	}
+/*---------------------------------------------------------------------------*/
 
-} // LandscapeModel::initPlayers
+
+void
+LandscapeModel::connectToMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo )
+{
+	if ( isSimulationRunning() )
+		return;
+
+	m_gameMode.reset( new MultiPlayerMode( *this, m_environment, _connectionInfo ) );
+
+} // LandscapeModel::connectToMultiPlayerGame
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::setupSinglePlayerGame()
+{
+	if ( isSimulationRunning() )
+		return;
+
+	m_gameMode.reset( new SinglePlayerMode( *this ) );
+
+} // LandscapeModel::setupSinglePlayerGame
 
 
 /*---------------------------------------------------------------------------*/
@@ -166,8 +182,14 @@ LandscapeModel::resetModel()
 	m_ticksCounter = 0;
 
 	m_landscape.reset();
+	m_filePath.clear();
+
 	m_players.clear();
 	m_workers.clear();
+
+	m_startPointData.clear();
+
+	m_gameMode.reset();
 
 } // LandscapeModel::resetModel
 
@@ -178,8 +200,16 @@ LandscapeModel::resetModel()
 void
 LandscapeModel::saveModel( const QString& _filePath )
 {
-	if ( m_landscape && !_filePath.isEmpty() )
+	if ( m_landscape )
 	{
+		QString filePath( _filePath );
+
+		if ( filePath.isEmpty() )
+			filePath = m_filePath;
+
+		if ( filePath.isEmpty() )
+			return;
+
 		m_landscapeSerializer.save( *this, *m_landscape, _filePath );
 	}
 
@@ -192,8 +222,20 @@ LandscapeModel::saveModel( const QString& _filePath )
 void
 LandscapeModel::startSimulation()
 {
-	if ( isSimulationRunning() )
+	if ( isSimulationRunning() || !m_gameMode )
 		return;
+
+	initPlayers();
+
+	locateStartPointObjects();
+
+	try
+	{
+		m_landscapeSerializer.loadObjects( *this, *m_landscape, m_filePath );
+	}
+	catch( ... )
+	{
+	}
 
 	m_ticksCounter = 0;
 
@@ -220,6 +262,72 @@ LandscapeModel::isSimulationRunning() const
 	return m_actionsProcessingTaskHandle.isValid();
 
 } // LandscapeModel::isSimulationRunning
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+LandscapeModel::isConfigurated() const
+{
+	return m_gameMode;
+
+} // LandscapeModel::isConfigurated
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QString&
+LandscapeModel::getFilePath() const
+{
+	return m_filePath;
+
+} // LandscapeModel::getFilePath
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::setStartPointRace( const StartPoint::Id& _id, const QString& _race )
+{
+	StartPointDataCollectionIterator iterator = m_startPointData.find( _id );
+
+	if ( iterator != m_startPointData.end() )
+	{
+		iterator->second.m_race = _race;
+
+		Framework::Core::EventManager::Event startPointRaceChangedEvent( Events::StartPointRaceChanged::ms_type );
+		startPointRaceChangedEvent.pushAttribute( Events::StartPointRaceChanged::ms_startPointIdAttribute, _id );
+		startPointRaceChangedEvent.pushAttribute( Events::StartPointRaceChanged::ms_startPointRaceAttribute, _race );
+
+		m_environment.riseEvent( startPointRaceChangedEvent );
+	}
+
+} // LandscapeModel::setStartPointRace
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::setStartPointType( const StartPoint::Id& _id, const PlayerType::Enum& _type )
+{
+	StartPointDataCollectionIterator iterator = m_startPointData.find( _id );
+
+	if ( iterator != m_startPointData.end() )
+	{
+		iterator->second.m_playerType = _type;
+
+		Framework::Core::EventManager::Event startPointTypeChangedEvent( Events::StartPointTypeChanged::ms_type );
+		startPointTypeChangedEvent.pushAttribute( Events::StartPointTypeChanged::ms_startPointIdAttribute, _id );
+		startPointTypeChangedEvent.pushAttribute( Events::StartPointTypeChanged::ms_startPointTypeAttribute, _type );
+
+		m_environment.riseEvent( startPointTypeChangedEvent );
+	}
+
+} // LandscapeModel::setStartPointType
 
 
 /*---------------------------------------------------------------------------*/
@@ -784,6 +892,46 @@ LandscapeModel::gameMainLoop()
 	}
 
 } // LandscapeModel::gameMainLoop
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::fillStartPointDefaultData()
+{
+	IStaticData::RacesCollection races;
+	m_staticData.fetchRaces( races );
+
+	ILandscape::StartPointsIterator iterator = m_landscape->getStartPointsIterator();
+
+	while( iterator->isValid() )
+	{
+		m_startPointData.insert( std::make_pair( iterator->current().m_id, StartPointData( PlayerType::Player, races.begin()->first ) ) );
+		iterator->next();
+	}
+
+} // LandscapeModel::fillStartPointDefaultData
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::initPlayers()
+{
+	StartPointDataCollectionIterator
+			begin = m_startPointData.begin()
+		,	end = m_startPointData.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		boost::intrusive_ptr< IPlayer > player(
+			new Player( m_environment, m_staticData, begin->second.m_race, begin->first, begin->second.m_playerType ) );
+		m_players.insert( std::make_pair( player->getUniqueId(), player ) );
+	}
+
+} // LandscapeModel::initPlayers
 
 
 /*---------------------------------------------------------------------------*/

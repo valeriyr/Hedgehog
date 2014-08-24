@@ -11,6 +11,7 @@
 #include "event_manager/ih/em_ievent_manager.hpp"
 #include "plugins_manager/ih/pm_isystem_information.hpp"
 #include "network_manager/ih/nm_iconnection_manager.hpp"
+#include "network_manager/ih/nm_iudp_connection.hpp"
 
 #include "messenger/ms_imessenger.hpp"
 
@@ -147,7 +148,7 @@ Environment::getApplicationDirectory() const
 /*---------------------------------------------------------------------------*/
 
 
-Framework::Core::NetworkManager::IUdpConnection&
+boost::intrusive_ptr< Framework::Core::NetworkManager::IUdpConnection >
 Environment::getConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const
 {
 	return m_pluginInstance.getConnectionManager()->getUdpConnection( _connectionInfo );

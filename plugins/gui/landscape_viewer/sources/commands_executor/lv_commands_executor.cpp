@@ -77,12 +77,15 @@ CommandsExecutor::closeLandscape()
 void
 CommandsExecutor::saveLandscape()
 {
-	QString fileName = m_environment.getLandscapeViewer()->getLandscapeFilePath();
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
 
-	if ( m_environment.getLandscapeViewer()->getLandscapeFilePath().isEmpty() )
+	QString fileName = locker->getLandscapeModel()->getFilePath();
+
+	if ( fileName.isEmpty() )
 		fileName = m_environment.showSaveFileDialog();
 
-	m_environment.lockModel()->getLandscapeModel()->saveModel( fileName );
+	locker->getLandscapeModel()->saveModel( fileName );
 
 } // CommandsExecutor::saveLandscape
 
@@ -125,25 +128,9 @@ CommandsExecutor::openLandscape( const QString& _fileName )
 	m_environment.getLandscapeViewer()->closeLandscape();
 	m_environment.getLandscapeViewer()->initLandscape( _fileName );
 
-	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
-		locker = m_environment.lockModel();
+	m_environment.lockModel()->getLandscapeModel()->setupSinglePlayerGame();
 
-	Plugins::Core::LandscapeModel::ILandscapeModel::PlayersSturtupDataCollection collection;
-
-	Core::LandscapeModel::ILandscape::StartPointsIterator iterator
-		= locker->getLandscapeModel()->getLandscape()->getStartPointsIterator();
-
-	while ( iterator->isValid() )
-	{
-		collection.push_back(
-			Plugins::Core::LandscapeModel::ILandscapeModel::PlayerStartupData(
-					rand() % 2 ? "Orc" : "Human"
-				,	iterator->current().m_id
-				,	Plugins::Core::LandscapeModel::PlayerType::Player ) );
-		iterator->next();
-	}
-
-	m_environment.getLandscapeViewer()->startSimulation( collection );
+	m_environment.getLandscapeViewer()->startSimulation();
 
 } // CommandsExecutor::openLandscape
 

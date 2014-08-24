@@ -24,6 +24,7 @@ UdpConnection::UdpConnection( const ConnectionInfo& _connectionInfo, QObject* _p
 	,	m_listenersCollection()
 {
 	m_udpSocket->bind( QHostAddress( m_connectionInfo.m_address ), m_connectionInfo.m_port );
+
 	QObject::connect(m_udpSocket, SIGNAL( readyRead() ), this, SLOT( onReadReady() ) );
 
 } // UdpConnection::UdpConnection
@@ -61,9 +62,7 @@ UdpConnection::addConnectionListener( IConnectionListener* _listener )
 	ListenersCollectionIterator iterator = m_listenersCollection.find( _listener );
 
 	if ( iterator == m_listenersCollection.end() )
-	{
 		m_listenersCollection.insert( _listener );
-	}
 
 } // UdpConnection::addConnectionListener
 
@@ -74,12 +73,7 @@ UdpConnection::addConnectionListener( IConnectionListener* _listener )
 void
 UdpConnection::removeConnectionListener( IConnectionListener* _listener )
 {
-	ListenersCollectionIterator iterator = m_listenersCollection.find( _listener );
-
-	if ( iterator != m_listenersCollection.end() )
-	{
-		m_listenersCollection.erase( iterator );
-	}
+	m_listenersCollection.erase( _listener );
 
 } // UdpConnection::removeConnectionListener
 

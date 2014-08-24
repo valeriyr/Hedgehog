@@ -31,6 +31,7 @@ struct ILandscape;
 struct IPlayer;
 struct IModelLocker;
 struct IPathFinder;
+struct IGameMode;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,7 +59,11 @@ public:
 
 	/*virtual*/ void initLandscape( const QString& _filePath );
 
-	/*virtual*/ void initPlayers( const QString& _filePath, const ILandscapeModel::PlayersSturtupDataCollection& _data );
+	/*virtual*/ void setupMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo );
+
+	/*virtual*/ void connectToMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo );
+
+	/*virtual*/ void setupSinglePlayerGame();
 
 	/*virtual*/ void resetModel();
 
@@ -67,6 +72,16 @@ public:
 	/*virtual*/ void startSimulation();
 
 	/*virtual*/ bool isSimulationRunning() const;
+
+	/*virtual*/ bool isConfigurated() const;
+
+	/*virtual*/ const QString& getFilePath() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void setStartPointRace( const StartPoint::Id& _id, const QString& _race );
+
+	/*virtual*/ void setStartPointType( const StartPoint::Id& _id, const PlayerType::Enum& _type );
 
 /*---------------------------------------------------------------------------*/
 
@@ -145,6 +160,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void fillStartPointDefaultData();
+
+	void initPlayers();
+
 	void locateStartPointObjects();
 
 	bool shouldStoreResources( boost::shared_ptr< Object > _holder, boost::shared_ptr< Object > _storage );
@@ -171,6 +190,29 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	struct StartPointData
+	{
+		StartPointData(
+				const PlayerType::Enum _playerType
+			,	const QString& _race
+			)
+			:	m_playerType( _playerType )
+			,	m_race( _race )
+		{}
+
+		PlayerType::Enum m_playerType;
+		QString m_race;
+	};
+
+	typedef
+		std::map< StartPoint::Id, StartPointData >
+		StartPointDataCollection;
+	typedef
+		StartPointDataCollection::iterator
+		StartPointDataCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
 	const IEnvironment& m_environment;
 
 	ILandscapeSerializer& m_landscapeSerializer;
@@ -187,15 +229,19 @@ private:
 
 	boost::intrusive_ptr< ILandscape > m_landscape;
 
+	QString m_filePath;
+
 	PlayersCollection m_players;
+
+	StartPointDataCollection m_startPointData;
 
 	QMutex m_mutex;
 
 	TickType m_ticksCounter;
 
-/*---------------------------------------------------------------------------*/
-
 	WorkersCollection m_workers;
+
+	boost::intrusive_ptr< IGameMode > m_gameMode;
 
 /*---------------------------------------------------------------------------*/
 
