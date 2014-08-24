@@ -15,6 +15,8 @@
 
 #include "messenger/ms_imessenger.hpp"
 
+#include "settings/ih/st_isettings.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -149,9 +151,11 @@ Environment::getApplicationDirectory() const
 
 
 boost::intrusive_ptr< Framework::Core::NetworkManager::IUdpConnection >
-Environment::getConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const
+Environment::getConnection(
+		const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo
+	,	const unsigned int _connectionTimeOut ) const
 {
-	return m_pluginInstance.getConnectionManager()->getUdpConnection( _connectionInfo );
+	return m_pluginInstance.getConnectionManager()->getUdpConnection( _connectionInfo, _connectionTimeOut );
 
 } // Environment::getConnection
 
@@ -165,6 +169,28 @@ Environment::closeConnection( const Framework::Core::NetworkManager::ConnectionI
 	m_pluginInstance.getConnectionManager()->closeUdpConnection( _connectionInfo );
 
 } // Environment::closeConnection
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+Environment::getString( const QString& _key ) const
+{
+	return m_pluginInstance.getSettings()->getString( _key );
+
+} // Environment::getString
+
+
+/*---------------------------------------------------------------------------*/
+
+
+unsigned int
+Environment::getUInt( const QString& _key ) const
+{
+	return m_pluginInstance.getSettings()->getUInt( _key );
+
+} // Environment::getUInt
 
 
 /*---------------------------------------------------------------------------*/

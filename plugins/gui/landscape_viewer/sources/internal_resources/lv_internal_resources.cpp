@@ -63,6 +63,8 @@ namespace Views {
 
 	const char* const PortLabel = "Port:";
 
+	const char* const ConnectionTimeOutLabel = "Connection timeout:";
+
 /*---------------------------------------------------------------------------*/
 
 	const char* const LandscapeDescriptionDefaultText
@@ -177,6 +179,8 @@ namespace Views {
 
 	const char* const StartButtonName = "Start";
 
+	const char* const CancelButtonName = "Cancel";
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Views
@@ -250,10 +254,6 @@ namespace Properties {
 	const char* const SkinId = "SkinIdProperty";
 
 	const char* const UpdateMinimap = "UpdateMinimap";
-
-	const char* const Port = "Port";
-
-	const char* const Ip = "Ip";
 
 /*---------------------------------------------------------------------------*/
 

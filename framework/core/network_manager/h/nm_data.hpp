@@ -1,6 +1,6 @@
 
-#ifndef __NM_CONNECTION_INFO_HPP__
-#define __NM_CONNECTION_INFO_HPP__
+#ifndef __NM_DATA_HPP__
+#define __NM_DATA_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -10,43 +10,25 @@ namespace NetworkManager {
 
 /*---------------------------------------------------------------------------*/
 
-struct ConnectionInfo
+struct Data
 {
 
 /*---------------------------------------------------------------------------*/
 
-	ConnectionInfo()
-		:	m_address()
-		,	m_port( 0 )
-	{}
+	typedef qint32 Id;
 
-	ConnectionInfo(
-			const QString& _address
-		,	const unsigned int _port
-		)
-		:	m_address( _address )
-		,	m_port( _port )
+/*---------------------------------------------------------------------------*/
+
+	Data( const Id& _type, const QByteArray& _data )
+		:	m_id( _type )
+		,	m_data( _data )
 	{}
 
 /*---------------------------------------------------------------------------*/
 
-	bool isEmpty() const
-	{
-		return m_address.isEmpty();
-	}
+	const Id m_id;
 
-/*---------------------------------------------------------------------------*/
-
-	bool operator < ( const ConnectionInfo& _connectionId ) const
-	{
-		return m_port < _connectionId.m_port || m_address < _connectionId.m_address;
-	}
-
-/*---------------------------------------------------------------------------*/
-
-	const QString m_address;
-
-	const unsigned int m_port;
+	const QByteArray m_data;
 
 /*---------------------------------------------------------------------------*/
 
@@ -60,4 +42,4 @@ struct ConnectionInfo
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __NM_CONNECTION_INFO_HPP__
+#endif // __NM_DATA_HPP__

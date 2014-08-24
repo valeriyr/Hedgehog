@@ -59,9 +59,9 @@ public:
 
 	/*virtual*/ void initLandscape( const QString& _filePath );
 
-	/*virtual*/ void setupMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo );
+	/*virtual*/ void setupMultiPlayerGame();
 
-	/*virtual*/ void connectToMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo );
+	/*virtual*/ void connectToMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectTo );
 
 	/*virtual*/ void setupSinglePlayerGame();
 
@@ -82,6 +82,10 @@ public:
 	/*virtual*/ void setStartPointRace( const StartPoint::Id& _id, const QString& _race );
 
 	/*virtual*/ void setStartPointType( const StartPoint::Id& _id, const PlayerType::Enum& _type );
+
+	/*virtual*/ QString getStartPointDataRace( const StartPoint::Id& _id );
+
+	/*virtual*/ PlayerType::Enum getStartPointDataType( const StartPoint::Id& _id );
 
 /*---------------------------------------------------------------------------*/
 

@@ -27,7 +27,15 @@ namespace Resources {
 
 	extern const char* const TimeLimitWarning;
 
-	extern const char* const SimulationHasStartedMessage;
+	extern const char* const SimulationHasBeenStartedMessage;
+
+	extern const char* const SimulationHasBeenStoppedMessage;
+
+	extern const char* const SocketHasBeenOpenedMessage;
+
+	extern const char* const SocketHasBeenClosedMessage;
+
+	extern const char* const CommandReceivedMessage;
 
 /*---------------------------------------------------------------------------*/
 

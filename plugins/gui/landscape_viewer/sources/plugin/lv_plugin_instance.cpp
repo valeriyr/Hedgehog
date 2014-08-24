@@ -57,8 +57,6 @@
 #include "script_engine/h/se_plugin_id.hpp"
 #include "script_engine/h/se_resources.hpp"
 
-#include "network_manager/h/nm_resources.hpp"
-
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -106,8 +104,6 @@ PluginInstance::initialize()
 	getSettings()->regBool( Resources::Properties::TerrainMapVisibility, false );
 	getSettings()->regString( Resources::Properties::SkinId, "winter" );
 	getSettings()->regBool( Resources::Properties::UpdateMinimap, true );
-	getSettings()->regUInt( Resources::Properties::Port, 1988 );
-	getSettings()->regString( Resources::Properties::Ip, Framework::Core::NetworkManager::Resources::LocalHost );
 
 	m_environment.reset( new Environment( *this ) );
 	m_mapPreviewGenerator.reset( new MapPreviewGenerator( *m_environment ) );
@@ -177,8 +173,6 @@ PluginInstance::close()
 	getSettings()->unregProperty( Resources::Properties::SkinId );
 	getSettings()->unregProperty( Resources::Properties::TerrainMapVisibility );
 	getSettings()->unregProperty( Resources::Properties::UpdateMinimap );
-	getSettings()->unregProperty( Resources::Properties::Port );
-	getSettings()->unregProperty( Resources::Properties::Ip );
 
 	m_graphicsInfo.reset();
 

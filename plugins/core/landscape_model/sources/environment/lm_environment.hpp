@@ -72,9 +72,17 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< Framework::Core::NetworkManager::IUdpConnection >
-		getConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const;
+		getConnection(
+				const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo
+			,	const unsigned int _connectionTimeOut ) const;
 
 	/*virtual*/ void closeConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ QString getString( const QString& _key ) const;
+
+	/*virtual*/ unsigned int getUInt( const QString& _key ) const;
 
 /*---------------------------------------------------------------------------*/
 

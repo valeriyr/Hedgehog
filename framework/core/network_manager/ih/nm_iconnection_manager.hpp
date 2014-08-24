@@ -30,7 +30,8 @@ struct IConnectionManager
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::intrusive_ptr< IUdpConnection > getUdpConnection( const ConnectionInfo& _connectionInfo ) = 0;
+	virtual boost::intrusive_ptr< IUdpConnection >
+		getUdpConnection( const ConnectionInfo& _connectionInfo, const unsigned int _connectionTimeOut ) = 0;
 
 	virtual void closeUdpConnection( const ConnectionInfo& _connectionInfo ) = 0;
 

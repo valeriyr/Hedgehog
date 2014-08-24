@@ -19,6 +19,22 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+namespace Properties {
+
+/*---------------------------------------------------------------------------*/
+
+	const char* const Port = "Port";
+
+	const char* const Ip = "Ip";
+
+	const char* const ConnectionTimeOut = "ConnectionTimeOut";
+
+/*---------------------------------------------------------------------------*/
+
+} // namespace Properties
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace LandscapeModel
 } // namespace Core

@@ -42,6 +42,7 @@ MultiplayerDialog::MultiplayerDialog( const IEnvironment& _environment )
 	,	m_createButton( new QPushButton( Resources::Views::CreateButtonName ) )
 	,	m_connectButton( new QPushButton( Resources::Views::ConnectButtonName ) )
 	,	m_startButton( new QPushButton( Resources::Views::StartButtonName ) )
+	,	m_cancelButton( new QPushButton( Resources::Views::CancelButtonName ) )
 	,	m_playersData()
 {
 	createWidgets();
@@ -87,10 +88,15 @@ MultiplayerDialog::onLandscapeSelected( QListWidgetItem* _newItem, QListWidgetIt
 void
 MultiplayerDialog::onCreateButtonPressed( bool /*_checked*/ )
 {
-	m_environment.lockModel()->getLandscapeModel()->setupMultiPlayerGame(
-		Framework::Core::NetworkManager::ConnectionInfo(
-				m_environment.getString( Resources::Properties::Ip )
-			,	m_environment.getUInt( Resources::Properties::Port ) ) );
+	m_environment.lockModel()->getLandscapeModel()->setupMultiPlayerGame();
+
+	m_landscapesList->setEnabled( false );
+
+	m_connectToIp->setEnabled( false );
+	m_connectToPort->setEnabled( false );
+
+	m_createButton->setEnabled( false );
+	m_connectButton->setEnabled( false );
 
 } // MultiplayerDialog::onCreateButtonPressed
 
@@ -105,6 +111,15 @@ MultiplayerDialog::onConnectButtonPressed( bool /*_checked*/ )
 		Framework::Core::NetworkManager::ConnectionInfo(
 				m_connectToIp->text()
 			,	m_connectToPort->text().toUInt() ) );
+
+	m_landscapesList->setEnabled( false );
+
+	m_connectToIp->setEnabled( false );
+	m_connectToPort->setEnabled( false );
+
+	m_createButton->setEnabled( false );
+	m_connectButton->setEnabled( false );
+	m_startButton->setEnabled( false );
 
 } // MultiplayerDialog::onCreateButtonPressed
 
@@ -124,7 +139,30 @@ MultiplayerDialog::onStartButtonPressed( bool /*_checked*/ )
 	m_environment.getLandscapeViewer()->startSimulation();
 	close();
 
-} // MultiplayerDialog::onCreateButtonPressed
+} // MultiplayerDialog::onStartButtonPressed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::onCancelButtonPressed( bool _checked )
+{
+	m_environment.getLandscapeViewer()->closeLandscape();
+
+	m_landscapesList->setEnabled( true );
+
+	m_connectToIp->setEnabled( true );
+	m_connectToPort->setEnabled( true );
+
+	m_createButton->setEnabled( true );
+	m_connectButton->setEnabled( true );
+	m_startButton->setEnabled( true );
+
+	if ( m_landscapesList->currentItem() )
+		currentLandscapeWasChanged( m_landscapesList->currentItem()->text() );
+
+} // MultiplayerDialog::onCancelButtonPressed
 
 
 /*---------------------------------------------------------------------------*/
@@ -170,7 +208,7 @@ MultiplayerDialog::onPlayerRaceChanged()
 void
 MultiplayerDialog::onPlayerTypeChanged()
 {
-	PlayerData* playerData = getPlayerDataByRace( sender() );
+	PlayerData* playerData = getPlayerDataByType( sender() );
 
 	if ( playerData )
 	{
@@ -279,6 +317,7 @@ MultiplayerDialog::createWidgets()
 	buttonsLayout->addWidget( m_createButton );
 	buttonsLayout->addWidget( m_connectButton );
 	buttonsLayout->addWidget( m_startButton );
+	buttonsLayout->addWidget( m_cancelButton );
 
 	// Finish setup
 
@@ -303,8 +342,8 @@ MultiplayerDialog::initWidgets()
 
 	m_mapPreview->setFixedSize( IMapPreviewGenerator::ms_fixedWidgetSize );
 
-	m_connectToIp->setText( Framework::Core::NetworkManager::Resources::LocalHost );
-	m_connectToPort->setText( "0212" );
+	m_connectToIp->setText( m_environment.getString( Core::LandscapeModel::Resources::Properties::Ip ) );
+	m_connectToPort->setText( "1988" );
 
 	updateLandscapesList();
 
@@ -329,6 +368,7 @@ MultiplayerDialog::connectWidgets()
 	QObject::connect( m_createButton, SIGNAL( clicked( bool ) ), this, SLOT( onCreateButtonPressed( bool ) ) );
 	QObject::connect( m_connectButton, SIGNAL( clicked( bool ) ), this, SLOT( onConnectButtonPressed( bool ) ) );
 	QObject::connect( m_startButton, SIGNAL( clicked( bool ) ), this, SLOT( onStartButtonPressed( bool ) ) );
+	QObject::connect( m_cancelButton, SIGNAL( clicked( bool ) ), this, SLOT( onCancelButtonPressed( bool ) ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::StartPointRaceChanged::ms_type
@@ -358,6 +398,7 @@ MultiplayerDialog::disconnectWidgets()
 	QObject::disconnect( m_createButton, SIGNAL( clicked( bool ) ), this, SLOT( onCreateButtonPressed( bool ) ) );
 	QObject::disconnect( m_connectButton, SIGNAL( clicked( bool ) ), this, SLOT( onConnectButtonPressed( bool ) ) );
 	QObject::disconnect( m_startButton, SIGNAL( clicked( bool ) ), this, SLOT( onStartButtonPressed( bool ) ) );
+	QObject::disconnect( m_cancelButton, SIGNAL( clicked( bool ) ), this, SLOT( onCancelButtonPressed( bool ) ) );
 
 } // MultiplayerDialog::disconnectWidgets
 
@@ -513,7 +554,7 @@ MultiplayerDialog::buildPlayersList()
 		QComboBox* playerComboBox = new QComboBox();
 		playerComboBox->addItems( qplayers );
 
-		playerComboBox->setCurrentText( Core::LandscapeModel::PlayerType::toString( Core::LandscapeModel::PlayerType::Player ) );
+		playerComboBox->setCurrentText( Core::LandscapeModel::PlayerType::toString( locker->getLandscapeModel()->getStartPointDataType( iterator->current().m_id ) ) );
 
 		QObject::connect( playerComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerTypeChanged() ) );
 
@@ -522,6 +563,8 @@ MultiplayerDialog::buildPlayersList()
 
 		QComboBox* raceComboBox = new QComboBox();
 		raceComboBox->addItems( qraces );
+
+		raceComboBox->setCurrentText( locker->getLandscapeModel()->getStartPointDataRace( iterator->current().m_id ) );
 
 		QObject::connect( raceComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerRaceChanged() ) );
 

@@ -71,6 +71,7 @@ private slots:
 	void onCreateButtonPressed( bool _checked );
 	void onConnectButtonPressed( bool _checked );
 	void onStartButtonPressed( bool _checked );
+	void onCancelButtonPressed( bool _checked );
 
 	void onPlayerColorChanged();
 	void onPlayerRaceChanged();
@@ -130,6 +131,7 @@ private:
 	QPushButton*	m_createButton;
 	QPushButton*	m_connectButton;
 	QPushButton*	m_startButton;
+	QPushButton*	m_cancelButton;
 
 /*---------------------------------------------------------------------------*/
 

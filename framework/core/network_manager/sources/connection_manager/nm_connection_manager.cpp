@@ -35,14 +35,14 @@ ConnectionManager::~ConnectionManager()
 
 
 boost::intrusive_ptr< IUdpConnection >
-ConnectionManager::getUdpConnection( const ConnectionInfo& _connectionInfo )
+ConnectionManager::getUdpConnection( const ConnectionInfo& _connectionInfo, const unsigned int _connectionTimeOut )
 {
 	ConnectionsCollectionIterator iterator = m_connectionsCollection.find( _connectionInfo );
 
 	if ( iterator != m_connectionsCollection.end() )
 		return iterator->second;
 
-	boost::intrusive_ptr< IUdpConnection > connection( new UdpConnection( _connectionInfo ) );
+	boost::intrusive_ptr< IUdpConnection > connection( new UdpConnection( _connectionInfo, _connectionTimeOut ) );
 
 	m_connectionsCollection.insert( std::make_pair( _connectionInfo, connection ) );
 

@@ -41,9 +41,9 @@ struct ILandscapeModel
 
 	virtual void initLandscape( const QString& _filePath ) = 0;
 
-	virtual void setupMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) = 0;
+	virtual void setupMultiPlayerGame() = 0;
 
-	virtual void connectToMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) = 0;
+	virtual void connectToMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectTo ) = 0;
 
 	virtual void setupSinglePlayerGame() = 0;
 
@@ -64,6 +64,10 @@ struct ILandscapeModel
 	virtual void setStartPointRace( const StartPoint::Id& _id, const QString& _race ) = 0;
 
 	virtual void setStartPointType( const StartPoint::Id& _id, const PlayerType::Enum& _type ) = 0;
+
+	virtual QString getStartPointDataRace( const StartPoint::Id& _id ) = 0;
+
+	virtual PlayerType::Enum getStartPointDataType( const StartPoint::Id& _id ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

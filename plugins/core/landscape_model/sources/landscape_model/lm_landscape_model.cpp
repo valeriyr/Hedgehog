@@ -130,12 +130,21 @@ LandscapeModel::initLandscape( const QString& _filePath )
 
 
 void
-LandscapeModel::setupMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo )
+LandscapeModel::setupMultiPlayerGame()
 {
 	if ( isSimulationRunning() )
 		return;
 
-	m_gameMode.reset( new MultiPlayerMode( *this, m_environment, _connectionInfo ) );
+	Framework::Core::NetworkManager::ConnectionInfo myConnectionInfo(
+			m_environment.getString( Resources::Properties::Ip )
+		,	m_environment.getUInt( Resources::Properties::Port ) );
+
+	m_gameMode.reset(
+		new MultiPlayerMode(
+				*this
+			,	m_environment
+			,	myConnectionInfo
+			,	Framework::Core::NetworkManager::ConnectionInfo() ) );
 
 } // LandscapeModel::setupMultiPlayerGame
 
@@ -144,12 +153,21 @@ LandscapeModel::setupMultiPlayerGame( const Framework::Core::NetworkManager::Con
 
 
 void
-LandscapeModel::connectToMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo )
+LandscapeModel::connectToMultiPlayerGame( const Framework::Core::NetworkManager::ConnectionInfo& _connectTo )
 {
 	if ( isSimulationRunning() )
 		return;
 
-	m_gameMode.reset( new MultiPlayerMode( *this, m_environment, _connectionInfo ) );
+	Framework::Core::NetworkManager::ConnectionInfo myConnectionInfo(
+			m_environment.getString( Resources::Properties::Ip )
+		,	m_environment.getUInt( Resources::Properties::Port ) );
+
+	m_gameMode.reset(
+		new MultiPlayerMode(
+				*this
+			,	m_environment
+			,	myConnectionInfo
+			,	_connectTo ) );
 
 } // LandscapeModel::connectToMultiPlayerGame
 
@@ -174,6 +192,8 @@ LandscapeModel::setupSinglePlayerGame()
 void
 LandscapeModel::resetModel()
 {
+	bool needToPrintMessage = isSimulationRunning();
+
 	m_environment.removeTask( m_actionsProcessingTaskHandle );
 	m_actionsProcessingTaskHandle.reset();
 
@@ -190,6 +210,13 @@ LandscapeModel::resetModel()
 	m_startPointData.clear();
 
 	m_gameMode.reset();
+
+	if ( needToPrintMessage )
+	{
+		m_environment.printMessage(
+				Tools::Core::IMessenger::MessegeLevel::Info
+			,	QString( Resources::SimulationHasBeenStoppedMessage ).arg( Tools::Core::Time::currentTime() ) );
+	}
 
 } // LandscapeModel::resetModel
 
@@ -243,7 +270,7 @@ LandscapeModel::startSimulation()
 
 	m_environment.printMessage(
 			Tools::Core::IMessenger::MessegeLevel::Info
-		,	QString( Resources::SimulationHasStartedMessage ).arg( m_simulationStartTimeStamp ) );
+		,	QString( Resources::SimulationHasBeenStartedMessage ).arg( m_simulationStartTimeStamp ) );
 
 	m_actionsProcessingTaskHandle = m_environment.pushPeriodicalTask(
 			Resources::ModelThreadName
@@ -328,6 +355,30 @@ LandscapeModel::setStartPointType( const StartPoint::Id& _id, const PlayerType::
 	}
 
 } // LandscapeModel::setStartPointType
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+LandscapeModel::getStartPointDataRace( const StartPoint::Id& _id )
+{
+	StartPointDataCollectionIterator iterator = m_startPointData.find( _id );
+	return iterator != m_startPointData.end() ? iterator->second.m_race : QString();
+
+} // LandscapeModel::getStartPointDataRace
+
+
+/*---------------------------------------------------------------------------*/
+
+
+PlayerType::Enum
+LandscapeModel::getStartPointDataType( const StartPoint::Id& _id )
+{
+	StartPointDataCollectionIterator iterator = m_startPointData.find( _id );
+	return iterator != m_startPointData.end() ? iterator->second.m_playerType : PlayerType::None;
+
+} // LandscapeModel::getStartPointDataType
 
 
 /*---------------------------------------------------------------------------*/
@@ -900,6 +951,8 @@ LandscapeModel::gameMainLoop()
 void
 LandscapeModel::fillStartPointDefaultData()
 {
+	m_startPointData.clear();
+
 	IStaticData::RacesCollection races;
 	m_staticData.fetchRaces( races );
 
@@ -907,7 +960,7 @@ LandscapeModel::fillStartPointDefaultData()
 
 	while( iterator->isValid() )
 	{
-		m_startPointData.insert( std::make_pair( iterator->current().m_id, StartPointData( PlayerType::Player, races.begin()->first ) ) );
+		m_startPointData.insert( std::make_pair( iterator->current().m_id, StartPointData( PlayerType::None, races.begin()->first ) ) );
 		iterator->next();
 	}
 
@@ -926,9 +979,12 @@ LandscapeModel::initPlayers()
 
 	for ( ; begin != end; ++begin )
 	{
-		boost::intrusive_ptr< IPlayer > player(
-			new Player( m_environment, m_staticData, begin->second.m_race, begin->first, begin->second.m_playerType ) );
-		m_players.insert( std::make_pair( player->getUniqueId(), player ) );
+		if ( begin->second.m_playerType != PlayerType::None )
+		{
+			boost::intrusive_ptr< IPlayer > player(
+				new Player( m_environment, m_staticData, begin->second.m_race, begin->first, begin->second.m_playerType ) );
+			m_players.insert( std::make_pair( player->getUniqueId(), player ) );
+		}
 	}
 
 } // LandscapeModel::initPlayers

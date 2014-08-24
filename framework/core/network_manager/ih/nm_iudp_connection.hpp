@@ -7,6 +7,7 @@
 #include "intrusive_base/ib_ibase.hpp"
 
 #include "network_manager/h/nm_connection_info.hpp"
+#include "network_manager/h/nm_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -26,7 +27,7 @@ struct IUdpConnection
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void sendDataTo( const ConnectionInfo& _to, const QByteArray& _data ) = 0;
+	virtual void sendDataTo( const ConnectionInfo& _to, const Data& _data ) = 0;
 
 	virtual void addConnectionListener( IConnectionListener* _listener ) = 0;
 

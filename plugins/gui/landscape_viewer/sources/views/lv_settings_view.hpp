@@ -65,6 +65,8 @@ private slots:
 
 	void onPortChanged( const QString& _port );
 
+	void onConnectionTimeOutChanged( const QString& _timeOut );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -85,6 +87,7 @@ private:
 
 	QLineEdit* m_ip;
 	QLineEdit* m_port;
+	QLineEdit* m_connectionTimeOut;
 
 	QString m_viewTitle;
 

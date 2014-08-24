@@ -51,7 +51,8 @@ public:
 	MultiPlayerMode(
 			ILandscapeModel& _landscapeModel
 		,	const IEnvironment& _environment
-		,	const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo );
+		,	const Framework::Core::NetworkManager::ConnectionInfo& _myConnectionInfo
+		,	const Framework::Core::NetworkManager::ConnectionInfo& _connectTo );
 
 	virtual ~MultiPlayerMode();
 
@@ -64,7 +65,7 @@ public:
 	/*virtual*/ void onDataReceive(
 			const QString& _fromAddress
 		,	const unsigned int _fromPort
-		,	const QByteArray& _data );
+		,	const Framework::Core::NetworkManager::Data& _data );
 
 /*---------------------------------------------------------------------------*/
 
@@ -82,7 +83,7 @@ private:
 
 	const IEnvironment& m_environment;
 
-	const Framework::Core::NetworkManager::ConnectionInfo m_connectionInfo;
+	const Framework::Core::NetworkManager::ConnectionInfo m_myConnectionInfo;
 
 	boost::intrusive_ptr< Framework::Core::NetworkManager::IUdpConnection > m_connection;
 

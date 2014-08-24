@@ -20,8 +20,14 @@
 #include "script_engine/h/se_plugin_id.hpp"
 #include "script_engine/h/se_resources.hpp"
 
-#include "network_manager/h/nm_plugin_id.hpp"
 #include "network_manager/ih/nm_iconnection_manager.hpp"
+#include "network_manager/h/nm_plugin_id.hpp"
+#include "network_manager/h/nm_resources.hpp"
+
+#include "settings/ih/st_isettings.hpp"
+#include "settings/h/st_plugin_id.hpp"
+
+#include "landscape_model/h/lm_resources.hpp"
 
 #include "landscape_model/sources/environment/lm_environment.hpp"
 #include "landscape_model/sources/model_locker/lm_model_locker.hpp"
@@ -76,6 +82,13 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
+	// TODO: Force loading of the network manager.
+	getConnectionManager();
+
+	getSettings()->regUInt( Resources::Properties::ConnectionTimeOut, 10000 );
+	getSettings()->regUInt( Resources::Properties::Port, 1988 );
+	getSettings()->regString( Resources::Properties::Ip, Framework::Core::NetworkManager::Resources::LocalHost );
+
 	m_environment.reset( new Environment( *this ) );
 	m_notificationCenter.reset( new NotificationCenter() );
 	m_staticData.reset( new StaticData() );
@@ -103,6 +116,9 @@ PluginInstance::close()
 	m_staticData.reset();
 	m_notificationCenter.reset();
 	m_environment.reset();
+
+	getSettings()->unregProperty( Resources::Properties::Port );
+	getSettings()->unregProperty( Resources::Properties::Ip );
 
 } // PluginInstance::close
 
@@ -203,6 +219,20 @@ PluginInstance::getConnectionManager() const
 			,	Framework::Core::NetworkManager::IID_CONNECTION_MANAGER );
 
 } // PluginInstance::getConnectionManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< Framework::Core::Settings::ISettings >
+PluginInstance::getSettings() const
+{
+	return
+		getPluginInterface< Framework::Core::Settings::ISettings >(
+				Framework::Core::Settings::PID_SETTINGS
+			,	Framework::Core::Settings::IID_SETTINGS );
+
+} // PluginInstance::getSettings
 
 
 /*---------------------------------------------------------------------------*/

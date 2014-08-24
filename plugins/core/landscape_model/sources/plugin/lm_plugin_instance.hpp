@@ -46,6 +46,11 @@ namespace Framework
 		{
 			struct IConnectionManager;
 		}
+
+		namespace Settings
+		{
+				struct ISettings;
+		}
 	}
 }
 
@@ -114,6 +119,9 @@ public:
 
 	boost::intrusive_ptr< Framework::Core::NetworkManager::IConnectionManager >
 		getConnectionManager() const;
+
+	boost::intrusive_ptr< Framework::Core::Settings::ISettings >
+		getSettings() const;
 
 /*---------------------------------------------------------------------------*/
 

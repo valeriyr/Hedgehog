@@ -320,9 +320,17 @@ LandscapeSerializer::onObjectElement( const ILandscapeModel& _landscapeModel, co
 {
 	assert( m_currentLoadLandscape );
 
-	boost::intrusive_ptr< IPlayer > player = _landscapeModel.getPlayerByStartPoint( _id );
+	if ( _id == INT_MAX )
+	{
+		m_currentLoadLandscape->createObject( _name, QPoint( _x, _y ), IPlayer::ms_wrondId );
+	}
+	else
+	{
+		boost::intrusive_ptr< IPlayer > player = _landscapeModel.getPlayerByStartPoint( _id );
 
-	m_currentLoadLandscape->createObject( _name, QPoint( _x, _y ), player ? player->getUniqueId() : IPlayer::ms_wrondId );
+		if ( player )
+			m_currentLoadLandscape->createObject( _name, QPoint( _x, _y ), player->getUniqueId() );
+	}
 
 } // LandscapeSerializer::onObjectElement
 

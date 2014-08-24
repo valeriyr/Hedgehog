@@ -83,9 +83,17 @@ struct IEnvironment
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< Framework::Core::NetworkManager::IUdpConnection >
-		getConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const = 0;
+		getConnection(
+				const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo
+			,	const unsigned int _connectionTimeOut ) const = 0;
 
 	virtual void closeConnection( const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual QString getString( const QString& _key ) const = 0;
+
+	virtual unsigned int getUInt( const QString& _key ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

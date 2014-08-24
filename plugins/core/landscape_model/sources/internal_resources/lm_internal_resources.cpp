@@ -29,7 +29,15 @@ namespace Resources {
 
 	const char* const TimeLimitWarning = "Time limit has been exceeded! Time: '%1' ( limit: '%2' )";
 
-	const char* const SimulationHasStartedMessage = "Simulation has started at: '%1' msec";
+	const char* const SimulationHasBeenStartedMessage = "Simulation has been started at: '%1' msec";
+
+	const char* const SimulationHasBeenStoppedMessage = "Simulation has been stopped at: '%1' msec";
+
+	const char* const SocketHasBeenOpenedMessage = "Socket has been opened at: '%1:%2'";
+
+	const char* const SocketHasBeenClosedMessage = "Socket has been closed at: '%1:%2'";
+
+	const char* const CommandReceivedMessage = "Command has been received from '%1:%2', type '%3', data '%4'";
 
 /*---------------------------------------------------------------------------*/
 

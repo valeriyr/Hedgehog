@@ -61,6 +61,8 @@ namespace Views {
 
 	extern const char* const PortLabel;
 
+	extern const char* const ConnectionTimeOutLabel;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const LandscapeDescriptionDefaultText;
@@ -100,6 +102,8 @@ namespace Views {
 	extern const char* const ConnectButtonName;
 
 	extern const char* const StartButtonName;
+
+	extern const char* const CancelButtonName;
 
 /*---------------------------------------------------------------------------*/
 
@@ -174,10 +178,6 @@ namespace Properties {
 	extern const char* const SkinId;
 
 	extern const char* const UpdateMinimap;
-
-	extern const char* const Port;
-
-	extern const char* const Ip;
 
 /*---------------------------------------------------------------------------*/
 

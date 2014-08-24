@@ -35,13 +35,16 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	UdpConnection( const ConnectionInfo& _connectionInfo, QObject* _parent = NULL );
+	UdpConnection(
+			const ConnectionInfo& _connectionInfo
+		,	const unsigned int _connectionTimeOut
+		,	QObject* _parent = NULL );
 
 	virtual ~UdpConnection();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void sendDataTo( const ConnectionInfo& _to, const QByteArray& _data );
+	/*virtual*/ void sendDataTo( const ConnectionInfo& _to, const Data& _data );
 
 	/*virtual*/ void addConnectionListener( IConnectionListener* _listener );
 
@@ -54,6 +57,14 @@ private slots:
 /*---------------------------------------------------------------------------*/
 
 	void onReadReady();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	QHostAddress createHostAddress( const QString& _address ) const;
 
 /*---------------------------------------------------------------------------*/
 
