@@ -63,6 +63,10 @@ namespace Views {
 
 	extern const char* const ConnectionTimeOutLabel;
 
+	extern const char* const PlayerNameLabel;
+
+	extern const char* const PlayerByStartPointLabelFormat;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const LandscapeDescriptionDefaultText;

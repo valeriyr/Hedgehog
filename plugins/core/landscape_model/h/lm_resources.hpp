@@ -23,6 +23,8 @@ namespace Properties {
 
 /*---------------------------------------------------------------------------*/
 
+	const char* const PlayerName = "PlayerName";
+
 	const char* const Port = "Port";
 
 	const char* const Ip = "Ip";

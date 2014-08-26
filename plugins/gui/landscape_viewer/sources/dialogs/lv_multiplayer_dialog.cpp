@@ -44,7 +44,16 @@ MultiplayerDialog::MultiplayerDialog( const IEnvironment& _environment )
 	,	m_startButton( new QPushButton( Resources::Views::StartButtonName ) )
 	,	m_cancelButton( new QPushButton( Resources::Views::CancelButtonName ) )
 	,	m_playersData()
+	,	m_nonePlayerTypes()
+	,	m_hasPlayerTypes()
 {
+	m_nonePlayerTypes.push_back( Core::LandscapeModel::PlayerType::toString( Core::LandscapeModel::PlayerType::Blocked ) );
+	m_nonePlayerTypes.push_back( Core::LandscapeModel::PlayerType::toString( Core::LandscapeModel::PlayerType::Open ) );
+	m_nonePlayerTypes.push_back( Core::LandscapeModel::PlayerType::toString( Core::LandscapeModel::PlayerType::AI ) );
+
+	m_hasPlayerTypes = m_nonePlayerTypes;
+	m_hasPlayerTypes.push_back( Core::LandscapeModel::PlayerType::toString( Core::LandscapeModel::PlayerType::Player ) );
+
 	createWidgets();
 
 	initWidgets();
@@ -98,6 +107,9 @@ MultiplayerDialog::onCreateButtonPressed( bool /*_checked*/ )
 	m_createButton->setEnabled( false );
 	m_connectButton->setEnabled( false );
 
+	m_startButton->setEnabled( true );
+	m_cancelButton->setEnabled( true );
+
 } // MultiplayerDialog::onCreateButtonPressed
 
 
@@ -121,6 +133,8 @@ MultiplayerDialog::onConnectButtonPressed( bool /*_checked*/ )
 	m_connectButton->setEnabled( false );
 	m_startButton->setEnabled( false );
 
+	m_cancelButton->setEnabled( true );
+
 } // MultiplayerDialog::onCreateButtonPressed
 
 
@@ -130,12 +144,6 @@ MultiplayerDialog::onConnectButtonPressed( bool /*_checked*/ )
 void
 MultiplayerDialog::onStartButtonPressed( bool /*_checked*/ )
 {
-	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
-		locker = m_environment.lockModel();
-
-	if ( !locker->getLandscapeModel()->isConfigurated() )
-		locker->getLandscapeModel()->setupSinglePlayerGame();
-
 	m_environment.getLandscapeViewer()->startSimulation();
 	close();
 
@@ -157,7 +165,9 @@ MultiplayerDialog::onCancelButtonPressed( bool _checked )
 
 	m_createButton->setEnabled( true );
 	m_connectButton->setEnabled( true );
-	m_startButton->setEnabled( true );
+
+	m_startButton->setEnabled( false );
+	m_cancelButton->setEnabled( false );
 
 	if ( m_landscapesList->currentItem() )
 		currentLandscapeWasChanged( m_landscapesList->currentItem()->text() );
@@ -171,13 +181,17 @@ MultiplayerDialog::onCancelButtonPressed( bool _checked )
 void
 MultiplayerDialog::onPlayerColorChanged()
 {
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
 	PlayersDataCollectionIterator
 			begin = m_playersData.begin()
 		,	end = m_playersData.end();
 
 	for ( ; begin != end; ++begin )
 	{
-		m_environment.getGraphicsInfo()->setStartPointColor( begin->first, Utilities::colorFromString( begin->second.m_color.currentText() ) );
+		boost::intrusive_ptr< Core::LandscapeModel::IPlayer > player = locker->getLandscapeModel()->getPlayer( begin->first );
+		m_environment.getGraphicsInfo()->setStartPointColor( player->getStartPointId(), Utilities::colorFromString( begin->second.m_color.currentText() ) );
 	}
 
 	updatePlayersColors();
@@ -196,7 +210,7 @@ MultiplayerDialog::onPlayerRaceChanged()
 
 	if ( playerData )
 	{
-		m_environment.lockModel()->getLandscapeModel()->setStartPointRace( playerData->m_id, playerData->m_race.currentText() );
+		m_environment.lockModel()->getLandscapeModel()->setPlayerRace( playerData->m_id, playerData->m_race.currentText() );
 	}
 
 } // MultiplayerDialog::onPlayerRaceChanged
@@ -213,7 +227,7 @@ MultiplayerDialog::onPlayerTypeChanged()
 	if ( playerData )
 	{
 		m_environment.lockModel()->getLandscapeModel()
-			->setStartPointType(
+			->setPlayerType(
 					playerData->m_id
 				,	Core::LandscapeModel::PlayerType::fromString( playerData->m_type.currentText() ) );
 	}
@@ -225,12 +239,38 @@ MultiplayerDialog::onPlayerTypeChanged()
 
 
 void
-MultiplayerDialog::onStartPointRaceChanged( const Framework::Core::EventManager::Event& _event )
+MultiplayerDialog::onPlayerNameChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const Core::LandscapeModel::StartPoint::Id id
-		= _event.getAttribute( Core::LandscapeModel::Events::StartPointRaceChanged::ms_startPointIdAttribute ).toInt();
+	const Core::LandscapeModel::IPlayer::Id id
+		= _event.getAttribute( Core::LandscapeModel::Events::PlayerNameChanged::ms_playerIdAttribute ).toInt();
+	const Core::LandscapeModel::StartPoint::Id startPointid
+		= _event.getAttribute( Core::LandscapeModel::Events::PlayerNameChanged::ms_startPointIdAttribute ).toInt();
+	const QString name
+		= _event.getAttribute( Core::LandscapeModel::Events::PlayerNameChanged::ms_playerNameAttribute).toString();
+
+	PlayersDataCollectionIterator iterator = m_playersData.find( id );
+	assert( iterator != m_playersData.end() );
+
+	QString palyerLabelText
+		= QString( Resources::Views::PlayerByStartPointLabelFormat )
+			.arg( startPointid )
+			.arg( name );
+
+	iterator->second.m_player.setText( palyerLabelText );
+
+} // MultiplayerDialog::onPlayerNameChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::onPlayerRaceChanged( const Framework::Core::EventManager::Event& _event )
+{
+	const Core::LandscapeModel::IPlayer::Id id
+		= _event.getAttribute( Core::LandscapeModel::Events::PlayerRaceChanged::ms_playerIdAttribute ).toInt();
 	const QString race
-		= _event.getAttribute( Core::LandscapeModel::Events::StartPointRaceChanged::ms_startPointRaceAttribute ).toString();
+		= _event.getAttribute( Core::LandscapeModel::Events::PlayerRaceChanged::ms_playerRaceAttribute).toString();
 
 	PlayersDataCollectionIterator iterator = m_playersData.find( id );
 	assert( iterator != m_playersData.end() );
@@ -241,30 +281,47 @@ MultiplayerDialog::onStartPointRaceChanged( const Framework::Core::EventManager:
 
 	QObject::connect( &iterator->second.m_race, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerRaceChanged() ) );
 
-} // MultiplayerDialog::onStartPointRaceChanged
+} // MultiplayerDialog::onPlayerRaceChanged
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-MultiplayerDialog::onStartPointTypeChanged( const Framework::Core::EventManager::Event& _event )
+MultiplayerDialog::onPlayerTypeChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const Core::LandscapeModel::StartPoint::Id id
-		= _event.getAttribute( Core::LandscapeModel::Events::StartPointTypeChanged::ms_startPointIdAttribute ).toInt();
+	const Core::LandscapeModel::IPlayer::Id id
+		= _event.getAttribute( Core::LandscapeModel::Events::PlayerTypeChanged::ms_playerIdAttribute ).toInt();
 	const Core::LandscapeModel::PlayerType::Enum type = static_cast< Core::LandscapeModel::PlayerType::Enum >(
-		_event.getAttribute( Core::LandscapeModel::Events::StartPointTypeChanged::ms_startPointTypeAttribute ).toInt() );
+		_event.getAttribute( Core::LandscapeModel::Events::PlayerTypeChanged::ms_playerTypeAttribute ).toInt() );
 
 	PlayersDataCollectionIterator iterator = m_playersData.find( id );
 	assert( iterator != m_playersData.end() );
 
 	QObject::disconnect( &iterator->second.m_type, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerTypeChanged() ) );
 
+	iterator->second.m_type.clear();
+	iterator->second.m_type.addItems( type == Core::LandscapeModel::PlayerType::Player ? m_hasPlayerTypes : m_nonePlayerTypes );
+
 	iterator->second.m_type.setCurrentText( Core::LandscapeModel::PlayerType::toString( type ) );
+
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
+	{
+		boost::intrusive_ptr< Core::LandscapeModel::IPlayer >
+			player = locker->getLandscapeModel()->getMyPlayer();
+
+		bool isMyPlayer = ( player && id == player->getUniqueId() );
+
+		iterator->second.m_type.setEnabled( !isMyPlayer );
+	}
+
+	m_createButton->setEnabled( !locker->getLandscapeModel()->isConfigurated() && locker->getLandscapeModel()->hasFreePlayers() );
 
 	QObject::connect( &iterator->second.m_type, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerTypeChanged() ) );
 
-} // MultiplayerDialog::onStartPointTypeChanged
+} // MultiplayerDialog::onPlayerTypeChanged
 
 
 /*---------------------------------------------------------------------------*/
@@ -340,6 +397,9 @@ MultiplayerDialog::initWidgets()
 {
 	setMinimumHeight( IMapPreviewGenerator::ms_fixedWidgetSize.height() * 2.5f );
 
+	m_startButton->setEnabled( false );
+	m_cancelButton->setEnabled( false );
+
 	m_mapPreview->setFixedSize( IMapPreviewGenerator::ms_fixedWidgetSize );
 
 	m_connectToIp->setText( m_environment.getString( Core::LandscapeModel::Resources::Properties::Ip ) );
@@ -371,12 +431,16 @@ MultiplayerDialog::connectWidgets()
 	QObject::connect( m_cancelButton, SIGNAL( clicked( bool ) ), this, SLOT( onCancelButtonPressed( bool ) ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::StartPointRaceChanged::ms_type
-							,	boost::bind( &MultiplayerDialog::onStartPointRaceChanged, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::PlayerRaceChanged::ms_type
+							,	boost::bind( &MultiplayerDialog::onPlayerRaceChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::StartPointTypeChanged::ms_type
-							,	boost::bind( &MultiplayerDialog::onStartPointTypeChanged, this, _1 ) );
+							,	Plugins::Core::LandscapeModel::Events::PlayerTypeChanged::ms_type
+							,	boost::bind( &MultiplayerDialog::onPlayerTypeChanged, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::PlayerNameChanged::ms_type
+							,	boost::bind( &MultiplayerDialog::onPlayerNameChanged, this, _1 ) );
 
 } // MultiplayerDialog::connectWidgets
 
@@ -517,44 +581,41 @@ MultiplayerDialog::buildPlayersList()
 	Core::LandscapeModel::IStaticData::RacesCollection reces;
 	m_environment.fetchRaces( reces );
 
-	QStringList qraces;
+	QStringList races;
 
 	Core::LandscapeModel::IStaticData::RacesCollectionIterator
 			beginRaces = reces.begin()
 		,	endRaces = reces.end();
 
 	for ( ; beginRaces != endRaces; ++beginRaces )
-		qraces.push_back( beginRaces->first );
-
-	// Players
-
-	QStringList qplayers;
-
-	for (	Core::LandscapeModel::PlayerType::Enum type = Core::LandscapeModel::PlayerType::Begin
-		;	type != Core::LandscapeModel::PlayerType::Size
-		;	type = static_cast< Core::LandscapeModel::PlayerType::Enum >( type + 1 ) )
-	{
-		qplayers.push_back( Core::LandscapeModel::PlayerType::toString( type ) );
-	}
+		races.push_back( beginRaces->first );
 
 	// List
 
-	Plugins::Core::LandscapeModel::ILandscape::StartPointsIterator
-		iterator = landscape->getStartPointsIterator();
+	Core::LandscapeModel::ILandscapeModel::PlayersCollection players;
+	locker->getLandscapeModel()->fetchPlayers( players );
 
-	while( iterator->isValid() )
+	Core::LandscapeModel::ILandscapeModel::PlayersCollectionIterator
+			begin = players.begin()
+		,	end = players.end();
+
+	for ( ; begin != end; ++begin )
 	{
 		QHBoxLayout* playerLayout = new QHBoxLayout();
 
-		QString startPointFormat( "StartPoint %1:" );
-		startPointFormat = startPointFormat.arg( iterator->current().m_id );
+		QString palyerLabelText
+			= QString( Resources::Views::PlayerByStartPointLabelFormat )
+				.arg( ( *begin )->getStartPointId() )
+				.arg( ( *begin )->getName() );
 
-		playerLayout->addWidget( new QLabel( startPointFormat ) );
+		QLabel* playerLabel = new QLabel( palyerLabelText );
+
+		playerLayout->addWidget( playerLabel );
 
 		QComboBox* playerComboBox = new QComboBox();
-		playerComboBox->addItems( qplayers );
+		playerComboBox->addItems( m_nonePlayerTypes );
 
-		playerComboBox->setCurrentText( Core::LandscapeModel::PlayerType::toString( locker->getLandscapeModel()->getStartPointDataType( iterator->current().m_id ) ) );
+		playerComboBox->setCurrentText( Core::LandscapeModel::PlayerType::toString( ( *begin )->getType() ) );
 
 		QObject::connect( playerComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerTypeChanged() ) );
 
@@ -562,9 +623,9 @@ MultiplayerDialog::buildPlayersList()
 		playerLayout->addWidget( new QLabel( "Race:" ) );
 
 		QComboBox* raceComboBox = new QComboBox();
-		raceComboBox->addItems( qraces );
+		raceComboBox->addItems( races );
 
-		raceComboBox->setCurrentText( locker->getLandscapeModel()->getStartPointDataRace( iterator->current().m_id ) );
+		raceComboBox->setCurrentText( ( *begin )->getRace() );
 
 		QObject::connect( raceComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerRaceChanged() ) );
 
@@ -579,10 +640,8 @@ MultiplayerDialog::buildPlayersList()
 
 		m_playersData.insert(
 			std::make_pair(
-					iterator->current().m_id
-				,	PlayerData( *playerComboBox, *raceComboBox, *colorsComboBox, iterator->current().m_id ) ) );
-
-		iterator->next();
+					( *begin )->getUniqueId()
+				,	PlayerData( *playerLabel, *playerComboBox, *raceComboBox, *colorsComboBox, ( *begin )->getUniqueId() ) ) );
 	}
 
 	updatePlayersColors();
@@ -596,6 +655,9 @@ MultiplayerDialog::buildPlayersList()
 void
 MultiplayerDialog::updatePlayersColors()
 {
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
 	typedef std::vector< std::pair< QIcon, QColor > > ColorsCollection;
 	typedef ColorsCollection::const_iterator ColorsCollectionIterator;
 
@@ -620,11 +682,13 @@ MultiplayerDialog::updatePlayersColors()
 
 	for ( ; begin != end; ++begin )
 	{
+		boost::intrusive_ptr< Core::LandscapeModel::IPlayer > player = locker->getLandscapeModel()->getPlayer( begin->first );
+
 		QObject::disconnect( &begin->second.m_color, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerColorChanged() ) );
 
 		begin->second.m_color.clear();
 
-		const QColor color( m_environment.getGraphicsInfo()->getStartPointColor( begin->first ) );
+		const QColor color( m_environment.getGraphicsInfo()->getStartPointColor( player->getStartPointId() ) );
 
 		ColorsCollectionIterator
 				colorsBegin = colors.begin()

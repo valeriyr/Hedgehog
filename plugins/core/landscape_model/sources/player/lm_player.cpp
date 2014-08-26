@@ -27,14 +27,14 @@ Player::Player(
 	,	const IStaticData& _staticData
 	,	const QString& _race
 	,	const StartPoint::Id& _startPointId
-	,	const PlayerType::Enum _playerType
 	)
 	:	m_environment( _environment )
 	,	m_staticData( _staticData )
 	,	m_id( ++IdGenerator )
-	,	m_race( _race )
 	,	m_startPointId( _startPointId )
-	,	m_playerType( _playerType )
+	,	m_race( _race )
+	,	m_name( "none" )
+	,	m_type( PlayerType::Open )
 	,	m_resourceData()
 	,	m_notifier( *m_environment.getNotificationCenter(), this )
 {
@@ -76,7 +76,7 @@ Player::getUniqueId() const
 PlayerType::Enum
 Player::getType() const
 {
-	return m_playerType;
+	return m_type;
 
 } // Player::getType
 
@@ -101,6 +101,17 @@ Player::getStartPointId() const
 	return m_startPointId;
 
 } // Player::getStartPointId
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QString&
+Player::getName() const
+{
+	return m_name;
+
+} // Player::getName
 
 
 /*---------------------------------------------------------------------------*/
@@ -148,6 +159,39 @@ Player::addResources( const QString& _resourceName, const int _value )
 	m_notifier.pushNotifyFunction( &Player::riseResourcesChanedEvent );
 
 } // Player::addResources
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Player::setName( const QString& _name )
+{
+	m_name = _name;
+
+} // Player::setName
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Player::setRace( const QString& _race )
+{
+	m_race = _race;
+
+} // Player::setRace
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Player::setType( const PlayerType::Enum _type )
+{
+	m_type = _type;
+
+} // Player::setType
 
 
 /*---------------------------------------------------------------------------*/

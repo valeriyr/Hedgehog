@@ -28,10 +28,11 @@ struct ISurfaceItemsCache;
 struct IStaticData;
 struct ILandscapeSerializer;
 struct ILandscape;
-struct IPlayer;
 struct IModelLocker;
 struct IPathFinder;
 struct IGameMode;
+
+class Player;
 
 /*---------------------------------------------------------------------------*/
 
@@ -79,16 +80,6 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void setStartPointRace( const StartPoint::Id& _id, const QString& _race );
-
-	/*virtual*/ void setStartPointType( const StartPoint::Id& _id, const PlayerType::Enum& _type );
-
-	/*virtual*/ QString getStartPointDataRace( const StartPoint::Id& _id );
-
-	/*virtual*/ PlayerType::Enum getStartPointDataType( const StartPoint::Id& _id );
-
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ void selectObjects( const QRect& _rect );
 
 	/*virtual*/ void selectObject( const Object::Id& _id );
@@ -125,11 +116,19 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const Object& _object ) const;
 
+	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const QString& _name ) const;
+
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayerByStartPoint( const StartPoint::Id& _id ) const;
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getMyPlayer() const;
 
-	/*virtual*/ ILandscapeModel::PlayersIterator getPlayersIterator() const;
+	/*virtual*/ void fetchPlayers( ILandscapeModel::PlayersCollection& _collection ) const;
+
+	/*virtual*/ bool hasFreePlayers() const;
+
+	/*virtual*/ void setPlayerRace( const IPlayer::Id& _id, const QString& _race );
+
+	/*virtual*/ void setPlayerType( const IPlayer::Id& _id, const PlayerType::Enum _type );
 
 /*---------------------------------------------------------------------------*/
 
@@ -164,13 +163,17 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void fillStartPointDefaultData();
-
-	void initPlayers();
-
 	void locateStartPointObjects();
 
 	bool shouldStoreResources( boost::shared_ptr< Object > _holder, boost::shared_ptr< Object > _storage );
+
+/*---------------------------------------------------------------------------*/
+
+	void initPlayers();
+
+	void setupMyPlayer();
+
+	void setPlayerName( const IPlayer::Id& _id, const QString& _name );
 
 /*---------------------------------------------------------------------------*/
 
@@ -186,34 +189,11 @@ private:
 		WorkersCollectionIterator;
 
 	typedef
-		std::map< IPlayer::Id, boost::intrusive_ptr< IPlayer > >
-		PlayersCollection;
+		std::map< IPlayer::Id, boost::intrusive_ptr< Player > >
+		PlayersMap;
 	typedef
-		PlayersCollection::const_iterator
-		PlayersCollectionIterator;
-
-/*---------------------------------------------------------------------------*/
-
-	struct StartPointData
-	{
-		StartPointData(
-				const PlayerType::Enum _playerType
-			,	const QString& _race
-			)
-			:	m_playerType( _playerType )
-			,	m_race( _race )
-		{}
-
-		PlayerType::Enum m_playerType;
-		QString m_race;
-	};
-
-	typedef
-		std::map< StartPoint::Id, StartPointData >
-		StartPointDataCollection;
-	typedef
-		StartPointDataCollection::iterator
-		StartPointDataCollectionIterator;
+		PlayersMap::const_iterator
+		PlayersMapIterator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -235,9 +215,9 @@ private:
 
 	QString m_filePath;
 
-	PlayersCollection m_players;
+	PlayersMap m_players;
 
-	StartPointDataCollection m_startPointData;
+	IPlayer::Id m_myPlayerId;
 
 	QMutex m_mutex;
 

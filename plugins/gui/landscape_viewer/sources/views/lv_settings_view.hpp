@@ -67,6 +67,8 @@ private slots:
 
 	void onConnectionTimeOutChanged( const QString& _timeOut );
 
+	void onPlayerNameChanged( const QString& _name );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -88,6 +90,7 @@ private:
 	QLineEdit* m_ip;
 	QLineEdit* m_port;
 	QLineEdit* m_connectionTimeOut;
+	QLineEdit* m_playerName;
 
 	QString m_viewTitle;
 

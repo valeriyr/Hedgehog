@@ -61,16 +61,6 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setStartPointRace( const StartPoint::Id& _id, const QString& _race ) = 0;
-
-	virtual void setStartPointType( const StartPoint::Id& _id, const PlayerType::Enum& _type ) = 0;
-
-	virtual QString getStartPointDataRace( const StartPoint::Id& _id ) = 0;
-
-	virtual PlayerType::Enum getStartPointDataType( const StartPoint::Id& _id ) = 0;
-
-/*---------------------------------------------------------------------------*/
-
 	virtual void selectObjects( const QRect& _rect ) = 0;
 
 	virtual void selectObject( const Object::Id& _id ) = 0;
@@ -109,18 +99,29 @@ struct ILandscapeModel
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		boost::shared_ptr< Tools::Core::IIterator< boost::intrusive_ptr< IPlayer > > >
-		PlayersIterator;
+		std::vector< boost::intrusive_ptr< IPlayer > >
+		PlayersCollection;
+	typedef
+		PlayersCollection::const_iterator
+		PlayersCollectionIterator;
 
 	virtual boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const = 0;
 
 	virtual boost::intrusive_ptr< IPlayer > getPlayer( const Object& _object ) const = 0;
 
+	virtual boost::intrusive_ptr< IPlayer > getPlayer( const QString& _name ) const = 0;
+
 	virtual boost::intrusive_ptr< IPlayer > getPlayerByStartPoint( const StartPoint::Id& _id ) const = 0;
 
 	virtual boost::intrusive_ptr< IPlayer > getMyPlayer() const = 0;
 
-	virtual PlayersIterator getPlayersIterator() const = 0;
+	virtual void fetchPlayers( PlayersCollection& _collection ) const = 0;
+
+	virtual bool hasFreePlayers() const = 0;
+
+	virtual void setPlayerRace( const IPlayer::Id& _id, const QString& _race ) = 0;
+
+	virtual void setPlayerType( const IPlayer::Id& _id, const PlayerType::Enum _type ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

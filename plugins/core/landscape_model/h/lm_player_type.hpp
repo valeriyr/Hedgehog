@@ -14,12 +14,13 @@ struct PlayerType
 {
 	enum Enum
 	{
-			None		= 0
+			Blocked = 0
+		,	Open
 		,	Player
 		,	AI
 
 		,	Size
-		,	Begin = None
+		,	Begin = Blocked
 	};
 
 	static QString toString( const Enum _enum )
@@ -30,8 +31,10 @@ struct PlayerType
 			return "Player";
 		case AI:
 			return "AI";
+		case Open:
+			return "Open";
 		default:
-			return "None";
+			return "Blocked";
 		}
 	}
 
@@ -41,8 +44,20 @@ struct PlayerType
 			return Player;
 		else if ( _type == "AI" )
 			return AI;
+		else if ( _type == "Open" )
+			return Open;
 		else
-			return None;
+			return Blocked;
+	}
+
+	static bool isActivated( const Enum _enum )
+	{
+		return _enum == Player || _enum == AI;
+	}
+
+	static bool isFree( const Enum _enum )
+	{
+		return _enum == Open;
 	}
 };
 

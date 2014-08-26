@@ -48,8 +48,6 @@
 #include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/h/lm_events.hpp"
 
-#include "iterators/it_simple_iterator.hpp"
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,7 +73,7 @@ LandscapeModel::LandscapeModel(
 	,	m_landscape()
 	,	m_filePath()
 	,	m_players()
-	,	m_startPointData()
+	,	m_myPlayerId( IPlayer::ms_wrondId )
 	,	m_mutex( QMutex::Recursive )
 	,	m_ticksCounter( 0 )
 	,	m_workers()
@@ -121,7 +119,7 @@ LandscapeModel::initLandscape( const QString& _filePath )
 	m_landscape = landscape;
 	m_filePath = _filePath;
 
-	fillStartPointDefaultData();
+	initPlayers();
 
 } // LandscapeModel::initLandscape
 
@@ -145,6 +143,8 @@ LandscapeModel::setupMultiPlayerGame()
 			,	m_environment
 			,	myConnectionInfo
 			,	Framework::Core::NetworkManager::ConnectionInfo() ) );
+
+	setupMyPlayer();
 
 } // LandscapeModel::setupMultiPlayerGame
 
@@ -183,6 +183,8 @@ LandscapeModel::setupSinglePlayerGame()
 
 	m_gameMode.reset( new SinglePlayerMode( *this ) );
 
+	setupMyPlayer();
+
 } // LandscapeModel::setupSinglePlayerGame
 
 
@@ -207,7 +209,7 @@ LandscapeModel::resetModel()
 	m_players.clear();
 	m_workers.clear();
 
-	m_startPointData.clear();
+	m_myPlayerId = IPlayer::ms_wrondId;
 
 	m_gameMode.reset();
 
@@ -251,8 +253,6 @@ LandscapeModel::startSimulation()
 {
 	if ( isSimulationRunning() || !m_gameMode )
 		return;
-
-	initPlayers();
 
 	locateStartPointObjects();
 
@@ -311,74 +311,6 @@ LandscapeModel::getFilePath() const
 	return m_filePath;
 
 } // LandscapeModel::getFilePath
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::setStartPointRace( const StartPoint::Id& _id, const QString& _race )
-{
-	StartPointDataCollectionIterator iterator = m_startPointData.find( _id );
-
-	if ( iterator != m_startPointData.end() )
-	{
-		iterator->second.m_race = _race;
-
-		Framework::Core::EventManager::Event startPointRaceChangedEvent( Events::StartPointRaceChanged::ms_type );
-		startPointRaceChangedEvent.pushAttribute( Events::StartPointRaceChanged::ms_startPointIdAttribute, _id );
-		startPointRaceChangedEvent.pushAttribute( Events::StartPointRaceChanged::ms_startPointRaceAttribute, _race );
-
-		m_environment.riseEvent( startPointRaceChangedEvent );
-	}
-
-} // LandscapeModel::setStartPointRace
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::setStartPointType( const StartPoint::Id& _id, const PlayerType::Enum& _type )
-{
-	StartPointDataCollectionIterator iterator = m_startPointData.find( _id );
-
-	if ( iterator != m_startPointData.end() )
-	{
-		iterator->second.m_playerType = _type;
-
-		Framework::Core::EventManager::Event startPointTypeChangedEvent( Events::StartPointTypeChanged::ms_type );
-		startPointTypeChangedEvent.pushAttribute( Events::StartPointTypeChanged::ms_startPointIdAttribute, _id );
-		startPointTypeChangedEvent.pushAttribute( Events::StartPointTypeChanged::ms_startPointTypeAttribute, _type );
-
-		m_environment.riseEvent( startPointTypeChangedEvent );
-	}
-
-} // LandscapeModel::setStartPointType
-
-
-/*---------------------------------------------------------------------------*/
-
-
-QString
-LandscapeModel::getStartPointDataRace( const StartPoint::Id& _id )
-{
-	StartPointDataCollectionIterator iterator = m_startPointData.find( _id );
-	return iterator != m_startPointData.end() ? iterator->second.m_race : QString();
-
-} // LandscapeModel::getStartPointDataRace
-
-
-/*---------------------------------------------------------------------------*/
-
-
-PlayerType::Enum
-LandscapeModel::getStartPointDataType( const StartPoint::Id& _id )
-{
-	StartPointDataCollectionIterator iterator = m_startPointData.find( _id );
-	return iterator != m_startPointData.end() ? iterator->second.m_playerType : PlayerType::None;
-
-} // LandscapeModel::getStartPointDataType
 
 
 /*---------------------------------------------------------------------------*/
@@ -659,7 +591,7 @@ LandscapeModel::getLandscape() const
 boost::intrusive_ptr< IPlayer >
 LandscapeModel::getPlayer( const IPlayer::Id& _id ) const
 {
-	PlayersCollectionIterator iterator = m_players.find( _id );
+	PlayersMapIterator iterator = m_players.find( _id );
 	return iterator != m_players.end() ? iterator->second : boost::intrusive_ptr< IPlayer >();
 
 } // LandscapeModel::getPlayer
@@ -686,9 +618,30 @@ LandscapeModel::getPlayer( const Object& _object ) const
 
 
 boost::intrusive_ptr< IPlayer >
+LandscapeModel::getPlayer( const QString& _name ) const
+{
+	PlayersMapIterator
+			begin = m_players.begin()
+		,	end = m_players.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( begin->second->getName() == _name )
+			return begin->second;
+	}
+
+	return boost::intrusive_ptr< IPlayer >();
+
+} // LandscapeModel::getPlayer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IPlayer >
 LandscapeModel::getPlayerByStartPoint( const StartPoint::Id& _id ) const
 {
-	PlayersCollectionIterator
+	PlayersMapIterator
 			begin = m_players.begin()
 		,	end = m_players.end();
 
@@ -709,7 +662,7 @@ LandscapeModel::getPlayerByStartPoint( const StartPoint::Id& _id ) const
 boost::intrusive_ptr< IPlayer >
 LandscapeModel::getMyPlayer() const
 {
-	return !m_players.empty() ? m_players.begin()->second : boost::intrusive_ptr< IPlayer >();
+	return getPlayer( m_myPlayerId );
 
 } // LandscapeModel::getMyPlayer
 
@@ -717,14 +670,84 @@ LandscapeModel::getMyPlayer() const
 /*---------------------------------------------------------------------------*/
 
 
-ILandscapeModel::PlayersIterator
-LandscapeModel::getPlayersIterator() const
+void
+LandscapeModel::fetchPlayers( ILandscapeModel::PlayersCollection& _collection ) const
 {
-	return
-		ILandscapeModel::PlayersIterator(
-			new Tools::Core::SimpleIterator< PlayersCollection, Tools::Core::SecondExtractor >( m_players ) );
+	_collection.clear();
 
-} // LandscapeModel::getPlayersIterator
+	PlayersMapIterator
+			begin = m_players.begin()
+		,	end = m_players.end();
+
+	for ( ; begin != end; ++begin )
+		_collection.push_back( begin->second );
+
+} // LandscapeModel::fetchPlayers
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+LandscapeModel::hasFreePlayers() const
+{
+	PlayersMapIterator
+			begin = m_players.begin()
+		,	end = m_players.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( PlayerType::isFree( begin->second->getType() ) )
+			return true;
+	}
+
+	return false;
+
+} // LandscapeModel::hasFreePlayers
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::setPlayerRace( const IPlayer::Id& _id, const QString& _race )
+{
+	PlayersMapIterator iterator = m_players.find( _id );
+	
+	if ( iterator != m_players.end() )
+	{
+		iterator->second->setRace( _race );
+
+		Framework::Core::EventManager::Event playerRaceChangedEvent( Events::PlayerRaceChanged::ms_type );
+		playerRaceChangedEvent.pushAttribute( Events::PlayerRaceChanged::ms_playerIdAttribute, _id );
+		playerRaceChangedEvent.pushAttribute( Events::PlayerRaceChanged::ms_playerRaceAttribute, _race );
+
+		m_environment.riseEvent( playerRaceChangedEvent );
+	}
+
+} // LandscapeModel::setPlayerRace
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::setPlayerType( const IPlayer::Id& _id, const PlayerType::Enum _type )
+{
+	PlayersMapIterator iterator = m_players.find( _id );
+	
+	if ( iterator != m_players.end() )
+	{
+		iterator->second->setType( _type );
+
+		Framework::Core::EventManager::Event playerTypeChangedEvent( Events::PlayerTypeChanged::ms_type );
+		playerTypeChangedEvent.pushAttribute( Events::PlayerTypeChanged::ms_playerIdAttribute, _id );
+		playerTypeChangedEvent.pushAttribute( Events::PlayerTypeChanged::ms_playerTypeAttribute, _type );
+
+		m_environment.riseEvent( playerTypeChangedEvent );
+	}
+
+} // LandscapeModel::setPlayerType
 
 
 /*---------------------------------------------------------------------------*/
@@ -949,59 +972,17 @@ LandscapeModel::gameMainLoop()
 
 
 void
-LandscapeModel::fillStartPointDefaultData()
-{
-	m_startPointData.clear();
-
-	IStaticData::RacesCollection races;
-	m_staticData.fetchRaces( races );
-
-	ILandscape::StartPointsIterator iterator = m_landscape->getStartPointsIterator();
-
-	while( iterator->isValid() )
-	{
-		m_startPointData.insert( std::make_pair( iterator->current().m_id, StartPointData( PlayerType::None, races.begin()->first ) ) );
-		iterator->next();
-	}
-
-} // LandscapeModel::fillStartPointDefaultData
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::initPlayers()
-{
-	StartPointDataCollectionIterator
-			begin = m_startPointData.begin()
-		,	end = m_startPointData.end();
-
-	for ( ; begin != end; ++begin )
-	{
-		if ( begin->second.m_playerType != PlayerType::None )
-		{
-			boost::intrusive_ptr< IPlayer > player(
-				new Player( m_environment, m_staticData, begin->second.m_race, begin->first, begin->second.m_playerType ) );
-			m_players.insert( std::make_pair( player->getUniqueId(), player ) );
-		}
-	}
-
-} // LandscapeModel::initPlayers
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
 LandscapeModel::locateStartPointObjects()
 {
-	PlayersCollectionIterator
+	PlayersMapIterator
 			begin = m_players.begin()
 		,	end = m_players.end();
 
 	for( ; begin != end; ++begin )
 	{
+		if ( !PlayerType::isActivated( begin->second->getType() ) )
+			continue;
+
 		m_landscape->createObject(
 				m_staticData.getStartPointObjectName( begin->second->getRace() )
 			,	m_landscape->getStartPoint( begin->second->getStartPointId() ).m_point
@@ -1038,6 +1019,80 @@ LandscapeModel::shouldStoreResources( boost::shared_ptr< Object > _holder, boost
 	return false;
 
 } // LandscapeModel::shouldStoreResources
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::initPlayers()
+{
+	m_players.clear();
+
+	IStaticData::RacesCollection races;
+	m_staticData.fetchRaces( races );
+
+	ILandscape::StartPointsIterator iterator = m_landscape->getStartPointsIterator();
+
+	while( iterator->isValid() )
+	{
+		boost::intrusive_ptr< Player > player(
+			new Player( m_environment, m_staticData, races.begin()->first, iterator->current().m_id ) );
+		m_players.insert( std::make_pair( player->getUniqueId(), player ) );
+
+		iterator->next();
+	}
+
+} // LandscapeModel::initPlayers
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::setupMyPlayer()
+{
+	PlayersMapIterator
+			begin = m_players.begin()
+		,	end = m_players.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( PlayerType::isFree( begin->second->getType() ) )
+		{
+			setPlayerType( begin->first, PlayerType::Player );
+			setPlayerName( begin->first, m_environment.getString( Resources::Properties::PlayerName ) );
+			m_myPlayerId = begin->first;
+			break;
+		}
+	}
+
+	assert( m_myPlayerId != IPlayer::ms_wrondId );
+
+} // LandscapeModel::setupMyPlayer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::setPlayerName( const IPlayer::Id& _id, const QString& _name )
+{
+	PlayersMapIterator iterator = m_players.find( _id );
+	
+	if ( iterator != m_players.end() )
+	{
+		iterator->second->setName( _name );
+
+		Framework::Core::EventManager::Event playerNameChangedEvent( Events::PlayerNameChanged::ms_type );
+		playerNameChangedEvent.pushAttribute( Events::PlayerNameChanged::ms_playerIdAttribute, _id );
+		playerNameChangedEvent.pushAttribute( Events::PlayerNameChanged::ms_playerNameAttribute, _name );
+		playerNameChangedEvent.pushAttribute( Events::PlayerNameChanged::ms_startPointIdAttribute, iterator->second->getStartPointId() );
+
+		m_environment.riseEvent( playerNameChangedEvent );
+	}
+
+} // LandscapeModel::setPlayerName
 
 
 /*---------------------------------------------------------------------------*/

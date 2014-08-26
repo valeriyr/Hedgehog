@@ -23,22 +23,33 @@ namespace CurrentTickNumberChanged
 
 /*---------------------------------------------------------------------------*/
 
-namespace StartPointRaceChanged
+namespace PlayerRaceChanged
 {
-	const char* const ms_type = "StartPointRaceChanged";
+	const char* const ms_type = "PlayerRaceChanged";
 
-	const char* const ms_startPointIdAttribute = "StartPointId";
-	const char* const ms_startPointRaceAttribute = "StartPointRace";
+	const char* const ms_playerIdAttribute = "PlayerId";
+	const char* const ms_playerRaceAttribute = "PlayerRace";
 }
 
 /*---------------------------------------------------------------------------*/
 
-namespace StartPointTypeChanged
+namespace PlayerNameChanged
 {
-	const char* const ms_type = "HolderResourceCountChanged";
+	const char* const ms_type = "PlayerNameChanged";
 
+	const char* const ms_playerIdAttribute = "PlayerId";
 	const char* const ms_startPointIdAttribute = "StartPointId";
-	const char* const ms_startPointTypeAttribute = "StartPointType";
+	const char* const ms_playerNameAttribute = "PlayerName";
+}
+
+/*---------------------------------------------------------------------------*/
+
+namespace PlayerTypeChanged
+{
+	const char* const ms_type = "PlayerTypeChanged";
+
+	const char* const ms_playerIdAttribute = "PlayerId";
+	const char* const ms_playerTypeAttribute = "PlayerType";
 }
 
 /*---------------------------------------------------------------------------*/

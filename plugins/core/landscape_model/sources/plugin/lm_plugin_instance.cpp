@@ -85,9 +85,10 @@ PluginInstance::initialize()
 	// TODO: Force loading of the network manager.
 	getConnectionManager();
 
-	getSettings()->regUInt( Resources::Properties::ConnectionTimeOut, 10000 );
 	getSettings()->regUInt( Resources::Properties::Port, 1988 );
 	getSettings()->regString( Resources::Properties::Ip, Framework::Core::NetworkManager::Resources::LocalHost );
+	getSettings()->regUInt( Resources::Properties::ConnectionTimeOut, 10000 );
+	getSettings()->regString( Resources::Properties::PlayerName, "amator" );
 
 	m_environment.reset( new Environment( *this ) );
 	m_notificationCenter.reset( new NotificationCenter() );
@@ -119,6 +120,8 @@ PluginInstance::close()
 
 	getSettings()->unregProperty( Resources::Properties::Port );
 	getSettings()->unregProperty( Resources::Properties::Ip );
+	getSettings()->unregProperty( Resources::Properties::ConnectionTimeOut );
+	getSettings()->unregProperty( Resources::Properties::PlayerName );
 
 } // PluginInstance::close
 

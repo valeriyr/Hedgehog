@@ -2,7 +2,7 @@
 #ifndef __LV_MULTIPLAYER_DIALOG_HPP__
 #define __LV_MULTIPLAYER_DIALOG_HPP__
 
-#include "landscape_model/h/lm_start_point.hpp"
+#include "landscape_model/ih/lm_iplayer.hpp"
 
 #include "event_manager/h/em_subscriber.hpp"
 #include "event_manager/h/em_event.hpp"
@@ -28,22 +28,25 @@ class MultiplayerDialog
 	struct PlayerData
 	{
 		PlayerData(
-				QComboBox& _type
+				QLabel&	_player
+			,	QComboBox& _type
 			,	QComboBox& _race
 			,	QComboBox& _color
-			,	const Core::LandscapeModel::StartPoint::Id& _id
+			,	const Core::LandscapeModel::IPlayer::Id& _id
 			)
-			:	m_type( _type )
+			:	m_player( _player )
+			,	m_type( _type )
 			,	m_race( _race )
 			,	m_color( _color )
 			,	m_id( _id )
 		{}
 
+		QLabel&	m_player;
 		QComboBox& m_type;
 		QComboBox& m_race;
 		QComboBox& m_color;
 
-		const Core::LandscapeModel::StartPoint::Id m_id;
+		const Core::LandscapeModel::IPlayer::Id m_id;
 	};
 
 /*---------------------------------------------------------------------------*/
@@ -83,8 +86,9 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void onStartPointRaceChanged( const Framework::Core::EventManager::Event& _event );
-	void onStartPointTypeChanged( const Framework::Core::EventManager::Event& _event );
+	void onPlayerRaceChanged( const Framework::Core::EventManager::Event& _event );
+	void onPlayerTypeChanged( const Framework::Core::EventManager::Event& _event );
+	void onPlayerNameChanged( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/
 
@@ -133,10 +137,13 @@ private:
 	QPushButton*	m_startButton;
 	QPushButton*	m_cancelButton;
 
+	QStringList		m_nonePlayerTypes;
+	QStringList		m_hasPlayerTypes;
+
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< Core::LandscapeModel::StartPoint::Id, PlayerData >
+		std::map< Core::LandscapeModel::IPlayer::Id, PlayerData >
 		PlayersDataCollection;
 	typedef
 		PlayersDataCollection::iterator

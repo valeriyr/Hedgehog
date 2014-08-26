@@ -33,11 +33,11 @@ struct IPlayer
 
 	virtual PlayerType::Enum getType() const = 0;
 
-/*---------------------------------------------------------------------------*/
-
 	virtual const QString& getRace() const = 0;
 
 	virtual const StartPoint::Id& getStartPointId() const = 0;
+
+	virtual const QString& getName() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

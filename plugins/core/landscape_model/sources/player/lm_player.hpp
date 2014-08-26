@@ -35,8 +35,7 @@ public:
 			const IEnvironment& _environment
 		,	const IStaticData& _staticData
 		,	const QString& _race
-		,	const StartPoint::Id& _startPointId
-		,	const PlayerType::Enum _playerType );
+		,	const StartPoint::Id& _startPointId );
 
 	virtual ~Player();
 
@@ -46,11 +45,11 @@ public:
 
 	/*virtual*/ PlayerType::Enum getType() const;
 
-/*---------------------------------------------------------------------------*/
-
 	/*virtual*/ const QString& getRace() const;
 
 	/*virtual*/ const StartPoint::Id& getStartPointId() const;
+
+	/*virtual*/ const QString& getName() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -61,6 +60,14 @@ public:
 	/*virtual*/ void addResources( const ResourcesData& _data );
 
 	/*virtual*/ void addResources( const QString& _resourceName, const int _value );
+
+/*---------------------------------------------------------------------------*/
+
+	void setName( const QString& _name );
+
+	void setRace( const QString& _race );
+
+	void setType( const PlayerType::Enum _type );
 
 /*---------------------------------------------------------------------------*/
 
@@ -82,11 +89,13 @@ private:
 
 	const IPlayer::Id m_id;
 
-	const QString m_race;
-
 	const StartPoint::Id m_startPointId;
 
-	const PlayerType::Enum m_playerType;
+	QString m_race;
+
+	QString m_name;
+
+	PlayerType::Enum m_type;
 
 	ResourcesData m_resourceData;
 

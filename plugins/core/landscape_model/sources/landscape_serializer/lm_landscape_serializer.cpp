@@ -328,7 +328,7 @@ LandscapeSerializer::onObjectElement( const ILandscapeModel& _landscapeModel, co
 	{
 		boost::intrusive_ptr< IPlayer > player = _landscapeModel.getPlayerByStartPoint( _id );
 
-		if ( player )
+		if ( player && PlayerType::isActivated( player->getType() ) )
 			m_currentLoadLandscape->createObject( _name, QPoint( _x, _y ), player->getUniqueId() );
 	}
 

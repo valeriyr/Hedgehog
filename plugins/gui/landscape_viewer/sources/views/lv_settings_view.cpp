@@ -32,9 +32,8 @@ SettingsView::SettingsView( const IEnvironment& _environment )
 	,	m_ip( new QLineEdit() )
 	,	m_port( new QLineEdit() )
 	,	m_connectionTimeOut( new QLineEdit() )
+	,	m_playerName( new QLineEdit() )
 {
-	m_port->setInputMask( "0000" );
-
 	QVBoxLayout* mainLayout = new QVBoxLayout();
 	mainLayout->setAlignment( Qt::AlignTop );
 
@@ -66,6 +65,14 @@ SettingsView::SettingsView( const IEnvironment& _environment )
 	skinIdLayout->addWidget( skinIdLabel );
 	skinIdLayout->addWidget( m_skinId );
 
+	QHBoxLayout* playerNameLayout = new QHBoxLayout();
+
+	QLabel* playerNameLabel = new QLabel( Resources::Views::PlayerNameLabel );
+	playerNameLabel->setSizePolicy( QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ) );
+
+	playerNameLayout->addWidget( playerNameLabel );
+	playerNameLayout->addWidget( m_playerName );
+
 	QHBoxLayout* connectionTimeOutLayout = new QHBoxLayout();
 
 	QLabel* connectionTimeOutLabel = new QLabel( Resources::Views::ConnectionTimeOutLabel );
@@ -78,8 +85,9 @@ SettingsView::SettingsView( const IEnvironment& _environment )
 	mainLayout->addWidget( m_tarrainMapVisibility );
 	mainLayout->addWidget( m_updateMinimap );
 	mainLayout->addWidget( m_playSound );
-	mainLayout->addLayout( networkLayout );
+	mainLayout->addLayout( playerNameLayout );
 	mainLayout->addLayout( connectionTimeOutLayout );
+	mainLayout->addLayout( networkLayout );
 
 	m_mainWidget->setLayout( mainLayout );
 
@@ -89,6 +97,7 @@ SettingsView::SettingsView( const IEnvironment& _environment )
 	m_ip->setText( m_environment.getString( Core::LandscapeModel::Resources::Properties::Ip ) );
 	m_port->setText( QString::number( m_environment.getUInt( Core::LandscapeModel::Resources::Properties::Port ) ) );
 	m_connectionTimeOut->setText( QString::number( m_environment.getUInt( Core::LandscapeModel::Resources::Properties::ConnectionTimeOut ) ) );
+	m_playerName->setText( m_environment.getString( Core::LandscapeModel::Resources::Properties::PlayerName ) );
 
 	QObject::connect( m_tarrainMapVisibility, SIGNAL( clicked(bool) ), this, SLOT( onTarrainMapVisibilityChanged(bool) ) );
 	QObject::connect( m_updateMinimap, SIGNAL( clicked(bool) ), this, SLOT( onUpdateMinimapChanged(bool) ) );
@@ -97,6 +106,7 @@ SettingsView::SettingsView( const IEnvironment& _environment )
 	QObject::connect( m_ip, SIGNAL( textChanged(const QString&) ), this, SLOT( onIpChanged(const QString&) ) );
 	QObject::connect( m_port, SIGNAL( textChanged(const QString&) ), this, SLOT( onPortChanged(const QString&) ) );
 	QObject::connect( m_connectionTimeOut, SIGNAL( textChanged(const QString&) ), this, SLOT( onConnectionTimeOutChanged(const QString&) ) );
+	QObject::connect( m_playerName, SIGNAL( textChanged(const QString&) ), this, SLOT( onPlayerNameChanged(const QString&) ) );
 
 } // SettingsView::SettingsView
 
@@ -137,6 +147,7 @@ SettingsView::getViewWidget()
 void
 SettingsView::viewWasClosed()
 {
+	QObject::disconnect( m_playerName, SIGNAL( textChanged(const QString&) ), this, SLOT( onPlayerNameChanged(const QString&) ) );
 	QObject::disconnect( m_connectionTimeOut, SIGNAL( textChanged(const QString&) ), this, SLOT( onConnectionTimeOutChanged(const QString&) ) );
 	QObject::disconnect( m_tarrainMapVisibility, SIGNAL( clicked(bool) ), this, SLOT( onTarrainMapVisibilityChanged(bool) ) );
 	QObject::disconnect( m_updateMinimap, SIGNAL( clicked(bool) ), this, SLOT( onUpdateMinimapChanged(bool) ) );
@@ -226,6 +237,17 @@ void
 SettingsView::onConnectionTimeOutChanged( const QString& _timeOut )
 {
 	m_environment.setUInt( Core::LandscapeModel::Resources::Properties::ConnectionTimeOut, _timeOut.toUInt() );
+
+} // SettingsView::onConnectionTimeOutChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+SettingsView::onPlayerNameChanged( const QString& _name )
+{
+	m_environment.setString( Core::LandscapeModel::Resources::Properties::PlayerName, _name );
 
 } // SettingsView::onConnectionTimeOutChanged
 
