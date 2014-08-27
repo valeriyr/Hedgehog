@@ -144,7 +144,9 @@ SelectionView::onItemClicked( QListWidgetItem* _item )
 	SelectionViewItem* listItem = dynamic_cast< SelectionViewItem* >( _item );
 	assert( listItem );
 
-	m_environment.lockModel()->getLandscapeModel()->selectObject( listItem->getUniqueId() );
+	m_environment.lockModel()->getLandscapeModel()->pushCommand(
+		Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::SelectById )
+			.pushArgument( listItem->getUniqueId() ) );
 
 } // SelectionView::onItemClicked
 

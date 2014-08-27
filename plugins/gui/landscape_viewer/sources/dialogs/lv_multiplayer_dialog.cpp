@@ -210,7 +210,10 @@ MultiplayerDialog::onPlayerRaceChanged()
 
 	if ( playerData )
 	{
-		m_environment.lockModel()->getLandscapeModel()->setPlayerRace( playerData->m_id, playerData->m_race.currentText() );
+		m_environment.lockModel()->getLandscapeModel()->pushCommand(
+			Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::ChangePlayerRace )
+				.pushArgument( playerData->m_id )
+				.pushArgument( playerData->m_race.currentText() ) );
 	}
 
 } // MultiplayerDialog::onPlayerRaceChanged
@@ -226,10 +229,10 @@ MultiplayerDialog::onPlayerTypeChanged()
 
 	if ( playerData )
 	{
-		m_environment.lockModel()->getLandscapeModel()
-			->setPlayerType(
-					playerData->m_id
-				,	Core::LandscapeModel::PlayerType::fromString( playerData->m_type.currentText() ) );
+		m_environment.lockModel()->getLandscapeModel()->pushCommand(
+			Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::ChangePlayerType )
+				.pushArgument( playerData->m_id )
+				.pushArgument( Core::LandscapeModel::PlayerType::fromString( playerData->m_type.currentText() ) ) );
 	}
 
 } // MultiplayerDialog::onPlayerTypeChanged

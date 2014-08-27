@@ -57,6 +57,23 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+COMMAND_MAP_BEGIN( LandscapeModel )
+	PROCESSOR( Connect )
+	PROCESSOR( PlayerData )
+	PROCESSOR( SetSurfaceItem )
+	PROCESSOR( SelectById )
+	PROCESSOR( SelectByRect )
+	PROCESSOR( Send )
+	PROCESSOR( CreateObject )
+	PROCESSOR( TrainObject )
+	PROCESSOR( BuildObject )
+	PROCESSOR( ChangePlayerRace )
+	PROCESSOR( ChangePlayerType )
+	PROCESSOR( ChangePlayerName )
+COMMAND_MAP_END()
+
+/*---------------------------------------------------------------------------*/
+
 
 LandscapeModel::LandscapeModel(
 		const IEnvironment& _environment
@@ -317,233 +334,11 @@ LandscapeModel::getFilePath() const
 
 
 void
-LandscapeModel::selectObjects( const QRect& _rect )
+LandscapeModel::pushCommand( const Command& _command )
 {
-	if ( m_landscape )
-	{
-		m_landscape->selectObjects( _rect );
-		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
-	}
+	m_gameMode->processCommand( _command );
 
-} // LandscapeModel::selectObjects
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::selectObject( const Object::Id& _id )
-{
-	if ( m_landscape )
-	{
-		m_landscape->selectObject( _id );
-		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
-	}
-
-} // LandscapeModel::selectObject
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::sendSelectedObjects( const QPoint& _to, const bool _flush )
-{
-	if ( m_landscape )
-	{
-		ILandscape::ObjectsCollection selectedObjects;
-		m_landscape->fetchSelectedObjects( selectedObjects );
-
-		ILandscape::ObjectsCollectionIterator
-				begin = selectedObjects.begin()
-			,	end = selectedObjects.end();
-
-		for ( ; begin != end; ++begin )
-		{
-			boost::shared_ptr< Object > targetObject = m_landscape->getObject( _to );
-
-			boost::intrusive_ptr< IActionsComponent > actionsComponent
-				= ( *begin )->getComponent< IActionsComponent >( ComponentId::Actions );
-			boost::intrusive_ptr< IMoveComponent > moveComponent
-				= ( *begin )->getComponent< IMoveComponent >( ComponentId::Move );
-			boost::intrusive_ptr< IAttackComponent > attackComponent
-				= ( *begin )->getComponent< IAttackComponent >( ComponentId::Attack );
-			boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
-				= ( *begin )->getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
-			boost::intrusive_ptr< IRepairComponent > repairComponent
-				= ( *begin )->getComponent< IRepairComponent >( ComponentId::Repair );
-
-			if ( targetObject && targetObject != *begin )
-			{
-				boost::intrusive_ptr< IHealthComponent > targetHealthComponent
-					= targetObject->getComponent< IHealthComponent >( ComponentId::Health );
-
-				if (	resourceHolderComponent
-					&&	targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource ) )
-				{
-					actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, *this, **begin, targetObject ) )
-						,	_flush );
-				}
-				else if ( shouldStoreResources( *begin, targetObject ) )
-				{
-					actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, *this, targetObject, **begin ) )
-						,	_flush );
-				}
-				else if ( repairComponent && targetHealthComponent && !targetHealthComponent->isHealthy() )
-				{
-					actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >( new RepairAction( m_environment, *this, **begin, targetObject ) )
-						,	_flush );
-				}
-				else if ( attackComponent && targetObject->getComponent< IHealthComponent >( ComponentId::Health ) )
-				{
-					actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >( new AttackAction( m_environment, *this, **begin, targetObject ) )
-						,	_flush );
-				}
-				else if ( moveComponent )
-				{
-					actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, **begin, targetObject, Geometry::DiagonalDistance ) )
-						,	_flush );
-				}
-			}
-			else if ( moveComponent )
-			{
-				actionsComponent->pushAction(
-						boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, **begin, _to ) )
-					,	_flush );
-			}
-		}
-	}
-
-} // LandscapeModel::sendSelectedObjects
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::createObject( const QPoint& _location, const QString& _objectName, const IPlayer::Id& _playerId )
-{
-	Object::Id objectId = Object::ms_wrongId;
-
-	if ( m_landscape )
-	{
-		objectId = m_landscape->createObject( _objectName, _location, _playerId );
-	}
-
-	if ( objectId != Object::ms_wrongId )
-	{
-		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::ObjectAdded::ms_type )
-				.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, _objectName )
-				.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, _location )
-				.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId )
-				.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( _objectName ).m_locateData->m_emplacement ) );
-	}
-	else
-	{
-		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::CreateObjectFailed::ms_type )
-				.pushAttribute( Events::CreateObjectFailed::ms_objectNameAttribute, _objectName )
-				.pushAttribute( Events::CreateObjectFailed::ms_objectLocationAttribute, _location ) );
-	}
-
-} // LandscapeModel::createObject
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::setSurfaceItem(
-		const QPoint& _location
-	,	const Core::LandscapeModel::ISurfaceItem::Id& _id )
-{
-	if ( m_landscape )
-	{
-		m_landscape->setSurfaceItem( _location, _id );
-
-		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::SurfaceItemChanged::ms_type )
-				.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemIdAttribute, _id )
-				.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute, _location ) );
-	}
-
-} // LandscapeModel::setSurfaceItem
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::trainObject( const Object::Id& _parentObject, const QString& _objectName )
-{
-	if ( !m_landscape )
-		return;
-
-	boost::shared_ptr< Object > object = m_landscape->getObject( _parentObject );
-
-	if ( object )
-	{
-		boost::intrusive_ptr< IPlayer > player = getPlayer( *object );
-
-		if ( player )
-		{
-			boost::intrusive_ptr< IActionsComponent > actionsComponent
-				= object->getComponent< IActionsComponent >( ComponentId::Actions );
-			boost::intrusive_ptr< ITrainComponent > trainComponent
-				= object->getComponent< ITrainComponent >( ComponentId::Train );
-
-			if ( trainComponent )
-			{
-				ITrainComponent::StaticData::TrainDataCollectionIterator
-					iterator = trainComponent->getStaticData().m_trainObjects.find( _objectName );
-
-				if (	iterator != trainComponent->getStaticData().m_trainObjects.end()
-					&&	player->getResourcesData().isEnaught( iterator->second->m_resourcesData ) )
-				{
-					player->substructResources( iterator->second->m_resourcesData );
-
-					actionsComponent->pushAction(
-						boost::intrusive_ptr< IAction >( new TrainAction( m_environment, *this, *object, _objectName ) ), false );
-
-					m_environment.riseEvent(
-						Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )
-							.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, object->getUniqueId() ) );
-				}
-			}
-		}
-	}
-
-} // LandscapeModel::trainObject
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::buildObject(
-		const Object::Id& _builder
-	,	const QString& _objectName
-	,	const QPoint& _atLocation
-	,	const bool _flush )
-{
-	boost::shared_ptr< Object > object = m_landscape->getObject( _builder );
-
-	if ( object )
-	{
-		boost::intrusive_ptr< IActionsComponent > actionsComponent
-			= object->getComponent< IActionsComponent >( ComponentId::Actions );
-
-		actionsComponent->pushAction(
-			boost::intrusive_ptr< IAction >( new BuildAction( m_environment, *this, *this, m_staticData, *object, _objectName, _atLocation ) ), _flush );
-	}
-
-} // LandscapeModel::buildObject
+} // LandscapeModel::pushCommand
 
 
 /*---------------------------------------------------------------------------*/
@@ -704,50 +499,6 @@ LandscapeModel::hasFreePlayers() const
 	return false;
 
 } // LandscapeModel::hasFreePlayers
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::setPlayerRace( const IPlayer::Id& _id, const QString& _race )
-{
-	PlayersMapIterator iterator = m_players.find( _id );
-	
-	if ( iterator != m_players.end() )
-	{
-		iterator->second->setRace( _race );
-
-		Framework::Core::EventManager::Event playerRaceChangedEvent( Events::PlayerRaceChanged::ms_type );
-		playerRaceChangedEvent.pushAttribute( Events::PlayerRaceChanged::ms_playerIdAttribute, _id );
-		playerRaceChangedEvent.pushAttribute( Events::PlayerRaceChanged::ms_playerRaceAttribute, _race );
-
-		m_environment.riseEvent( playerRaceChangedEvent );
-	}
-
-} // LandscapeModel::setPlayerRace
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::setPlayerType( const IPlayer::Id& _id, const PlayerType::Enum _type )
-{
-	PlayersMapIterator iterator = m_players.find( _id );
-	
-	if ( iterator != m_players.end() )
-	{
-		iterator->second->setType( _type );
-
-		Framework::Core::EventManager::Event playerTypeChangedEvent( Events::PlayerTypeChanged::ms_type );
-		playerTypeChangedEvent.pushAttribute( Events::PlayerTypeChanged::ms_playerIdAttribute, _id );
-		playerTypeChangedEvent.pushAttribute( Events::PlayerTypeChanged::ms_playerTypeAttribute, _type );
-
-		m_environment.riseEvent( playerTypeChangedEvent );
-	}
-
-} // LandscapeModel::setPlayerType
 
 
 /*---------------------------------------------------------------------------*/
@@ -996,10 +747,10 @@ LandscapeModel::locateStartPointObjects()
 
 
 bool
-LandscapeModel::shouldStoreResources( boost::shared_ptr< Object > _holder, boost::shared_ptr< Object > _storage )
+LandscapeModel::shouldStoreResources( const Object& _holder, boost::shared_ptr< Object > _storage )
 {
 	boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
-		= _holder->getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
+		= _holder.getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
 	boost::intrusive_ptr< IResourceStorageComponent > resourceStorageComponent
 		= _storage->getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
 
@@ -1060,8 +811,8 @@ LandscapeModel::setupMyPlayer()
 	{
 		if ( PlayerType::isFree( begin->second->getType() ) )
 		{
-			setPlayerType( begin->first, PlayerType::Player );
-			setPlayerName( begin->first, m_environment.getString( Resources::Properties::PlayerName ) );
+			pushCommand( Command( CommandId::ChangePlayerType ).pushArgument( begin->first ).pushArgument( PlayerType::Player ) );
+			pushCommand( Command( CommandId::ChangePlayerName ).pushArgument( begin->first ).pushArgument( m_environment.getString( Resources::Properties::PlayerName ) ) );
 			m_myPlayerId = begin->first;
 			break;
 		}
@@ -1076,23 +827,348 @@ LandscapeModel::setupMyPlayer()
 
 
 void
-LandscapeModel::setPlayerName( const IPlayer::Id& _id, const QString& _name )
+LandscapeModel::onConnectProcessor( const Command& _command )
 {
-	PlayersMapIterator iterator = m_players.find( _id );
+} // LandscapeModel::onConnectProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onPlayerDataProcessor( const Command& _command )
+{
+} // LandscapeModel::onPlayerDataProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onChangePlayerRaceProcessor( const Command& _command )
+{
+	const IPlayer::Id id = _command.m_arguments[ 0 ].toInt();
+	const QString race = _command.m_arguments[ 1 ].toString();
+
+	PlayersMapIterator iterator = m_players.find( id );
 	
 	if ( iterator != m_players.end() )
 	{
-		iterator->second->setName( _name );
+		iterator->second->setRace( race );
+
+		Framework::Core::EventManager::Event playerRaceChangedEvent( Events::PlayerRaceChanged::ms_type );
+		playerRaceChangedEvent.pushAttribute( Events::PlayerRaceChanged::ms_playerIdAttribute, id );
+		playerRaceChangedEvent.pushAttribute( Events::PlayerRaceChanged::ms_playerRaceAttribute, race );
+
+		m_environment.riseEvent( playerRaceChangedEvent );
+	}
+
+} // LandscapeModel::onChangePlayerRaceProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onChangePlayerTypeProcessor( const Command& _command )
+{
+	const IPlayer::Id id = _command.m_arguments[ 0 ].toInt();
+	const PlayerType::Enum type = static_cast< PlayerType::Enum >( _command.m_arguments[ 1 ].toInt() );
+
+	PlayersMapIterator iterator = m_players.find( id );
+	
+	if ( iterator != m_players.end() )
+	{
+		iterator->second->setType( type );
+
+		Framework::Core::EventManager::Event playerTypeChangedEvent( Events::PlayerTypeChanged::ms_type );
+		playerTypeChangedEvent.pushAttribute( Events::PlayerTypeChanged::ms_playerIdAttribute, id );
+		playerTypeChangedEvent.pushAttribute( Events::PlayerTypeChanged::ms_playerTypeAttribute, type );
+
+		m_environment.riseEvent( playerTypeChangedEvent );
+	}
+
+} // LandscapeModel::onChangePlayerTypeProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onChangePlayerNameProcessor( const Command& _command )
+{
+	const IPlayer::Id id = _command.m_arguments[ 0 ].toInt();
+	const QString name = _command.m_arguments[ 1 ].toString();
+
+	PlayersMapIterator iterator = m_players.find( id );
+	
+	if ( iterator != m_players.end() )
+	{
+		iterator->second->setName( name );
 
 		Framework::Core::EventManager::Event playerNameChangedEvent( Events::PlayerNameChanged::ms_type );
-		playerNameChangedEvent.pushAttribute( Events::PlayerNameChanged::ms_playerIdAttribute, _id );
-		playerNameChangedEvent.pushAttribute( Events::PlayerNameChanged::ms_playerNameAttribute, _name );
+		playerNameChangedEvent.pushAttribute( Events::PlayerNameChanged::ms_playerIdAttribute, id );
+		playerNameChangedEvent.pushAttribute( Events::PlayerNameChanged::ms_playerNameAttribute, name );
 		playerNameChangedEvent.pushAttribute( Events::PlayerNameChanged::ms_startPointIdAttribute, iterator->second->getStartPointId() );
 
 		m_environment.riseEvent( playerNameChangedEvent );
 	}
 
-} // LandscapeModel::setPlayerName
+} // LandscapeModel::onChangePlayerNameProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onSelectByRectProcessor( const Command& _command )
+{
+	if ( m_landscape )
+	{
+		const QRect rect = _command.m_arguments[ 0 ].toRect();
+
+		m_landscape->selectObjects( rect );
+		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
+	}
+
+} // LandscapeModel::onSelectByRectProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onSelectByIdProcessor( const Command& _command )
+{
+	if ( m_landscape )
+	{
+		const Object::Id id = _command.m_arguments[ 0 ].toInt();
+
+		m_landscape->selectObject( id );
+		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
+	}
+
+} // LandscapeModel::onSelectByIdProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onSendProcessor( const Command& _command )
+{
+	if ( m_landscape )
+	{
+		const QList< QVariant > objects = _command.m_arguments[ 0 ].toList();
+		const QPoint location = _command.m_arguments[ 1 ].toPoint();
+		const bool flush = _command.m_arguments[ 2 ].toBool();
+
+		QList< QVariant >::ConstIterator
+				begin = objects.begin()
+			,	end = objects.end();
+
+		for ( ; begin != end; ++begin )
+		{
+			boost::shared_ptr< Object > object = m_landscape->getObject( begin->toInt() );
+			boost::shared_ptr< Object > targetObject = m_landscape->getObject( location );
+
+			if ( object )
+			{
+				boost::intrusive_ptr< IActionsComponent > actionsComponent
+					= object->getComponent< IActionsComponent >( ComponentId::Actions );
+				boost::intrusive_ptr< IMoveComponent > moveComponent
+					= object->getComponent< IMoveComponent >( ComponentId::Move );
+				boost::intrusive_ptr< IAttackComponent > attackComponent
+					= object->getComponent< IAttackComponent >( ComponentId::Attack );
+				boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
+					= object->getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
+				boost::intrusive_ptr< IRepairComponent > repairComponent
+					= object->getComponent< IRepairComponent >( ComponentId::Repair );
+
+				if ( targetObject && targetObject != object )
+				{
+					boost::intrusive_ptr< IHealthComponent > targetHealthComponent
+						= targetObject->getComponent< IHealthComponent >( ComponentId::Health );
+
+					if (	resourceHolderComponent
+						&&	targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource ) )
+					{
+						actionsComponent->pushAction(
+								boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, *this, *object, targetObject ) )
+							,	flush );
+					}
+					else if ( shouldStoreResources( *object, targetObject ) )
+					{
+						actionsComponent->pushAction(
+								boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, *this, targetObject, *object ) )
+							,	flush );
+					}
+					else if ( repairComponent && targetHealthComponent && !targetHealthComponent->isHealthy() )
+					{
+						actionsComponent->pushAction(
+								boost::intrusive_ptr< IAction >( new RepairAction( m_environment, *this, *object, targetObject ) )
+							,	flush );
+					}
+					else if ( attackComponent && targetObject->getComponent< IHealthComponent >( ComponentId::Health ) )
+					{
+						actionsComponent->pushAction(
+								boost::intrusive_ptr< IAction >( new AttackAction( m_environment, *this, *object, targetObject ) )
+							,	flush );
+					}
+					else if ( moveComponent )
+					{
+						actionsComponent->pushAction(
+								boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, *object, targetObject, Geometry::DiagonalDistance ) )
+							,	flush );
+					}
+				}
+				else if ( moveComponent )
+				{
+					actionsComponent->pushAction(
+							boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, *object, location ) )
+						,	flush );
+				}
+			}
+		}
+	}
+
+} // LandscapeModel::onSendProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onCreateObjectProcessor( const Command& _command )
+{
+	Object::Id objectId = Object::ms_wrongId;
+
+	const IPlayer::Id id = _command.m_arguments[ 0 ].toInt();
+	const QString name = _command.m_arguments[ 1 ].toString();
+	const QPoint location = _command.m_arguments[ 2 ].toPoint();
+
+	if ( m_landscape )
+	{
+		objectId = m_landscape->createObject( name, location, id );
+	}
+
+	if ( objectId != Object::ms_wrongId )
+	{
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::ObjectAdded::ms_type )
+				.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, name )
+				.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, location )
+				.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId )
+				.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( name ).m_locateData->m_emplacement ) );
+	}
+	else
+	{
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::CreateObjectFailed::ms_type )
+				.pushAttribute( Events::CreateObjectFailed::ms_objectNameAttribute, name )
+				.pushAttribute( Events::CreateObjectFailed::ms_objectLocationAttribute, location ) );
+	}
+
+} // LandscapeModel::onCreateObjectProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onSetSurfaceItemProcessor( const Command& _command )
+{
+	if ( m_landscape )
+	{
+		const QPoint location = _command.m_arguments[ 0 ].toPoint();
+		const ISurfaceItem::Id id = _command.m_arguments[ 1 ].toInt();
+
+		m_landscape->setSurfaceItem( location, id );
+
+		m_environment.riseEvent(
+			Framework::Core::EventManager::Event( Events::SurfaceItemChanged::ms_type )
+				.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemIdAttribute, id )
+				.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute, location ) );
+	}
+
+} // LandscapeModel::onSetSurfaceItemProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onTrainObjectProcessor( const Command& _command )
+{
+	if ( !m_landscape )
+		return;
+
+	const Object::Id parentId = _command.m_arguments[ 0 ].toInt();
+	const QString name = _command.m_arguments[ 1 ].toString();
+
+	boost::shared_ptr< Object > object = m_landscape->getObject( parentId );
+
+	if ( object )
+	{
+		boost::intrusive_ptr< IPlayer > player = getPlayer( *object );
+
+		if ( player )
+		{
+			boost::intrusive_ptr< IActionsComponent > actionsComponent
+				= object->getComponent< IActionsComponent >( ComponentId::Actions );
+			boost::intrusive_ptr< ITrainComponent > trainComponent
+				= object->getComponent< ITrainComponent >( ComponentId::Train );
+
+			if ( trainComponent )
+			{
+				ITrainComponent::StaticData::TrainDataCollectionIterator
+					iterator = trainComponent->getStaticData().m_trainObjects.find( name );
+
+				if (	iterator != trainComponent->getStaticData().m_trainObjects.end()
+					&&	player->getResourcesData().isEnaught( iterator->second->m_resourcesData ) )
+				{
+					player->substructResources( iterator->second->m_resourcesData );
+
+					actionsComponent->pushAction(
+						boost::intrusive_ptr< IAction >( new TrainAction( m_environment, *this, *object, name ) ), false );
+
+					m_environment.riseEvent(
+						Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )
+							.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, object->getUniqueId() ) );
+				}
+			}
+		}
+	}
+
+} // LandscapeModel::onTrainObjectProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onBuildObjectProcessor( const Command& _command )
+{
+	if ( m_landscape )
+	{
+		const Object::Id builderId = _command.m_arguments[ 0 ].toInt();
+		const QString name = _command.m_arguments[ 1 ].toString();
+		const QPoint location = _command.m_arguments[ 2 ].toPoint();
+		const bool flush = _command.m_arguments[ 3 ].toBool();
+
+		boost::shared_ptr< Object > object = m_landscape->getObject( builderId );
+
+		if ( object )
+		{
+			boost::intrusive_ptr< IActionsComponent > actionsComponent
+				= object->getComponent< IActionsComponent >( ComponentId::Actions );
+
+			actionsComponent->pushAction(
+				boost::intrusive_ptr< IAction >( new BuildAction( m_environment, *this, *this, m_staticData, *object, name, location ) ), flush );
+		}
+	}
+
+} // LandscapeModel::onBuildObjectProcessor
 
 
 /*---------------------------------------------------------------------------*/

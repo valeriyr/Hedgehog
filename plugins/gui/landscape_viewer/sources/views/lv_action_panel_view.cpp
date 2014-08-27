@@ -186,7 +186,10 @@ ActionPanelView::onItemClicked( QListWidgetItem* _item )
 
 	if ( trainListItem )
 	{
-		m_environment.lockModel()->getLandscapeModel()->trainObject( trainListItem->getParentObjectId(), trainListItem->getTargetObjectName() );
+		m_environment.lockModel()->getLandscapeModel()->pushCommand(
+			Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::TrainObject )
+				.pushArgument( trainListItem->getParentObjectId() )
+				.pushArgument( trainListItem->getTargetObjectName() ) );
 		return;
 	}
 

@@ -33,8 +33,10 @@ SinglePlayerMode::~SinglePlayerMode()
 
 
 void
-SinglePlayerMode::processCommand()
+SinglePlayerMode::processCommand( const Command& _command )
 {
+	m_landscapeModel.processCommand( _command );
+
 } // SinglePlayerMode::processCommand
 
 

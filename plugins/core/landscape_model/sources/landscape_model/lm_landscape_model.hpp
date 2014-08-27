@@ -80,25 +80,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void selectObjects( const QRect& _rect );
+	/*virtual*/ void pushCommand( const Command& _command );
 
-	/*virtual*/ void selectObject( const Object::Id& _id );
-
-	/*virtual*/ void sendSelectedObjects( const QPoint& _to, const bool _flush );
-
-	/*virtual*/ void createObject( const QPoint& _location, const QString& _objectName, const IPlayer::Id& _playerId );
-
-	/*virtual*/ void setSurfaceItem(
-			const QPoint& _location
-		,	const Core::LandscapeModel::ISurfaceItem::Id& _id );
-
-	/*virtual*/ void trainObject( const Object::Id& _parentObject, const QString& _objectName );
-
-	/*virtual*/ void buildObject(
-			const Object::Id& _builder
-		,	const QString& _objectName
-		,	const QPoint& _atLocation
-		,	const bool _flush );
+	COMMAND_MAP_DECLARE()
 
 /*---------------------------------------------------------------------------*/
 
@@ -125,10 +109,6 @@ public:
 	/*virtual*/ void fetchPlayers( ILandscapeModel::PlayersCollection& _collection ) const;
 
 	/*virtual*/ bool hasFreePlayers() const;
-
-	/*virtual*/ void setPlayerRace( const IPlayer::Id& _id, const QString& _race );
-
-	/*virtual*/ void setPlayerType( const IPlayer::Id& _id, const PlayerType::Enum _type );
 
 /*---------------------------------------------------------------------------*/
 
@@ -165,7 +145,7 @@ private:
 
 	void locateStartPointObjects();
 
-	bool shouldStoreResources( boost::shared_ptr< Object > _holder, boost::shared_ptr< Object > _storage );
+	bool shouldStoreResources( const Object& _holder, boost::shared_ptr< Object > _storage );
 
 /*---------------------------------------------------------------------------*/
 
@@ -173,7 +153,35 @@ private:
 
 	void setupMyPlayer();
 
-	void setPlayerName( const IPlayer::Id& _id, const QString& _name );
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	void onConnectProcessor( const Command& _command );
+
+	void onPlayerDataProcessor( const Command& _command );
+
+	void onChangePlayerRaceProcessor( const Command& _command );
+
+	void onChangePlayerTypeProcessor( const Command& _command );
+
+	void onChangePlayerNameProcessor( const Command& _command );
+
+	void onSelectByRectProcessor( const Command& _command );
+
+	void onSelectByIdProcessor( const Command& _command );
+
+	void onSendProcessor( const Command& _command );
+
+	void onCreateObjectProcessor( const Command& _command );
+
+	void onSetSurfaceItemProcessor( const Command& _command );
+
+	void onTrainObjectProcessor( const Command& _command );
+
+	void onBuildObjectProcessor( const Command& _command );
 
 /*---------------------------------------------------------------------------*/
 

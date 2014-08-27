@@ -6,6 +6,8 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
+#include "landscape_model/h/lm_commands.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -20,7 +22,7 @@ struct IGameMode
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void processCommand() = 0;
+	virtual void processCommand( const Command& _command ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

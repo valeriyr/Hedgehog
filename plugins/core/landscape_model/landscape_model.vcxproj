@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\lm_actions.hpp" />
+    <ClInclude Include="h\lm_commands.hpp" />
     <ClInclude Include="h\lm_component_id.hpp" />
     <ClInclude Include="h\lm_constants.hpp" />
     <ClInclude Include="h\lm_diplomacy.hpp" />

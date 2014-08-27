@@ -66,8 +66,10 @@ MultiPlayerMode::~MultiPlayerMode()
 
 
 void
-MultiPlayerMode::processCommand()
+MultiPlayerMode::processCommand( const Command& _command )
 {
+	m_landscapeModel.processCommand( _command );
+
 } // MultiPlayerMode::processCommand
 
 

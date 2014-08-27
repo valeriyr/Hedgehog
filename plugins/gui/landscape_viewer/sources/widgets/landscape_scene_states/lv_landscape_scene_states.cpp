@@ -118,15 +118,34 @@ LandscapeSceneGameState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEven
 		QPoint pos2 = LandscapeScene::convertFromScenePosition( QPoint(		m_selectionItem->scenePos().x() + m_selectionItem->rect().width()
 																		,	m_selectionItem->scenePos().y() + m_selectionItem->rect().height() ) );
 
-		m_environment.lockModel()->getLandscapeModel()->selectObjects( QRect( pos1, pos2 ) );
+		m_environment.lockModel()->getLandscapeModel()->pushCommand(
+			Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::SelectByRect )
+				.pushArgument( QRect( pos1, pos2 ) ) );
 
 		removeSceneObjects();
 	}
 	else if ( isInSceneRect( _mouseEvent->scenePos() ) )
 	{
-		m_environment.lockModel()->getLandscapeModel()->sendSelectedObjects(
-				LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() )
-			,	!( _mouseEvent->modifiers() & Qt::ShiftModifier ) );
+		boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+			locker = m_environment.lockModel();
+
+		Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjects;
+		locker->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjects );
+
+		QList< QVariant > objects;
+
+		Core::LandscapeModel::ILandscape::ObjectsCollectionConstIterator
+				begin = selectedObjects.begin()
+			,	end = selectedObjects.end();
+
+		for ( ; begin != end; ++begin )
+			objects.push_back( QVariant( ( *begin )->getUniqueId() ) );
+
+		locker->getLandscapeModel()->pushCommand(
+			Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::Send )
+				.pushArgument( objects )
+				.pushArgument( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ) )
+				.pushArgument( !( _mouseEvent->modifiers() & Qt::ShiftModifier ) ) );
 	}
 
 } // LandscapeSceneGameState::mouseReleaseEvent
@@ -315,7 +334,10 @@ LandscapeSurfaceItemEditingState::addSceneObjects()
 void
 LandscapeSurfaceItemEditingState::setNewItemInPosition( const QPointF& _point )
 {
-	m_environment.lockModel()->getLandscapeModel()->setSurfaceItem( LandscapeScene::convertFromScenePosition( _point ), m_id );
+	m_environment.lockModel()->getLandscapeModel()->pushCommand(
+		Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::SetSurfaceItem )
+			.pushArgument( LandscapeScene::convertFromScenePosition( _point ) )
+			.pushArgument( m_id ) );
 
 } // LandscapeSurfaceItemEditingState::setNewItemInPosition
 
@@ -470,10 +492,11 @@ LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 
 	if ( player )
 	{
-		locker->getLandscapeModel()->createObject(
-				LandscapeScene::convertFromScenePosition( _point )
-			,	m_name
-			,	player->getUniqueId() );
+		locker->getLandscapeModel()->pushCommand(
+			Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::CreateObject )
+				.pushArgument( player->getUniqueId() )
+				.pushArgument( m_name )
+				.pushArgument( LandscapeScene::convertFromScenePosition( _point ) ) );
 	}
 
 } // LandscapeObjectEditingState::setNewItemInPosition
@@ -532,11 +555,12 @@ LandscapeObjectBuildState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEven
 		if ( objectPixmap.height() > ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
 			ypos += ( objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2;
 
-		m_environment.lockModel()->getLandscapeModel()->buildObject(
-				m_builderId
-			,	m_name
-			,	LandscapeScene::convertFromScenePosition( QPointF( xpos, ypos ) )
-			,	!( _mouseEvent->modifiers() & Qt::ShiftModifier ) );
+		m_environment.lockModel()->getLandscapeModel()->pushCommand(
+			Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::BuildObject )
+				.pushArgument( m_builderId )
+				.pushArgument( m_name )
+				.pushArgument( LandscapeScene::convertFromScenePosition( QPointF( xpos, ypos ) ) )
+				.pushArgument( !( _mouseEvent->modifiers() & Qt::ShiftModifier ) ) );
 	}
 
 } // LandscapeObjectBuildState::mousePressEvent

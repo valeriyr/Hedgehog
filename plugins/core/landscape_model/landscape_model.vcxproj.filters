@@ -84,9 +84,6 @@
     <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp">
       <Filter>Surface Items Cache</Filter>
     </ClCompile>
-    <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp">
-      <Filter>Landscape Model</Filter>
-    </ClCompile>
     <ClCompile Include="sources\environment\lm_environment.cpp">
       <Filter>Environment</Filter>
     </ClCompile>
@@ -194,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="sources\landscape_model\game_modes\lm_single_player_mode.cpp">
       <Filter>Landscape Model\Game Modes</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp">
+      <Filter>Landscape Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -466,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="sources\landscape_model\game_modes\lm_single_player_mode.hpp">
       <Filter>Landscape Model\Game Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_commands.hpp">
+      <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

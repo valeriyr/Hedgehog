@@ -11,6 +11,7 @@
 #include "landscape_model/ih/lm_iplayer.hpp"
 
 #include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_commands.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -61,25 +62,9 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void selectObjects( const QRect& _rect ) = 0;
+	virtual void pushCommand( const Command& _command ) = 0;
 
-	virtual void selectObject( const Object::Id& _id ) = 0;
-
-	virtual void sendSelectedObjects( const QPoint& _to, const bool _flush ) = 0;
-
-	virtual void createObject( const QPoint& _location, const QString& _objectName, const IPlayer::Id& _playerId ) = 0;
-
-	virtual void setSurfaceItem(
-			const QPoint& _location
-		,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) = 0;
-
-	virtual void trainObject( const Object::Id& _parentObject, const QString& _objectName ) = 0;
-
-	virtual void buildObject(
-			const Object::Id& _builder
-		,	const QString& _objectName
-		,	const QPoint& _atLocation
-		,	const bool _flush ) = 0;
+	COMMAND_MAP_DECLARE_INTERFACE()
 
 /*---------------------------------------------------------------------------*/
 
@@ -118,10 +103,6 @@ struct ILandscapeModel
 	virtual void fetchPlayers( PlayersCollection& _collection ) const = 0;
 
 	virtual bool hasFreePlayers() const = 0;
-
-	virtual void setPlayerRace( const IPlayer::Id& _id, const QString& _race ) = 0;
-
-	virtual void setPlayerType( const IPlayer::Id& _id, const PlayerType::Enum _type ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
