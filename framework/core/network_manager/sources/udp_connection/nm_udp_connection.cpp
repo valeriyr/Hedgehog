@@ -63,7 +63,7 @@ UdpConnection::sendDataTo( const ConnectionInfo& _to, const Data& _data )
 	data.append( static_cast< const char* >( static_cast< const void* >( &_data.m_id ) ), sizeof( Data::Id ) );
 	data.append( _data.m_data );
 
-	m_udpSocket->writeDatagram( _data.m_data, createHostAddress( _to.m_address ), _to.m_port );
+	m_udpSocket->writeDatagram( data, createHostAddress( _to.m_address ), _to.m_port );
 
 } // UdpConnection::sendData
 
