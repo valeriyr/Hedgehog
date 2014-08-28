@@ -61,7 +61,7 @@ QDataStream& operator << ( QDataStream& _out, const PlayerData& _data )
 	_out << _data.m_type;
 	_out << _data.m_name;
 	_out << _data.m_race;
-	//_out.writeRawData( reinterpret_cast< const char* >( &_data ), sizeof( _data ) );
+
 	return _out;
 }
 
@@ -75,7 +75,7 @@ QDataStream& operator >> ( QDataStream& _in, PlayerData& _data )
 
 	_in >> _data.m_name;
 	_in >> _data.m_race;
-	//_in.readRawData( reinterpret_cast< char* >( &_data ), sizeof( _data ) );
+
 	return _in;
 }
 
@@ -105,7 +105,7 @@ MultiPlayerMode::MultiPlayerMode(
 
 	if ( !_connectTo.isEmpty() )
 	{
-		Command connectRequest( CommandId::ConnectRequest, CommandType::Silent );
+		Command connectRequest( CommandId::ConnectRequest );
 		connectRequest.pushArgument( m_environment.getString( Resources::Properties::PlayerName ) );
 
 		sendCommand( _connectTo, connectRequest );
@@ -193,7 +193,7 @@ MultiPlayerMode::sendCommand(
 void
 MultiPlayerMode::spreadCommand( const Command& _command )
 {
-	if ( _command.m_type != CommandType::Silent )
+	if ( CommandId::doesNeedToSynchronize( _command.m_id ) && _command.m_type != CommandType::Silent )
 	{
 		ConnectionsInfosCollectionIterator
 				begin = m_connections.begin()
@@ -243,7 +243,7 @@ MultiPlayerMode::processConnectRequest(
 	,	const unsigned int _fromPort
 	,	const Command& _command )
 {
-	Command connectResponce( CommandId::ConnectResponse, CommandType::Silent );
+	Command connectResponce( CommandId::ConnectResponse );
 
 	boost::intrusive_ptr< IPlayer > freePlayer = m_landscapeModel.getFirstFreePlayer();
 

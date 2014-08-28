@@ -14,6 +14,13 @@ namespace Events {
 
 /*---------------------------------------------------------------------------*/
 
+namespace SimulationStarted
+{
+	const char* const ms_type = "SimulationStarted";
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace CurrentTickNumberChanged
 {
 	const char* const ms_type = "CurrentTickNumberChanged";

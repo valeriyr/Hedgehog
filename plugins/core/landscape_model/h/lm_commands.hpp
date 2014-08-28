@@ -26,6 +26,7 @@ struct CommandId
 
 		,	ConnectRequest
 		,	ConnectResponse
+		,	StartSimulation
 
 		,	ChangePlayerRace
 		,	ChangePlayerType
@@ -41,6 +42,24 @@ struct CommandId
 		,	Size
 		,	Begin = ConnectRequest
 	};
+
+	static bool doesNeedToSynchronize( const Enum _enum )
+	{
+		switch( _enum )
+		{
+		case StartSimulation:
+		case ChangePlayerRace:
+		case ChangePlayerType:
+		case ChangePlayerName:
+		case SetSurfaceItem:
+		case Send:
+		case TrainObject:
+		case BuildObject:
+			return true;
+		}
+
+		return false;
+	}
 };
 
 /*---------------------------------------------------------------------------*/

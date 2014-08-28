@@ -35,6 +35,7 @@ namespace LandscapeViewer {
 
 LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 	:	m_environment( _environment )
+	,	m_subscriber( m_environment.createSubscriber() )
 	,	m_viewsMediator( new ViewsMediator() )
 	,	m_descriptionView( new DescriptionView() )
 	,	m_settingsView( new SettingsView( _environment ) )
@@ -58,6 +59,10 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 	m_environment.addFrameworkView( m_actionPanelView, Framework::GUI::WindowManager::ViewPosition::Right );
 	m_environment.addFrameworkView( m_selectionView, Framework::GUI::WindowManager::ViewPosition::Right );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::SimulationStarted::ms_type
+							,	boost::bind( &LandscapeViewer::onSimulationStarted, this, _1 ) );
+
 } // LandscapeViewer::LandscapeViewer
 
 
@@ -66,6 +71,8 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 
 LandscapeViewer::~LandscapeViewer()
 {
+	m_subscriber.unsubscribe();
+
 	closeLandscape();
 
 	m_environment.removeFrameworkView( m_selectionView );
@@ -100,22 +107,7 @@ LandscapeViewer::initLandscape( const QString& _filePath )
 void
 LandscapeViewer::startSimulation()
 {
-	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
-		locker = m_environment.lockModel();
-
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
-		landscape = locker->getLandscapeModel()->getLandscape();
-
-	locker->getLandscapeModel()->startSimulation();
-
-	m_descriptionView->landscapeWasOpened( QSize( landscape->getWidth(), landscape->getHeight() ), locker->getLandscapeModel()->getFilePath() );
-	m_playerInfoView->landscapeWasOpened();
-	m_minimapView->landscapeWasOpened();
-	m_LandscapeView->landscapeWasOpened();
-	m_selectionView->landscapeWasOpened();
-	m_objectInfoView->landscapeWasOpened();
-	m_actionPanelView->landscapeWasOpened();
-	m_objectStatusView->landscapeWasOpened();
+	m_environment.lockModel()->getLandscapeModel()->pushCommand( Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::StartSimulation ) );
 
 } // LandscapeViewer::startSimulation
 
@@ -139,6 +131,30 @@ LandscapeViewer::closeLandscape()
 	m_environment.getGraphicsInfo()->clearStartPointData();
 
 } // LandscapeViewer::closeLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeViewer::onSimulationStarted( const Framework::Core::EventManager::Event& _event )
+{
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
+		landscape = locker->getLandscapeModel()->getLandscape();
+
+	m_descriptionView->landscapeWasOpened( QSize( landscape->getWidth(), landscape->getHeight() ), locker->getLandscapeModel()->getFilePath() );
+	m_playerInfoView->landscapeWasOpened();
+	m_minimapView->landscapeWasOpened();
+	m_LandscapeView->landscapeWasOpened();
+	m_selectionView->landscapeWasOpened();
+	m_objectInfoView->landscapeWasOpened();
+	m_actionPanelView->landscapeWasOpened();
+	m_objectStatusView->landscapeWasOpened();
+
+} // LandscapeViewer::onSimulationStarted
 
 
 /*---------------------------------------------------------------------------*/

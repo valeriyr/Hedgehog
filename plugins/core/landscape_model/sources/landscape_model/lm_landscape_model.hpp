@@ -70,8 +70,6 @@ public:
 
 	/*virtual*/ void saveModel( const QString& _filePath );
 
-	/*virtual*/ void startSimulation();
-
 	/*virtual*/ bool isSimulationRunning() const;
 
 	/*virtual*/ bool isConfigurated() const;
@@ -158,6 +156,8 @@ private:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	void onStartSimulationProcessor( const Command& _command );
 
 	void onChangePlayerRaceProcessor( const Command& _command );
 

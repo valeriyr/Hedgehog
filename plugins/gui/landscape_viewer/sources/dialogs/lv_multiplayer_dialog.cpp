@@ -268,6 +268,17 @@ MultiplayerDialog::onPlayerNameChanged( const Framework::Core::EventManager::Eve
 
 
 void
+MultiplayerDialog::onSimulationStarted( const Framework::Core::EventManager::Event& _event )
+{
+	close();
+
+} // MultiplayerDialog::onSimulationStarted
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 MultiplayerDialog::onPlayerRaceChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Core::LandscapeModel::IPlayer::Id id
@@ -444,6 +455,10 @@ MultiplayerDialog::connectWidgets()
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::PlayerNameChanged::ms_type
 							,	boost::bind( &MultiplayerDialog::onPlayerNameChanged, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::SimulationStarted::ms_type
+							,	boost::bind( &MultiplayerDialog::onSimulationStarted, this, _1 ) );
 
 } // MultiplayerDialog::connectWidgets
 

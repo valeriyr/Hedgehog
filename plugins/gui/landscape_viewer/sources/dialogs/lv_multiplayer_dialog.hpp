@@ -89,6 +89,7 @@ private:
 	void onPlayerRaceChanged( const Framework::Core::EventManager::Event& _event );
 	void onPlayerTypeChanged( const Framework::Core::EventManager::Event& _event );
 	void onPlayerNameChanged( const Framework::Core::EventManager::Event& _event );
+	void onSimulationStarted( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/
 

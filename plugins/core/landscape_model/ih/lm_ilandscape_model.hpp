@@ -52,8 +52,6 @@ struct ILandscapeModel
 
 	virtual void saveModel( const QString& _filePath ) = 0;
 
-	virtual void startSimulation() = 0;
-
 	virtual bool isSimulationRunning() const = 0;
 
 	virtual bool isConfigurated() const = 0;

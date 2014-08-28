@@ -58,6 +58,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 COMMAND_MAP_BEGIN( LandscapeModel )
+	PROCESSOR( StartSimulation )
 	PROCESSOR( SetSurfaceItem )
 	PROCESSOR( SelectById )
 	PROCESSOR( SelectByRect )
@@ -258,41 +259,6 @@ LandscapeModel::saveModel( const QString& _filePath )
 	}
 
 } // LandscapeModel::saveModel
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::startSimulation()
-{
-	if ( isSimulationRunning() || !m_gameMode )
-		return;
-
-	locateStartPointObjects();
-
-	try
-	{
-		m_landscapeSerializer.loadObjects( *this, *m_landscape, m_filePath );
-	}
-	catch( ... )
-	{
-	}
-
-	m_ticksCounter = 0;
-
-	m_simulationStartTimeStamp = Tools::Core::Time::currentTime();
-
-	m_environment.printMessage(
-			Tools::Core::IMessenger::MessegeLevel::Info
-		,	QString( Resources::SimulationHasBeenStartedMessage ).arg( m_simulationStartTimeStamp ) );
-
-	m_actionsProcessingTaskHandle = m_environment.pushPeriodicalTask(
-			Resources::ModelThreadName
-		,	boost::bind( &LandscapeModel::gameMainLoop, this )
-		,	Resources::TimeLimit );
-
-} // LandscapeModel::startSimulation
 
 
 /*---------------------------------------------------------------------------*/
@@ -826,6 +792,43 @@ LandscapeModel::setupMyPlayer()
 	assert( m_myPlayerId != IPlayer::ms_wrondId );
 
 } // LandscapeModel::setupMyPlayer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onStartSimulationProcessor( const Command& _command )
+{
+	if ( isSimulationRunning() || !m_gameMode )
+		return;
+
+	locateStartPointObjects();
+
+	try
+	{
+		m_landscapeSerializer.loadObjects( *this, *m_landscape, m_filePath );
+	}
+	catch( ... )
+	{
+	}
+
+	m_ticksCounter = 0;
+
+	m_simulationStartTimeStamp = Tools::Core::Time::currentTime();
+
+	m_environment.printMessage(
+			Tools::Core::IMessenger::MessegeLevel::Info
+		,	QString( Resources::SimulationHasBeenStartedMessage ).arg( m_simulationStartTimeStamp ) );
+
+	m_actionsProcessingTaskHandle = m_environment.pushPeriodicalTask(
+			Resources::ModelThreadName
+		,	boost::bind( &LandscapeModel::gameMainLoop, this )
+		,	Resources::TimeLimit );
+
+	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::SimulationStarted::ms_type ) );
+
+} // LandscapeModel::onStartSimulationProcessor
 
 
 /*---------------------------------------------------------------------------*/
