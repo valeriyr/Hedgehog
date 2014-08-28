@@ -6,10 +6,9 @@
 
 #include "landscape_model/sources/landscape_model/game_modes/lm_igame_mode.hpp"
 
-#include "landscape_model/h/lm_start_point.hpp"
+#include "landscape_model/ih/lm_iplayer.hpp"
 
-#include"network_manager/h/nm_connection_info.hpp"
-#include"network_manager/ih/nm_iconnection_listener.hpp"
+#include "network_manager/ih/nm_iconnection_listener.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -73,9 +72,41 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	void sendCommand(
+			const Framework::Core::NetworkManager::ConnectionInfo& _sendTo
+		,	const Command& _command );
+
+	void spreadCommand( const Command& _command );
+
+	void processCommand(
+			const QString& _fromAddress
+		,	const unsigned int _fromPort
+		,	const Command& _command );
+
+	void processConnectRequest(
+			const QString& _fromAddress
+		,	const unsigned int _fromPort
+		,	const Command& _command );
+
+	void processConnectResponse(
+			const QString& _fromAddress
+		,	const unsigned int _fromPort
+		,	const Command& _command );
+
+	void registerMetatypes();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
 	typedef
-		std::map< StartPoint::Id, boost::intrusive_ptr< Framework::Core::NetworkManager::ConnectionInfo > >
+		std::map< IPlayer::Id, Framework::Core::NetworkManager::ConnectionInfo >
 		ConnectionsInfosCollection;
+	typedef
+		ConnectionsInfosCollection::const_iterator
+		ConnectionsInfosCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -85,7 +116,9 @@ private:
 
 	const Framework::Core::NetworkManager::ConnectionInfo m_myConnectionInfo;
 
-	boost::intrusive_ptr< Framework::Core::NetworkManager::IUdpConnection > m_connection;
+	boost::intrusive_ptr< Framework::Core::NetworkManager::IUdpConnection > m_myConnection;
+
+	ConnectionsInfosCollection m_connections;
 
 /*---------------------------------------------------------------------------*/
 

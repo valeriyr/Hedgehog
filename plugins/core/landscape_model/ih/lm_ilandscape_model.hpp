@@ -100,9 +100,9 @@ struct ILandscapeModel
 
 	virtual boost::intrusive_ptr< IPlayer > getMyPlayer() const = 0;
 
-	virtual void fetchPlayers( PlayersCollection& _collection ) const = 0;
+	virtual boost::intrusive_ptr< IPlayer > getFirstFreePlayer() const = 0;
 
-	virtual bool hasFreePlayers() const = 0;
+	virtual void fetchPlayers( PlayersCollection& _collection ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

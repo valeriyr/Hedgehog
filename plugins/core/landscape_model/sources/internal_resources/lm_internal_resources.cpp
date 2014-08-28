@@ -37,7 +37,7 @@ namespace Resources {
 
 	const char* const SocketHasBeenClosedMessage = "Socket has been closed at: '%1:%2'";
 
-	const char* const CommandReceivedMessage = "Command has been received from '%1:%2', type '%3', data '%4'";
+	const char* const CommandReceivedMessage = "Command has been received from '%1:%2', type '%3', timestamp '%4', tick '%5'";
 
 /*---------------------------------------------------------------------------*/
 

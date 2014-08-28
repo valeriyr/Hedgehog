@@ -106,9 +106,9 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getMyPlayer() const;
 
-	/*virtual*/ void fetchPlayers( ILandscapeModel::PlayersCollection& _collection ) const;
+	/*virtual*/ boost::intrusive_ptr< IPlayer > getFirstFreePlayer() const;
 
-	/*virtual*/ bool hasFreePlayers() const;
+	/*virtual*/ void fetchPlayers( ILandscapeModel::PlayersCollection& _collection ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -158,10 +158,6 @@ private:
 private:
 
 /*---------------------------------------------------------------------------*/
-
-	void onConnectProcessor( const Command& _command );
-
-	void onPlayerDataProcessor( const Command& _command );
 
 	void onChangePlayerRaceProcessor( const Command& _command );
 

@@ -42,11 +42,21 @@ struct ConnectionInfo
 		return m_port < _connectionId.m_port || m_address < _connectionId.m_address;
 	}
 
+	bool operator == ( const ConnectionInfo& _connectionId ) const
+	{
+		return m_port == _connectionId.m_port && m_address == _connectionId.m_address;
+	}
+
+	bool operator != ( const ConnectionInfo& _connectionId ) const
+	{
+		return !( *this == _connectionId );
+	}
+
 /*---------------------------------------------------------------------------*/
 
-	const QString m_address;
+	QString m_address;
 
-	const unsigned int m_port;
+	unsigned int m_port;
 
 /*---------------------------------------------------------------------------*/
 

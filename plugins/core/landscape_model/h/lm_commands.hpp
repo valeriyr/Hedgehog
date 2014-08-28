@@ -4,6 +4,14 @@
 
 /*---------------------------------------------------------------------------*/
 
+#include "time/t_time.hpp"
+
+#include "landscape_model/h/lm_constants.hpp"
+
+#include "network_manager/h/nm_connection_info.hpp"
+
+/*---------------------------------------------------------------------------*/
+
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
@@ -16,8 +24,9 @@ struct CommandId
 	{
 			Undefined	= 0
 
-		,	Connect
-		,	PlayerData
+		,	ConnectRequest
+		,	ConnectResponse
+
 		,	ChangePlayerRace
 		,	ChangePlayerType
 		,	ChangePlayerName
@@ -30,21 +39,19 @@ struct CommandId
 		,	BuildObject
 
 		,	Size
-		,	Begin = Connect
+		,	Begin = ConnectRequest
 	};
+};
 
-	static bool doesNeedToSyncOnSimulation( const Enum _enum )
+/*---------------------------------------------------------------------------*/
+
+struct CommandType
+{
+	enum Enum
 	{
-		switch( _enum )
-		{
-		case Send:
-		case TrainObject:
-		case BuildObject:
-			return true;
-		}
-
-		return false;
-	}
+			Simple	= 0
+		,	Silent
+	};
 };
 
 /*---------------------------------------------------------------------------*/
@@ -63,9 +70,13 @@ struct Command
 
 /*---------------------------------------------------------------------------*/
 
-	Command( const CommandId::Enum& _id )
+	Command( const CommandId::Enum& _id, const CommandType::Enum _type = CommandType::Simple )
 		:	m_id( _id )
+		,	m_type( _type )
 		,	m_arguments()
+		,	m_timeStamp( 0 )
+		,	m_targetTick( 0 )
+		,	m_sourceConnectionInfo()
 	{}
 
 	template< typename _TArgument >
@@ -79,16 +90,20 @@ struct Command
 
 	void serialize( QByteArray& _data ) const
 	{
-		QDataStream stream( _data );
+		QDataStream stream( &_data, QIODevice::WriteOnly );
 		stream << m_arguments;
+		stream << m_timeStamp;
+		stream << m_targetTick;
 	}
 
-	static Command deserialize( const CommandId::Enum& _id, QByteArray& _data )
+	static Command deserialize( const CommandId::Enum& _id, const QByteArray& _data )
 	{
 		QDataStream stream( _data );
 
 		Command command( _id );
 		stream >> command.m_arguments;
+		stream >> command.m_timeStamp;
+		stream >> command.m_targetTick;
 
 		return command;
 	}
@@ -97,7 +112,15 @@ struct Command
 
 	const CommandId::Enum m_id;
 
+	const CommandType::Enum m_type;
+
 	CommandArgumentsCollection m_arguments;
+
+	Tools::Core::Time::Milliseconds m_timeStamp;
+
+	TickType m_targetTick;
+
+	Framework::Core::NetworkManager::ConnectionInfo m_sourceConnectionInfo;
 
 /*---------------------------------------------------------------------------*/
 

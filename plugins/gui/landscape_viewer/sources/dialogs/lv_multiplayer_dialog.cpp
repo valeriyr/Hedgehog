@@ -320,7 +320,7 @@ MultiplayerDialog::onPlayerTypeChanged( const Framework::Core::EventManager::Eve
 		iterator->second.m_type.setEnabled( !isMyPlayer );
 	}
 
-	m_createButton->setEnabled( !locker->getLandscapeModel()->isConfigurated() && locker->getLandscapeModel()->hasFreePlayers() );
+	m_createButton->setEnabled( !locker->getLandscapeModel()->isConfigurated() && locker->getLandscapeModel()->getFirstFreePlayer() );
 
 	QObject::connect( &iterator->second.m_type, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerTypeChanged() ) );
 

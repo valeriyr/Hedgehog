@@ -5,6 +5,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QDir>
 #include <QtCore/QTextStream>
+#include <QtCore/QDateTime>
 
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QLineEdit>

@@ -58,8 +58,6 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 COMMAND_MAP_BEGIN( LandscapeModel )
-	PROCESSOR( Connect )
-	PROCESSOR( PlayerData )
 	PROCESSOR( SetSurfaceItem )
 	PROCESSOR( SelectById )
 	PROCESSOR( SelectByRect )
@@ -336,6 +334,13 @@ LandscapeModel::getFilePath() const
 void
 LandscapeModel::pushCommand( const Command& _command )
 {
+	if ( !m_gameMode )
+		return;
+
+	// TODO: const_cast
+	const_cast< Command& >( _command ).m_timeStamp = Tools::Core::Time::currentTime() - m_simulationStartTimeStamp;
+	const_cast< Command& >( _command ).m_targetTick = m_ticksCounter + 1;
+
 	m_gameMode->processCommand( _command );
 
 } // LandscapeModel::pushCommand
@@ -465,6 +470,27 @@ LandscapeModel::getMyPlayer() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< IPlayer >
+LandscapeModel::getFirstFreePlayer() const
+{
+	PlayersMapIterator
+			begin = m_players.begin()
+		,	end = m_players.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( PlayerType::isFree( begin->second->getType() ) )
+			return begin->second;
+	}
+
+	return boost::intrusive_ptr< IPlayer >();
+
+} // LandscapeModel::getFirstFreePlayer
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 LandscapeModel::fetchPlayers( ILandscapeModel::PlayersCollection& _collection ) const
 {
@@ -478,27 +504,6 @@ LandscapeModel::fetchPlayers( ILandscapeModel::PlayersCollection& _collection ) 
 		_collection.push_back( begin->second );
 
 } // LandscapeModel::fetchPlayers
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-LandscapeModel::hasFreePlayers() const
-{
-	PlayersMapIterator
-			begin = m_players.begin()
-		,	end = m_players.end();
-
-	for ( ; begin != end; ++begin )
-	{
-		if ( PlayerType::isFree( begin->second->getType() ) )
-			return true;
-	}
-
-	return false;
-
-} // LandscapeModel::hasFreePlayers
 
 
 /*---------------------------------------------------------------------------*/
@@ -821,24 +826,6 @@ LandscapeModel::setupMyPlayer()
 	assert( m_myPlayerId != IPlayer::ms_wrondId );
 
 } // LandscapeModel::setupMyPlayer
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::onConnectProcessor( const Command& _command )
-{
-} // LandscapeModel::onConnectProcessor
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeModel::onPlayerDataProcessor( const Command& _command )
-{
-} // LandscapeModel::onPlayerDataProcessor
 
 
 /*---------------------------------------------------------------------------*/
