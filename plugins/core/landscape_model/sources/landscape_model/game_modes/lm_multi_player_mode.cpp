@@ -135,7 +135,7 @@ MultiPlayerMode::~MultiPlayerMode()
 void
 MultiPlayerMode::processCommand( const Command& _command )
 {
-	// TODO: algorithm shoul be more smarter
+	// TODO: algorithm should be more smarter
 
 	m_landscapeModel.processCommand( _command );
 
