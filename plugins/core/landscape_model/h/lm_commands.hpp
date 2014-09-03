@@ -26,11 +26,14 @@ struct CommandId
 
 		,	ConnectRequest
 		,	ConnectResponse
+		,	Disconnect
 		,	StartSimulation
 
 		,	ChangePlayerRace
 		,	ChangePlayerType
 		,	ChangePlayerName
+		,	ChangeMyPlayer
+
 		,	SetSurfaceItem
 		,	SelectById
 		,	SelectByRect

@@ -108,6 +108,8 @@ public:
 
 	/*virtual*/ void fetchPlayers( ILandscapeModel::PlayersCollection& _collection ) const;
 
+	/*virtual*/ bool twoOrMoreActivatedPlayers() const;
+
 /*---------------------------------------------------------------------------*/
 
 	QMutex& getMutex();
@@ -164,6 +166,8 @@ private:
 	void onChangePlayerTypeProcessor( const Command& _command );
 
 	void onChangePlayerNameProcessor( const Command& _command );
+
+	void onChangeMyPlayerProcessor( const Command& _command );
 
 	void onSelectByRectProcessor( const Command& _command );
 

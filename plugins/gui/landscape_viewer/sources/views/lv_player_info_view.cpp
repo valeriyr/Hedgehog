@@ -203,8 +203,8 @@ PlayerInfoView::updatePlayersInfo()
 
 		m_playersInfo
 			+= QString( Resources::Views::PlayerInfoTextFormat )
-				.arg( player->getName() )
 				.arg( player->getUniqueId() )
+				.arg( player->getName() )
 				.arg( Core::LandscapeModel::PlayerType::toString( player->getType() ) )
 				.arg( player->getRace() )
 				.arg( resourcesInfo );

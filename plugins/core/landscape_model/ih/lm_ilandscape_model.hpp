@@ -102,6 +102,8 @@ struct ILandscapeModel
 
 	virtual void fetchPlayers( PlayersCollection& _collection ) const = 0;
 
+	virtual bool twoOrMoreActivatedPlayers() const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };

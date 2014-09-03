@@ -76,6 +76,9 @@ private slots:
 	void onStartButtonPressed( bool _checked );
 	void onCancelButtonPressed( bool _checked );
 
+	void onPortChanged();
+	void onIpChanged();
+
 	void onPlayerColorChanged();
 	void onPlayerRaceChanged();
 	void onPlayerTypeChanged();
@@ -105,8 +108,10 @@ private:
 
 	void updateMapPreview();
 	void updatePlayersList();
+	void updateWidgetsStates();
 
 	void clearLayout( QLayout* _layout );
+	void addLine( QLayout* _layout );
 
 	void buildPlayersList();
 	void updatePlayersColors();
@@ -128,6 +133,8 @@ private:
 
 	QLabel*			m_mapPreview;
 	QVBoxLayout*	m_playersLayout;
+
+	QComboBox*		m_victoryCondition;
 
 	QListWidget*	m_landscapesList;
 	QLineEdit*		m_connectToIp;

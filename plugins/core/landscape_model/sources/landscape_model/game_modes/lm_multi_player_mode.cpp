@@ -103,7 +103,7 @@ MultiPlayerMode::MultiPlayerMode(
 			Tools::Core::IMessenger::MessegeLevel::Info
 		,	QString( Resources::SocketHasBeenOpenedMessage ).arg( m_myConnectionInfo.m_address ).arg( m_myConnectionInfo.m_port ) );
 
-	if ( !_connectTo.isEmpty() )
+	if ( !_connectTo.isEmpty() && _connectTo != _myConnectionInfo )
 	{
 		Command connectRequest( CommandId::ConnectRequest );
 		connectRequest.pushArgument( m_environment.getString( Resources::Properties::PlayerName ) );
@@ -297,14 +297,10 @@ MultiPlayerMode::processConnectResponse(
 	if ( playerId == IPlayer::ms_wrondId )
 		return;
 
-	// TODO: should not be like this
-
+	// TODO: should initialize landscape correctly
 	QString filePath = _command.m_arguments[ 1 ].toString();
 
-	if ( filePath != m_landscapeModel.getFilePath() )
-		return;
-
-	QList< QVariant > playersList =  _command.m_arguments[ 3 ].toList();
+	QList< QVariant > playersList = _command.m_arguments[ 3 ].toList();
 
 	QList< QVariant >::ConstIterator
 			begin = playersList.begin()
@@ -314,9 +310,20 @@ MultiPlayerMode::processConnectResponse(
 	{
 		PlayerData data( begin->value< PlayerData >() );
 
-		m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_name ) );
-		m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerRace, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_race ) );
-		m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerType, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_type ) );
+		if ( data.m_id == playerId )
+		{
+			m_landscapeModel.pushCommand( Command( CommandId::ChangeMyPlayer )
+				.pushArgument( data.m_id )
+				.pushArgument( data.m_name )
+				.pushArgument( data.m_race )
+				.pushArgument( data.m_type ) );
+		}
+		else
+		{
+			m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_name ) );
+			m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerRace, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_race ) );
+			m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerType, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_type ) );
+		}
 	}
 
 	m_connections.insert( std::make_pair( _command.m_arguments[ 2 ].toInt(), Framework::Core::NetworkManager::ConnectionInfo( _fromAddress, _fromPort ) ) );

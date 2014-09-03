@@ -85,7 +85,7 @@ PluginInstance::initialize()
 	// TODO: Force loading of the network manager.
 	getConnectionManager();
 
-	getSettings()->regUInt( Resources::Properties::Port, 1988 );
+	getSettings()->regUInt( Resources::Properties::Port, Resources::Properties::DefaultPortValue );
 	getSettings()->regString( Resources::Properties::Ip, Framework::Core::NetworkManager::Resources::LocalHost );
 	getSettings()->regUInt( Resources::Properties::ConnectionTimeOut, 10000 );
 	getSettings()->regString( Resources::Properties::PlayerName, "amator" );

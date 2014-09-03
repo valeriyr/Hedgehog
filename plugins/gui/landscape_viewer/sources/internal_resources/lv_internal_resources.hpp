@@ -61,6 +61,12 @@ namespace Views {
 
 	extern const char* const PortLabel;
 
+	extern const char* const RaceLabel;
+
+	extern const char* const ColorLabel;
+
+	extern const char* const VictoryCondition;
+
 	extern const char* const ConnectionTimeOutLabel;
 
 	extern const char* const PlayerNameLabel;

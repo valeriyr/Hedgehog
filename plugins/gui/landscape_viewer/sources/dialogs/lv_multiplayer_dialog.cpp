@@ -8,10 +8,11 @@
 #include "landscape_viewer/sources/landscape_viewer/lv_ilandscape_viewer.hpp"
 #include "landscape_viewer/sources/utilities/lv_utilities.hpp"
 
-#include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 #include "landscape_model/h/lm_events.hpp"
+#include "landscape_model/h/lm_resources.hpp"
+#include "landscape_model/h/lm_victory_condition.hpp"
 
 #include "network_manager/h/nm_connection_info.hpp"
 #include "network_manager/h/nm_resources.hpp"
@@ -36,6 +37,7 @@ MultiplayerDialog::MultiplayerDialog( const IEnvironment& _environment )
 	,	m_subscriber( m_environment.createSubscriber() )
 	,	m_mapPreview( new QLabel() )
 	,	m_playersLayout( new QVBoxLayout() )
+	,	m_victoryCondition( new QComboBox() )
 	,	m_landscapesList( new QListWidget() )
 	,	m_connectToIp( new QLineEdit() )
 	,	m_connectToPort( new QLineEdit() )
@@ -99,16 +101,7 @@ MultiplayerDialog::onCreateButtonPressed( bool /*_checked*/ )
 {
 	m_environment.lockModel()->getLandscapeModel()->setupMultiPlayerGame();
 
-	m_landscapesList->setEnabled( false );
-
-	m_connectToIp->setEnabled( false );
-	m_connectToPort->setEnabled( false );
-
-	m_createButton->setEnabled( false );
-	m_connectButton->setEnabled( false );
-
-	m_startButton->setEnabled( true );
-	m_cancelButton->setEnabled( true );
+	updateWidgetsStates();
 
 } // MultiplayerDialog::onCreateButtonPressed
 
@@ -124,16 +117,7 @@ MultiplayerDialog::onConnectButtonPressed( bool /*_checked*/ )
 				m_connectToIp->text()
 			,	m_connectToPort->text().toUInt() ) );
 
-	m_landscapesList->setEnabled( false );
-
-	m_connectToIp->setEnabled( false );
-	m_connectToPort->setEnabled( false );
-
-	m_createButton->setEnabled( false );
-	m_connectButton->setEnabled( false );
-	m_startButton->setEnabled( false );
-
-	m_cancelButton->setEnabled( true );
+	updateWidgetsStates();
 
 } // MultiplayerDialog::onCreateButtonPressed
 
@@ -158,21 +142,31 @@ MultiplayerDialog::onCancelButtonPressed( bool _checked )
 {
 	m_environment.getLandscapeViewer()->closeLandscape();
 
-	m_landscapesList->setEnabled( true );
-
-	m_connectToIp->setEnabled( true );
-	m_connectToPort->setEnabled( true );
-
-	m_createButton->setEnabled( true );
-	m_connectButton->setEnabled( true );
-
-	m_startButton->setEnabled( false );
-	m_cancelButton->setEnabled( false );
+	updateWidgetsStates();
 
 	if ( m_landscapesList->currentItem() )
 		currentLandscapeWasChanged( m_landscapesList->currentItem()->text() );
 
 } // MultiplayerDialog::onCancelButtonPressed
+
+
+void
+MultiplayerDialog::onPortChanged()
+{
+	updateWidgetsStates();
+
+} // MultiplayerDialog::onPortChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::onIpChanged()
+{
+	updateWidgetsStates();
+
+} // MultiplayerDialog::onIpChanged
 
 
 /*---------------------------------------------------------------------------*/
@@ -319,19 +313,7 @@ MultiplayerDialog::onPlayerTypeChanged( const Framework::Core::EventManager::Eve
 
 	iterator->second.m_type.setCurrentText( Core::LandscapeModel::PlayerType::toString( type ) );
 
-	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
-		locker = m_environment.lockModel();
-
-	{
-		boost::intrusive_ptr< Core::LandscapeModel::IPlayer >
-			player = locker->getLandscapeModel()->getMyPlayer();
-
-		bool isMyPlayer = ( player && id == player->getUniqueId() );
-
-		iterator->second.m_type.setEnabled( !isMyPlayer );
-	}
-
-	m_createButton->setEnabled( !locker->getLandscapeModel()->isConfigurated() && locker->getLandscapeModel()->getFirstFreePlayer() );
+	updateWidgetsStates();
 
 	QObject::connect( &iterator->second.m_type, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerTypeChanged() ) );
 
@@ -353,6 +335,7 @@ MultiplayerDialog::createWidgets()
 	QVBoxLayout* rightBlockLayout = new QVBoxLayout();
 
 	rightBlockLayout->addWidget( m_landscapesList );
+	addLine( rightBlockLayout );
 
 	QHBoxLayout* networkLayout = new QHBoxLayout();
 
@@ -378,7 +361,17 @@ MultiplayerDialog::createWidgets()
 	QHBoxLayout* mapPreviewLayout = new QHBoxLayout();
 	mapPreviewLayout->addWidget( m_mapPreview );
 
+	QLabel* victoryConditionLabel = new QLabel( Resources::Views::VictoryCondition );
+	victoryConditionLabel->setSizePolicy( QSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed ) );
+
+	QHBoxLayout* victoryConditionLayout = new QHBoxLayout();
+	victoryConditionLayout->addWidget( victoryConditionLabel );
+	victoryConditionLayout->addWidget( m_victoryCondition );
+
 	leftBlockLayout->addLayout( mapPreviewLayout );
+	addLine( leftBlockLayout );
+	leftBlockLayout->addLayout( victoryConditionLayout );
+	addLine( leftBlockLayout );
 	leftBlockLayout->addLayout( m_playersLayout );
 
 	// Buttons
@@ -396,6 +389,7 @@ MultiplayerDialog::createWidgets()
 	contentLayout->addLayout( rightBlockLayout );
 
 	mainLayout->addLayout( contentLayout );
+	addLine( mainLayout );
 	mainLayout->addLayout( buttonsLayout );
 
 	setLayout( mainLayout );
@@ -411,18 +405,24 @@ MultiplayerDialog::initWidgets()
 {
 	setMinimumHeight( IMapPreviewGenerator::ms_fixedWidgetSize.height() * 2.5f );
 
-	m_startButton->setEnabled( false );
-	m_cancelButton->setEnabled( false );
-
 	m_mapPreview->setFixedSize( IMapPreviewGenerator::ms_fixedWidgetSize );
 
+	for(	Core::LandscapeModel::VictoryCondition::Enum begin = Core::LandscapeModel::VictoryCondition::Begin
+		;	begin != Core::LandscapeModel::VictoryCondition::Size
+		;	begin = static_cast< Core::LandscapeModel::VictoryCondition::Enum >( begin + 1 ) )
+	{
+		m_victoryCondition->addItem( Core::LandscapeModel::VictoryCondition::toString( begin ) );
+	}
+
 	m_connectToIp->setText( m_environment.getString( Core::LandscapeModel::Resources::Properties::Ip ) );
-	m_connectToPort->setText( "1988" );
+	m_connectToPort->setText( QString::number( Core::LandscapeModel::Resources::Properties::DefaultPortValue ) );
 
 	updateLandscapesList();
 
 	if ( m_landscapesList->currentItem() )
 		currentLandscapeWasChanged( m_landscapesList->currentItem()->text() );
+
+	updateWidgetsStates();
 
 } // MultiplayerDialog::initWidgets
 
@@ -443,6 +443,8 @@ MultiplayerDialog::connectWidgets()
 	QObject::connect( m_connectButton, SIGNAL( clicked( bool ) ), this, SLOT( onConnectButtonPressed( bool ) ) );
 	QObject::connect( m_startButton, SIGNAL( clicked( bool ) ), this, SLOT( onStartButtonPressed( bool ) ) );
 	QObject::connect( m_cancelButton, SIGNAL( clicked( bool ) ), this, SLOT( onCancelButtonPressed( bool ) ) );
+	QObject::connect( m_connectToPort, SIGNAL( textChanged( const QString& ) ), this, SLOT( onPortChanged() ) );
+	QObject::connect( m_connectToIp, SIGNAL( textChanged( const QString& ) ), this, SLOT( onIpChanged() ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::PlayerRaceChanged::ms_type
@@ -481,6 +483,8 @@ MultiplayerDialog::disconnectWidgets()
 	QObject::disconnect( m_connectButton, SIGNAL( clicked( bool ) ), this, SLOT( onConnectButtonPressed( bool ) ) );
 	QObject::disconnect( m_startButton, SIGNAL( clicked( bool ) ), this, SLOT( onStartButtonPressed( bool ) ) );
 	QObject::disconnect( m_cancelButton, SIGNAL( clicked( bool ) ), this, SLOT( onCancelButtonPressed( bool ) ) );
+	QObject::disconnect( m_connectToPort, SIGNAL( textChanged( const QString& ) ), this, SLOT( onPortChanged() ) );
+	QObject::disconnect( m_connectToIp, SIGNAL( textChanged( const QString& ) ), this, SLOT( onIpChanged() ) );
 
 } // MultiplayerDialog::disconnectWidgets
 
@@ -526,6 +530,7 @@ MultiplayerDialog::currentLandscapeWasChanged( const QString& _landscapeName )
 
 	updateMapPreview();
 	updatePlayersList();
+	updateWidgetsStates();
 
 } // MultiplayerDialog::currentLandscapeWasChanged
 
@@ -559,6 +564,72 @@ MultiplayerDialog::updatePlayersList()
 	buildPlayersList();
 
 } // MultiplayerDialog::updatePlayersList
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::updateWidgetsStates()
+{
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
+	boost::intrusive_ptr< Core::LandscapeModel::IPlayer >
+		player = locker->getLandscapeModel()->getMyPlayer();
+
+	bool isConfigurated = locker->getLandscapeModel()->isConfigurated();
+
+	bool connectButtonEnabled
+		=	!isConfigurated
+		&&	!(m_connectToIp->text() == m_environment.getString( Core::LandscapeModel::Resources::Properties::Ip )
+		&&	m_connectToPort->text() == m_environment.getString( Core::LandscapeModel::Resources::Properties::Port ) );
+
+	bool startButtonEnabled
+		=	isConfigurated
+		&&	locker->getLandscapeModel()->twoOrMoreActivatedPlayers();
+
+	bool createButtonEnabled
+		=	!isConfigurated
+		&&	locker->getLandscapeModel()->getFirstFreePlayer();
+
+	m_landscapesList->setEnabled( !isConfigurated );
+
+	m_connectToIp->setEnabled( !isConfigurated );
+	m_connectToPort->setEnabled( !isConfigurated );
+
+	m_createButton->setEnabled( createButtonEnabled );
+	m_connectButton->setEnabled( connectButtonEnabled );
+
+	m_startButton->setEnabled( startButtonEnabled );
+	m_cancelButton->setEnabled( isConfigurated );
+
+	PlayersDataCollectionIterator
+			begin = m_playersData.begin()
+		,	end = m_playersData.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		begin->second.m_type.setEnabled( isConfigurated && player && player->getUniqueId() != begin->first );
+		begin->second.m_race.setEnabled( isConfigurated );
+		begin->second.m_color.setEnabled( isConfigurated );
+	}
+
+} // MultiplayerDialog::updateWidgetsStates
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::addLine( QLayout* _layout )
+{
+	QFrame* line = new QFrame();
+	line->setFrameShape( QFrame::HLine );
+	line->setFrameShadow( QFrame::Sunken );
+	_layout->addWidget( line );
+
+} // MultiplayerDialog::addLine
 
 
 /*---------------------------------------------------------------------------*/
@@ -638,7 +709,7 @@ MultiplayerDialog::buildPlayersList()
 		QObject::connect( playerComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerTypeChanged() ) );
 
 		playerLayout->addWidget( playerComboBox );
-		playerLayout->addWidget( new QLabel( "Race:" ) );
+		playerLayout->addWidget( new QLabel( Resources::Views::RaceLabel ) );
 
 		QComboBox* raceComboBox = new QComboBox();
 		raceComboBox->addItems( races );
@@ -648,7 +719,7 @@ MultiplayerDialog::buildPlayersList()
 		QObject::connect( raceComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( onPlayerRaceChanged() ) );
 
 		playerLayout->addWidget( raceComboBox );
-		playerLayout->addWidget( new QLabel( "Color:" ) );
+		playerLayout->addWidget( new QLabel( Resources::Views::ColorLabel ) );
 
 		QComboBox* colorsComboBox = new QComboBox();
 

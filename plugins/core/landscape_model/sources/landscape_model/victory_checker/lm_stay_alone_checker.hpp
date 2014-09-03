@@ -1,51 +1,53 @@
 
-#ifndef __LM_RESOURCES_HPP__
-#define __LM_RESOURCES_HPP__
+#ifndef __LM_STAY_ALONE_CHECKER_HPP__
+#define __LM_STAY_ALONE_CHECKER_HPP__
+
+/*---------------------------------------------------------------------------*/
+
+#include "landscape_model/sources/landscape_model/victory_checker/lm_ivictory_checker.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
-namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ModelThreadName = "ModelThread";
-
-	const char* const LandscapeFileExtension = "hmap";
-
-	const char* const LandscapeFileFilter = "*.hmap";
+class StayAloneChecker
+	:	public Tools::Core::BaseWrapper< IVictoryChecker >
+{
 
 /*---------------------------------------------------------------------------*/
 
-namespace Properties {
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PlayerName = "PlayerName";
+	StayAloneChecker();
 
-	const char* const Port = "Port";
-
-	const char* const Ip = "Ip";
-
-	const char* const ConnectionTimeOut = "ConnectionTimeOut";
+	virtual ~StayAloneChecker();
 
 /*---------------------------------------------------------------------------*/
 
-	const int DefaultPortValue = 1988;
+	/*virtual*/ bool check() const;
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Properties
+private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Resources
+/*---------------------------------------------------------------------------*/
+
+};
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_RESOURCES_HPP__
+#endif // __LM_STAY_ALONE_CHECKER_HPP__

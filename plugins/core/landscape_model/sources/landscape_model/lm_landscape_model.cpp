@@ -69,6 +69,7 @@ COMMAND_MAP_BEGIN( LandscapeModel )
 	PROCESSOR( ChangePlayerRace )
 	PROCESSOR( ChangePlayerType )
 	PROCESSOR( ChangePlayerName )
+	PROCESSOR( ChangeMyPlayer )
 COMMAND_MAP_END()
 
 /*---------------------------------------------------------------------------*/
@@ -470,6 +471,32 @@ LandscapeModel::fetchPlayers( ILandscapeModel::PlayersCollection& _collection ) 
 		_collection.push_back( begin->second );
 
 } // LandscapeModel::fetchPlayers
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+LandscapeModel::twoOrMoreActivatedPlayers() const
+{
+	int count = 0;
+
+	PlayersMapIterator
+			begin = m_players.begin()
+		,	end = m_players.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( PlayerType::isActivated( begin->second->getType() ) )
+			++count;
+
+		if ( count == 2 )
+			return true;
+	}
+
+	return false;
+
+} // LandscapeModel::twoOrMoreActivatedPlayers
 
 
 /*---------------------------------------------------------------------------*/
@@ -905,6 +932,30 @@ LandscapeModel::onChangePlayerNameProcessor( const Command& _command )
 	}
 
 } // LandscapeModel::onChangePlayerNameProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onChangeMyPlayerProcessor( const Command& _command )
+{
+	const IPlayer::Id id = _command.m_arguments[ 0 ].toInt();
+	const QString name = _command.m_arguments[ 1 ].toString();
+	const QString race = _command.m_arguments[ 2 ].toString();
+	const PlayerType::Enum type = static_cast< PlayerType::Enum >( _command.m_arguments[ 3 ].toInt() );
+
+	PlayersMapIterator iterator = m_players.find( id );
+	
+	if ( iterator != m_players.end() )
+	{
+		m_myPlayerId = id;
+		pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( id ).pushArgument( name ) );
+		pushCommand( Command( CommandId::ChangePlayerRace, CommandType::Silent ).pushArgument( id ).pushArgument( race ) );
+		pushCommand( Command( CommandId::ChangePlayerType, CommandType::Silent ).pushArgument( id ).pushArgument( type ) );
+	}
+
+} // LandscapeModel::onChangeMyPlayerProcessor
 
 
 /*---------------------------------------------------------------------------*/

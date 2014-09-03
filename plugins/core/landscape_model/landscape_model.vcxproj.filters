@@ -67,6 +67,12 @@
     <Filter Include="Landscape Model\Game Modes">
       <UniqueIdentifier>{1dc378db-8895-49ae-8759-40a3b5cbe857}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Statistics">
+      <UniqueIdentifier>{72ba1b98-3cff-4cae-ba93-eaafda4e4dfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape Model\Victory Checker">
+      <UniqueIdentifier>{8d2ad613-dffd-489c-b50d-a778b65ed7db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -194,6 +200,12 @@
     </ClCompile>
     <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp">
       <Filter>Landscape Model</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\statistics\lm_statistics.cpp">
+      <Filter>Statistics</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\landscape_model\victory_checker\lm_stay_alone_checker.cpp">
+      <Filter>Landscape Model\Victory Checker</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,6 +481,21 @@
     </ClInclude>
     <ClInclude Include="h\lm_commands.hpp">
       <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ih\lm_istatistics.hpp">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\statistics\lm_statistics.hpp">
+      <Filter>Statistics</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_victory_condition.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_model\victory_checker\lm_ivictory_checker.hpp">
+      <Filter>Landscape Model\Victory Checker</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_model\victory_checker\lm_stay_alone_checker.hpp">
+      <Filter>Landscape Model\Victory Checker</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

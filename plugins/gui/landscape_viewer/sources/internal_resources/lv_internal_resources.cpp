@@ -63,6 +63,12 @@ namespace Views {
 
 	const char* const PortLabel = "Port:";
 
+	const char* const RaceLabel = "Race:";
+
+	const char* const ColorLabel = "Color:";
+
+	const char* const VictoryCondition = "Victory condition:";
+
 	const char* const ConnectionTimeOutLabel = "Connection timeout (ms):";
 
 	const char* const PlayerNameLabel = "Player name:";
@@ -169,7 +175,7 @@ namespace Views {
 			"</html>																		";
 
 	const char* const PlayerInfoTextFormat
-		=	"<b>%1</b>: ( id %2, %3, %4 ) - %5<br>											";
+		=	"%1. <b>%2</b>: ( %3, %4 ) - %5<br>";
 
 	const char* const PlayerResourceInfoFormat = "%1: %2";
 

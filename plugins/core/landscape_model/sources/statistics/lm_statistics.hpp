@@ -1,51 +1,59 @@
 
-#ifndef __LM_RESOURCES_HPP__
-#define __LM_RESOURCES_HPP__
+#ifndef __LM_STATISTICS_HPP__
+#define __LM_STATISTICS_HPP__
+
+/*---------------------------------------------------------------------------*/
+
+#include "landscape_model/ih/lm_istatistics.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
-namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ModelThreadName = "ModelThread";
-
-	const char* const LandscapeFileExtension = "hmap";
-
-	const char* const LandscapeFileFilter = "*.hmap";
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-namespace Properties {
+class Statistics
+	:	public Tools::Core::BaseWrapper< IStatistics >
+{
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PlayerName = "PlayerName";
-
-	const char* const Port = "Port";
-
-	const char* const Ip = "Ip";
-
-	const char* const ConnectionTimeOut = "ConnectionTimeOut";
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	const int DefaultPortValue = 1988;
+	Statistics( const IEnvironment& _environment );
+
+	virtual ~Statistics();
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Properties
+	/*virtual*/ int getPlayerObjectsCount( const IPlayer::Id& _id ) const;
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Resources
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const IEnvironment& m_environment;
+
+/*---------------------------------------------------------------------------*/
+
+};
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_RESOURCES_HPP__
+#endif // __LM_STATISTICS_HPP__
