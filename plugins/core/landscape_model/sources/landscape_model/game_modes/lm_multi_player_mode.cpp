@@ -26,6 +26,8 @@ struct PlayerData
 		,	m_type( PlayerType::Blocked )
 		,	m_name()
 		,	m_race()
+		,	m_address()
+		,	m_port( 0 )
 	{}
 
 	PlayerData(
@@ -38,6 +40,24 @@ struct PlayerData
 		,	m_type( _type )
 		,	m_name( _name )
 		,	m_race( _race )
+		,	m_address()
+		,	m_port( 0 )
+	{}
+
+	PlayerData(
+			const IPlayer::Id _id
+		,	const PlayerType::Enum _type
+		,	const QString _name
+		,	const QString _race
+		,	const QString _address
+		,	const int _port
+		)
+		:	m_id( _id )
+		,	m_type( _type )
+		,	m_name( _name )
+		,	m_race( _race )
+		,	m_address( _address )
+		,	m_port( _port )
 	{}
 
 	operator QVariant() const
@@ -45,12 +65,20 @@ struct PlayerData
         return QVariant::fromValue(*this);
     }
 
+	bool hasConnectionInfo() const
+	{
+		return !m_address.isEmpty() && m_port != 0;
+	}
+
 	IPlayer::Id m_id;
 
 	PlayerType::Enum m_type;
 
 	QString m_name;
 	QString m_race;
+
+	QString m_address;
+	int m_port;
 };
 
 Q_DECLARE_METATYPE(PlayerData);
@@ -61,6 +89,8 @@ QDataStream& operator << ( QDataStream& _out, const PlayerData& _data )
 	_out << _data.m_type;
 	_out << _data.m_name;
 	_out << _data.m_race;
+	_out << _data.m_address;
+	_out << _data.m_port;
 
 	return _out;
 }
@@ -75,6 +105,8 @@ QDataStream& operator >> ( QDataStream& _in, PlayerData& _data )
 
 	_in >> _data.m_name;
 	_in >> _data.m_race;
+	_in >> _data.m_address;
+	_in >> _data.m_port;
 
 	return _in;
 }
@@ -226,9 +258,13 @@ MultiPlayerMode::processCommand(
 	{
 		processConnectResponse( _fromAddress, _fromPort, _command );
 	}
+	else if ( _command.m_id == CommandId::PlayerConnected )
+	{
+		processPlayerConnected( _fromAddress, _fromPort, _command );
+	}
 	else
 	{
-		processCommand( _command );
+		m_landscapeModel.processCommand( _command );
 	}
 
 } // MultiPlayerMode::processCommand
@@ -262,14 +298,42 @@ MultiPlayerMode::processConnectRequest(
 			,	end = players.end();
 
 		for ( ; begin != end; ++begin )
-			playersList.push_back( PlayerData( ( *begin )->getUniqueId(), ( *begin )->getType(), ( *begin )->getName(), ( *begin )->getRace() ) );
+		{
+			ConnectionsInfosCollectionIterator iterator = m_connections.find( ( *begin )->getUniqueId() );
+
+			if ( iterator != m_connections.end() )
+			{
+				playersList.push_back(
+					PlayerData(
+							( *begin )->getUniqueId()
+						,	( *begin )->getType()
+						,	( *begin )->getName()
+						,	( *begin )->getRace()
+						,	iterator->second.m_address
+						,	iterator->second.m_port ) );
+			}
+			else if ( ( *begin )->getUniqueId() == m_landscapeModel.getMyPlayer()->getUniqueId() )
+			{
+				playersList.push_back(
+					PlayerData(
+							( *begin )->getUniqueId()
+						,	( *begin )->getType()
+						,	( *begin )->getName()
+						,	( *begin )->getRace()
+						,	m_myConnectionInfo.m_address
+						,	m_myConnectionInfo.m_port ) );
+			}
+			else
+			{
+				playersList.push_back( PlayerData( ( *begin )->getUniqueId(), ( *begin )->getType(), ( *begin )->getName(), ( *begin )->getRace() ) );
+			}
+		}
 
 		connectResponce.pushArgument( freePlayer->getUniqueId() );
 		connectResponce.pushArgument( m_landscapeModel.getFilePath() );
-		connectResponce.pushArgument( m_landscapeModel.getMyPlayer()->getUniqueId() );
 		connectResponce.pushArgument( playersList );
 
-		// TODO: other players should take data about new one
+		spreadPlayerConnectedCommand( freePlayer->getUniqueId(), freePlayer->getName(), _fromAddress, _fromPort );
 
 		m_connections.insert( std::make_pair( freePlayer->getUniqueId(), Framework::Core::NetworkManager::ConnectionInfo( _fromAddress, _fromPort ) ) );
 	}
@@ -300,7 +364,7 @@ MultiPlayerMode::processConnectResponse(
 	// TODO: should initialize landscape correctly
 	QString filePath = _command.m_arguments[ 1 ].toString();
 
-	QList< QVariant > playersList = _command.m_arguments[ 3 ].toList();
+	QList< QVariant > playersList = _command.m_arguments[ 2 ].toList();
 
 	QList< QVariant >::ConstIterator
 			begin = playersList.begin()
@@ -323,12 +387,59 @@ MultiPlayerMode::processConnectResponse(
 			m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_name ) );
 			m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerRace, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_race ) );
 			m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerType, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_type ) );
+
+			if ( data.hasConnectionInfo() )
+				m_connections.insert( std::make_pair( data.m_id, Framework::Core::NetworkManager::ConnectionInfo( data.m_address, data.m_port ) ) );
 		}
 	}
 
-	m_connections.insert( std::make_pair( _command.m_arguments[ 2 ].toInt(), Framework::Core::NetworkManager::ConnectionInfo( _fromAddress, _fromPort ) ) );
-
 } // MultiPlayerMode::processConnectResponse
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiPlayerMode::processPlayerConnected(
+		const QString& _fromAddress
+	,	const unsigned int _fromPort
+	,	const Command& _command )
+{
+	IPlayer::Id playerId = _command.m_arguments[ 0 ].toInt();
+	QString name = _command.m_arguments[ 1 ].toString();
+
+	m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( playerId ).pushArgument( name ) );
+
+	m_connections.insert(
+		std::make_pair(
+				playerId
+			,	Framework::Core::NetworkManager::ConnectionInfo(
+						_command.m_arguments[ 2 ].toString()
+					,	_command.m_arguments[ 3 ].toInt() ) ) );
+
+} // MultiPlayerMode::processPlayerConnected
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiPlayerMode::spreadPlayerConnectedCommand(
+		const IPlayer::Id& _playerId
+	,	const QString& _playerName
+	,	const QString& _playerAddress
+	,	const unsigned int _playerPort )
+{
+	Command command( CommandId::PlayerConnected );
+
+	command.pushArgument( _playerId );
+	command.pushArgument( _playerName );
+	command.pushArgument( _playerAddress );
+	command.pushArgument( _playerPort );
+
+	spreadCommand( command );
+
+} // MultiPlayerMode::spreadPlayerConnectedCommand
 
 
 /*---------------------------------------------------------------------------*/

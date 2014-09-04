@@ -26,6 +26,7 @@ struct CommandId
 
 		,	ConnectRequest
 		,	ConnectResponse
+		,	PlayerConnected
 		,	Disconnect
 		,	StartSimulation
 
@@ -50,6 +51,7 @@ struct CommandId
 	{
 		switch( _enum )
 		{
+		case PlayerConnected:
 		case StartSimulation:
 		case ChangePlayerRace:
 		case ChangePlayerType:

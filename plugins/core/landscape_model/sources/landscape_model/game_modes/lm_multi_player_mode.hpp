@@ -93,6 +93,17 @@ private:
 		,	const unsigned int _fromPort
 		,	const Command& _command );
 
+	void processPlayerConnected(
+			const QString& _fromAddress
+		,	const unsigned int _fromPort
+		,	const Command& _command );
+
+	void spreadPlayerConnectedCommand(
+			const IPlayer::Id& _playerId
+		,	const QString& _playerName
+		,	const QString& _playerAddress
+		,	const unsigned int _playerPort );
+
 	void registerMetatypes();
 
 /*---------------------------------------------------------------------------*/
