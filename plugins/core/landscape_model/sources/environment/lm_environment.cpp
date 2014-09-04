@@ -6,6 +6,7 @@
 #include "landscape_model/sources/plugin/lm_plugin_instance.hpp"
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 #include "landscape_model/sources/notification_center/lm_inotification_center.hpp"
+#include "landscape_model/sources/model_locker/lm_model_locker.hpp"
 
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 #include "event_manager/ih/em_ievent_manager.hpp"
@@ -191,6 +192,17 @@ Environment::getUInt( const QString& _key ) const
 	return m_pluginInstance.getSettings()->getUInt( _key );
 
 } // Environment::getUInt
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IModelLocker >
+Environment::lockModel() const
+{
+	return m_pluginInstance.getLandscapeModelLocker();
+
+} // Environment::lockModel
 
 
 /*---------------------------------------------------------------------------*/

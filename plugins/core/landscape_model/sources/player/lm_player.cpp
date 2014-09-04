@@ -8,6 +8,7 @@
 #include "landscape_model/h/lm_events.hpp"
 
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
+#include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,7 +34,7 @@ Player::Player(
 	,	m_id( ++IdGenerator )
 	,	m_startPointId( _startPointId )
 	,	m_race( _race )
-	,	m_name( "none" )
+	,	m_name( Resources::DefaultPlayerName )
 	,	m_type( PlayerType::Open )
 	,	m_resourceData()
 	,	m_notifier( *m_environment.getNotificationCenter(), this )

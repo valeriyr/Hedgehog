@@ -3,9 +3,9 @@
 
 #include "landscape_model/sources/landscape_model/game_modes/lm_multi_player_mode.hpp"
 
-#include "landscape_model/ih/lm_ilandscape_model.hpp"
-#include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
+#include "landscape_model/sources/model_locker/lm_model_locker.hpp"
+#include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
 #include "network_manager/ih/nm_iudp_connection.hpp"
@@ -115,13 +115,11 @@ QDataStream& operator >> ( QDataStream& _in, PlayerData& _data )
 
 
 MultiPlayerMode::MultiPlayerMode(
-		ILandscapeModel& _landscapeModel
-	,	const IEnvironment& _environment
+		const IEnvironment& _environment
 	,	const Framework::Core::NetworkManager::ConnectionInfo& _myConnectionInfo
 	,	const Framework::Core::NetworkManager::ConnectionInfo& _connectTo
 	)
-	:	m_landscapeModel( _landscapeModel )
-	,	m_environment( _environment )
+	:	m_environment( _environment )
 	,	m_myConnectionInfo( _myConnectionInfo )
 	,	m_myConnection()
 	,	m_connections()
@@ -151,6 +149,13 @@ MultiPlayerMode::MultiPlayerMode(
 
 MultiPlayerMode::~MultiPlayerMode()
 {
+	{
+		boost::intrusive_ptr< IModelLocker > locker = m_environment.lockModel();
+
+		if ( locker->getLandscapeModel()->getMyPlayer() )
+			spreadCommand( Command( CommandId::Disconnect ).pushArgument( locker->getLandscapeModel()->getMyPlayer()->getUniqueId() ) );
+	}
+
 	m_myConnection->removeConnectionListener( this );
 	m_environment.closeConnection( m_myConnectionInfo );
 
@@ -169,7 +174,7 @@ MultiPlayerMode::processCommand( const Command& _command )
 {
 	// TODO: algorithm should be more smarter
 
-	m_landscapeModel.processCommand( _command );
+	m_environment.lockModel()->getLandscapeModel()->processCommand( _command );
 
 	spreadCommand( _command );
 
@@ -262,9 +267,13 @@ MultiPlayerMode::processCommand(
 	{
 		processPlayerConnected( _fromAddress, _fromPort, _command );
 	}
+	else if ( _command.m_id == CommandId::Disconnect )
+	{
+		processDisconnect( _fromAddress, _fromPort, _command );
+	}
 	else
 	{
-		m_landscapeModel.processCommand( _command );
+		m_environment.lockModel()->getLandscapeModel()->processCommand( _command );
 	}
 
 } // MultiPlayerMode::processCommand
@@ -281,17 +290,20 @@ MultiPlayerMode::processConnectRequest(
 {
 	Command connectResponce( CommandId::ConnectResponse );
 
-	boost::intrusive_ptr< IPlayer > freePlayer = m_landscapeModel.getFirstFreePlayer();
+	boost::intrusive_ptr< IModelLocker > locker = m_environment.lockModel();
+	boost::intrusive_ptr< ILandscapeModel > model = locker->getLandscapeModel();
+
+	boost::intrusive_ptr< IPlayer > freePlayer = model->getFirstFreePlayer();
 
 	if ( freePlayer )
 	{
-		m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerName ).pushArgument( freePlayer->getUniqueId() ).pushArgument( _command.m_arguments[0].toString() ) );
-		m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerType ).pushArgument( freePlayer->getUniqueId() ).pushArgument( PlayerType::Player ) );
+		model->pushCommand( Command( CommandId::ChangePlayerName ).pushArgument( freePlayer->getUniqueId() ).pushArgument( _command.m_arguments[0].toString() ) );
+		model->pushCommand( Command( CommandId::ChangePlayerType ).pushArgument( freePlayer->getUniqueId() ).pushArgument( PlayerType::Player ) );
 
 		QList< QVariant > playersList;
 
 		ILandscapeModel::PlayersCollection players;
-		m_landscapeModel.fetchPlayers( players );
+		model->fetchPlayers( players );
 
 		ILandscapeModel::PlayersCollectionIterator
 				begin = players.begin()
@@ -312,7 +324,7 @@ MultiPlayerMode::processConnectRequest(
 						,	iterator->second.m_address
 						,	iterator->second.m_port ) );
 			}
-			else if ( ( *begin )->getUniqueId() == m_landscapeModel.getMyPlayer()->getUniqueId() )
+			else if ( ( *begin )->getUniqueId() == model->getMyPlayer()->getUniqueId() )
 			{
 				playersList.push_back(
 					PlayerData(
@@ -330,7 +342,7 @@ MultiPlayerMode::processConnectRequest(
 		}
 
 		connectResponce.pushArgument( freePlayer->getUniqueId() );
-		connectResponce.pushArgument( m_landscapeModel.getFilePath() );
+		connectResponce.pushArgument( model->getFilePath() );
 		connectResponce.pushArgument( playersList );
 
 		spreadPlayerConnectedCommand( freePlayer->getUniqueId(), freePlayer->getName(), _fromAddress, _fromPort );
@@ -361,6 +373,9 @@ MultiPlayerMode::processConnectResponse(
 	if ( playerId == IPlayer::ms_wrondId )
 		return;
 
+	boost::intrusive_ptr< IModelLocker > locker = m_environment.lockModel();
+	boost::intrusive_ptr< ILandscapeModel > model = locker->getLandscapeModel();
+
 	// TODO: should initialize landscape correctly
 	QString filePath = _command.m_arguments[ 1 ].toString();
 
@@ -376,7 +391,7 @@ MultiPlayerMode::processConnectResponse(
 
 		if ( data.m_id == playerId )
 		{
-			m_landscapeModel.pushCommand( Command( CommandId::ChangeMyPlayer )
+			model->pushCommand( Command( CommandId::ChangeMyPlayer )
 				.pushArgument( data.m_id )
 				.pushArgument( data.m_name )
 				.pushArgument( data.m_race )
@@ -384,9 +399,9 @@ MultiPlayerMode::processConnectResponse(
 		}
 		else
 		{
-			m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_name ) );
-			m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerRace, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_race ) );
-			m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerType, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_type ) );
+			model->pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_name ) );
+			model->pushCommand( Command( CommandId::ChangePlayerRace, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_race ) );
+			model->pushCommand( Command( CommandId::ChangePlayerType, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_type ) );
 
 			if ( data.hasConnectionInfo() )
 				m_connections.insert( std::make_pair( data.m_id, Framework::Core::NetworkManager::ConnectionInfo( data.m_address, data.m_port ) ) );
@@ -408,7 +423,8 @@ MultiPlayerMode::processPlayerConnected(
 	IPlayer::Id playerId = _command.m_arguments[ 0 ].toInt();
 	QString name = _command.m_arguments[ 1 ].toString();
 
-	m_landscapeModel.pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( playerId ).pushArgument( name ) );
+	m_environment.lockModel()->getLandscapeModel()
+		->pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( playerId ).pushArgument( name ) );
 
 	m_connections.insert(
 		std::make_pair(
@@ -418,6 +434,28 @@ MultiPlayerMode::processPlayerConnected(
 					,	_command.m_arguments[ 3 ].toInt() ) ) );
 
 } // MultiPlayerMode::processPlayerConnected
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiPlayerMode::processDisconnect(
+		const QString& _fromAddress
+	,	const unsigned int _fromPort
+	,	const Command& _command )
+{
+	IPlayer::Id playerId = _command.m_arguments[ 0 ].toInt();
+
+	m_connections.erase( playerId );
+
+	boost::intrusive_ptr< IModelLocker > locker = m_environment.lockModel();
+	boost::intrusive_ptr< ILandscapeModel > model = locker->getLandscapeModel();
+
+	model->pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( playerId ).pushArgument( Resources::DefaultPlayerName ) );
+	model->pushCommand( Command( CommandId::ChangePlayerType, CommandType::Silent ).pushArgument( playerId ).pushArgument( PlayerType::Open ) );
+
+} // MultiPlayerMode::processDisconnect
 
 
 /*---------------------------------------------------------------------------*/

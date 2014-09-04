@@ -14,7 +14,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeModel;
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	SinglePlayerMode( ILandscapeModel& _landscapeModel );
+	SinglePlayerMode( const IEnvironment& _environment );
 
 	virtual ~SinglePlayerMode();
 
@@ -42,7 +42,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	ILandscapeModel& m_landscapeModel;
+	const IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 

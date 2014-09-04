@@ -73,6 +73,10 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
+	extern const char* const DefaultPlayerName;
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace Resources
 } // namespace LandscapeModel
 } // namespace Core

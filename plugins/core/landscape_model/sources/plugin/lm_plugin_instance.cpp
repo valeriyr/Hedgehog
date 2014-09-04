@@ -252,6 +252,17 @@ PluginInstance::getNotificationCenter() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< IModelLocker >
+PluginInstance::getLandscapeModelLocker()
+{
+	return boost::intrusive_ptr< IModelLocker >( new ModelLocker( m_landscapeModel ) );
+
+} // PluginInstance::getLandscapeModelLocker
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 PluginInstance::exportScriptAPI()
 {
@@ -436,17 +447,6 @@ PluginInstance::executeConfigurationScripts()
 	}
 
 } // PluginInstance::executeConfigurationScripts
-
-
-/*---------------------------------------------------------------------------*/
-
-
-boost::intrusive_ptr< IModelLocker >
-PluginInstance::getLandscapeModelLocker()
-{
-	return boost::intrusive_ptr< IModelLocker >( new ModelLocker( m_landscapeModel ) );
-
-} // PluginInstance::getLandscapeModelLocker
 
 
 /*---------------------------------------------------------------------------*/

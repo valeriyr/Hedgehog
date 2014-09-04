@@ -48,8 +48,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	MultiPlayerMode(
-			ILandscapeModel& _landscapeModel
-		,	const IEnvironment& _environment
+			const IEnvironment& _environment
 		,	const Framework::Core::NetworkManager::ConnectionInfo& _myConnectionInfo
 		,	const Framework::Core::NetworkManager::ConnectionInfo& _connectTo );
 
@@ -98,6 +97,11 @@ private:
 		,	const unsigned int _fromPort
 		,	const Command& _command );
 
+	void processDisconnect(
+			const QString& _fromAddress
+		,	const unsigned int _fromPort
+		,	const Command& _command );
+
 	void spreadPlayerConnectedCommand(
 			const IPlayer::Id& _playerId
 		,	const QString& _playerName
@@ -120,8 +124,6 @@ private:
 		ConnectionsInfosCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
-
-	ILandscapeModel& m_landscapeModel;
 
 	const IEnvironment& m_environment;
 

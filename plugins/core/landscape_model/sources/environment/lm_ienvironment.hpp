@@ -36,6 +36,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct INotificationCenter;
+struct IModelLocker;
 
 /*---------------------------------------------------------------------------*/
 
@@ -94,6 +95,10 @@ struct IEnvironment
 	virtual QString getString( const QString& _key ) const = 0;
 
 	virtual unsigned int getUInt( const QString& _key ) const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual boost::intrusive_ptr< IModelLocker > lockModel() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

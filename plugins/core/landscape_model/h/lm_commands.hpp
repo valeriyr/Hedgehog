@@ -52,6 +52,7 @@ struct CommandId
 		switch( _enum )
 		{
 		case PlayerConnected:
+		case Disconnect:
 		case StartSimulation:
 		case ChangePlayerRace:
 		case ChangePlayerType:

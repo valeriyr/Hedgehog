@@ -156,8 +156,7 @@ LandscapeModel::setupMultiPlayerGame()
 
 	m_gameMode.reset(
 		new MultiPlayerMode(
-				*this
-			,	m_environment
+				m_environment
 			,	myConnectionInfo
 			,	Framework::Core::NetworkManager::ConnectionInfo() ) );
 
@@ -181,8 +180,7 @@ LandscapeModel::connectToMultiPlayerGame( const Framework::Core::NetworkManager:
 
 	m_gameMode.reset(
 		new MultiPlayerMode(
-				*this
-			,	m_environment
+				m_environment
 			,	myConnectionInfo
 			,	_connectTo ) );
 
@@ -198,7 +196,7 @@ LandscapeModel::setupSinglePlayerGame()
 	if ( isSimulationRunning() )
 		return;
 
-	m_gameMode.reset( new SinglePlayerMode( *this ) );
+	m_gameMode.reset( new SinglePlayerMode( m_environment ) );
 
 	setupMyPlayer();
 
@@ -212,6 +210,8 @@ void
 LandscapeModel::resetModel()
 {
 	bool needToPrintMessage = isSimulationRunning();
+
+	m_gameMode.reset();
 
 	m_environment.removeTask( m_actionsProcessingTaskHandle );
 	m_actionsProcessingTaskHandle.reset();
@@ -227,8 +227,6 @@ LandscapeModel::resetModel()
 	m_workers.clear();
 
 	m_myPlayerId = IPlayer::ms_wrondId;
-
-	m_gameMode.reset();
 
 	if ( needToPrintMessage )
 	{
