@@ -12,6 +12,7 @@
 
 #include "landscape_model/h/lm_object.hpp"
 #include "landscape_model/h/lm_commands.hpp"
+#include "landscape_model/h/lm_victory_condition.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -57,6 +58,10 @@ struct ILandscapeModel
 	virtual bool isConfigurated() const = 0;
 
 	virtual const QString& getFilePath() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual const VictoryCondition::Enum getVictoryConditionType() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

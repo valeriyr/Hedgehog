@@ -236,6 +236,19 @@ MultiplayerDialog::onPlayerTypeChanged()
 
 
 void
+MultiplayerDialog::onVictoryConditionChanged( const QString& _condition )
+{
+	m_environment.lockModel()->getLandscapeModel()->pushCommand(
+		Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::ChangeVictoryCondition )
+			.pushArgument( Core::LandscapeModel::VictoryCondition::fromString( _condition ) ) );
+
+} // MultiplayerDialog::onVictoryConditionChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 MultiplayerDialog::onPlayerNameChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Core::LandscapeModel::IPlayer::Id id
@@ -256,6 +269,27 @@ MultiplayerDialog::onPlayerNameChanged( const Framework::Core::EventManager::Eve
 	iterator->second.m_player.setText( palyerLabelText );
 
 } // MultiplayerDialog::onPlayerNameChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiplayerDialog::onVictoryConditionChangedEvent( const Framework::Core::EventManager::Event& _event )
+{
+	const Core::LandscapeModel::VictoryCondition::Enum condition
+		= static_cast< Core::LandscapeModel::VictoryCondition::Enum >(
+			_event.getAttribute( Core::LandscapeModel::Events::VictoryConditionChanged::ms_conditionAttribute ).toInt() );
+
+	assert( condition != Core::LandscapeModel::VictoryCondition::Undefined );
+
+	QObject::disconnect( m_victoryCondition, SIGNAL( currentIndexChanged( const QString& ) ), this, SLOT( onVictoryConditionChanged( const QString& ) ) );
+
+	m_victoryCondition->setCurrentText( Core::LandscapeModel::VictoryCondition::toString( condition ) );
+
+	QObject::connect( m_victoryCondition, SIGNAL( currentIndexChanged( const QString& ) ), this, SLOT( onVictoryConditionChanged( const QString& ) ) );
+
+} // MultiplayerDialog::onVictoryConditionChangedEvent
 
 
 /*---------------------------------------------------------------------------*/
@@ -445,6 +479,8 @@ MultiplayerDialog::connectWidgets()
 	QObject::connect( m_cancelButton, SIGNAL( clicked( bool ) ), this, SLOT( onCancelButtonPressed( bool ) ) );
 	QObject::connect( m_connectToPort, SIGNAL( textChanged( const QString& ) ), this, SLOT( onPortChanged() ) );
 	QObject::connect( m_connectToIp, SIGNAL( textChanged( const QString& ) ), this, SLOT( onIpChanged() ) );
+	QObject::connect( m_victoryCondition, SIGNAL( currentIndexChanged( const QString& ) ), this, SLOT( onVictoryConditionChanged( const QString& ) ) );
+	
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::PlayerRaceChanged::ms_type
@@ -461,6 +497,10 @@ MultiplayerDialog::connectWidgets()
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
 							,	Plugins::Core::LandscapeModel::Events::SimulationStarted::ms_type
 							,	boost::bind( &MultiplayerDialog::onSimulationStarted, this, _1 ) );
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::VictoryConditionChanged::ms_type
+							,	boost::bind( &MultiplayerDialog::onVictoryConditionChangedEvent, this, _1 ) );
 
 } // MultiplayerDialog::connectWidgets
 
@@ -479,6 +519,7 @@ MultiplayerDialog::disconnectWidgets()
 		,	this
 		,	SLOT( onLandscapeSelected( QListWidgetItem*, QListWidgetItem* ) ) );
 
+	QObject::disconnect( m_victoryCondition, SIGNAL( currentIndexChanged( const QString& ) ), this, SLOT( onVictoryConditionChanged( const QString& ) ) );
 	QObject::disconnect( m_createButton, SIGNAL( clicked( bool ) ), this, SLOT( onCreateButtonPressed( bool ) ) );
 	QObject::disconnect( m_connectButton, SIGNAL( clicked( bool ) ), this, SLOT( onConnectButtonPressed( bool ) ) );
 	QObject::disconnect( m_startButton, SIGNAL( clicked( bool ) ), this, SLOT( onStartButtonPressed( bool ) ) );

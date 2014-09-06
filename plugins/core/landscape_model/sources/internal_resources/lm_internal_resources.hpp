@@ -37,6 +37,8 @@ namespace Resources {
 
 	extern const char* const CommandReceivedMessage;
 
+	extern const char* const SimulationStoppedMessage;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const ConfigurationScriptsDirectory;

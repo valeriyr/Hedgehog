@@ -25,11 +25,15 @@ namespace Resources {
 
 	const char* const InfoMessageFormat = "&gt; <font>%1: %2</font>";
 
+	const char* const SuccessMessageFormat = "&gt; <font color = 'green' >%1: %2</font>";
+
 	const char* const ErrorMessageWithModuleNameFormat = "&gt; <font color = 'red' ><b>%1:</b> %2. %3</font>";
 
 	const char* const WarningMessageWithModuleNameFormat = "&gt; <font color = 'blue' ><b>%1:</b> %2. %3</font>";
 
 	const char* const InfoMessageWithModuleNameFormat = "&gt; <font><b>%1:</b> %2. %3</font>";
+
+	const char* const SuccessMessageWithModuleNameFormat = "&gt; <font color = 'green' ><b>%1:</b> %2. %3</font>";
 
 	const char* const MessageWithoutPrefixFormat = "&gt; <font>%1</font>";
 

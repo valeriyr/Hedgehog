@@ -1,12 +1,10 @@
 
-#ifndef __LM_ISTATISTICS_HPP__
-#define __LM_ISTATISTICS_HPP__
+#ifndef __LM_ENDLESS_CHECKER_HPP__
+#define __LM_ENDLESS_CHECKER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
-
-#include "landscape_model/ih/lm_iplayer.hpp"
+#include "landscape_model/sources/landscape_model/victory_checker/lm_ivictory_checker.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -16,17 +14,25 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_STATISTICS = 4;
-
-/*---------------------------------------------------------------------------*/
-
-struct IStatistics
-	:	public Tools::Core::IBase
+class EndlessChecker
+	:	public Tools::Core::BaseWrapper< IVictoryChecker >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual int getPlayerObjectsCount( const IPlayer::Id& _id ) const = 0;
+public:
+
+/*---------------------------------------------------------------------------*/
+
+	EndlessChecker();
+
+	virtual ~EndlessChecker();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool check() const;
+
+	/*virtual*/ const VictoryCondition::Enum getType() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,4 +46,4 @@ struct IStatistics
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_ISTATISTICS_HPP__
+#endif // __LM_ENDLESS_CHECKER_HPP__

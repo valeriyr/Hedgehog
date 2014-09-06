@@ -31,6 +31,7 @@ struct ILandscape;
 struct IModelLocker;
 struct IPathFinder;
 struct IGameMode;
+struct IVictoryChecker;
 
 class Player;
 
@@ -75,6 +76,10 @@ public:
 	/*virtual*/ bool isConfigurated() const;
 
 	/*virtual*/ const QString& getFilePath() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ const VictoryCondition::Enum getVictoryConditionType() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -159,29 +164,20 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void onStartSimulationProcessor( const Command& _command );
-
-	void onChangePlayerRaceProcessor( const Command& _command );
-
-	void onChangePlayerTypeProcessor( const Command& _command );
-
-	void onChangePlayerNameProcessor( const Command& _command );
-
-	void onChangeMyPlayerProcessor( const Command& _command );
-
-	void onSelectByRectProcessor( const Command& _command );
-
-	void onSelectByIdProcessor( const Command& _command );
-
-	void onSendProcessor( const Command& _command );
-
-	void onCreateObjectProcessor( const Command& _command );
-
-	void onSetSurfaceItemProcessor( const Command& _command );
-
-	void onTrainObjectProcessor( const Command& _command );
-
-	void onBuildObjectProcessor( const Command& _command );
+	DECLARE_PROCESSOR( ChangeVictoryCondition )
+	DECLARE_PROCESSOR( StartSimulation )
+	DECLARE_PROCESSOR( StopSimulation )
+	DECLARE_PROCESSOR( SetSurfaceItem )
+	DECLARE_PROCESSOR( SelectById )
+	DECLARE_PROCESSOR( SelectByRect )
+	DECLARE_PROCESSOR( Send )
+	DECLARE_PROCESSOR( CreateObject )
+	DECLARE_PROCESSOR( TrainObject )
+	DECLARE_PROCESSOR( BuildObject )
+	DECLARE_PROCESSOR( ChangePlayerRace )
+	DECLARE_PROCESSOR( ChangePlayerType )
+	DECLARE_PROCESSOR( ChangePlayerName )
+	DECLARE_PROCESSOR( ChangeMyPlayer )
 
 /*---------------------------------------------------------------------------*/
 
@@ -234,6 +230,8 @@ private:
 	WorkersCollection m_workers;
 
 	boost::intrusive_ptr< IGameMode > m_gameMode;
+
+	boost::intrusive_ptr< IVictoryChecker > m_victoryChecker;
 
 /*---------------------------------------------------------------------------*/
 

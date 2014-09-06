@@ -37,7 +37,7 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 	:	m_environment( _environment )
 	,	m_subscriber( m_environment.createSubscriber() )
 	,	m_viewsMediator( new ViewsMediator() )
-	,	m_descriptionView( new DescriptionView() )
+	,	m_descriptionView( new DescriptionView( _environment ) )
 	,	m_settingsView( new SettingsView( _environment ) )
 	,	m_LandscapeView( new LandscapeView( _environment, *m_viewsMediator ) )
 	,	m_minimapView( new MinimapView( _environment, *m_viewsMediator ) )
@@ -145,7 +145,7 @@ LandscapeViewer::onSimulationStarted( const Framework::Core::EventManager::Event
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
 		landscape = locker->getLandscapeModel()->getLandscape();
 
-	m_descriptionView->landscapeWasOpened( QSize( landscape->getWidth(), landscape->getHeight() ), locker->getLandscapeModel()->getFilePath() );
+	m_descriptionView->landscapeWasOpened();
 	m_playerInfoView->landscapeWasOpened();
 	m_minimapView->landscapeWasOpened();
 	m_LandscapeView->landscapeWasOpened();

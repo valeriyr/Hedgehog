@@ -6,11 +6,18 @@
 
 #include "window_manager/ih/wm_iview.hpp"
 
+#include "event_manager/h/em_subscriber.hpp"
+#include "event_manager/h/em_event.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace GUI {
 namespace LandscapeViewer {
+
+/*---------------------------------------------------------------------------*/
+
+struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
@@ -24,7 +31,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	DescriptionView();
+	DescriptionView( const IEnvironment& _environment );
 
 	virtual ~DescriptionView();
 
@@ -40,7 +47,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void landscapeWasOpened( const QSize& _size, const QString& _landscapeFilePath );
+	void landscapeWasOpened();
 
 	void landscapeWasClosed();
 
@@ -52,11 +59,21 @@ private:
 
 	void setDefaultDescription();
 
+	void regenerateDescription();
+
+/*---------------------------------------------------------------------------*/
+
+	void onVictoryConditionChanged( const Framework::Core::EventManager::Event& _event );
+
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	const IEnvironment& m_environment;
+
+	Framework::Core::EventManager::Subscriber m_subscriber;
 
 	boost::shared_ptr< QTextEdit > m_descriptionView;
 

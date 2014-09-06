@@ -4,9 +4,9 @@
 #include "landscape_model/sources/landscape_model/game_modes/lm_multi_player_mode.hpp"
 
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
-#include "landscape_model/sources/model_locker/lm_model_locker.hpp"
-#include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
+#include "landscape_model/h/lm_resources.hpp"
 
 #include "network_manager/ih/nm_iudp_connection.hpp"
 #include "network_manager/h/nm_data.hpp"
@@ -343,6 +343,7 @@ MultiPlayerMode::processConnectRequest(
 
 		connectResponce.pushArgument( freePlayer->getUniqueId() );
 		connectResponce.pushArgument( model->getFilePath() );
+		connectResponce.pushArgument( model->getVictoryConditionType() );
 		connectResponce.pushArgument( playersList );
 
 		spreadPlayerConnectedCommand( freePlayer->getUniqueId(), freePlayer->getName(), _fromAddress, _fromPort );
@@ -379,7 +380,12 @@ MultiPlayerMode::processConnectResponse(
 	// TODO: should initialize landscape correctly
 	QString filePath = _command.m_arguments[ 1 ].toString();
 
-	QList< QVariant > playersList = _command.m_arguments[ 2 ].toList();
+	const VictoryCondition::Enum victoryCondition
+		= static_cast< VictoryCondition::Enum >( _command.m_arguments[ 2 ].toInt() );
+
+	model->pushCommand( Command( CommandId::ChangeVictoryCondition, CommandType::Silent ).pushArgument( victoryCondition ) );
+
+	QList< QVariant > playersList = _command.m_arguments[ 3 ].toList();
 
 	QList< QVariant >::ConstIterator
 			begin = playersList.begin()

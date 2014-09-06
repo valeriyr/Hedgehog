@@ -4,7 +4,7 @@
 #include "landscape_model/sources/landscape_model/game_modes/lm_single_player_mode.hpp"
 
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
-#include "landscape_model/sources/model_locker/lm_model_locker.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
 
 
 /*---------------------------------------------------------------------------*/

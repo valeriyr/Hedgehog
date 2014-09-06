@@ -4,6 +4,12 @@
 #include "landscape_viewer/sources/views/lv_description_view.hpp"
 
 #include "landscape_viewer/sources/internal_resources/lv_internal_resources.hpp"
+#include "landscape_viewer/sources/environment/lv_ienvironment.hpp"
+
+#include "landscape_model/ih/lm_imodel_locker.hpp"
+#include "landscape_model/h/lm_events.hpp"
+
+#include "multithreading_manager/h/mm_external_resources.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -15,8 +21,10 @@ namespace LandscapeViewer {
 /*---------------------------------------------------------------------------*/
 
 
-DescriptionView::DescriptionView()
-	:	m_descriptionView( new QTextEdit() )
+DescriptionView::DescriptionView( const IEnvironment& _environment )
+	:	m_environment( _environment )
+	,	m_subscriber( _environment.createSubscriber() )
+	,	m_descriptionView( new QTextEdit() )
 	,	m_viewTitle( Resources::Views::DescriptionViewTitle )
 {
 	m_descriptionView->setReadOnly( true );
@@ -71,14 +79,13 @@ DescriptionView::viewWasClosed()
 
 
 void
-DescriptionView::landscapeWasOpened( const QSize& _size, const QString& _landscapeFilePath )
+DescriptionView::landscapeWasOpened()
 {
-	m_descriptionView->setHtml(
-		QString( Resources::Views::LandscapeDescriptionFormat )
-			.arg( _landscapeFilePath )
-			.arg( _size.width() )
-			.arg( _size.height() )
-		);
+	regenerateDescription();
+
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::VictoryConditionChanged::ms_type
+							,	boost::bind( &DescriptionView::onVictoryConditionChanged, this, _1 ) );
 
 } // DescriptionView::landscapeWasOpened
 
@@ -89,9 +96,42 @@ DescriptionView::landscapeWasOpened( const QSize& _size, const QString& _landsca
 void
 DescriptionView::landscapeWasClosed()
 {
+	m_subscriber.unsubscribe();
+
 	setDefaultDescription();
 
 } // DescriptionView::landscapeWasClosed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+DescriptionView::regenerateDescription()
+{
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
+
+	m_descriptionView->setHtml(
+		QString( Resources::Views::LandscapeDescriptionFormat )
+			.arg( handle->getLandscapeModel()->getFilePath() )
+			.arg( handle->getLandscapeModel()->getLandscape()->getWidth() )
+			.arg( handle->getLandscapeModel()->getLandscape()->getHeight() )
+			.arg( Core::LandscapeModel::VictoryCondition::toString( handle->getLandscapeModel()->getVictoryConditionType() ) )
+		);
+
+} // DescriptionView::regenerateDescription
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+DescriptionView::onVictoryConditionChanged( const Framework::Core::EventManager::Event& _event )
+{
+	regenerateDescription();
+
+} // DescriptionView::onVictoryConditionChanged
 
 
 /*---------------------------------------------------------------------------*/

@@ -105,6 +105,9 @@ MainView::printMessage(
 	case Tools::Core::IMessenger::MessegeLevel::Warning:
 		messageFormat = Resources::WarningMessageFormat;
 		break;
+	case Tools::Core::IMessenger::MessegeLevel::Success:
+		messageFormat = Resources::SuccessMessageFormat;
+		break;
 	case Tools::Core::IMessenger::MessegeLevel::Info:
 		break;
 	default:
@@ -140,6 +143,9 @@ MainView::printMessage(
 		break;
 	case Tools::Core::IMessenger::MessegeLevel::Warning:
 		messageFormat = Resources::WarningMessageWithModuleNameFormat;
+		break;
+	case Tools::Core::IMessenger::MessegeLevel::Success:
+		messageFormat = Resources::SuccessMessageWithModuleNameFormat;
 		break;
 	case Tools::Core::IMessenger::MessegeLevel::Info:
 		break;

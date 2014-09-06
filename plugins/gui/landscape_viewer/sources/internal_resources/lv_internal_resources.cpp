@@ -96,6 +96,8 @@ namespace Views {
 			"			<li><b>File path:</b> '%1'</li>									"	\
 			"			<br>															"	\
 			"			<li><b>Landscape size:</b> %2 on %3</li>						"	\
+			"			<br>															"	\
+			"			<li><b>Victory condition:</b> %4</li>							"	\
 			"		</ul>																"	\
 			"	</body>																	"	\
 			"</html>																	";

@@ -143,7 +143,8 @@ PluginInstance::exportScriptAPI()
 		.withEnum< Tools::Core::IMessenger::MessegeLevel::Enum >( "MessegeLevel" )
 			.withItem( "Info", Tools::Core::IMessenger::MessegeLevel::Info )
 			.withItem( "Warning", Tools::Core::IMessenger::MessegeLevel::Warning )
-			.withItem( "Error", Tools::Core::IMessenger::MessegeLevel::Error );
+			.withItem( "Error", Tools::Core::IMessenger::MessegeLevel::Error )
+			.withItem( "Success", Tools::Core::IMessenger::MessegeLevel::Success );
 
 	exporter.exportVariable( "SystemMessenger", getSystemMessenger().get() );
 

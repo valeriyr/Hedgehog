@@ -30,6 +30,7 @@ struct IMessenger
 				Info	= 0
 			,	Warning
 			,	Error
+			,	Success
 		};
 
 		static QString toString( const Enum _level )
@@ -42,6 +43,8 @@ struct IMessenger
 				return "Warning";
 			case Error:
 				return "Error";
+			case Success:
+				return "Success";
 			default:
 				break;
 			}

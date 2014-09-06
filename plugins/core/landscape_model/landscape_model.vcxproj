@@ -47,6 +47,7 @@
     <ClCompile Include="sources\landscape_model\game_modes\lm_multi_player_mode.cpp" />
     <ClCompile Include="sources\landscape_model\game_modes\lm_single_player_mode.cpp" />
     <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp" />
+    <ClCompile Include="sources\landscape_model\victory_checker\lm_endless_checker.cpp" />
     <ClCompile Include="sources\landscape_model\victory_checker\lm_stay_alone_checker.cpp" />
     <ClCompile Include="sources\landscape_serializer\lm_landscape_serializer.cpp" />
     <ClCompile Include="sources\model_information\lm_model_information.cpp" />
@@ -63,7 +64,6 @@
     <ClCompile Include="sources\player\lm_player.cpp" />
     <ClCompile Include="sources\plugin\lm_plugin_instance.cpp" />
     <ClCompile Include="sources\static_data\lm_static_data.cpp" />
-    <ClCompile Include="sources\statistics\lm_statistics.cpp" />
     <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp" />
     <ClCompile Include="sources\surface_item\lm_surface_item.cpp" />
     <ClCompile Include="sources\utils\lm_geometry.cpp" />
@@ -108,7 +108,6 @@
     <ClInclude Include="ih\lm_imodel_locker.hpp" />
     <ClInclude Include="ih\lm_iplayer.hpp" />
     <ClInclude Include="ih\lm_istatic_data.hpp" />
-    <ClInclude Include="ih\lm_istatistics.hpp" />
     <ClInclude Include="ih\lm_isurface_item.hpp" />
     <ClInclude Include="ih\lm_isurface_items_cache.hpp" />
     <ClInclude Include="sources\actions\lm_attack_action.hpp" />
@@ -144,6 +143,7 @@
     <ClInclude Include="sources\landscape_model\game_modes\lm_multi_player_mode.hpp" />
     <ClInclude Include="sources\landscape_model\game_modes\lm_single_player_mode.hpp" />
     <ClInclude Include="sources\landscape_model\lm_landscape_model.hpp" />
+    <ClInclude Include="sources\landscape_model\victory_checker\lm_endless_checker.hpp" />
     <ClInclude Include="sources\landscape_model\victory_checker\lm_ivictory_checker.hpp" />
     <ClInclude Include="sources\landscape_model\victory_checker\lm_stay_alone_checker.hpp" />
     <ClInclude Include="sources\landscape_serializer\lm_ilandscape_serializer.hpp" />
@@ -161,7 +161,6 @@
     <ClInclude Include="sources\player\lm_player.hpp" />
     <ClInclude Include="sources\plugin\lm_plugin_instance.hpp" />
     <ClInclude Include="sources\static_data\lm_static_data.hpp" />
-    <ClInclude Include="sources\statistics\lm_statistics.hpp" />
     <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp" />
     <ClInclude Include="sources\surface_item\lm_surface_item.hpp" />
     <ClInclude Include="sources\utils\lm_geometry.hpp" />

@@ -30,6 +30,15 @@ namespace CurrentTickNumberChanged
 
 /*---------------------------------------------------------------------------*/
 
+namespace VictoryConditionChanged
+{
+	const char* const ms_type = "VictoryConditionChanged";
+
+	const char* const ms_conditionAttribute = "Condition";
+}
+
+/*---------------------------------------------------------------------------*/
+
 namespace PlayerRaceChanged
 {
 	const char* const ms_type = "PlayerRaceChanged";

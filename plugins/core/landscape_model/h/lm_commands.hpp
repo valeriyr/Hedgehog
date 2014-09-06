@@ -28,7 +28,9 @@ struct CommandId
 		,	ConnectResponse
 		,	PlayerConnected
 		,	Disconnect
+		,	ChangeVictoryCondition
 		,	StartSimulation
+		,	StopSimulation
 
 		,	ChangePlayerRace
 		,	ChangePlayerType
@@ -51,9 +53,11 @@ struct CommandId
 	{
 		switch( _enum )
 		{
+		case ChangeVictoryCondition:
 		case PlayerConnected:
 		case Disconnect:
 		case StartSimulation:
+		case StopSimulation:
 		case ChangePlayerRace:
 		case ChangePlayerType:
 		case ChangePlayerName:
@@ -156,6 +160,12 @@ struct Command
 #define COMMAND_MAP_DECLARE_INTERFACE														\
 																							\
 virtual void processCommand( const Command& _command ) = 0;									\
+
+/*---------------------------------------------------------------------------*/
+
+#define DECLARE_PROCESSOR( COMMAND )														\
+																							\
+	void on##COMMAND##Processor( const Command& _command );									\
 
 /*---------------------------------------------------------------------------*/
 

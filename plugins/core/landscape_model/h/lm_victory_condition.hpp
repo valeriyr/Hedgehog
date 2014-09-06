@@ -17,6 +17,7 @@ struct VictoryCondition
 			Undefined = 0
 
 		,	StayAlone
+		,	Endless
 
 		,	Size
 		,	Begin = StayAlone
@@ -28,6 +29,8 @@ struct VictoryCondition
 		{
 		case StayAlone:
 			return "StayAlone";
+		case Endless:
+			return "Endless";
 		default:
 			return "Undefined";
 		}
@@ -37,6 +40,8 @@ struct VictoryCondition
 	{
 		if ( _type == "StayAlone" )
 			return StayAlone;
+		if ( _type == "Endless" )
+			return Endless;
 		else
 			return Undefined;
 	}

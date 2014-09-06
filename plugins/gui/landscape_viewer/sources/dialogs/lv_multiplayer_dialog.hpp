@@ -83,6 +83,8 @@ private slots:
 	void onPlayerRaceChanged();
 	void onPlayerTypeChanged();
 
+	void onVictoryConditionChanged( const QString& _condition );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -92,6 +94,7 @@ private:
 	void onPlayerRaceChanged( const Framework::Core::EventManager::Event& _event );
 	void onPlayerTypeChanged( const Framework::Core::EventManager::Event& _event );
 	void onPlayerNameChanged( const Framework::Core::EventManager::Event& _event );
+	void onVictoryConditionChangedEvent( const Framework::Core::EventManager::Event& _event );
 	void onSimulationStarted( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/

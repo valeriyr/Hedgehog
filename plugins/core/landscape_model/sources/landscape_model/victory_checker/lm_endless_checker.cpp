@@ -1,10 +1,7 @@
 
 #include "landscape_model/sources/ph/lm_ph.hpp"
 
-#include "landscape_model/sources/statistics/lm_statistics.hpp"
-
-#include "landscape_model/sources/environment/lm_ienvironment.hpp"
-
+#include "landscape_model/sources/landscape_model/victory_checker/lm_endless_checker.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -15,29 +12,39 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-Statistics::Statistics( const IEnvironment& _environment )
-	:	m_environment( _environment )
+EndlessChecker::EndlessChecker()
 {
-} // Statistics::Statistics
+} // EndlessChecker::EndlessChecker
 
 
 /*---------------------------------------------------------------------------*/
 
 
-Statistics::~Statistics()
+EndlessChecker::~EndlessChecker()
 {
-} // Statistics::~Statistics
+} // EndlessChecker::~EndlessChecker
 
 
 /*---------------------------------------------------------------------------*/
 
 
-int
-Statistics::getPlayerObjectsCount( const IPlayer::Id& _id ) const
+bool
+EndlessChecker::check() const
 {
-	return 0;
+	return false;
 
-} // Statistics::getPlayerObjectsCount
+} // EndlessChecker::check
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const VictoryCondition::Enum
+EndlessChecker::getType() const
+{
+	return VictoryCondition::Endless;
+
+} // EndlessChecker::getType
 
 
 /*---------------------------------------------------------------------------*/

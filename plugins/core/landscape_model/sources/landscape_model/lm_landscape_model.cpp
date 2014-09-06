@@ -8,7 +8,6 @@
 #include "landscape_model/sources/player/lm_player.hpp"
 
 #include "landscape_model/sources/landscape_serializer/lm_ilandscape_serializer.hpp"
-#include "landscape_model/sources/model_locker/lm_model_locker.hpp"
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
 #include "landscape_model/sources/actions/lm_generate_resources_action.hpp"
@@ -41,12 +40,16 @@
 #include "landscape_model/sources/landscape_model/game_modes/lm_multi_player_mode.hpp"
 #include "landscape_model/sources/landscape_model/game_modes/lm_single_player_mode.hpp"
 
+#include "landscape_model/sources/landscape_model/victory_checker/lm_stay_alone_checker.hpp"
+#include "landscape_model/sources/landscape_model/victory_checker/lm_endless_checker.hpp"
+
 #include "landscape_model/sources/utils/lm_geometry.hpp"
 
 #include "landscape_model/ih/lm_istatic_data.hpp"
 
 #include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/h/lm_events.hpp"
+#include "landscape_model/h/lm_victory_condition.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -58,7 +61,9 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 COMMAND_MAP_BEGIN( LandscapeModel )
+	PROCESSOR( ChangeVictoryCondition )
 	PROCESSOR( StartSimulation )
+	PROCESSOR( StopSimulation )
 	PROCESSOR( SetSurfaceItem )
 	PROCESSOR( SelectById )
 	PROCESSOR( SelectByRect )
@@ -95,6 +100,7 @@ LandscapeModel::LandscapeModel(
 	,	m_ticksCounter( 0 )
 	,	m_workers()
 	,	m_gameMode()
+	,	m_victoryChecker( new StayAloneChecker( m_environment ) ) // TODO: should be set not in the constructor
 {
 	m_environment.startThread( Resources::ModelThreadName );
 
@@ -211,6 +217,7 @@ LandscapeModel::resetModel()
 {
 	bool needToPrintMessage = isSimulationRunning();
 
+	m_victoryChecker.reset( new EndlessChecker() );
 	m_gameMode.reset();
 
 	m_environment.removeTask( m_actionsProcessingTaskHandle );
@@ -291,6 +298,17 @@ LandscapeModel::getFilePath() const
 	return m_filePath;
 
 } // LandscapeModel::getFilePath
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const VictoryCondition::Enum
+LandscapeModel::getVictoryConditionType() const
+{
+	return m_victoryChecker->getType();
+
+} // LandscapeModel::getVictoryConditionType
 
 
 /*---------------------------------------------------------------------------*/
@@ -703,6 +721,12 @@ LandscapeModel::gameMainLoop()
 		m_environment.getNotificationCenter()->processNotifiers();
 	}
 
+	if ( m_victoryChecker->check() )
+	{
+		pushCommand( Command( CommandId::StopSimulation ) );
+		return;
+	}
+
 	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime;
 
 	if ( time > Resources::TimeLimit )
@@ -854,6 +878,51 @@ LandscapeModel::onStartSimulationProcessor( const Command& _command )
 	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::SimulationStarted::ms_type ) );
 
 } // LandscapeModel::onStartSimulationProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onStopSimulationProcessor( const Command& _command )
+{
+	if ( !isSimulationRunning() )
+		return;
+
+	m_environment.removeTask( m_actionsProcessingTaskHandle );
+	m_actionsProcessingTaskHandle.reset();
+
+	m_environment.printMessage(
+			Tools::Core::IMessenger::MessegeLevel::Success
+			,	QString( Resources::SimulationStoppedMessage ).arg( Tools::Core::Time::currentTime() ).arg( m_ticksCounter ) );
+
+} // LandscapeModel::onStopSimulationProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onChangeVictoryConditionProcessor( const Command& _command )
+{
+	const VictoryCondition::Enum condition = static_cast< VictoryCondition::Enum >( _command.m_arguments[ 0 ].toInt() );
+
+	switch( condition )
+	{
+	case VictoryCondition::StayAlone:
+		m_victoryChecker.reset( new StayAloneChecker( m_environment ) );
+		break;
+	default:
+		m_victoryChecker.reset( new EndlessChecker() );
+		break;
+	}
+
+	Framework::Core::EventManager::Event conditionChanged( Events::VictoryConditionChanged::ms_type );
+	conditionChanged.pushAttribute( Events::VictoryConditionChanged::ms_conditionAttribute, condition );
+
+	m_environment.riseEvent( conditionChanged );
+
+} // LandscapeModel::onChangeVictoryConditionProcessor
 
 
 /*---------------------------------------------------------------------------*/

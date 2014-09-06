@@ -39,6 +39,8 @@ namespace Resources {
 
 	const char* const CommandReceivedMessage = "Command has been received from '%1:%2', type '%3', timestamp '%4', tick '%5'";
 
+	const char* const SimulationStoppedMessage = "Simulation has been stopped at: '%1' msec, tick '%2'";
+
 /*---------------------------------------------------------------------------*/
 
 	const char* const ConfigurationScriptsDirectory = "landscape_model";

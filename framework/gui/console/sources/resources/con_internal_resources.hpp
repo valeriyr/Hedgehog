@@ -23,11 +23,15 @@ namespace Resources {
 
 	extern const char* const InfoMessageFormat;
 
+	extern const char* const SuccessMessageFormat;
+
 	extern const char* const ErrorMessageWithModuleNameFormat;
 
 	extern const char* const WarningMessageWithModuleNameFormat;
 
 	extern const char* const InfoMessageWithModuleNameFormat;
+
+	extern const char* const SuccessMessageWithModuleNameFormat;
 
 	extern const char* const MessageWithoutPrefixFormat;
 

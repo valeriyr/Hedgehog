@@ -14,6 +14,10 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct IEnvironment;
+
+/*---------------------------------------------------------------------------*/
+
 class StayAloneChecker
 	:	public Tools::Core::BaseWrapper< IVictoryChecker >
 {
@@ -24,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	StayAloneChecker();
+	StayAloneChecker( const IEnvironment& _environment );
 
 	virtual ~StayAloneChecker();
 
@@ -32,11 +36,15 @@ public:
 
 	/*virtual*/ bool check() const;
 
+	/*virtual*/ const VictoryCondition::Enum getType() const;
+
 /*---------------------------------------------------------------------------*/
 
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	const IEnvironment& m_environment;
 
 /*---------------------------------------------------------------------------*/
 
