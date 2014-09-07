@@ -65,6 +65,25 @@ CommandsQueue::pushCommand( const IPlayer::Id& _playerId, const TickType& _targe
 
 
 void
+CommandsQueue::ensureCommandsList( const IPlayer::Id& _playerId, const TickType& _targetTick )
+{
+	CommandsByTickCollectionIterator iteratorByTick = m_commands.find( _targetTick );
+
+	if ( iteratorByTick == m_commands.end() )
+		iteratorByTick = m_commands.insert( std::make_pair( _targetTick, CommandsByPlayerCollection() ) ).first;
+
+	CommandsByPlayerCollectionIterator iteratorByPlayer = iteratorByTick->second.find( _playerId );
+
+	if ( iteratorByPlayer == iteratorByTick->second.end() )
+		iteratorByPlayer = iteratorByTick->second.insert( std::make_pair( _playerId, CommandsCollection() ) ).first;
+
+} // CommandsQueue::ensureCommandsList
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 CommandsQueue::fetchPlayerCommands(
 		const IPlayer::Id& _playerId
 	,	const TickType& _targetTick

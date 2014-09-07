@@ -554,12 +554,19 @@ MultiPlayerMode::processPassCommands(
 
 	QMap< QString, QVariant > commands = _command.m_arguments[ 2 ].toMap();
 
-	QMap< QString, QVariant >::ConstIterator
-			begin = commands.begin()
-		,	end = commands.end();
+	if ( commands.empty() )
+	{
+		m_commandsQueue.ensureCommandsList( playerId, targetTick );
+	}
+	else
+	{
+		QMap< QString, QVariant >::ConstIterator
+				begin = commands.begin()
+			,	end = commands.end();
 
-	for ( ; begin != end; ++begin )
-		m_commandsQueue.pushCommand( playerId, targetTick, Command::deserialize( static_cast< CommandId::Enum >( begin.key().toInt() ), begin.value().toByteArray() ) );
+		for ( ; begin != end; ++begin )
+			m_commandsQueue.pushCommand( playerId, targetTick, Command::deserialize( static_cast< CommandId::Enum >( begin.key().toInt() ), begin.value().toByteArray() ) );
+	}
 
 } // MultiPlayerMode::processPassCommands
 
@@ -593,7 +600,7 @@ void
 MultiPlayerMode::spreadCommands(
 		const IPlayer::Id& _playerId
 	,	const TickType& _targetTick
-	, const CommandsQueue::CommandsCollection& _commands )
+	,	const CommandsQueue::CommandsCollection& _commands )
 {
 	Command command( CommandId::PassCommands );
 

@@ -65,6 +65,8 @@ public:
 
 	void pushCommand( const IPlayer::Id& _playerId, const TickType& _targetTick, const Command& _command );
 
+	void ensureCommandsList( const IPlayer::Id& _playerId, const TickType& _targetTick );
+
 	void fetchPlayerCommands(
 			const IPlayer::Id& _playerId
 		,	const TickType& _targetTick
