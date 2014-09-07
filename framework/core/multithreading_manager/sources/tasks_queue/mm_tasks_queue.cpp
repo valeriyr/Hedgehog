@@ -51,14 +51,14 @@ TasksQueue::pushTask( RunnableFunction _function )
 
 
 QString
-TasksQueue::pushPeriodicalTask( RunnableFunction _function, const qint64 _period )
+TasksQueue::pushPeriodicalTask( RunnableFunction _function, const Tools::Core::Time::Milliseconds _period )
 {
 	QMutexLocker locker( &m_mutex );
 
 	const QString taskId( QUuid::createUuid().toString() );
 
 	TaskData taskData( _function, _period );
-	taskData.m_lastStart = QDateTime::currentDateTime().toMSecsSinceEpoch();
+	taskData.m_lastStart = Tools::Core::Time::currentTime();
 
 	m_periodicalTasksCollection.insert( std::make_pair( taskId, taskData ) );
 
@@ -73,7 +73,7 @@ TasksQueue::pushPeriodicalTask( RunnableFunction _function, const qint64 _period
 
 
 QString
-TasksQueue::pushDelayedTask( RunnableFunction _function, const qint64 _delay )
+TasksQueue::pushDelayedTask( RunnableFunction _function, const Tools::Core::Time::Milliseconds _delay )
 {
 	QMutexLocker locker( &m_mutex );
 
@@ -81,7 +81,7 @@ TasksQueue::pushDelayedTask( RunnableFunction _function, const qint64 _delay )
 
 	TaskData taskData( _function, _delay );
 
-	taskData.m_lastStart = QDateTime::currentDateTime().toMSecsSinceEpoch();
+	taskData.m_lastStart = Tools::Core::Time::currentTime();
 
 	m_delayedTasksCollection.insert( std::make_pair( taskId, taskData ) );
 
@@ -167,7 +167,7 @@ TasksQueue::refreshTasks()
 
 	for( ; beginPeriodical != endPeriodical ; ++beginPeriodical )
 	{
-		const qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+		const Tools::Core::Time::Milliseconds currentTime = Tools::Core::Time::currentTime();
 
 		if ( currentTime - beginPeriodical->second.m_lastStart >= beginPeriodical->second.m_time )
 		{
@@ -195,7 +195,7 @@ TasksQueue::refreshTasks()
 		;	beginDeleyed != m_delayedTasksCollection.end()
 		;	++beginDeleyed )
 	{
-		const qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+		const Tools::Core::Time::Milliseconds currentTime = Tools::Core::Time::currentTime();
 
 		if ( currentTime - beginDeleyed->second.m_lastStart >= beginDeleyed->second.m_time )
 		{

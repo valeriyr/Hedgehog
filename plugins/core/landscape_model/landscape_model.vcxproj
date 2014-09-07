@@ -44,6 +44,7 @@
     <ClCompile Include="sources\environment\lm_environment.cpp" />
     <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp" />
     <ClCompile Include="sources\landscape\lm_landscape.cpp" />
+    <ClCompile Include="sources\landscape_model\game_modes\lm_commands_queue.cpp" />
     <ClCompile Include="sources\landscape_model\game_modes\lm_multi_player_mode.cpp" />
     <ClCompile Include="sources\landscape_model\game_modes\lm_single_player_mode.cpp" />
     <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="sources\internal_resources\lm_internal_resources.hpp" />
     <ClInclude Include="sources\landscape\lm_iobjects_creator.hpp" />
     <ClInclude Include="sources\landscape\lm_landscape.hpp" />
+    <ClInclude Include="sources\landscape_model\game_modes\lm_commands_queue.hpp" />
     <ClInclude Include="sources\landscape_model\game_modes\lm_igame_mode.hpp" />
     <ClInclude Include="sources\landscape_model\game_modes\lm_multi_player_mode.hpp" />
     <ClInclude Include="sources\landscape_model\game_modes\lm_single_player_mode.hpp" />

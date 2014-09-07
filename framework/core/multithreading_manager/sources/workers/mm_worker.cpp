@@ -50,7 +50,7 @@ Worker::pushTask( RunnableFunction _function )
 
 
 QString
-Worker::pushPeriodicalTask( RunnableFunction _function, const qint64 _period )
+Worker::pushPeriodicalTask( RunnableFunction _function, const Tools::Core::Time::Milliseconds _period )
 {
 	const QString taskId( m_tasksQueue.pushPeriodicalTask( _function, _period ) );
 
@@ -65,7 +65,7 @@ Worker::pushPeriodicalTask( RunnableFunction _function, const qint64 _period )
 
 
 QString
-Worker::pushDelayedTask( RunnableFunction _function, const qint64 _delay )
+Worker::pushDelayedTask( RunnableFunction _function, const Tools::Core::Time::Milliseconds _delay )
 {
 	return m_tasksQueue.pushDelayedTask( _function, _delay );
 

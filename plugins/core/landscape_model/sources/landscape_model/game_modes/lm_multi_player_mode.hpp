@@ -7,8 +7,9 @@
 #include "landscape_model/sources/landscape_model/game_modes/lm_igame_mode.hpp"
 
 #include "landscape_model/ih/lm_iplayer.hpp"
-
 #include "network_manager/ih/nm_iconnection_listener.hpp"
+
+#include "landscape_model/sources/landscape_model/game_modes/lm_commands_queue.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,6 +59,8 @@ public:
 
 	/*virtual*/ void processCommand( const Command& _command );
 
+	/*virtual*/ bool prepareToTick( const TickType& _tick );
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void onDataReceive(
@@ -102,11 +105,21 @@ private:
 		,	const unsigned int _fromPort
 		,	const Command& _command );
 
+	void processPassCommands(
+			const QString& _fromAddress
+		,	const unsigned int _fromPort
+		,	const Command& _command );
+
 	void spreadPlayerConnectedCommand(
 			const IPlayer::Id& _playerId
 		,	const QString& _playerName
 		,	const QString& _playerAddress
 		,	const unsigned int _playerPort );
+
+	void spreadCommands(
+			const IPlayer::Id& _playerId
+		,	const TickType& _targetTick
+		,	const CommandsQueue::CommandsCollection& _commands );
 
 	void registerMetatypes();
 
@@ -132,6 +145,8 @@ private:
 	boost::intrusive_ptr< Framework::Core::NetworkManager::IUdpConnection > m_myConnection;
 
 	ConnectionsInfosCollection m_connections;
+
+	CommandsQueue m_commandsQueue;
 
 /*---------------------------------------------------------------------------*/
 

@@ -9,6 +9,8 @@
 #include "multithreading_manager/h/mm_runnable_function.hpp"
 #include "multithreading_manager/h/mm_task_handle.hpp"
 
+#include "time/t_time.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -39,9 +41,15 @@ struct IMultithreadingManager
 
 	virtual TaskHandle pushTask( const QString& _threadName, RunnableFunction _function ) = 0;
 
-	virtual TaskHandle pushPeriodicalTask( const QString& _threadName, RunnableFunction _function, const qint64 _period ) = 0;
+	virtual TaskHandle pushPeriodicalTask(
+			const QString& _threadName
+		,	RunnableFunction _function
+		,	const Tools::Core::Time::Milliseconds _period ) = 0;
 
-	virtual TaskHandle pushDelayedTask( const QString& _threadName, RunnableFunction _function, const qint64 _delay ) = 0;
+	virtual TaskHandle pushDelayedTask(
+			const QString& _threadName
+		,	RunnableFunction _function
+		,	const Tools::Core::Time::Milliseconds _delay ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

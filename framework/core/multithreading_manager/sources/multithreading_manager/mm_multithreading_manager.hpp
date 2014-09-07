@@ -47,9 +47,15 @@ public:
 
 	/*virtual*/ TaskHandle pushTask( const QString& _threadName, RunnableFunction _function );
 
-	/*virtual*/ TaskHandle pushPeriodicalTask( const QString& _threadName, RunnableFunction _function, const qint64 _period );
+	/*virtual*/ TaskHandle pushPeriodicalTask(
+			const QString& _threadName
+		,	RunnableFunction _function
+		,	const Tools::Core::Time::Milliseconds _period );
 
-	/*virtual*/ TaskHandle pushDelayedTask( const QString& _threadName, RunnableFunction _function, const qint64 _delay );
+	/*virtual*/ TaskHandle pushDelayedTask(
+			const QString& _threadName
+		,	RunnableFunction _function
+		,	const Tools::Core::Time::Milliseconds _delay );
 
 	/*virtual*/ void removeTask( const TaskHandle& _taskHandle );
 

@@ -38,7 +38,7 @@ public:
 		pushPeriodicalTask(
 					const QString& _threadName
 				,	const MultithreadingManager::RunnableFunction& _function
-				,	const qint64 _timeLimit );
+				,	const Tools::Core::Time::Milliseconds _timeLimit );
 
 	/*virtual*/ void removeTask( const MultithreadingManager::TaskHandle& _taskHandle );
 

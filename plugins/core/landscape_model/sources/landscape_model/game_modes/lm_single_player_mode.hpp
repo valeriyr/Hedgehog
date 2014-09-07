@@ -6,6 +6,8 @@
 
 #include "landscape_model/sources/landscape_model/game_modes/lm_igame_mode.hpp"
 
+#include "landscape_model/sources/landscape_model/game_modes/lm_commands_queue.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -36,6 +38,8 @@ public:
 
 	/*virtual*/ void processCommand( const Command& _command );
 
+	/*virtual*/ bool prepareToTick( const TickType& _tick );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -43,6 +47,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	CommandsQueue m_commandsQueue;
 
 /*---------------------------------------------------------------------------*/
 

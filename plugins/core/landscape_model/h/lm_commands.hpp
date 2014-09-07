@@ -6,6 +6,7 @@
 
 #include "time/t_time.hpp"
 
+#include "landscape_model/ih/lm_iplayer.hpp"
 #include "landscape_model/h/lm_constants.hpp"
 
 #include "network_manager/h/nm_connection_info.hpp"
@@ -31,6 +32,7 @@ struct CommandId
 		,	ChangeVictoryCondition
 		,	StartSimulation
 		,	StopSimulation
+		,	PassCommands
 
 		,	ChangePlayerRace
 		,	ChangePlayerType
@@ -49,22 +51,79 @@ struct CommandId
 		,	Begin = ConnectRequest
 	};
 
-	static bool doesNeedToSynchronize( const Enum _enum )
+	static QString toString( const Enum _enum )
 	{
 		switch( _enum )
 		{
-		case ChangeVictoryCondition:
+		case ConnectRequest:
+			return "ConnectRequest";
+		case ConnectResponse:
+			return "ConnectResponse";
 		case PlayerConnected:
+			return "PlayerConnected";
 		case Disconnect:
+			return "Disconnect";
+		case ChangeVictoryCondition:
+			return "ChangeVictoryCondition";
 		case StartSimulation:
+			return "StartSimulation";
 		case StopSimulation:
+			return "StopSimulation";
+		case PassCommands:
+			return "PassCommands";
 		case ChangePlayerRace:
+			return "ChangePlayerRace";
 		case ChangePlayerType:
+			return "ChangePlayerType";
 		case ChangePlayerName:
+			return "ChangePlayerName";
+		case ChangeMyPlayer:
+			return "ChangeMyPlayer";
 		case SetSurfaceItem:
+			return "SetSurfaceItem";
+		case SelectById:
+			return "SelectById";
+		case SelectByRect:
+			return "SelectByRect";
+		case Send:
+			return "Send";
+		case CreateObject:
+			return "CreateObject";
+		case TrainObject:
+			return "TrainObject";
+		case BuildObject:
+			return "BuildObject";
+		default:
+			return "Undefined";
+		}
+	}
+
+	static bool simulationTimeCommand( const Enum _enum )
+	{
+		switch( _enum )
+		{
+		case SetSurfaceItem:
+		case SelectById:
+		case SelectByRect:
 		case Send:
 		case TrainObject:
 		case BuildObject:
+			return true;
+		}
+
+		return false;
+	}
+
+	static bool silentCommand( const Enum _enum )
+	{
+		switch( _enum )
+		{
+		case ConnectRequest:
+		case ConnectResponse:
+		case ChangeMyPlayer:
+		case SelectById:
+		case SelectByRect:
+		case CreateObject:
 			return true;
 		}
 
@@ -104,7 +163,8 @@ struct Command
 		,	m_type( _type )
 		,	m_arguments()
 		,	m_timeStamp( 0 )
-		,	m_targetTick( 0 )
+		,	m_pushToProcessingTick( 0 )
+		,	m_playerId( IPlayer::ms_wrondId )
 		,	m_sourceConnectionInfo()
 	{}
 
@@ -122,7 +182,8 @@ struct Command
 		QDataStream stream( &_data, QIODevice::WriteOnly );
 		stream << m_arguments;
 		stream << m_timeStamp;
-		stream << m_targetTick;
+		stream << m_pushToProcessingTick;
+		stream << m_playerId;
 	}
 
 	static Command deserialize( const CommandId::Enum& _id, const QByteArray& _data )
@@ -132,22 +193,25 @@ struct Command
 		Command command( _id );
 		stream >> command.m_arguments;
 		stream >> command.m_timeStamp;
-		stream >> command.m_targetTick;
+		stream >> command.m_pushToProcessingTick;
+		stream >> command.m_playerId;
 
 		return command;
 	}
 
 /*---------------------------------------------------------------------------*/
 
-	const CommandId::Enum m_id;
+	CommandId::Enum m_id;
 
-	const CommandType::Enum m_type;
+	CommandType::Enum m_type;
 
 	CommandArgumentsCollection m_arguments;
 
 	Tools::Core::Time::Milliseconds m_timeStamp;
 
-	TickType m_targetTick;
+	TickType m_pushToProcessingTick;
+
+	IPlayer::Id m_playerId;
 
 	Framework::Core::NetworkManager::ConnectionInfo m_sourceConnectionInfo;
 

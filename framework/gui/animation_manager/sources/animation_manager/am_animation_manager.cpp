@@ -12,7 +12,6 @@
 
 #include "animation_manager/sources/resources/am_internal_resources.hpp"
 
-
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -110,7 +109,7 @@ AnimationManager::stopAllAnimations()
 void
 AnimationManager::animationsProcessingTask()
 {
-	const qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+	const Tools::Core::Time::Milliseconds currentTime = Tools::Core::Time::currentTime();
 
 	std::vector< IAnimateObject* > objectToDelete;
 
@@ -159,7 +158,7 @@ AnimationManager::animationsProcessingTask()
 	for ( ; toDeleteBegin != toDeleteEnd; ++toDeleteBegin )
 		m_animationsDataCollection.erase( *toDeleteBegin );
 
-	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - currentTime;
+	Tools::Core::Time::Milliseconds time = Tools::Core::Time::currentTime() - currentTime;
 
 	if ( time > Resources::TimeLimit )
 	{
@@ -184,7 +183,7 @@ AnimationManager::playAnimation(
 	const AnimationInfo& animationInfo = m_animationCache.getAnimation( _animationName );
 
 	boost::shared_ptr< AnimationData > animationData( new AnimationData( animationInfo ) );
-	animationData->m_lastFrameSwitchTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+	animationData->m_lastFrameSwitchTime = Tools::Core::Time::currentTime();
 	animationData->m_delay = _delay;
 	animationData->m_onceAnimation = _onceAnimation;
 

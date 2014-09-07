@@ -6,6 +6,8 @@
 
 #include "multithreading_manager/h/mm_runnable_function.hpp"
 
+#include "time/t_time.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -41,8 +43,8 @@ namespace MultithreadingManager {
 		{}
 
 		RunnableFunction m_function;
-		qint64 m_time;
-		qint64 m_lastStart;
+		Tools::Core::Time::Milliseconds m_time;
+		Tools::Core::Time::Milliseconds m_lastStart;
 
 		bool m_isInitialized;
 	};
@@ -66,9 +68,9 @@ public:
 
 	QString pushTask( RunnableFunction _function );
 
-	QString pushPeriodicalTask( RunnableFunction _function, const qint64 _period );
+	QString pushPeriodicalTask( RunnableFunction _function, const Tools::Core::Time::Milliseconds _period );
 
-	QString pushDelayedTask( RunnableFunction _function, const qint64 _dalay );
+	QString pushDelayedTask( RunnableFunction _function, const Tools::Core::Time::Milliseconds _dalay );
 
 /*---------------------------------------------------------------------------*/
 

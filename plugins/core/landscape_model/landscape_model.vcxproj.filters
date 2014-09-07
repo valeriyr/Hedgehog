@@ -204,6 +204,9 @@
     <ClCompile Include="sources\landscape_model\victory_checker\lm_endless_checker.cpp">
       <Filter>Landscape Model\Victory Checker</Filter>
     </ClCompile>
+    <ClCompile Include="sources\landscape_model\game_modes\lm_commands_queue.cpp">
+      <Filter>Landscape Model\Game Modes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -490,6 +493,9 @@
     </ClInclude>
     <ClInclude Include="sources\landscape_model\victory_checker\lm_endless_checker.hpp">
       <Filter>Landscape Model\Victory Checker</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_model\game_modes\lm_commands_queue.hpp">
+      <Filter>Landscape Model\Game Modes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

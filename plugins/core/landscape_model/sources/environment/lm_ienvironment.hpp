@@ -10,8 +10,8 @@
 #include "multithreading_manager/h/mm_task_handle.hpp"
 
 #include "event_manager/h/em_event.hpp"
-
 #include "messenger/ms_imessenger.hpp"
+#include "time/t_time.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,7 +54,7 @@ struct IEnvironment
 		pushPeriodicalTask(
 			const QString& _threadName
 		,	Framework::Core::MultithreadingManager::RunnableFunction _function
-		,	const qint64 _period ) const = 0;
+		,	const Tools::Core::Time::Milliseconds _period ) const = 0;
 
 	virtual Framework::Core::MultithreadingManager::TaskHandle
 		pushTask(

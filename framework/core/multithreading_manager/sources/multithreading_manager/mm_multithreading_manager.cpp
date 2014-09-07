@@ -131,7 +131,7 @@ TaskHandle
 MultithreadingManager::pushPeriodicalTask(
 		const QString& _threadName
 	,	RunnableFunction _function
-	,	const qint64 _period )
+	,	const Tools::Core::Time::Milliseconds _period )
 {
 	if ( _threadName == Resources::MainThreadName )
 	{
@@ -156,7 +156,7 @@ TaskHandle
 MultithreadingManager::pushDelayedTask(
 		const QString& _threadName
 	,	RunnableFunction _function
-	,	const qint64 _delay )
+	,	const Tools::Core::Time::Milliseconds _delay )
 {
 	if ( _threadName == Resources::MainThreadName )
 	{

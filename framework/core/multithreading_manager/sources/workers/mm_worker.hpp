@@ -37,9 +37,9 @@ public:
 
 	QString pushTask( RunnableFunction _function );
 
-	QString pushPeriodicalTask( RunnableFunction _function, const qint64 _period );
+	QString pushPeriodicalTask( RunnableFunction _function, const Tools::Core::Time::Milliseconds _period );
 
-	QString pushDelayedTask( RunnableFunction _function, const qint64 _delay );
+	QString pushDelayedTask( RunnableFunction _function, const Tools::Core::Time::Milliseconds _delay );
 
 /*---------------------------------------------------------------------------*/
 

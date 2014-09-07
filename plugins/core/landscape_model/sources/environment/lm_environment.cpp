@@ -71,7 +71,7 @@ Framework::Core::MultithreadingManager::TaskHandle
 Environment::pushPeriodicalTask(
 		const QString& _threadName
 	,	Framework::Core::MultithreadingManager::RunnableFunction _function
-	,	const qint64 _period ) const
+	,	const Tools::Core::Time::Milliseconds _period ) const
 {
 	return m_pluginInstance.getMultithreadingManager()->pushPeriodicalTask( _threadName, _function, _period );
 

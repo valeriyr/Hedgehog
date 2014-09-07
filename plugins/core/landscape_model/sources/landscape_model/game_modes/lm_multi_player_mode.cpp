@@ -19,6 +19,11 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+static const TickType gs_tickLatency = 2;
+static const TickType gs_syncTickLatency = 1;
+
+/*---------------------------------------------------------------------------*/
+
 struct PlayerData
 {
 	PlayerData()
@@ -123,6 +128,7 @@ MultiPlayerMode::MultiPlayerMode(
 	,	m_myConnectionInfo( _myConnectionInfo )
 	,	m_myConnection()
 	,	m_connections()
+	,	m_commandsQueue()
 {
 	registerMetatypes();
 
@@ -172,13 +178,76 @@ MultiPlayerMode::~MultiPlayerMode()
 void
 MultiPlayerMode::processCommand( const Command& _command )
 {
-	// TODO: algorithm should be more smarter
-
-	m_environment.lockModel()->getLandscapeModel()->processCommand( _command );
-
-	spreadCommand( _command );
+	if ( !CommandId::simulationTimeCommand( _command.m_id ) )
+	{
+		m_environment.lockModel()->getLandscapeModel()->processCommand( _command );
+		spreadCommand( _command );
+	}
+	else
+	{
+		m_commandsQueue.pushCommand( _command.m_pushToProcessingTick + gs_tickLatency, _command );
+	}
 
 } // MultiPlayerMode::processCommand
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+MultiPlayerMode::prepareToTick( const TickType& _tick )
+{
+	// Check sync latency
+	if ( _tick <= gs_syncTickLatency )
+		return true;
+
+	// Send data about my player commands
+	boost::intrusive_ptr< IModelLocker > locker = m_environment.lockModel();
+	boost::intrusive_ptr< ILandscapeModel > model = locker->getLandscapeModel();
+
+	boost::intrusive_ptr< IPlayer > myPlayer = model->getMyPlayer();
+	assert( myPlayer );
+
+	CommandsQueue::CommandsCollection myCommands;
+	m_commandsQueue.fetchPlayerCommands( myPlayer->getUniqueId(), _tick + gs_syncTickLatency, myCommands );
+
+	spreadCommands( myPlayer->getUniqueId(), _tick + gs_syncTickLatency, myCommands );
+
+	// Check latency
+	if ( _tick <= gs_tickLatency )
+		return true;
+
+	// On this time we should have all commands from another players
+	if ( !m_commandsQueue.hasCommands( _tick ) )
+		return false;
+
+	ILandscapeModel::PlayersCollection players;
+	model->fetchPlayers( players );
+
+	ILandscapeModel::PlayersCollectionIterator
+			playersBegin = players.begin()
+		,	playersEnd = players.end();
+
+	for ( ; playersBegin != playersEnd; ++playersBegin )
+	{
+		if ( !m_commandsQueue.hasCommands( ( *playersBegin )->getUniqueId(), _tick) )
+			return false;
+	}
+
+	// Collect all commands for tick and execute
+	CommandsQueue::CommandsByTimeCollection commandsForExecution;
+	m_commandsQueue.fetchCommandsByTime( _tick, commandsForExecution );
+
+	CommandsQueue::CommandsByTimeCollectionIterator
+			commandsForExecutionBegin = commandsForExecution.begin()
+		,	commandsForExecutionEnd = commandsForExecution.end();
+
+	for ( ; commandsForExecutionBegin != commandsForExecutionEnd; ++commandsForExecutionBegin )
+		model->processCommand( commandsForExecutionBegin->second );
+
+	return true;
+
+} // MultiPlayerMode::prepareToTick
 
 
 /*---------------------------------------------------------------------------*/
@@ -199,9 +268,9 @@ MultiPlayerMode::onDataReceive(
 		,	QString( Resources::CommandReceivedMessage )
 				.arg( _fromAddress )
 				.arg( _fromPort )
-				.arg( command.m_id )
+				.arg( CommandId::toString( command.m_id ) )
 				.arg( command.m_timeStamp )
-				.arg( command.m_targetTick ) );
+				.arg( command.m_pushToProcessingTick ) );
 
 	processCommand( _fromAddress, _fromPort, command );
 
@@ -230,7 +299,7 @@ MultiPlayerMode::sendCommand(
 void
 MultiPlayerMode::spreadCommand( const Command& _command )
 {
-	if ( CommandId::doesNeedToSynchronize( _command.m_id ) && _command.m_type != CommandType::Silent )
+	if ( !CommandId::silentCommand( _command.m_id ) && _command.m_type != CommandType::Silent )
 	{
 		ConnectionsInfosCollectionIterator
 				begin = m_connections.begin()
@@ -270,6 +339,10 @@ MultiPlayerMode::processCommand(
 	else if ( _command.m_id == CommandId::Disconnect )
 	{
 		processDisconnect( _fromAddress, _fromPort, _command );
+	}
+	else if ( _command.m_id == CommandId::PassCommands )
+	{
+		processPassCommands( _fromAddress, _fromPort, _command );
 	}
 	else
 	{
@@ -468,6 +541,33 @@ MultiPlayerMode::processDisconnect(
 
 
 void
+MultiPlayerMode::processPassCommands(
+		const QString& _fromAddress
+	,	const unsigned int _fromPort
+	,	const Command& _command )
+{
+	IPlayer::Id playerId = _command.m_arguments[ 0 ].toInt();
+	TickType targetTick = _command.m_arguments[ 1 ].toInt();
+
+	if ( m_commandsQueue.hasCommands( playerId, targetTick ) )
+		return;
+
+	QMap< QString, QVariant > commands = _command.m_arguments[ 2 ].toMap();
+
+	QMap< QString, QVariant >::ConstIterator
+			begin = commands.begin()
+		,	end = commands.end();
+
+	for ( ; begin != end; ++begin )
+		m_commandsQueue.pushCommand( playerId, targetTick, Command::deserialize( static_cast< CommandId::Enum >( begin.key().toInt() ), begin.value().toByteArray() ) );
+
+} // MultiPlayerMode::processPassCommands
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 MultiPlayerMode::spreadPlayerConnectedCommand(
 		const IPlayer::Id& _playerId
 	,	const QString& _playerName
@@ -484,6 +584,42 @@ MultiPlayerMode::spreadPlayerConnectedCommand(
 	spreadCommand( command );
 
 } // MultiPlayerMode::spreadPlayerConnectedCommand
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+MultiPlayerMode::spreadCommands(
+		const IPlayer::Id& _playerId
+	,	const TickType& _targetTick
+	, const CommandsQueue::CommandsCollection& _commands )
+{
+	Command command( CommandId::PassCommands );
+
+	QMap< QString, QVariant > commands;
+
+	CommandsQueue::CommandsCollectionIterator
+			begin = _commands.begin()
+		,	end = _commands.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		QByteArray commandData;
+		begin->serialize( commandData );
+
+		assert( _playerId == begin->m_playerId );
+
+		commands.insert( QString::number( begin->m_id ), commandData );
+	}
+
+	command.pushArgument( _playerId );
+	command.pushArgument( _targetTick );
+	command.pushArgument( commands );
+
+	spreadCommand( command );
+
+} // MultiPlayerMode::spreadCommands
 
 
 /*---------------------------------------------------------------------------*/

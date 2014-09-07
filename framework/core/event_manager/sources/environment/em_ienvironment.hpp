@@ -9,6 +9,8 @@
 
 #include "messenger/ms_imessenger.hpp"
 
+#include "time/t_time.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -27,7 +29,7 @@ struct IEnvironment
 		pushPeriodicalTask(
 					const QString& _threadName
 				,	const MultithreadingManager::RunnableFunction& _function
-				,	const qint64 _timeLimit ) = 0;
+				,	const Tools::Core::Time::Milliseconds _timeLimit ) = 0;
 
 	virtual void removeTask( const MultithreadingManager::TaskHandle& _taskHandle ) = 0;
 

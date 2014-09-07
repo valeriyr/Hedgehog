@@ -29,7 +29,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	static const unsigned int ms_period = 16;
+	static const Tools::Core::Time::Milliseconds ms_period = 16;
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,9 +41,9 @@ public:
 
 	QString pushTask( RunnableFunction _function );
 
-	QString pushPeriodicalTask( RunnableFunction _function, const qint64 _period );
+	QString pushPeriodicalTask( RunnableFunction _function, const Tools::Core::Time::Milliseconds _period );
 
-	QString pushDelayedTask( RunnableFunction _function, const qint64 _delay );
+	QString pushDelayedTask( RunnableFunction _function, const Tools::Core::Time::Milliseconds _delay );
 
 /*---------------------------------------------------------------------------*/
 
@@ -75,7 +75,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	static const unsigned int ms_oneTickTimeLimit = 25;
+	static const Tools::Core::Time::Milliseconds ms_oneTickTimeLimit = 25;
 
 	QTimer* m_timer;
 

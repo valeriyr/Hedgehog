@@ -24,6 +24,8 @@ struct IGameMode
 
 	virtual void processCommand( const Command& _command ) = 0;
 
+	virtual bool prepareToTick( const TickType& _tick ) = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };

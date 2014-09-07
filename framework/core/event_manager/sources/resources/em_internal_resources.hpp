@@ -2,6 +2,8 @@
 #ifndef __EM_INTERNAL_RESOURCES_HPP__
 #define __EM_INTERNAL_RESOURCES_HPP__
 
+#include "time/t_time.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -15,7 +17,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const qint64 TimeLimit;
+	extern const Tools::Core::Time::Milliseconds TimeLimit;
 
 	extern const char* const TimeLimitWarning;
 

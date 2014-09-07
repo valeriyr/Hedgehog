@@ -42,7 +42,7 @@ public:
 		pushPeriodicalTask(
 				const QString& _threadName
 			,	Framework::Core::MultithreadingManager::RunnableFunction _function
-			,	const qint64 _period ) const;
+			,	const Tools::Core::Time::Milliseconds _period ) const;
 
 	/*virtual*/ Framework::Core::MultithreadingManager::TaskHandle
 		pushTask(

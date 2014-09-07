@@ -11,14 +11,13 @@ namespace Time {
 
 /*---------------------------------------------------------------------------*/
 
-typedef unsigned long long Milliseconds;
+typedef qint64 Milliseconds;
 
 /*---------------------------------------------------------------------------*/
 
 inline Milliseconds currentTime()
 {
-	QDateTime currentTime( QDateTime::currentDateTimeUtc() );
-	return currentTime.toMSecsSinceEpoch();
+	return QDateTime::currentDateTimeUtc().toMSecsSinceEpoch();
 }
 
 /*---------------------------------------------------------------------------*/

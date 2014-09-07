@@ -7,7 +7,6 @@
 
 #include "event_manager/sources/resources/em_internal_resources.hpp"
 
-
 /*---------------------------------------------------------------------------*/
 
 namespace Framework {
@@ -158,7 +157,7 @@ EventManager::unsubscribe( const IEventManager::ConnectionId& _connectionId )
 void
 EventManager::task( const QString& _threadName )
 {
-	qint64 startTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+	Tools::Core::Time::Milliseconds startTime = Tools::Core::Time::currentTime();
 
 	EventsCollection copyOfEventsCollection;
 	SubscribersData subscribersData;
@@ -199,7 +198,7 @@ EventManager::task( const QString& _threadName )
 		}
 	}
 
-	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime;
+	Tools::Core::Time::Milliseconds time = Tools::Core::Time::currentTime() - startTime;
 
 	if ( time > Resources::TimeLimit )
 	{

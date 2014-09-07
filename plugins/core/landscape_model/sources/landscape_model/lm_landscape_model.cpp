@@ -322,7 +322,8 @@ LandscapeModel::pushCommand( const Command& _command )
 
 	// TODO: const_cast
 	const_cast< Command& >( _command ).m_timeStamp = Tools::Core::Time::currentTime() - m_simulationStartTimeStamp;
-	const_cast< Command& >( _command ).m_targetTick = m_ticksCounter + 1;
+	const_cast< Command& >( _command ).m_pushToProcessingTick = m_ticksCounter;
+	const_cast< Command& >( _command ).m_playerId = m_myPlayerId;
 
 	m_gameMode->processCommand( _command );
 
@@ -660,10 +661,17 @@ LandscapeModel::addWorker( boost::shared_ptr< Object > _worker )
 void
 LandscapeModel::gameMainLoop()
 {
-	qint64 startTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+	const Tools::Core::Time::Milliseconds startTime = Tools::Core::Time::currentTime();
 
 	{
 		QMutexLocker locker( &m_mutex );
+
+		if ( !m_gameMode->prepareToTick( m_ticksCounter + 1 ) )
+			return;
+
+		// Oops, simulation has been finished!
+		if ( !isSimulationRunning() )
+			return;
 
 		++m_ticksCounter;
 
@@ -727,7 +735,7 @@ LandscapeModel::gameMainLoop()
 		return;
 	}
 
-	qint64 time = QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime;
+	const Tools::Core::Time::Milliseconds time = Tools::Core::Time::currentTime() - startTime;
 
 	if ( time > Resources::TimeLimit )
 	{

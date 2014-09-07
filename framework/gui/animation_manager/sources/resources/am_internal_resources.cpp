@@ -17,7 +17,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const int TimeLimit = 16;
+	const Tools::Core::Time::Milliseconds TimeLimit = 16;
 
 	const char* const TimeLimitWarning = "Time limit has been exceeded! Time: '%1' ( limit: '%2' )";
 

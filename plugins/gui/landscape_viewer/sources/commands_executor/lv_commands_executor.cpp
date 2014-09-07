@@ -41,6 +41,7 @@ CommandsExecutor::~CommandsExecutor()
 void
 CommandsExecutor::newLandscape()
 {
+	// TODO: need to implement editor mode
 	openLandscape( "" );
 
 } // CommandsExecutor::newLandscape

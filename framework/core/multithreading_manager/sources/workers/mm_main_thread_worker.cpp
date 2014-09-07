@@ -50,7 +50,7 @@ MainThreadWorker::pushTask( RunnableFunction _function )
 
 
 QString
-MainThreadWorker::pushPeriodicalTask( RunnableFunction _function, const qint64 _period )
+MainThreadWorker::pushPeriodicalTask( RunnableFunction _function, const Tools::Core::Time::Milliseconds _period )
 {
 	return m_tasksQueue.pushPeriodicalTask( _function, _period );
 
@@ -61,7 +61,7 @@ MainThreadWorker::pushPeriodicalTask( RunnableFunction _function, const qint64 _
 
 
 QString
-MainThreadWorker::pushDelayedTask( RunnableFunction _function, const qint64 _delay )
+MainThreadWorker::pushDelayedTask( RunnableFunction _function, const Tools::Core::Time::Milliseconds _delay )
 {
 	return m_tasksQueue.pushDelayedTask( _function, _delay );
 
@@ -107,7 +107,7 @@ MainThreadWorker::start()
 void
 MainThreadWorker::doWork()
 {
-	const qint64 startTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+	const Tools::Core::Time::Milliseconds startTime = Tools::Core::Time::currentTime();
 
 	m_tasksQueue.refreshTasks();
 
@@ -120,7 +120,7 @@ MainThreadWorker::doWork()
 
 		taskData.m_function();
 	}
-	while( QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime < ms_oneTickTimeLimit );
+	while( Tools::Core::Time::currentTime() - startTime < ms_oneTickTimeLimit );
 
 } // MainThreadWorker::doWork
 
