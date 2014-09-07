@@ -231,7 +231,9 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 				boost::intrusive_ptr< Core::LandscapeModel::IPlayerComponent > playerComponent
 					= selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::IPlayerComponent >( Plugins::Core::LandscapeModel::ComponentId::Player );
 
-				if ( playerComponent && handle->getLandscapeModel()->getMyPlayer()->getUniqueId() != playerComponent->getPlayerId() )
+				if (	selectedObjectsCollection.front()->getState() == Core::LandscapeModel::ObjectState::Dying
+					||	selectedObjectsCollection.front()->getState() == Core::LandscapeModel::ObjectState::UnderConstruction
+					||	( playerComponent && handle->getLandscapeModel()->getMyPlayer()->getUniqueId() != playerComponent->getPlayerId() ) )
 					return;
 
 				trainComponent = selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::ITrainComponent >( Plugins::Core::LandscapeModel::ComponentId::Train );

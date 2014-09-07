@@ -526,7 +526,9 @@ LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event
 			_event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectDirection ).toInt() );
 
 	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
-	assert( iterator != m_objectsCollection.end() );
+
+	if ( iterator == m_objectsCollection.end() )
+		return;
 
 	if (	state == Plugins::Core::LandscapeModel::ObjectState::Dying
 		||	state == Plugins::Core::LandscapeModel::ObjectState::Standing )

@@ -50,6 +50,9 @@ TrainAction::~TrainAction()
 bool
 TrainAction::prepareToProcessingInternal()
 {
+	if ( m_object.getState() == ObjectState::Dying || m_object.getState() == ObjectState::UnderConstruction )
+		return false;
+
 	boost::intrusive_ptr< ITrainComponent > trainComponent
 		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
 

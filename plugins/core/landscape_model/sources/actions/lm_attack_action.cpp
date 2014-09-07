@@ -171,7 +171,14 @@ AttackAction::processAction()
 					stateChanged = true;
 				}
 
-				if ( m_object.getState() != ObjectState::Attacking )
+				if ( targetObjectLocate->isHidden() )
+				{
+					m_object.setState( ObjectState::Standing );
+					stateChanged = true;
+
+					m_isInProcessing = false;
+				}
+				else if ( m_object.getState() != ObjectState::Attacking )
 				{
 					m_object.setState( ObjectState::Attacking );
 					stateChanged = true;
@@ -181,12 +188,16 @@ AttackAction::processAction()
 				TickType prevAttackPhaseCounter = m_attackPhaseCounter;
 				++m_attackPhaseCounter;
 
-				if ( m_attackPhaseCounter >= attackComponent->getStaticData().m_aiming + attackComponent->getStaticData().m_reloading )
+				
+				if (	m_isInProcessing
+					&&	m_attackPhaseCounter >= ( attackComponent->getStaticData().m_aiming + attackComponent->getStaticData().m_reloading ) )
 				{
 					m_attackPhaseCounter = 0;
 					readyToAttack = true;
 				}
-				else if ( prevAttackPhaseCounter < attackComponent->getStaticData().m_aiming && m_attackPhaseCounter >= attackComponent->getStaticData().m_aiming )
+				else if (	m_isInProcessing
+						&&	prevAttackPhaseCounter < attackComponent->getStaticData().m_aiming
+						&& m_attackPhaseCounter >= attackComponent->getStaticData().m_aiming )
 				{
 					boost::intrusive_ptr< IHealthComponent > targetHealthComponent
 						= attackComponent->getTargetObject()->getComponent< IHealthComponent >( ComponentId::Health );
