@@ -13,7 +13,8 @@ namespace LandscapeModel {
 
 
 CommandsQueue::CommandsQueue()
-	:	m_commands()
+	:	m_mutex()
+	,	m_commands()
 {
 } // CommandsQueue::CommandsQueue
 
@@ -43,6 +44,8 @@ CommandsQueue::pushCommand( const TickType& _targetTick, const Command& _command
 void
 CommandsQueue::pushCommand( const IPlayer::Id& _playerId, const TickType& _targetTick, const Command& _command )
 {
+	QMutexLocker locker( &m_mutex );
+
 	assert( _playerId != IPlayer::ms_wrondId );
 	assert( _playerId == _command.m_playerId );
 
@@ -67,6 +70,8 @@ CommandsQueue::pushCommand( const IPlayer::Id& _playerId, const TickType& _targe
 void
 CommandsQueue::ensureCommandsList( const IPlayer::Id& _playerId, const TickType& _targetTick )
 {
+	QMutexLocker locker( &m_mutex );
+
 	CommandsByTickCollectionIterator iteratorByTick = m_commands.find( _targetTick );
 
 	if ( iteratorByTick == m_commands.end() )
@@ -89,6 +94,8 @@ CommandsQueue::fetchPlayerCommands(
 	,	const TickType& _targetTick
 	,	CommandsCollection& _collection )
 {
+	QMutexLocker locker( &m_mutex );
+
 	CommandsByTickCollectionIterator commandsByTickIterator = m_commands.find( _targetTick );
 
 	if ( commandsByTickIterator == m_commands.end() )
@@ -112,6 +119,8 @@ CommandsQueue::fetchCommandsByTime(
 		const TickType& _targetTick
 	,	CommandsByTimeCollection& _collection )
 {
+	QMutexLocker locker( &m_mutex );
+
 	_collection.clear();
 
 	CommandsByTickCollectionIterator commandsByTickIterator = m_commands.find( _targetTick );
@@ -142,8 +151,10 @@ CommandsQueue::fetchCommandsByTime(
 
 
 bool
-CommandsQueue::hasCommands( const TickType& _targetTick ) const
+CommandsQueue::hasCommands( const TickType& _targetTick )
 {
+	QMutexLocker locker( &m_mutex );
+
 	return m_commands.find( _targetTick ) != m_commands.end();
 
 } // CommandsQueue::hasCommands
@@ -153,8 +164,10 @@ CommandsQueue::hasCommands( const TickType& _targetTick ) const
 
 
 bool
-CommandsQueue::hasCommands( const IPlayer::Id& _playerId, const TickType& _targetTick ) const
+CommandsQueue::hasCommands( const IPlayer::Id& _playerId, const TickType& _targetTick )
 {
+	QMutexLocker locker( &m_mutex );
+
 	CommandsByTickCollectionConstIterator byTickIterator = m_commands.find( _targetTick );
 
 	if ( byTickIterator == m_commands.end() )

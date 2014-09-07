@@ -78,9 +78,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	bool hasCommands( const TickType& _targetTick ) const;
+	bool hasCommands( const TickType& _targetTick );
 
-	bool hasCommands( const IPlayer::Id& _playerId, const TickType& _targetTick ) const;
+	bool hasCommands( const IPlayer::Id& _playerId, const TickType& _targetTick );
 
 /*---------------------------------------------------------------------------*/
 
@@ -99,6 +99,8 @@ private:
 		CommandsByTickCollectionConstIterator;
 
 /*---------------------------------------------------------------------------*/
+
+	QMutex m_mutex;
 
 	CommandsByTickCollection m_commands;
 

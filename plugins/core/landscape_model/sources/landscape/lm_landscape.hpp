@@ -91,9 +91,7 @@ public:
 
 	/*virtual*/ void showObject( boost::shared_ptr< Object > _object );
 
-	/*virtual*/ void selectObjects( const QRect& _rect );
-
-	/*virtual*/ void selectObject( const Object::Id& _id );
+	/*virtual*/ void selectObjects( const IObjectsFilter& _filter );
 
 	/*virtual*/ void unselectObjects();
 

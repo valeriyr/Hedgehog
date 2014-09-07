@@ -228,8 +228,15 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 
 			if ( !selectedObjectsCollection.empty() )
 			{
+				boost::intrusive_ptr< Core::LandscapeModel::IPlayerComponent > playerComponent
+					= selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::IPlayerComponent >( Plugins::Core::LandscapeModel::ComponentId::Player );
+
+				if ( playerComponent && handle->getLandscapeModel()->getMyPlayer()->getUniqueId() != playerComponent->getPlayerId() )
+					return;
+
 				trainComponent = selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::ITrainComponent >( Plugins::Core::LandscapeModel::ComponentId::Train );
 				buildComponent = selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::IBuildComponent >( Plugins::Core::LandscapeModel::ComponentId::Build );
+
 				parentObjectId = selectedObjectsCollection.front()->getUniqueId();
 			}
 		}

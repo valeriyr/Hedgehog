@@ -79,6 +79,44 @@ COMMAND_MAP_END()
 
 /*---------------------------------------------------------------------------*/
 
+struct ObjectsByRectFilter
+	:	public ILandscape::IObjectsFilter
+{
+	ObjectsByRectFilter( const QRect& _rect )
+		:	m_rect( _rect )
+	{}
+
+	/*virtual*/ bool check( const Object& _object ) const
+	{
+		boost::intrusive_ptr< ILocateComponent > locationComponent
+			= _object.getComponent< ILocateComponent >( ComponentId::Locate );
+
+		return	locationComponent
+			&&	locationComponent->getRect().intersects( m_rect );
+	}
+
+	const QRect m_rect;
+};
+
+/*---------------------------------------------------------------------------*/
+
+struct ObjectsByIdFilter
+	:	public ILandscape::IObjectsFilter
+{
+	ObjectsByIdFilter( const Object::Id& _id )
+		:	m_id( _id )
+	{}
+
+	/*virtual*/ bool check( const Object& _object ) const
+	{
+		return _object.getUniqueId() == m_id;
+	}
+
+	const Object::Id m_id;
+};
+
+/*---------------------------------------------------------------------------*/
+
 
 LandscapeModel::LandscapeModel(
 		const IEnvironment& _environment
@@ -785,6 +823,17 @@ LandscapeModel::shouldStoreResources( const Object& _holder, boost::shared_ptr< 
 	if ( !resourceHolderComponent || !resourceStorageComponent )
 		return false;
 
+	boost::intrusive_ptr< IPlayerComponent > storagePlayerComponent
+		= _storage->getComponent< IPlayerComponent >( ComponentId::Player );
+	boost::intrusive_ptr< IPlayerComponent > holderPlayerComponent
+		= _holder.getComponent< IPlayerComponent >( ComponentId::Player );
+
+	assert( storagePlayerComponent );
+	assert( holderPlayerComponent );
+
+	if ( storagePlayerComponent->getPlayerId() != holderPlayerComponent->getPlayerId() )
+		return false;
+
 	IResourceStorageComponent::StaticData::StoredResourcesCollectionIterator
 			begin = resourceStorageComponent->getStaticData().m_storedResources.begin()
 		,	end = resourceStorageComponent->getStaticData().m_storedResources.end();
@@ -1041,9 +1090,7 @@ LandscapeModel::onSelectByRectProcessor( const Command& _command )
 {
 	if ( m_landscape )
 	{
-		const QRect rect = _command.m_arguments[ 0 ].toRect();
-
-		m_landscape->selectObjects( rect );
+		m_landscape->selectObjects( ObjectsByRectFilter( _command.m_arguments[ 0 ].toRect() ) );
 		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 	}
 
@@ -1058,9 +1105,7 @@ LandscapeModel::onSelectByIdProcessor( const Command& _command )
 {
 	if ( m_landscape )
 	{
-		const Object::Id id = _command.m_arguments[ 0 ].toInt();
-
-		m_landscape->selectObject( id );
+		m_landscape->selectObjects( ObjectsByIdFilter( _command.m_arguments[ 0 ].toInt() ) );
 		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
 	}
 
@@ -1101,10 +1146,16 @@ LandscapeModel::onSendProcessor( const Command& _command )
 				boost::intrusive_ptr< IRepairComponent > repairComponent
 					= object->getComponent< IRepairComponent >( ComponentId::Repair );
 
+				boost::intrusive_ptr< IPlayerComponent > playerComponent
+					= object->getComponent< IPlayerComponent >( ComponentId::Player);
+				assert( playerComponent );
+
 				if ( targetObject && targetObject != object )
 				{
 					boost::intrusive_ptr< IHealthComponent > targetHealthComponent
 						= targetObject->getComponent< IHealthComponent >( ComponentId::Health );
+					boost::intrusive_ptr< IPlayerComponent > targetPlayerComponent
+						= targetObject->getComponent< IPlayerComponent >( ComponentId::Player );
 
 					if (	resourceHolderComponent
 						&&	targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource ) )
@@ -1119,13 +1170,22 @@ LandscapeModel::onSendProcessor( const Command& _command )
 								boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, *this, targetObject, *object ) )
 							,	flush );
 					}
-					else if ( repairComponent && targetHealthComponent && !targetHealthComponent->isHealthy() )
+					else if (	repairComponent
+							&&	targetHealthComponent
+							&&	!targetHealthComponent->isHealthy()
+							&&	playerComponent
+							&&	targetPlayerComponent
+							&&	playerComponent->getPlayerId() == targetPlayerComponent->getPlayerId() )
 					{
 						actionsComponent->pushAction(
 								boost::intrusive_ptr< IAction >( new RepairAction( m_environment, *this, *object, targetObject ) )
 							,	flush );
 					}
-					else if ( attackComponent && targetObject->getComponent< IHealthComponent >( ComponentId::Health ) )
+					else if (	attackComponent
+							&&	targetHealthComponent
+							&&	playerComponent
+							&&	targetPlayerComponent
+							&&	playerComponent->getPlayerId() != targetPlayerComponent->getPlayerId() )
 					{
 						actionsComponent->pushAction(
 								boost::intrusive_ptr< IAction >( new AttackAction( m_environment, *this, *object, targetObject ) )

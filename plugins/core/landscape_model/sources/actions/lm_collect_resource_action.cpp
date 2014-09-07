@@ -40,21 +40,28 @@ class StorageObjectsFilter
 
 public:
 
-	StorageObjectsFilter( const QString& _canStore )
+	StorageObjectsFilter( const QString& _canStore, const IPlayer::Id& _playerId )
 		:	m_canStore( _canStore )
+		,	m_playerId( _playerId )
 	{}
 
 	/*virtual*/ bool check( const Object& _object ) const
 	{
 		boost::intrusive_ptr< IResourceStorageComponent > resourceStorage
 			= _object.getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
+		boost::intrusive_ptr< IPlayerComponent > playerComponent
+			= _object.getComponent< IPlayerComponent >( ComponentId::Player );
 
-		return resourceStorage && resourceStorage->getStaticData().canBeStored( m_canStore );
+		return	playerComponent
+			&&	playerComponent->getPlayerId() == m_playerId
+			&&	resourceStorage
+			&&	resourceStorage->getStaticData().canBeStored( m_canStore );
 	}
 
 private:
 
 	const QString m_canStore;
+	const IPlayer::Id m_playerId;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -407,10 +414,13 @@ CollectResourceAction::ensureStorage()
 {
 	if ( !m_resourceStarage )
 	{
+		boost::intrusive_ptr< IPlayerComponent > playerComponent
+			= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
+
 		boost::intrusive_ptr< IResourceSourceComponent > targetResourceSource
 			= m_targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource );
 
-		StorageObjectsFilter filter( targetResourceSource->getStaticData().m_resource );
+		StorageObjectsFilter filter( targetResourceSource->getStaticData().m_resource, playerComponent->getPlayerId() );
 		ILandscape::ObjectsCollection storageObjects;
 
 		m_landscapeModel.getLandscape()->fetchObjects( storageObjects, filter );

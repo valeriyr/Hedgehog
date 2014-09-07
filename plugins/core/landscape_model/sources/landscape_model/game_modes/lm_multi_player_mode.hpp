@@ -116,7 +116,7 @@ private:
 		,	const QString& _playerAddress
 		,	const unsigned int _playerPort );
 
-	void spreadCommands(
+	void passCommands(
 			const IPlayer::Id& _playerId
 		,	const TickType& _targetTick
 		,	const CommandsQueue::CommandsCollection& _commands );

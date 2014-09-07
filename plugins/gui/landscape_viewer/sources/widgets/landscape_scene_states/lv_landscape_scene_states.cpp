@@ -129,6 +129,12 @@ LandscapeSceneGameState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEven
 		boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
 			locker = m_environment.lockModel();
 
+		boost::intrusive_ptr< Core::LandscapeModel::IPlayer > myPlayer
+			= locker->getLandscapeModel()->getMyPlayer();
+
+		if ( !myPlayer )
+			return;
+
 		Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjects;
 		locker->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjects );
 
@@ -139,13 +145,22 @@ LandscapeSceneGameState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEven
 			,	end = selectedObjects.end();
 
 		for ( ; begin != end; ++begin )
-			objects.push_back( QVariant( ( *begin )->getUniqueId() ) );
+		{
+			boost::intrusive_ptr< Core::LandscapeModel::IPlayerComponent > playerComponent
+				= ( *begin )->getComponent< Core::LandscapeModel::IPlayerComponent >( Core::LandscapeModel::ComponentId::Player );
 
-		locker->getLandscapeModel()->pushCommand(
-			Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::Send )
-				.pushArgument( objects )
-				.pushArgument( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ) )
-				.pushArgument( !( _mouseEvent->modifiers() & Qt::ShiftModifier ) ) );
+			if ( playerComponent && myPlayer->getUniqueId() == playerComponent->getPlayerId() )
+				objects.push_back( QVariant( ( *begin )->getUniqueId() ) );
+		}
+
+		if ( !objects.isEmpty() )
+		{
+			locker->getLandscapeModel()->pushCommand(
+				Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::Send )
+					.pushArgument( objects )
+					.pushArgument( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ) )
+					.pushArgument( !( _mouseEvent->modifiers() & Qt::ShiftModifier ) ) );
+		}
 	}
 
 } // LandscapeSceneGameState::mouseReleaseEvent

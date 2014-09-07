@@ -11,6 +11,7 @@
 
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_ihealth_component.hpp"
+#include "landscape_model/ih/components/lm_iselection_component.hpp"
 
 #include "landscape_model/sources/landscape/lm_iobjects_creator.hpp"
 
@@ -419,7 +420,7 @@ Landscape::showObject( boost::shared_ptr< Object > _object )
 
 
 void
-Landscape::selectObjects( const QRect& _rect )
+Landscape::selectObjects( const IObjectsFilter& _filter )
 {
 	unselectObjects();
 
@@ -429,9 +430,14 @@ Landscape::selectObjects( const QRect& _rect )
 
 	for ( ; begin != end; ++begin )
 	{
-		if (	( *begin )->getState() != ObjectState::Dying
-			&&	( *begin )->getComponent< ILocateComponent >( ComponentId::Locate )->getRect().intersects( _rect ) )
+		boost::intrusive_ptr< ISelectionComponent >
+			selectionComponent = ( *begin )->getComponent< ISelectionComponent >( ComponentId::Selection );
+
+		if (	selectionComponent
+			&&	( *begin )->getState() != ObjectState::Dying
+			&&	_filter.check( **begin ) )
 		{
+			selectionComponent->setSelection( true );
 			m_selectedObjects.push_back( *begin );
 		}
 	}
@@ -443,33 +449,21 @@ Landscape::selectObjects( const QRect& _rect )
 
 
 void
-Landscape::selectObject( const Object::Id& _id )
+Landscape::unselectObjects()
 {
-	unselectObjects();
-
 	ILandscape::ObjectsCollectionIterator
 			begin = m_objects.begin()
 		,	end = m_objects.end();
 
 	for ( ; begin != end; ++begin )
 	{
-		if (	( *begin )->getState() != ObjectState::Dying
-			&&	( *begin )->getUniqueId() == _id )
-		{
-			m_selectedObjects.push_back( *begin );
-			break;
-		}
+		boost::intrusive_ptr< ISelectionComponent >
+			selectionComponent = ( *begin )->getComponent< ISelectionComponent >( ComponentId::Selection );
+		assert( selectionComponent );
+
+		selectionComponent->setSelection( false );
 	}
 
-} // Landscape::selectObject
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-Landscape::unselectObjects()
-{
 	m_selectedObjects.clear();
 
 } // Landscape::unselectObjects

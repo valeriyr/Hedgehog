@@ -20,7 +20,6 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 static const TickType gs_tickLatency = 2;
-static const TickType gs_syncTickLatency = 1;
 
 /*---------------------------------------------------------------------------*/
 
@@ -198,7 +197,7 @@ bool
 MultiPlayerMode::prepareToTick( const TickType& _tick )
 {
 	// Check sync latency
-	if ( _tick <= gs_syncTickLatency )
+	if ( _tick <= gs_tickLatency - 1 )
 		return true;
 
 	// Send data about my player commands
@@ -209,9 +208,9 @@ MultiPlayerMode::prepareToTick( const TickType& _tick )
 	assert( myPlayer );
 
 	CommandsQueue::CommandsCollection myCommands;
-	m_commandsQueue.fetchPlayerCommands( myPlayer->getUniqueId(), _tick + gs_syncTickLatency, myCommands );
+	m_commandsQueue.fetchPlayerCommands( myPlayer->getUniqueId(), _tick + gs_tickLatency - 1, myCommands );
 
-	spreadCommands( myPlayer->getUniqueId(), _tick + gs_syncTickLatency, myCommands );
+	passCommands( myPlayer->getUniqueId(), _tick + gs_tickLatency - 1, myCommands );
 
 	// Check latency
 	if ( _tick <= gs_tickLatency )
@@ -613,7 +612,7 @@ MultiPlayerMode::spreadPlayerConnectedCommand(
 
 
 void
-MultiPlayerMode::spreadCommands(
+MultiPlayerMode::passCommands(
 		const IPlayer::Id& _playerId
 	,	const TickType& _targetTick
 	,	const CommandsQueue::CommandsCollection& _commands )
@@ -643,7 +642,7 @@ MultiPlayerMode::spreadCommands(
 
 	spreadCommand( command );
 
-} // MultiPlayerMode::spreadCommands
+} // MultiPlayerMode::passCommands
 
 
 /*---------------------------------------------------------------------------*/

@@ -103,9 +103,7 @@ struct ILandscape
 
 	virtual void showObject( boost::shared_ptr< Object > _object ) = 0;
 
-	virtual void selectObjects( const QRect& _rect ) = 0;
-
-	virtual void selectObject( const Object::Id& _id ) = 0;
+	virtual void selectObjects( const IObjectsFilter& _filter ) = 0;
 
 	virtual void unselectObjects() = 0;
 
