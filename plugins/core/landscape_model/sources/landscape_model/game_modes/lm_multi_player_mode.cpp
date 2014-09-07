@@ -263,14 +263,17 @@ MultiPlayerMode::onDataReceive(
 
 	command.m_sourceConnectionInfo = Framework::Core::NetworkManager::ConnectionInfo( _fromAddress, _fromPort );
 
-	m_environment.printMessage(
-			Tools::Core::IMessenger::MessegeLevel::Info
-		,	QString( Resources::CommandReceivedMessage )
-				.arg( _fromAddress )
-				.arg( _fromPort )
-				.arg( CommandId::toString( command.m_id ) )
-				.arg( command.m_timeStamp )
-				.arg( command.m_pushToProcessingTick ) );
+	if ( command.m_id != CommandId::PassCommands )
+	{
+		m_environment.printMessage(
+				Tools::Core::IMessenger::MessegeLevel::Info
+			,	QString( Resources::CommandReceivedMessage )
+					.arg( _fromAddress )
+					.arg( _fromPort )
+					.arg( CommandId::toString( command.m_id ) )
+					.arg( command.m_timeStamp )
+					.arg( command.m_pushToProcessingTick ) );
+	}
 
 	processCommand( _fromAddress, _fromPort, command );
 
@@ -299,7 +302,7 @@ MultiPlayerMode::sendCommand(
 void
 MultiPlayerMode::spreadCommand( const Command& _command )
 {
-	if ( !CommandId::silentCommand( _command.m_id ) && _command.m_type != CommandType::Silent )
+	if ( !isSilent( _command ) )
 	{
 		ConnectionsInfosCollectionIterator
 				begin = m_connections.begin()
@@ -565,7 +568,20 @@ MultiPlayerMode::processPassCommands(
 			,	end = commands.end();
 
 		for ( ; begin != end; ++begin )
-			m_commandsQueue.pushCommand( playerId, targetTick, Command::deserialize( static_cast< CommandId::Enum >( begin.key().toInt() ), begin.value().toByteArray() ) );
+		{
+			Command command( Command::deserialize( static_cast< CommandId::Enum >( begin.key().toInt() ), begin.value().toByteArray() ) );
+
+			m_environment.printMessage(
+					Tools::Core::IMessenger::MessegeLevel::Info
+				,	QString( Resources::CommandReceivedMessage )
+						.arg( _fromAddress )
+						.arg( _fromPort )
+						.arg( CommandId::toString( command.m_id ) )
+						.arg( command.m_timeStamp )
+						.arg( command.m_pushToProcessingTick ) );
+
+			m_commandsQueue.pushCommand( playerId, targetTick, command );
+		}
 	}
 
 } // MultiPlayerMode::processPassCommands
@@ -617,7 +633,8 @@ MultiPlayerMode::spreadCommands(
 
 		assert( _playerId == begin->m_playerId );
 
-		commands.insert( QString::number( begin->m_id ), commandData );
+		if ( !isSilent( *begin ) )
+			commands.insert( QString::number( begin->m_id ), commandData );
 	}
 
 	command.pushArgument( _playerId );
@@ -638,6 +655,17 @@ MultiPlayerMode::registerMetatypes()
 	qRegisterMetaTypeStreamOperators< PlayerData >( "PlayerData" );
 
 } // MultiPlayerMode::registerMetatypes
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+MultiPlayerMode::isSilent( const Command& _command ) const
+{
+	return CommandId::silentCommand( _command.m_id ) || _command.m_type == CommandType::Silent;
+
+} // MultiPlayerMode::isSilent
 
 
 /*---------------------------------------------------------------------------*/

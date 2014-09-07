@@ -123,6 +123,8 @@ private:
 
 	void registerMetatypes();
 
+	bool isSilent( const Command& _command ) const;
+
 /*---------------------------------------------------------------------------*/
 
 private:
