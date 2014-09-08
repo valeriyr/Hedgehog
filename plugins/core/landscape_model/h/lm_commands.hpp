@@ -33,6 +33,7 @@ struct CommandId
 		,	StartSimulation
 		,	StopSimulation
 		,	PassCommands
+		,	CommandsRequest
 
 		,	ChangePlayerRace
 		,	ChangePlayerType
@@ -71,6 +72,8 @@ struct CommandId
 			return "StopSimulation";
 		case PassCommands:
 			return "PassCommands";
+		case CommandsRequest:
+			return "CommandsRequest";
 		case ChangePlayerRace:
 			return "ChangePlayerRace";
 		case ChangePlayerType:
@@ -103,8 +106,6 @@ struct CommandId
 		switch( _enum )
 		{
 		case SetSurfaceItem:
-		case SelectById:
-		case SelectByRect:
 		case Send:
 		case TrainObject:
 		case BuildObject:
@@ -120,6 +121,7 @@ struct CommandId
 		{
 		case ConnectRequest:
 		case ConnectResponse:
+		case CommandsRequest:
 		case ChangeMyPlayer:
 		case SelectById:
 		case SelectByRect:
@@ -129,17 +131,6 @@ struct CommandId
 
 		return false;
 	}
-};
-
-/*---------------------------------------------------------------------------*/
-
-struct CommandType
-{
-	enum Enum
-	{
-			Simple	= 0
-		,	Silent
-	};
 };
 
 /*---------------------------------------------------------------------------*/
@@ -158,9 +149,8 @@ struct Command
 
 /*---------------------------------------------------------------------------*/
 
-	Command( const CommandId::Enum& _id, const CommandType::Enum _type = CommandType::Simple )
+	Command( const CommandId::Enum& _id )
 		:	m_id( _id )
-		,	m_type( _type )
 		,	m_arguments()
 		,	m_timeStamp( 0 )
 		,	m_pushToProcessingTick( 0 )
@@ -202,8 +192,6 @@ struct Command
 /*---------------------------------------------------------------------------*/
 
 	CommandId::Enum m_id;
-
-	CommandType::Enum m_type;
 
 	CommandArgumentsCollection m_arguments;
 

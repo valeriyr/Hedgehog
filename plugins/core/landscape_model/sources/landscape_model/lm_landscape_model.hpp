@@ -233,6 +233,8 @@ private:
 
 	boost::intrusive_ptr< IVictoryChecker > m_victoryChecker;
 
+	bool m_simulationBlocked;
+
 /*---------------------------------------------------------------------------*/
 
 };

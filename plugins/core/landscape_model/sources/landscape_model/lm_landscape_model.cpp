@@ -139,6 +139,7 @@ LandscapeModel::LandscapeModel(
 	,	m_workers()
 	,	m_gameMode()
 	,	m_victoryChecker( new StayAloneChecker( m_environment ) ) // TODO: should be set not in the constructor
+	,	m_simulationBlocked( false )
 {
 	m_environment.startThread( Resources::ModelThreadName );
 
@@ -261,6 +262,8 @@ LandscapeModel::resetModel()
 	m_environment.removeTask( m_actionsProcessingTaskHandle );
 	m_actionsProcessingTaskHandle.reset();
 
+	m_simulationBlocked = false;
+
 	m_simulationStartTimeStamp = 0;
 
 	m_ticksCounter = 0;
@@ -355,8 +358,14 @@ LandscapeModel::getVictoryConditionType() const
 void
 LandscapeModel::pushCommand( const Command& _command )
 {
-	if ( !m_gameMode )
+	if ( !m_gameMode || ( m_simulationBlocked && CommandId::simulationTimeCommand( _command.m_id ) ) )
+	{
+		m_environment.printMessage(
+				Tools::Core::IMessenger::MessegeLevel::Warning
+			,	QString( Resources::CommandWilNotBeProcessedMessage ).arg( CommandId::toString( _command.m_id ) ) );
+
 		return;
+	}
 
 	// TODO: const_cast
 	const_cast< Command& >( _command ).m_timeStamp = Tools::Core::Time::currentTime() - m_simulationStartTimeStamp;
@@ -705,7 +714,12 @@ LandscapeModel::gameMainLoop()
 		QMutexLocker locker( &m_mutex );
 
 		if ( !m_gameMode->prepareToTick( m_ticksCounter + 1 ) )
+		{
+			m_simulationBlocked = true;
 			return;
+		}
+
+		m_simulationBlocked = false;
 
 		// Oops, simulation has been finished!
 		if ( !isSimulationRunning() )
@@ -1074,9 +1088,9 @@ LandscapeModel::onChangeMyPlayerProcessor( const Command& _command )
 	if ( iterator != m_players.end() )
 	{
 		m_myPlayerId = id;
-		pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( id ).pushArgument( name ) );
-		pushCommand( Command( CommandId::ChangePlayerRace, CommandType::Silent ).pushArgument( id ).pushArgument( race ) );
-		pushCommand( Command( CommandId::ChangePlayerType, CommandType::Silent ).pushArgument( id ).pushArgument( type ) );
+		processCommand( Command( CommandId::ChangePlayerName ).pushArgument( id ).pushArgument( name ) );
+		processCommand( Command( CommandId::ChangePlayerRace ).pushArgument( id ).pushArgument( race ) );
+		processCommand( Command( CommandId::ChangePlayerType ).pushArgument( id ).pushArgument( type ) );
 	}
 
 } // LandscapeModel::onChangeMyPlayerProcessor

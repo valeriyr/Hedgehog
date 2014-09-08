@@ -110,20 +110,23 @@ private:
 		,	const unsigned int _fromPort
 		,	const Command& _command );
 
+	void processCommandsRequest(
+			const QString& _fromAddress
+		,	const unsigned int _fromPort
+		,	const Command& _command );
+
 	void spreadPlayerConnectedCommand(
 			const IPlayer::Id& _playerId
 		,	const QString& _playerName
 		,	const QString& _playerAddress
 		,	const unsigned int _playerPort );
 
-	void passCommands(
-			const IPlayer::Id& _playerId
+	void fillPassCommandsCommand(
+			const IPlayer& _player
 		,	const TickType& _targetTick
-		,	const CommandsQueue::CommandsCollection& _commands );
+		,	Command& _command );
 
 	void registerMetatypes();
-
-	bool isSilent( const Command& _command ) const;
 
 /*---------------------------------------------------------------------------*/
 

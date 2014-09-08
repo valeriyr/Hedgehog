@@ -39,6 +39,10 @@ namespace Resources {
 
 	const char* const CommandReceivedMessage = "Command has been received from '%1:%2', type '%3', timestamp '%4', tick '%5'";
 
+	const char* const CommandsIsNotPresentedMessage = "Commands is not presented for player '%1'(%2) for tick '%3'";
+
+	const char* const CommandWilNotBeProcessedMessage = "Commands '%1' will not be processed because model is not initialized or simulation has been blocked";
+
 	const char* const SimulationStoppedMessage = "Simulation has been stopped at: '%1' msec, tick '%2'";
 
 /*---------------------------------------------------------------------------*/

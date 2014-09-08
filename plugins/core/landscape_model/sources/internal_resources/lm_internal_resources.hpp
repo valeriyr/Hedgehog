@@ -39,6 +39,10 @@ namespace Resources {
 
 	extern const char* const CommandReceivedMessage;
 
+	extern const char* const CommandsIsNotPresentedMessage;
+
+	extern const char* const CommandWilNotBeProcessedMessage;
+
 	extern const char* const SimulationStoppedMessage;
 
 /*---------------------------------------------------------------------------*/

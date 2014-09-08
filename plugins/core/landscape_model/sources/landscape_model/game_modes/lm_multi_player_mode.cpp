@@ -207,19 +207,16 @@ MultiPlayerMode::prepareToTick( const TickType& _tick )
 	boost::intrusive_ptr< IPlayer > myPlayer = model->getMyPlayer();
 	assert( myPlayer );
 
-	CommandsQueue::CommandsCollection myCommands;
-	m_commandsQueue.fetchPlayerCommands( myPlayer->getUniqueId(), _tick + gs_tickLatency - 1, myCommands );
+	Command command( CommandId::PassCommands );
+	fillPassCommandsCommand( *myPlayer, _tick + gs_tickLatency - 1, command );
 
-	passCommands( myPlayer->getUniqueId(), _tick + gs_tickLatency - 1, myCommands );
+	spreadCommand( command );
 
 	// Check latency
 	if ( _tick <= gs_tickLatency )
 		return true;
 
 	// On this time we should have all commands from another players
-	if ( !m_commandsQueue.hasCommands( _tick ) )
-		return false;
-
 	ILandscapeModel::PlayersCollection players;
 	model->fetchPlayers( players );
 
@@ -229,8 +226,20 @@ MultiPlayerMode::prepareToTick( const TickType& _tick )
 
 	for ( ; playersBegin != playersEnd; ++playersBegin )
 	{
-		if ( !m_commandsQueue.hasCommands( ( *playersBegin )->getUniqueId(), _tick) )
+		boost::intrusive_ptr< IPlayer > player = *playersBegin;
+
+		if ( PlayerType::isActivated( player->getType() ) && !m_commandsQueue.hasCommands( player->getUniqueId(), _tick ) )
+		{
+			m_environment.printMessage(
+					Tools::Core::IMessenger::MessegeLevel::Warning
+				,	QString( Resources::CommandsIsNotPresentedMessage ).arg( player->getName() ).arg( player->getUniqueId() ).arg( _tick ) );
+
+			sendCommand(
+					m_connections.find( ( *playersBegin )->getUniqueId() )->second
+				,	Command( CommandId::CommandsRequest ).pushArgument( _tick ) );
+
 			return false;
+		}
 	}
 
 	// Collect all commands for tick and execute
@@ -301,7 +310,7 @@ MultiPlayerMode::sendCommand(
 void
 MultiPlayerMode::spreadCommand( const Command& _command )
 {
-	if ( !isSilent( _command ) )
+	if ( !CommandId::silentCommand( _command.m_id ) )
 	{
 		ConnectionsInfosCollectionIterator
 				begin = m_connections.begin()
@@ -345,6 +354,10 @@ MultiPlayerMode::processCommand(
 	else if ( _command.m_id == CommandId::PassCommands )
 	{
 		processPassCommands( _fromAddress, _fromPort, _command );
+	}
+	else if ( _command.m_id == CommandId::CommandsRequest )
+	{
+		processCommandsRequest( _fromAddress, _fromPort, _command );
 	}
 	else
 	{
@@ -458,7 +471,7 @@ MultiPlayerMode::processConnectResponse(
 	const VictoryCondition::Enum victoryCondition
 		= static_cast< VictoryCondition::Enum >( _command.m_arguments[ 2 ].toInt() );
 
-	model->pushCommand( Command( CommandId::ChangeVictoryCondition, CommandType::Silent ).pushArgument( victoryCondition ) );
+	model->processCommand( Command( CommandId::ChangeVictoryCondition ).pushArgument( victoryCondition ) );
 
 	QList< QVariant > playersList = _command.m_arguments[ 3 ].toList();
 
@@ -472,7 +485,7 @@ MultiPlayerMode::processConnectResponse(
 
 		if ( data.m_id == playerId )
 		{
-			model->pushCommand( Command( CommandId::ChangeMyPlayer )
+			model->processCommand( Command( CommandId::ChangeMyPlayer )
 				.pushArgument( data.m_id )
 				.pushArgument( data.m_name )
 				.pushArgument( data.m_race )
@@ -480,9 +493,9 @@ MultiPlayerMode::processConnectResponse(
 		}
 		else
 		{
-			model->pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_name ) );
-			model->pushCommand( Command( CommandId::ChangePlayerRace, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_race ) );
-			model->pushCommand( Command( CommandId::ChangePlayerType, CommandType::Silent ).pushArgument( data.m_id ).pushArgument( data.m_type ) );
+			model->processCommand( Command( CommandId::ChangePlayerName ).pushArgument( data.m_id ).pushArgument( data.m_name ) );
+			model->processCommand( Command( CommandId::ChangePlayerRace ).pushArgument( data.m_id ).pushArgument( data.m_race ) );
+			model->processCommand( Command( CommandId::ChangePlayerType ).pushArgument( data.m_id ).pushArgument( data.m_type ) );
 
 			if ( data.hasConnectionInfo() )
 				m_connections.insert( std::make_pair( data.m_id, Framework::Core::NetworkManager::ConnectionInfo( data.m_address, data.m_port ) ) );
@@ -505,7 +518,7 @@ MultiPlayerMode::processPlayerConnected(
 	QString name = _command.m_arguments[ 1 ].toString();
 
 	m_environment.lockModel()->getLandscapeModel()
-		->pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( playerId ).pushArgument( name ) );
+		->processCommand( Command( CommandId::ChangePlayerName ).pushArgument( playerId ).pushArgument( name ) );
 
 	m_connections.insert(
 		std::make_pair(
@@ -533,8 +546,8 @@ MultiPlayerMode::processDisconnect(
 	boost::intrusive_ptr< IModelLocker > locker = m_environment.lockModel();
 	boost::intrusive_ptr< ILandscapeModel > model = locker->getLandscapeModel();
 
-	model->pushCommand( Command( CommandId::ChangePlayerName, CommandType::Silent ).pushArgument( playerId ).pushArgument( Resources::DefaultPlayerName ) );
-	model->pushCommand( Command( CommandId::ChangePlayerType, CommandType::Silent ).pushArgument( playerId ).pushArgument( PlayerType::Open ) );
+	model->processCommand( Command( CommandId::ChangePlayerName ).pushArgument( playerId ).pushArgument( Resources::DefaultPlayerName ) );
+	model->processCommand( Command( CommandId::ChangePlayerType ).pushArgument( playerId ).pushArgument( PlayerType::Open ) );
 
 } // MultiPlayerMode::processDisconnect
 
@@ -590,6 +603,28 @@ MultiPlayerMode::processPassCommands(
 
 
 void
+MultiPlayerMode::processCommandsRequest(
+		const QString& _fromAddress
+	,	const unsigned int _fromPort
+	,	const Command& _command )
+{
+	TickType targetTick = _command.m_arguments[ 0 ].toInt();
+
+	boost::intrusive_ptr< IModelLocker > locker = m_environment.lockModel();
+	boost::intrusive_ptr< IPlayer > myPlayer = locker->getLandscapeModel()->getMyPlayer();
+	assert( myPlayer );
+
+	Command command( CommandId::PassCommands );
+	fillPassCommandsCommand( *myPlayer, targetTick, command );
+	sendCommand( Framework::Core::NetworkManager::ConnectionInfo( _fromAddress, _fromPort ), command );
+
+} // MultiPlayerMode::processCommandsRequest
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 MultiPlayerMode::spreadPlayerConnectedCommand(
 		const IPlayer::Id& _playerId
 	,	const QString& _playerName
@@ -612,37 +647,36 @@ MultiPlayerMode::spreadPlayerConnectedCommand(
 
 
 void
-MultiPlayerMode::passCommands(
-		const IPlayer::Id& _playerId
+MultiPlayerMode::fillPassCommandsCommand(
+		const IPlayer& _player
 	,	const TickType& _targetTick
-	,	const CommandsQueue::CommandsCollection& _commands )
+	,	Command& _command )
 {
-	Command command( CommandId::PassCommands );
+	CommandsQueue::CommandsCollection myCommands;
+	m_commandsQueue.fetchPlayerCommands( _player.getUniqueId(), _targetTick, myCommands );
 
 	QMap< QString, QVariant > commands;
 
 	CommandsQueue::CommandsCollectionIterator
-			begin = _commands.begin()
-		,	end = _commands.end();
+			begin = myCommands.begin()
+		,	end = myCommands.end();
 
 	for ( ; begin != end; ++begin )
 	{
 		QByteArray commandData;
 		begin->serialize( commandData );
 
-		assert( _playerId == begin->m_playerId );
+		assert( _player.getUniqueId() == begin->m_playerId );
 
-		if ( !isSilent( *begin ) )
+		if ( !CommandId::silentCommand( begin->m_id ) )
 			commands.insert( QString::number( begin->m_id ), commandData );
 	}
 
-	command.pushArgument( _playerId );
-	command.pushArgument( _targetTick );
-	command.pushArgument( commands );
+	_command.pushArgument( _player.getUniqueId() );
+	_command.pushArgument( _targetTick );
+	_command.pushArgument( commands );
 
-	spreadCommand( command );
-
-} // MultiPlayerMode::passCommands
+} // MultiPlayerMode::fillPassCommandsCommand
 
 
 /*---------------------------------------------------------------------------*/
@@ -654,17 +688,6 @@ MultiPlayerMode::registerMetatypes()
 	qRegisterMetaTypeStreamOperators< PlayerData >( "PlayerData" );
 
 } // MultiPlayerMode::registerMetatypes
-
-
-/*---------------------------------------------------------------------------*/
-
-
-bool
-MultiPlayerMode::isSilent( const Command& _command ) const
-{
-	return CommandId::silentCommand( _command.m_id ) || _command.m_type == CommandType::Silent;
-
-} // MultiPlayerMode::isSilent
 
 
 /*---------------------------------------------------------------------------*/
