@@ -591,9 +591,27 @@ LandscapeModel::isMyObject( boost::shared_ptr< Object > _object ) const
 	boost::intrusive_ptr< IPlayerComponent > playerComponent
 		= _object->getComponent< IPlayerComponent >( ComponentId::Player );
 
-	return playerComponent->getPlayerId() == myPlayer->getUniqueId();
+	return playerComponent && playerComponent->getPlayerId() == myPlayer->getUniqueId();
 
 } // LandscapeModel::isMyObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::fetchWorkers( ILandscape::ObjectsCollection& _collection ) const
+{
+	_collection.clear();
+
+	WorkersCollectionIterator
+			begin = m_workers.begin()
+		,	end = m_workers.end();
+
+	for ( ; begin != end; ++begin )
+		_collection.push_back( begin->second );
+
+} // LandscapeModel::fetchWorkers
 
 
 /*---------------------------------------------------------------------------*/

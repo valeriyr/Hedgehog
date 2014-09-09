@@ -39,30 +39,18 @@ StayAloneChecker::check() const
 	boost::intrusive_ptr< IModelLocker > locker = m_environment.lockModel();
 	boost::intrusive_ptr< ILandscape > landscape = locker->getLandscapeModel()->getLandscape();
 
+	boost::intrusive_ptr< IPlayer > myPlayer = locker->getLandscapeModel()->getMyPlayer();
+
+	ILandscape::ObjectsCollection workers;
+	locker->getLandscapeModel()->fetchWorkers( workers );
+
+	if ( !onlyMyOrNeutralObjects( workers, myPlayer->getUniqueId() ) )
+		return false;
+
 	ILandscape::ObjectsCollection objects;
 	landscape->fetchObjects( objects );
 
-	boost::intrusive_ptr< IPlayer > myPlayer = locker->getLandscapeModel()->getMyPlayer();
-
-	ILandscape::ObjectsCollectionIterator
-			begin = objects.begin()
-		,	end = objects.end();
-
-	for ( ; begin != end; ++begin )
-	{
-		boost::intrusive_ptr< IPlayerComponent > playerComponent
-			= ( *begin )->getComponent< IPlayerComponent >( ComponentId::Player );
-
-		if (	playerComponent
-			&&	playerComponent->getPlayerId() != IPlayer::ms_wrondId
-			&&	playerComponent->getPlayerId() != myPlayer->getUniqueId()
-			&&	( *begin )->getState() != ObjectState::Dying )
-		{
-			return false;
-		}
-	}
-
-	return true;
+	return onlyMyOrNeutralObjects( objects, myPlayer->getUniqueId() );
 
 } // StayAloneChecker::check
 
@@ -76,6 +64,37 @@ StayAloneChecker::getType() const
 	return VictoryCondition::StayAlone;
 
 } // StayAloneChecker::getType
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+StayAloneChecker::onlyMyOrNeutralObjects(
+		const ILandscape::ObjectsCollection& _objects
+	,	const IPlayer::Id& _playerId ) const
+{
+	ILandscape::ObjectsCollectionIterator
+			beginWorkers = _objects.begin()
+		,	endWorkers = _objects.end();
+
+	for ( ; beginWorkers != endWorkers; ++beginWorkers )
+	{
+		boost::intrusive_ptr< IPlayerComponent > playerComponent
+			= ( *beginWorkers )->getComponent< IPlayerComponent >( ComponentId::Player );
+
+		if (	playerComponent
+			&&	playerComponent->getPlayerId() != IPlayer::ms_wrondId
+			&&	playerComponent->getPlayerId() != _playerId
+			&&	( *beginWorkers )->getState() != ObjectState::Dying )
+		{
+			return false;
+		}
+	}
+
+	return true;
+
+} // StayAloneChecker::onlyMyOrNeutralObjects
 
 
 /*---------------------------------------------------------------------------*/

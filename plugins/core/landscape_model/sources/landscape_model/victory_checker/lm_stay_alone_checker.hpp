@@ -6,6 +6,9 @@
 
 #include "landscape_model/sources/landscape_model/victory_checker/lm_ivictory_checker.hpp"
 
+#include "landscape_model/ih/lm_iplayer.hpp"
+#include "landscape_model/ih/lm_ilandscape.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -41,6 +44,12 @@ public:
 /*---------------------------------------------------------------------------*/
 
 private:
+
+/*---------------------------------------------------------------------------*/
+
+	bool onlyMyOrNeutralObjects(
+			const ILandscape::ObjectsCollection& _objects
+		,	const IPlayer::Id& _playerId ) const;
 
 /*---------------------------------------------------------------------------*/
 
