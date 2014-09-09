@@ -19,12 +19,17 @@ humanBarracksResourceData = ResourcesData()
 humanBarracksResourceData:pushResource( QString( "Gold" ), 300 )
 humanBarracksResourceData:pushResource( QString( "Wood" ), 150 )
 
+foundryResourceData = ResourcesData()
+foundryResourceData:pushResource( QString( "Gold" ), 700 )
+foundryResourceData:pushResource( QString( "Wood" ), 550 )
+
 townHallResourceData = ResourcesData()
 townHallResourceData:pushResource( QString( "Gold" ), 1200 )
 townHallResourceData:pushResource( QString( "Wood" ), 1100 )
 
 object.m_buildData = BuildComponentStaticData()
 object.m_buildData:pushBuildData( QString( "Human Barracks" ), BuildData( 200, humanBarracksResourceData ) )
+object.m_buildData:pushBuildData( QString( "Foundry" ), BuildData( 600, foundryResourceData ) )
 object.m_buildData:pushBuildData( QString( "Town Hall" ), BuildData( 400, townHallResourceData ) )
 
 StaticData:regObjectStaticData( QString( "Peasant" ), object )
