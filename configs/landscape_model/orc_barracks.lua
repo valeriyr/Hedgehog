@@ -12,17 +12,12 @@ gruntResourceData = ResourcesData()
 gruntResourceData:pushResource( QString( "Gold" ), 400 )
 gruntResourceData:pushResource( QString( "Wood" ), 200 )
 
-trollAxethrowerResourceData = ResourcesData()
-trollAxethrowerResourceData:pushResource( QString( "Gold" ), 350 )
-trollAxethrowerResourceData:pushResource( QString( "Wood" ), 300 )
-
 dragonResourceData = ResourcesData()
 dragonResourceData:pushResource( QString( "Gold" ), 1400 )
 dragonResourceData:pushResource( QString( "Wood" ), 1200 )
 
 object.m_trainData = TrainComponentStaticData()
 object.m_trainData:pushTrainData( QString( "Grunt" ), TrainData( 30, gruntResourceData ) )
-object.m_trainData:pushTrainData( QString( "Troll Axethrower" ), TrainData( 40, trollAxethrowerResourceData ) )
 object.m_trainData:pushTrainData( QString( "Dragon" ), TrainData( 50, dragonResourceData ) )
 
 StaticData:regObjectStaticData( QString( "Orc Barracks" ), object )
