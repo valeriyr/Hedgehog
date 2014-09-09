@@ -9,6 +9,8 @@
 #include "event_manager/h/em_subscriber.hpp"
 #include "event_manager/h/em_event.hpp"
 
+#include "landscape_model/h/lm_object.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -74,6 +76,12 @@ private:
 
 	void onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event );
 
+	void onObjectStateChanged( const Framework::Core::EventManager::Event& _event );
+
+/*---------------------------------------------------------------------------*/
+
+	void updateView( const Core::LandscapeModel::Object::Id& _objectId );
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -89,6 +97,8 @@ private:
 	QString m_viewTitle;
 
 	boost::shared_ptr< QListWidget > m_mainWidget;
+
+	Core::LandscapeModel::Object::Id m_showingObjectId;
 
 /*---------------------------------------------------------------------------*/
 

@@ -92,6 +92,7 @@ ActionPanelView::ActionPanelView( const IEnvironment& _environment, ViewsMediato
 	,	m_subscriber( _environment.createSubscriber() )
 	,	m_viewTitle( Resources::Views::ActionPanelViewTitle )
 	,	m_mainWidget( new QListWidget() )
+	,	m_showingObjectId( Core::LandscapeModel::Object::ms_wrongId )
 {
 	m_mainWidget->setViewMode( QListView::IconMode );
 
@@ -161,6 +162,10 @@ ActionPanelView::landscapeWasOpened()
 							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::ms_type
 							,	boost::bind( &ActionPanelView::onObjectsSelectionChanged, this, _1 ) );
 
+	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
+							,	Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_type
+							,	boost::bind( &ActionPanelView::onObjectStateChanged, this, _1 ) );
+
 } // ActionPanelView::landscapeWasOpened
 
 
@@ -171,7 +176,7 @@ void
 ActionPanelView::landscapeWasClosed()
 {
 	m_subscriber.unsubscribe();
-	m_mainWidget->clear();
+	updateView( Core::LandscapeModel::Object::ms_wrongId );
 
 } // ActionPanelView::landscapeWasClosed
 
@@ -210,38 +215,80 @@ ActionPanelView::onItemClicked( QListWidgetItem* _item )
 void
 ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager::Event& _event )
 {
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
+
+	if ( handle->getLandscapeModel()->getLandscape() )
+	{
+		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
+		handle->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
+
+		if ( selectedObjectsCollection.empty() )
+		{
+			updateView( Core::LandscapeModel::Object::ms_wrongId );
+		}
+		else
+		{
+			updateView( selectedObjectsCollection.front()->getUniqueId() );
+		}
+	}
+
+} // ActionPanelView::onObjectsSelectionChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ActionPanelView::onObjectStateChanged( const Framework::Core::EventManager::Event& _event )
+{
+	const Plugins::Core::LandscapeModel::Object::Id objectId
+		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute ).toInt();
+
+	if ( m_showingObjectId == objectId )
+		updateView( objectId );
+
+} // ActionPanelView::onObjectStateChanged
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ActionPanelView::updateView( const Core::LandscapeModel::Object::Id& _objectId )
+{
 	m_mainWidget->clear();
+
+	m_showingObjectId = _objectId;
+
+	if ( _objectId == Core::LandscapeModel::Object::ms_wrongId )
+		return;
 
 	boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent;
 	boost::intrusive_ptr< Core::LandscapeModel::IBuildComponent > buildComponent;
 
 	Core::LandscapeModel::Object::Id parentObjectId = Core::LandscapeModel::Object::ms_wrongId;
 
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
+		= m_environment.lockModel();
+
+	if ( handle->getLandscapeModel()->getLandscape() )
 	{
-		boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
-			= m_environment.lockModel();
+		boost::shared_ptr< Core::LandscapeModel::Object > object
+			= handle->getLandscapeModel()->getLandscape()->getObject( _objectId );
 
-		if ( handle->getLandscapeModel()->getLandscape() )
-		{
-			Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
-			handle->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
+		boost::intrusive_ptr< Core::LandscapeModel::IPlayerComponent > playerComponent
+			= object->getComponent< Core::LandscapeModel::IPlayerComponent >( Plugins::Core::LandscapeModel::ComponentId::Player );
 
-			if ( !selectedObjectsCollection.empty() )
-			{
-				boost::intrusive_ptr< Core::LandscapeModel::IPlayerComponent > playerComponent
-					= selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::IPlayerComponent >( Plugins::Core::LandscapeModel::ComponentId::Player );
+		if (	object->getState() == Core::LandscapeModel::ObjectState::Dying
+			||	object->getState() == Core::LandscapeModel::ObjectState::UnderConstruction
+			||	( playerComponent && handle->getLandscapeModel()->getMyPlayer()->getUniqueId() != playerComponent->getPlayerId() ) )
+			return;
 
-				if (	selectedObjectsCollection.front()->getState() == Core::LandscapeModel::ObjectState::Dying
-					||	selectedObjectsCollection.front()->getState() == Core::LandscapeModel::ObjectState::UnderConstruction
-					||	( playerComponent && handle->getLandscapeModel()->getMyPlayer()->getUniqueId() != playerComponent->getPlayerId() ) )
-					return;
+		trainComponent = object->getComponent< Core::LandscapeModel::ITrainComponent >( Plugins::Core::LandscapeModel::ComponentId::Train );
+		buildComponent = object->getComponent< Core::LandscapeModel::IBuildComponent >( Plugins::Core::LandscapeModel::ComponentId::Build );
 
-				trainComponent = selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::ITrainComponent >( Plugins::Core::LandscapeModel::ComponentId::Train );
-				buildComponent = selectedObjectsCollection.front()->getComponent< Core::LandscapeModel::IBuildComponent >( Plugins::Core::LandscapeModel::ComponentId::Build );
-
-				parentObjectId = selectedObjectsCollection.front()->getUniqueId();
-			}
-		}
+		parentObjectId = object->getUniqueId();
 	}
 
 	if ( trainComponent )
@@ -277,7 +324,7 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 		}
 	}
 
-} // ActionPanelView::onObjectsSelectionChanged
+} // ActionPanelView::updateView
 
 
 /*---------------------------------------------------------------------------*/
