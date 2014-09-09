@@ -23,6 +23,10 @@ trollLumberMillResourceData = ResourcesData()
 trollLumberMillResourceData:pushResource( QString( "Gold" ), 600 )
 trollLumberMillResourceData:pushResource( QString( "Wood" ), 400 )
 
+dragonRoostResourceData = ResourcesData()
+dragonRoostResourceData:pushResource( QString( "Gold" ), 2500 )
+dragonRoostResourceData:pushResource( QString( "Wood" ), 2000 )
+
 greatHallResourceData = ResourcesData()
 greatHallResourceData:pushResource( QString( "Gold" ), 1400 )
 greatHallResourceData:pushResource( QString( "Wood" ), 1200 )
@@ -30,6 +34,7 @@ greatHallResourceData:pushResource( QString( "Wood" ), 1200 )
 object.m_buildData = BuildComponentStaticData()
 object.m_buildData:pushBuildData( QString( "Orc Barracks" ), BuildData( 200, orcBarracksResourceData ) )
 object.m_buildData:pushBuildData( QString( "Troll Lumber Mill" ), BuildData( 300, trollLumberMillResourceData ) )
+object.m_buildData:pushBuildData( QString( "Dragon Roost" ), BuildData( 600, dragonRoostResourceData ) )
 object.m_buildData:pushBuildData( QString( "Great Hall" ), BuildData( 400, greatHallResourceData ) )
 
 StaticData:regObjectStaticData( QString( "Peon" ), object )

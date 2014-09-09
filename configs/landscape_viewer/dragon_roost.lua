@@ -1,14 +1,25 @@
 
--- Orc Barracks
+-- Dragon Roost
 
 do
-	objectName = QString( "Orc Barracks" )
+	objectName = QString( "Dragon Roost" )
 
-	do -- standing south animation
+	do -- standing south animation ( summer skin )
 
-		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Standing, Direction.South )
+		animationName = generateAnimationName( QString( "summer" ), objectName, ObjectState.Standing, Direction.South )
 
-		animationInfo = AnimationInfo( animationName, QString( "buildings/orc/barracks" ) )
+		animationInfo = AnimationInfo( animationName, QString( "skins/summer/orc/dragon_roost" ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 96, 96 ) ) )
+
+		AnimationsCache:regAnimation( animationInfo )
+
+	end
+
+	do -- standing south animation ( wasteland skin )
+
+		animationName = generateAnimationName( QString( "wasteland" ), objectName, ObjectState.Standing, Direction.South )
+
+		animationInfo = AnimationInfo( animationName, QString( "skins/wasteland/orc/dragon_roost" ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 96, 96 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -19,7 +30,7 @@ do
 
 		animationName = generateAnimationName( QString( "winter" ), objectName, ObjectState.Standing, Direction.South )
 
-		animationInfo = AnimationInfo( animationName, QString( "skins/winter/orc/barracks" ) )
+		animationInfo = AnimationInfo( animationName, QString( "skins/winter/orc/dragon_roost" ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 96, 96 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -64,8 +75,8 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.UnderConstruction, Direction.South )
 
 		animationInfo = AnimationInfo( animationName, QString( "buildings/land_construction" ) )
-		animationInfo:addFrame( FrameInfo( 5000, QRect( 0, 0, 64, 64 ) ) )
-		animationInfo:addFrame( FrameInfo( 15000, QRect( 0, 64, 64, 64 ) ) )
+		animationInfo:addFrame( FrameInfo( 4000, QRect( 0, 0, 64, 64 ) ) )
+		animationInfo:addFrame( FrameInfo( 12000, QRect( 0, 64, 64, 64 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
 
@@ -75,4 +86,4 @@ end
 
 -- End script message
 
-SystemMessenger:printMessage(IMessenger.Info, QString("Orc Barracks's graphics info has been loaded."))
+SystemMessenger:printMessage(IMessenger.Info, QString("Dragon Roost's graphics info has been loaded."))

@@ -9,7 +9,7 @@ do
 		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Standing, Direction.South )
 
 		animationInfo = AnimationInfo( animationName, QString( "buildings/human/barracks" ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 92, 92 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 96, 96 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
 
@@ -20,7 +20,7 @@ do
 		animationName = generateAnimationName( QString( "winter" ), objectName, ObjectState.Standing, Direction.South )
 
 		animationInfo = AnimationInfo( animationName, QString( "skins/winter/human/barracks" ) )
-		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 92, 92 ) ) )
+		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 96, 96 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
 
