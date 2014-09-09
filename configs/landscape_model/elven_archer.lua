@@ -1,16 +1,16 @@
 
 -- Elven Archer
 
-elvenArcher = ObjectStaticData()
+object = ObjectStaticData()
 
-elvenArcher.m_healthData = HealthComponentStaticData( 100, false )
-elvenArcher.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground, Emplacement.Ground )
-elvenArcher.m_moveData = MoveComponentStaticData( 8 )
-elvenArcher.m_selectionData = SelectionComponentStaticData()
-elvenArcher.m_attackData = AttackComponentStaticData(  14, 17, 40, 5, 15 )
-elvenArcher.m_playerData = PlayerComponentStaticData()
+object.m_healthData = HealthComponentStaticData( 100, false )
+object.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground, Emplacement.Ground )
+object.m_moveData = MoveComponentStaticData( 7 )
+object.m_selectionData = SelectionComponentStaticData()
+object.m_attackData = AttackComponentStaticData(  14, 17, 40, 5, 15 )
+object.m_playerData = PlayerComponentStaticData()
 
-StaticData:regObjectStaticData( QString( "Elven Archer" ), elvenArcher )
+StaticData:regObjectStaticData( QString( "Elven Archer" ), object )
 
 -- End script message
 

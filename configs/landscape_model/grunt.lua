@@ -1,16 +1,16 @@
 
 -- Grunt
 
-grunt = ObjectStaticData()
+object = ObjectStaticData()
 
-grunt.m_healthData = HealthComponentStaticData( 200, false )
-grunt.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground, Emplacement.Ground )
-grunt.m_moveData = MoveComponentStaticData( 10 )
-grunt.m_selectionData = SelectionComponentStaticData()
-grunt.m_attackData = AttackComponentStaticData(  21, 24, 15, 5, 15 )
-grunt.m_playerData = PlayerComponentStaticData()
+object.m_healthData = HealthComponentStaticData( 200, false )
+object.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground, Emplacement.Ground )
+object.m_moveData = MoveComponentStaticData( 10 )
+object.m_selectionData = SelectionComponentStaticData()
+object.m_attackData = AttackComponentStaticData(  21, 24, 15, 5, 15 )
+object.m_playerData = PlayerComponentStaticData()
 
-StaticData:regObjectStaticData( QString( "Grunt" ), grunt )
+StaticData:regObjectStaticData( QString( "Grunt" ), object )
 
 -- End script message
 

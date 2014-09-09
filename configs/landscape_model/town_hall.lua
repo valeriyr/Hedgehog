@@ -1,24 +1,24 @@
 
 -- Town Hall
 
-townHall = ObjectStaticData()
+object = ObjectStaticData()
 
-townHall.m_healthData = HealthComponentStaticData( 2100, true )
-townHall.m_locateData = LocateComponentStaticData( QSize( 4, 4 ), TerrainMapItem.Ground, Emplacement.Ground )
-townHall.m_selectionData = SelectionComponentStaticData()
-townHall.m_playerData = PlayerComponentStaticData()
+object.m_healthData = HealthComponentStaticData( 2100, true )
+object.m_locateData = LocateComponentStaticData( QSize( 4, 4 ), TerrainMapItem.Ground, Emplacement.Ground )
+object.m_selectionData = SelectionComponentStaticData()
+object.m_playerData = PlayerComponentStaticData()
 
 peasantResourceData = ResourcesData()
 peasantResourceData:pushResource( QString( "Gold" ), 50 )
 
-townHall.m_trainData = TrainComponentStaticData()
-townHall.m_trainData:pushTrainData( QString( "Peasant" ), TrainData( 10, peasantResourceData ) )
+object.m_trainData = TrainComponentStaticData()
+object.m_trainData:pushTrainData( QString( "Peasant" ), TrainData( 10, peasantResourceData ) )
 
-townHall.m_resourceStorageData = ResourceStorageComponentStaticData()
-townHall.m_resourceStorageData:canStore( QString( "Gold" ) )
-townHall.m_resourceStorageData:canStore( QString( "Wood" ) )
+object.m_resourceStorageData = ResourceStorageComponentStaticData()
+object.m_resourceStorageData:canStore( QString( "Gold" ) )
+object.m_resourceStorageData:canStore( QString( "Wood" ) )
 
-StaticData:regObjectStaticData( QString( "Town Hall" ), townHall )
+StaticData:regObjectStaticData( QString( "Town Hall" ), object )
 
 -- End script message
 

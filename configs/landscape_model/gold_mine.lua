@@ -1,13 +1,13 @@
 
 -- Gold Mine
 
-goldMine = ObjectStaticData()
+object = ObjectStaticData()
 
-goldMine.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground, Emplacement.Ground )
-goldMine.m_selectionData = SelectionComponentStaticData()
-goldMine.m_resourceSourceData = ResourceSourceComponentStaticData( QString( "Gold" ) )
+object.m_locateData = LocateComponentStaticData( QSize( 3, 3 ), TerrainMapItem.Ground, Emplacement.Ground )
+object.m_selectionData = SelectionComponentStaticData()
+object.m_resourceSourceData = ResourceSourceComponentStaticData( QString( "Gold" ) )
 
-StaticData:regObjectStaticData( QString( "Gold Mine" ), goldMine )
+StaticData:regObjectStaticData( QString( "Gold Mine" ), object )
 
 -- End script message
 

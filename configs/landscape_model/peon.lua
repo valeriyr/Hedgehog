@@ -1,19 +1,19 @@
 
 -- Peon
 
-peon = ObjectStaticData()
+object = ObjectStaticData()
 
-peon.m_healthData = HealthComponentStaticData( 50, false )
-peon.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground, Emplacement.Ground )
-peon.m_moveData = MoveComponentStaticData( 9 )
-peon.m_selectionData = SelectionComponentStaticData()
-peon.m_attackData = AttackComponentStaticData( 4, 6, 15, 4, 15 )
-peon.m_repairData = RepairComponentStaticData( 1, 30 )
-peon.m_playerData = PlayerComponentStaticData()
+object.m_healthData = HealthComponentStaticData( 50, false )
+object.m_locateData = LocateComponentStaticData( QSize( 1, 1 ), TerrainMapItem.Ground, Emplacement.Ground )
+object.m_moveData = MoveComponentStaticData( 9 )
+object.m_selectionData = SelectionComponentStaticData()
+object.m_attackData = AttackComponentStaticData( 4, 6, 15, 4, 15 )
+object.m_repairData = RepairComponentStaticData( 1, 30 )
+object.m_playerData = PlayerComponentStaticData()
 
-peon.m_resourceHolderData = ResourceHolderComponentStaticData()
-peon.m_resourceHolderData:hold( QString( "Gold" ), 10, 30 )
-peon.m_resourceHolderData:hold( QString( "Wood" ), 20, 30 )
+object.m_resourceHolderData = ResourceHolderComponentStaticData()
+object.m_resourceHolderData:hold( QString( "Gold" ), 10, 30 )
+object.m_resourceHolderData:hold( QString( "Wood" ), 20, 30 )
 
 orcBarracksResourceData = ResourcesData()
 orcBarracksResourceData:pushResource( QString( "Gold" ), 400 )
@@ -23,11 +23,11 @@ greatHallResourceData = ResourcesData()
 greatHallResourceData:pushResource( QString( "Gold" ), 1400 )
 greatHallResourceData:pushResource( QString( "Wood" ), 1200 )
 
-peon.m_buildData = BuildComponentStaticData()
-peon.m_buildData:pushBuildData( QString( "Orc Barracks" ), BuildData( 200, orcBarracksResourceData ) )
-peon.m_buildData:pushBuildData( QString( "Great Hall" ), BuildData( 400, greatHallResourceData ) )
+object.m_buildData = BuildComponentStaticData()
+object.m_buildData:pushBuildData( QString( "Orc Barracks" ), BuildData( 200, orcBarracksResourceData ) )
+object.m_buildData:pushBuildData( QString( "Great Hall" ), BuildData( 400, greatHallResourceData ) )
 
-StaticData:regObjectStaticData( QString( "Peon" ), peon )
+StaticData:regObjectStaticData( QString( "Peon" ), object )
 
 -- End script message
 

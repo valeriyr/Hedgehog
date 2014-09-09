@@ -2,14 +2,14 @@
 -- Peasant
 
 do
-	name = QString( "Peasant" )
-	atlas = QString( "units/peasant" )
+	objectName = QString( "Peasant" )
+	atlasName = QString( "units/peasant" )
 
 	do -- standing north animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Standing, Direction.North )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Standing, Direction.North )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -18,9 +18,9 @@ do
 
 	do -- standing north east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Standing, Direction.NorthEast )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Standing, Direction.NorthEast )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -29,9 +29,9 @@ do
 
 	do -- standing east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Standing, Direction.East )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Standing, Direction.East )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -40,9 +40,9 @@ do
 
 	do -- standing south east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Standing, Direction.SouthEast )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Standing, Direction.SouthEast )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -51,9 +51,9 @@ do
 
 	do -- standing south animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Standing, Direction.South )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Standing, Direction.South )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 0, 72, 72 ) ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -62,9 +62,9 @@ do
 
 	do -- standing south west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Standing, Direction.SouthWest )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Standing, Direction.SouthWest )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 0, 72, 72 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -73,9 +73,9 @@ do
 
 	do -- standing west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Standing, Direction.West )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Standing, Direction.West )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 0, 72, 72 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -84,9 +84,9 @@ do
 
 	do -- standing north west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Standing, Direction.NorthWest )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Standing, Direction.NorthWest )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 0, 72, 72 ), true ) )
 
 		AnimationsCache:regAnimation( animationInfo )
@@ -95,9 +95,9 @@ do
 
 	do -- moving north animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Moving, Direction.North )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Moving, Direction.North )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0,  72, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 144, 72, 72 ) ) )
@@ -110,9 +110,9 @@ do
 
 	do -- moving north east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Moving, Direction.NorthEast )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Moving, Direction.NorthEast )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72,  72, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 144, 72, 72 ) ) )
@@ -125,9 +125,9 @@ do
 
 	do -- moving east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Moving, Direction.East )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Moving, Direction.East )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,  72, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 144, 72, 72 ) ) )
@@ -140,9 +140,9 @@ do
 
 	do -- moving south east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Moving, Direction.SouthEast )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Moving, Direction.SouthEast )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216,  72, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 144, 72, 72 ) ) )
@@ -155,9 +155,9 @@ do
 
 	do -- moving south animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Moving, Direction.South )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Moving, Direction.South )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288,  72, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 144, 72, 72 ) ) )
@@ -170,9 +170,9 @@ do
 
 	do -- moving south west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Moving, Direction.SouthWest )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Moving, Direction.SouthWest )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216,   0, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216,  72, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 144, 72, 72 ), true ) )
@@ -185,9 +185,9 @@ do
 
 	do -- moving west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Moving, Direction.West )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Moving, Direction.West )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,  72, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 144, 72, 72 ), true ) )
@@ -200,9 +200,9 @@ do
 
 	do -- moving north west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Moving, Direction.NorthWest )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Moving, Direction.NorthWest )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72,   0, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72,  72, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 144, 72, 72 ), true ) )
@@ -215,9 +215,9 @@ do
 
 	do -- attack north animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Attacking, Direction.North )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Attacking, Direction.North )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 432, 72, 72 ) ) )
@@ -231,9 +231,9 @@ do
 
 	do -- attack north east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Attacking, Direction.NorthEast )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Attacking, Direction.NorthEast )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 432, 72, 72 ) ) )
@@ -247,9 +247,9 @@ do
 
 	do -- attack east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Attacking, Direction.East )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Attacking, Direction.East )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ) ) )
@@ -263,9 +263,9 @@ do
 
 	do -- attack south east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Attacking, Direction.SouthEast )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Attacking, Direction.SouthEast )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 432, 72, 72 ) ) )
@@ -279,9 +279,9 @@ do
 
 	do -- attack south animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Attacking, Direction.South )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Attacking, Direction.South )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 432, 72, 72 ) ) )
@@ -295,9 +295,9 @@ do
 
 	do -- attack south west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Attacking, Direction.SouthWest )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Attacking, Direction.SouthWest )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216,   0, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 360, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 432, 72, 72 ), true ) )
@@ -311,9 +311,9 @@ do
 
 	do -- attack west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Attacking, Direction.West )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Attacking, Direction.West )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 360, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ), true ) )
@@ -327,9 +327,9 @@ do
 
 	do -- attack north west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Attacking, Direction.NorthWest )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Attacking, Direction.NorthWest )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72,   0, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 360, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 432, 72, 72 ), true ) )
@@ -343,9 +343,9 @@ do
 
 	do -- repair north animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.North )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Repairing, Direction.North )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 432, 72, 72 ) ) )
@@ -359,9 +359,9 @@ do
 
 	do -- repair north east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.NorthEast )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Repairing, Direction.NorthEast )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 432, 72, 72 ) ) )
@@ -375,9 +375,9 @@ do
 
 	do -- repair east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.East )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Repairing, Direction.East )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ) ) )
@@ -391,9 +391,9 @@ do
 
 	do -- repair south east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.SouthEast )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Repairing, Direction.SouthEast )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 432, 72, 72 ) ) )
@@ -407,9 +407,9 @@ do
 
 	do -- repair south animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.South )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Repairing, Direction.South )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 360, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 432, 72, 72 ) ) )
@@ -423,9 +423,9 @@ do
 
 	do -- repair south west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.SouthWest )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Repairing, Direction.SouthWest )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216,   0, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 360, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 432, 72, 72 ), true ) )
@@ -439,9 +439,9 @@ do
 
 	do -- repair west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.West )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Repairing, Direction.West )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 360, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 432, 72, 72 ), true ) )
@@ -455,9 +455,9 @@ do
 
 	do -- repair north west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Repairing, Direction.NorthWest )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Repairing, Direction.NorthWest )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72,   0, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 360, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 432, 72, 72 ), true ) )
@@ -471,9 +471,9 @@ do
 
 	do -- dying north animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Dying, Direction.North )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Dying, Direction.North )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 648, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 720, 72, 72 ) ) )
@@ -485,9 +485,9 @@ do
 
 	do -- dying north east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Dying, Direction.NorthEast )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Dying, Direction.NorthEast )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 648, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 720, 72, 72 ) ) )
@@ -499,9 +499,9 @@ do
 
 	do -- dying east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Dying, Direction.East )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Dying, Direction.East )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 648, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 720, 72, 72 ) ) )
@@ -513,9 +513,9 @@ do
 
 	do -- dying south east animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Dying, Direction.SouthEast )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Dying, Direction.SouthEast )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 648, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 720, 72, 72 ) ) )
@@ -527,9 +527,9 @@ do
 
 	do -- dying south animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Dying, Direction.South )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Dying, Direction.South )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288,   0, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 648, 72, 72 ) ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 288, 720, 72, 72 ) ) )
@@ -541,9 +541,9 @@ do
 
 	do -- dying south west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Dying, Direction.SouthWest )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Dying, Direction.SouthWest )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216,   0, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 648, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 216, 720, 72, 72 ), true ) )
@@ -555,9 +555,9 @@ do
 
 	do -- dying west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Dying, Direction.West )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Dying, Direction.West )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144,   0, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 648, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 144, 720, 72, 72 ), true ) )
@@ -569,9 +569,9 @@ do
 
 	do -- dying north west animation
 
-		animationName = generateAnimationName( AnySkinIdentifier, name, ObjectState.Dying, Direction.NorthWest )
+		animationName = generateAnimationName( AnySkinIdentifier, objectName, ObjectState.Dying, Direction.NorthWest )
 
-		animationInfo = AnimationInfo( animationName, atlas )
+		animationInfo = AnimationInfo( animationName, atlasName )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72,   0, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 648, 72, 72 ), true ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 72, 720, 72, 72 ), true ) )

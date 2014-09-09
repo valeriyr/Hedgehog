@@ -1,24 +1,24 @@
 
 -- Great Hall
 
-greatHall = ObjectStaticData()
+object = ObjectStaticData()
 
-greatHall.m_healthData = HealthComponentStaticData( 2500, true )
-greatHall.m_locateData = LocateComponentStaticData( QSize( 4, 4 ), TerrainMapItem.Ground, Emplacement.Ground )
-greatHall.m_selectionData = SelectionComponentStaticData()
-greatHall.m_playerData = PlayerComponentStaticData()
+object.m_healthData = HealthComponentStaticData( 2500, true )
+object.m_locateData = LocateComponentStaticData( QSize( 4, 4 ), TerrainMapItem.Ground, Emplacement.Ground )
+object.m_selectionData = SelectionComponentStaticData()
+object.m_playerData = PlayerComponentStaticData()
 
 peonResourceData = ResourcesData()
 peonResourceData:pushResource( QString( "Gold" ), 50 )
 
-greatHall.m_trainData = TrainComponentStaticData()
-greatHall.m_trainData:pushTrainData( QString( "Peon" ), TrainData( 10, peonResourceData ) )
+object.m_trainData = TrainComponentStaticData()
+object.m_trainData:pushTrainData( QString( "Peon" ), TrainData( 10, peonResourceData ) )
 
-greatHall.m_resourceStorageData = ResourceStorageComponentStaticData()
-greatHall.m_resourceStorageData:canStore( QString( "Gold" ) )
-greatHall.m_resourceStorageData:canStore( QString( "Wood" ) )
+object.m_resourceStorageData = ResourceStorageComponentStaticData()
+object.m_resourceStorageData:canStore( QString( "Gold" ) )
+object.m_resourceStorageData:canStore( QString( "Wood" ) )
 
-StaticData:regObjectStaticData( QString( "Great Hall" ), greatHall )
+StaticData:regObjectStaticData( QString( "Great Hall" ), object )
 
 -- End script message
 

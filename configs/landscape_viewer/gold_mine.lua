@@ -2,11 +2,11 @@
 -- Gold Mine
 
 do
-	goldMineName = QString( "Gold Mine" )
+	objectName = QString( "Gold Mine" )
 
 	do -- standing south animation ( winter skin )
 
-		animationName = generateAnimationName( QString( "winter" ), goldMineName, ObjectState.Standing, Direction.South )
+		animationName = generateAnimationName( QString( "winter" ), objectName, ObjectState.Standing, Direction.South )
 
 		animationInfo = AnimationInfo( animationName, QString( "skins/winter/gold_mine" ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 96, 96 ) ) )
@@ -17,7 +17,7 @@ do
 
 	do -- standing south animation ( summer skin )
 
-		animationName = generateAnimationName( QString( "summer" ), goldMineName, ObjectState.Standing, Direction.South )
+		animationName = generateAnimationName( QString( "summer" ), objectName, ObjectState.Standing, Direction.South )
 
 		animationInfo = AnimationInfo( animationName, QString( "skins/summer/gold_mine" ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 96, 96 ) ) )
@@ -28,7 +28,7 @@ do
 
 	do -- standing south animation ( wasteland skin )
 
-		animationName = generateAnimationName( QString( "wasteland" ), goldMineName, ObjectState.Standing, Direction.South )
+		animationName = generateAnimationName( QString( "wasteland" ), objectName, ObjectState.Standing, Direction.South )
 
 		animationInfo = AnimationInfo( animationName, QString( "skins/wasteland/gold_mine" ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 0, 96, 96 ) ) )
@@ -39,7 +39,7 @@ do
 
 	do -- under collecting south animation ( winter skin )
 
-		animationName = generateAnimationName( QString( "winter" ), goldMineName, ObjectState.UnderCollecting, Direction.South )
+		animationName = generateAnimationName( QString( "winter" ), objectName, ObjectState.UnderCollecting, Direction.South )
 
 		animationInfo = AnimationInfo( animationName, QString( "skins/winter/gold_mine" ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 96, 96, 96 ) ) )
@@ -50,7 +50,7 @@ do
 
 	do -- under collecting south animation ( summer skin )
 
-		animationName = generateAnimationName( QString( "summer" ), goldMineName, ObjectState.UnderCollecting, Direction.South )
+		animationName = generateAnimationName( QString( "summer" ), objectName, ObjectState.UnderCollecting, Direction.South )
 
 		animationInfo = AnimationInfo( animationName, QString( "skins/summer/gold_mine" ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 96, 96, 96 ) ) )
@@ -61,7 +61,7 @@ do
 
 	do -- under collecting south animation ( wasteland skin )
 
-		animationName = generateAnimationName( QString( "wasteland" ), goldMineName, ObjectState.UnderCollecting, Direction.South )
+		animationName = generateAnimationName( QString( "wasteland" ), objectName, ObjectState.UnderCollecting, Direction.South )
 
 		animationInfo = AnimationInfo( animationName, QString( "skins/wasteland/gold_mine" ) )
 		animationInfo:addFrame( FrameInfo( 100, QRect( 0, 96, 96, 96 ) ) )
