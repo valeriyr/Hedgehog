@@ -148,7 +148,8 @@ ObjectStatusView::onObjectsSelectionChanged( const Framework::Core::EventManager
 		m_builderId = Core::LandscapeModel::Object::ms_wrongId;
 
 		if (	!selectedObjectsCollection.empty()
-			&&	( *selectedObjectsCollection.begin() )->getComponent< Core::LandscapeModel::ITrainComponent >( Core::LandscapeModel::ComponentId::Train ) )
+			&&	( *selectedObjectsCollection.begin() )->getComponent< Core::LandscapeModel::ITrainComponent >( Core::LandscapeModel::ComponentId::Train )
+			&&	handle->getLandscapeModel()->isMyObject( *selectedObjectsCollection.begin() ) )
 		{
 			m_builderId = ( *selectedObjectsCollection.begin() )->getUniqueId();
 		}
@@ -243,29 +244,6 @@ ObjectStatusView::updateBuildQueue()
 
 
 void
-ObjectStatusView::clearBuildQueue()
-{
-	m_currentObject->setIcon( QIcon() );
-	m_listWidget->clear();
-
-} // ObjectStatusView::clearBuildQueue
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-ObjectStatusView::clearProgressLabel()
-{
-	m_label->clear();
-
-} // ObjectStatusView::clearProgressLabel
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
 ObjectStatusView::updateProgressLabel( const int _progress )
 {
 	m_label->setText( QString( "Built: %1 %" ).arg( _progress ) );
@@ -299,6 +277,29 @@ ObjectStatusView::updateProgressLabel()
 	}
 
 } // ObjectStatusView::updateProgressLabel
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectStatusView::clearBuildQueue()
+{
+	m_currentObject->setIcon( QIcon() );
+	m_listWidget->clear();
+
+} // ObjectStatusView::clearBuildQueue
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectStatusView::clearProgressLabel()
+{
+	m_label->clear();
+
+} // ObjectStatusView::clearProgressLabel
 
 
 /*---------------------------------------------------------------------------*/

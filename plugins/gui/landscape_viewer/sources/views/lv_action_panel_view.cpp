@@ -277,12 +277,9 @@ ActionPanelView::updateView( const Core::LandscapeModel::Object::Id& _objectId )
 		boost::shared_ptr< Core::LandscapeModel::Object > object
 			= handle->getLandscapeModel()->getLandscape()->getObject( _objectId );
 
-		boost::intrusive_ptr< Core::LandscapeModel::IPlayerComponent > playerComponent
-			= object->getComponent< Core::LandscapeModel::IPlayerComponent >( Plugins::Core::LandscapeModel::ComponentId::Player );
-
 		if (	object->getState() == Core::LandscapeModel::ObjectState::Dying
 			||	object->getState() == Core::LandscapeModel::ObjectState::UnderConstruction
-			||	( playerComponent && handle->getLandscapeModel()->getMyPlayer()->getUniqueId() != playerComponent->getPlayerId() ) )
+			||	!handle->getLandscapeModel()->isMyObject( object ) )
 			return;
 
 		trainComponent = object->getComponent< Core::LandscapeModel::ITrainComponent >( Plugins::Core::LandscapeModel::ComponentId::Train );

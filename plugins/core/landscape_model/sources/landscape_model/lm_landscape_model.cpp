@@ -566,6 +566,39 @@ LandscapeModel::twoOrMoreActivatedPlayers() const
 /*---------------------------------------------------------------------------*/
 
 
+bool
+LandscapeModel::isMyObject( const Object::Id& _objectId ) const
+{
+	return m_landscape && isMyObject( m_landscape->getObject( _objectId ) );
+
+} // LandscapeModel::isMyObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+LandscapeModel::isMyObject( boost::shared_ptr< Object > _object ) const
+{
+	if ( !_object )
+		return false;
+
+	boost::intrusive_ptr< IPlayer > myPlayer = getMyPlayer();
+
+	if ( !myPlayer )
+		return false;
+
+	boost::intrusive_ptr< IPlayerComponent > playerComponent
+		= _object->getComponent< IPlayerComponent >( ComponentId::Player );
+
+	return playerComponent->getPlayerId() == myPlayer->getUniqueId();
+
+} // LandscapeModel::isMyObject
+
+
+/*---------------------------------------------------------------------------*/
+
+
 QMutex&
 LandscapeModel::getMutex()
 {
