@@ -40,7 +40,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void regResource( const QString& _name );
+	/*virtual*/ void regResource( const QString& _name, const int _startupValue );
 
 	/*virtual*/ void fetchResources( ResourcesCollection& _collection ) const;
 

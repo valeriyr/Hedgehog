@@ -1,8 +1,8 @@
 
 -- Resources
 
-StaticData:regResource( QString( "Gold" ) )
-StaticData:regResource( QString( "Wood" ) )
+StaticData:regResource( QString( "Gold" ), 3000 )
+StaticData:regResource( QString( "Wood" ), 2147483647 )
 
 -- End script message
 

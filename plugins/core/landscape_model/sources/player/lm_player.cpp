@@ -47,7 +47,7 @@ Player::Player(
 		,	end = resources.end();
 
 	for ( ; begin != end; ++begin )
-		m_resourceData.pushResource( *begin, 3000 );
+		m_resourceData.pushResource( begin->first, begin->second );
 
 } // Player::Player
 

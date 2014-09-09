@@ -74,9 +74,9 @@ StaticData::regObjectStaticData( const QString& _name, const ObjectStaticData& _
 
 
 void
-StaticData::regResource( const QString& _name )
+StaticData::regResource( const QString& _name, const int _startupValue )
 {
-	m_resources.insert( _name );
+	m_resources.insert( std::make_pair( _name, _startupValue ) );
 
 } // StaticData::regResource
 

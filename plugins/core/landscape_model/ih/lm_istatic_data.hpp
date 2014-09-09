@@ -69,7 +69,7 @@ struct IStaticData
 		StaticDataCollectionIterator;
 
 	typedef
-		std::set< QString >
+		std::map< QString, int >
 		ResourcesCollection;
 	typedef
 		ResourcesCollection::const_iterator
@@ -97,7 +97,7 @@ struct IStaticData
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void regResource( const QString& _name ) = 0;
+	virtual void regResource( const QString& _name, const int _startupValue ) = 0;
 
 	virtual void fetchResources( ResourcesCollection& _collection ) const = 0;
 
