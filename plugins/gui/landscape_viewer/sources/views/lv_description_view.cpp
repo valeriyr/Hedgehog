@@ -114,7 +114,7 @@ DescriptionView::regenerateDescription()
 
 	m_descriptionView->setHtml(
 		QString( Resources::Views::LandscapeDescriptionFormat )
-			.arg( handle->getLandscapeModel()->getFilePath() )
+			.arg( handle->getLandscapeModel()->getLandscapeFilePath() )
 			.arg( handle->getLandscapeModel()->getLandscape()->getWidth() )
 			.arg( handle->getLandscapeModel()->getLandscape()->getHeight() )
 			.arg( Core::LandscapeModel::VictoryCondition::toString( handle->getLandscapeModel()->getVictoryConditionType() ) )

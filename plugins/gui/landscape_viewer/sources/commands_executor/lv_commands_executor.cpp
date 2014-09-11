@@ -53,7 +53,7 @@ CommandsExecutor::newLandscape()
 void
 CommandsExecutor::openLandscape()
 {
-	QString landscapeFilePath = m_environment.showOpenFileDialog();
+	QString landscapeFilePath = m_environment.showOpenFileDialog( Core::LandscapeModel::Resources::LandscapeFileFilter );
 
 	if ( !landscapeFilePath.isEmpty() )
 		openLandscape( landscapeFilePath );
@@ -81,10 +81,10 @@ CommandsExecutor::saveLandscape()
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
 		locker = m_environment.lockModel();
 
-	QString fileName = locker->getLandscapeModel()->getFilePath();
+	QString fileName = locker->getLandscapeModel()->getLandscapeFilePath();
 
 	if ( fileName.isEmpty() )
-		fileName = m_environment.showSaveFileDialog();
+		fileName = m_environment.showSaveFileDialog( Core::LandscapeModel::Resources::LandscapeFileFilter );
 
 	locker->getLandscapeModel()->saveModel( fileName );
 
@@ -97,7 +97,8 @@ CommandsExecutor::saveLandscape()
 void
 CommandsExecutor::saveAsLandscape()
 {
-	m_environment.lockModel()->getLandscapeModel()->saveModel( m_environment.showSaveFileDialog() );
+	m_environment.lockModel()->getLandscapeModel()->saveModel(
+		m_environment.showSaveFileDialog( Core::LandscapeModel::Resources::LandscapeFileFilter ) );
 
 } // CommandsExecutor::saveAsLandscape
 
@@ -118,6 +119,45 @@ CommandsExecutor::startGame()
 	multiplayerDialog.exec();
 
 } // CommandsExecutor::startGame
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+CommandsExecutor::startReplay()
+{
+	if ( m_environment.lockModel()->getLandscapeModel()->isSimulationRunning() )
+	{
+		m_environment.printMessage( Tools::Core::IMessenger::MessegeLevel::Error, Resources::Messages::SimulationIsRunningNow );
+		return;
+	}
+
+	QString replayFilePath = m_environment.showOpenFileDialog( Core::LandscapeModel::Resources::ReplayFileFilter );
+
+	if ( !replayFilePath.isEmpty() )
+	{
+		m_environment.getLandscapeViewer()->closeLandscape();
+
+		m_environment.lockModel()->getLandscapeModel()->setupReplay( replayFilePath );
+
+		m_environment.getLandscapeViewer()->initLandscape( m_environment.lockModel()->getLandscapeModel()->getLandscapeFilePath() );
+		m_environment.getLandscapeViewer()->startSimulation();
+	}
+
+} // CommandsExecutor::startReplay
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+CommandsExecutor::saveReplay()
+{
+	m_environment.lockModel()->getLandscapeModel()->saveReplay(
+		m_environment.showSaveFileDialog( Core::LandscapeModel::Resources::ReplayFileFilter ) );
+
+} // CommandsExecutor::saveReplay
 
 
 /*---------------------------------------------------------------------------*/

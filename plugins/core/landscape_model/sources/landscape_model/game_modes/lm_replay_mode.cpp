@@ -1,10 +1,10 @@
 
 #include "landscape_model/sources/ph/lm_ph.hpp"
 
-#include "landscape_model/sources/model_information/lm_model_information.hpp"
+#include "landscape_model/sources/landscape_model/game_modes/lm_replay_mode.hpp"
 
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
-#include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
+#include "landscape_model/ih/lm_imodel_locker.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -16,40 +16,39 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-ModelInformation::ModelInformation( const IEnvironment& _environment )
+ReplayMode::ReplayMode( const IEnvironment& _environment )
 	:	m_environment( _environment )
+	,	m_commandsQueue()
 {
-} // ModelInformation::ModelInformation
+} // ReplayMode::ReplayMode
 
 
 /*---------------------------------------------------------------------------*/
 
 
-ModelInformation::~ModelInformation()
+ReplayMode::~ReplayMode()
 {
-} // ModelInformation::~ModelInformation
+} // ReplayMode::~ReplayMode
 
 
 /*---------------------------------------------------------------------------*/
 
 
-QString
-ModelInformation::getLandscapesDirectory() const
+void
+ReplayMode::processCommand( const Command& _command )
 {
-	return m_environment.getApplicationDirectory() + "/" + Resources::LandscapesDirectoryName;
-
-} // ModelInformation::getLandscapesDirectory
+} // ReplayMode::processCommand
 
 
 /*---------------------------------------------------------------------------*/
 
 
-QString
-ModelInformation::getReplaysDirectory() const
+bool
+ReplayMode::prepareToTick( const TickType& _tick )
 {
-	return m_environment.getApplicationDirectory() + "/" + Resources::ReplaysDirectoryName;
+	return true;
 
-} // ModelInformation::getReplaysDirectory
+} // ReplayMode::prepareToTick
 
 
 /*---------------------------------------------------------------------------*/

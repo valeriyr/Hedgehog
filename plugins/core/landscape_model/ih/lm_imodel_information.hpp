@@ -26,6 +26,8 @@ struct IModelInformation
 
 	virtual QString getLandscapesDirectory() const = 0;
 
+	virtual QString getReplaysDirectory() const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 };

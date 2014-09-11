@@ -75,7 +75,13 @@ public:
 
 	/*virtual*/ bool isConfigurated() const;
 
-	/*virtual*/ const QString& getFilePath() const;
+	/*virtual*/ const QString& getLandscapeFilePath() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void setupReplay( const QString& _filePath );
+
+	/*virtual*/ void saveReplay( const QString& _filePath );
 
 /*---------------------------------------------------------------------------*/
 
@@ -227,7 +233,7 @@ private:
 
 	boost::intrusive_ptr< ILandscape > m_landscape;
 
-	QString m_filePath;
+	QString m_landscapeFilePath;
 
 	PlayersMap m_players;
 

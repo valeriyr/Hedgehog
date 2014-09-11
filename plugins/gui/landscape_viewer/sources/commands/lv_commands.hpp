@@ -41,6 +41,9 @@ DECLARE_COMMAND( SaveAsLandscapeCommand )
 
 DECLARE_COMMAND( StartGameCommand )
 
+DECLARE_COMMAND( StartReplayCommand )
+DECLARE_COMMAND( SaveReplayCommand )
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace LandscapeViewer

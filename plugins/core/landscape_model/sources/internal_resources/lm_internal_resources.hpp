@@ -23,6 +23,8 @@ namespace Resources {
 
 	extern const char* const LandscapesDirectoryName;
 
+	extern const char* const ReplaysDirectoryName;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const Tools::Core::Time::Milliseconds TimeLimit;

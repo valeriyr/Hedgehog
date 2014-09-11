@@ -173,6 +173,10 @@ namespace Commands {
 
 	extern const char* const StartGameCommandName;
 
+	extern const char* const StartReplayCommandName;
+
+	extern const char* const SaveReplayCommandName;
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Commands

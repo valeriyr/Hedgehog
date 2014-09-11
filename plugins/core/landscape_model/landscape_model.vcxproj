@@ -46,6 +46,7 @@
     <ClCompile Include="sources\landscape\lm_landscape.cpp" />
     <ClCompile Include="sources\landscape_model\game_modes\lm_commands_queue.cpp" />
     <ClCompile Include="sources\landscape_model\game_modes\lm_multi_player_mode.cpp" />
+    <ClCompile Include="sources\landscape_model\game_modes\lm_replay_mode.cpp" />
     <ClCompile Include="sources\landscape_model\game_modes\lm_single_player_mode.cpp" />
     <ClCompile Include="sources\landscape_model\lm_landscape_model.cpp" />
     <ClCompile Include="sources\landscape_model\victory_checker\lm_endless_checker.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="sources\landscape_model\game_modes\lm_commands_queue.hpp" />
     <ClInclude Include="sources\landscape_model\game_modes\lm_igame_mode.hpp" />
     <ClInclude Include="sources\landscape_model\game_modes\lm_multi_player_mode.hpp" />
+    <ClInclude Include="sources\landscape_model\game_modes\lm_replay_mode.hpp" />
     <ClInclude Include="sources\landscape_model\game_modes\lm_single_player_mode.hpp" />
     <ClInclude Include="sources\landscape_model\lm_landscape_model.hpp" />
     <ClInclude Include="sources\landscape_model\victory_checker\lm_endless_checker.hpp" />

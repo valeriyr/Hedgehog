@@ -1,10 +1,12 @@
 
-#ifndef __LM_MODEL_INFORMATION_HPP__
-#define __LM_MODEL_INFORMATION_HPP__
+#ifndef __LM_REPLAY_MODE_HPP__
+#define __LM_REPLAY_MODE_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/ih/lm_imodel_information.hpp"
+#include "landscape_model/sources/landscape_model/game_modes/lm_igame_mode.hpp"
+
+#include "landscape_model/sources/landscape_model/game_modes/lm_commands_queue.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -18,8 +20,8 @@ struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-class ModelInformation
-	:	public Tools::Core::BaseWrapper< IModelInformation >
+class ReplayMode
+	:	public Tools::Core::BaseWrapper< IGameMode >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,15 +30,15 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ModelInformation( const IEnvironment& _environment );
+	ReplayMode( const IEnvironment& _environment );
 
-	virtual ~ModelInformation();
+	virtual ~ReplayMode();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ QString getLandscapesDirectory() const;
+	/*virtual*/ void processCommand( const Command& _command );
 
-	/*virtual*/ QString getReplaysDirectory() const;
+	/*virtual*/ bool prepareToTick( const TickType& _tick );
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,6 +47,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	CommandsQueue m_commandsQueue;
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,4 +62,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_MODEL_INFORMATION_HPP__
+#endif // __LM_REPLAY_MODE_HPP__

@@ -17,6 +17,8 @@ namespace Resources {
 
 	const char* const LandscapeFileFilter = "*.hmap";
 
+	const char* const ReplayFileFilter = "*.hreplay";
+
 /*---------------------------------------------------------------------------*/
 
 namespace Properties {

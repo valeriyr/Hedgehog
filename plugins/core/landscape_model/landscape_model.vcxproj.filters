@@ -207,6 +207,9 @@
     <ClCompile Include="sources\landscape_model\game_modes\lm_commands_queue.cpp">
       <Filter>Landscape Model\Game Modes</Filter>
     </ClCompile>
+    <ClCompile Include="sources\landscape_model\game_modes\lm_replay_mode.cpp">
+      <Filter>Landscape Model\Game Modes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\ph\lm_ph.hpp">
@@ -495,6 +498,9 @@
       <Filter>Landscape Model\Victory Checker</Filter>
     </ClInclude>
     <ClInclude Include="sources\landscape_model\game_modes\lm_commands_queue.hpp">
+      <Filter>Landscape Model\Game Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\landscape_model\game_modes\lm_replay_mode.hpp">
       <Filter>Landscape Model\Game Modes</Filter>
     </ClInclude>
   </ItemGroup>

@@ -23,6 +23,8 @@ namespace Resources {
 
 	const char* const LandscapesDirectoryName = "maps";
 
+	const char* const ReplaysDirectoryName = "replays";
+
 /*---------------------------------------------------------------------------*/
 
 	const Tools::Core::Time::Milliseconds TimeLimit = 100;

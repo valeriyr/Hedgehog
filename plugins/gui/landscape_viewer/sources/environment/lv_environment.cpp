@@ -60,9 +60,9 @@ Environment::~Environment()
 
 
 QString
-Environment::showOpenFileDialog() const
+Environment::showOpenFileDialog( const QString& _filter ) const
 {
-	return m_pluginInstance.getDialogsManager()->getOpenFileName( Core::LandscapeModel::Resources::LandscapeFileFilter );
+	return m_pluginInstance.getDialogsManager()->getOpenFileName( _filter );
 
 } // Environment::showOpenFileDialog
 
@@ -71,9 +71,9 @@ Environment::showOpenFileDialog() const
 
 
 QString
-Environment::showSaveFileDialog() const
+Environment::showSaveFileDialog( const QString& _filter ) const
 {
-	return m_pluginInstance.getDialogsManager()->getSaveFileName( Core::LandscapeModel::Resources::LandscapeFileFilter );
+	return m_pluginInstance.getDialogsManager()->getSaveFileName( _filter );
 
 } // Environment::showSaveFileDialog
 

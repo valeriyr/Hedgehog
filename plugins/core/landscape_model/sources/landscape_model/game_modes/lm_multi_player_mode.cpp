@@ -230,6 +230,10 @@ MultiPlayerMode::prepareToTick( const TickType& _tick )
 
 		if ( PlayerType::isActivated( player->getType() ) && !m_commandsQueue.hasCommands( player->getUniqueId(), _tick ) )
 		{
+			// TODO: AI is not implemented now
+			if ( player->getType() == PlayerType::AI )
+				continue;
+
 			m_environment.printMessage(
 					Tools::Core::IMessenger::MessegeLevel::Warning
 				,	QString( Resources::CommandsIsNotPresentedMessage ).arg( player->getName() ).arg( player->getUniqueId() ).arg( _tick ) );
@@ -430,7 +434,7 @@ MultiPlayerMode::processConnectRequest(
 		}
 
 		connectResponce.pushArgument( freePlayer->getUniqueId() );
-		connectResponce.pushArgument( model->getFilePath() );
+		connectResponce.pushArgument( model->getLandscapeFilePath() );
 		connectResponce.pushArgument( model->getVictoryConditionType() );
 		connectResponce.pushArgument( playersList );
 

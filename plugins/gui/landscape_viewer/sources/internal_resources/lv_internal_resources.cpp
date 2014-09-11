@@ -251,6 +251,10 @@ namespace Commands {
 
 	const char* const StartGameCommandName = "lv.game.start";
 
+	const char* const StartReplayCommandName = "lv.replay.start";
+
+	const char* const SaveReplayCommandName = "lv.replay.save";
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace Commands

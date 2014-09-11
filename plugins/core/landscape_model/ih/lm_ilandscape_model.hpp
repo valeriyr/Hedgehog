@@ -57,7 +57,13 @@ struct ILandscapeModel
 
 	virtual bool isConfigurated() const = 0;
 
-	virtual const QString& getFilePath() const = 0;
+	virtual const QString& getLandscapeFilePath() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void setupReplay( const QString& _filePath ) = 0;
+
+	virtual void saveReplay( const QString& _filePath ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

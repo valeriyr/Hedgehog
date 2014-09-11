@@ -132,6 +132,13 @@ PluginInstance::initialize()
 			Resources::Commands::StartGameCommandName
 		,	boost::intrusive_ptr< ICommand >( new StartGameCommand( *m_commandsExecutor ) ) );
 
+	getCommandsManager()->registerCommand(
+			Resources::Commands::StartReplayCommandName
+		,	boost::intrusive_ptr< ICommand >( new StartReplayCommand( *m_commandsExecutor ) ) );
+	getCommandsManager()->registerCommand(
+			Resources::Commands::SaveReplayCommandName
+		,	boost::intrusive_ptr< ICommand >( new SaveReplayCommand( *m_commandsExecutor ) ) );
+
 	getWindowManager()->addCommandToMenu( "File/New", Resources::Commands::NewLandscapeCommandName );
 	getWindowManager()->addCommandToMenu( "File/Open", Resources::Commands::OpenLandscapeCommandName );
 	getWindowManager()->addCommandToMenu( "File/Close", Resources::Commands::CloseLandscapeCommandName );
@@ -139,6 +146,11 @@ PluginInstance::initialize()
 	getWindowManager()->addCommandToMenu( "File/Save As", Resources::Commands::SaveAsLandscapeCommandName );
 
 	getWindowManager()->addCommandToMenu( "Game/Start", Resources::Commands::StartGameCommandName );
+	getWindowManager()->addCommandToMenu( "Game/Stop", Resources::Commands::CloseLandscapeCommandName );
+
+	getWindowManager()->addCommandToMenu( "Replay/Start", Resources::Commands::StartReplayCommandName );
+	getWindowManager()->addCommandToMenu( "Replay/Stop", Resources::Commands::CloseLandscapeCommandName );
+	getWindowManager()->addCommandToMenu( "Replay/Save", Resources::Commands::SaveReplayCommandName );
 
 } // PluginInstance::initialize
 
@@ -149,13 +161,21 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
-	getWindowManager()->removeCommandFromMenu( "Multiplayer/Start" );
+	getWindowManager()->removeCommandFromMenu( "Replay/Save" );
+	getWindowManager()->removeCommandFromMenu( "Replay/Stop" );
+	getWindowManager()->removeCommandFromMenu( "Replay/Start" );
+
+	getWindowManager()->removeCommandFromMenu( "Game/Stop" );
+	getWindowManager()->removeCommandFromMenu( "Game/Start" );
 
 	getWindowManager()->removeCommandFromMenu( "File/Save As" );
 	getWindowManager()->removeCommandFromMenu( "File/Save" );
 	getWindowManager()->removeCommandFromMenu( "File/Close" );
 	getWindowManager()->removeCommandFromMenu( "File/Open" );
 	getWindowManager()->removeCommandFromMenu( "File/New" );
+
+	getCommandsManager()->unregisterCommand( Resources::Commands::SaveReplayCommandName );
+	getCommandsManager()->unregisterCommand( Resources::Commands::StartReplayCommandName );
 
 	getCommandsManager()->unregisterCommand( Resources::Commands::StartGameCommandName );
 

@@ -42,6 +42,9 @@ DEFINE_COMMAND( SaveAsLandscapeCommand, saveAsLandscape )
 
 DEFINE_COMMAND( StartGameCommand, startGame )
 
+DEFINE_COMMAND( StartReplayCommand, startReplay )
+DEFINE_COMMAND( SaveReplayCommand, saveReplay )
+
 /*---------------------------------------------------------------------------*/
 
 } // namespace LandscapeViewer

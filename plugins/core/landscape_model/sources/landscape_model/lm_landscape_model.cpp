@@ -131,7 +131,7 @@ LandscapeModel::LandscapeModel(
 	,	m_actionsProcessingTaskHandle()
 	,	m_simulationStartTimeStamp( 0 )
 	,	m_landscape()
-	,	m_filePath()
+	,	m_landscapeFilePath()
 	,	m_players()
 	,	m_myPlayerId( IPlayer::ms_wrondId )
 	,	m_mutex( QMutex::Recursive )
@@ -179,7 +179,7 @@ LandscapeModel::initLandscape( const QString& _filePath )
 	}
 
 	m_landscape = landscape;
-	m_filePath = _filePath;
+	m_landscapeFilePath = _filePath;
 
 	initPlayers();
 
@@ -269,7 +269,7 @@ LandscapeModel::resetModel()
 	m_ticksCounter = 0;
 
 	m_landscape.reset();
-	m_filePath.clear();
+	m_landscapeFilePath.clear();
 
 	m_players.clear();
 	m_workers.clear();
@@ -297,7 +297,7 @@ LandscapeModel::saveModel( const QString& _filePath )
 		QString filePath( _filePath );
 
 		if ( filePath.isEmpty() )
-			filePath = m_filePath;
+			filePath = m_landscapeFilePath;
 
 		if ( filePath.isEmpty() )
 			return;
@@ -334,11 +334,29 @@ LandscapeModel::isConfigurated() const
 
 
 const QString&
-LandscapeModel::getFilePath() const
+LandscapeModel::getLandscapeFilePath() const
 {
-	return m_filePath;
+	return m_landscapeFilePath;
 
-} // LandscapeModel::getFilePath
+} // LandscapeModel::getLandscapeFilePath
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::setupReplay( const QString& _filePath )
+{
+} // LandscapeModel::setupReplay
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::saveReplay( const QString& _filePath )
+{
+} // LandscapeModel::saveReplay
 
 
 /*---------------------------------------------------------------------------*/
@@ -978,7 +996,7 @@ LandscapeModel::onStartSimulationProcessor( const Command& _command )
 
 	try
 	{
-		m_landscapeSerializer.loadObjects( *this, *m_landscape, m_filePath );
+		m_landscapeSerializer.loadObjects( *this, *m_landscape, m_landscapeFilePath );
 	}
 	catch( ... )
 	{

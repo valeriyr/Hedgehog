@@ -34,9 +34,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ QString showOpenFileDialog() const;
+	/*virtual*/ QString showOpenFileDialog( const QString& _filter ) const;
 
-	/*virtual*/ QString showSaveFileDialog() const;
+	/*virtual*/ QString showSaveFileDialog( const QString& _filter ) const;
 
 /*---------------------------------------------------------------------------*/
 

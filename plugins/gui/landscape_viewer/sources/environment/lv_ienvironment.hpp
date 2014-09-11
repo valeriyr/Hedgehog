@@ -77,9 +77,9 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual QString showOpenFileDialog() const = 0;
+	virtual QString showOpenFileDialog( const QString& _filter ) const = 0;
 
-	virtual QString showSaveFileDialog() const = 0;
+	virtual QString showSaveFileDialog( const QString& _filter ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
