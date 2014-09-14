@@ -35,8 +35,16 @@ ReplayMode::~ReplayMode()
 
 
 void
-ReplayMode::processCommand( const Command& _command )
+ReplayMode::processCommand( Command& _command )
 {
+	if ( !CommandId::simulationTimeCommand( _command.m_id ) )
+	{
+		m_environment.lockModel()->getLandscapeModel()->processCommand( _command );
+		return;
+	}
+
+	m_commandsQueue.pushCommand( _command );
+
 } // ReplayMode::processCommand
 
 
@@ -46,9 +54,44 @@ ReplayMode::processCommand( const Command& _command )
 bool
 ReplayMode::prepareToTick( const TickType& _tick )
 {
+	CommandsQueue::CommandsByTimeCollection commandsForExecution;
+	m_commandsQueue.fetchCommandsByTime( _tick, commandsForExecution );
+
+	CommandsQueue::CommandsByTimeCollectionIterator
+			commandsForExecutionBegin = commandsForExecution.begin()
+		,	commandsForExecutionEnd = commandsForExecution.end();
+
+	boost::intrusive_ptr< IModelLocker > modelLocker = m_environment.lockModel();
+	boost::intrusive_ptr< ILandscapeModel > model = modelLocker->getLandscapeModel();
+
+	for ( ; commandsForExecutionBegin != commandsForExecutionEnd; ++commandsForExecutionBegin )
+		model->processCommand( commandsForExecutionBegin->second );
+
 	return true;
 
 } // ReplayMode::prepareToTick
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const CommandsQueue&
+ReplayMode::getCommands() const
+{
+	return m_commandsQueue;
+
+} // ReplayMode::getCommands
+
+
+/*---------------------------------------------------------------------------*/
+
+
+IGameMode::Type::Enum
+ReplayMode::getType() const
+{
+	return IGameMode::Type::Replay;
+
+} // ReplayMode::getType
 
 
 /*---------------------------------------------------------------------------*/

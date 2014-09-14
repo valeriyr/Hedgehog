@@ -101,6 +101,52 @@ struct CommandId
 		}
 	}
 
+	static Enum fromString( const QString& _type )
+	{
+		if ( _type == "ConnectRequest" )
+			return ConnectRequest;
+		else if ( _type == "ConnectResponse" )
+			return ConnectResponse;
+		else if ( _type == "PlayerConnected" )
+			return PlayerConnected;
+		else if ( _type == "Disconnect" )
+			return Disconnect;
+		else if ( _type == "ChangeVictoryCondition" )
+			return ChangeVictoryCondition;
+		else if ( _type == "StartSimulation" )
+			return StartSimulation;
+		else if ( _type == "StopSimulation" )
+			return StopSimulation;
+		else if ( _type == "PassCommands" )
+			return PassCommands;
+		else if ( _type == "CommandsRequest" )
+			return CommandsRequest;
+		else if ( _type == "ChangePlayerRace" )
+			return ChangePlayerRace;
+		else if ( _type == "ChangePlayerType" )
+			return ChangePlayerType;
+		else if ( _type == "ChangePlayerName" )
+			return ChangePlayerName;
+		else if ( _type == "ChangeMyPlayer" )
+			return ChangeMyPlayer;
+		else if ( _type == "SetSurfaceItem" )
+			return SetSurfaceItem;
+		else if ( _type == "SelectById" )
+			return SelectById;
+		else if ( _type == "SelectByRect" )
+			return SelectByRect;
+		else if ( _type == "Send" )
+			return Send;
+		else if ( _type == "CreateObject" )
+			return CreateObject;
+		else if ( _type == "TrainObject" )
+			return TrainObject;
+		else if ( _type == "BuildObject" )
+			return BuildObject;
+		else
+			return Undefined;
+	}
+
 	static bool simulationTimeCommand( const Enum _enum )
 	{
 		switch( _enum )
@@ -153,7 +199,7 @@ struct Command
 		:	m_id( _id )
 		,	m_arguments()
 		,	m_timeStamp( 0 )
-		,	m_pushToProcessingTick( 0 )
+		,	m_targetTick( 0 )
 		,	m_playerId( IPlayer::ms_wrondId )
 		,	m_sourceConnectionInfo()
 	{}
@@ -172,7 +218,7 @@ struct Command
 		QDataStream stream( &_data, QIODevice::WriteOnly );
 		stream << m_arguments;
 		stream << m_timeStamp;
-		stream << m_pushToProcessingTick;
+		stream << m_targetTick;
 		stream << m_playerId;
 	}
 
@@ -183,7 +229,7 @@ struct Command
 		Command command( _id );
 		stream >> command.m_arguments;
 		stream >> command.m_timeStamp;
-		stream >> command.m_pushToProcessingTick;
+		stream >> command.m_targetTick;
 		stream >> command.m_playerId;
 
 		return command;
@@ -197,7 +243,7 @@ struct Command
 
 	Tools::Core::Time::Milliseconds m_timeStamp;
 
-	TickType m_pushToProcessingTick;
+	TickType m_targetTick;
 
 	IPlayer::Id m_playerId;
 

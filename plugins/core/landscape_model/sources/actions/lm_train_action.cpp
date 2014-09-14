@@ -135,7 +135,7 @@ TrainAction::processAction()
 			boost::intrusive_ptr< IPlayerComponent > playerComponent
 				= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
 
-			m_landscapeModel.pushCommand(
+			m_landscapeModel.processCommand(
 					Command( CommandId::CreateObject )
 						.pushArgument( playerComponent ? playerComponent->getPlayerId() : IPlayer::ms_wrondId )
 						.pushArgument( trainData.m_trainingObjectName )

@@ -8,6 +8,8 @@
 #include "landscape_model/sources/player/lm_player.hpp"
 
 #include "landscape_model/sources/landscape_serializer/lm_ilandscape_serializer.hpp"
+#include "landscape_model/sources/replay_serializer/lm_ireplay_serializer.hpp"
+
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
 #include "landscape_model/sources/actions/lm_generate_resources_action.hpp"
@@ -39,6 +41,7 @@
 
 #include "landscape_model/sources/landscape_model/game_modes/lm_multi_player_mode.hpp"
 #include "landscape_model/sources/landscape_model/game_modes/lm_single_player_mode.hpp"
+#include "landscape_model/sources/landscape_model/game_modes/lm_replay_mode.hpp"
 
 #include "landscape_model/sources/landscape_model/victory_checker/lm_stay_alone_checker.hpp"
 #include "landscape_model/sources/landscape_model/victory_checker/lm_endless_checker.hpp"
@@ -46,6 +49,7 @@
 #include "landscape_model/sources/utils/lm_geometry.hpp"
 
 #include "landscape_model/ih/lm_istatic_data.hpp"
+#include "landscape_model/ih/lm_imodel_information.hpp"
 
 #include "landscape_model/h/lm_resources.hpp"
 #include "landscape_model/h/lm_events.hpp"
@@ -118,16 +122,8 @@ struct ObjectsByIdFilter
 /*---------------------------------------------------------------------------*/
 
 
-LandscapeModel::LandscapeModel(
-		const IEnvironment& _environment
-	,	ILandscapeSerializer& _landscapeSerializer
-	,	const ISurfaceItemsCache& _surfaceItemsCache
-	,	const IStaticData& _staticData
-	)
+LandscapeModel::LandscapeModel( const IEnvironment& _environment )
 	:	m_environment( _environment )
-	,	m_landscapeSerializer( _landscapeSerializer )
-	,	m_surfaceItemsCache( _surfaceItemsCache )
-	,	m_staticData( _staticData )
 	,	m_actionsProcessingTaskHandle()
 	,	m_simulationStartTimeStamp( 0 )
 	,	m_landscape()
@@ -168,11 +164,11 @@ LandscapeModel::initLandscape( const QString& _filePath )
 		return;
 
 	boost::intrusive_ptr< ILandscape >
-		landscape( new Landscape( m_surfaceItemsCache, m_staticData, *this ) );
+		landscape( new Landscape( m_environment, *this ) );
 
 	try
 	{
-		m_landscapeSerializer.load( *landscape, _filePath );
+		m_environment.getLandscapeSerializer()->load( *landscape, _filePath );
 	}
 	catch( ... )
 	{
@@ -302,7 +298,7 @@ LandscapeModel::saveModel( const QString& _filePath )
 		if ( filePath.isEmpty() )
 			return;
 
-		m_landscapeSerializer.save( *this, *m_landscape, _filePath );
+		m_environment.getLandscapeSerializer()->save( *this, *m_landscape, _filePath );
 	}
 
 } // LandscapeModel::saveModel
@@ -333,20 +329,61 @@ LandscapeModel::isConfigurated() const
 /*---------------------------------------------------------------------------*/
 
 
-const QString&
-LandscapeModel::getLandscapeFilePath() const
-{
-	return m_landscapeFilePath;
-
-} // LandscapeModel::getLandscapeFilePath
-
-
-/*---------------------------------------------------------------------------*/
-
-
 void
 LandscapeModel::setupReplay( const QString& _filePath )
 {
+	resetModel();
+
+	QString landscapeName;
+	ILandscapeModel::PlayersCollection players;
+	CommandsQueue commandsQueue;
+
+	m_environment.getReplaySerializer()->load( _filePath, landscapeName, players, commandsQueue );
+
+	initLandscape( m_environment.getModelInformation()->generateLandscapePath( landscapeName ) );
+
+	m_gameMode.reset( new ReplayMode( m_environment ) );
+
+	// Setup players
+
+	m_players.clear();
+
+	ILandscapeModel::PlayersCollectionIterator
+			begin = players.begin()
+		,	end = players.end();
+
+	// TODO: should be corrected
+	for( ; begin != end; ++begin )
+		m_players.insert( std::make_pair( ( *begin )->getUniqueId(), boost::intrusive_ptr< Player >( dynamic_cast< Player* >( ( *begin ).get() ) ) ) );
+
+	// Setup commands
+
+	CommandsQueue::CommandsByTickCollection commands;
+	commandsQueue.fetchCommands( commands );
+
+	CommandsQueue::CommandsByTickCollectionIterator
+			beginTicks = commands.begin()
+		,	endTicks = commands.end();
+
+	for ( ; beginTicks != endTicks; ++beginTicks )
+	{
+		CommandsQueue::CommandsByPlayerCollectionIterator
+				beginCommandsByPlayer = beginTicks->second.begin()
+			,	endCommandsByPlayer = beginTicks->second.end();
+
+		for ( ; beginCommandsByPlayer != endCommandsByPlayer; ++beginCommandsByPlayer )
+		{
+			CommandsQueue::CommandsCollectionIterator
+					beginCommands = beginCommandsByPlayer->second.begin()
+				,	endCommands = beginCommandsByPlayer->second.end();
+
+			for ( ; beginCommands != endCommands; ++beginCommands )
+			{
+				m_gameMode->processCommand( *beginCommands );
+			}
+		}
+	}
+
 } // LandscapeModel::setupReplay
 
 
@@ -356,6 +393,14 @@ LandscapeModel::setupReplay( const QString& _filePath )
 void
 LandscapeModel::saveReplay( const QString& _filePath )
 {
+	if ( !m_gameMode )
+		return;
+
+	ILandscapeModel::PlayersCollection players;
+	fetchPlayers( players );
+
+	m_environment.getReplaySerializer()->save( _filePath, getLandscapeName(), players, m_gameMode->getCommands() );
+
 } // LandscapeModel::saveReplay
 
 
@@ -385,12 +430,22 @@ LandscapeModel::pushCommand( const Command& _command )
 		return;
 	}
 
-	// TODO: const_cast
-	const_cast< Command& >( _command ).m_timeStamp = Tools::Core::Time::currentTime() - m_simulationStartTimeStamp;
-	const_cast< Command& >( _command ).m_pushToProcessingTick = m_ticksCounter;
-	const_cast< Command& >( _command ).m_playerId = m_myPlayerId;
+	if ( m_gameMode->getType() == IGameMode::Type::Replay && CommandId::simulationTimeCommand( _command.m_id ) )
+	{
+		m_environment.printMessage(
+				Tools::Core::IMessenger::MessegeLevel::Warning
+			,	QString( Resources::CommandCannotBeProcessedInReplayModeMessage ).arg( CommandId::toString( _command.m_id ) ) );
 
-	m_gameMode->processCommand( _command );
+		return;
+	}
+
+	Command command( _command );
+
+	command.m_timeStamp = Tools::Core::Time::currentTime() - m_simulationStartTimeStamp;
+	command.m_targetTick = m_ticksCounter;
+	command.m_playerId = m_myPlayerId;
+
+	m_gameMode->processCommand( command );
 
 } // LandscapeModel::pushCommand
 
@@ -432,6 +487,31 @@ LandscapeModel::getLandscape() const
 	return m_landscape;
 
 } // LandscapeModel::getLandscape
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QString&
+LandscapeModel::getLandscapeFilePath() const
+{
+	return m_landscapeFilePath;
+
+} // LandscapeModel::getLandscapeFilePath
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+LandscapeModel::getLandscapeName() const
+{
+	if ( m_landscapeFilePath.isEmpty() )
+		return QString();
+
+	return QFileInfo( m_landscapeFilePath ).baseName();
+
+} // LandscapeModel::getLandscapeName
 
 
 /*---------------------------------------------------------------------------*/
@@ -649,7 +729,7 @@ LandscapeModel::getMutex()
 boost::shared_ptr< Object >
 LandscapeModel::create( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId )
 {
-	IStaticData::ObjectStaticData staticData = m_staticData.getObjectStaticData( _objectName );
+	IStaticData::ObjectStaticData staticData = m_environment.getStaticData()->getObjectStaticData( _objectName );
 
 	boost::shared_ptr< Object > object( new Object( _objectName ) );
 
@@ -884,7 +964,7 @@ LandscapeModel::locateStartPointObjects()
 			continue;
 
 		m_landscape->createObject(
-				m_staticData.getStartPointObjectName( begin->second->getRace() )
+				m_environment.getStaticData()->getStartPointObjectName( begin->second->getRace() )
 			,	m_landscape->getStartPoint( begin->second->getStartPointId() ).m_point
 			,	begin->second->getUniqueId() );
 	}
@@ -941,14 +1021,14 @@ LandscapeModel::initPlayers()
 	m_players.clear();
 
 	IStaticData::RacesCollection races;
-	m_staticData.fetchRaces( races );
+	m_environment.getStaticData()->fetchRaces( races );
 
 	ILandscape::StartPointsIterator iterator = m_landscape->getStartPointsIterator();
 
 	while( iterator->isValid() )
 	{
 		boost::intrusive_ptr< Player > player(
-			new Player( m_environment, m_staticData, races.begin()->first, iterator->current().m_id ) );
+			new Player( m_environment, races.begin()->first, iterator->current().m_id ) );
 		m_players.insert( std::make_pair( player->getUniqueId(), player ) );
 
 		iterator->next();
@@ -996,7 +1076,7 @@ LandscapeModel::onStartSimulationProcessor( const Command& _command )
 
 	try
 	{
-		m_landscapeSerializer.loadObjects( *this, *m_landscape, m_landscapeFilePath );
+		m_environment.getLandscapeSerializer()->loadObjects( *this, *m_landscape, m_landscapeFilePath );
 	}
 	catch( ... )
 	{
@@ -1318,7 +1398,7 @@ LandscapeModel::onCreateObjectProcessor( const Command& _command )
 				.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, name )
 				.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, location )
 				.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId )
-				.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_staticData.getObjectStaticData( name ).m_locateData->m_emplacement ) );
+				.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_environment.getStaticData()->getObjectStaticData( name ).m_locateData->m_emplacement ) );
 	}
 	else
 	{
@@ -1423,7 +1503,7 @@ LandscapeModel::onBuildObjectProcessor( const Command& _command )
 				= object->getComponent< IActionsComponent >( ComponentId::Actions );
 
 			actionsComponent->pushAction(
-				boost::intrusive_ptr< IAction >( new BuildAction( m_environment, *this, *this, m_staticData, *object, name, location ) ), flush );
+				boost::intrusive_ptr< IAction >( new BuildAction( m_environment, *this, *this, *object, name, location ) ), flush );
 		}
 	}
 

@@ -175,7 +175,7 @@ MultiPlayerMode::~MultiPlayerMode()
 
 
 void
-MultiPlayerMode::processCommand( const Command& _command )
+MultiPlayerMode::processCommand( Command& _command )
 {
 	if ( !CommandId::simulationTimeCommand( _command.m_id ) )
 	{
@@ -184,7 +184,8 @@ MultiPlayerMode::processCommand( const Command& _command )
 	}
 	else
 	{
-		m_commandsQueue.pushCommand( _command.m_pushToProcessingTick + gs_tickLatency, _command );
+		_command.m_targetTick = _command.m_targetTick + gs_tickLatency;
+		m_commandsQueue.pushCommand( _command );
 	}
 
 } // MultiPlayerMode::processCommand
@@ -265,6 +266,28 @@ MultiPlayerMode::prepareToTick( const TickType& _tick )
 /*---------------------------------------------------------------------------*/
 
 
+const CommandsQueue&
+MultiPlayerMode::getCommands() const
+{
+	return m_commandsQueue;
+
+} // MultiPlayerMode::getCommands
+
+
+/*---------------------------------------------------------------------------*/
+
+
+IGameMode::Type::Enum
+MultiPlayerMode::getType() const
+{
+	return IGameMode::Type::Multiplayer;
+
+} // MultiPlayerMode::getType
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 MultiPlayerMode::onDataReceive(
 		const QString& _fromAddress
@@ -284,7 +307,7 @@ MultiPlayerMode::onDataReceive(
 					.arg( _fromPort )
 					.arg( CommandId::toString( command.m_id ) )
 					.arg( command.m_timeStamp )
-					.arg( command.m_pushToProcessingTick ) );
+					.arg( command.m_targetTick ) );
 	}
 
 	processCommand( _fromAddress, _fromPort, command );
@@ -434,7 +457,7 @@ MultiPlayerMode::processConnectRequest(
 		}
 
 		connectResponce.pushArgument( freePlayer->getUniqueId() );
-		connectResponce.pushArgument( model->getLandscapeFilePath() );
+		connectResponce.pushArgument( model->getLandscapeName() );
 		connectResponce.pushArgument( model->getVictoryConditionType() );
 		connectResponce.pushArgument( playersList );
 
@@ -594,7 +617,7 @@ MultiPlayerMode::processPassCommands(
 						.arg( _fromPort )
 						.arg( CommandId::toString( command.m_id ) )
 						.arg( command.m_timeStamp )
-						.arg( command.m_pushToProcessingTick ) );
+						.arg( command.m_targetTick ) );
 
 			m_commandsQueue.pushCommand( playerId, targetTick, command );
 		}
@@ -661,19 +684,26 @@ MultiPlayerMode::fillPassCommandsCommand(
 
 	QMap< QString, QVariant > commands;
 
-	CommandsQueue::CommandsCollectionIterator
-			begin = myCommands.begin()
-		,	end = myCommands.end();
-
-	for ( ; begin != end; ++begin )
+	if ( myCommands.empty() )
 	{
-		QByteArray commandData;
-		begin->serialize( commandData );
+		m_commandsQueue.ensureCommandsList( _player.getUniqueId(), _targetTick );
+	}
+	else
+	{
+		CommandsQueue::CommandsCollectionConstIterator
+				begin = myCommands.begin()
+			,	end = myCommands.end();
 
-		assert( _player.getUniqueId() == begin->m_playerId );
+		for ( ; begin != end; ++begin )
+		{
+			QByteArray commandData;
+			begin->serialize( commandData );
 
-		if ( !CommandId::silentCommand( begin->m_id ) )
-			commands.insert( QString::number( begin->m_id ), commandData );
+			assert( _player.getUniqueId() == begin->m_playerId );
+
+			if ( !CommandId::silentCommand( begin->m_id ) )
+				commands.insert( QString::number( begin->m_id ), commandData );
+		}
 	}
 
 	_command.pushArgument( _player.getUniqueId() );

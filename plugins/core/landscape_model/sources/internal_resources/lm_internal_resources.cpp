@@ -19,6 +19,8 @@ namespace Resources {
 
 	const char* const LandscapeVersion = "1.0.0";
 
+	const char* const ReplayVersion = "1.0.0";
+
 /*---------------------------------------------------------------------------*/
 
 	const char* const LandscapesDirectoryName = "maps";
@@ -41,9 +43,11 @@ namespace Resources {
 
 	const char* const CommandReceivedMessage = "Command has been received from '%1:%2', type '%3', timestamp '%4', tick '%5'";
 
-	const char* const CommandsIsNotPresentedMessage = "Commands is not presented for player '%1'(%2) for tick '%3'";
+	const char* const CommandsIsNotPresentedMessage = "Commands are not presented for player '%1'(%2) for tick '%3'";
 
-	const char* const CommandWilNotBeProcessedMessage = "Commands '%1' will not be processed because model is not initialized or simulation has been blocked";
+	const char* const CommandWilNotBeProcessedMessage = "Command '%1' will not be processed because model is not initialized or simulation has been blocked";
+
+	const char* const CommandCannotBeProcessedInReplayModeMessage = "Command '%1' can not be processed in replay mode";
 
 	const char* const SimulationStoppedMessage = "Simulation has been stopped at: '%1' msec, tick '%2'";
 
@@ -53,33 +57,61 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const DocTypeString = "<!DOCTYPE hmap>";
+namespace Xml {
 
-	const char* const HMapTagName = "hmap";
+/*---------------------------------------------------------------------------*/
 
-	const char* const VersionAttributeName = "version";
+	const char* const LandscapeDocTypeString = "<!DOCTYPE hmap>";
+	const char* const ReplayDocTypeString = "<!DOCTYPE hreplay>";
 
-	const char* const WidthAttributeName = "width";
-	const char* const HeightAttributeName = "height";
+	const char* const HMap = "hmap";
+	const char* const HReplay = "hreplay";
 
-	const char* const StartPointsTagName = "start_points";
-	const char* const StartPointTagName = "start_point";
+	const char* const Version = "version";
 
-	const char* const SurfaceTagName = "surface";
+	const char* const Landscape = "landscape";
+	const char* const Width = "width";
+	const char* const Height = "height";
 
-	const char* const ObjectsTagName = "objects";
-	const char* const ObjectTagName = "object";
+	const char* const StartPoints = "start_points";
+	const char* const StartPoint = "start_point";
 
-	const char* const CountAttributeName = "count";
+	const char* const Surface = "surface";
 
-	const char* const NameAttributeName = "name";
+	const char* const Objects = "objects";
+	const char* const Object = "object";
 
-	const char* const LocationTagName = "location";
+	const char* const Count = "count";
 
-	const char* const XAttributeName = "x";
-	const char* const YAttributeName = "y";
+	const char* const Name = "name";
 
-	const char* const IdAttributeName = "id";
+	const char* const Location = "location";
+
+	const char* const X = "x";
+	const char* const Y = "y";
+
+	const char* const Id = "id";
+
+	const char* const Players = "players";
+	const char* const Player = "player";
+
+	const char* const Race = "race";
+	const char* const Type = "type";
+
+	const char* const Commands = "commands";
+	const char* const Command = "command";
+
+	const char* const Tick = "tick";
+	const char* const TimeStamp = "timestamp";
+
+	const char* const Arguments = "arguments";
+	const char* const Argument = "argument";
+
+	const char* const Value = "value";
+
+/*---------------------------------------------------------------------------*/
+
+} // namespace Xml
 
 /*---------------------------------------------------------------------------*/
 

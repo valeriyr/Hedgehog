@@ -39,7 +39,7 @@ SinglePlayerMode::~SinglePlayerMode()
 
 
 void
-SinglePlayerMode::processCommand( const Command& _command )
+SinglePlayerMode::processCommand( Command& _command )
 {
 	if ( !CommandId::simulationTimeCommand( _command.m_id ) )
 	{
@@ -47,7 +47,9 @@ SinglePlayerMode::processCommand( const Command& _command )
 		return;
 	}
 
-	m_commandsQueue.pushCommand( _command.m_pushToProcessingTick + gs_tickLatency, _command );
+	_command.m_targetTick = _command.m_targetTick + gs_tickLatency;
+
+	m_commandsQueue.pushCommand( _command );
 
 } // SinglePlayerMode::processCommand
 
@@ -74,6 +76,28 @@ SinglePlayerMode::prepareToTick( const TickType& _tick )
 	return true;
 
 } // SinglePlayerMode::prepareToTick
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const CommandsQueue&
+SinglePlayerMode::getCommands() const
+{
+	return m_commandsQueue;
+
+} // SinglePlayerMode::getCommands
+
+
+/*---------------------------------------------------------------------------*/
+
+
+IGameMode::Type::Enum
+SinglePlayerMode::getType() const
+{
+	return IGameMode::Type::SinglePlayer;
+
+} // SinglePlayerMode::getType
 
 
 /*---------------------------------------------------------------------------*/

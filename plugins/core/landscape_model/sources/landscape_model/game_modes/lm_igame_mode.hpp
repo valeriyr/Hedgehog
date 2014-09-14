@@ -16,15 +16,41 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+class CommandsQueue;
+
+/*---------------------------------------------------------------------------*/
+
 struct IGameMode
 	: public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void processCommand( const Command& _command ) = 0;
+	struct Type
+	{
+		enum Enum
+		{
+				Undefined = 0
+
+			,	SinglePlayer
+			,	Multiplayer
+			,	Replay
+		};
+	};
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void processCommand( Command& _command ) = 0;
 
 	virtual bool prepareToTick( const TickType& _tick ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual const CommandsQueue& getCommands() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual Type::Enum getType() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

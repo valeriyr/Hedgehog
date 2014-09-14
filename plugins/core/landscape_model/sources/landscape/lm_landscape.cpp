@@ -15,6 +15,8 @@
 
 #include "landscape_model/sources/landscape/lm_iobjects_creator.hpp"
 
+#include "landscape_model/sources/environment/lm_ienvironment.hpp"
+
 #include "iterators/it_simple_iterator.hpp"
 
 
@@ -27,13 +29,8 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-Landscape::Landscape(
-		const ISurfaceItemsCache& _surfaceItemsCache
-	,	const IStaticData& _staticData
-	,	IObjectCreator& _objectCreator
-	)
-	:	m_surfaceItemsCache( _surfaceItemsCache )
-	,	m_staticData( _staticData )
+Landscape::Landscape( const IEnvironment& _environment, IObjectCreator& _objectCreator )
+	:	m_environment( _environment )
 	,	m_objectCreator( _objectCreator )
 	,	m_objects()
 	,	m_selectedObjects()
@@ -89,8 +86,8 @@ Landscape::setSize( const int _width, const int _height )
 	{
 		for (  int j = 0; j < _height; ++j )
 		{
-			m_surfaceItems.setElement( i, j, m_surfaceItemsCache.getDefaultSurfaceItem() );
-			m_terrainMap.getElement( i, j ).m_terrainMapItem = m_surfaceItemsCache.getDefaultSurfaceItem()->getTerrainMapValue();
+			m_surfaceItems.setElement( i, j, m_environment.getSurfaceItemsCache()->getDefaultSurfaceItem() );
+			m_terrainMap.getElement( i, j ).m_terrainMapItem = m_environment.getSurfaceItemsCache()->getDefaultSurfaceItem()->getTerrainMapValue();
 		}
 	}
 
@@ -163,7 +160,7 @@ Landscape::setSurfaceItem(
 	assert( _point.x() >= 0 );
 	assert( _point.y() >= 0 );
 
-	boost::intrusive_ptr< ISurfaceItem > surfaceItem = m_surfaceItemsCache.getSurfaceItem( _surfaceItemId );
+	boost::intrusive_ptr< ISurfaceItem > surfaceItem = m_environment.getSurfaceItemsCache()->getSurfaceItem( _surfaceItemId );
 	assert( surfaceItem );
 
 	m_surfaceItems.setElement( _point.x(), _point.y(), surfaceItem );
@@ -302,7 +299,7 @@ Landscape::fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) co
 Object::Id
 Landscape::createObject( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId )
 {
-	IStaticData::ObjectStaticData staticData = m_staticData.getObjectStaticData( _objectName );
+	IStaticData::ObjectStaticData staticData = m_environment.getStaticData()->getObjectStaticData( _objectName );
 
 	if ( canObjectBePlaced( _location, _objectName ) )
 	{
@@ -476,7 +473,7 @@ bool
 Landscape::canObjectBePlaced( const QPoint& _location, const QString& _objectName ) const
 {
 	boost::shared_ptr< ILocateComponent::StaticData > locateData
-		= m_staticData.getObjectStaticData( _objectName ).m_locateData;
+		= m_environment.getStaticData()->getObjectStaticData( _objectName ).m_locateData;
 
 	if ( !locateData )
 		return false;

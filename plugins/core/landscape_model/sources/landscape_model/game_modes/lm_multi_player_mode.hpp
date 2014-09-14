@@ -57,9 +57,17 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void processCommand( const Command& _command );
+	/*virtual*/ void processCommand( Command& _command );
 
 	/*virtual*/ bool prepareToTick( const TickType& _tick );
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ const CommandsQueue& getCommands() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ IGameMode::Type::Enum getType() const;
 
 /*---------------------------------------------------------------------------*/
 

@@ -6,6 +6,8 @@
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 
+#include "landscape_model/h/lm_resources.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,6 +52,17 @@ ModelInformation::getReplaysDirectory() const
 	return m_environment.getApplicationDirectory() + "/" + Resources::ReplaysDirectoryName;
 
 } // ModelInformation::getReplaysDirectory
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+ModelInformation::generateLandscapePath( const QString& _name ) const
+{
+	return getLandscapesDirectory() + "/" + _name + "." + Resources::LandscapeFileExtension;
+
+} // ModelInformation::generateLandscapePath
 
 
 /*---------------------------------------------------------------------------*/

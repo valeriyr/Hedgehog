@@ -28,7 +28,6 @@ namespace LandscapeModel {
 
 
 LandscapeSerializer::LandscapeSerializer()
-	:	m_currentLoadLandscape( NULL )
 {
 } // LandscapeSerializer::LandscapeSerializer
 
@@ -51,53 +50,50 @@ LandscapeSerializer::load( ILandscape& _landscape, const QString& _filePath )
 	if ( !file.open( QIODevice::ReadOnly ) )
 		throw std::exception();
 
-	m_currentLoadLandscape = &_landscape;
-
 	Tools::Core::XmlLibrary::Tag rule
 		=
-		Tools::Core::XmlLibrary::Tag( Resources::HMapTagName )
-			[
-					Tools::Core::XmlLibrary::Attribute( Resources::VersionAttributeName, Tools::Core::XmlLibrary::AttributeType::String )
-				&&
-					Tools::Core::XmlLibrary::Attribute( Resources::WidthAttributeName, Tools::Core::XmlLibrary::AttributeType::Integer )
-				&&
-					Tools::Core::XmlLibrary::Attribute( Resources::HeightAttributeName, Tools::Core::XmlLibrary::AttributeType::Integer )
-			]
-			[
-					Tools::Core::XmlLibrary::Tag( Resources::SurfaceTagName )
+		Tools::Core::XmlLibrary::Tag( Resources::Xml::HMap )
+		[
+				Tools::Core::XmlLibrary::Attribute( Resources::Xml::Version, Tools::Core::XmlLibrary::AttributeType::String )
+			&&
+				Tools::Core::XmlLibrary::Attribute( Resources::Xml::Width, Tools::Core::XmlLibrary::AttributeType::Integer )
+			&&
+				Tools::Core::XmlLibrary::Attribute( Resources::Xml::Height, Tools::Core::XmlLibrary::AttributeType::Integer )
+		]
+		[
+				Tools::Core::XmlLibrary::Tag( Resources::Xml::Surface )
+				[
+					Tools::Core::XmlLibrary::CDATA()
+				]
+				.handle(
+						boost::bind( &LandscapeSerializer::onSurfaceElement, this, boost::ref( _landscape ), _1 )
+					,	Tools::Core::XmlLibrary::CDATAExtructor()
+					)
+			||
+				Tools::Core::XmlLibrary::Tag( Resources::Xml::StartPoints )
+				[
+					+Tools::Core::XmlLibrary::Tag( Resources::Xml::StartPoint )
 					[
-						Tools::Core::XmlLibrary::CDATA()
+							Tools::Core::XmlLibrary::Attribute( Resources::Xml::Id, Tools::Core::XmlLibrary::AttributeType::Integer )
+						&&
+							Tools::Core::XmlLibrary::Attribute( Resources::Xml::X, Tools::Core::XmlLibrary::AttributeType::Integer )
+						&&
+							Tools::Core::XmlLibrary::Attribute( Resources::Xml::Y, Tools::Core::XmlLibrary::AttributeType::Integer )
 					]
 					.handle(
-							boost::bind( &LandscapeSerializer::onSurfaceElement, this, _1 )
-						,	Tools::Core::XmlLibrary::CDATAExtructor()
+							boost::bind( &LandscapeSerializer::onStartPoint, this, boost::ref( _landscape ), _1, _2, _3 )
+						,	Tools::Core::XmlLibrary::IntAttributeExtructor( Resources::Xml::Id )
+						,	Tools::Core::XmlLibrary::IntAttributeExtructor( Resources::Xml::X )
+						,	Tools::Core::XmlLibrary::IntAttributeExtructor( Resources::Xml::Y )
 						)
-				||
-					Tools::Core::XmlLibrary::Tag( Resources::StartPointsTagName )
-					[
-						+Tools::Core::XmlLibrary::Tag( Resources::StartPointTagName )
-						[
-								Tools::Core::XmlLibrary::Attribute( Resources::IdAttributeName, Tools::Core::XmlLibrary::AttributeType::Integer )
-							&&
-								Tools::Core::XmlLibrary::Attribute( Resources::XAttributeName, Tools::Core::XmlLibrary::AttributeType::Integer )
-							&&
-								Tools::Core::XmlLibrary::Attribute( Resources::YAttributeName, Tools::Core::XmlLibrary::AttributeType::Integer )
-						]
-						.handle(
-								boost::bind( &LandscapeSerializer::onStartPoint, this, _1, _2, _3 )
-							,	Tools::Core::XmlLibrary::IntAttributeExtructor( Resources::IdAttributeName )
-							,	Tools::Core::XmlLibrary::IntAttributeExtructor( Resources::XAttributeName )
-							,	Tools::Core::XmlLibrary::IntAttributeExtructor( Resources::YAttributeName )
-							)
-					]
-			]
-			.handle(
-					boost::bind( &LandscapeSerializer::onHMapElement, this, _1, _2, _3 )
-				,	Tools::Core::XmlLibrary::StringAttributeExtructor( Resources::VersionAttributeName )
-				,	Tools::Core::XmlLibrary::IntAttributeExtructor( Resources::WidthAttributeName )
-				,	Tools::Core::XmlLibrary::IntAttributeExtructor( Resources::HeightAttributeName )
-				)
-			.postHandle( boost::bind( &LandscapeSerializer::onFinishParsing, this ) );
+				]
+		]
+		.handle(
+				boost::bind( &LandscapeSerializer::onHMapElement, this, boost::ref( _landscape ), _1, _2, _3 )
+			,	Tools::Core::XmlLibrary::StringAttributeExtructor( Resources::Xml::Version )
+			,	Tools::Core::XmlLibrary::IntAttributeExtructor( Resources::Xml::Width )
+			,	Tools::Core::XmlLibrary::IntAttributeExtructor( Resources::Xml::Height )
+			);
 
 	Tools::Core::XmlLibrary::Parser::parse( *rule.getElement(), file );
 
@@ -114,41 +110,38 @@ LandscapeSerializer::loadObjects( const ILandscapeModel& _landscapeModel, ILands
 	if ( !file.open( QIODevice::ReadOnly ) )
 		throw std::exception();
 
-	m_currentLoadLandscape = &_landscape;
-
 	Tools::Core::XmlLibrary::Tag rule
 		=
-		Tools::Core::XmlLibrary::Tag( Resources::HMapTagName )
-			[
-					*Tools::Core::XmlLibrary::Tag( Resources::ObjectsTagName )
-					[
-							+Tools::Core::XmlLibrary::Tag( Resources::ObjectTagName )
-							[
-								Tools::Core::XmlLibrary::Attribute( Resources::NameAttributeName, Tools::Core::XmlLibrary::AttributeType::String )
-							]
-							[
-									Tools::Core::XmlLibrary::Tag( Resources::LocationTagName )
-									[
-											Tools::Core::XmlLibrary::Attribute( Resources::XAttributeName, Tools::Core::XmlLibrary::AttributeType::Integer )
-										&&
-											Tools::Core::XmlLibrary::Attribute( Resources::YAttributeName, Tools::Core::XmlLibrary::AttributeType::Integer )
-									]
-								||
-									Tools::Core::XmlLibrary::Tag( Resources::StartPointTagName )
-									[
-										Tools::Core::XmlLibrary::Attribute( Resources::IdAttributeName, Tools::Core::XmlLibrary::AttributeType::Integer )
-									]
-							]
-							.handle(
-										boost::bind( &LandscapeSerializer::onObjectElement, this, boost::ref( _landscapeModel ), _1, _2, _3, _4 )
-									,	Tools::Core::XmlLibrary::StringAttributeExtructor( Resources::NameAttributeName )
-									,	Tools::Core::XmlLibrary::ChildTagIntAttributeExtructor( Resources::LocationTagName, Resources::XAttributeName )
-									,	Tools::Core::XmlLibrary::ChildTagIntAttributeExtructor( Resources::LocationTagName, Resources::YAttributeName )
-									,	Tools::Core::XmlLibrary::ChildTagIntAttributeExtructor( Resources::StartPointTagName, Resources::IdAttributeName )
-									)
-					]
-			]
-			.postHandle( boost::bind( &LandscapeSerializer::onFinishParsing, this ) );
+		Tools::Core::XmlLibrary::Tag( Resources::Xml::HMap )
+		[
+				*Tools::Core::XmlLibrary::Tag( Resources::Xml::Objects )
+				[
+						+Tools::Core::XmlLibrary::Tag( Resources::Xml::Object )
+						[
+							Tools::Core::XmlLibrary::Attribute( Resources::Xml::Name, Tools::Core::XmlLibrary::AttributeType::String )
+						]
+						[
+								Tools::Core::XmlLibrary::Tag( Resources::Xml::Location )
+								[
+										Tools::Core::XmlLibrary::Attribute( Resources::Xml::X, Tools::Core::XmlLibrary::AttributeType::Integer )
+									&&
+										Tools::Core::XmlLibrary::Attribute( Resources::Xml::Y, Tools::Core::XmlLibrary::AttributeType::Integer )
+								]
+							||
+								Tools::Core::XmlLibrary::Tag( Resources::Xml::StartPoint )
+								[
+									Tools::Core::XmlLibrary::Attribute( Resources::Xml::Id, Tools::Core::XmlLibrary::AttributeType::Integer )
+								]
+						]
+						.handle(
+									boost::bind( &LandscapeSerializer::onObjectElement, this, boost::ref( _landscapeModel ), boost::ref( _landscape ), _1, _2, _3, _4 )
+								,	Tools::Core::XmlLibrary::StringAttributeExtructor( Resources::Xml::Name )
+								,	Tools::Core::XmlLibrary::ChildTagIntAttributeExtructor( Resources::Xml::Location, Resources::Xml::X )
+								,	Tools::Core::XmlLibrary::ChildTagIntAttributeExtructor( Resources::Xml::Location, Resources::Xml::Y )
+								,	Tools::Core::XmlLibrary::ChildTagIntAttributeExtructor( Resources::Xml::StartPoint, Resources::Xml::Id )
+								)
+				]
+		];
 
 	Tools::Core::XmlLibrary::Parser::parse( *rule.getElement(), file );
 
@@ -175,15 +168,15 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 
 	xmlStream.writeStartDocument();
 
-    xmlStream.writeDTD( Resources::DocTypeString );
+    xmlStream.writeDTD( Resources::Xml::LandscapeDocTypeString );
 
-    xmlStream.writeStartElement( Resources::HMapTagName );
+    xmlStream.writeStartElement( Resources::Xml::HMap );
 
-	xmlStream.writeAttribute( Resources::VersionAttributeName, Resources::LandscapeVersion );
-	xmlStream.writeAttribute( Resources::WidthAttributeName, QString::number( _landscape.getWidth() ) );
-	xmlStream.writeAttribute( Resources::HeightAttributeName, QString::number( _landscape.getHeight() ) );
+	xmlStream.writeAttribute( Resources::Xml::Version, Resources::LandscapeVersion );
+	xmlStream.writeAttribute( Resources::Xml::Width, QString::number( _landscape.getWidth() ) );
+	xmlStream.writeAttribute( Resources::Xml::Height, QString::number( _landscape.getHeight() ) );
 
-	xmlStream.writeStartElement( Resources::SurfaceTagName );
+	xmlStream.writeStartElement( Resources::Xml::Surface );
 
 	QString surfaceData;
 
@@ -202,17 +195,17 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 
 	xmlStream.writeEndElement();
 
-	xmlStream.writeStartElement( Resources::StartPointsTagName );
+	xmlStream.writeStartElement( Resources::Xml::StartPoints );
 
 	ILandscape::StartPointsIterator startPoints = _landscape.getStartPointsIterator();
 
 	while( startPoints->isValid() )
 	{
-		xmlStream.writeStartElement( Resources::StartPointTagName );
+		xmlStream.writeStartElement( Resources::Xml::StartPoint );
 
-		xmlStream.writeAttribute( Resources::IdAttributeName, QString::number( startPoints->current().m_id ) );
-		xmlStream.writeAttribute( Resources::XAttributeName, QString::number( startPoints->current().m_point.x() ) );
-		xmlStream.writeAttribute( Resources::YAttributeName, QString::number( startPoints->current().m_point.y() ) );
+		xmlStream.writeAttribute( Resources::Xml::Id, QString::number( startPoints->current().m_id ) );
+		xmlStream.writeAttribute( Resources::Xml::X, QString::number( startPoints->current().m_point.x() ) );
+		xmlStream.writeAttribute( Resources::Xml::Y, QString::number( startPoints->current().m_point.y() ) );
 
 		xmlStream.writeEndElement();
 
@@ -221,9 +214,9 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 
 	xmlStream.writeEndElement();
 
-	xmlStream.writeStartElement( Resources::ObjectsTagName );
+	xmlStream.writeStartElement( Resources::Xml::Objects );
 
-	xmlStream.writeAttribute( Resources::CountAttributeName, QString::number( _landscape.getObjectsCount() ) );
+	xmlStream.writeAttribute( Resources::Xml::Count, QString::number( _landscape.getObjectsCount() ) );
 
 	ILandscape::ObjectsCollection objectsCollection;
 	_landscape.fetchObjects( objectsCollection );
@@ -239,22 +232,22 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 		boost::intrusive_ptr< IPlayerComponent > playerComponent
 			= ( *begin )->getComponent< IPlayerComponent >( ComponentId::Player );
 
-		xmlStream.writeStartElement( Resources::ObjectTagName );
+		xmlStream.writeStartElement( Resources::Xml::Object );
 
-		xmlStream.writeAttribute( Resources::NameAttributeName, ( *begin )->getName() );
+		xmlStream.writeAttribute( Resources::Xml::Name, ( *begin )->getName() );
 
-		xmlStream.writeStartElement( Resources::LocationTagName );
+		xmlStream.writeStartElement( Resources::Xml::Location );
 
-		xmlStream.writeAttribute( Resources::XAttributeName, QString::number( locateComponent->getLocation().x() ) );
-		xmlStream.writeAttribute( Resources::YAttributeName, QString::number( locateComponent->getLocation().y() ) );
+		xmlStream.writeAttribute( Resources::Xml::X, QString::number( locateComponent->getLocation().x() ) );
+		xmlStream.writeAttribute( Resources::Xml::Y, QString::number( locateComponent->getLocation().y() ) );
 
 		xmlStream.writeEndElement();
 
 		if ( playerComponent )
 		{
-			xmlStream.writeStartElement( Resources::StartPointsTagName );
+			xmlStream.writeStartElement( Resources::Xml::StartPoints );
 
-			xmlStream.writeAttribute( Resources::IdAttributeName, QString::number( _landscapeModel.getPlayer( playerComponent->getPlayerId() )->getStartPointId() ) );
+			xmlStream.writeAttribute( Resources::Xml::Id, QString::number( _landscapeModel.getPlayer( playerComponent->getPlayerId() )->getStartPointId() ) );
 
 			xmlStream.writeEndElement();
 		}
@@ -274,17 +267,12 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 
 
 void
-LandscapeSerializer::onHMapElement( const QString& _version, const int _width, const int _height )
+LandscapeSerializer::onHMapElement( ILandscape& _landscape, const QString& _version, const int _width, const int _height )
 {
-	assert( m_currentLoadLandscape );
-
 	if ( _version != Resources::LandscapeVersion )
-	{
-		m_currentLoadLandscape = NULL;
 		throw std::exception();
-	}
 
-	m_currentLoadLandscape->setSize( _width, _height );
+	_landscape.setSize( _width, _height );
 
 } // LandscapeSerializer::onHMapElement
 
@@ -293,18 +281,17 @@ LandscapeSerializer::onHMapElement( const QString& _version, const int _width, c
 
 
 void
-LandscapeSerializer::onSurfaceElement( const QString& _data )
+LandscapeSerializer::onSurfaceElement( ILandscape& _landscape, const QString& _data )
 {
 	std::string data( _data.toLocal8Bit().data() );
-	assert( m_currentLoadLandscape );
 
 	QStringList surfaceItems( _data.split( " " ) );
 
-	for ( int i = 0; i < m_currentLoadLandscape->getHeight(); ++i )
+	for ( int i = 0; i < _landscape.getHeight(); ++i )
 	{
-		for ( int j = 0; j < m_currentLoadLandscape->getHeight(); ++j )
+		for ( int j = 0; j < _landscape.getHeight(); ++j )
 		{
-			m_currentLoadLandscape->setSurfaceItem( QPoint( i, j ), surfaceItems.front().toInt() );
+			_landscape.setSurfaceItem( QPoint( i, j ), surfaceItems.front().toInt() );
 			surfaceItems.pop_front();
 		}
 	}
@@ -316,20 +303,24 @@ LandscapeSerializer::onSurfaceElement( const QString& _data )
 
 
 void
-LandscapeSerializer::onObjectElement( const ILandscapeModel& _landscapeModel, const QString& _name, const int _x, const int _y, const StartPoint::Id& _id )
+LandscapeSerializer::onObjectElement(
+		const ILandscapeModel& _landscapeModel
+	,	ILandscape& _landscape
+	,	const QString& _name
+	,	const int _x
+	,	const int _y
+	,	const StartPoint::Id& _id )
 {
-	assert( m_currentLoadLandscape );
-
 	if ( _id == INT_MAX )
 	{
-		m_currentLoadLandscape->createObject( _name, QPoint( _x, _y ), IPlayer::ms_wrondId );
+		_landscape.createObject( _name, QPoint( _x, _y ), IPlayer::ms_wrondId );
 	}
 	else
 	{
 		boost::intrusive_ptr< IPlayer > player = _landscapeModel.getPlayerByStartPoint( _id );
 
 		if ( player && PlayerType::isActivated( player->getType() ) )
-			m_currentLoadLandscape->createObject( _name, QPoint( _x, _y ), player->getUniqueId() );
+			_landscape.createObject( _name, QPoint( _x, _y ), player->getUniqueId() );
 	}
 
 } // LandscapeSerializer::onObjectElement
@@ -339,24 +330,11 @@ LandscapeSerializer::onObjectElement( const ILandscapeModel& _landscapeModel, co
 
 
 void
-LandscapeSerializer::onStartPoint( const StartPoint::Id& _id, const int _x, const int _y )
+LandscapeSerializer::onStartPoint( ILandscape& _landscape, const StartPoint::Id& _id, const int _x, const int _y )
 {
-	assert( m_currentLoadLandscape );
-	m_currentLoadLandscape->addStartPoint( StartPoint( _id, QPoint( _x, _y ) ) );
+	_landscape.addStartPoint( StartPoint( _id, QPoint( _x, _y ) ) );
 
 } // LandscapeSerializer::onStartPoint
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
-LandscapeSerializer::onFinishParsing()
-{
-	assert( m_currentLoadLandscape );
-	m_currentLoadLandscape = NULL;
-
-} // LandscapeSerializer::onFinishParsing
 
 
 /*---------------------------------------------------------------------------*/

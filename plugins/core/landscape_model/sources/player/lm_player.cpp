@@ -25,12 +25,10 @@ static IPlayer::Id IdGenerator = 0;
 
 Player::Player(
 		const IEnvironment& _environment
-	,	const IStaticData& _staticData
 	,	const QString& _race
 	,	const StartPoint::Id& _startPointId
 	)
 	:	m_environment( _environment )
-	,	m_staticData( _staticData )
 	,	m_id( ++IdGenerator )
 	,	m_startPointId( _startPointId )
 	,	m_race( _race )
@@ -39,15 +37,32 @@ Player::Player(
 	,	m_resourceData()
 	,	m_notifier( *m_environment.getNotificationCenter(), this )
 {
-	IStaticData::ResourcesCollection resources;
-	_staticData.fetchResources( resources );
+	setupResources();
 
-	IStaticData::ResourcesCollectionConstIterator
-			begin = resources.begin()
-		,	end = resources.end();
+} // Player::Player
 
-	for ( ; begin != end; ++begin )
-		m_resourceData.pushResource( begin->first, begin->second );
+
+/*---------------------------------------------------------------------------*/
+
+
+Player::Player(
+		const IEnvironment& _environment
+	,	const IPlayer::Id _id
+	,	const StartPoint::Id& _startPointId
+	,	const PlayerType::Enum _type
+	,	const QString& _race
+	,	const QString& _name
+	)
+	:	m_environment( _environment )
+	,	m_id( _id )
+	,	m_startPointId( _startPointId )
+	,	m_race( _race )
+	,	m_name( _name )
+	,	m_type( _type )
+	,	m_resourceData()
+	,	m_notifier( *m_environment.getNotificationCenter(), this )
+{
+	setupResources();
 
 } // Player::Player
 
@@ -204,6 +219,25 @@ Player::riseResourcesChanedEvent()
 	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ResourceValueChanged::ms_type ) );
 
 } // Player::riseResourcesChanedEvent
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Player::setupResources()
+{
+	IStaticData::ResourcesCollection resources;
+	m_environment.getStaticData()->fetchResources( resources );
+
+	IStaticData::ResourcesCollectionConstIterator
+			begin = resources.begin()
+		,	end = resources.end();
+
+	for ( ; begin != end; ++begin )
+		m_resourceData.pushResource( begin->first, begin->second );
+
+} // Player::setupResources
 
 
 /*---------------------------------------------------------------------------*/

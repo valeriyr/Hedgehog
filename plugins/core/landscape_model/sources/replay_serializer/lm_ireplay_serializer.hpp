@@ -1,6 +1,6 @@
 
-#ifndef __LV_ILANDSCAPE_VIEWER_HPP__
-#define __LV_ILANDSCAPE_VIEWER_HPP__
+#ifndef __LM_IREPLAY_SERIALIZER_HPP__
+#define __LM_IREPLAY_SERIALIZER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -8,33 +8,37 @@
 
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
+#include "xml_library/sources/handle/xl_handle.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
-namespace GUI {
-namespace LandscapeViewer {
+namespace Core {
+namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IViewMode;
+class CommandsQueue;
 
 /*---------------------------------------------------------------------------*/
 
-struct ILandscapeViewer
+struct IReplaySerializer
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void initLandscape( const QString& _filePath ) = 0;
+	virtual void load(
+			const QString& _filePath
+		,	QString& _landscapeName
+		,	ILandscapeModel::PlayersCollection& _players
+		,	CommandsQueue& _commands ) = 0;
 
-	virtual void startSimulation() = 0;
-
-	virtual void closeLandscape() = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual void initDefaultStartpointsColors() = 0;
+	virtual void save(
+			const QString& _filePath
+		,	const QString& _landscapeName
+		,	const ILandscapeModel::PlayersCollection& _players
+		,	const CommandsQueue& _commands ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,10 +46,10 @@ struct ILandscapeViewer
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace LandscapeViewer
-} // namespace GUI
+} // namespace LandscapeModel
+} // namespace Core
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LV_ILANDSCAPE_VIEWER_HPP__
+#endif // __LM_IREPLAY_SERIALIZER_HPP__

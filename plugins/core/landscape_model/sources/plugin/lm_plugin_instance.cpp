@@ -33,6 +33,7 @@
 #include "landscape_model/sources/model_locker/lm_model_locker.hpp"
 #include "landscape_model/sources/landscape_model/lm_landscape_model.hpp"
 #include "landscape_model/sources/landscape_serializer/lm_landscape_serializer.hpp"
+#include "landscape_model/sources/replay_serializer/lm_replay_serializer.hpp"
 #include "landscape_model/sources/surface_items_cache/lm_surface_items_cache.hpp"
 #include "landscape_model/sources/static_data/lm_static_data.hpp"
 #include "landscape_model/sources/model_information/lm_model_information.hpp"
@@ -96,7 +97,8 @@ PluginInstance::initialize()
 	m_modelInformation.reset( new ModelInformation( *m_environment ) );
 	m_surfaceItemsCache.reset( new SurfaceItemsCache() );
 	m_landscapeSerializer.reset( new LandscapeSerializer() );
-	m_landscapeModel.reset( new LandscapeModel( *m_environment, *m_landscapeSerializer, *m_surfaceItemsCache, *m_staticData ) );
+	m_replaySerializer.reset( new ReplaySerializer( *m_environment ) );
+	m_landscapeModel.reset( new LandscapeModel( *m_environment ) );
 
 	exportScriptAPI();
 	executeConfigurationScripts();
@@ -111,6 +113,7 @@ void
 PluginInstance::close()
 {
 	m_landscapeModel.reset();
+	m_replaySerializer.reset();
 	m_landscapeSerializer.reset();
 	m_surfaceItemsCache.reset();
 	m_modelInformation.reset();
@@ -247,6 +250,61 @@ PluginInstance::getNotificationCenter() const
 	return m_notificationCenter;
 
 } // PluginInstance::getNotificationCenter
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IStaticData >
+PluginInstance::getStaticData() const
+{
+	return m_staticData;
+
+} // PluginInstance::getStaticData
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IModelInformation >
+PluginInstance::getModelInformation() const
+{
+	return m_modelInformation;
+
+} // PluginInstance::getModelInformation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ISurfaceItemsCache >
+PluginInstance::getSurfaceItemsCache() const
+{
+	return m_surfaceItemsCache;
+
+} // PluginInstance::getSurfaceItemsCache
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ILandscapeSerializer >
+PluginInstance::getLandscapeSerializer() const
+{
+	return m_landscapeSerializer;
+
+} // PluginInstance::getLandscapeSerializer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IReplaySerializer >
+PluginInstance::getReplaySerializer() const
+{
+	return m_replaySerializer;
+
+} // PluginInstance::getReplaySerializer
 
 
 /*---------------------------------------------------------------------------*/

@@ -24,9 +24,6 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct IEnvironment;
-struct ISurfaceItemsCache;
-struct IStaticData;
-struct ILandscapeSerializer;
 struct ILandscape;
 struct IModelLocker;
 struct IPathFinder;
@@ -49,11 +46,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	LandscapeModel(
-			const IEnvironment& _environment
-		,	ILandscapeSerializer& _landscapeSerializer
-		,	const ISurfaceItemsCache& _surfaceItemsCache
-		,	const IStaticData& _staticData );
+	LandscapeModel( const IEnvironment& _environment );
 
 	virtual ~LandscapeModel();
 
@@ -74,8 +67,6 @@ public:
 	/*virtual*/ bool isSimulationRunning() const;
 
 	/*virtual*/ bool isConfigurated() const;
-
-	/*virtual*/ const QString& getLandscapeFilePath() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -102,6 +93,10 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< ILandscape > getLandscape() const;
+
+	/*virtual*/ const QString& getLandscapeFilePath() const;
+
+	/*virtual*/ QString getLandscapeName() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -218,12 +213,6 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
-
-	ILandscapeSerializer& m_landscapeSerializer;
-
-	const ISurfaceItemsCache& m_surfaceItemsCache;
-
-	const IStaticData& m_staticData;
 
 /*---------------------------------------------------------------------------*/
 

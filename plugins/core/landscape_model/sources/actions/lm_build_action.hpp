@@ -17,7 +17,6 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct IWorkersHolder;
-struct IStaticData;
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,7 +34,6 @@ public:
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
 		,	IWorkersHolder& _workersHolder
-		,	const IStaticData& _staticData
 		,	Object& _object
 		,	const QString& _objectName
 		,	const QPoint& _atLocation );
@@ -76,8 +74,6 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	IWorkersHolder& m_workersHolder;
-
-	const IStaticData& m_staticData;
 
 	const QString m_objectName;
 	const QRect m_atRect;

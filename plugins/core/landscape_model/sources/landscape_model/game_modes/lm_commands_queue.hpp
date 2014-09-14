@@ -29,8 +29,11 @@ public:
 		std::vector< Command >
 		CommandsCollection;
 	typedef
-		CommandsCollection::const_iterator
+		CommandsCollection::iterator
 		CommandsCollectionIterator;
+	typedef
+		CommandsCollection::const_iterator
+		CommandsCollectionConstIterator;
 
 	typedef
 		std::map< IPlayer::Id, CommandsCollection >
@@ -49,6 +52,16 @@ public:
 		CommandsByTimeCollection::iterator
 		CommandsByTimeCollectionIterator;
 
+	typedef
+		std::map< TickType, CommandsByPlayerCollection >
+		CommandsByTickCollection;
+	typedef
+		CommandsByTickCollection::iterator
+		CommandsByTickCollectionIterator;
+	typedef
+		CommandsByTickCollection::const_iterator
+		CommandsByTickCollectionConstIterator;
+
 /*---------------------------------------------------------------------------*/
 
 public:
@@ -61,42 +74,32 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	void pushCommand( const TickType& _targetTick, const Command& _command );
+	void pushCommand( const Command& _command );
 
 	void pushCommand( const IPlayer::Id& _playerId, const TickType& _targetTick, const Command& _command );
 
 	void ensureCommandsList( const IPlayer::Id& _playerId, const TickType& _targetTick );
 
+	void fetchCommands( CommandsByTickCollection& _collection ) const;
+
 	void fetchPlayerCommands(
 			const IPlayer::Id& _playerId
 		,	const TickType& _targetTick
-		,	CommandsCollection& _collection );
+		,	CommandsCollection& _collection ) const;
 
 	void fetchCommandsByTime(
 			const TickType& _targetTick
-		,	CommandsByTimeCollection& _collection );
+		,	CommandsByTimeCollection& _collection ) const;
 
 /*---------------------------------------------------------------------------*/
 
-	bool hasCommands( const TickType& _targetTick );
+	bool hasCommands( const TickType& _targetTick ) const;
 
-	bool hasCommands( const IPlayer::Id& _playerId, const TickType& _targetTick );
+	bool hasCommands( const IPlayer::Id& _playerId, const TickType& _targetTick ) const;
 
 /*---------------------------------------------------------------------------*/
 
 private:
-
-/*---------------------------------------------------------------------------*/
-
-	typedef
-		std::map< TickType, CommandsByPlayerCollection >
-		CommandsByTickCollection;
-	typedef
-		CommandsByTickCollection::iterator
-		CommandsByTickCollectionIterator;
-	typedef
-		CommandsByTickCollection::const_iterator
-		CommandsByTickCollectionConstIterator;
 
 /*---------------------------------------------------------------------------*/
 

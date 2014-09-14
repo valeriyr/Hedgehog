@@ -65,6 +65,7 @@
     </ClCompile>
     <ClCompile Include="sources\player\lm_player.cpp" />
     <ClCompile Include="sources\plugin\lm_plugin_instance.cpp" />
+    <ClCompile Include="sources\replay_serializer\lm_replay_serializer.cpp" />
     <ClCompile Include="sources\static_data\lm_static_data.cpp" />
     <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp" />
     <ClCompile Include="sources\surface_item\lm_surface_item.cpp" />
@@ -164,6 +165,8 @@
     <ClInclude Include="sources\ph\lm_ph.hpp" />
     <ClInclude Include="sources\player\lm_player.hpp" />
     <ClInclude Include="sources\plugin\lm_plugin_instance.hpp" />
+    <ClInclude Include="sources\replay_serializer\lm_ireplay_serializer.hpp" />
+    <ClInclude Include="sources\replay_serializer\lm_replay_serializer.hpp" />
     <ClInclude Include="sources\static_data\lm_static_data.hpp" />
     <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp" />
     <ClInclude Include="sources\surface_item\lm_surface_item.hpp" />

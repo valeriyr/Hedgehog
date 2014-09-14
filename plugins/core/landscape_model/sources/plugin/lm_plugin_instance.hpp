@@ -64,6 +64,7 @@ namespace LandscapeModel {
 
 struct IEnvironment;
 struct ILandscapeSerializer;
+struct IReplaySerializer;
 struct ISurfaceItemsCache;
 struct INotificationCenter;
 struct IStaticData;
@@ -127,6 +128,16 @@ public:
 
 	boost::intrusive_ptr< INotificationCenter > getNotificationCenter() const;
 
+	boost::intrusive_ptr< IStaticData > getStaticData() const;
+
+	boost::intrusive_ptr< IModelInformation > getModelInformation() const;
+
+	boost::intrusive_ptr< ISurfaceItemsCache > getSurfaceItemsCache() const;
+
+	boost::intrusive_ptr< ILandscapeSerializer > getLandscapeSerializer() const;
+
+	boost::intrusive_ptr< IReplaySerializer > getReplaySerializer() const;
+
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< IModelLocker > getLandscapeModelLocker();
@@ -156,7 +167,9 @@ private:
 	boost::intrusive_ptr< ISurfaceItemsCache > m_surfaceItemsCache;
 
 	boost::intrusive_ptr< ILandscapeSerializer > m_landscapeSerializer;
-	
+
+	boost::intrusive_ptr< IReplaySerializer > m_replaySerializer;
+
 	boost::intrusive_ptr< LandscapeModel > m_landscapeModel;
 
 	boost::intrusive_ptr< INotificationCenter > m_notificationCenter;

@@ -16,7 +16,6 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IStaticData;
 struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
@@ -33,9 +32,16 @@ public:
 
 	Player(
 			const IEnvironment& _environment
-		,	const IStaticData& _staticData
 		,	const QString& _race
 		,	const StartPoint::Id& _startPointId );
+
+	Player(
+			const IEnvironment& _environment
+		,	const IPlayer::Id _id
+		,	const StartPoint::Id& _startPointId
+		,	const PlayerType::Enum _type
+		,	const QString& _race
+		,	const QString& _name );
 
 	virtual ~Player();
 
@@ -77,6 +83,8 @@ private:
 
 	void riseResourcesChanedEvent();
 
+	void setupResources();
+
 /*---------------------------------------------------------------------------*/
 
 private:
@@ -84,8 +92,6 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
-
-	const IStaticData& m_staticData;
 
 	const IPlayer::Id m_id;
 

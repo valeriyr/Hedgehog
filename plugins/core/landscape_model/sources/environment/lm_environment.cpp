@@ -7,6 +7,12 @@
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 #include "landscape_model/sources/notification_center/lm_inotification_center.hpp"
 #include "landscape_model/sources/model_locker/lm_model_locker.hpp"
+#include "landscape_model/sources/landscape_serializer/lm_ilandscape_serializer.hpp"
+#include "landscape_model/sources/replay_serializer/lm_ireplay_serializer.hpp"
+
+#include "landscape_model/ih/lm_isurface_items_cache.hpp"
+#include "landscape_model/ih/lm_imodel_information.hpp"
+#include "landscape_model/ih/lm_istatic_data.hpp"
 
 #include "multithreading_manager/ih/mm_imultithreading_manager.hpp"
 #include "event_manager/ih/em_ievent_manager.hpp"
@@ -135,6 +141,61 @@ Environment::getNotificationCenter() const
 	return m_pluginInstance.getNotificationCenter();
 
 } // Environment::getNotificationCenter
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IStaticData >
+Environment::getStaticData() const
+{
+	return m_pluginInstance.getStaticData();
+
+} // Environment::getStaticData
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IModelInformation >
+Environment::getModelInformation() const
+{
+	return m_pluginInstance.getModelInformation();
+
+} // Environment::getModelInformation
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ISurfaceItemsCache >
+Environment::getSurfaceItemsCache() const
+{
+	return m_pluginInstance.getSurfaceItemsCache();
+
+} // Environment::getSurfaceItemsCache
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< ILandscapeSerializer >
+Environment::getLandscapeSerializer() const
+{
+	return m_pluginInstance.getLandscapeSerializer();
+
+} // Environment::getLandscapeSerializer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+boost::intrusive_ptr< IReplaySerializer >
+Environment::getReplaySerializer() const
+{
+	return m_pluginInstance.getReplaySerializer();
+
+} // Environment::getReplaySerializer
 
 
 /*---------------------------------------------------------------------------*/

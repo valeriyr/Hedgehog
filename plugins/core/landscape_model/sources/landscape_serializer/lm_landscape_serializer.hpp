@@ -44,20 +44,16 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void onHMapElement( const QString& _version, const int _width, const int _height );
-	void onSurfaceElement( const QString& _data );
-	void onObjectElement( const ILandscapeModel& _landscapeModel, const QString& _name, const int _x, const int _y, const StartPoint::Id& _id );
-	void onStartPoint( const StartPoint::Id& _id, const int _x, const int _y );
-
-	void onFinishParsing();
-
-/*---------------------------------------------------------------------------*/
-
-private:
-
-/*---------------------------------------------------------------------------*/
-
-	ILandscape* m_currentLoadLandscape;
+	void onHMapElement( ILandscape& _landscape, const QString& _version, const int _width, const int _height );
+	void onSurfaceElement( ILandscape& _landscape, const QString& _data );
+	void onObjectElement(
+			const ILandscapeModel& _landscapeModel
+		,	ILandscape& _landscape
+		,	const QString& _name
+		,	const int _x
+		,	const int _y
+		,	const StartPoint::Id& _id );
+	void onStartPoint( ILandscape& _landscape, const StartPoint::Id& _id, const int _x, const int _y );
 
 /*---------------------------------------------------------------------------*/
 

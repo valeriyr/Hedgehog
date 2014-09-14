@@ -57,8 +57,6 @@ struct ILandscapeModel
 
 	virtual bool isConfigurated() const = 0;
 
-	virtual const QString& getLandscapeFilePath() const = 0;
-
 /*---------------------------------------------------------------------------*/
 
 	virtual void setupReplay( const QString& _filePath ) = 0;
@@ -89,6 +87,10 @@ struct ILandscapeModel
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< ILandscape > getLandscape() const = 0;
+
+	virtual const QString& getLandscapeFilePath() const = 0;
+
+	virtual QString getLandscapeName() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

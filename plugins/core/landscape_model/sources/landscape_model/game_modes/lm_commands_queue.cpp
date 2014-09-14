@@ -31,9 +31,9 @@ CommandsQueue::~CommandsQueue()
 
 
 void
-CommandsQueue::pushCommand( const TickType& _targetTick, const Command& _command )
+CommandsQueue::pushCommand( const Command& _command )
 {
-	pushCommand( _command.m_playerId, _targetTick, _command );
+	pushCommand( _command.m_playerId, _command.m_targetTick, _command );
 
 } // CommandsQueue::pushCommand
 
@@ -89,22 +89,37 @@ CommandsQueue::ensureCommandsList( const IPlayer::Id& _playerId, const TickType&
 
 
 void
+CommandsQueue::fetchCommands( CommandsByTickCollection& _collection ) const
+{
+	QMutexLocker locker( &const_cast< CommandsQueue* >( this )->m_mutex );
+
+	_collection = m_commands;
+
+} // CommandsQueue::fetchCommands
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 CommandsQueue::fetchPlayerCommands(
 		const IPlayer::Id& _playerId
 	,	const TickType& _targetTick
-	,	CommandsCollection& _collection )
+	,	CommandsCollection& _collection ) const
 {
-	QMutexLocker locker( &m_mutex );
+	QMutexLocker locker( &const_cast< CommandsQueue* >( this )->m_mutex );
 
-	CommandsByTickCollectionIterator commandsByTickIterator = m_commands.find( _targetTick );
+	_collection.clear();
+
+	CommandsByTickCollectionConstIterator commandsByTickIterator = m_commands.find( _targetTick );
 
 	if ( commandsByTickIterator == m_commands.end() )
-		commandsByTickIterator = m_commands.insert( std::make_pair( _targetTick, CommandsByPlayerCollection() ) ).first;
+		return;
 
-	CommandsByPlayerCollectionIterator commandsByPlayerIterator = commandsByTickIterator->second.find( _playerId );
+	CommandsByPlayerCollectionConstIterator commandsByPlayerIterator = commandsByTickIterator->second.find( _playerId );
 
 	if ( commandsByPlayerIterator == commandsByTickIterator->second.end() )
-		commandsByPlayerIterator = commandsByTickIterator->second.insert( std::make_pair( _playerId, CommandsCollection() ) ).first;
+		return;
 
 	_collection = commandsByPlayerIterator->second;
 
@@ -117,24 +132,24 @@ CommandsQueue::fetchPlayerCommands(
 void
 CommandsQueue::fetchCommandsByTime(
 		const TickType& _targetTick
-	,	CommandsByTimeCollection& _collection )
+	,	CommandsByTimeCollection& _collection ) const
 {
-	QMutexLocker locker( &m_mutex );
+	QMutexLocker locker( &const_cast< CommandsQueue* >( this )->m_mutex );
 
 	_collection.clear();
 
-	CommandsByTickCollectionIterator commandsByTickIterator = m_commands.find( _targetTick );
+	CommandsByTickCollectionConstIterator commandsByTickIterator = m_commands.find( _targetTick );
 
 	if ( commandsByTickIterator == m_commands.end() )
 		return;
 
-	CommandsByPlayerCollectionIterator
+	CommandsByPlayerCollectionConstIterator
 			begin = commandsByTickIterator->second.begin()
 		,	end = commandsByTickIterator->second.end();
 
 	for ( ; begin != end; ++begin )
 	{
-		CommandsCollectionIterator
+		CommandsCollectionConstIterator
 				commandsBegin = begin->second.begin()
 			,	commandsEnd = begin->second.end();
 
@@ -151,9 +166,9 @@ CommandsQueue::fetchCommandsByTime(
 
 
 bool
-CommandsQueue::hasCommands( const TickType& _targetTick )
+CommandsQueue::hasCommands( const TickType& _targetTick ) const
 {
-	QMutexLocker locker( &m_mutex );
+	QMutexLocker locker( &const_cast< CommandsQueue* >( this )->m_mutex );
 
 	return m_commands.find( _targetTick ) != m_commands.end();
 
@@ -164,9 +179,9 @@ CommandsQueue::hasCommands( const TickType& _targetTick )
 
 
 bool
-CommandsQueue::hasCommands( const IPlayer::Id& _playerId, const TickType& _targetTick )
+CommandsQueue::hasCommands( const IPlayer::Id& _playerId, const TickType& _targetTick ) const
 {
-	QMutexLocker locker( &m_mutex );
+	QMutexLocker locker( &const_cast< CommandsQueue* >( this )->m_mutex );
 
 	CommandsByTickCollectionConstIterator byTickIterator = m_commands.find( _targetTick );
 

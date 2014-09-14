@@ -38,16 +38,14 @@ BuildAction::BuildAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
 	,	IWorkersHolder& _workersHolder
-	,	const IStaticData& _staticData
 	,	Object& _object
 	,	const QString& _objectName
 	,	const QPoint& _atLocation
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_workersHolder( _workersHolder )
-	,	m_staticData( _staticData )
 	,	m_objectName( _objectName )
-	,	m_atRect( _atLocation, _staticData.getObjectStaticData( _objectName ).m_locateData->m_size )
+	,	m_atRect( _atLocation, _environment.getStaticData()->getObjectStaticData( _objectName ).m_locateData->m_size )
 {
 } // BuildAction::BuildAction
 

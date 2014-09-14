@@ -19,6 +19,8 @@ namespace Resources {
 
 	extern const char* const LandscapeVersion;
 
+	extern const char* const ReplayVersion;
+
 /*---------------------------------------------------------------------------*/
 
 	extern const char* const LandscapesDirectoryName;
@@ -45,6 +47,8 @@ namespace Resources {
 
 	extern const char* const CommandWilNotBeProcessedMessage;
 
+	extern const char* const CommandCannotBeProcessedInReplayModeMessage;
+
 	extern const char* const SimulationStoppedMessage;
 
 /*---------------------------------------------------------------------------*/
@@ -53,33 +57,61 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const DocTypeString;
+namespace Xml {
 
-	extern const char* const HMapTagName;
+/*---------------------------------------------------------------------------*/
 
-	extern const char* const VersionAttributeName;
+	extern const char* const LandscapeDocTypeString;
+	extern const char* const ReplayDocTypeString;
 
-	extern const char* const WidthAttributeName;
-	extern const char* const HeightAttributeName;
+	extern const char* const HMap;
+	extern const char* const HReplay;
 
-	extern const char* const StartPointsTagName;
-	extern const char* const StartPointTagName;
+	extern const char* const Version;
 
-	extern const char* const SurfaceTagName;
+	extern const char* const Landscape;
+	extern const char* const Width;
+	extern const char* const Height;
 
-	extern const char* const ObjectsTagName;
-	extern const char* const ObjectTagName;
+	extern const char* const StartPoints;
+	extern const char* const StartPoint;
 
-	extern const char* const CountAttributeName;
+	extern const char* const Surface;
 
-	extern const char* const NameAttributeName;
+	extern const char* const Objects;
+	extern const char* const Object;
 
-	extern const char* const LocationTagName;
+	extern const char* const Count;
 
-	extern const char* const XAttributeName;
-	extern const char* const YAttributeName;
+	extern const char* const Name;
 
-	extern const char* const IdAttributeName;
+	extern const char* const Location;
+
+	extern const char* const X;
+	extern const char* const Y;
+
+	extern const char* const Id;
+
+	extern const char* const Players;
+	extern const char* const Player;
+
+	extern const char* const Race;
+	extern const char* const Type;
+
+	extern const char* const Commands;
+	extern const char* const Command;
+
+	extern const char* const Tick;
+	extern const char* const TimeStamp;
+
+	extern const char* const Arguments;
+	extern const char* const Argument;
+
+	extern const char* const Value;
+
+/*---------------------------------------------------------------------------*/
+
+} // namespace Xml
 
 /*---------------------------------------------------------------------------*/
 

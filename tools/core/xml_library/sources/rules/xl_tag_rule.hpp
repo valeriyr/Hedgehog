@@ -183,6 +183,90 @@ public:
 		return *this;
 	}
 
+	template <
+			typename _TCallbackFunction
+		,	typename _TExtructor1
+		,	typename _TExtructor2
+		,	typename _TExtructor3
+		,	typename _TExtructor4
+		,	typename _TExtructor5
+		>
+	Tag& handle(
+			_TCallbackFunction _callBack
+		,	_TExtructor1& _extructor1
+		,	_TExtructor2& _extructor2
+		,	_TExtructor3& _extructor3
+		,	_TExtructor4& _extructor4
+		,	_TExtructor5& _extructor5
+		)
+	{
+		typedef
+			 Handle5<
+					_TCallbackFunction
+				,	_TExtructor1
+				,	_TExtructor2
+				,	_TExtructor3
+				,	_TExtructor4
+				,	_TExtructor5
+				>
+				HandleType;
+
+		m_tagElement->addHandle(
+			boost::shared_ptr< HandleType >(
+				new HandleType(
+						_callBack
+					,	_extructor1
+					,	_extructor2
+					,	_extructor3
+					,	_extructor4
+					,	_extructor5 ) ) );
+		return *this;
+	}
+
+	template <
+			typename _TCallbackFunction
+		,	typename _TExtructor1
+		,	typename _TExtructor2
+		,	typename _TExtructor3
+		,	typename _TExtructor4
+		,	typename _TExtructor5
+		,	typename _TExtructor6
+		>
+	Tag& handle(
+			_TCallbackFunction _callBack
+		,	_TExtructor1& _extructor1
+		,	_TExtructor2& _extructor2
+		,	_TExtructor3& _extructor3
+		,	_TExtructor4& _extructor4
+		,	_TExtructor5& _extructor5
+		,	_TExtructor6& _extructor6
+		)
+	{
+		typedef
+			 Handle6<
+					_TCallbackFunction
+				,	_TExtructor1
+				,	_TExtructor2
+				,	_TExtructor3
+				,	_TExtructor4
+				,	_TExtructor5
+				,	_TExtructor6
+				>
+				HandleType;
+
+		m_tagElement->addHandle(
+			boost::shared_ptr< HandleType >(
+				new HandleType(
+						_callBack
+					,	_extructor1
+					,	_extructor2
+					,	_extructor3
+					,	_extructor4
+					,	_extructor5
+					,	_extructor6 ) ) );
+		return *this;
+	}
+
 	template < typename _TCallbackFunction >
 	Tag& postHandle( _TCallbackFunction _callBack )
 	{

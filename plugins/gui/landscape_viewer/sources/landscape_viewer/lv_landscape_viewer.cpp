@@ -137,30 +137,6 @@ LandscapeViewer::closeLandscape()
 
 
 void
-LandscapeViewer::onSimulationStarted( const Framework::Core::EventManager::Event& _event )
-{
-	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
-		locker = m_environment.lockModel();
-
-	boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
-		landscape = locker->getLandscapeModel()->getLandscape();
-
-	m_descriptionView->landscapeWasOpened();
-	m_playerInfoView->landscapeWasOpened();
-	m_minimapView->landscapeWasOpened();
-	m_LandscapeView->landscapeWasOpened();
-	m_selectionView->landscapeWasOpened();
-	m_objectInfoView->landscapeWasOpened();
-	m_actionPanelView->landscapeWasOpened();
-	m_objectStatusView->landscapeWasOpened();
-
-} // LandscapeViewer::onSimulationStarted
-
-
-/*---------------------------------------------------------------------------*/
-
-
-void
 LandscapeViewer::initDefaultStartpointsColors()
 {
 	m_environment.getGraphicsInfo()->clearStartPointData();
@@ -185,6 +161,30 @@ LandscapeViewer::initDefaultStartpointsColors()
 	}
 
 } // LandscapeViewer::initDefaultStartpointsColors
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeViewer::onSimulationStarted( const Framework::Core::EventManager::Event& _event )
+{
+	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker >
+		locker = m_environment.lockModel();
+
+	boost::intrusive_ptr< Core::LandscapeModel::ILandscape >
+		landscape = locker->getLandscapeModel()->getLandscape();
+
+	m_descriptionView->landscapeWasOpened();
+	m_playerInfoView->landscapeWasOpened();
+	m_minimapView->landscapeWasOpened();
+	m_LandscapeView->landscapeWasOpened();
+	m_selectionView->landscapeWasOpened();
+	m_objectInfoView->landscapeWasOpened();
+	m_actionPanelView->landscapeWasOpened();
+	m_objectStatusView->landscapeWasOpened();
+
+} // LandscapeViewer::onSimulationStarted
 
 
 /*---------------------------------------------------------------------------*/

@@ -65,6 +65,16 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< INotificationCenter > getNotificationCenter() const;
 
+	/*virtual*/ boost::intrusive_ptr< IStaticData > getStaticData() const;
+
+	/*virtual*/ boost::intrusive_ptr< IModelInformation > getModelInformation() const;
+
+	/*virtual*/ boost::intrusive_ptr< ISurfaceItemsCache > getSurfaceItemsCache() const;
+
+	/*virtual*/ boost::intrusive_ptr< ILandscapeSerializer > getLandscapeSerializer() const;
+
+	/*virtual*/ boost::intrusive_ptr< IReplaySerializer > getReplaySerializer() const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ QString getApplicationDirectory() const;

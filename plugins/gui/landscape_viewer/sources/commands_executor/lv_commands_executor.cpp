@@ -141,7 +141,7 @@ CommandsExecutor::startReplay()
 
 		m_environment.lockModel()->getLandscapeModel()->setupReplay( replayFilePath );
 
-		m_environment.getLandscapeViewer()->initLandscape( m_environment.lockModel()->getLandscapeModel()->getLandscapeFilePath() );
+		m_environment.getLandscapeViewer()->initDefaultStartpointsColors();
 		m_environment.getLandscapeViewer()->startSimulation();
 	}
 
