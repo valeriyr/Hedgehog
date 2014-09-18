@@ -53,7 +53,11 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ConfigurationScriptsDirectory = "landscape_model";
+	const char* const ConfigurationScriptsRootDirectory = "landscape_model";
+
+	const char* const ObjectsConfigurationScriptsDirectory = "objects";
+
+	const char* const AiConfigurationScriptsDirectory = "ai";
 
 /*---------------------------------------------------------------------------*/
 

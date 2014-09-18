@@ -53,7 +53,11 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const ConfigurationScriptsDirectory;
+	extern const char* const ConfigurationScriptsRootDirectory;
+
+	extern const char* const ObjectsConfigurationScriptsDirectory;
+
+	extern const char* const AiConfigurationScriptsDirectory;
 
 /*---------------------------------------------------------------------------*/
 

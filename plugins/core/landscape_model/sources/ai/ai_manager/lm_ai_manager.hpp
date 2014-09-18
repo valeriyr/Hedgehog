@@ -1,16 +1,16 @@
 
-#ifndef __SE_SCRIPTS_EXECUTOR_HPP__
-#define __SE_SCRIPTS_EXECUTOR_HPP__
+#ifndef __LM_AI_MANAGER_HPP__
+#define __LM_AI_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "script_engine/ih/se_iscripts_executor.hpp"
+#include "landscape_model/sources/ai/ai_manager/lm_iai_manager.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Plugins {
 namespace Core {
-namespace ScriptEngine {
+namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
@@ -18,8 +18,8 @@ struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-class ScriptsExecutor
-	:	public Tools::Core::BaseWrapper< IScriptsExecutor >
+class AiManager
+	:	public Tools::Core::BaseWrapper< IAiManager >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,19 +28,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ScriptsExecutor( lua_State* _luaEngine, const IEnvironment& _environment );
+	AiManager( const IEnvironment& _environment );
 
-	virtual ~ScriptsExecutor();
-
-/*---------------------------------------------------------------------------*/
-
-	/*virtual*/ void executeFile( const QString& _fileName );
-
-	/*virtual*/ void executeScript( const QString& _script );
+	virtual ~AiManager();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void executeFunction( const QString& _function );
+	/*virtual*/ void regAi( const QString& _name, const QString& _race );
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,13 +42,27 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void printErrorMessage();
+	struct AiData
+	{
+		AiData( const QString& _race )
+			:	m_race( _race )
+		{}
+
+		const QString m_race;
+	};
+
+	typedef
+		std::map< QString, AiData >
+		AiDatasCollection;
+	typedef
+		AiDatasCollection::const_iterator
+		AiDatasCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
 
-	lua_State* m_luaEngine;
-
 	const IEnvironment& m_environment;
+
+	AiDatasCollection m_aiDatas;
 
 /*---------------------------------------------------------------------------*/
 
@@ -62,10 +70,10 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace ScriptEngine
+} // namespace LandscapeModel
 } // namespace Core
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SE_SCRIPTS_EXECUTOR_HPP__
+#endif // __LM_AI_MANAGER_HPP__

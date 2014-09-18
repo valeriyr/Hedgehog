@@ -79,6 +79,8 @@ public:
 
 	/*virtual*/ QString getApplicationDirectory() const;
 
+	/*virtual*/ QString getConfigDirectory() const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< Framework::Core::NetworkManager::IUdpConnection >
@@ -97,6 +99,10 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< IModelLocker > lockModel() const;
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ void executeLuaFunction( const QString& _function ) const;
 
 /*---------------------------------------------------------------------------*/
 

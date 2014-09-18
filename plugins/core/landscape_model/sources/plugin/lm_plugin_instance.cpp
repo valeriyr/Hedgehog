@@ -37,10 +37,12 @@
 #include "landscape_model/sources/surface_items_cache/lm_surface_items_cache.hpp"
 #include "landscape_model/sources/static_data/lm_static_data.hpp"
 #include "landscape_model/sources/model_information/lm_model_information.hpp"
-
 #include "landscape_model/sources/surface_item/lm_surface_item.hpp"
 #include "landscape_model/sources/internal_resources/lm_internal_resources.hpp"
 #include "landscape_model/sources/notification_center/lm_notification_center.hpp"
+
+#include "landscape_model/sources/ai/ai_manager/lm_ai_manager.hpp"
+#include "landscape_model/sources/ai/ai_goals/lm_wait_goal.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -83,9 +85,6 @@ PluginInstance::~PluginInstance()
 void
 PluginInstance::initialize()
 {
-	// TODO: Force loading of the network manager.
-	getConnectionManager();
-
 	getSettings()->regUInt( Resources::Properties::Port, Resources::Properties::DefaultPortValue );
 	getSettings()->regString( Resources::Properties::Ip, Framework::Core::NetworkManager::Resources::LocalHost );
 	getSettings()->regUInt( Resources::Properties::ConnectionTimeOut, 10000 );
@@ -99,9 +98,11 @@ PluginInstance::initialize()
 	m_landscapeSerializer.reset( new LandscapeSerializer() );
 	m_replaySerializer.reset( new ReplaySerializer( *m_environment ) );
 	m_landscapeModel.reset( new LandscapeModel( *m_environment ) );
+	m_aiManager.reset( new AiManager( *m_environment ) );
 
 	exportScriptAPI();
-	executeConfigurationScripts();
+	executeConfigurationScripts( m_modelInformation->getObjectsScriptsDirectory() );
+	executeConfigurationScripts( m_modelInformation->getAiScriptsDirectory() );
 
 } // PluginInstance::initialize
 
@@ -112,6 +113,7 @@ PluginInstance::initialize()
 void
 PluginInstance::close()
 {
+	m_aiManager.reset();
 	m_landscapeModel.reset();
 	m_replaySerializer.reset();
 	m_landscapeSerializer.reset();
@@ -310,6 +312,17 @@ PluginInstance::getReplaySerializer() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< IAiManager >
+PluginInstance::getAiManager() const
+{
+	return m_aiManager;
+
+} // PluginInstance::getAiManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< IModelLocker >
 PluginInstance::getLandscapeModelLocker()
 {
@@ -480,6 +493,19 @@ PluginInstance::exportScriptAPI()
 
 	exporter.exportVariable( "StaticData", m_staticData.get() );
 
+	// AiManager
+
+	exporter.exportClass< IAiManager >( "IAiManager" )
+		->withMethod( "regAi", &IAiManager::regAi );
+
+	exporter.exportVariable( "AiManager", m_aiManager.get() );
+
+	// AiGoals
+
+	exporter.exportClass< WaitGoal >( "WaitGoal" )
+		->withConstructor< const TickType& >()
+		.withMethod( "process", &WaitGoal::process );
+
 } // PluginInstance::exportScriptAPI
 
 
@@ -487,9 +513,9 @@ PluginInstance::exportScriptAPI()
 
 
 void
-PluginInstance::executeConfigurationScripts()
+PluginInstance::executeConfigurationScripts( const QString& _directory )
 {
-	QDir scriptsDirectory = QDir( getSystemInformation()->getConfigDirectory() + "/" + Resources::ConfigurationScriptsDirectory );
+	QDir scriptsDirectory = QDir( _directory );
 
 	if ( !scriptsDirectory.exists() )
 		return;

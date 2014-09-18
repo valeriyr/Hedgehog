@@ -61,7 +61,8 @@ PluginInstance::initialize()
 	m_luaEngine = lua_open();
 
 	luaopen_base( m_luaEngine );
-	luaopen_string(m_luaEngine );
+	luaopen_string( m_luaEngine );
+	luaopen_table( m_luaEngine );
 
 	luabind::open( m_luaEngine );
 

@@ -70,6 +70,7 @@ struct INotificationCenter;
 struct IStaticData;
 struct IModelLocker;
 struct IModelInformation;
+struct IAiManager;
 
 class LandscapeModel;
 
@@ -138,6 +139,8 @@ public:
 
 	boost::intrusive_ptr< IReplaySerializer > getReplaySerializer() const;
 
+	boost::intrusive_ptr< IAiManager > getAiManager() const;
+
 /*---------------------------------------------------------------------------*/
 
 	boost::intrusive_ptr< IModelLocker > getLandscapeModelLocker();
@@ -150,7 +153,7 @@ private:
 
 	void exportScriptAPI();
 
-	void executeConfigurationScripts();
+	void executeConfigurationScripts( const QString& _directory );
 
 /*---------------------------------------------------------------------------*/
 
@@ -173,6 +176,8 @@ private:
 	boost::intrusive_ptr< LandscapeModel > m_landscapeModel;
 
 	boost::intrusive_ptr< INotificationCenter > m_notificationCenter;
+
+	boost::intrusive_ptr< IAiManager > m_aiManager;
 
 /*---------------------------------------------------------------------------*/
 

@@ -19,6 +19,7 @@
 #include "plugins_manager/ih/pm_isystem_information.hpp"
 #include "network_manager/ih/nm_iconnection_manager.hpp"
 #include "network_manager/ih/nm_iudp_connection.hpp"
+#include "script_engine/ih/se_iscripts_executor.hpp"
 
 #include "messenger/ms_imessenger.hpp"
 
@@ -212,6 +213,17 @@ Environment::getApplicationDirectory() const
 /*---------------------------------------------------------------------------*/
 
 
+QString
+Environment::getConfigDirectory() const
+{
+	return m_pluginInstance.getSystemInformation()->getConfigDirectory();
+
+} // Environment::getConfigDirectory
+
+
+/*---------------------------------------------------------------------------*/
+
+
 boost::intrusive_ptr< Framework::Core::NetworkManager::IUdpConnection >
 Environment::getConnection(
 		const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo
@@ -264,6 +276,17 @@ Environment::lockModel() const
 	return m_pluginInstance.getLandscapeModelLocker();
 
 } // Environment::lockModel
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+Environment::executeLuaFunction( const QString& _function ) const
+{
+	m_pluginInstance.getScriptsExecutor()->executeFunction( _function );
+
+} // Environment::executeLuaFunction
 
 
 /*---------------------------------------------------------------------------*/

@@ -73,6 +73,15 @@
     <Filter Include="Replay Serializer">
       <UniqueIdentifier>{67855d1c-5eb9-4178-b3b8-9bf4b6ee6b63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI">
+      <UniqueIdentifier>{e481ff14-7259-4bab-88a5-21886d8226ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Ai Manager">
+      <UniqueIdentifier>{e7792234-57b4-421e-909c-3323ab671a1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\Ai Goals">
+      <UniqueIdentifier>{093a34ec-0fd1-4613-86ad-21f6551a84c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -215,6 +224,12 @@
     </ClCompile>
     <ClCompile Include="sources\replay_serializer\lm_replay_serializer.cpp">
       <Filter>Replay Serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ai\ai_manager\lm_ai_manager.cpp">
+      <Filter>AI\Ai Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ai\ai_goals\lm_wait_goal.cpp">
+      <Filter>AI\Ai Goals</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -514,6 +529,15 @@
     </ClInclude>
     <ClInclude Include="sources\replay_serializer\lm_replay_serializer.hpp">
       <Filter>Replay Serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ai\ai_manager\lm_iai_manager.hpp">
+      <Filter>AI\Ai Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ai\ai_manager\lm_ai_manager.hpp">
+      <Filter>AI\Ai Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ai\ai_goals\lm_wait_goal.hpp">
+      <Filter>AI\Ai Goals</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

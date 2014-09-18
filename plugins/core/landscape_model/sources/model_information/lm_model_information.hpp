@@ -38,6 +38,12 @@ public:
 
 	/*virtual*/ QString getReplaysDirectory() const;
 
+	/*virtual*/ QString getScriptsRootDirectory() const;
+
+	/*virtual*/ QString getObjectsScriptsDirectory() const;
+
+	/*virtual*/ QString getAiScriptsDirectory() const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ QString generateLandscapePath( const QString& _name ) const;

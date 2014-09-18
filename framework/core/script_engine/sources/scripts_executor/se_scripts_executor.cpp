@@ -9,6 +9,8 @@
 
 #include "messenger/ms_imessenger.hpp"
 
+#include <luabind/luabind.hpp>
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -51,10 +53,7 @@ ScriptsExecutor::executeFile( const QString& _fileName )
 	result = lua_pcall( m_luaEngine, 0, LUA_MULTRET, 0 );
 
 	if ( result != 0 ) 
-	{
 		printErrorMessage();
-		return;
-	}
 
 } // ScriptsExecutor::executeFile
 
@@ -76,12 +75,27 @@ ScriptsExecutor::executeScript( const QString& _script )
 	result = lua_pcall( m_luaEngine, 0, LUA_MULTRET, 0 );
 
 	if ( result != 0 ) 
-	{
 		printErrorMessage();
-		return;
-	}
 
 } // ScriptsExecutor::executeScript
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ScriptsExecutor::executeFunction( const QString& _function )
+{
+	try
+	{
+		luabind::call_function< void >( m_luaEngine, _function.toLocal8Bit().data() );
+	}
+	catch( luabind::error& )
+	{
+		printErrorMessage();
+	}
+
+} // ScriptsExecutor::executeFunction
 
 
 /*---------------------------------------------------------------------------*/

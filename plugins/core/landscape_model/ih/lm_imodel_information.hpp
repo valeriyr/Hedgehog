@@ -28,6 +28,12 @@ struct IModelInformation
 
 	virtual QString getReplaysDirectory() const = 0;
 
+	virtual QString getScriptsRootDirectory() const = 0;
+
+	virtual QString getObjectsScriptsDirectory() const = 0;
+
+	virtual QString getAiScriptsDirectory() const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual QString generateLandscapePath( const QString& _name ) const = 0;

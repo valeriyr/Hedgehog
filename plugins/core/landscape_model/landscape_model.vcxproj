@@ -27,6 +27,8 @@
     <ClCompile Include="sources\actions\lm_move_action.cpp" />
     <ClCompile Include="sources\actions\lm_repair_action.cpp" />
     <ClCompile Include="sources\actions\lm_train_action.cpp" />
+    <ClCompile Include="sources\ai\ai_goals\lm_wait_goal.cpp" />
+    <ClCompile Include="sources\ai\ai_manager\lm_ai_manager.cpp" />
     <ClCompile Include="sources\components\lm_actions_component.cpp" />
     <ClCompile Include="sources\components\lm_attack_component.cpp" />
     <ClCompile Include="sources\components\lm_build_component.cpp" />
@@ -122,6 +124,9 @@
     <ClInclude Include="sources\actions\lm_move_action.hpp" />
     <ClInclude Include="sources\actions\lm_repair_action.hpp" />
     <ClInclude Include="sources\actions\lm_train_action.hpp" />
+    <ClInclude Include="sources\ai\ai_goals\lm_wait_goal.hpp" />
+    <ClInclude Include="sources\ai\ai_manager\lm_ai_manager.hpp" />
+    <ClInclude Include="sources\ai\ai_manager\lm_iai_manager.hpp" />
     <ClInclude Include="sources\components\lm_actions_component.hpp" />
     <ClInclude Include="sources\components\lm_attack_component.hpp" />
     <ClInclude Include="sources\components\lm_base_component.hpp" />

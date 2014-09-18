@@ -1,36 +1,43 @@
 
-#ifndef __SE_ISCRIPTS_EXECUTOR_HPP__
-#define __SE_ISCRIPTS_EXECUTOR_HPP__
+#ifndef __LM_WAIT_GOAL_HPP__
+#define __LM_WAIT_GOAL_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
+#include "landscape_model/h/lm_constants.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Plugins {
 namespace Core {
-namespace ScriptEngine {
+namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_SCRIPTS_EXECUTOR = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct IScriptsExecutor
-	:	public Tools::Core::IBase
+class WaitGoal
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void executeFile( const QString& _fileName ) = 0;
-
-	virtual void executeScript( const QString& _script ) = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void executeFunction( const QString& _function ) = 0;
+	WaitGoal( const TickType& _ticks );
+
+	~WaitGoal();
+
+/*---------------------------------------------------------------------------*/
+
+	bool process();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	TickType m_ticks;
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,10 +45,10 @@ struct IScriptsExecutor
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace ScriptEngine
+} // namespace LandscapeModel
 } // namespace Core
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SE_ISCRIPTS_EXECUTOR_HPP__
+#endif // __LM_WAIT_GOAL_HPP__

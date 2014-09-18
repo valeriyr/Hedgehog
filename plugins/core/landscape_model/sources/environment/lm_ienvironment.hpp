@@ -96,6 +96,8 @@ struct IEnvironment
 
 	virtual QString getApplicationDirectory() const = 0;
 
+	virtual QString getConfigDirectory() const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< Framework::Core::NetworkManager::IUdpConnection >
@@ -114,6 +116,10 @@ struct IEnvironment
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< IModelLocker > lockModel() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void executeLuaFunction( const QString& _function ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

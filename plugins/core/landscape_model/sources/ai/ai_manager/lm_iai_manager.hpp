@@ -1,6 +1,6 @@
 
-#ifndef __SE_ISCRIPTS_EXECUTOR_HPP__
-#define __SE_ISCRIPTS_EXECUTOR_HPP__
+#ifndef __LM_IAI_MANAGER_HPP__
+#define __LM_IAI_MANAGER_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -8,29 +8,19 @@
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Plugins {
 namespace Core {
-namespace ScriptEngine {
+namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_SCRIPTS_EXECUTOR = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct IScriptsExecutor
+struct IAiManager
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void executeFile( const QString& _fileName ) = 0;
-
-	virtual void executeScript( const QString& _script ) = 0;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual void executeFunction( const QString& _function ) = 0;
+	virtual void regAi( const QString& _name, const QString& _race ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,10 +28,10 @@ struct IScriptsExecutor
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace ScriptEngine
+} // namespace LandscapeModel
 } // namespace Core
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SE_ISCRIPTS_EXECUTOR_HPP__
+#endif // __LM_IAI_MANAGER_HPP__

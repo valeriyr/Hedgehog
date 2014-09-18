@@ -58,6 +58,39 @@ ModelInformation::getReplaysDirectory() const
 
 
 QString
+ModelInformation::getScriptsRootDirectory() const
+{
+	return m_environment.getConfigDirectory() + "/" + Resources::ConfigurationScriptsRootDirectory;
+
+} // ModelInformation::getScriptsRootDirectory
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+ModelInformation::getObjectsScriptsDirectory() const
+{
+	return getScriptsRootDirectory() + "/" + Resources::ObjectsConfigurationScriptsDirectory;
+
+} // ModelInformation::getObjectsScriptsDirectory
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+ModelInformation::getAiScriptsDirectory() const
+{
+	return getScriptsRootDirectory() + "/" + Resources::AiConfigurationScriptsDirectory;
+
+} // ModelInformation::getAiScriptsDirectory
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
 ModelInformation::generateLandscapePath( const QString& _name ) const
 {
 	return getLandscapesDirectory() + "/" + _name + "." + Resources::LandscapeFileExtension;
