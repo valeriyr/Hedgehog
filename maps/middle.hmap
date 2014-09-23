@@ -8,7 +8,7 @@
         <start_point id="3" x="89" y="94"/>
         <start_point id="4" x="87" y="4"/>
     </start_points>
-    <objects count="5">
+    <objects count="13">
         <object name="Gold Mine">
             <location x="95" y="88"/>
         </object>
@@ -20,6 +20,30 @@
         </object>
         <object name="Gold Mine">
             <location x="92" y="10"/>
+        </object>
+        <object name="Gold Mine">
+            <location x="29" y="37"/>
+        </object>
+        <object name="Gold Mine">
+            <location x="65" y="24"/>
+        </object>
+        <object name="Gold Mine">
+            <location x="61" y="68"/>
+        </object>
+        <object name="Gold Mine">
+            <location x="32" y="66"/>
+        </object>
+        <object name="Gold Mine">
+            <location x="5" y="12"/>
+        </object>
+        <object name="Gold Mine">
+            <location x="74" y="3"/>
+        </object>
+        <object name="Gold Mine">
+            <location x="76" y="93"/>
+        </object>
+        <object name="Gold Mine">
+            <location x="5" y="70"/>
         </object>
     </objects>
 </hmap>
