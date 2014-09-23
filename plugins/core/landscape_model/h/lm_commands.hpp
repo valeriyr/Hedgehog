@@ -43,7 +43,8 @@ struct CommandId
 		,	SetSurfaceItem
 		,	SelectById
 		,	SelectByRect
-		,	Send
+		,	SendToPoint
+		,	SendToObject
 		,	CreateObject
 		,	TrainObject
 		,	BuildObject
@@ -88,8 +89,10 @@ struct CommandId
 			return "SelectById";
 		case SelectByRect:
 			return "SelectByRect";
-		case Send:
-			return "Send";
+		case SendToPoint:
+			return "SendToPoint";
+		case SendToObject:
+			return "SendToObject";
 		case CreateObject:
 			return "CreateObject";
 		case TrainObject:
@@ -135,8 +138,10 @@ struct CommandId
 			return SelectById;
 		else if ( _type == "SelectByRect" )
 			return SelectByRect;
-		else if ( _type == "Send" )
-			return Send;
+		else if ( _type == "SendToPoint" )
+			return SendToPoint;
+		else if ( _type == "SendToObject" )
+			return SendToObject;
 		else if ( _type == "CreateObject" )
 			return CreateObject;
 		else if ( _type == "TrainObject" )
@@ -152,7 +157,8 @@ struct CommandId
 		switch( _enum )
 		{
 		case SetSurfaceItem:
-		case Send:
+		case SendToPoint:
+		case SendToObject:
 		case TrainObject:
 		case BuildObject:
 			return true;

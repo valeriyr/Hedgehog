@@ -71,7 +71,8 @@ COMMAND_MAP_BEGIN( LandscapeModel )
 	PROCESSOR( SetSurfaceItem )
 	PROCESSOR( SelectById )
 	PROCESSOR( SelectByRect )
-	PROCESSOR( Send )
+	PROCESSOR( SendToPoint )
+	PROCESSOR( SendToObject )
 	PROCESSOR( CreateObject )
 	PROCESSOR( TrainObject )
 	PROCESSOR( BuildObject )
@@ -1279,7 +1280,7 @@ LandscapeModel::onSelectByIdProcessor( const Command& _command )
 
 
 void
-LandscapeModel::onSendProcessor( const Command& _command )
+LandscapeModel::onSendToPointProcessor( const Command& _command )
 {
 	if ( m_landscape )
 	{
@@ -1294,7 +1295,51 @@ LandscapeModel::onSendProcessor( const Command& _command )
 		for ( ; begin != end; ++begin )
 		{
 			boost::shared_ptr< Object > object = m_landscape->getObject( begin->toInt() );
-			boost::shared_ptr< Object > targetObject = m_landscape->getObject( location );
+
+			if ( object )
+			{
+				boost::intrusive_ptr< IActionsComponent > actionsComponent
+					= object->getComponent< IActionsComponent >( ComponentId::Actions );
+				boost::intrusive_ptr< IMoveComponent > moveComponent
+					= object->getComponent< IMoveComponent >( ComponentId::Move );
+
+				if ( moveComponent )
+				{
+					actionsComponent->pushAction(
+							boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, *object, location ) )
+						,	flush );
+				}
+			}
+		}
+	}
+
+} // LandscapeModel::onSendToPointProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onSendToObjectProcessor( const Command& _command )
+{
+	if ( m_landscape )
+	{
+		const QList< QVariant > objects = _command.m_arguments[ 0 ].toList();
+		const Object::Id id = _command.m_arguments[ 1 ].toInt();
+		const bool flush = _command.m_arguments[ 2 ].toBool();
+
+		boost::shared_ptr< Object > targetObject = m_landscape->getObject( id );
+
+		if ( !targetObject )
+			return;
+
+		QList< QVariant >::ConstIterator
+				begin = objects.begin()
+			,	end = objects.end();
+
+		for ( ; begin != end; ++begin )
+		{
+			boost::shared_ptr< Object > object = m_landscape->getObject( begin->toInt() );
 
 			if ( object )
 			{
@@ -1313,7 +1358,7 @@ LandscapeModel::onSendProcessor( const Command& _command )
 					= object->getComponent< IPlayerComponent >( ComponentId::Player);
 				assert( playerComponent );
 
-				if ( targetObject && targetObject != object )
+				if ( targetObject != object )
 				{
 					boost::intrusive_ptr< IHealthComponent > targetHealthComponent
 						= targetObject->getComponent< IHealthComponent >( ComponentId::Health );
@@ -1361,17 +1406,11 @@ LandscapeModel::onSendProcessor( const Command& _command )
 							,	flush );
 					}
 				}
-				else if ( moveComponent )
-				{
-					actionsComponent->pushAction(
-							boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, *object, location ) )
-						,	flush );
-				}
 			}
 		}
 	}
 
-} // LandscapeModel::onSendProcessor
+} // LandscapeModel::onSendToObjectProcessor
 
 
 /*---------------------------------------------------------------------------*/

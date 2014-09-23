@@ -11,6 +11,8 @@
 #include "landscape_model/h/lm_object.hpp"
 #include "landscape_model/h/lm_directions.hpp"
 
+#include "animation_manager/ih/am_ianimate_object.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 
@@ -37,8 +39,49 @@ namespace LandscapeViewer {
 struct IEnvironment;
 struct ILandscapeSceneState;
 
-class ObjectGraphicsItem;
+class LandscapeScene;
 
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+
+class ObjectGraphicsItem
+	:	public QGraphicsPixmapItem
+	,	public Framework::GUI::AnimationManager::IAnimateObject
+{
+
+public:
+
+	ObjectGraphicsItem(
+			const QPixmap& _pixmap
+		,	const IEnvironment& _environment
+		,	const LandscapeScene& _landscapeScene
+		,	const QString& _objectName
+		,	const Plugins::Core::LandscapeModel::Object::Id& _objectId
+		,	QGraphicsItem* _parent = NULL
+		);
+
+	/*virtual*/ void setSprite( const QPixmap& _sprite );
+
+	/*virtual*/ QVariant itemChange( GraphicsItemChange _change, const QVariant& value );
+
+	const Plugins::Core::LandscapeModel::Object::Id& getObjectId() const;
+
+private:
+
+	void correctedPosition();
+
+private:
+
+	const IEnvironment& m_environment;
+
+	const LandscapeScene& m_landscapeScene;
+
+	const QString m_objectName;
+
+	const Plugins::Core::LandscapeModel::Object::Id m_objectId;
+};
+
+/*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
 class LandscapeScene
@@ -88,6 +131,12 @@ public:
 	void landscapeWasOpened();
 
 	void landscapeWasClosed();
+
+/*---------------------------------------------------------------------------*/
+
+	ObjectGraphicsItem* getObjectGraphicsItem( const Plugins::Core::LandscapeModel::Object::Id& _objectId ) const;
+
+	ObjectGraphicsItem* getObjectGraphicsItem( const QPointF& _scenePosition ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -230,6 +279,7 @@ private:
 		ObjectsCollection;
 
 	typedef ObjectsCollection::iterator ObjectsCollectionIterator;
+	typedef ObjectsCollection::const_iterator ObjectsCollectionConstIterator;
 
 /*---------------------------------------------------------------------------*/
 

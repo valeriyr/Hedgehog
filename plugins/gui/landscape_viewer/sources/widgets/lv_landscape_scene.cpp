@@ -20,8 +20,6 @@
 #include "multithreading_manager/h/mm_external_resources.hpp"
 #include "settings/h/st_events.hpp"
 
-#include "animation_manager/ih/am_ianimate_object.hpp"
-
 #include "lv_landscape_scene.moc"
 
 
@@ -32,95 +30,109 @@ namespace GUI {
 namespace LandscapeViewer {
 
 /*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
-class ObjectGraphicsItem
-	:	public QGraphicsPixmapItem
-	,	public Framework::GUI::AnimationManager::IAnimateObject
+
+ObjectGraphicsItem::ObjectGraphicsItem(
+		const QPixmap& _pixmap
+	,	const IEnvironment& _environment
+	,	const LandscapeScene& _landscapeScene
+	,	const QString& _objectName
+	,	const Plugins::Core::LandscapeModel::Object::Id& _objectId
+	,	QGraphicsItem* _parent
+	)
+	:	QGraphicsPixmapItem( _pixmap, _parent )
+	,	m_environment( _environment )
+	,	m_landscapeScene( _landscapeScene )
+	,	m_objectName( _objectName )
+	,	m_objectId( _objectId )
 {
+	setFlag( ItemSendsGeometryChanges, true );
+	correctedPosition();
 
-public:
+} // ObjectGraphicsItem::ObjectGraphicsItem
 
-	ObjectGraphicsItem(
-			const QPixmap& _pixmap
-		,	const IEnvironment& _environment
-		,	const LandscapeScene& _landscapeScene
-		,	const QString& _objectName
-		,	const Plugins::Core::LandscapeModel::Object::Id& _objectId
-		,	QGraphicsItem* _parent = NULL
-		)
-		:	QGraphicsPixmapItem( _pixmap, _parent )
-		,	m_environment( _environment )
-		,	m_landscapeScene( _landscapeScene )
-		,	m_objectName( _objectName )
-		,	m_objectId( _objectId )
-	{
-		setFlag( ItemSendsGeometryChanges, true );
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ObjectGraphicsItem::setSprite( const QPixmap& _sprite )
+{
+	bool needToCorrectPosition = _sprite.size() != pixmap().size();
+
+	setPixmap( _sprite );
+
+	if ( needToCorrectPosition )
 		correctedPosition();
-	}
 
-	/*virtual*/ void setSprite( const QPixmap& _sprite )
+} // ObjectGraphicsItem::setSprite
+
+
+/*---------------------------------------------------------------------------*/
+
+
+QVariant
+ObjectGraphicsItem::itemChange( GraphicsItemChange _change, const QVariant& value )
+{
+	if ( _change == ItemPositionHasChanged )
 	{
-		bool needToCorrectPosition = _sprite.size() != pixmap().size();
+		boost::shared_ptr<Core::LandscapeModel::ILocateComponent::StaticData >
+			locateComponentStaticData = m_environment.getObjectStaticData( m_objectName ).m_locateData;
 
-		setPixmap( _sprite );
+		QPoint position( value.toPoint() );
 
-		if ( needToCorrectPosition )
-			correctedPosition();
+		int centerX = position.x() + ( boundingRect().size().width() / 2 );
+		int centerY = position.y() + ( boundingRect().size().height() / 2 );
+
+		QSize landscapeSize( m_landscapeScene.calculateLandscapeSize() );
+
+		int z = LandscapeScene::ZValue::ObjectsBegin;
+		z += ( ( centerY / Resources::Landscape::CellSize ) * landscapeSize.height() ) + ( ( centerX / Resources::Landscape::CellSize ) + 1 );
+
+		if ( locateComponentStaticData->m_emplacement == Core::LandscapeModel::Emplacement::Air )
+			z += landscapeSize.width() * landscapeSize.height();
+
+		setZValue( z );
 	}
 
-	/*virtual*/ QVariant itemChange( GraphicsItemChange _change, const QVariant& value )
-	{
-		if ( _change == ItemPositionHasChanged )
-		{
-			boost::shared_ptr<Core::LandscapeModel::ILocateComponent::StaticData >
-				locateComponentStaticData = m_environment.getObjectStaticData( m_objectName ).m_locateData;
+	return QGraphicsPixmapItem::itemChange( _change, value );
 
-			QPoint position( value.toPoint() );
+} // ObjectGraphicsItem::itemChange
 
-			int centerX = position.x() + ( boundingRect().size().width() / 2 );
-			int centerY = position.y() + ( boundingRect().size().height() / 2 );
 
-			QSize landscapeSize( m_landscapeScene.calculateLandscapeSize() );
+/*---------------------------------------------------------------------------*/
 
-			int z = LandscapeScene::ZValue::ObjectsBegin;
-			z += ( ( centerY / Resources::Landscape::CellSize ) * landscapeSize.height() ) + ( ( centerX / Resources::Landscape::CellSize ) + 1 );
 
-			if ( locateComponentStaticData->m_emplacement == Core::LandscapeModel::Emplacement::Air )
-				z += landscapeSize.width() * landscapeSize.height();
+const Plugins::Core::LandscapeModel::Object::Id&
+ObjectGraphicsItem::getObjectId() const
+{
+	return m_objectId;
 
-			setZValue( z );
-		}
+} // ObjectGraphicsItem::getObjectId
 
-		return QGraphicsPixmapItem::itemChange( _change, value );
-	}
 
-private:
+/*---------------------------------------------------------------------------*/
 
-	void correctedPosition()
-	{
-		setPos(
-			LandscapeScene::correctSceneObjectPosition(
-					m_environment
-				,	m_landscapeScene.width()
-				,	m_landscapeScene.height()
-				,	LandscapeScene::convertToScenePosition(
-						m_environment.lockModel()->getLandscapeModel()->getLandscape()->getObject( m_objectId )
-							->getComponent< Core::LandscapeModel::ILocateComponent >( Core::LandscapeModel::ComponentId::Locate )->getLocation() )
-				,	m_objectName
-				,	pixmap() ) );
-	}
 
-private:
+void
+ObjectGraphicsItem::correctedPosition()
+{
+	setPos(
+		LandscapeScene::correctSceneObjectPosition(
+				m_environment
+			,	m_landscapeScene.width()
+			,	m_landscapeScene.height()
+			,	LandscapeScene::convertToScenePosition(
+					m_environment.lockModel()->getLandscapeModel()->getLandscape()->getObject( m_objectId )
+						->getComponent< Core::LandscapeModel::ILocateComponent >( Core::LandscapeModel::ComponentId::Locate )->getLocation() )
+			,	m_objectName
+			,	pixmap() ) );
 
-	const IEnvironment& m_environment;
+} // ObjectGraphicsItem::correctedPosition
 
-	const LandscapeScene& m_landscapeScene;
 
-	const QString m_objectName;
-
-	const Plugins::Core::LandscapeModel::Object::Id m_objectId;
-};
-
+/*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
 
@@ -267,6 +279,39 @@ LandscapeScene::landscapeWasClosed()
 	setCorrectSceneSize();
 
 } // LandscapeScene::landscapeWasClosed
+
+
+/*---------------------------------------------------------------------------*/
+
+
+ObjectGraphicsItem*
+LandscapeScene::getObjectGraphicsItem( const Plugins::Core::LandscapeModel::Object::Id& _objectId ) const
+{
+	ObjectsCollectionConstIterator iterator = m_objectsCollection.find( _objectId );
+	return iterator != m_objectsCollection.end() ? iterator->second : NULL;
+
+} // LandscapeScene::getObjectGraphicsItem
+
+
+/*---------------------------------------------------------------------------*/
+
+
+ObjectGraphicsItem*
+LandscapeScene::getObjectGraphicsItem( const QPointF& _scenePosition ) const
+{
+	ObjectsCollectionConstIterator
+			objectsBegin = m_objectsCollection.begin()
+		,	objectsEnd = m_objectsCollection.end();
+
+	for ( ; objectsBegin != objectsEnd; ++objectsBegin )
+	{
+		if ( objectsBegin->second->sceneBoundingRect().contains( _scenePosition ) )
+			return objectsBegin->second;
+	}
+
+	return NULL;
+
+} // LandscapeScene::getObjectGraphicsItem
 
 
 /*---------------------------------------------------------------------------*/
@@ -485,8 +530,8 @@ LandscapeScene::onObjectMoved( const Framework::Core::EventManager::Event& _even
 	const Core::LandscapeModel::TickType movingSpeed
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingSpeedAttribute ).toLongLong();
 
-	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
-	assert( iterator != m_objectsCollection.end() );
+	ObjectGraphicsItem* graphicsItem = getObjectGraphicsItem( id );
+	assert( graphicsItem );
 
 	const QPointF movedFromInScene( LandscapeScene::convertToScenePosition( movedFrom ) );
 	const QPointF movedToInScene( LandscapeScene::convertToScenePosition( movedTo ) );
@@ -501,7 +546,7 @@ LandscapeScene::onObjectMoved( const Framework::Core::EventManager::Event& _even
 					,	movedFromInScene.y() + ( ( movedToInScene.y() - movedFromInScene.y() ) * ( static_cast< float >( progress ) / movingSpeed ) ) )
 			,	name ) );
 
-	iterator->second->setPos( correctedPosition );
+	graphicsItem->setPos( correctedPosition );
 
 	regenerateTerrainMapLayer();
 
@@ -525,16 +570,16 @@ LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event
 		= static_cast< Plugins::Core::LandscapeModel::Direction::Enum >(
 			_event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectDirection ).toInt() );
 
-	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
+	ObjectGraphicsItem* graphicsItem = getObjectGraphicsItem( id );
 
-	if ( iterator == m_objectsCollection.end() )
+	if ( !graphicsItem )
 		return;
 
 	if (	state == Plugins::Core::LandscapeModel::ObjectState::Dying
 		||	state == Plugins::Core::LandscapeModel::ObjectState::Standing )
 	{
 		playAnimationOnce(
-				*iterator->second
+				*graphicsItem
 			,	m_environment.getString( Resources::Properties::SkinId )
 			,	name
 			,	state
@@ -543,7 +588,7 @@ LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event
 	else if ( state != Plugins::Core::LandscapeModel::ObjectState::Attacking )
 	{
 		playAnimation(
-				*iterator->second
+				*graphicsItem
 			,	m_environment.getString( Resources::Properties::SkinId )
 			,	name
 			,	state
@@ -578,11 +623,11 @@ LandscapeScene::onObjectReadyToAttack( const Framework::Core::EventManager::Even
 		= static_cast< Plugins::Core::LandscapeModel::Direction::Enum >(
 			_event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectDirection ).toInt() );
 
-	ObjectsCollectionIterator iterator = m_objectsCollection.find( id );
-	assert( iterator != m_objectsCollection.end() );
+	ObjectGraphicsItem* graphicsItem = getObjectGraphicsItem( id );
+	assert( graphicsItem );
 
 	playAnimationOnce(
-			*iterator->second
+			*graphicsItem
 		,	m_environment.getString( Resources::Properties::SkinId )
 		,	name
 		,	Core::LandscapeModel::ObjectState::Attacking
@@ -885,7 +930,7 @@ LandscapeScene::setCorrectSceneSize()
 void
 LandscapeScene::objectWasAdded( const Plugins::Core::LandscapeModel::Object::Id& _id, ObjectGraphicsItem* _item )
 {
-	assert( m_objectsCollection.find( _id ) == m_objectsCollection.end() );
+	assert( !getObjectGraphicsItem( _id ) );
 	m_objectsCollection.insert( std::make_pair( _id, _item ) );
 
 } // LandscapeScene::objectWasAdded
@@ -948,10 +993,10 @@ LandscapeScene::markSelectedObjects()
 
 		for ( ; selectedObjectsBegin != selectedObjectsEnd; ++selectedObjectsBegin )
 		{
-			ObjectsCollectionIterator iterator = m_objectsCollection.find( ( *selectedObjectsBegin )->getUniqueId() );
-			assert( iterator != m_objectsCollection.end() );
+			ObjectGraphicsItem* graphicsItem = getObjectGraphicsItem( ( *selectedObjectsBegin )->getUniqueId() );
+			assert( graphicsItem );
 
-			iterator->second->setGraphicsEffect( new QGraphicsColorizeEffect() );
+			graphicsItem->setGraphicsEffect( new QGraphicsColorizeEffect() );
 		}
 	}
 

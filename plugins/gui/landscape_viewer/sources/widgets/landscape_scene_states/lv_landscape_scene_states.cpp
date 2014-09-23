@@ -155,11 +155,24 @@ LandscapeSceneGameState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEven
 
 		if ( !objects.isEmpty() )
 		{
-			locker->getLandscapeModel()->pushCommand(
-				Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::Send )
-					.pushArgument( objects )
-					.pushArgument( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ) )
-					.pushArgument( !( _mouseEvent->modifiers() & Qt::ShiftModifier ) ) );
+			ObjectGraphicsItem* graphicsItem = m_scene.getObjectGraphicsItem( _mouseEvent->scenePos() );
+
+			if ( graphicsItem )
+			{
+				locker->getLandscapeModel()->pushCommand(
+					Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::SendToObject )
+						.pushArgument( objects )
+						.pushArgument( graphicsItem->getObjectId() )
+						.pushArgument( !( _mouseEvent->modifiers() & Qt::ShiftModifier ) ) );
+			}
+			else
+			{
+				locker->getLandscapeModel()->pushCommand(
+					Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::SendToPoint )
+						.pushArgument( objects )
+						.pushArgument( LandscapeScene::convertFromScenePosition( _mouseEvent->scenePos() ) )
+						.pushArgument( !( _mouseEvent->modifiers() & Qt::ShiftModifier ) ) );
+			}
 		}
 	}
 
