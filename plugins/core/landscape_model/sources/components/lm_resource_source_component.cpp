@@ -20,7 +20,7 @@ ResourceSourceComponent::ResourceSourceComponent(
 	:	BaseComponent< IResourceSourceComponent >( _object )
 	,	m_staticData( _staticData )
 	,	m_resourceValue( 20000 )
-	,	m_objectInside( Object::ms_wrongId )
+	,	m_objectInside( Tools::Core::Generators::IGenerator::ms_wrongId )
 {
 } // ResourceSourceComponent::ResourceSourceComponent
 
@@ -69,7 +69,7 @@ ResourceSourceComponent::setResourceValue( const int _value )
 /*---------------------------------------------------------------------------*/
 
 
-const Object::Id&
+const Tools::Core::Generators::IGenerator::IdType&
 ResourceSourceComponent::getObjectInside() const
 {
 	return m_objectInside;
@@ -81,7 +81,7 @@ ResourceSourceComponent::getObjectInside() const
 
 
 void
-ResourceSourceComponent::setObjectInside( const Object::Id& _id )
+ResourceSourceComponent::setObjectInside( const Tools::Core::Generators::IGenerator::IdType& _id )
 {
 	m_objectInside = _id;
 

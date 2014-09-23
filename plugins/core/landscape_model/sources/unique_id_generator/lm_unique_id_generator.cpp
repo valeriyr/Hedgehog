@@ -1,7 +1,7 @@
 
 #include "landscape_model/sources/ph/lm_ph.hpp"
 
-#include "landscape_model/sources/surface_item/lm_surface_item.hpp"
+#include "landscape_model/sources/unique_id_generator/lm_unique_id_generator.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -13,44 +13,32 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-SurfaceItem::SurfaceItem(
-		const Tools::Core::Generators::IGenerator::IdType _id
-	,	const TerrainMapItem::Enum _terrainMapItem
-	)
-	:	m_id( _id )
-	,	m_terrainMapItem( _terrainMapItem )
+UniqueIdGenerator::UniqueIdGenerator()
+	:	m_idCounter( 0 )
 {
-} // SurfaceItem::SurfaceItem
-
-
-/*---------------------------------------------------------------------------*/
-
-
-SurfaceItem::~SurfaceItem()
-{
-} // SurfaceItem::~SurfaceItem
+} // UniqueIdGenerator::UniqueIdGenerator
 
 
 /*---------------------------------------------------------------------------*/
 
 
 Tools::Core::Generators::IGenerator::IdType
-SurfaceItem::getId() const
+UniqueIdGenerator::generate()
 {
-	return m_id;
+	return ++m_idCounter;
 
-} // SurfaceItem::getId
+} // UniqueIdGenerator::generate
 
 
 /*---------------------------------------------------------------------------*/
 
 
-const TerrainMapItem::Enum
-SurfaceItem::getTerrainMapValue() const
+void
+UniqueIdGenerator::reset()
 {
-	return m_terrainMapItem;
+	m_idCounter = 0;
 
-} // SurfaceItem::getTerrainMapValue
+} // UniqueIdGenerator::reset
 
 
 /*---------------------------------------------------------------------------*/

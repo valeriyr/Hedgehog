@@ -26,7 +26,7 @@ static const TickType gs_tickLatency = 2;
 struct PlayerData
 {
 	PlayerData()
-		:	m_id( IPlayer::ms_wrondId )
+		:	m_id( Tools::Core::Generators::IGenerator::ms_wrongId )
 		,	m_type( PlayerType::Blocked )
 		,	m_name()
 		,	m_race()
@@ -35,7 +35,7 @@ struct PlayerData
 	{}
 
 	PlayerData(
-			const IPlayer::Id _id
+			const Tools::Core::Generators::IGenerator::IdType _id
 		,	const PlayerType::Enum _type
 		,	const QString _name
 		,	const QString _race
@@ -49,7 +49,7 @@ struct PlayerData
 	{}
 
 	PlayerData(
-			const IPlayer::Id _id
+			const Tools::Core::Generators::IGenerator::IdType _id
 		,	const PlayerType::Enum _type
 		,	const QString _name
 		,	const QString _race
@@ -74,7 +74,7 @@ struct PlayerData
 		return !m_address.isEmpty() && m_port != 0;
 	}
 
-	IPlayer::Id m_id;
+	Tools::Core::Generators::IGenerator::IdType m_id;
 
 	PlayerType::Enum m_type;
 
@@ -467,7 +467,7 @@ MultiPlayerMode::processConnectRequest(
 	}
 	else
 	{
-		connectResponce.pushArgument( IPlayer::ms_wrondId );
+		connectResponce.pushArgument( Tools::Core::Generators::IGenerator::ms_wrongId );
 	}
 
 	sendCommand( Framework::Core::NetworkManager::ConnectionInfo( _fromAddress, _fromPort ), connectResponce );
@@ -484,9 +484,9 @@ MultiPlayerMode::processConnectResponse(
 	,	const unsigned int _fromPort
 	,	const Command& _command )
 {
-	IPlayer::Id playerId = _command.m_arguments[ 0 ].toInt();
+	Tools::Core::Generators::IGenerator::IdType playerId = _command.m_arguments[ 0 ].toInt();
 
-	if ( playerId == IPlayer::ms_wrondId )
+	if ( playerId == Tools::Core::Generators::IGenerator::ms_wrongId )
 		return;
 
 	boost::intrusive_ptr< IModelLocker > locker = m_environment.lockModel();
@@ -541,7 +541,7 @@ MultiPlayerMode::processPlayerConnected(
 	,	const unsigned int _fromPort
 	,	const Command& _command )
 {
-	IPlayer::Id playerId = _command.m_arguments[ 0 ].toInt();
+	Tools::Core::Generators::IGenerator::IdType playerId = _command.m_arguments[ 0 ].toInt();
 	QString name = _command.m_arguments[ 1 ].toString();
 
 	m_environment.lockModel()->getLandscapeModel()
@@ -566,7 +566,7 @@ MultiPlayerMode::processDisconnect(
 	,	const unsigned int _fromPort
 	,	const Command& _command )
 {
-	IPlayer::Id playerId = _command.m_arguments[ 0 ].toInt();
+	Tools::Core::Generators::IGenerator::IdType playerId = _command.m_arguments[ 0 ].toInt();
 
 	m_connections.erase( playerId );
 
@@ -588,7 +588,7 @@ MultiPlayerMode::processPassCommands(
 	,	const unsigned int _fromPort
 	,	const Command& _command )
 {
-	IPlayer::Id playerId = _command.m_arguments[ 0 ].toInt();
+	Tools::Core::Generators::IGenerator::IdType playerId = _command.m_arguments[ 0 ].toInt();
 	TickType targetTick = _command.m_arguments[ 1 ].toInt();
 
 	if ( m_commandsQueue.hasCommands( playerId, targetTick ) )
@@ -653,7 +653,7 @@ MultiPlayerMode::processCommandsRequest(
 
 void
 MultiPlayerMode::spreadPlayerConnectedCommand(
-		const IPlayer::Id& _playerId
+		const Tools::Core::Generators::IGenerator::IdType& _playerId
 	,	const QString& _playerName
 	,	const QString& _playerAddress
 	,	const unsigned int _playerPort )

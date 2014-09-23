@@ -101,7 +101,7 @@ struct ILandscapeModel
 		PlayersCollection::const_iterator
 		PlayersCollectionIterator;
 
-	virtual boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const = 0;
+	virtual boost::intrusive_ptr< IPlayer > getPlayer( const Tools::Core::Generators::IGenerator::IdType& _id ) const = 0;
 
 	virtual boost::intrusive_ptr< IPlayer > getPlayer( const Object& _object ) const = 0;
 
@@ -119,7 +119,7 @@ struct ILandscapeModel
 
 /*---------------------------------------------------------------------------*/
 
-	virtual bool isMyObject( const Object::Id& _objectId ) const = 0;
+	virtual bool isMyObject( const Tools::Core::Generators::IGenerator::IdType& _objectId ) const = 0;
 
 	virtual bool isMyObject( boost::shared_ptr< Object > _object ) const = 0;
 

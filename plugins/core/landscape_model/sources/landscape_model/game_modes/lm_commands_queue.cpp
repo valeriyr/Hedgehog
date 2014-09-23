@@ -42,11 +42,11 @@ CommandsQueue::pushCommand( const Command& _command )
 
 
 void
-CommandsQueue::pushCommand( const IPlayer::Id& _playerId, const TickType& _targetTick, const Command& _command )
+CommandsQueue::pushCommand( const Tools::Core::Generators::IGenerator::IdType& _playerId, const TickType& _targetTick, const Command& _command )
 {
 	QMutexLocker locker( &m_mutex );
 
-	assert( _playerId != IPlayer::ms_wrondId );
+	assert( _playerId != Tools::Core::Generators::IGenerator::ms_wrongId );
 	assert( _playerId == _command.m_playerId );
 
 	CommandsByTickCollectionIterator iteratorByTick = m_commands.find( _targetTick );
@@ -68,7 +68,7 @@ CommandsQueue::pushCommand( const IPlayer::Id& _playerId, const TickType& _targe
 
 
 void
-CommandsQueue::ensureCommandsList( const IPlayer::Id& _playerId, const TickType& _targetTick )
+CommandsQueue::ensureCommandsList( const Tools::Core::Generators::IGenerator::IdType& _playerId, const TickType& _targetTick )
 {
 	QMutexLocker locker( &m_mutex );
 
@@ -103,7 +103,7 @@ CommandsQueue::fetchCommands( CommandsByTickCollection& _collection ) const
 
 void
 CommandsQueue::fetchPlayerCommands(
-		const IPlayer::Id& _playerId
+		const Tools::Core::Generators::IGenerator::IdType& _playerId
 	,	const TickType& _targetTick
 	,	CommandsCollection& _collection ) const
 {
@@ -179,7 +179,7 @@ CommandsQueue::hasCommands( const TickType& _targetTick ) const
 
 
 bool
-CommandsQueue::hasCommands( const IPlayer::Id& _playerId, const TickType& _targetTick ) const
+CommandsQueue::hasCommands( const Tools::Core::Generators::IGenerator::IdType& _playerId, const TickType& _targetTick ) const
 {
 	QMutexLocker locker( &const_cast< CommandsQueue* >( this )->m_mutex );
 

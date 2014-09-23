@@ -155,7 +155,7 @@ Landscape::getSurfaceItem( const QPoint& _point ) const
 void
 Landscape::setSurfaceItem(
 		const QPoint& _point
-	,	const ISurfaceItem::Id& _surfaceItemId )
+	,	const Tools::Core::Generators::IGenerator::IdType& _surfaceItemId )
 {
 	assert( _point.x() >= 0 );
 	assert( _point.y() >= 0 );
@@ -219,9 +219,9 @@ Landscape::getObject( const QPoint& _point ) const
 
 
 boost::shared_ptr< Object >
-Landscape::getObject( const Object::Id& _id ) const
+Landscape::getObject( const Tools::Core::Generators::IGenerator::IdType& _id ) const
 {
-	if ( _id == Object::ms_wrongId )
+	if ( _id == Tools::Core::Generators::IGenerator::ms_wrongId )
 		return boost::shared_ptr< Object >();
 
 	ILandscape::ObjectsCollectionIterator
@@ -296,8 +296,8 @@ Landscape::fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) co
 /*---------------------------------------------------------------------------*/
 
 
-Object::Id
-Landscape::createObject( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId )
+Tools::Core::Generators::IGenerator::IdType
+Landscape::createObject( const QString& _objectName, const QPoint& _location, const Tools::Core::Generators::IGenerator::IdType& _playerId )
 {
 	IStaticData::ObjectStaticData staticData = m_environment.getStaticData()->getObjectStaticData( _objectName );
 
@@ -320,7 +320,7 @@ Landscape::createObject( const QString& _objectName, const QPoint& _location, co
 		return object->getUniqueId();
 	}
 
-	return Object::ms_wrongId;
+	return Tools::Core::Generators::IGenerator::ms_wrongId;
 
 } // Landscape::createObject
 
@@ -328,8 +328,8 @@ Landscape::createObject( const QString& _objectName, const QPoint& _location, co
 /*---------------------------------------------------------------------------*/
 
 
-Object::Id
-Landscape::createObjectForBuilding( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId )
+Tools::Core::Generators::IGenerator::IdType
+Landscape::createObjectForBuilding( const QString& _objectName, const QPoint& _location, const Tools::Core::Generators::IGenerator::IdType& _playerId )
 {
 	boost::shared_ptr< Object > object = getObject( createObject( _objectName, _location, _playerId ) );
 
@@ -341,7 +341,7 @@ Landscape::createObjectForBuilding( const QString& _objectName, const QPoint& _l
 		return object->getUniqueId();
 	}
 
-	return Object::ms_wrongId;
+	return Tools::Core::Generators::IGenerator::ms_wrongId;
 
 } // Landscape::createObjectForBuilding
 
@@ -350,7 +350,7 @@ Landscape::createObjectForBuilding( const QString& _objectName, const QPoint& _l
 
 
 boost::shared_ptr< Object >
-Landscape::hideObject( const Object::Id& _id )
+Landscape::hideObject( const Tools::Core::Generators::IGenerator::IdType& _id )
 {
 	ILandscape::ObjectsCollectionIterator
 			begin = m_objects.begin()

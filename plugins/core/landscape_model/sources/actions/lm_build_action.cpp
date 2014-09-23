@@ -262,7 +262,7 @@ BuildAction::getType() const
 
 void
 BuildAction::startBuild(
-		const Object::Id& _id
+		const Tools::Core::Generators::IGenerator::IdType& _id
 	,	const QString& _objectName
 	,	const QPoint& _location )
 {
@@ -276,12 +276,12 @@ BuildAction::startBuild(
 
 			m_workersHolder.addWorker( object );
 
-			const Object::Id objectId
+			const Tools::Core::Generators::IGenerator::IdType objectId
 				= m_landscapeModel.getLandscape()->createObjectForBuilding(
 						_objectName
 					,	_location
 					,	object->getComponent< IPlayerComponent >( ComponentId::Player )->getPlayerId() );
-			assert( objectId != Object::ms_wrongId );
+			assert( objectId != Tools::Core::Generators::IGenerator::ms_wrongId );
 
 			boost::intrusive_ptr< IBuildComponent > buildComponent
 				= object->getComponent< IBuildComponent >( ComponentId::Build );
@@ -310,7 +310,7 @@ BuildAction::startBuild(
 
 
 void
-BuildAction::stopBuild( const Object::Id& _id )
+BuildAction::stopBuild( const Tools::Core::Generators::IGenerator::IdType& _id )
 {
 	if ( m_landscapeModel.getLandscape() )
 	{

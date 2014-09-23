@@ -11,6 +11,8 @@
 
 #include "landscape_model/h/lm_constants.hpp"
 
+#include "landscape_model/sources/unique_id_generator/lm_unique_id_generator.hpp"
+
 #include "multithreading_manager/h/mm_task_handle.hpp"
 
 #include "time/t_time.hpp"
@@ -100,7 +102,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const IPlayer::Id& _id ) const;
+	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const Tools::Core::Generators::IGenerator::IdType& _id ) const;
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const Object& _object ) const;
 
@@ -118,7 +120,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ bool isMyObject( const Object::Id& _objectId ) const;
+	/*virtual*/ bool isMyObject( const Tools::Core::Generators::IGenerator::IdType& _objectId ) const;
 
 	/*virtual*/ bool isMyObject( boost::shared_ptr< Object > _object ) const;
 
@@ -139,13 +141,13 @@ private:
 	/*virtual*/ boost::shared_ptr< Object > create(
 			const QString& _objectName
 		,	const QPoint& _location
-		,	const IPlayer::Id& _playerId );
+		,	const Tools::Core::Generators::IGenerator::IdType& _playerId );
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::shared_ptr< Object > getWorker( const Object::Id& _id ) const;
+	/*virtual*/ boost::shared_ptr< Object > getWorker( const Tools::Core::Generators::IGenerator::IdType& _id ) const;
 
-	/*virtual*/ void removeWorker( const Object::Id& _id );
+	/*virtual*/ void removeWorker( const Tools::Core::Generators::IGenerator::IdType& _id );
 
 	/*virtual*/ void addWorker( boost::shared_ptr< Object > _worker );
 
@@ -168,6 +170,8 @@ private:
 	void initPlayers();
 
 	void setupMyPlayer();
+
+	void initVictoryChecker( const VictoryCondition::Enum _condition );
 
 /*---------------------------------------------------------------------------*/
 
@@ -198,14 +202,14 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< Object::Id, boost::shared_ptr< Object > >
+		std::map< Tools::Core::Generators::IGenerator::IdType, boost::shared_ptr< Object > >
 		WorkersCollection;
 	typedef
 		WorkersCollection::const_iterator
 		WorkersCollectionIterator;
 
 	typedef
-		std::map< IPlayer::Id, boost::intrusive_ptr< Player > >
+		std::map< Tools::Core::Generators::IGenerator::IdType, boost::intrusive_ptr< Player > >
 		PlayersMap;
 	typedef
 		PlayersMap::const_iterator
@@ -214,6 +218,10 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
+
+	UniqueIdGenerator m_playersIdsGenerator;
+
+	UniqueIdGenerator m_objectsIdsGenerator;
 
 /*---------------------------------------------------------------------------*/
 
@@ -227,7 +235,7 @@ private:
 
 	PlayersMap m_players;
 
-	IPlayer::Id m_myPlayerId;
+	Tools::Core::Generators::IGenerator::IdType m_myPlayerId;
 
 	QMutex m_mutex;
 

@@ -32,14 +32,14 @@ public:
 
 	/*virtual*/ void regSurfaceItemGraphicsInfo(
 			const QString& _skinId
-		,	const Core::LandscapeModel::ISurfaceItem::Id& _id
+		,	const Tools::Core::Generators::IGenerator::IdType& _id
 		,	const QString& _atlasName
 		,	const QRect _frameRect );
 
 	/*virtual*/ boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 		getSurfaceItemGraphicsInfo(
 				const QString& _skinId
-			,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const;
+			,	const Tools::Core::Generators::IGenerator::IdType& _id ) const;
 
 	/*virtual*/ void fetchSurfaceItemGraphicsInfos(
 			const QString& _skinId
@@ -74,7 +74,7 @@ private:
 	struct SurfaceGraphicsInfo
 	{
 		typedef
-			std::map< Core::LandscapeModel::ISurfaceItem::Id, boost::intrusive_ptr< ISurfaceItemGraphicsInfo > >
+			std::map< Tools::Core::Generators::IGenerator::IdType, boost::intrusive_ptr< ISurfaceItemGraphicsInfo > >
 			SurfaceItemGraphicsInfoCollection;
 		typedef
 			SurfaceItemGraphicsInfoCollection::const_iterator

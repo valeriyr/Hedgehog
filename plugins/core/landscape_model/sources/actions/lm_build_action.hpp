@@ -61,11 +61,11 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	void startBuild(
-			const Object::Id& _id
+			const Tools::Core::Generators::IGenerator::IdType& _id
 		,	const QString& _objectName
 		,	const QPoint& _location );
 
-	void stopBuild( const Object::Id& _id );
+	void stopBuild( const Tools::Core::Generators::IGenerator::IdType& _id );
 
 /*---------------------------------------------------------------------------*/
 

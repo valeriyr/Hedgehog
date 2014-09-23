@@ -30,7 +30,7 @@ ObjectStatusView::ObjectStatusView( const IEnvironment& _environment )
 	,	m_subscriber( _environment.createSubscriber() )
 	,	m_viewTitle( Resources::Views::ObjectStatusViewTitle )
 	,	m_mainWidget( new QWidget() )
-	,	m_builderId( Core::LandscapeModel::Object::ms_wrongId )
+	,	m_builderId( Tools::Core::Generators::IGenerator::ms_wrongId )
 {
 	m_listWidget = new QListWidget();
 	m_label = new QLabel();
@@ -145,7 +145,7 @@ ObjectStatusView::onObjectsSelectionChanged( const Framework::Core::EventManager
 		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
 		handle->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
-		m_builderId = Core::LandscapeModel::Object::ms_wrongId;
+		m_builderId = Tools::Core::Generators::IGenerator::ms_wrongId;
 
 		if (	!selectedObjectsCollection.empty()
 			&&	( *selectedObjectsCollection.begin() )->getComponent< Core::LandscapeModel::ITrainComponent >( Core::LandscapeModel::ComponentId::Train )
@@ -198,7 +198,7 @@ ObjectStatusView::updateBuildQueue()
 {
 	clearBuildQueue();
 
-	if ( m_builderId != Core::LandscapeModel::Object::ms_wrongId )
+	if ( m_builderId != Tools::Core::Generators::IGenerator::ms_wrongId )
 	{
 		boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 			= m_environment.lockModel();
@@ -259,7 +259,7 @@ ObjectStatusView::updateProgressLabel()
 {
 	clearProgressLabel();
 
-	if ( m_builderId != Core::LandscapeModel::Object::ms_wrongId )
+	if ( m_builderId != Tools::Core::Generators::IGenerator::ms_wrongId )
 	{
 		boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 			= m_environment.lockModel();

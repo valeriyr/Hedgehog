@@ -22,7 +22,7 @@ struct IObjectCreator
 	virtual boost::shared_ptr< Object > create(
 				const QString& _objectName
 			,	const QPoint& _location
-			,	const IPlayer::Id& _playerId ) = 0;
+			,	const Tools::Core::Generators::IGenerator::IdType& _playerId ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

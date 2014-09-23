@@ -25,7 +25,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	SurfaceItemGraphicsInfo(
-			const Core::LandscapeModel::ISurfaceItem::Id& _id
+			const Tools::Core::Generators::IGenerator::IdType& _id
 		,	const QString& _atlasName
 		,	const QRect _frameRect );
 
@@ -33,7 +33,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const Core::LandscapeModel::ISurfaceItem::Id getId() const;
+	/*virtual*/ const Tools::Core::Generators::IGenerator::IdType getId() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,7 +47,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const Core::LandscapeModel::ISurfaceItem::Id m_id;
+	const Tools::Core::Generators::IGenerator::IdType m_id;
 
 	const QString m_atlasName;
 

@@ -48,14 +48,14 @@ struct IGraphicsInfo
 
 	virtual void regSurfaceItemGraphicsInfo(
 			const QString& _skinId
-		,	const Core::LandscapeModel::ISurfaceItem::Id& _id
+		,	const Tools::Core::Generators::IGenerator::IdType& _id
 		,	const QString& _atlasName
 		,	const QRect _frameRect ) = 0;
 
 	virtual boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 		getSurfaceItemGraphicsInfo(
 				const QString& _skinId
-			,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const = 0;
+			,	const Tools::Core::Generators::IGenerator::IdType& _id ) const = 0;
 
 	virtual void fetchSurfaceItemGraphicsInfos(
 			const QString& _skinId

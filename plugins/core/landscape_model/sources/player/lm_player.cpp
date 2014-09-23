@@ -16,20 +16,18 @@ namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
 
-/*---------------------------------------------------------------------------*/
-
-static IPlayer::Id IdGenerator = 0;
 
 /*---------------------------------------------------------------------------*/
 
 
 Player::Player(
 		const IEnvironment& _environment
+	,	const Tools::Core::Generators::IGenerator::IdType _id
 	,	const QString& _race
 	,	const StartPoint::Id& _startPointId
 	)
 	:	m_environment( _environment )
-	,	m_id( ++IdGenerator )
+	,	m_id( _id )
 	,	m_startPointId( _startPointId )
 	,	m_race( _race )
 	,	m_name( Resources::DefaultPlayerName )
@@ -47,7 +45,7 @@ Player::Player(
 
 Player::Player(
 		const IEnvironment& _environment
-	,	const IPlayer::Id _id
+	,	const Tools::Core::Generators::IGenerator::IdType _id
 	,	const StartPoint::Id& _startPointId
 	,	const PlayerType::Enum _type
 	,	const QString& _race
@@ -78,7 +76,7 @@ Player::~Player()
 /*---------------------------------------------------------------------------*/
 
 
-IPlayer::Id
+Tools::Core::Generators::IGenerator::IdType
 Player::getUniqueId() const
 {
 	return m_id;

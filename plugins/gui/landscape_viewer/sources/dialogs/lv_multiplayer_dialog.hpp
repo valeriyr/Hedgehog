@@ -32,7 +32,7 @@ class MultiplayerDialog
 			,	QComboBox& _type
 			,	QComboBox& _race
 			,	QComboBox& _color
-			,	const Core::LandscapeModel::IPlayer::Id& _id
+			,	const Tools::Core::Generators::IGenerator::IdType& _id
 			)
 			:	m_player( _player )
 			,	m_type( _type )
@@ -46,7 +46,7 @@ class MultiplayerDialog
 		QComboBox& m_race;
 		QComboBox& m_color;
 
-		const Core::LandscapeModel::IPlayer::Id m_id;
+		const Tools::Core::Generators::IGenerator::IdType m_id;
 	};
 
 /*---------------------------------------------------------------------------*/
@@ -154,7 +154,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< Core::LandscapeModel::IPlayer::Id, PlayerData >
+		std::map< Tools::Core::Generators::IGenerator::IdType, PlayerData >
 		PlayersDataCollection;
 	typedef
 		PlayersDataCollection::iterator

@@ -7,6 +7,8 @@
 #include "intrusive_base/ib_ibase.hpp"
 #include "landscape_model/h/lm_terrain_map_data.hpp"
 
+#include "generators/gn_igenerator.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -21,13 +23,7 @@ struct ISurfaceItem
 
 /*---------------------------------------------------------------------------*/
 
-	typedef int Id;
-
-	static const Id ms_invalidId = -1;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual Id getId() const = 0;
+	virtual Tools::Core::Generators::IGenerator::IdType getId() const = 0;
 
 	virtual const TerrainMapItem::Enum getTerrainMapValue() const = 0;
 

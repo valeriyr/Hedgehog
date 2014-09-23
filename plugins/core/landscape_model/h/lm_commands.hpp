@@ -206,7 +206,7 @@ struct Command
 		,	m_arguments()
 		,	m_timeStamp( 0 )
 		,	m_targetTick( 0 )
-		,	m_playerId( IPlayer::ms_wrondId )
+		,	m_playerId( Tools::Core::Generators::IGenerator::ms_wrongId )
 		,	m_sourceConnectionInfo()
 	{}
 
@@ -251,7 +251,7 @@ struct Command
 
 	TickType m_targetTick;
 
-	IPlayer::Id m_playerId;
+	Tools::Core::Generators::IGenerator::IdType m_playerId;
 
 	Framework::Core::NetworkManager::ConnectionInfo m_sourceConnectionInfo;
 

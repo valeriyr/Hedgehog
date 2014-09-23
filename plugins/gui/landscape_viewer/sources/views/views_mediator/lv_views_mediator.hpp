@@ -45,13 +45,13 @@ signals:
 
 	void visibilityRectChangedPosition( const float _visibleWidth, const float _visibleHeight );
 
-	void currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& _id );
+	void currentSurfaceItemWasChanged( const Tools::Core::Generators::IGenerator::IdType& _id );
 
 	void currentObjectWasChanged( const QString& _name );
 
 	void controlItemSelected();
 
-	void buildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id _builderId, const QString& _objectName );
+	void buildObjectButtonPressed( const Tools::Core::Generators::IGenerator::IdType _builderId, const QString& _objectName );
 
 /*---------------------------------------------------------------------------*/
 

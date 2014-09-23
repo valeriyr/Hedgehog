@@ -37,20 +37,20 @@ class TrainObjectItem
 public:
 
 	TrainObjectItem(
-			const Core::LandscapeModel::Object::Id& _parentObjectId
+			const Tools::Core::Generators::IGenerator::IdType& _parentObjectId
 		,	const QString& _targetObjectName
 		)
 		:	m_parentObjectId( _parentObjectId )
 		,	m_targetObjectName( _targetObjectName )
 	{}
 
-	const Core::LandscapeModel::Object::Id& getParentObjectId() const { return m_parentObjectId; }
+	const Tools::Core::Generators::IGenerator::IdType& getParentObjectId() const { return m_parentObjectId; }
 
 	const QString& getTargetObjectName() const { return m_targetObjectName; }
 
 private:
 
-	const Core::LandscapeModel::Object::Id m_parentObjectId;
+	const Tools::Core::Generators::IGenerator::IdType m_parentObjectId;
 
 	const QString m_targetObjectName;
 };
@@ -65,20 +65,20 @@ class BuildObjectItem
 public:
 
 	BuildObjectItem(
-			const Core::LandscapeModel::Object::Id& _builderId
+			const Tools::Core::Generators::IGenerator::IdType& _builderId
 		,	const QString& _targetObjectName
 		)
 		:	m_builderId( _builderId )
 		,	m_targetObjectName( _targetObjectName )
 	{}
 
-	const Core::LandscapeModel::Object::Id& getBuilderId() const { return m_builderId; }
+	const Tools::Core::Generators::IGenerator::IdType& getBuilderId() const { return m_builderId; }
 
 	const QString& getTargetObjectName() const { return m_targetObjectName; }
 
 private:
 
-	const Core::LandscapeModel::Object::Id m_builderId;
+	const Tools::Core::Generators::IGenerator::IdType m_builderId;
 
 	const QString m_targetObjectName;
 };
@@ -92,7 +92,7 @@ ActionPanelView::ActionPanelView( const IEnvironment& _environment, ViewsMediato
 	,	m_subscriber( _environment.createSubscriber() )
 	,	m_viewTitle( Resources::Views::ActionPanelViewTitle )
 	,	m_mainWidget( new QListWidget() )
-	,	m_showingObjectId( Core::LandscapeModel::Object::ms_wrongId )
+	,	m_showingObjectId( Tools::Core::Generators::IGenerator::ms_wrongId )
 {
 	m_mainWidget->setViewMode( QListView::IconMode );
 
@@ -176,7 +176,7 @@ void
 ActionPanelView::landscapeWasClosed()
 {
 	m_subscriber.unsubscribe();
-	updateView( Core::LandscapeModel::Object::ms_wrongId );
+	updateView( Tools::Core::Generators::IGenerator::ms_wrongId );
 
 } // ActionPanelView::landscapeWasClosed
 
@@ -225,7 +225,7 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 
 		if ( selectedObjectsCollection.empty() )
 		{
-			updateView( Core::LandscapeModel::Object::ms_wrongId );
+			updateView( Tools::Core::Generators::IGenerator::ms_wrongId );
 		}
 		else
 		{
@@ -242,7 +242,7 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 void
 ActionPanelView::onObjectStateChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::Id objectId
+	const Tools::Core::Generators::IGenerator::IdType objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -255,19 +255,19 @@ ActionPanelView::onObjectStateChanged( const Framework::Core::EventManager::Even
 
 
 void
-ActionPanelView::updateView( const Core::LandscapeModel::Object::Id& _objectId )
+ActionPanelView::updateView( const Tools::Core::Generators::IGenerator::IdType& _objectId )
 {
 	m_mainWidget->clear();
 
 	m_showingObjectId = _objectId;
 
-	if ( _objectId == Core::LandscapeModel::Object::ms_wrongId )
+	if ( _objectId == Tools::Core::Generators::IGenerator::ms_wrongId )
 		return;
 
 	boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent;
 	boost::intrusive_ptr< Core::LandscapeModel::IBuildComponent > buildComponent;
 
-	Core::LandscapeModel::Object::Id parentObjectId = Core::LandscapeModel::Object::ms_wrongId;
+	Tools::Core::Generators::IGenerator::IdType parentObjectId = Tools::Core::Generators::IGenerator::ms_wrongId;
 
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();

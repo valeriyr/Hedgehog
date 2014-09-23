@@ -251,7 +251,7 @@ MultiplayerDialog::onVictoryConditionChanged( const QString& _condition )
 void
 MultiplayerDialog::onPlayerNameChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const Core::LandscapeModel::IPlayer::Id id
+	const Tools::Core::Generators::IGenerator::IdType id
 		= _event.getAttribute( Core::LandscapeModel::Events::PlayerNameChanged::ms_playerIdAttribute ).toInt();
 	const Core::LandscapeModel::StartPoint::Id startPointid
 		= _event.getAttribute( Core::LandscapeModel::Events::PlayerNameChanged::ms_startPointIdAttribute ).toInt();
@@ -309,7 +309,7 @@ MultiplayerDialog::onSimulationStarted( const Framework::Core::EventManager::Eve
 void
 MultiplayerDialog::onPlayerRaceChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const Core::LandscapeModel::IPlayer::Id id
+	const Tools::Core::Generators::IGenerator::IdType id
 		= _event.getAttribute( Core::LandscapeModel::Events::PlayerRaceChanged::ms_playerIdAttribute ).toInt();
 	const QString race
 		= _event.getAttribute( Core::LandscapeModel::Events::PlayerRaceChanged::ms_playerRaceAttribute).toString();
@@ -332,7 +332,7 @@ MultiplayerDialog::onPlayerRaceChanged( const Framework::Core::EventManager::Eve
 void
 MultiplayerDialog::onPlayerTypeChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const Core::LandscapeModel::IPlayer::Id id
+	const Tools::Core::Generators::IGenerator::IdType id
 		= _event.getAttribute( Core::LandscapeModel::Events::PlayerTypeChanged::ms_playerIdAttribute ).toInt();
 	const Core::LandscapeModel::PlayerType::Enum type = static_cast< Core::LandscapeModel::PlayerType::Enum >(
 		_event.getAttribute( Core::LandscapeModel::Events::PlayerTypeChanged::ms_playerTypeAttribute ).toInt() );
@@ -644,6 +644,8 @@ MultiplayerDialog::updateWidgetsStates()
 
 	m_startButton->setEnabled( startButtonEnabled );
 	m_cancelButton->setEnabled( isConfigurated );
+
+	m_victoryCondition->setEnabled( isConfigurated );
 
 	PlayersDataCollectionIterator
 			begin = m_playersData.begin()

@@ -44,9 +44,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const Object::Id& getObjectInside() const;
+	/*virtual*/ const Tools::Core::Generators::IGenerator::IdType& getObjectInside() const;
 
-	/*virtual*/ void setObjectInside( const Object::Id& _id );
+	/*virtual*/ void setObjectInside( const Tools::Core::Generators::IGenerator::IdType& _id );
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,7 +58,7 @@ private:
 
 	int m_resourceValue;
 
-	Object::Id m_objectInside;
+	Tools::Core::Generators::IGenerator::IdType m_objectInside;
 
 /*---------------------------------------------------------------------------*/
 

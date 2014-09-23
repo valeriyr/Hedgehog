@@ -124,7 +124,7 @@ private:
 		,	const Command& _command );
 
 	void spreadPlayerConnectedCommand(
-			const IPlayer::Id& _playerId
+			const Tools::Core::Generators::IGenerator::IdType& _playerId
 		,	const QString& _playerName
 		,	const QString& _playerAddress
 		,	const unsigned int _playerPort );
@@ -143,7 +143,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< IPlayer::Id, Framework::Core::NetworkManager::ConnectionInfo >
+		std::map< Tools::Core::Generators::IGenerator::IdType, Framework::Core::NetworkManager::ConnectionInfo >
 		ConnectionsInfosCollection;
 	typedef
 		ConnectionsInfosCollection::const_iterator

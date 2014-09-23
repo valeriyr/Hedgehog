@@ -1,19 +1,19 @@
 
-#ifndef __GN_UNIQUE_ID_GENERATOR_HPP__
-#define __GN_UNIQUE_ID_GENERATOR_HPP__
+#ifndef __LM_UNIQUE_ID_GENERATOR_HPP__
+#define __LM_UNIQUE_ID_GENERATOR_HPP__
 
 #include "generators/gn_igenerator.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Tools {
+namespace Plugins {
 namespace Core {
-namespace Generators {
+namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
 class UniqueIdGenerator
-	:	public IGenerator
+	:	public Tools::Core::Generators::IGenerator
 {
 
 /*---------------------------------------------------------------------------*/
@@ -22,9 +22,13 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ IdType generate() { return 0; }
+	UniqueIdGenerator();
 
-	/*virtual*/ reset() {}
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ Tools::Core::Generators::IGenerator::IdType generate();
+
+	/*virtual*/ void reset();
 
 /*---------------------------------------------------------------------------*/
 
@@ -32,15 +36,17 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	Tools::Core::Generators::IGenerator::IdType m_idCounter;
+
 /*---------------------------------------------------------------------------*/
 
 };
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace Generators
+} // namespace LandscapeModel
 } // namespace Core
-} // namespace Tools
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 

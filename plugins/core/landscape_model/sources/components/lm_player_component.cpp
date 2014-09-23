@@ -16,7 +16,7 @@ namespace LandscapeModel {
 PlayerComponent::PlayerComponent(
 		Object& _object
 	,	const IPlayerComponent::StaticData& _staticData
-	,	const IPlayer::Id& _playerId
+	,	const Tools::Core::Generators::IGenerator::IdType& _playerId
 	)
 	:	BaseComponent< IPlayerComponent >( _object )
 	,	m_staticData( _staticData )
@@ -47,7 +47,7 @@ PlayerComponent::getStaticData() const
 /*---------------------------------------------------------------------------*/
 
 
-IPlayer::Id
+Tools::Core::Generators::IGenerator::IdType
 PlayerComponent::getPlayerId() const
 {
 	return m_playerId;

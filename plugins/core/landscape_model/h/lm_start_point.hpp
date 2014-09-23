@@ -12,7 +12,7 @@ namespace LandscapeModel {
 
 struct StartPoint
 {
-	typedef int Id;
+	typedef qint32 Id;
 
 	StartPoint( const Id _id, const QPoint _point )
 		:	m_id( _id )

@@ -53,9 +53,9 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, const ViewsMedia
 
 	QObject::connect(
 			&m_viewsMediator
-		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& ) )
+		,	SIGNAL( currentSurfaceItemWasChanged( const Tools::Core::Generators::IGenerator::IdType& ) )
 		,	m_landscapeScene.get()
-		,	SLOT( onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& ) ) );
+		,	SLOT( onChangeSurfaceItem( const Tools::Core::Generators::IGenerator::IdType& ) ) );
 
 	QObject::connect(
 			&m_viewsMediator
@@ -71,9 +71,9 @@ LandscapeView::LandscapeView( const IEnvironment& _environment, const ViewsMedia
 
 	QObject::connect(
 			&m_viewsMediator
-		,	SIGNAL( buildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id, const QString& ) )
+		,	SIGNAL( buildObjectButtonPressed( const Tools::Core::Generators::IGenerator::IdType, const QString& ) )
 		,	m_landscapeScene.get()
-		,	SLOT( onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id, const QString& ) ) );
+		,	SLOT( onBuildObjectButtonPressed( const Tools::Core::Generators::IGenerator::IdType, const QString& ) ) );
 
 } // LandscapeView::LandscapeView
 
@@ -109,9 +109,9 @@ LandscapeView::~LandscapeView()
 
 	QObject::disconnect(
 			&m_viewsMediator
-		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& ) )
+		,	SIGNAL( currentSurfaceItemWasChanged( const Tools::Core::Generators::IGenerator::IdType& ) )
 		,	m_landscapeScene.get()
-		,	SLOT( onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& ) ) );
+		,	SLOT( onChangeSurfaceItem( const Tools::Core::Generators::IGenerator::IdType& ) ) );
 
 	QObject::disconnect(
 			&m_viewsMediator
@@ -127,9 +127,9 @@ LandscapeView::~LandscapeView()
 
 	QObject::disconnect(
 			&m_viewsMediator
-		,	SIGNAL( buildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id, const QString& ) )
+		,	SIGNAL( buildObjectButtonPressed( const Tools::Core::Generators::IGenerator::IdType, const QString& ) )
 		,	m_landscapeScene.get()
-		,	SLOT( onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id, const QString& ) ) );
+		,	SLOT( onBuildObjectButtonPressed( const Tools::Core::Generators::IGenerator::IdType, const QString& ) ) );
 
 } // LandscapeView::~LandscapeView
 

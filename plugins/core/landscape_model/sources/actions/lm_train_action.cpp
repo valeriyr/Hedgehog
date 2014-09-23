@@ -137,7 +137,7 @@ TrainAction::processAction()
 
 			m_landscapeModel.processCommand(
 					Command( CommandId::CreateObject )
-						.pushArgument( playerComponent ? playerComponent->getPlayerId() : IPlayer::ms_wrondId )
+						.pushArgument( playerComponent ? playerComponent->getPlayerId() : Tools::Core::Generators::IGenerator::ms_wrongId )
 						.pushArgument( trainData.m_trainingObjectName )
 						.pushArgument( m_landscapeModel.getLandscape()->getNearestLocation( m_object, trainData.m_trainingObjectName ) ) );
 

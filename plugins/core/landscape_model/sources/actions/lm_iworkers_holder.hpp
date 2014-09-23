@@ -19,9 +19,9 @@ struct IWorkersHolder
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::shared_ptr< Object > getWorker( const Object::Id& _id ) const = 0;
+	virtual boost::shared_ptr< Object > getWorker( const Tools::Core::Generators::IGenerator::IdType& _id ) const = 0;
 
-	virtual void removeWorker( const Object::Id& _id ) = 0;
+	virtual void removeWorker( const Tools::Core::Generators::IGenerator::IdType& _id ) = 0;
 
 	virtual void addWorker( boost::shared_ptr< Object > _worker ) = 0;
 

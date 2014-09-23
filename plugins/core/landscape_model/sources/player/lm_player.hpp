@@ -32,12 +32,13 @@ public:
 
 	Player(
 			const IEnvironment& _environment
+		,	const Tools::Core::Generators::IGenerator::IdType _id
 		,	const QString& _race
 		,	const StartPoint::Id& _startPointId );
 
 	Player(
 			const IEnvironment& _environment
-		,	const IPlayer::Id _id
+		,	const Tools::Core::Generators::IGenerator::IdType _id
 		,	const StartPoint::Id& _startPointId
 		,	const PlayerType::Enum _type
 		,	const QString& _race
@@ -47,7 +48,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ IPlayer::Id getUniqueId() const;
+	/*virtual*/ Tools::Core::Generators::IGenerator::IdType getUniqueId() const;
 
 	/*virtual*/ PlayerType::Enum getType() const;
 
@@ -93,7 +94,7 @@ private:
 
 	const IEnvironment& m_environment;
 
-	const IPlayer::Id m_id;
+	const Tools::Core::Generators::IGenerator::IdType m_id;
 
 	const StartPoint::Id m_startPointId;
 

@@ -108,7 +108,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generators", "Generators", "{490CC4F0-6D9D-4326-86CE-29FC1A8B4787}"
 	ProjectSection(SolutionItems) = preProject
 		tools\core\generators\gn_igenerator.hpp = tools\core\generators\gn_igenerator.hpp
-		tools\core\generators\gn_unique_id_generator.hpp = tools\core\generators\gn_unique_id_generator.hpp
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Streaming", "Streaming", "{71AC2B48-DEFC-4205-912A-4570AFED0FDD}"

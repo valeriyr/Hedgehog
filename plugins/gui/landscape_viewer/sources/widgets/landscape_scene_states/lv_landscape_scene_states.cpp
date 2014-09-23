@@ -234,7 +234,7 @@ LandscapeSceneGameState::isInSceneRect( const QPointF& _point ) const
 
 LandscapeSurfaceItemEditingState::LandscapeSurfaceItemEditingState(	const IEnvironment& _environment
 																,	LandscapeScene& _scene
-																,	const Plugins::Core::LandscapeModel::ISurfaceItem::Id& _id )
+																,	const Tools::Core::Generators::IGenerator::IdType& _id )
 	:	m_environment( _environment )
 	,	m_scene( _scene )
 	,	m_id( _id )
@@ -537,7 +537,7 @@ LandscapeObjectEditingState::setNewItemInPosition( const QPointF& _point )
 LandscapeObjectBuildState::LandscapeObjectBuildState(
 		const IEnvironment& _environment
 	,	LandscapeScene& _scene
-	,	const Core::LandscapeModel::Object::Id& _builderId
+	,	const Tools::Core::Generators::IGenerator::IdType& _builderId
 	,	const QString& _name
 	)
 	:	m_environment( _environment )

@@ -82,6 +82,9 @@
     <Filter Include="AI\Ai Goals">
       <UniqueIdentifier>{093a34ec-0fd1-4613-86ad-21f6551a84c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Unique Id Generator">
+      <UniqueIdentifier>{1542f7b9-24d2-48e6-bee5-c080af2f0071}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\ph\lm_ph.cpp">
@@ -230,6 +233,9 @@
     </ClCompile>
     <ClCompile Include="sources\ai\ai_goals\lm_wait_goal.cpp">
       <Filter>AI\Ai Goals</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\unique_id_generator\lm_unique_id_generator.cpp">
+      <Filter>Unique Id Generator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -538,6 +544,9 @@
     </ClInclude>
     <ClInclude Include="sources\ai\ai_goals\lm_wait_goal.hpp">
       <Filter>AI\Ai Goals</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\unique_id_generator\lm_unique_id_generator.hpp">
+      <Filter>Unique Id Generator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

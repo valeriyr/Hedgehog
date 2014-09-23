@@ -10,6 +10,8 @@
 #include "landscape_model/h/lm_start_point.hpp"
 #include "landscape_model/h/lm_player_type.hpp"
 
+#include "generators/gn_igenerator.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -24,12 +26,7 @@ struct IPlayer
 
 /*---------------------------------------------------------------------------*/
 
-	typedef int Id;
-	static const int ms_wrondId = -1;
-
-/*---------------------------------------------------------------------------*/
-
-	virtual Id getUniqueId() const = 0;
+	virtual Tools::Core::Generators::IGenerator::IdType getUniqueId() const = 0;
 
 	virtual PlayerType::Enum getType() const = 0;
 

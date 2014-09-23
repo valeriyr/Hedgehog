@@ -280,7 +280,7 @@ ReplaySerializer::onLandscapeElement( QString& _landscapeName, const QString& _n
 void
 ReplaySerializer::onPlayerElement(
 		ILandscapeModel::PlayersCollection& _players
-	,	const IPlayer::Id& _id
+	,	const Tools::Core::Generators::IGenerator::IdType& _id
 	,	const StartPoint::Id& _startPointId
 	,	const int _type
 	,	const QString& _race
@@ -307,7 +307,7 @@ ReplaySerializer::onCommandElement(
 		CommandsQueue& _commands
 	,	const TickType& _targetTick
 	,	const QString& _commandName
-	,	const IPlayer::Id& _playerId
+	,	const Tools::Core::Generators::IGenerator::IdType& _playerId
 	,	const Tools::Core::Time::Milliseconds _timestamp
 	,	const Tools::Core::XmlLibrary::ChildTagsStringAttributeExtructor::ResultCollection& _arguments ) const
 

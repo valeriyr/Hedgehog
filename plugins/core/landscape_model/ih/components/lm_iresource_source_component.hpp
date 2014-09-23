@@ -43,9 +43,9 @@ struct IResourceSourceComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const Object::Id& getObjectInside() const = 0;
+	virtual const Tools::Core::Generators::IGenerator::IdType& getObjectInside() const = 0;
 
-	virtual void setObjectInside( const Object::Id& _id ) = 0;
+	virtual void setObjectInside( const Tools::Core::Generators::IGenerator::IdType& _id ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

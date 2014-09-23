@@ -32,7 +32,7 @@ struct IPlayerComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual IPlayer::Id getPlayerId() const = 0;
+	virtual Tools::Core::Generators::IGenerator::IdType getPlayerId() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

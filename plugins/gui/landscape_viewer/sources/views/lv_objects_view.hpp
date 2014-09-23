@@ -68,7 +68,7 @@ signals:
 
 /*---------------------------------------------------------------------------*/
 
-	void currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& _id );
+	void currentSurfaceItemWasChanged( const Tools::Core::Generators::IGenerator::IdType& _id );
 
 	void currentObjectWasChanged( const QString& _name );
 

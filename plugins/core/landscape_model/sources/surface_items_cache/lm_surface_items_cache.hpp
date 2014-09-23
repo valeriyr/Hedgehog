@@ -31,17 +31,17 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void regSurfaceItem(
-			const ISurfaceItem::Id _id
+			const Tools::Core::Generators::IGenerator::IdType _id
 		,	const TerrainMapItem::Enum _terrainMapItem );
 
 	/*virtual*/ boost::intrusive_ptr< ISurfaceItem >
-		getSurfaceItem( const ISurfaceItem::Id _id ) const;
+		getSurfaceItem( const Tools::Core::Generators::IGenerator::IdType _id ) const;
 
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< ISurfaceItem > getDefaultSurfaceItem() const;
 
-	/*virtual*/ void setDefaultSurfaceItem( const ISurfaceItem::Id _id );
+	/*virtual*/ void setDefaultSurfaceItem( const Tools::Core::Generators::IGenerator::IdType _id );
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,7 +50,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< ISurfaceItem::Id, boost::intrusive_ptr< ISurfaceItem > >
+		std::map< Tools::Core::Generators::IGenerator::IdType, boost::intrusive_ptr< ISurfaceItem > >
 		SurfaceItemsCollection;
 	typedef
 		SurfaceItemsCollection::const_iterator

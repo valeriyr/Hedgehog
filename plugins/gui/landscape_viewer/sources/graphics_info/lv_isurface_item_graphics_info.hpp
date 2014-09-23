@@ -21,7 +21,7 @@ struct ISurfaceItemGraphicsInfo
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const Core::LandscapeModel::ISurfaceItem::Id getId() const = 0;
+	virtual const Tools::Core::Generators::IGenerator::IdType getId() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

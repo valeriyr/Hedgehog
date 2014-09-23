@@ -111,7 +111,7 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual const Core::LandscapeModel::ISurfaceItem::Id
+	virtual const Tools::Core::Generators::IGenerator::IdType
 		getDefaultSurfaceItemId() const = 0;
 
 /*---------------------------------------------------------------------------*/

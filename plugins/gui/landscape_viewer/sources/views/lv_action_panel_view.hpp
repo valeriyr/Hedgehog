@@ -80,7 +80,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void updateView( const Core::LandscapeModel::Object::Id& _objectId );
+	void updateView( const Tools::Core::Generators::IGenerator::IdType& _objectId );
 
 /*---------------------------------------------------------------------------*/
 
@@ -98,7 +98,7 @@ private:
 
 	boost::shared_ptr< QListWidget > m_mainWidget;
 
-	Core::LandscapeModel::Object::Id m_showingObjectId;
+	Tools::Core::Generators::IGenerator::IdType m_showingObjectId;
 
 /*---------------------------------------------------------------------------*/
 

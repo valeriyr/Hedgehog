@@ -17,11 +17,13 @@ struct IGenerator
 
 	typedef qint32 IdType;
 
+	static const IdType ms_wrongId = -1;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual IdType generate() = 0;
 
-	virtual reset() = 0;
+	virtual void reset() = 0;
 
 /*---------------------------------------------------------------------------*/
 

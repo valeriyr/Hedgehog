@@ -71,6 +71,7 @@
     <ClCompile Include="sources\static_data\lm_static_data.cpp" />
     <ClCompile Include="sources\surface_items_cache\lm_surface_items_cache.cpp" />
     <ClCompile Include="sources\surface_item\lm_surface_item.cpp" />
+    <ClCompile Include="sources\unique_id_generator\lm_unique_id_generator.cpp" />
     <ClCompile Include="sources\utils\lm_geometry.cpp" />
     <ClCompile Include="sources\utils\lm_math.cpp" />
   </ItemGroup>
@@ -175,6 +176,7 @@
     <ClInclude Include="sources\static_data\lm_static_data.hpp" />
     <ClInclude Include="sources\surface_items_cache\lm_surface_items_cache.hpp" />
     <ClInclude Include="sources\surface_item\lm_surface_item.hpp" />
+    <ClInclude Include="sources\unique_id_generator\lm_unique_id_generator.hpp" />
     <ClInclude Include="sources\utils\lm_geometry.hpp" />
     <ClInclude Include="sources\utils\lm_math.hpp" />
   </ItemGroup>

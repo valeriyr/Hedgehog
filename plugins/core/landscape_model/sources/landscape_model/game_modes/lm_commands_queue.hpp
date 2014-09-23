@@ -36,7 +36,7 @@ public:
 		CommandsCollectionConstIterator;
 
 	typedef
-		std::map< IPlayer::Id, CommandsCollection >
+		std::map< Tools::Core::Generators::IGenerator::IdType, CommandsCollection >
 		CommandsByPlayerCollection;
 	typedef
 		CommandsByPlayerCollection::iterator
@@ -76,14 +76,14 @@ public:
 
 	void pushCommand( const Command& _command );
 
-	void pushCommand( const IPlayer::Id& _playerId, const TickType& _targetTick, const Command& _command );
+	void pushCommand( const Tools::Core::Generators::IGenerator::IdType& _playerId, const TickType& _targetTick, const Command& _command );
 
-	void ensureCommandsList( const IPlayer::Id& _playerId, const TickType& _targetTick );
+	void ensureCommandsList( const Tools::Core::Generators::IGenerator::IdType& _playerId, const TickType& _targetTick );
 
 	void fetchCommands( CommandsByTickCollection& _collection ) const;
 
 	void fetchPlayerCommands(
-			const IPlayer::Id& _playerId
+			const Tools::Core::Generators::IGenerator::IdType& _playerId
 		,	const TickType& _targetTick
 		,	CommandsCollection& _collection ) const;
 
@@ -95,7 +95,7 @@ public:
 
 	bool hasCommands( const TickType& _targetTick ) const;
 
-	bool hasCommands( const IPlayer::Id& _playerId, const TickType& _targetTick ) const;
+	bool hasCommands( const Tools::Core::Generators::IGenerator::IdType& _playerId, const TickType& _targetTick ) const;
 
 /*---------------------------------------------------------------------------*/
 

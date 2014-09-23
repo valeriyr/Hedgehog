@@ -57,7 +57,7 @@ public:
 
 	/*virtual*/ void setSurfaceItem(
 			const QPoint& _point
-		,	const ISurfaceItem::Id& _surfaceItemId );
+		,	const Tools::Core::Generators::IGenerator::IdType& _surfaceItemId );
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,7 +69,7 @@ public:
 
 	/*virtual*/ boost::shared_ptr< Object > getObject( const QPoint& _point ) const;
 
-	/*virtual*/ boost::shared_ptr< Object > getObject( const Object::Id& _id ) const;
+	/*virtual*/ boost::shared_ptr< Object > getObject( const Tools::Core::Generators::IGenerator::IdType& _id ) const;
 
 	/*virtual*/ int getObjectsCount() const;
 
@@ -79,11 +79,11 @@ public:
 
 	/*virtual*/ void fetchSelectedObjects( ILandscape::ObjectsCollection& _collection ) const;
 
-	/*virtual*/ Object::Id createObject( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId );
+	/*virtual*/ Tools::Core::Generators::IGenerator::IdType createObject( const QString& _objectName, const QPoint& _location, const Tools::Core::Generators::IGenerator::IdType& _playerId );
 
-	/*virtual*/ Object::Id createObjectForBuilding( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId );
+	/*virtual*/ Tools::Core::Generators::IGenerator::IdType createObjectForBuilding( const QString& _objectName, const QPoint& _location, const Tools::Core::Generators::IGenerator::IdType& _playerId );
 
-	/*virtual*/ boost::shared_ptr< Object > hideObject( const Object::Id& _id );
+	/*virtual*/ boost::shared_ptr< Object > hideObject( const Tools::Core::Generators::IGenerator::IdType& _id );
 
 	/*virtual*/ void showObject( boost::shared_ptr< Object > _object );
 

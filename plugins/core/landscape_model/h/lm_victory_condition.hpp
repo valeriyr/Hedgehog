@@ -16,11 +16,11 @@ struct VictoryCondition
 	{
 			Undefined = 0
 
-		,	StayAlone
 		,	Endless
+		,	StayAlone
 
 		,	Size
-		,	Begin = StayAlone
+		,	Begin = Endless
 	};
 
 	static QString toString( const Enum _enum )

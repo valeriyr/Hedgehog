@@ -43,7 +43,7 @@ GraphicsInfo::~GraphicsInfo()
 void
 GraphicsInfo::regSurfaceItemGraphicsInfo(
 		const QString& _skinId
-	,	const Core::LandscapeModel::ISurfaceItem::Id& _id
+	,	const Tools::Core::Generators::IGenerator::IdType& _id
 	,	const QString& _atlasName
 	,	const QRect _frameRect )
 {
@@ -69,7 +69,7 @@ GraphicsInfo::regSurfaceItemGraphicsInfo(
 boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
 GraphicsInfo::getSurfaceItemGraphicsInfo(
 		const QString& _skinId
-	,	const Core::LandscapeModel::ISurfaceItem::Id& _id ) const
+	,	const Tools::Core::Generators::IGenerator::IdType& _id ) const
 {
 	SurfaceGraphicsInfoCollectionConstIterator graphicsInfoIterator = m_surfaceGraphicsInfoCollection.find( _skinId );
 

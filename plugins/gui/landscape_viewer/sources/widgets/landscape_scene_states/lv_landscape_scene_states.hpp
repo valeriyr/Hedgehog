@@ -92,7 +92,7 @@ public:
 
 	LandscapeSurfaceItemEditingState( const IEnvironment& _environment
 									, LandscapeScene& _scene
-									, const Plugins::Core::LandscapeModel::ISurfaceItem::Id& _id );
+									, const Tools::Core::Generators::IGenerator::IdType& _id );
 
 	virtual ~LandscapeSurfaceItemEditingState();
 
@@ -130,7 +130,7 @@ private:
 
 	LandscapeScene& m_scene;
 
-	const Plugins::Core::LandscapeModel::ISurfaceItem::Id m_id;
+	const Tools::Core::Generators::IGenerator::IdType m_id;
 
 	QGraphicsPixmapItem* m_currentEditorItem;
 
@@ -214,7 +214,7 @@ public:
 
 	LandscapeObjectBuildState(  const IEnvironment& _environment
 							,	LandscapeScene& _scene
-							,	const Core::LandscapeModel::Object::Id& _builderId
+							,	const Tools::Core::Generators::IGenerator::IdType& _builderId
 							,	const QString& _name );
 
 	virtual ~LandscapeObjectBuildState();
@@ -245,7 +245,7 @@ private:
 
 	LandscapeScene& m_scene;
 
-	const Core::LandscapeModel::Object::Id m_builderId;
+	const Tools::Core::Generators::IGenerator::IdType m_builderId;
 
 	const QString m_name;
 

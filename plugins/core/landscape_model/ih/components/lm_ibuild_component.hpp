@@ -67,7 +67,7 @@ struct IBuildComponent
 			:	m_objectName()
 			,	m_atRect()
 			,	m_buildProgress( 0 )
-			,	m_objectId( Object::ms_wrongId )
+			,	m_objectId( Tools::Core::Generators::IGenerator::ms_wrongId )
 		{}
 
 		void reset()
@@ -75,7 +75,7 @@ struct IBuildComponent
 			m_objectName.clear();
 			m_atRect = QRect();
 			m_buildProgress = 0;
-			m_objectId = Object::ms_wrongId;
+			m_objectId = Tools::Core::Generators::IGenerator::ms_wrongId;
 		}
 
 		QString m_objectName;
@@ -83,7 +83,7 @@ struct IBuildComponent
 
 		TickType m_buildProgress;
 
-		Object::Id m_objectId;
+		Tools::Core::Generators::IGenerator::IdType m_objectId;
 	};
 
 /*---------------------------------------------------------------------------*/

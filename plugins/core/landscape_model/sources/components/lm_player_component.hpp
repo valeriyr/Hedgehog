@@ -29,7 +29,7 @@ public:
 	PlayerComponent(
 			Object& _object
 		,	const IPlayerComponent::StaticData& _staticData
-		,	const IPlayer::Id& _playerId );
+		,	const Tools::Core::Generators::IGenerator::IdType& _playerId );
 
 	virtual ~PlayerComponent();
 
@@ -39,7 +39,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ IPlayer::Id getPlayerId() const;
+	/*virtual*/ Tools::Core::Generators::IGenerator::IdType getPlayerId() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,7 +49,7 @@ private:
 
 	const IPlayerComponent::StaticData& m_staticData;
 
-	IPlayer::Id m_playerId;
+	Tools::Core::Generators::IGenerator::IdType m_playerId;
 
 /*---------------------------------------------------------------------------*/
 

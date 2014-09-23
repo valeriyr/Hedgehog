@@ -35,11 +35,11 @@ ObjectInfoView::ObjectInfoView( const IEnvironment& _environment )
 	,	m_subscriber( _environment.createSubscriber() )
 	,	m_viewTitle( Resources::Views::ObjectInfoViewTitle )
 	,	m_mainWidget( new QTextEdit() )
-	,	m_showingObjectId( Core::LandscapeModel::Object::ms_wrongId )
+	,	m_showingObjectId( Tools::Core::Generators::IGenerator::ms_wrongId )
 {
 	m_mainWidget->setReadOnly( true );
 
-	setDescriptionForObject( Core::LandscapeModel::Object::ms_wrongId );
+	setDescriptionForObject( Tools::Core::Generators::IGenerator::ms_wrongId );
 
 } // ObjectInfoView::ObjectInfoView
 
@@ -141,7 +141,7 @@ void
 ObjectInfoView::landscapeWasClosed()
 {
 	m_subscriber.unsubscribe();
-	setDescriptionForObject( Core::LandscapeModel::Object::ms_wrongId );
+	setDescriptionForObject( Tools::Core::Generators::IGenerator::ms_wrongId );
 
 } // ObjectInfoView::landscapeWasClosed
 
@@ -162,7 +162,7 @@ ObjectInfoView::onObjectsSelectionChanged( const Framework::Core::EventManager::
 
 		setDescriptionForObject(
 				selectedObjectsCollection.empty()
-			?	Core::LandscapeModel::Object::ms_wrongId
+			?	Tools::Core::Generators::IGenerator::ms_wrongId
 			:	selectedObjectsCollection.front()->getUniqueId() );
 	}
 
@@ -175,7 +175,7 @@ ObjectInfoView::onObjectsSelectionChanged( const Framework::Core::EventManager::
 void
 ObjectInfoView::onObjectStateChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::Id objectId
+	const Tools::Core::Generators::IGenerator::IdType objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -192,7 +192,7 @@ ObjectInfoView::onObjectStateChanged( const Framework::Core::EventManager::Event
 void
 ObjectInfoView::onObjectMoved( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::Id objectId
+	const Tools::Core::Generators::IGenerator::IdType objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -209,7 +209,7 @@ ObjectInfoView::onObjectMoved( const Framework::Core::EventManager::Event& _even
 void
 ObjectInfoView::onObjectHealthChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::Id objectId
+	const Tools::Core::Generators::IGenerator::IdType objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectHealthChanged::ms_objectIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -226,7 +226,7 @@ ObjectInfoView::onObjectHealthChanged( const Framework::Core::EventManager::Even
 void
 ObjectInfoView::onHolderResourceCountChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::Id objectId
+	const Tools::Core::Generators::IGenerator::IdType objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderResourceCountChanged::ms_objectUniqueIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -243,7 +243,7 @@ ObjectInfoView::onHolderResourceCountChanged( const Framework::Core::EventManage
 void
 ObjectInfoView::onBuilderHasStartedBuild( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::Id objectId
+	const Tools::Core::Generators::IGenerator::IdType objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ms_objectUniqueIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -260,7 +260,7 @@ ObjectInfoView::onBuilderHasStartedBuild( const Framework::Core::EventManager::E
 void
 ObjectInfoView::onBuilderHasFinishedBuild( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::Id objectId
+	const Tools::Core::Generators::IGenerator::IdType objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -277,7 +277,7 @@ ObjectInfoView::onBuilderHasFinishedBuild( const Framework::Core::EventManager::
 void
 ObjectInfoView::onHolderHasStartedCollect( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::Id objectId
+	const Tools::Core::Generators::IGenerator::IdType objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -294,7 +294,7 @@ ObjectInfoView::onHolderHasStartedCollect( const Framework::Core::EventManager::
 void
 ObjectInfoView::onHolderHasStopCollect( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::Id objectId
+	const Tools::Core::Generators::IGenerator::IdType objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectUniqueIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -311,7 +311,7 @@ ObjectInfoView::onHolderHasStopCollect( const Framework::Core::EventManager::Eve
 void
 ObjectInfoView::onResourceSourceValueChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::Object::Id objectId
+	const Tools::Core::Generators::IGenerator::IdType objectId
 		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ResourceSourceValueChanged::ms_objectUniqueIdAttribute ).toInt();
 
 	if ( m_showingObjectId == objectId )
@@ -326,9 +326,9 @@ ObjectInfoView::onResourceSourceValueChanged( const Framework::Core::EventManage
 
 
 void
-ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id& _objectId )
+ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerator::IdType& _objectId )
 {
-	m_showingObjectId = Core::LandscapeModel::Object::ms_wrongId;
+	m_showingObjectId = Tools::Core::Generators::IGenerator::ms_wrongId;
 
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle
 		= m_environment.lockModel();
@@ -440,7 +440,7 @@ ObjectInfoView::setDescriptionForObject( const Core::LandscapeModel::Object::Id&
 		}
 	}
 
-	if ( m_showingObjectId == Core::LandscapeModel::Object::ms_wrongId )
+	if ( m_showingObjectId == Tools::Core::Generators::IGenerator::ms_wrongId )
 	{
 		m_mainWidget->setHtml( Resources::Views::ObjectInfoDefaultText );
 	}

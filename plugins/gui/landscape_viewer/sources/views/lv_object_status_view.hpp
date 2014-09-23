@@ -93,7 +93,7 @@ private:
 	QListWidget* m_listWidget;
 	QLabel* m_label;
 
-	Core::LandscapeModel::Object::Id m_builderId;
+	Tools::Core::Generators::IGenerator::IdType m_builderId;
 
 /*---------------------------------------------------------------------------*/
 

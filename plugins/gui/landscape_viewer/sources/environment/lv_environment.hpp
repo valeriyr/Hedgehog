@@ -68,7 +68,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ const Core::LandscapeModel::ISurfaceItem::Id
+	/*virtual*/ const Tools::Core::Generators::IGenerator::IdType
 		getDefaultSurfaceItemId() const;
 
 /*---------------------------------------------------------------------------*/

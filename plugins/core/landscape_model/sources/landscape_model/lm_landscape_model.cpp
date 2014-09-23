@@ -108,7 +108,7 @@ struct ObjectsByRectFilter
 struct ObjectsByIdFilter
 	:	public ILandscape::IObjectsFilter
 {
-	ObjectsByIdFilter( const Object::Id& _id )
+	ObjectsByIdFilter( const Tools::Core::Generators::IGenerator::IdType& _id )
 		:	m_id( _id )
 	{}
 
@@ -117,7 +117,7 @@ struct ObjectsByIdFilter
 		return _object.getUniqueId() == m_id;
 	}
 
-	const Object::Id m_id;
+	const Tools::Core::Generators::IGenerator::IdType m_id;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -125,19 +125,23 @@ struct ObjectsByIdFilter
 
 LandscapeModel::LandscapeModel( const IEnvironment& _environment )
 	:	m_environment( _environment )
+	,	m_playersIdsGenerator()
+	,	m_objectsIdsGenerator()
 	,	m_actionsProcessingTaskHandle()
 	,	m_simulationStartTimeStamp( 0 )
 	,	m_landscape()
 	,	m_landscapeFilePath()
 	,	m_players()
-	,	m_myPlayerId( IPlayer::ms_wrondId )
+	,	m_myPlayerId( Tools::Core::Generators::IGenerator::ms_wrongId )
 	,	m_mutex( QMutex::Recursive )
 	,	m_ticksCounter( 0 )
 	,	m_workers()
 	,	m_gameMode()
-	,	m_victoryChecker( new StayAloneChecker( m_environment ) ) // TODO: should be set not in the constructor
+	,	m_victoryChecker()
 	,	m_simulationBlocked( false )
 {
+	initVictoryChecker( VictoryCondition::Begin );
+
 	m_environment.startThread( Resources::ModelThreadName );
 
 } // LandscapeModel::LandscapeModel
@@ -163,6 +167,8 @@ LandscapeModel::initLandscape( const QString& _filePath )
 {
 	if ( isSimulationRunning() )
 		return;
+
+	resetModel();
 
 	boost::intrusive_ptr< ILandscape >
 		landscape( new Landscape( m_environment, *this ) );
@@ -253,7 +259,6 @@ LandscapeModel::resetModel()
 {
 	bool needToPrintMessage = isSimulationRunning();
 
-	m_victoryChecker.reset( new EndlessChecker() );
 	m_gameMode.reset();
 
 	m_environment.removeTask( m_actionsProcessingTaskHandle );
@@ -271,7 +276,10 @@ LandscapeModel::resetModel()
 	m_players.clear();
 	m_workers.clear();
 
-	m_myPlayerId = IPlayer::ms_wrondId;
+	m_myPlayerId = Tools::Core::Generators::IGenerator::ms_wrongId;
+
+	m_playersIdsGenerator.reset();
+	m_objectsIdsGenerator.reset();
 
 	if ( needToPrintMessage )
 	{
@@ -519,7 +527,7 @@ LandscapeModel::getLandscapeName() const
 
 
 boost::intrusive_ptr< IPlayer >
-LandscapeModel::getPlayer( const IPlayer::Id& _id ) const
+LandscapeModel::getPlayer( const Tools::Core::Generators::IGenerator::IdType& _id ) const
 {
 	PlayersMapIterator iterator = m_players.find( _id );
 	return iterator != m_players.end() ? iterator->second : boost::intrusive_ptr< IPlayer >();
@@ -666,7 +674,7 @@ LandscapeModel::twoOrMoreActivatedPlayers() const
 
 
 bool
-LandscapeModel::isMyObject( const Object::Id& _objectId ) const
+LandscapeModel::isMyObject( const Tools::Core::Generators::IGenerator::IdType& _objectId ) const
 {
 	return m_landscape && isMyObject( m_landscape->getObject( _objectId ) );
 
@@ -728,11 +736,11 @@ LandscapeModel::getMutex()
 
 
 boost::shared_ptr< Object >
-LandscapeModel::create( const QString& _objectName, const QPoint& _location, const IPlayer::Id& _playerId )
+LandscapeModel::create( const QString& _objectName, const QPoint& _location, const Tools::Core::Generators::IGenerator::IdType& _playerId )
 {
 	IStaticData::ObjectStaticData staticData = m_environment.getStaticData()->getObjectStaticData( _objectName );
 
-	boost::shared_ptr< Object > object( new Object( _objectName ) );
+	boost::shared_ptr< Object > object( new Object( _objectName, m_objectsIdsGenerator.generate() ) );
 
 	object->addComponent(
 			ComponentId::Actions
@@ -818,7 +826,7 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 
 
 boost::shared_ptr< Object >
-LandscapeModel::getWorker( const Object::Id& _id ) const
+LandscapeModel::getWorker( const Tools::Core::Generators::IGenerator::IdType& _id ) const
 {
 	WorkersCollectionIterator iterator = m_workers.find( _id );
 
@@ -833,7 +841,7 @@ LandscapeModel::getWorker( const Object::Id& _id ) const
 
 
 void
-LandscapeModel::removeWorker( const Object::Id& _id )
+LandscapeModel::removeWorker( const Tools::Core::Generators::IGenerator::IdType& _id )
 {
 	m_workers.erase( _id );
 
@@ -1029,7 +1037,7 @@ LandscapeModel::initPlayers()
 	while( iterator->isValid() )
 	{
 		boost::intrusive_ptr< Player > player(
-			new Player( m_environment, races.begin()->first, iterator->current().m_id ) );
+			new Player( m_environment, m_playersIdsGenerator.generate(), races.begin()->first, iterator->current().m_id ) );
 		m_players.insert( std::make_pair( player->getUniqueId(), player ) );
 
 		iterator->next();
@@ -1059,9 +1067,28 @@ LandscapeModel::setupMyPlayer()
 		}
 	}
 
-	assert( m_myPlayerId != IPlayer::ms_wrondId );
+	assert( m_myPlayerId != Tools::Core::Generators::IGenerator::ms_wrongId );
 
 } // LandscapeModel::setupMyPlayer
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::initVictoryChecker( const VictoryCondition::Enum _condition )
+{
+	switch( _condition )
+	{
+	case VictoryCondition::StayAlone:
+		m_victoryChecker.reset( new StayAloneChecker( m_environment ) );
+		break;
+	default:
+		m_victoryChecker.reset( new EndlessChecker() );
+		break;
+	}
+
+} // LandscapeModel::initVictoryChecker
 
 
 /*---------------------------------------------------------------------------*/
@@ -1128,15 +1155,7 @@ LandscapeModel::onChangeVictoryConditionProcessor( const Command& _command )
 {
 	const VictoryCondition::Enum condition = static_cast< VictoryCondition::Enum >( _command.m_arguments[ 0 ].toInt() );
 
-	switch( condition )
-	{
-	case VictoryCondition::StayAlone:
-		m_victoryChecker.reset( new StayAloneChecker( m_environment ) );
-		break;
-	default:
-		m_victoryChecker.reset( new EndlessChecker() );
-		break;
-	}
+	initVictoryChecker( condition );
 
 	Framework::Core::EventManager::Event conditionChanged( Events::VictoryConditionChanged::ms_type );
 	conditionChanged.pushAttribute( Events::VictoryConditionChanged::ms_conditionAttribute, condition );
@@ -1152,7 +1171,7 @@ LandscapeModel::onChangeVictoryConditionProcessor( const Command& _command )
 void
 LandscapeModel::onChangePlayerRaceProcessor( const Command& _command )
 {
-	const IPlayer::Id id = _command.m_arguments[ 0 ].toInt();
+	const Tools::Core::Generators::IGenerator::IdType id = _command.m_arguments[ 0 ].toInt();
 	const QString race = _command.m_arguments[ 1 ].toString();
 
 	PlayersMapIterator iterator = m_players.find( id );
@@ -1177,7 +1196,7 @@ LandscapeModel::onChangePlayerRaceProcessor( const Command& _command )
 void
 LandscapeModel::onChangePlayerTypeProcessor( const Command& _command )
 {
-	const IPlayer::Id id = _command.m_arguments[ 0 ].toInt();
+	const Tools::Core::Generators::IGenerator::IdType id = _command.m_arguments[ 0 ].toInt();
 	const PlayerType::Enum type = static_cast< PlayerType::Enum >( _command.m_arguments[ 1 ].toInt() );
 
 	PlayersMapIterator iterator = m_players.find( id );
@@ -1202,7 +1221,7 @@ LandscapeModel::onChangePlayerTypeProcessor( const Command& _command )
 void
 LandscapeModel::onChangePlayerNameProcessor( const Command& _command )
 {
-	const IPlayer::Id id = _command.m_arguments[ 0 ].toInt();
+	const Tools::Core::Generators::IGenerator::IdType id = _command.m_arguments[ 0 ].toInt();
 	const QString name = _command.m_arguments[ 1 ].toString();
 
 	PlayersMapIterator iterator = m_players.find( id );
@@ -1228,7 +1247,7 @@ LandscapeModel::onChangePlayerNameProcessor( const Command& _command )
 void
 LandscapeModel::onChangeMyPlayerProcessor( const Command& _command )
 {
-	const IPlayer::Id id = _command.m_arguments[ 0 ].toInt();
+	const Tools::Core::Generators::IGenerator::IdType id = _command.m_arguments[ 0 ].toInt();
 	const QString name = _command.m_arguments[ 1 ].toString();
 	const QString race = _command.m_arguments[ 2 ].toString();
 	const PlayerType::Enum type = static_cast< PlayerType::Enum >( _command.m_arguments[ 3 ].toInt() );
@@ -1325,7 +1344,7 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 	if ( m_landscape )
 	{
 		const QList< QVariant > objects = _command.m_arguments[ 0 ].toList();
-		const Object::Id id = _command.m_arguments[ 1 ].toInt();
+		const Tools::Core::Generators::IGenerator::IdType id = _command.m_arguments[ 1 ].toInt();
 		const bool flush = _command.m_arguments[ 2 ].toBool();
 
 		boost::shared_ptr< Object > targetObject = m_landscape->getObject( id );
@@ -1419,9 +1438,9 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 void
 LandscapeModel::onCreateObjectProcessor( const Command& _command )
 {
-	Object::Id objectId = Object::ms_wrongId;
+	Tools::Core::Generators::IGenerator::IdType objectId = Tools::Core::Generators::IGenerator::ms_wrongId;
 
-	const IPlayer::Id id = _command.m_arguments[ 0 ].toInt();
+	const Tools::Core::Generators::IGenerator::IdType id = _command.m_arguments[ 0 ].toInt();
 	const QString name = _command.m_arguments[ 1 ].toString();
 	const QPoint location = _command.m_arguments[ 2 ].toPoint();
 
@@ -1430,7 +1449,7 @@ LandscapeModel::onCreateObjectProcessor( const Command& _command )
 		objectId = m_landscape->createObject( name, location, id );
 	}
 
-	if ( objectId != Object::ms_wrongId )
+	if ( objectId != Tools::Core::Generators::IGenerator::ms_wrongId )
 	{
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::ObjectAdded::ms_type )
@@ -1459,7 +1478,7 @@ LandscapeModel::onSetSurfaceItemProcessor( const Command& _command )
 	if ( m_landscape )
 	{
 		const QPoint location = _command.m_arguments[ 0 ].toPoint();
-		const ISurfaceItem::Id id = _command.m_arguments[ 1 ].toInt();
+		const Tools::Core::Generators::IGenerator::IdType id = _command.m_arguments[ 1 ].toInt();
 
 		m_landscape->setSurfaceItem( location, id );
 
@@ -1481,7 +1500,7 @@ LandscapeModel::onTrainObjectProcessor( const Command& _command )
 	if ( !m_landscape )
 		return;
 
-	const Object::Id parentId = _command.m_arguments[ 0 ].toInt();
+	const Tools::Core::Generators::IGenerator::IdType parentId = _command.m_arguments[ 0 ].toInt();
 	const QString name = _command.m_arguments[ 1 ].toString();
 
 	boost::shared_ptr< Object > object = m_landscape->getObject( parentId );
@@ -1529,7 +1548,7 @@ LandscapeModel::onBuildObjectProcessor( const Command& _command )
 {
 	if ( m_landscape )
 	{
-		const Object::Id builderId = _command.m_arguments[ 0 ].toInt();
+		const Tools::Core::Generators::IGenerator::IdType builderId = _command.m_arguments[ 0 ].toInt();
 		const QString name = _command.m_arguments[ 1 ].toString();
 		const QPoint location = _command.m_arguments[ 2 ].toPoint();
 		const bool flush = _command.m_arguments[ 3 ].toBool();

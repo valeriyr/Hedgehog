@@ -40,7 +40,7 @@ class StorageObjectsFilter
 
 public:
 
-	StorageObjectsFilter( const QString& _canStore, const IPlayer::Id& _playerId )
+	StorageObjectsFilter( const QString& _canStore, const Tools::Core::Generators::IGenerator::IdType& _playerId )
 		:	m_canStore( _canStore )
 		,	m_playerId( _playerId )
 	{}
@@ -61,7 +61,7 @@ public:
 private:
 
 	const QString m_canStore;
-	const IPlayer::Id m_playerId;
+	const Tools::Core::Generators::IGenerator::IdType m_playerId;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -325,7 +325,7 @@ CollectResourceAction::processAction()
 
 				m_workersHolder.removeWorker( m_hiddenObject->getUniqueId() );
 
-				targetResourceSource->setObjectInside( Object::ms_wrongId );
+				targetResourceSource->setObjectInside( Tools::Core::Generators::IGenerator::ms_wrongId );
 
 				m_hiddenObject.reset();
 

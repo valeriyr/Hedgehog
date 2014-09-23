@@ -25,14 +25,14 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	SurfaceItem(
-			const ISurfaceItem::Id _id
+			const Tools::Core::Generators::IGenerator::IdType _id
 		,	const TerrainMapItem::Enum _terrainMapItem );
 
 	virtual ~SurfaceItem();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ ISurfaceItem::Id getId() const;
+	/*virtual*/ Tools::Core::Generators::IGenerator::IdType getId() const;
 
 	/*virtual*/ const TerrainMapItem::Enum getTerrainMapValue() const;
 
@@ -42,7 +42,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const ISurfaceItem::Id m_id;
+	const Tools::Core::Generators::IGenerator::IdType m_id;
 
 	const TerrainMapItem::Enum m_terrainMapItem;
 

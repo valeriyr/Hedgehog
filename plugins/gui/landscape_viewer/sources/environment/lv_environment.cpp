@@ -181,7 +181,7 @@ Environment::lockModel() const
 /*---------------------------------------------------------------------------*/
 
 
-const Core::LandscapeModel::ISurfaceItem::Id
+const Tools::Core::Generators::IGenerator::IdType
 Environment::getDefaultSurfaceItemId() const
 {
 	return m_pluginInstance.getSurfaceItemsCache()->getDefaultSurfaceItem()->getId();

@@ -56,7 +56,7 @@ public:
 		,	const IEnvironment& _environment
 		,	const LandscapeScene& _landscapeScene
 		,	const QString& _objectName
-		,	const Plugins::Core::LandscapeModel::Object::Id& _objectId
+		,	const Tools::Core::Generators::IGenerator::IdType& _objectId
 		,	QGraphicsItem* _parent = NULL
 		);
 
@@ -64,7 +64,7 @@ public:
 
 	/*virtual*/ QVariant itemChange( GraphicsItemChange _change, const QVariant& value );
 
-	const Plugins::Core::LandscapeModel::Object::Id& getObjectId() const;
+	const Tools::Core::Generators::IGenerator::IdType& getObjectId() const;
 
 private:
 
@@ -78,7 +78,7 @@ private:
 
 	const QString m_objectName;
 
-	const Plugins::Core::LandscapeModel::Object::Id m_objectId;
+	const Tools::Core::Generators::IGenerator::IdType m_objectId;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -134,7 +134,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ObjectGraphicsItem* getObjectGraphicsItem( const Plugins::Core::LandscapeModel::Object::Id& _objectId ) const;
+	ObjectGraphicsItem* getObjectGraphicsItem( const Tools::Core::Generators::IGenerator::IdType& _objectId ) const;
 
 	ObjectGraphicsItem* getObjectGraphicsItem( const QPointF& _scenePosition ) const;
 
@@ -171,13 +171,13 @@ public slots:
 
 /*---------------------------------------------------------------------------*/
 
-	void onChangeSurfaceItem( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& _id );
+	void onChangeSurfaceItem( const Tools::Core::Generators::IGenerator::IdType& _id );
 
 	void onChangeObject( const QString& _name );
 
 	void onControlItemSelected();
 
-	void onBuildObjectButtonPressed( const Plugins::Core::LandscapeModel::Object::Id _builderId, const QString& _objectName );
+	void onBuildObjectButtonPressed( const Tools::Core::Generators::IGenerator::IdType _builderId, const QString& _objectName );
 
 	void onMousePossitionWasChanged( const QPointF& _point );
 
@@ -229,12 +229,12 @@ private:
 
 	void setCorrectSceneSize();
 
-	void objectWasAdded( const Plugins::Core::LandscapeModel::Object::Id& _id, ObjectGraphicsItem* _item );
+	void objectWasAdded( const Tools::Core::Generators::IGenerator::IdType& _id, ObjectGraphicsItem* _item );
 
 	ObjectGraphicsItem* addObject(
 			const QString& _objectName
 		,	const QPoint& _objectLocation
-		,	const Plugins::Core::LandscapeModel::Object::Id _id
+		,	const Tools::Core::Generators::IGenerator::IdType _id
 		,	const Core::LandscapeModel::Emplacement::Enum _emplacement );
 
 	void markSelectedObjects();
@@ -263,7 +263,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void removeObject( const Plugins::Core::LandscapeModel::Object::Id _id );
+	void removeObject( const Tools::Core::Generators::IGenerator::IdType _id );
 
 /*---------------------------------------------------------------------------*/
 
@@ -273,7 +273,7 @@ private:
 
 	typedef
 		std::map<
-				Plugins::Core::LandscapeModel::Object::Id
+				Tools::Core::Generators::IGenerator::IdType
 			,	ObjectGraphicsItem*
 			>
 		ObjectsCollection;

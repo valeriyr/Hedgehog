@@ -14,7 +14,7 @@ namespace LandscapeViewer {
 
 
 SurfaceItemGraphicsInfo::SurfaceItemGraphicsInfo(
-		const Core::LandscapeModel::ISurfaceItem::Id& _id
+		const Tools::Core::Generators::IGenerator::IdType& _id
 	,	const QString& _atlasName
 	,	const QRect _frameRect
 	)
@@ -36,7 +36,7 @@ SurfaceItemGraphicsInfo::~SurfaceItemGraphicsInfo()
 /*---------------------------------------------------------------------------*/
 
 
-const Core::LandscapeModel::ISurfaceItem::Id
+const Tools::Core::Generators::IGenerator::IdType
 SurfaceItemGraphicsInfo::getId() const
 {
 	return m_id;

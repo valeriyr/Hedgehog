@@ -49,7 +49,7 @@ private:
 
 	bool onlyMyOrNeutralObjects(
 			const ILandscape::ObjectsCollection& _objects
-		,	const IPlayer::Id& _playerId ) const;
+		,	const Tools::Core::Generators::IGenerator::IdType& _playerId ) const;
 
 /*---------------------------------------------------------------------------*/
 

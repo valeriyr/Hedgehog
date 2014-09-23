@@ -72,7 +72,7 @@ StayAloneChecker::getType() const
 bool
 StayAloneChecker::onlyMyOrNeutralObjects(
 		const ILandscape::ObjectsCollection& _objects
-	,	const IPlayer::Id& _playerId ) const
+	,	const Tools::Core::Generators::IGenerator::IdType& _playerId ) const
 {
 	ILandscape::ObjectsCollectionIterator
 			beginWorkers = _objects.begin()
@@ -84,7 +84,7 @@ StayAloneChecker::onlyMyOrNeutralObjects(
 			= ( *beginWorkers )->getComponent< IPlayerComponent >( ComponentId::Player );
 
 		if (	playerComponent
-			&&	playerComponent->getPlayerId() != IPlayer::ms_wrondId
+			&&	playerComponent->getPlayerId() != Tools::Core::Generators::IGenerator::ms_wrongId
 			&&	playerComponent->getPlayerId() != _playerId
 			&&	( *beginWorkers )->getState() != ObjectState::Dying )
 		{

@@ -81,7 +81,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	void setDescriptionForObject( const Core::LandscapeModel::Object::Id& _objectId );
+	void setDescriptionForObject( const Tools::Core::Generators::IGenerator::IdType& _objectId );
 
 /*---------------------------------------------------------------------------*/
 
@@ -97,7 +97,7 @@ private:
 
 	boost::shared_ptr< QTextEdit > m_mainWidget;
 
-	Core::LandscapeModel::Object::Id m_showingObjectId;
+	Tools::Core::Generators::IGenerator::IdType m_showingObjectId;
 
 /*---------------------------------------------------------------------------*/
 

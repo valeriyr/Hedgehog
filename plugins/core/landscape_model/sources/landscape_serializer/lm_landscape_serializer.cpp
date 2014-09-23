@@ -313,7 +313,7 @@ LandscapeSerializer::onObjectElement(
 {
 	if ( _id == INT_MAX )
 	{
-		_landscape.createObject( _name, QPoint( _x, _y ), IPlayer::ms_wrondId );
+		_landscape.createObject( _name, QPoint( _x, _y ), Tools::Core::Generators::IGenerator::ms_wrongId );
 	}
 	else
 	{

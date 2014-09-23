@@ -13,6 +13,8 @@
 #include "landscape_model/h/lm_component_id.hpp"
 #include "landscape_model/ih/components/lm_icomponent.hpp"
 
+#include "generators/gn_igenerator.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -30,25 +32,18 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	typedef int Id;
-	static const Id ms_wrongId = -1;
-
-/*---------------------------------------------------------------------------*/
-
-	Object( const QString& _name )
+	Object( const QString& _name, const Tools::Core::Generators::IGenerator::IdType _id )
 		:	m_name( _name )
-		,	m_id( ms_wrongId )
+		,	m_id( _id )
 		,	m_state( ObjectState::Standing )
 	{
-		static int s_uniqueIdsCounter = 0;
-		*const_cast< Id* >( &m_id ) = ++s_uniqueIdsCounter;
 	}
 
 /*---------------------------------------------------------------------------*/
 
 	const QString& getName() const { return m_name; }
 
-	const Id& getUniqueId() const { return m_id; }
+	const Tools::Core::Generators::IGenerator::IdType& getUniqueId() const { return m_id; }
 
 	const ObjectState::Enum getState() const { return m_state; }
 
@@ -96,7 +91,7 @@ private:
 
 	const QString m_name;
 
-	const Id m_id;
+	const Tools::Core::Generators::IGenerator::IdType m_id;
 
 	ObjectState::Enum m_state;
 

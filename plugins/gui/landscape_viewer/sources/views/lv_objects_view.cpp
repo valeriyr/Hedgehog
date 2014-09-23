@@ -81,9 +81,9 @@ ObjectsView::ObjectsView(
 
 	QObject::connect(
 			this
-		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& ) )
+		,	SIGNAL( currentSurfaceItemWasChanged( const Tools::Core::Generators::IGenerator::IdType& ) )
 		,	&m_viewsMediator
-		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& ) ) );
+		,	SIGNAL( currentSurfaceItemWasChanged( const Tools::Core::Generators::IGenerator::IdType& ) ) );
 
 	QObject::connect(
 			this
@@ -119,9 +119,9 @@ ObjectsView::~ObjectsView()
 
 	QObject::disconnect(
 			this
-		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& ) )
+		,	SIGNAL( currentSurfaceItemWasChanged( const Tools::Core::Generators::IGenerator::IdType& ) )
 		,	&m_viewsMediator
-		,	SIGNAL( currentSurfaceItemWasChanged( const Plugins::Core::LandscapeModel::ISurfaceItem::Id& ) ) );
+		,	SIGNAL( currentSurfaceItemWasChanged( const Tools::Core::Generators::IGenerator::IdType& ) ) );
 
 	QObject::disconnect(
 			this
