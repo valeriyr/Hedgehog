@@ -344,11 +344,13 @@ LandscapeModel::setupReplay( const QString& _filePath )
 	resetModel();
 
 	QString landscapeName;
+	VictoryCondition::Enum victoryCondition( VictoryCondition::Begin );
 	ILandscapeModel::PlayersCollection players;
 	CommandsQueue commandsQueue;
 
-	m_environment.getReplaySerializer()->load( _filePath, landscapeName, players, commandsQueue );
+	m_environment.getReplaySerializer()->load( _filePath, landscapeName, victoryCondition, players, commandsQueue );
 
+	initVictoryChecker( victoryCondition );
 	initLandscape( m_environment.getModelInformation()->generateLandscapePath( landscapeName ) );
 
 	m_gameMode.reset( new ReplayMode( m_environment ) );
@@ -408,7 +410,12 @@ LandscapeModel::saveReplay( const QString& _filePath )
 	ILandscapeModel::PlayersCollection players;
 	fetchPlayers( players );
 
-	m_environment.getReplaySerializer()->save( _filePath, getLandscapeName(), players, m_gameMode->getCommands() );
+	m_environment.getReplaySerializer()->save(
+			_filePath
+		,	getLandscapeName()
+		,	getVictoryConditionType()
+		,	players
+		,	m_gameMode->getCommands() );
 
 } // LandscapeModel::saveReplay
 
@@ -422,6 +429,17 @@ LandscapeModel::getVictoryConditionType() const
 	return m_victoryChecker->getType();
 
 } // LandscapeModel::getVictoryConditionType
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const IGameMode::Type::Enum
+LandscapeModel::getGameModeType() const
+{
+	return m_gameMode ? m_gameMode->getType() : IGameMode::Type::Undefined;
+
+} // LandscapeModel::getGameModeType
 
 
 /*---------------------------------------------------------------------------*/
@@ -457,6 +475,18 @@ LandscapeModel::pushCommand( const Command& _command )
 	m_gameMode->processCommand( command );
 
 } // LandscapeModel::pushCommand
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+LandscapeModel::hasMoreCommands() const
+{
+	assert( isSimulationRunning() );
+	return m_gameMode && m_gameMode->getCommands().hasCommandsFrom( m_ticksCounter + 1 );
+
+} // LandscapeModel::hasMoreCommands
 
 
 /*---------------------------------------------------------------------------*/
@@ -1082,10 +1112,10 @@ LandscapeModel::initVictoryChecker( const VictoryCondition::Enum _condition )
 	switch( _condition )
 	{
 	case VictoryCondition::StayAlone:
-		m_victoryChecker.reset( new StayAloneChecker( m_environment ) );
+		m_victoryChecker.reset( new StayAloneChecker( *this ) );
 		break;
 	default:
-		m_victoryChecker.reset( new EndlessChecker() );
+		m_victoryChecker.reset( new EndlessChecker( *this ) );
 		break;
 	}
 

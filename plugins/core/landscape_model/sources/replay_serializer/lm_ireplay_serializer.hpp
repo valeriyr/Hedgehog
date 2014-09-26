@@ -31,12 +31,14 @@ struct IReplaySerializer
 	virtual void load(
 			const QString& _filePath
 		,	QString& _landscapeName
+		,	VictoryCondition::Enum& _victoryCondition
 		,	ILandscapeModel::PlayersCollection& _players
 		,	CommandsQueue& _commands ) = 0;
 
 	virtual void save(
 			const QString& _filePath
 		,	const QString& _landscapeName
+		,	const VictoryCondition::Enum _victoryCondition
 		,	const ILandscapeModel::PlayersCollection& _players
 		,	const CommandsQueue& _commands ) const = 0;
 

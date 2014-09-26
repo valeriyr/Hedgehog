@@ -179,6 +179,25 @@ CommandsQueue::hasCommands( const TickType& _targetTick ) const
 
 
 bool
+CommandsQueue::hasCommandsFrom( const TickType& _targetTick ) const
+{
+	QMutexLocker locker( &const_cast< CommandsQueue* >( this )->m_mutex );
+
+	if ( m_commands.empty() )
+		return false;
+
+	CommandsByTickCollectionConstIterator iterator = m_commands.end();
+	--iterator;
+
+	return iterator->first > _targetTick;
+
+} // CommandsQueue::hasCommandsFrom
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
 CommandsQueue::hasCommands( const Tools::Core::Generators::IGenerator::IdType& _playerId, const TickType& _targetTick ) const
 {
 	QMutexLocker locker( &const_cast< CommandsQueue* >( this )->m_mutex );

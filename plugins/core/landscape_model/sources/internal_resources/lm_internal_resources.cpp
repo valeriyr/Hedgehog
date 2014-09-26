@@ -77,6 +77,8 @@ namespace Xml {
 	const char* const Width = "width";
 	const char* const Height = "height";
 
+	const char* const VictoryCondition = "victory";
+
 	const char* const StartPoints = "start_points";
 	const char* const StartPoint = "start_point";
 

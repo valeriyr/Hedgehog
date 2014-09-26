@@ -149,7 +149,8 @@ ObjectStatusView::onObjectsSelectionChanged( const Framework::Core::EventManager
 
 		if (	!selectedObjectsCollection.empty()
 			&&	( *selectedObjectsCollection.begin() )->getComponent< Core::LandscapeModel::ITrainComponent >( Core::LandscapeModel::ComponentId::Train )
-			&&	handle->getLandscapeModel()->isMyObject( *selectedObjectsCollection.begin() ) )
+			&&	( handle->getLandscapeModel()->getGameModeType() == Core::LandscapeModel::IGameMode::Type::Replay
+			||	handle->getLandscapeModel()->isMyObject( *selectedObjectsCollection.begin() ) ) )
 		{
 			m_builderId = ( *selectedObjectsCollection.begin() )->getUniqueId();
 		}

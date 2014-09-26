@@ -14,6 +14,8 @@
 #include "landscape_model/h/lm_commands.hpp"
 #include "landscape_model/h/lm_victory_condition.hpp"
 
+#include "landscape_model/sources/landscape_model/game_modes/lm_igame_mode.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Framework
@@ -67,9 +69,13 @@ struct ILandscapeModel
 
 	virtual const VictoryCondition::Enum getVictoryConditionType() const = 0;
 
+	virtual const IGameMode::Type::Enum getGameModeType() const = 0;
+
 /*---------------------------------------------------------------------------*/
 
 	virtual void pushCommand( const Command& _command ) = 0;
+
+	virtual bool hasMoreCommands() const = 0;
 
 	COMMAND_MAP_DECLARE_INTERFACE()
 

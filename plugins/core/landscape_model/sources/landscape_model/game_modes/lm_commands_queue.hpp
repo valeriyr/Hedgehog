@@ -95,6 +95,8 @@ public:
 
 	bool hasCommands( const TickType& _targetTick ) const;
 
+	bool hasCommandsFrom( const TickType& _targetTick ) const;
+
 	bool hasCommands( const Tools::Core::Generators::IGenerator::IdType& _playerId, const TickType& _targetTick ) const;
 
 /*---------------------------------------------------------------------------*/

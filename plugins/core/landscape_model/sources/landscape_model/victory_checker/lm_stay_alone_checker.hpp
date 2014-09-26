@@ -17,7 +17,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IEnvironment;
+struct ILandscapeModel;
 
 /*---------------------------------------------------------------------------*/
 
@@ -31,7 +31,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	StayAloneChecker( const IEnvironment& _environment );
+	StayAloneChecker( const ILandscapeModel& _landscapeModel );
 
 	virtual ~StayAloneChecker();
 
@@ -53,7 +53,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	const IEnvironment& m_environment;
+	const ILandscapeModel& m_landscapeModel;
 
 /*---------------------------------------------------------------------------*/
 

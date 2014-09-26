@@ -3,7 +3,6 @@
 
 #include "landscape_model/sources/landscape_model/victory_checker/lm_stay_alone_checker.hpp"
 
-#include "landscape_model/sources/environment/lm_ienvironment.hpp"
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 #include "landscape_model/ih/components/lm_iplayer_component.hpp"
 
@@ -16,8 +15,8 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-StayAloneChecker::StayAloneChecker( const IEnvironment& _environment )
-	:	m_environment( _environment )
+StayAloneChecker::StayAloneChecker( const ILandscapeModel& _landscapeModel )
+	:	m_landscapeModel( _landscapeModel )
 {
 } // StayAloneChecker::StayAloneChecker
 
@@ -36,19 +35,22 @@ StayAloneChecker::~StayAloneChecker()
 bool
 StayAloneChecker::check() const
 {
-	boost::intrusive_ptr< IModelLocker > locker = m_environment.lockModel();
-	boost::intrusive_ptr< ILandscape > landscape = locker->getLandscapeModel()->getLandscape();
+	if (	m_landscapeModel.getGameModeType() == IGameMode::Type::Replay
+		&&	!m_landscapeModel.hasMoreCommands() )
+	{
+		return true;
+	}
 
-	boost::intrusive_ptr< IPlayer > myPlayer = locker->getLandscapeModel()->getMyPlayer();
+	boost::intrusive_ptr< IPlayer > myPlayer = m_landscapeModel.getMyPlayer();
 
 	ILandscape::ObjectsCollection workers;
-	locker->getLandscapeModel()->fetchWorkers( workers );
+	m_landscapeModel.fetchWorkers( workers );
 
 	if ( !onlyMyOrNeutralObjects( workers, myPlayer->getUniqueId() ) )
 		return false;
 
 	ILandscape::ObjectsCollection objects;
-	landscape->fetchObjects( objects );
+	m_landscapeModel.getLandscape()->fetchObjects( objects );
 
 	return onlyMyOrNeutralObjects( objects, myPlayer->getUniqueId() );
 

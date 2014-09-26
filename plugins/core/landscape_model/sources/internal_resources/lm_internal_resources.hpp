@@ -77,6 +77,8 @@ namespace Xml {
 	extern const char* const Width;
 	extern const char* const Height;
 
+	extern const char* const VictoryCondition;
+
 	extern const char* const StartPoints;
 	extern const char* const StartPoint;
 

@@ -43,6 +43,7 @@ void
 ReplaySerializer::load(
 		const QString& _filePath
 	,	QString& _landscapeName
+	,	VictoryCondition::Enum& _victoryCondition
 	,	ILandscapeModel::PlayersCollection& _players
 	,	CommandsQueue& _commands )
 {
@@ -59,6 +60,13 @@ ReplaySerializer::load(
 					Tools::Core::XmlLibrary::Attribute( Resources::Xml::Name, Tools::Core::XmlLibrary::AttributeType::String )
 				]
 				.handle(	boost::bind( &ReplaySerializer::onLandscapeElement, this, boost::ref( _landscapeName ), _1 )
+						,	Tools::Core::XmlLibrary::StringAttributeExtructor( Resources::Xml::Name ) )
+			||
+				Tools::Core::XmlLibrary::Tag( Resources::Xml::VictoryCondition )
+				[
+					Tools::Core::XmlLibrary::Attribute( Resources::Xml::Name, Tools::Core::XmlLibrary::AttributeType::String )
+				]
+				.handle(	boost::bind( &ReplaySerializer::onVictoryConditionElement, this, boost::ref( _victoryCondition ), _1 )
 						,	Tools::Core::XmlLibrary::StringAttributeExtructor( Resources::Xml::Name ) )
 			||
 				Tools::Core::XmlLibrary::Tag( Resources::Xml::Players )
@@ -130,6 +138,7 @@ void
 ReplaySerializer::save(
 		const QString& _filePath
 	,	const QString& _landscapeName
+	,	const VictoryCondition::Enum _victoryCondition
 	,	const ILandscapeModel::PlayersCollection& _players
 	,	const CommandsQueue& _commands ) const
 {
@@ -155,6 +164,10 @@ ReplaySerializer::save(
 
 	xmlStream.writeStartElement( Resources::Xml::Landscape );
 	xmlStream.writeAttribute( Resources::Xml::Name, _landscapeName );
+	xmlStream.writeEndElement();
+
+	xmlStream.writeStartElement( Resources::Xml::VictoryCondition );
+	xmlStream.writeAttribute( Resources::Xml::Name, VictoryCondition::toString( _victoryCondition ) );
 	xmlStream.writeEndElement();
 
 	xmlStream.writeStartElement( Resources::Xml::Players );
@@ -272,6 +285,19 @@ ReplaySerializer::onLandscapeElement( QString& _landscapeName, const QString& _n
 	_landscapeName = _name;
 
 } // ReplaySerializer::onLandscapeElement
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+ReplaySerializer::onVictoryConditionElement(
+		VictoryCondition::Enum& _victoryCondition
+	,	const QString& _condition ) const
+{
+	_victoryCondition = VictoryCondition::fromString( _condition );
+
+} // ReplaySerializer::onVictoryConditionElement
 
 
 /*---------------------------------------------------------------------------*/

@@ -14,6 +14,10 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+struct ILandscapeModel;
+
+/*---------------------------------------------------------------------------*/
+
 class EndlessChecker
 	:	public Tools::Core::BaseWrapper< IVictoryChecker >
 {
@@ -24,7 +28,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	EndlessChecker();
+	EndlessChecker( const ILandscapeModel& _landscapeModel );
 
 	virtual ~EndlessChecker();
 
@@ -33,6 +37,14 @@ public:
 	/*virtual*/ bool check() const;
 
 	/*virtual*/ const VictoryCondition::Enum getType() const;
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	const ILandscapeModel& m_landscapeModel;
 
 /*---------------------------------------------------------------------------*/
 

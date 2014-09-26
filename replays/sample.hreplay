@@ -2,107 +2,98 @@
 <!DOCTYPE hreplay>
 <hreplay version="1.0.0">
     <landscape name="little2"/>
+    <victory name="Endless"/>
     <players>
-        <player id="2" start_point="1" type="2" race="Human" name="amator"/>
-        <player id="3" start_point="2" type="2" race="Orc" name="amator2"/>
+        <player id="1" start_point="1" type="2" race="Human" name="amator"/>
+        <player id="2" start_point="2" type="2" race="Orc" name="test"/>
     </players>
     <commands>
-        <command name="BuildObject" player="3" tick="55" timestamp="5965">
+        <command name="BuildObject" player="2" tick="37" timestamp="3883">
             <argument value="AAAAAgAAAAAC"/>
             <argument value="AAAACgAAAAAYAE8AcgBjACAAQgBhAHIAcgBhAGMAawBz"/>
-            <argument value="AAAAGQAAAAAMAAAADQ=="/>
+            <argument value="AAAAGQAAAAANAAAADg=="/>
             <argument value="AAAAAQAB"/>
         </command>
-        <command name="BuildObject" player="2" tick="93" timestamp="10116">
+        <command name="BuildObject" player="1" tick="87" timestamp="9557">
             <argument value="AAAAAgAAAAAB"/>
             <argument value="AAAACgAAAAASAFQAbwB3AG4AIABIAGEAbABs"/>
-            <argument value="AAAAGQAAAAAOAAAAAg=="/>
+            <argument value="AAAAGQAAAAAHAAAABA=="/>
             <argument value="AAAAAQAB"/>
         </command>
-        <command name="Send" player="3" tick="290" timestamp="32270">
+        <command name="SendToObject" player="2" tick="261" timestamp="29052">
             <argument value="AAAACQAAAAABAAAAAgAAAAAC"/>
-            <argument value="AAAAGQAAAAAPAAAABA=="/>
+            <argument value="AAAAAgAAAAAF"/>
             <argument value="AAAAAQAB"/>
         </command>
-        <command name="TrainObject" player="3" tick="301" timestamp="33451">
+        <command name="TrainObject" player="2" tick="280" timestamp="31188">
             <argument value="AAAAAgAAAAAE"/>
             <argument value="AAAACgAAAAAKAEcAcgB1AG4AdA=="/>
         </command>
-        <command name="TrainObject" player="3" tick="302" timestamp="33585">
+        <command name="TrainObject" player="2" tick="281" timestamp="31324">
             <argument value="AAAAAgAAAAAE"/>
             <argument value="AAAACgAAAAAKAEcAcgB1AG4AdA=="/>
         </command>
-        <command name="TrainObject" player="3" tick="303" timestamp="33708">
+        <command name="TrainObject" player="2" tick="282" timestamp="31470">
             <argument value="AAAAAgAAAAAE"/>
             <argument value="AAAACgAAAAAKAEcAcgB1AG4AdA=="/>
         </command>
-        <command name="TrainObject" player="3" tick="305" timestamp="33851">
+        <command name="TrainObject" player="2" tick="284" timestamp="31637">
             <argument value="AAAAAgAAAAAE"/>
             <argument value="AAAACgAAAAAKAEcAcgB1AG4AdA=="/>
         </command>
-        <command name="TrainObject" player="3" tick="306" timestamp="34011">
+        <command name="TrainObject" player="2" tick="285" timestamp="31796">
             <argument value="AAAAAgAAAAAE"/>
             <argument value="AAAACgAAAAAKAEcAcgB1AG4AdA=="/>
         </command>
-        <command name="TrainObject" player="3" tick="307" timestamp="34152">
+        <command name="TrainObject" player="2" tick="287" timestamp="32002">
             <argument value="AAAAAgAAAAAE"/>
             <argument value="AAAACgAAAAAKAEcAcgB1AG4AdA=="/>
         </command>
-        <command name="TrainObject" player="3" tick="309" timestamp="34290">
+        <command name="TrainObject" player="2" tick="289" timestamp="32166">
             <argument value="AAAAAgAAAAAE"/>
             <argument value="AAAACgAAAAAKAEcAcgB1AG4AdA=="/>
         </command>
-        <command name="TrainObject" player="3" tick="310" timestamp="34428">
+        <command name="TrainObject" player="2" tick="290" timestamp="32340">
             <argument value="AAAAAgAAAAAE"/>
             <argument value="AAAACgAAAAAKAEcAcgB1AG4AdA=="/>
         </command>
-        <command name="TrainObject" player="3" tick="311" timestamp="34566">
+        <command name="TrainObject" player="2" tick="292" timestamp="32520">
             <argument value="AAAAAgAAAAAE"/>
             <argument value="AAAACgAAAAAKAEcAcgB1AG4AdA=="/>
         </command>
-        <command name="Send" player="3" tick="342" timestamp="38090">
-            <argument value="AAAACQAAAAABAAAAAgAAAAAG"/>
-            <argument value="AAAAGQAAAAAPAAAAAw=="/>
+        <command name="SendToObject" player="2" tick="356" timestamp="39765">
+            <argument value="AAAACQAAAAACAAAAAgAAAAAGAAAAAgAAAAAH"/>
+            <argument value="AAAAAgAAAAAF"/>
             <argument value="AAAAAQAB"/>
         </command>
-        <command name="Send" player="3" tick="370" timestamp="41225">
-            <argument value="AAAACQAAAAABAAAAAgAAAAAH"/>
-            <argument value="AAAAGQAAAAAPAAAAAw=="/>
-            <argument value="AAAAAQAB"/>
-        </command>
-        <command name="Send" player="3" tick="400" timestamp="44533">
+        <command name="SendToObject" player="2" tick="394" timestamp="43985">
             <argument value="AAAACQAAAAABAAAAAgAAAAAI"/>
-            <argument value="AAAAGQAAAAAQAAAAAw=="/>
+            <argument value="AAAAAgAAAAAF"/>
             <argument value="AAAAAQAB"/>
         </command>
-        <command name="Send" player="3" tick="430" timestamp="47913">
+        <command name="SendToObject" player="2" tick="478" timestamp="53537">
+            <argument value="AAAACQAAAAADAAAAAgAAAAAJAAAAAgAAAAAKAAAAAgAAAAAL"/>
+            <argument value="AAAAAgAAAAAF"/>
+            <argument value="AAAAAQAB"/>
+        </command>
+        <command name="SendToObject" player="2" tick="522" timestamp="58470">
+            <argument value="AAAACQAAAAACAAAAAgAAAAACAAAAAgAAAAAH"/>
+            <argument value="AAAAAgAAAAAB"/>
+            <argument value="AAAAAQAB"/>
+        </command>
+        <command name="SendToObject" player="2" tick="534" timestamp="59838">
             <argument value="AAAACQAAAAABAAAAAgAAAAAJ"/>
-            <argument value="AAAAGQAAAAAQAAAABA=="/>
+            <argument value="AAAAAgAAAAAB"/>
             <argument value="AAAAAQAB"/>
         </command>
-        <command name="Send" player="3" tick="461" timestamp="51345">
-            <argument value="AAAACQAAAAABAAAAAgAAAAAK"/>
-            <argument value="AAAAGQAAAAAQAAAAAw=="/>
+        <command name="SendToObject" player="2" tick="550" timestamp="61648">
+            <argument value="AAAACQAAAAADAAAAAgAAAAAJAAAAAgAAAAAKAAAAAgAAAAAL"/>
+            <argument value="AAAAAgAAAAAF"/>
             <argument value="AAAAAQAB"/>
         </command>
-        <command name="Send" player="3" tick="496" timestamp="55229">
-            <argument value="AAAACQAAAAABAAAAAgAAAAAL"/>
-            <argument value="AAAAGQAAAAAPAAAABA=="/>
-            <argument value="AAAAAQAB"/>
-        </command>
-        <command name="Send" player="3" tick="584" timestamp="65025">
-            <argument value="AAAACQAAAAAHAAAAAgAAAAACAAAAAgAAAAAGAAAAAgAAAAAHAAAAAgAAAAAIAAAAAgAAAAAJAAAAAgAAAAAKAAAAAgAAAAAL"/>
-            <argument value="AAAAGQAAAAANAAAAAw=="/>
-            <argument value="AAAAAQAB"/>
-        </command>
-        <command name="Send" player="3" tick="598" timestamp="66680">
-            <argument value="AAAACQAAAAAHAAAAAgAAAAACAAAAAgAAAAAGAAAAAgAAAAAHAAAAAgAAAAAIAAAAAgAAAAAJAAAAAgAAAAAKAAAAAgAAAAAL"/>
-            <argument value="AAAAGQAAAAANAAAAAw=="/>
-            <argument value="AAAAAQAB"/>
-        </command>
-        <command name="Send" player="3" tick="612" timestamp="68260">
-            <argument value="AAAACQAAAAAHAAAAAgAAAAACAAAAAgAAAAAGAAAAAgAAAAAHAAAAAgAAAAAIAAAAAgAAAAAJAAAAAgAAAAAKAAAAAgAAAAAL"/>
-            <argument value="AAAAGQAAAAAQAAAABA=="/>
+        <command name="SendToObject" player="2" tick="578" timestamp="64758">
+            <argument value="AAAACQAAAAADAAAAAgAAAAACAAAAAgAAAAAHAAAAAgAAAAAJ"/>
+            <argument value="AAAAAgAAAAAF"/>
             <argument value="AAAAAQAB"/>
         </command>
     </commands>

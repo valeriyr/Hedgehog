@@ -80,9 +80,13 @@ public:
 
 	/*virtual*/ const VictoryCondition::Enum getVictoryConditionType() const;
 
+	/*virtual*/ const IGameMode::Type::Enum getGameModeType() const;
+
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void pushCommand( const Command& _command );
+
+	/*virtual*/ bool hasMoreCommands() const;
 
 	COMMAND_MAP_DECLARE()
 
