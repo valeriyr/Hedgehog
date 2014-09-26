@@ -168,8 +168,6 @@ LandscapeModel::initLandscape( const QString& _filePath )
 	if ( isSimulationRunning() )
 		return;
 
-	resetModel();
-
 	boost::intrusive_ptr< ILandscape >
 		landscape( new Landscape( m_environment, *this ) );
 
@@ -280,6 +278,8 @@ LandscapeModel::resetModel()
 
 	m_playersIdsGenerator.reset();
 	m_objectsIdsGenerator.reset();
+
+	processCommand( Command( CommandId::ChangeVictoryCondition ).pushArgument( VictoryCondition::Begin ) );
 
 	if ( needToPrintMessage )
 	{
@@ -1027,6 +1027,7 @@ LandscapeModel::shouldStoreResources( const Object& _holder, boost::shared_ptr< 
 void
 LandscapeModel::initPlayers()
 {
+	m_playersIdsGenerator.reset();
 	m_players.clear();
 
 	IStaticData::RacesCollection races;
