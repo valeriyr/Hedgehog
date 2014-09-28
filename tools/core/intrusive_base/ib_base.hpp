@@ -4,6 +4,10 @@
 
 /*---------------------------------------------------------------------------*/
 
+#include <QtCore/QAtomicInt>
+
+/*---------------------------------------------------------------------------*/
+
 namespace Tools {
 namespace Core {
 
@@ -30,12 +34,12 @@ public:
 
 	virtual void addRef()
 	{
-		++m_counter;
+		m_counter.ref();
 	}
 
 	virtual void releaseRef()
 	{
-		if ( --m_counter == 0 )
+		if ( !m_counter.deref() )
 			delete this;
 	}
 
@@ -45,8 +49,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	// TODO: should be atomic
-	volatile unsigned int m_counter;
+	QAtomicInt m_counter;
 
 /*---------------------------------------------------------------------------*/
 
