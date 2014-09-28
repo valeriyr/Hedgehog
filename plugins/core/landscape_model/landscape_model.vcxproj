@@ -27,7 +27,12 @@
     <ClCompile Include="sources\actions\lm_move_action.cpp" />
     <ClCompile Include="sources\actions\lm_repair_action.cpp" />
     <ClCompile Include="sources\actions\lm_train_action.cpp" />
-    <ClCompile Include="sources\ai\ai_goals\lm_wait_goal.cpp" />
+    <ClCompile Include="sources\ai\ai_goals\lm_attack_goal.cpp" />
+    <ClCompile Include="sources\ai\ai_goals\lm_build_goal.cpp" />
+    <ClCompile Include="sources\ai\ai_goals\lm_defend_goal.cpp" />
+    <ClCompile Include="sources\ai\ai_goals\lm_explore_goal.cpp" />
+    <ClCompile Include="sources\ai\ai_goals\lm_repair_goal.cpp" />
+    <ClCompile Include="sources\ai\ai_goals\lm_train_goal.cpp" />
     <ClCompile Include="sources\ai\ai_manager\lm_ai_manager.cpp" />
     <ClCompile Include="sources\components\lm_actions_component.cpp" />
     <ClCompile Include="sources\components\lm_attack_component.cpp" />
@@ -87,6 +92,7 @@
     <ClInclude Include="h\lm_object_states.hpp" />
     <ClInclude Include="h\lm_player_type.hpp" />
     <ClInclude Include="h\lm_plugin_id.hpp" />
+    <ClInclude Include="h\lm_priority.hpp" />
     <ClInclude Include="h\lm_resources.hpp" />
     <ClInclude Include="h\lm_resources_data.hpp" />
     <ClInclude Include="h\lm_start_point.hpp" />
@@ -125,7 +131,13 @@
     <ClInclude Include="sources\actions\lm_move_action.hpp" />
     <ClInclude Include="sources\actions\lm_repair_action.hpp" />
     <ClInclude Include="sources\actions\lm_train_action.hpp" />
-    <ClInclude Include="sources\ai\ai_goals\lm_wait_goal.hpp" />
+    <ClInclude Include="sources\ai\ai_goals\lm_attack_goal.hpp" />
+    <ClInclude Include="sources\ai\ai_goals\lm_build_goal.hpp" />
+    <ClInclude Include="sources\ai\ai_goals\lm_defend_goal.hpp" />
+    <ClInclude Include="sources\ai\ai_goals\lm_explore_goal.hpp" />
+    <ClInclude Include="sources\ai\ai_goals\lm_igoal.hpp" />
+    <ClInclude Include="sources\ai\ai_goals\lm_repair_goal.hpp" />
+    <ClInclude Include="sources\ai\ai_goals\lm_train_goal.hpp" />
     <ClInclude Include="sources\ai\ai_manager\lm_ai_manager.hpp" />
     <ClInclude Include="sources\ai\ai_manager\lm_iai_manager.hpp" />
     <ClInclude Include="sources\components\lm_actions_component.hpp" />

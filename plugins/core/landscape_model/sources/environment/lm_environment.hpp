@@ -53,6 +53,10 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ Framework::Core::EventManager::Subscriber createSubscriber() const;
+
+/*---------------------------------------------------------------------------*/
+
 	/*virtual*/ void printMessage(
 			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
 		,	const QString& _message ) const;
@@ -74,6 +78,8 @@ public:
 	/*virtual*/ boost::intrusive_ptr< ILandscapeSerializer > getLandscapeSerializer() const;
 
 	/*virtual*/ boost::intrusive_ptr< IReplaySerializer > getReplaySerializer() const;
+
+	/*virtual*/ boost::intrusive_ptr< IAIManager > getAIManager() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -102,7 +108,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void executeLuaFunction( const QString& _function ) const;
+	/*virtual*/ Framework::Core::ScriptEngine::FunctionCaller getFunctionCaller() const;
 
 /*---------------------------------------------------------------------------*/
 

@@ -113,7 +113,7 @@ struct ILandscapeModel
 
 	virtual boost::intrusive_ptr< IPlayer > getPlayer( const QString& _name ) const = 0;
 
-	virtual boost::intrusive_ptr< IPlayer > getPlayerByStartPoint( const StartPoint::Id& _id ) const = 0;
+	virtual boost::intrusive_ptr< IPlayer > getPlayerByStartPoint( const Tools::Core::Generators::IGenerator::IdType& _id ) const = 0;
 
 	virtual boost::intrusive_ptr< IPlayer > getMyPlayer() const = 0;
 

@@ -309,7 +309,7 @@ LandscapeSerializer::onObjectElement(
 	,	const QString& _name
 	,	const int _x
 	,	const int _y
-	,	const StartPoint::Id& _id )
+	,	const Tools::Core::Generators::IGenerator::IdType& _id )
 {
 	if ( _id == INT_MAX )
 	{
@@ -330,7 +330,7 @@ LandscapeSerializer::onObjectElement(
 
 
 void
-LandscapeSerializer::onStartPoint( ILandscape& _landscape, const StartPoint::Id& _id, const int _x, const int _y )
+LandscapeSerializer::onStartPoint( ILandscape& _landscape, const Tools::Core::Generators::IGenerator::IdType& _id, const int _x, const int _y )
 {
 	_landscape.addStartPoint( StartPoint( _id, QPoint( _x, _y ) ) );
 

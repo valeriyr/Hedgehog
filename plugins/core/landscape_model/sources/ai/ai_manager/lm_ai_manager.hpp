@@ -18,8 +18,8 @@ struct IEnvironment;
 
 /*---------------------------------------------------------------------------*/
 
-class AiManager
-	:	public Tools::Core::BaseWrapper< IAiManager >
+class AIManager
+	:	public Tools::Core::BaseWrapper< IAIManager >
 {
 
 /*---------------------------------------------------------------------------*/
@@ -28,13 +28,23 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	AiManager( const IEnvironment& _environment );
+	AIManager( const IEnvironment& _environment );
 
-	virtual ~AiManager();
+	virtual ~AIManager();
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void regAi( const QString& _name, const QString& _race );
+	/*virtual*/ void regAI(
+			const QString& _name
+		,	const QString& _race
+		,	const QString& _thinkFunction
+		,	const QString& _eventsCallbackFunction );
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ QString getAIForRace( const QString& _race ) const;
+
+	/*virtual*/ const IAIManager::AIData& getAIData( const QString& _name ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,27 +52,18 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	struct AiData
-	{
-		AiData( const QString& _race )
-			:	m_race( _race )
-		{}
-
-		const QString m_race;
-	};
-
 	typedef
-		std::map< QString, AiData >
-		AiDatasCollection;
+		std::map< QString, IAIManager::AIData >
+		AIDatasCollection;
 	typedef
-		AiDatasCollection::const_iterator
-		AiDatasCollectionIterator;
+		AIDatasCollection::const_iterator
+		AIDatasCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
 
 	const IEnvironment& m_environment;
 
-	AiDatasCollection m_aiDatas;
+	AIDatasCollection m_aiDatas;
 
 /*---------------------------------------------------------------------------*/
 

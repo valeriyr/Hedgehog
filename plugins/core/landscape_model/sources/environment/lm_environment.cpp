@@ -9,6 +9,7 @@
 #include "landscape_model/sources/model_locker/lm_model_locker.hpp"
 #include "landscape_model/sources/landscape_serializer/lm_ilandscape_serializer.hpp"
 #include "landscape_model/sources/replay_serializer/lm_ireplay_serializer.hpp"
+#include "landscape_model/sources/ai/ai_manager/lm_iai_manager.hpp"
 
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 #include "landscape_model/ih/lm_imodel_information.hpp"
@@ -112,6 +113,17 @@ Environment::removeTask( const Framework::Core::MultithreadingManager::TaskHandl
 /*---------------------------------------------------------------------------*/
 
 
+Framework::Core::EventManager::Subscriber
+Environment::createSubscriber() const
+{
+	return Framework::Core::EventManager::Subscriber( *m_pluginInstance.getEventManager() );
+
+} // Environment::createSubscriber
+
+
+/*---------------------------------------------------------------------------*/
+
+
 void
 Environment::printMessage(
 		const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
@@ -202,6 +214,17 @@ Environment::getReplaySerializer() const
 /*---------------------------------------------------------------------------*/
 
 
+boost::intrusive_ptr< IAIManager >
+Environment::getAIManager() const
+{
+	return m_pluginInstance.getAIManager();
+
+} // Environment::getAIManager
+
+
+/*---------------------------------------------------------------------------*/
+
+
 QString
 Environment::getApplicationDirectory() const
 {
@@ -281,12 +304,12 @@ Environment::lockModel() const
 /*---------------------------------------------------------------------------*/
 
 
-void
-Environment::executeLuaFunction( const QString& _function ) const
+Framework::Core::ScriptEngine::FunctionCaller
+Environment::getFunctionCaller() const
 {
-	m_pluginInstance.getScriptsExecutor()->executeFunction( _function );
+	return m_pluginInstance.getScriptsExecutor()->getFunctionCaller();
 
-} // Environment::executeLuaFunction
+} // Environment::getFunctionCaller
 
 
 /*---------------------------------------------------------------------------*/

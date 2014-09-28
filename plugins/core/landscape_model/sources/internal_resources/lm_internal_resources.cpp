@@ -57,7 +57,7 @@ namespace Resources {
 
 	const char* const ObjectsConfigurationScriptsDirectory = "objects";
 
-	const char* const AiConfigurationScriptsDirectory = "ai";
+	const char* const AIConfigurationScriptsDirectory = "ai";
 
 /*---------------------------------------------------------------------------*/
 

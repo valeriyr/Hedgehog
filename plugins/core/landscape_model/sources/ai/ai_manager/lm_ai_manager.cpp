@@ -15,40 +15,72 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-AiManager::AiManager( const IEnvironment& _environment )
+AIManager::AIManager( const IEnvironment& _environment )
 	:	m_environment( _environment )
 	,	m_aiDatas()
 {
-} // AiManager::AiManager
+} // AIManager::AIManager
 
 
 /*---------------------------------------------------------------------------*/
 
 
-AiManager::~AiManager()
+AIManager::~AIManager()
 {
-} // AiManager::~AiManager
+} // AIManager::~AIManager
 
 
 /*---------------------------------------------------------------------------*/
 
 
 void
-AiManager::regAi( const QString& _name, const QString& _race )
+AIManager::regAI(
+		const QString& _name
+	,	const QString& _race
+	,	const QString& _thinkFunction
+	,	const QString& _eventsCallbackFunction )
 {
 	assert( m_aiDatas.find( _name ) == m_aiDatas.end() );
 
-	m_aiDatas.insert( std::make_pair( _name, AiData( _race ) ) );
+	m_aiDatas.insert( std::make_pair( _name, AIData( _race, _thinkFunction, _eventsCallbackFunction ) ) );
 
-	m_environment.executeLuaFunction( _name );
-	m_environment.executeLuaFunction( _name );
-	m_environment.executeLuaFunction( _name );
-	m_environment.executeLuaFunction( _name );
-	m_environment.executeLuaFunction( _name );
-	m_environment.executeLuaFunction( _name );
-	m_environment.executeLuaFunction( _name );
+} // AIManager::regAI
 
-} // AiManager::regAi
+
+/*---------------------------------------------------------------------------*/
+
+
+QString
+AIManager::getAIForRace( const QString& _race ) const
+{
+	AIDatasCollectionIterator
+			begin = m_aiDatas.begin()
+		,	end = m_aiDatas.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( begin->second.m_race == _race )
+			return begin->first;
+	}
+
+	return QString();
+
+} // AIManager::getAIForRace
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const IAIManager::AIData&
+AIManager::getAIData( const QString& _name ) const
+{
+	AIDatasCollectionIterator iterator = m_aiDatas.find( _name );
+
+	assert( iterator != m_aiDatas.end() );
+
+	return iterator->second;
+
+} // AIManager::getAIData
 
 
 /*---------------------------------------------------------------------------*/

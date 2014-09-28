@@ -47,7 +47,7 @@ public:
 
 	/*virtual*/ void addStartPoint( const StartPoint& _startPoint );
 
-	/*virtual*/ const StartPoint& getStartPoint( const StartPoint::Id& _startPointId );
+	/*virtual*/ const StartPoint& getStartPoint( const Tools::Core::Generators::IGenerator::IdType& _startPointId );
 
 	/*virtual*/ ILandscape::StartPointsIterator getStartPointsIterator() const;
 
@@ -121,7 +121,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< StartPoint::Id, const StartPoint >
+		std::map< Tools::Core::Generators::IGenerator::IdType, const StartPoint >
 		StartsPointsCollection;
 	typedef
 		StartsPointsCollection::iterator

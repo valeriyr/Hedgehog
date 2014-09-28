@@ -1,10 +1,6 @@
 
-#ifndef __LM_START_POINT_HPP__
-#define __LM_START_POINT_HPP__
-
-/*---------------------------------------------------------------------------*/
-
-#include "generators/gn_igenerator.hpp"
+#ifndef __LM_PRIORITY_HPP__
+#define __LM_PRIORITY_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,16 +10,16 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct StartPoint
+struct Priority
 {
-	StartPoint( const Tools::Core::Generators::IGenerator::IdType _id, const QPoint _point )
-		:	m_id( _id )
-		,	m_point( _point )
-	{}
-
-	const Tools::Core::Generators::IGenerator::IdType m_id;
-
-	const QPoint m_point;
+	enum Enum
+	{
+			Idle	= 0
+		,	Low
+		,	Middle
+		,	High
+		,	Extreme
+	};
 };
 
 /*---------------------------------------------------------------------------*/
@@ -34,4 +30,4 @@ struct StartPoint
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_START_POINT_HPP__
+#endif // __LM_PRIORITY_HPP__

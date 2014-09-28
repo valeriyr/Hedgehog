@@ -14,6 +14,7 @@
 #include "landscape_model/sources/unique_id_generator/lm_unique_id_generator.hpp"
 
 #include "multithreading_manager/h/mm_task_handle.hpp"
+#include "event_manager/h/em_subscriber.hpp"
 
 #include "time/t_time.hpp"
 
@@ -112,7 +113,7 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const QString& _name ) const;
 
-	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayerByStartPoint( const StartPoint::Id& _id ) const;
+	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayerByStartPoint( const Tools::Core::Generators::IGenerator::IdType& _id ) const;
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getMyPlayer() const;
 
@@ -169,13 +170,15 @@ private:
 
 	bool shouldStoreResources( const Object& _holder, boost::shared_ptr< Object > _storage );
 
-/*---------------------------------------------------------------------------*/
-
 	void initPlayers();
 
 	void setupMyPlayer();
 
 	void initVictoryChecker( const VictoryCondition::Enum _condition );
+
+	void processAIThinkCall();
+
+	void processAIPlayersGoals();
 
 /*---------------------------------------------------------------------------*/
 
@@ -198,6 +201,14 @@ private:
 	DECLARE_PROCESSOR( ChangePlayerType )
 	DECLARE_PROCESSOR( ChangePlayerName )
 	DECLARE_PROCESSOR( ChangeMyPlayer )
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
+
+	void onEvent( const Framework::Core::EventManager::Event& _event );
 
 /*---------------------------------------------------------------------------*/
 
@@ -228,6 +239,8 @@ private:
 	UniqueIdGenerator m_objectsIdsGenerator;
 
 /*---------------------------------------------------------------------------*/
+
+	Framework::Core::EventManager::Subscriber m_subscriber;
 
 	Framework::Core::MultithreadingManager::TaskHandle m_actionsProcessingTaskHandle;
 

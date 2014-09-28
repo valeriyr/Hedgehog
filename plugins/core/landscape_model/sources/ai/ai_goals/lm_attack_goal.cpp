@@ -1,7 +1,7 @@
 
 #include "landscape_model/sources/ph/lm_ph.hpp"
 
-#include "landscape_model/sources/ai/ai_goals/lm_wait_goal.hpp"
+#include "landscape_model/sources/ai/ai_goals/lm_attack_goal.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -13,32 +13,28 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-WaitGoal::WaitGoal( const TickType& _ticks )
-	:	m_ticks( _ticks )
+AttackGoal::AttackGoal()
 {
-} // WaitGoal::WaitGoal
+} // AttackGoal::AttackGoal
 
 
 /*---------------------------------------------------------------------------*/
 
 
-WaitGoal::~WaitGoal()
+AttackGoal::~AttackGoal()
 {
-} // WaitGoal::~WaitGoal
+} // AttackGoal::~AttackGoal
 
 
 /*---------------------------------------------------------------------------*/
 
 
 bool
-WaitGoal::process()
+AttackGoal::process()
 {
-	if ( m_ticks > 0 )
-		--m_ticks;
+	return true;
 
-	return m_ticks <= 0;
-
-} // WaitGoal::process
+} // AttackGoal::process
 
 
 /*---------------------------------------------------------------------------*/

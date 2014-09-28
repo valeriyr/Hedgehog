@@ -32,7 +32,7 @@ struct IModelInformation
 
 	virtual QString getObjectsScriptsDirectory() const = 0;
 
-	virtual QString getAiScriptsDirectory() const = 0;
+	virtual QString getAIScriptsDirectory() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

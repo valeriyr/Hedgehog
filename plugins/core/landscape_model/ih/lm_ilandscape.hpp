@@ -63,7 +63,7 @@ struct ILandscape
 
 	virtual void addStartPoint( const StartPoint& _startPoint ) = 0;
 
-	virtual const StartPoint& getStartPoint( const StartPoint::Id& _startPointId ) = 0;
+	virtual const StartPoint& getStartPoint( const Tools::Core::Generators::IGenerator::IdType& _startPointId ) = 0;
 
 	virtual StartPointsIterator getStartPointsIterator() const = 0;
 

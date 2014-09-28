@@ -80,11 +80,11 @@ ModelInformation::getObjectsScriptsDirectory() const
 
 
 QString
-ModelInformation::getAiScriptsDirectory() const
+ModelInformation::getAIScriptsDirectory() const
 {
-	return getScriptsRootDirectory() + "/" + Resources::AiConfigurationScriptsDirectory;
+	return getScriptsRootDirectory() + "/" + Resources::AIConfigurationScriptsDirectory;
 
-} // ModelInformation::getAiScriptsDirectory
+} // ModelInformation::getAIScriptsDirectory
 
 
 /*---------------------------------------------------------------------------*/

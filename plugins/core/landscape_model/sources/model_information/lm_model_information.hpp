@@ -42,7 +42,7 @@ public:
 
 	/*virtual*/ QString getObjectsScriptsDirectory() const;
 
-	/*virtual*/ QString getAiScriptsDirectory() const;
+	/*virtual*/ QString getAIScriptsDirectory() const;
 
 /*---------------------------------------------------------------------------*/
 

@@ -33,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\se_data_exporter.hpp" />
+    <ClInclude Include="h\se_function_caller.hpp" />
     <ClInclude Include="h\se_plugin_id.hpp" />
     <ClInclude Include="h\se_resources.hpp" />
     <ClInclude Include="ih\se_iexporter.hpp" />

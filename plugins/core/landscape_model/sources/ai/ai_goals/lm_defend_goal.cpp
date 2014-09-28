@@ -1,10 +1,8 @@
 
-#ifndef __LM_START_POINT_HPP__
-#define __LM_START_POINT_HPP__
+#include "landscape_model/sources/ph/lm_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "landscape_model/sources/ai/ai_goals/lm_defend_goal.hpp"
 
-#include "generators/gn_igenerator.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,17 +12,30 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct StartPoint
+
+DefendGoal::DefendGoal()
 {
-	StartPoint( const Tools::Core::Generators::IGenerator::IdType _id, const QPoint _point )
-		:	m_id( _id )
-		,	m_point( _point )
-	{}
+} // DefendGoal::DefendGoal
 
-	const Tools::Core::Generators::IGenerator::IdType m_id;
 
-	const QPoint m_point;
-};
+/*---------------------------------------------------------------------------*/
+
+
+DefendGoal::~DefendGoal()
+{
+} // DefendGoal::~DefendGoal
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+DefendGoal::process()
+{
+	return true;
+
+} // DefendGoal::process
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,5 +44,3 @@ struct StartPoint
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LM_START_POINT_HPP__

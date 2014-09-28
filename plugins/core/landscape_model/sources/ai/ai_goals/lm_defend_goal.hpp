@@ -1,38 +1,42 @@
 
-#ifndef __SE_ISCRIPTS_EXECUTOR_HPP__
-#define __SE_ISCRIPTS_EXECUTOR_HPP__
+#ifndef __LM_DEFEND_GOAL_HPP__
+#define __LM_DEFEND_GOAL_HPP__
 
 /*---------------------------------------------------------------------------*/
 
-#include "intrusive_base/ib_ibase.hpp"
-
-#include "script_engine/h/se_function_caller.hpp"
+#include "landscape_model/sources/ai/ai_goals/lm_igoal.hpp"
 
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Plugins {
 namespace Core {
-namespace ScriptEngine {
+namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_SCRIPTS_EXECUTOR = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct IScriptsExecutor
-	:	public Tools::Core::IBase
+class DefendGoal
+	:	public Tools::Core::BaseWrapper< IGoal >
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void executeFile( const QString& _fileName ) = 0;
-
-	virtual void executeScript( const QString& _script ) = 0;
+public:
 
 /*---------------------------------------------------------------------------*/
 
-	virtual FunctionCaller getFunctionCaller() = 0;
+	DefendGoal();
+
+	~DefendGoal();
+
+/*---------------------------------------------------------------------------*/
+
+	/*virtual*/ bool process();
+
+/*---------------------------------------------------------------------------*/
+
+private:
+
+/*---------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,10 +44,10 @@ struct IScriptsExecutor
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace ScriptEngine
+} // namespace LandscapeModel
 } // namespace Core
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SE_ISCRIPTS_EXECUTOR_HPP__
+#endif // __LM_DEFEND_GOAL_HPP__

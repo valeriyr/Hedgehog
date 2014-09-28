@@ -40,7 +40,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void executeFunction( const QString& _function );
+	/*virtual*/ FunctionCaller getFunctionCaller();
 
 /*---------------------------------------------------------------------------*/
 

@@ -57,7 +57,7 @@ namespace Resources {
 
 	extern const char* const ObjectsConfigurationScriptsDirectory;
 
-	extern const char* const AiConfigurationScriptsDirectory;
+	extern const char* const AIConfigurationScriptsDirectory;
 
 /*---------------------------------------------------------------------------*/
 

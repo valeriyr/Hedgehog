@@ -24,6 +24,8 @@
 
 #include "landscape_model/sources/notification_center/lm_inotification_center.hpp"
 
+#include "landscape_model/sources/ai/ai_manager/lm_iai_manager.hpp"
+
 #include "landscape_model/sources/components/lm_train_component.hpp"
 #include "landscape_model/sources/components/lm_health_component.hpp"
 #include "landscape_model/sources/components/lm_locate_component.hpp"
@@ -55,12 +57,17 @@
 #include "landscape_model/h/lm_events.hpp"
 #include "landscape_model/h/lm_victory_condition.hpp"
 
+#include "event_manager/h/em_external_resources.hpp"
 
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
+
+/*---------------------------------------------------------------------------*/
+
+static const TickType gs_aiThinkCallPeriod = 300;
 
 /*---------------------------------------------------------------------------*/
 
@@ -127,6 +134,7 @@ LandscapeModel::LandscapeModel( const IEnvironment& _environment )
 	:	m_environment( _environment )
 	,	m_playersIdsGenerator()
 	,	m_objectsIdsGenerator()
+	,	m_subscriber( _environment.createSubscriber() )
 	,	m_actionsProcessingTaskHandle()
 	,	m_simulationStartTimeStamp( 0 )
 	,	m_landscape()
@@ -257,15 +265,16 @@ LandscapeModel::resetModel()
 {
 	bool needToPrintMessage = isSimulationRunning();
 
-	m_gameMode.reset();
+	m_subscriber.unsubscribe();
 
 	m_environment.removeTask( m_actionsProcessingTaskHandle );
 	m_actionsProcessingTaskHandle.reset();
 
+	m_gameMode.reset();
+
 	m_simulationBlocked = false;
 
 	m_simulationStartTimeStamp = 0;
-
 	m_ticksCounter = 0;
 
 	m_landscape.reset();
@@ -607,7 +616,7 @@ LandscapeModel::getPlayer( const QString& _name ) const
 
 
 boost::intrusive_ptr< IPlayer >
-LandscapeModel::getPlayerByStartPoint( const StartPoint::Id& _id ) const
+LandscapeModel::getPlayerByStartPoint( const Tools::Core::Generators::IGenerator::IdType& _id ) const
 {
 	PlayersMapIterator
 			begin = m_players.begin()
@@ -919,6 +928,11 @@ LandscapeModel::gameMainLoop()
 			Framework::Core::EventManager::Event( Events::CurrentTickNumberChanged::ms_type )
 				.pushAttribute( Events::CurrentTickNumberChanged::ms_tickNumberAttribute, m_ticksCounter ) );
 
+		if ( m_ticksCounter == 1 || ( m_ticksCounter % gs_aiThinkCallPeriod == 0 ) )
+			processAIThinkCall();
+
+		processAIPlayersGoals();
+
 		if ( m_landscape )
 		{
 			ILandscape::ObjectsCollection objects;
@@ -1126,6 +1140,47 @@ LandscapeModel::initVictoryChecker( const VictoryCondition::Enum _condition )
 
 
 void
+LandscapeModel::processAIThinkCall()
+{
+	PlayersMapIterator
+			begin = m_players.begin()
+		,	end = m_players.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( begin->second->getType() == PlayerType::AI )
+		{
+			const IAIManager::AIData& aiData = m_environment.getAIManager()->getAIData( begin->second->getAIName() );
+			m_environment.getFunctionCaller().callFunction( aiData.m_thinkFunction, begin->second->getUniqueId() );
+		}
+	}
+
+} // LandscapeModel::processAIThinkCall
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::processAIPlayersGoals()
+{
+	PlayersMapIterator
+			begin = m_players.begin()
+		,	end = m_players.end();
+
+	for ( ; begin != end; ++begin )
+	{
+		if ( begin->second->getType() == PlayerType::AI )
+			begin->second->processGoals();
+	}
+
+} // LandscapeModel::processAIPlayersGoals
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
 LandscapeModel::onStartSimulationProcessor( const Command& _command )
 {
 	if ( isSimulationRunning() || !m_gameMode )
@@ -1156,6 +1211,10 @@ LandscapeModel::onStartSimulationProcessor( const Command& _command )
 
 	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::SimulationStarted::ms_type ) );
 
+	m_subscriber.subscribe(		Resources::ModelThreadName
+							,	Framework::Core::EventManager::Resources::AnyEventName
+							,	boost::bind( &LandscapeModel::onEvent, this, _1 ) );
+
 } // LandscapeModel::onStartSimulationProcessor
 
 
@@ -1167,6 +1226,8 @@ LandscapeModel::onStopSimulationProcessor( const Command& _command )
 {
 	if ( !isSimulationRunning() )
 		return;
+
+	m_subscriber.unsubscribe();
 
 	m_environment.removeTask( m_actionsProcessingTaskHandle );
 	m_actionsProcessingTaskHandle.reset();
@@ -1597,6 +1658,15 @@ LandscapeModel::onBuildObjectProcessor( const Command& _command )
 	}
 
 } // LandscapeModel::onBuildObjectProcessor
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+LandscapeModel::onEvent( const Framework::Core::EventManager::Event& _event )
+{
+} // LandscapeModel::onEvent
 
 
 /*---------------------------------------------------------------------------*/

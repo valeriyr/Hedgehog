@@ -52,8 +52,8 @@ private:
 		,	const QString& _name
 		,	const int _x
 		,	const int _y
-		,	const StartPoint::Id& _id );
-	void onStartPoint( ILandscape& _landscape, const StartPoint::Id& _id, const int _x, const int _y );
+		,	const Tools::Core::Generators::IGenerator::IdType& _id );
+	void onStartPoint( ILandscape& _landscape, const Tools::Core::Generators::IGenerator::IdType& _id, const int _x, const int _y );
 
 /*---------------------------------------------------------------------------*/
 

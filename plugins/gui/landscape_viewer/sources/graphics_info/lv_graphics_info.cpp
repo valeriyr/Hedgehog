@@ -167,7 +167,7 @@ GraphicsInfo::getNobodyObjectColor()const
 
 
 void
-GraphicsInfo::setStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId, const QColor& _color )
+GraphicsInfo::setStartPointColor( const Tools::Core::Generators::IGenerator::IdType& _startPointId, const QColor& _color )
 {
 	m_startPointsData[ _startPointId ] = _color;
 
@@ -178,7 +178,7 @@ GraphicsInfo::setStartPointColor( const Core::LandscapeModel::StartPoint::Id& _s
 
 
 const QColor&
-GraphicsInfo::getStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId ) const
+GraphicsInfo::getStartPointColor( const Tools::Core::Generators::IGenerator::IdType& _startPointId ) const
 {
 	StartPointsDataCollectionIterator iterator = m_startPointsData.find( _startPointId );
 	assert( iterator != m_startPointsData.end() );

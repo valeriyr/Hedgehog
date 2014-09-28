@@ -10,8 +10,10 @@
 #include "multithreading_manager/h/mm_task_handle.hpp"
 
 #include "event_manager/h/em_event.hpp"
+#include "event_manager/h/em_subscriber.hpp"
 #include "messenger/ms_imessenger.hpp"
 #include "time/t_time.hpp"
+#include "script_engine/h/se_function_caller.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,6 +44,7 @@ struct ISurfaceItemsCache;
 struct ILandscapeSerializer;
 struct IReplaySerializer;
 struct IModelLocker;
+struct IAIManager;
 
 /*---------------------------------------------------------------------------*/
 
@@ -70,6 +73,10 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
+	virtual Framework::Core::EventManager::Subscriber createSubscriber() const = 0;
+
+/*---------------------------------------------------------------------------*/
+
 	virtual void printMessage(
 			const Tools::Core::IMessenger::MessegeLevel::Enum _messageLevel
 		,	const QString& _message ) const = 0;
@@ -91,6 +98,8 @@ struct IEnvironment
 	virtual boost::intrusive_ptr< ILandscapeSerializer > getLandscapeSerializer() const = 0;
 
 	virtual boost::intrusive_ptr< IReplaySerializer > getReplaySerializer() const = 0;
+
+	virtual boost::intrusive_ptr< IAIManager > getAIManager() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -119,7 +128,7 @@ struct IEnvironment
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void executeLuaFunction( const QString& _function ) const = 0;
+	virtual Framework::Core::ScriptEngine::FunctionCaller getFunctionCaller() const = 0;
 
 /*---------------------------------------------------------------------------*/
 

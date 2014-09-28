@@ -9,6 +9,9 @@
 #include "landscape_model/h/lm_resources_data.hpp"
 #include "landscape_model/h/lm_start_point.hpp"
 #include "landscape_model/h/lm_player_type.hpp"
+#include "landscape_model/h/lm_priority.hpp"
+
+#include "landscape_model/sources/ai/ai_goals/lm_igoal.hpp"
 
 #include "generators/gn_igenerator.hpp"
 
@@ -32,9 +35,11 @@ struct IPlayer
 
 	virtual const QString& getRace() const = 0;
 
-	virtual const StartPoint::Id& getStartPointId() const = 0;
+	virtual const Tools::Core::Generators::IGenerator::IdType& getStartPointId() const = 0;
 
 	virtual const QString& getName() const = 0;
+
+	virtual const QString& getAIName() const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,6 +50,10 @@ struct IPlayer
 	virtual void addResources( const ResourcesData& _data ) = 0;
 
 	virtual void addResources( const QString& _resourceName, const int _value ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void pushGoal( const Priority::Enum _priority, const IGoal::Ptr _goal ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

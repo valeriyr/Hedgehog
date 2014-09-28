@@ -83,19 +83,12 @@ ScriptsExecutor::executeScript( const QString& _script )
 /*---------------------------------------------------------------------------*/
 
 
-void
-ScriptsExecutor::executeFunction( const QString& _function )
+FunctionCaller
+ScriptsExecutor::getFunctionCaller()
 {
-	try
-	{
-		luabind::call_function< void >( m_luaEngine, _function.toLocal8Bit().data() );
-	}
-	catch( luabind::error& )
-	{
-		printErrorMessage();
-	}
+	return FunctionCaller( m_luaEngine );
 
-} // ScriptsExecutor::executeFunction
+} // ScriptsExecutor::getFunctionCaller
 
 
 /*---------------------------------------------------------------------------*/

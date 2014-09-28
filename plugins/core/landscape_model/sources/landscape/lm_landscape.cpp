@@ -112,7 +112,7 @@ Landscape::addStartPoint( const StartPoint& _startPoint )
 
 
 const StartPoint&
-Landscape::getStartPoint( const StartPoint::Id& _startPointId )
+Landscape::getStartPoint( const Tools::Core::Generators::IGenerator::IdType& _startPointId )
 {
 	StartsPointsCollectionConstIterator iterator = m_startPoints.find( _startPointId );
 	assert( iterator != m_startPoints.end() );

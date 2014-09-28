@@ -70,7 +70,7 @@ struct INotificationCenter;
 struct IStaticData;
 struct IModelLocker;
 struct IModelInformation;
-struct IAiManager;
+struct IAIManager;
 
 class LandscapeModel;
 
@@ -139,7 +139,7 @@ public:
 
 	boost::intrusive_ptr< IReplaySerializer > getReplaySerializer() const;
 
-	boost::intrusive_ptr< IAiManager > getAiManager() const;
+	boost::intrusive_ptr< IAIManager > getAIManager() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -177,7 +177,7 @@ private:
 
 	boost::intrusive_ptr< INotificationCenter > m_notificationCenter;
 
-	boost::intrusive_ptr< IAiManager > m_aiManager;
+	boost::intrusive_ptr< IAIManager > m_aiManager;
 
 /*---------------------------------------------------------------------------*/
 

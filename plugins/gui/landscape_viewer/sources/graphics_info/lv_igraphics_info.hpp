@@ -73,9 +73,9 @@ struct IGraphicsInfo
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void setStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId, const QColor& _color ) = 0;
+	virtual void setStartPointColor( const Tools::Core::Generators::IGenerator::IdType& _startPointId, const QColor& _color ) = 0;
 
-	virtual const QColor& getStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId ) const = 0;
+	virtual const QColor& getStartPointColor( const Tools::Core::Generators::IGenerator::IdType& _startPointId ) const = 0;
 
 	virtual void clearStartPointData() = 0;
 

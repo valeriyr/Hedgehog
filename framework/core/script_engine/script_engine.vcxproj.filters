@@ -83,5 +83,8 @@
     <ClInclude Include="h\se_resources.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
+    <ClInclude Include="h\se_function_caller.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

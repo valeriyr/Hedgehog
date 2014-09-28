@@ -14,13 +14,42 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct IAiManager
+struct IAIManager
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void regAi( const QString& _name, const QString& _race ) = 0;
+	struct AIData
+	{
+		AIData(
+				const QString& _race
+			,	const QString& _thinkFunction
+			,	const QString& _eventsCallbackFunction
+			)
+			:	m_race( _race )
+			,	m_thinkFunction( _thinkFunction )
+			,	m_eventsCallbackFunction( _eventsCallbackFunction )
+		{}
+
+		const QString m_race;
+		const QString m_thinkFunction;
+		const QString m_eventsCallbackFunction;
+	};
+
+/*---------------------------------------------------------------------------*/
+
+	virtual void regAI(
+			const QString& _name
+		,	const QString& _race
+		,	const QString& _thinkFunction
+		,	const QString& _eventsCallbackFunction ) = 0;
+
+/*---------------------------------------------------------------------------*/
+
+	virtual QString getAIForRace( const QString& _race ) const = 0;
+
+	virtual const AIData& getAIData( const QString& _name ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

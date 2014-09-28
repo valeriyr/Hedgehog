@@ -57,9 +57,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void setStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId, const QColor& _color );
+	/*virtual*/ void setStartPointColor( const Tools::Core::Generators::IGenerator::IdType& _startPointId, const QColor& _color );
 
-	/*virtual*/ const QColor& getStartPointColor( const Core::LandscapeModel::StartPoint::Id& _startPointId ) const;
+	/*virtual*/ const QColor& getStartPointColor( const Tools::Core::Generators::IGenerator::IdType& _startPointId ) const;
 
 	/*virtual*/ void clearStartPointData();
 
@@ -102,7 +102,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< Core::LandscapeModel::StartPoint::Id, QColor >
+		std::map< Tools::Core::Generators::IGenerator::IdType, QColor >
 		StartPointsDataCollection;
 	typedef
 		StartPointsDataCollection::const_iterator

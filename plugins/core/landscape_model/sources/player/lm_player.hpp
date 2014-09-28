@@ -34,12 +34,12 @@ public:
 			const IEnvironment& _environment
 		,	const Tools::Core::Generators::IGenerator::IdType _id
 		,	const QString& _race
-		,	const StartPoint::Id& _startPointId );
+		,	const Tools::Core::Generators::IGenerator::IdType& _startPointId );
 
 	Player(
 			const IEnvironment& _environment
 		,	const Tools::Core::Generators::IGenerator::IdType _id
-		,	const StartPoint::Id& _startPointId
+		,	const Tools::Core::Generators::IGenerator::IdType& _startPointId
 		,	const PlayerType::Enum _type
 		,	const QString& _race
 		,	const QString& _name );
@@ -54,9 +54,11 @@ public:
 
 	/*virtual*/ const QString& getRace() const;
 
-	/*virtual*/ const StartPoint::Id& getStartPointId() const;
+	/*virtual*/ const Tools::Core::Generators::IGenerator::IdType& getStartPointId() const;
 
 	/*virtual*/ const QString& getName() const;
+
+	/*virtual*/ const QString& getAIName() const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -70,11 +72,19 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
+	/*virtual*/ void pushGoal( const Priority::Enum _priority, const IGoal::Ptr _goal );
+
+/*---------------------------------------------------------------------------*/
+
 	void setName( const QString& _name );
 
 	void setRace( const QString& _race );
 
 	void setType( const PlayerType::Enum _type );
+
+/*---------------------------------------------------------------------------*/
+
+	void processGoals();
 
 /*---------------------------------------------------------------------------*/
 
@@ -92,21 +102,34 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
+	typedef
+		std::map< Priority::Enum, IGoal::Ptr >
+		GoalsCollection;
+	typedef
+		GoalsCollection::const_iterator
+		GoalsCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
 	const IEnvironment& m_environment;
 
 	const Tools::Core::Generators::IGenerator::IdType m_id;
 
-	const StartPoint::Id m_startPointId;
+	const Tools::Core::Generators::IGenerator::IdType m_startPointId;
 
 	QString m_race;
 
 	QString m_name;
+
+	QString m_aiName;
 
 	PlayerType::Enum m_type;
 
 	ResourcesData m_resourceData;
 
 	Notifier< Player > m_notifier;
+
+	GoalsCollection m_goals;
 
 /*---------------------------------------------------------------------------*/
 

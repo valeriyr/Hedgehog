@@ -1,38 +1,30 @@
 
-#ifndef __SE_ISCRIPTS_EXECUTOR_HPP__
-#define __SE_ISCRIPTS_EXECUTOR_HPP__
+#ifndef __LM_IGOAL_HPP__
+#define __LM_IGOAL_HPP__
 
 /*---------------------------------------------------------------------------*/
 
 #include "intrusive_base/ib_ibase.hpp"
 
-#include "script_engine/h/se_function_caller.hpp"
-
 /*---------------------------------------------------------------------------*/
 
-namespace Framework {
+namespace Plugins {
 namespace Core {
-namespace ScriptEngine {
+namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_SCRIPTS_EXECUTOR = 0;
-
-/*---------------------------------------------------------------------------*/
-
-struct IScriptsExecutor
+struct IGoal
 	:	public Tools::Core::IBase
 {
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void executeFile( const QString& _fileName ) = 0;
-
-	virtual void executeScript( const QString& _script ) = 0;
+	typedef boost::shared_ptr< IGoal > Ptr;
 
 /*---------------------------------------------------------------------------*/
 
-	virtual FunctionCaller getFunctionCaller() = 0;
+	virtual bool process() = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -40,10 +32,10 @@ struct IScriptsExecutor
 
 /*---------------------------------------------------------------------------*/
 
-} // namespace ScriptEngine
+} // namespace LandscapeModel
 } // namespace Core
-} // namespace Framework
+} // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __SE_ISCRIPTS_EXECUTOR_HPP__
+#endif // __LM_IGOAL_HPP__

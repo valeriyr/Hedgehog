@@ -253,7 +253,7 @@ MultiplayerDialog::onPlayerNameChanged( const Framework::Core::EventManager::Eve
 {
 	const Tools::Core::Generators::IGenerator::IdType id
 		= _event.getAttribute( Core::LandscapeModel::Events::PlayerNameChanged::ms_playerIdAttribute ).toInt();
-	const Core::LandscapeModel::StartPoint::Id startPointid
+	const Tools::Core::Generators::IGenerator::IdType startPointid
 		= _event.getAttribute( Core::LandscapeModel::Events::PlayerNameChanged::ms_startPointIdAttribute ).toInt();
 	const QString name
 		= _event.getAttribute( Core::LandscapeModel::Events::PlayerNameChanged::ms_playerNameAttribute).toString();

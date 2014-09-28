@@ -231,11 +231,26 @@
     <ClCompile Include="sources\ai\ai_manager\lm_ai_manager.cpp">
       <Filter>AI\Ai Manager</Filter>
     </ClCompile>
-    <ClCompile Include="sources\ai\ai_goals\lm_wait_goal.cpp">
-      <Filter>AI\Ai Goals</Filter>
-    </ClCompile>
     <ClCompile Include="sources\unique_id_generator\lm_unique_id_generator.cpp">
       <Filter>Unique Id Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ai\ai_goals\lm_attack_goal.cpp">
+      <Filter>AI\Ai Goals</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ai\ai_goals\lm_build_goal.cpp">
+      <Filter>AI\Ai Goals</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ai\ai_goals\lm_defend_goal.cpp">
+      <Filter>AI\Ai Goals</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ai\ai_goals\lm_explore_goal.cpp">
+      <Filter>AI\Ai Goals</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ai\ai_goals\lm_repair_goal.cpp">
+      <Filter>AI\Ai Goals</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ai\ai_goals\lm_train_goal.cpp">
+      <Filter>AI\Ai Goals</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -542,11 +557,32 @@
     <ClInclude Include="sources\ai\ai_manager\lm_ai_manager.hpp">
       <Filter>AI\Ai Manager</Filter>
     </ClInclude>
-    <ClInclude Include="sources\ai\ai_goals\lm_wait_goal.hpp">
-      <Filter>AI\Ai Goals</Filter>
-    </ClInclude>
     <ClInclude Include="sources\unique_id_generator\lm_unique_id_generator.hpp">
       <Filter>Unique Id Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_priority.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ai\ai_goals\lm_igoal.hpp">
+      <Filter>AI\Ai Goals</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ai\ai_goals\lm_attack_goal.hpp">
+      <Filter>AI\Ai Goals</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ai\ai_goals\lm_build_goal.hpp">
+      <Filter>AI\Ai Goals</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ai\ai_goals\lm_defend_goal.hpp">
+      <Filter>AI\Ai Goals</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ai\ai_goals\lm_explore_goal.hpp">
+      <Filter>AI\Ai Goals</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ai\ai_goals\lm_repair_goal.hpp">
+      <Filter>AI\Ai Goals</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\ai\ai_goals\lm_train_goal.hpp">
+      <Filter>AI\Ai Goals</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

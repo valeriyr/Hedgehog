@@ -1,21 +1,26 @@
 
 -- Orc's Ai
 
-local aiSequence = { WaitGoal( 2 ), WaitGoal( 3 ) }
+local orcAISequence = {  }
 
-function OrcAi()
+function OrcAIThink( playerId )
 
-	if #aiSequence == 0 then
+	SystemMessenger:printMessage(IMessenger.Info, QString("Orc's AI think function called for player " .. playerId))
+
+	if #orcAISequence == 0 then
 		return
 	end
 
-	if aiSequence[1]:process() == true then
-		table.remove(aiSequence, 1)
+	if orcAISequence[1]:process() == true then
+		table.remove(orcAISequence, 1)
 	end
 end
 
-AiManager:regAi( QString("OrcAi"), QString("Orc") )
+function OrcAIEventCallback( event )
+end
+
+AIManager:regAI( QString("SampleOrcAI"), QString("Orc"), QString("OrcAIThink"), QString("OrcAIEventCallback") )
 
 -- End script message
 
-SystemMessenger:printMessage(IMessenger.Info, QString("Orc's Ai has been initialized."))
+SystemMessenger:printMessage(IMessenger.Info, QString("Orc's AI has been initialized."))

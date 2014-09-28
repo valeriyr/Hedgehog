@@ -307,7 +307,7 @@ void
 ReplaySerializer::onPlayerElement(
 		ILandscapeModel::PlayersCollection& _players
 	,	const Tools::Core::Generators::IGenerator::IdType& _id
-	,	const StartPoint::Id& _startPointId
+	,	const Tools::Core::Generators::IGenerator::IdType& _startPointId
 	,	const int _type
 	,	const QString& _race
 	,	const QString& _name ) const

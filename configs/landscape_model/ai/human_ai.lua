@@ -1,21 +1,26 @@
 
 -- Human's Ai
 
-local aiSequence = { WaitGoal( 2 ), WaitGoal( 3 ) }
+local humanAISequence = {  }
 
-function HumanAi()
+function HumanAIThink( playerId )
 
-	if #aiSequence == 0 then
+	SystemMessenger:printMessage(IMessenger.Info, QString("Human's AI think function called for player " .. playerId))
+
+	if #humanAISequence == 0 then
 		return
 	end
 
-	if aiSequence[1]:process() == true then
-		table.remove(aiSequence, 1)
+	if humanAISequence[1]:process() == true then
+		table.remove(humanAISequence, 1)
 	end
 end
 
-AiManager:regAi( QString("HumanAi"), QString("Human") )
+function HumanAIEventCallback( event )
+end
+
+AIManager:regAI( QString("SampleHumanAI"), QString("Human"), QString("HumanAIThink"), QString("HumanAIEventCallback") )
 
 -- End script message
 
-SystemMessenger:printMessage(IMessenger.Info, QString("Human's Ai has been initialized."))
+SystemMessenger:printMessage(IMessenger.Info, QString("Human's AI has been initialized."))

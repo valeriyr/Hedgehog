@@ -42,7 +42,7 @@
 #include "landscape_model/sources/notification_center/lm_notification_center.hpp"
 
 #include "landscape_model/sources/ai/ai_manager/lm_ai_manager.hpp"
-#include "landscape_model/sources/ai/ai_goals/lm_wait_goal.hpp"
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -101,11 +101,11 @@ PluginInstance::initialize()
 	m_landscapeSerializer.reset( new LandscapeSerializer() );
 	m_replaySerializer.reset( new ReplaySerializer( *m_environment ) );
 	m_landscapeModel.reset( new LandscapeModel( *m_environment ) );
-	m_aiManager.reset( new AiManager( *m_environment ) );
+	m_aiManager.reset( new AIManager( *m_environment ) );
 
 	exportScriptAPI();
 	executeConfigurationScripts( m_modelInformation->getObjectsScriptsDirectory() );
-	executeConfigurationScripts( m_modelInformation->getAiScriptsDirectory() );
+	executeConfigurationScripts( m_modelInformation->getAIScriptsDirectory() );
 
 } // PluginInstance::initialize
 
@@ -315,12 +315,12 @@ PluginInstance::getReplaySerializer() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::intrusive_ptr< IAiManager >
-PluginInstance::getAiManager() const
+boost::intrusive_ptr< IAIManager >
+PluginInstance::getAIManager() const
 {
 	return m_aiManager;
 
-} // PluginInstance::getAiManager
+} // PluginInstance::getAIManager
 
 
 /*---------------------------------------------------------------------------*/
@@ -496,18 +496,12 @@ PluginInstance::exportScriptAPI()
 
 	exporter.exportVariable( "StaticData", m_staticData.get() );
 
-	// AiManager
+	// AIManager
 
-	exporter.exportClass< IAiManager >( "IAiManager" )
-		->withMethod( "regAi", &IAiManager::regAi );
+	exporter.exportClass< IAIManager >( "IAIManager" )
+		->withMethod( "regAI", &IAIManager::regAI );
 
-	exporter.exportVariable( "AiManager", m_aiManager.get() );
-
-	// AiGoals
-
-	exporter.exportClass< WaitGoal >( "WaitGoal" )
-		->withConstructor< const TickType& >()
-		.withMethod( "process", &WaitGoal::process );
+	exporter.exportVariable( "AIManager", m_aiManager.get() );
 
 } // PluginInstance::exportScriptAPI
 

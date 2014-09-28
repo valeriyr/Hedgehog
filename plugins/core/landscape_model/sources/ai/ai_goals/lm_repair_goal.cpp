@@ -1,10 +1,8 @@
 
-#ifndef __LM_START_POINT_HPP__
-#define __LM_START_POINT_HPP__
+#include "landscape_model/sources/ph/lm_ph.hpp"
 
-/*---------------------------------------------------------------------------*/
+#include "landscape_model/sources/ai/ai_goals/lm_repair_goal.hpp"
 
-#include "generators/gn_igenerator.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,17 +12,30 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct StartPoint
+
+RepairGoal::RepairGoal()
 {
-	StartPoint( const Tools::Core::Generators::IGenerator::IdType _id, const QPoint _point )
-		:	m_id( _id )
-		,	m_point( _point )
-	{}
+} // RepairGoal::RepairGoal
 
-	const Tools::Core::Generators::IGenerator::IdType m_id;
 
-	const QPoint m_point;
-};
+/*---------------------------------------------------------------------------*/
+
+
+RepairGoal::~RepairGoal()
+{
+} // RepairGoal::~RepairGoal
+
+
+/*---------------------------------------------------------------------------*/
+
+
+bool
+RepairGoal::process()
+{
+	return true;
+
+} // RepairGoal::process
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,5 +44,3 @@ struct StartPoint
 } // namespace Plugins
 
 /*---------------------------------------------------------------------------*/
-
-#endif // __LM_START_POINT_HPP__
