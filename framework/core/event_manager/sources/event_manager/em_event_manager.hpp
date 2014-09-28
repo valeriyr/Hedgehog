@@ -26,6 +26,23 @@ class EventManager
 
 /*---------------------------------------------------------------------------*/
 
+	struct EventSubscribersData
+	{
+		typedef
+			std::map< IEventManager::ConnectionId, IEventManager::ProcessingFunction >
+			ProcessingFunctionsCollection;
+		typedef
+			ProcessingFunctionsCollection::iterator
+			ProcessingFunctionsCollectionIterator;
+		typedef
+			ProcessingFunctionsCollection::const_iterator
+			ProcessingFunctionsCollectionConstIterator;
+
+		ProcessingFunctionsCollection m_processingFunctionsCollection;
+	};
+
+/*---------------------------------------------------------------------------*/
+
 public:
 
 /*---------------------------------------------------------------------------*/
@@ -57,21 +74,13 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-private:
+	void processEvent(
+			const EventSubscribersData::ProcessingFunctionsCollection& _collection
+		,	const Event& _event ) const;
 
 /*---------------------------------------------------------------------------*/
 
-	struct EventSubscribersData
-	{
-		typedef
-			std::map< IEventManager::ConnectionId, IEventManager::ProcessingFunction >
-			ProcessingFunctionsCollection;
-		typedef
-			ProcessingFunctionsCollection::iterator
-			ProcessingFunctionsCollectionIterator;
-
-		ProcessingFunctionsCollection m_processingFunctionsCollection;
-	};
+private:	
 
 /*---------------------------------------------------------------------------*/
 
@@ -84,7 +93,16 @@ private:
 			EventSubscribersCollection::iterator
 			EventSubscribersCollectionIterator;
 
+		typedef
+			std::vector< Event >
+			EventsCollection;
+		typedef
+			EventsCollection::iterator
+			EventsCollectionIterator;
+
 		EventSubscribersCollection m_eventSubscribersCollection;
+
+		EventsCollection m_eventsCollection;
 
 		MultithreadingManager::TaskHandle m_taskHandle;
 	};
@@ -98,20 +116,11 @@ private:
 		SubscribersCollection::iterator
 		SubscribersCollectionIterator;
 
-	typedef
-		std::vector< Event >
-		EventsCollection;
-	typedef
-		EventsCollection::iterator
-		EventsCollectionIterator;
-
 /*---------------------------------------------------------------------------*/
 
 	IEnvironment& m_environment;
 
 	SubscribersCollection m_subscribersCollection;
-
-	EventsCollection m_eventsCollection;
 
 	QMutex m_mutex;
 

@@ -32,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\em_event.hpp" />
+    <ClInclude Include="h\em_external_resources.hpp" />
     <ClInclude Include="h\em_plugin_id.hpp" />
     <ClInclude Include="h\em_subscriber.hpp" />
     <ClInclude Include="ih\em_ievent_manager.hpp" />

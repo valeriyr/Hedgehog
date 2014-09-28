@@ -4,8 +4,9 @@
 #include "event_manager/sources/event_manager/em_event_manager.hpp"
 
 #include "event_manager/sources/environment/em_ienvironment.hpp"
-
 #include "event_manager/sources/resources/em_internal_resources.hpp"
+
+#include "event_manager/h/em_external_resources.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,7 +20,6 @@ namespace EventManager {
 EventManager::EventManager( IEnvironment& _environment )
 	:	m_environment( _environment )
 	,	m_subscribersCollection()
-	,	m_eventsCollection()
 	,	m_mutex()
 {
 } // EventManager::EventManager
@@ -42,8 +42,13 @@ void
 EventManager::raise( const Event& _event )
 {
 	QMutexLocker locker( &m_mutex );
-	
-	m_eventsCollection.push_back( _event );
+
+	SubscribersCollectionIterator
+			begin = m_subscribersCollection.begin()
+		,	end = m_subscribersCollection.end();
+
+	for ( ; begin != end; ++begin )
+		begin->second.m_eventsCollection.push_back( _event );
 
 } // EventManager::raise
 
@@ -159,14 +164,10 @@ EventManager::task( const QString& _threadName )
 {
 	Tools::Core::Time::Milliseconds startTime = Tools::Core::Time::currentTime();
 
-	EventsCollection copyOfEventsCollection;
 	SubscribersData subscribersData;
 
 	{
 		QMutexLocker locker( &m_mutex );
-
-		copyOfEventsCollection = m_eventsCollection;
-		m_eventsCollection.clear();
 
 		SubscribersCollectionIterator subscribersIterator = m_subscribersCollection.find( _threadName );
 
@@ -174,11 +175,12 @@ EventManager::task( const QString& _threadName )
 			return;
 
 		subscribersData = subscribersIterator->second;
+		subscribersIterator->second.m_eventsCollection.clear();
 	}
 
-	EventsCollectionIterator
-			eventsBegin = copyOfEventsCollection.begin()
-		,	eventsEnd = copyOfEventsCollection.end();
+	SubscribersData::EventsCollectionIterator
+			eventsBegin = subscribersData.m_eventsCollection.begin()
+		,	eventsEnd = subscribersData.m_eventsCollection.end();
 
 	for ( ; eventsBegin != eventsEnd; ++eventsBegin )
 	{
@@ -186,16 +188,12 @@ EventManager::task( const QString& _threadName )
 			= subscribersData.m_eventSubscribersCollection.find( eventsBegin->getType() );
 
 		if ( eventSubscribersIterator != subscribersData.m_eventSubscribersCollection.end() )
-		{
-			EventSubscribersData::ProcessingFunctionsCollectionIterator
-					processingFunctionsBegin = eventSubscribersIterator->second.m_processingFunctionsCollection.begin()
-				,	processingFunctionsEnd = eventSubscribersIterator->second.m_processingFunctionsCollection.end();
+			processEvent( eventSubscribersIterator->second.m_processingFunctionsCollection, *eventsBegin );
 
-			for ( ; processingFunctionsBegin != processingFunctionsEnd; ++processingFunctionsBegin )
-			{
-				processingFunctionsBegin->second( *eventsBegin );
-			}
-		}
+		eventSubscribersIterator = subscribersData.m_eventSubscribersCollection.find( Resources::AnyEventName );
+
+		if ( eventSubscribersIterator != subscribersData.m_eventSubscribersCollection.end() )
+			processEvent( eventSubscribersIterator->second.m_processingFunctionsCollection, *eventsBegin );
 	}
 
 	Tools::Core::Time::Milliseconds time = Tools::Core::Time::currentTime() - startTime;
@@ -208,6 +206,22 @@ EventManager::task( const QString& _threadName )
 	}
 
 } // EventManager::task
+
+void
+EventManager::processEvent(
+		const EventSubscribersData::ProcessingFunctionsCollection& _collection
+	,	const Event& _event ) const
+{
+	EventSubscribersData::ProcessingFunctionsCollectionConstIterator
+			processingFunctionsBegin = _collection.begin()
+		,	processingFunctionsEnd = _collection.end();
+
+	for ( ; processingFunctionsBegin != processingFunctionsEnd; ++processingFunctionsBegin )
+	{
+		processingFunctionsBegin->second( _event );
+	}
+
+} // EventManager::processEvent
 
 
 /*---------------------------------------------------------------------------*/
