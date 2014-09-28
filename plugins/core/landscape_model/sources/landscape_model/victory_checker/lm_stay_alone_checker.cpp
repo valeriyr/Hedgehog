@@ -43,6 +43,9 @@ StayAloneChecker::check() const
 
 	boost::intrusive_ptr< IPlayer > myPlayer = m_landscapeModel.getMyPlayer();
 
+	if ( !myPlayer )
+		return false;
+
 	ILandscape::ObjectsCollection workers;
 	m_landscapeModel.fetchWorkers( workers );
 
