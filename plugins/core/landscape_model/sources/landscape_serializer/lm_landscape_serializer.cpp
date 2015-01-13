@@ -203,9 +203,9 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 	{
 		xmlStream.writeStartElement( Resources::Xml::StartPoint );
 
-		xmlStream.writeAttribute( Resources::Xml::Id, QString::number( startPoints->current().m_id ) );
-		xmlStream.writeAttribute( Resources::Xml::X, QString::number( startPoints->current().m_point.x() ) );
-		xmlStream.writeAttribute( Resources::Xml::Y, QString::number( startPoints->current().m_point.y() ) );
+		xmlStream.writeAttribute( Resources::Xml::Id, QString::number( startPoints->current().getMember< Tools::Core::Generators::IGenerator::IdType >( StartPoint::ms_id ) ) );
+		xmlStream.writeAttribute( Resources::Xml::X, QString::number( startPoints->current().getMember< QPoint >( StartPoint::ms_point ).x() ) );
+		xmlStream.writeAttribute( Resources::Xml::Y, QString::number( startPoints->current().getMember< QPoint >( StartPoint::ms_point ).y() ) );
 
 		xmlStream.writeEndElement();
 
@@ -332,7 +332,13 @@ LandscapeSerializer::onObjectElement(
 void
 LandscapeSerializer::onStartPoint( ILandscape& _landscape, const Tools::Core::Generators::IGenerator::IdType& _id, const int _x, const int _y )
 {
-	_landscape.addStartPoint( StartPoint( _id, QPoint( _x, _y ) ) );
+	Tools::Core::Object startPoint;
+
+	startPoint
+		.pushMember( StartPoint::ms_id, _id )
+		.pushMember( StartPoint::ms_point, QPoint( _x, _y ) );
+
+	_landscape.addStartPoint( startPoint );
 
 } // LandscapeSerializer::onStartPoint
 

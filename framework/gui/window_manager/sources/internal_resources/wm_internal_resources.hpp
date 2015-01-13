@@ -11,7 +11,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const MenuItemsSeparator;
+	extern const QString MenuItemsSeparator;
 
 /*---------------------------------------------------------------------------*/
 

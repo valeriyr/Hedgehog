@@ -12,7 +12,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const AnyEventName = "AnyEvent";
+	const QString AnyEventName = "AnyEvent";
 
 /*---------------------------------------------------------------------------*/
 

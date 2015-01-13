@@ -15,7 +15,7 @@ namespace Commands {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const CommandsListCommandName;
+	extern const QString CommandsListCommandName;
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,9 +27,9 @@ namespace Exceptions {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const UnknownCommandMessageFormat;
+	extern const QString UnknownCommandMessageFormat;
 
-	extern const char* const DisabledCommandMessageFormat;
+	extern const QString DisabledCommandMessageFormat;
 
 /*---------------------------------------------------------------------------*/
 

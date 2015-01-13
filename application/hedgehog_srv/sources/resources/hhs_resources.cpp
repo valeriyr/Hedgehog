@@ -12,19 +12,19 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PluginsDirectoryName = "plugins";
+	const QString PluginsDirectoryName = "plugins";
 
-	const char* const ServerPluginsDirectoryName = "server";
+	const QString ServerPluginsDirectoryName = "server";
 
-	const char* const ResourcesDirectoryName = "resources";
+	const QString ResourcesDirectoryName = "resources";
 
-	const char* const ConfigsDirectoryName = "configs";
+	const QString ConfigsDirectoryName = "configs";
 
-	const char* const ApplicationName = "Hedgehog Server";
+	const QString ApplicationName = "Hedgehog Server";
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const SystemMessengerPluginName = "logger";
+	const QString SystemMessengerPluginName = "logger";
 
 /*---------------------------------------------------------------------------*/
 

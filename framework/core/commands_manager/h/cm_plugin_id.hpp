@@ -10,7 +10,7 @@ namespace CommandsManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_COMMANDS_MANAGER = "commands_manager";
+	const QString PID_COMMANDS_MANAGER = "commands_manager";
 
 /*---------------------------------------------------------------------------*/
 

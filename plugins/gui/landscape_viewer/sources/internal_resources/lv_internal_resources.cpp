@@ -13,11 +13,11 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ModuleName = "LANDSCAPE_VIEWER";
+	const QString ModuleName = "LANDSCAPE_VIEWER";
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ConfigurationScriptsDirectory = "landscape_viewer";
+	const QString ConfigurationScriptsDirectory = "landscape_viewer";
 
 /*---------------------------------------------------------------------------*/
 
@@ -25,59 +25,59 @@ namespace Views {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const LandscapeViewTitle = "Landscape";
+	const QString LandscapeViewTitle = "Landscape";
 
-	const char* const MinimapViewTitle = "Mini Map";
+	const QString MinimapViewTitle = "Mini Map";
 
-	const char* const ObjectsViewTitle = "Landscape Objects";
+	const QString ObjectsViewTitle = "Landscape Objects";
 
-	const char* const ObjectsViewColumnName = "Landscape Items";
+	const QString ObjectsViewColumnName = "Landscape Items";
 
-	const char* const DescriptionViewTitle = "Landscape Description";
+	const QString DescriptionViewTitle = "Landscape Description";
 
-	const char* const SettingsViewTitle = "Settings";
+	const QString SettingsViewTitle = "Settings";
 
-	const char* const SelectionViewTitle = "Selection";
+	const QString SelectionViewTitle = "Selection";
 
-	const char* const ActionPanelViewTitle = "Actions";
+	const QString ActionPanelViewTitle = "Actions";
 
-	const char* const CreateObjectLabelFormat = "Create '%1'";
+	const QString CreateObjectLabelFormat = "Create '%1'";
 
-	const char* const ObjectStatusViewTitle = "Status";
+	const QString ObjectStatusViewTitle = "Status";
 
-	const char* const ObjectInfoViewTitle = "Object Information";
+	const QString ObjectInfoViewTitle = "Object Information";
 
-	const char* const PlayerInfoViewTitle = "Players Information";
+	const QString PlayerInfoViewTitle = "Players Information";
 
-	const char* const EditorViewDefaultTitle = "Landscape Editor";
+	const QString EditorViewDefaultTitle = "Landscape Editor";
 
-	const char* const TarrainMapVisibilityCheckboxName = "Show tarrain map";
+	const QString TarrainMapVisibilityCheckboxName = "Show tarrain map";
 
-	const char* const SkinIdLabel = "Skin Id:";
+	const QString SkinIdLabel = "Skin Id:";
 
-	const char* const UpdateMinimapCheckboxName = "Update minimap";
+	const QString UpdateMinimapCheckboxName = "Update minimap";
 
-	const char* const PlaySoundCheckboxName = "Play sound";
+	const QString PlaySoundCheckboxName = "Play sound";
 
-	const char* const IpLabel = "Ip:";
+	const QString IpLabel = "Ip:";
 
-	const char* const PortLabel = "Port:";
+	const QString PortLabel = "Port:";
 
-	const char* const RaceLabel = "Race:";
+	const QString RaceLabel = "Race:";
 
-	const char* const ColorLabel = "Color:";
+	const QString ColorLabel = "Color:";
 
-	const char* const VictoryCondition = "Victory condition:";
+	const QString VictoryCondition = "Victory condition:";
 
-	const char* const ConnectionTimeOutLabel = "Connection timeout (ms):";
+	const QString ConnectionTimeOutLabel = "Connection timeout (ms):";
 
-	const char* const PlayerNameLabel = "Player name:";
+	const QString PlayerNameLabel = "Player name:";
 
-	const char* const PlayerByStartPointLabelFormat = "SP %1 ( %2 )";
+	const QString PlayerByStartPointLabelFormat = "SP %1 ( %2 )";
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const LandscapeDescriptionDefaultText
+	const QString LandscapeDescriptionDefaultText
 		=	"<html>																		"	\
 			"	<head></head>															"	\
 			"	<body>																	"	\
@@ -87,7 +87,7 @@ namespace Views {
 			"	</body>																	"	\
 			"</html>																	";
 
-	const char* const LandscapeDescriptionFormat
+	const QString LandscapeDescriptionFormat
 		=	"<html>																		"	\
 			"	<head></head>															"	\
 			"	<body>																	"	\
@@ -104,7 +104,7 @@ namespace Views {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ObjectInfoDefaultText
+	const QString ObjectInfoDefaultText
 		=	"<html>																				"	\
 			"	<head></head>																	"	\
 			"	<body>																			"	\
@@ -114,7 +114,7 @@ namespace Views {
 			"	</body>																			"	\
 			"</html>																			";
 
-	const char* const ObjectInfoFormat
+	const QString ObjectInfoFormat
 		=	"<html>																			"	\
 			"	<head></head>																"	\
 			"	<body>																		"	\
@@ -150,17 +150,17 @@ namespace Views {
 			"	</body>																		"	\
 			"</html>																		";
 
-	const char* const DamageInfoFormat = "( %1 - %2 )";
+	const QString DamageInfoFormat = "( %1 - %2 )";
 
-	const char* const ResourcesSourceFormat = "%1: %2";
+	const QString ResourcesSourceFormat = "%1: %2";
 
-	const char* const ResourcesHoldFormat = "%1: %2 / %3";
+	const QString ResourcesHoldFormat = "%1: %2 / %3";
 
-	const char* const NoneString = "none";
+	const QString NoneString = "none";
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PlayerInfoDefaultText
+	const QString PlayerInfoDefaultText
 		=	"<html>															"	\
 			"	<head></head>												"	\
 			"	<body>														"	\
@@ -170,28 +170,28 @@ namespace Views {
 			"	</body>														"	\
 			"</html>														";
 
-	const char* const PlayersInfoTextFormat
+	const QString PlayersInfoTextFormat
 		=	"<html>																			"	\
 			"	<head></head>																"	\
 			"	<body>%1<br>%2</body>														"	\
 			"</html>																		";
 
-	const char* const PlayerInfoTextFormat
+	const QString PlayerInfoTextFormat
 		=	"%1. <b>%2</b>: ( %3, %4 ) - %5<br>";
 
-	const char* const PlayerResourceInfoFormat = "%1: %2";
+	const QString PlayerResourceInfoFormat = "%1: %2";
 
-	const char* const TickInfoTextFormat = "<b>Tick:</b> %1";
+	const QString TickInfoTextFormat = "<b>Tick:</b> %1";
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const CreateButtonName = "Create";
+	const QString CreateButtonName = "Create";
 
-	const char* const ConnectButtonName = "Connect";
+	const QString ConnectButtonName = "Connect";
 
-	const char* const StartButtonName = "Start";
+	const QString StartButtonName = "Start";
 
-	const char* const CancelButtonName = "Cancel";
+	const QString CancelButtonName = "Cancel";
 
 /*---------------------------------------------------------------------------*/
 
@@ -203,7 +203,7 @@ namespace Messages {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const SimulationIsRunningNow = "Simulation is running now. Stop it before creating new session.";
+	const QString SimulationIsRunningNow = "Simulation is running now. Stop it before creating new session.";
 
 /*---------------------------------------------------------------------------*/
 
@@ -215,7 +215,7 @@ namespace Animations {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const AnimationNameFormat = "Skin(%1)Object(Name(%2)State(%3)Direction(%4))";
+	const QString AnimationNameFormat = "Skin(%1)Object(Name(%2)State(%3)Direction(%4))";
 
 /*---------------------------------------------------------------------------*/
 
@@ -239,21 +239,21 @@ namespace Commands {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const NewLandscapeCommandName = "lv.landscape.new";
+	const QString NewLandscapeCommandName = "lv.landscape.new";
 
-	const char* const OpenLandscapeCommandName = "lv.landscape.open";
+	const QString OpenLandscapeCommandName = "lv.landscape.open";
 
-	const char* const CloseLandscapeCommandName = "lv.landscape.close";
+	const QString CloseLandscapeCommandName = "lv.landscape.close";
 
-	const char* const SaveLandscapeCommandName = "lv.landscape.save";
+	const QString SaveLandscapeCommandName = "lv.landscape.save";
 
-	const char* const SaveAsLandscapeCommandName = "lv.landscape.saveas";
+	const QString SaveAsLandscapeCommandName = "lv.landscape.saveas";
 
-	const char* const StartGameCommandName = "lv.game.start";
+	const QString StartGameCommandName = "lv.game.start";
 
-	const char* const StartReplayCommandName = "lv.replay.start";
+	const QString StartReplayCommandName = "lv.replay.start";
 
-	const char* const SaveReplayCommandName = "lv.replay.save";
+	const QString SaveReplayCommandName = "lv.replay.save";
 
 /*---------------------------------------------------------------------------*/
 
@@ -265,11 +265,11 @@ namespace Properties {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const TerrainMapVisibility = "TerrainMapVisibilityProperty";
+	const QString TerrainMapVisibility = "TerrainMapVisibilityProperty";
 
-	const char* const SkinId = "SkinIdProperty";
+	const QString SkinId = "SkinIdProperty";
 
-	const char* const UpdateMinimap = "UpdateMinimap";
+	const QString UpdateMinimap = "UpdateMinimap";
 
 /*---------------------------------------------------------------------------*/
 
@@ -281,9 +281,9 @@ namespace Sounds {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PlacementError = "ui/placement_error";
+	const QString PlacementError = "ui/placement_error";
 
-	const char* const PlacementSuccess = "ui/placement_success";
+	const QString PlacementSuccess = "ui/placement_success";
 
 /*---------------------------------------------------------------------------*/
 

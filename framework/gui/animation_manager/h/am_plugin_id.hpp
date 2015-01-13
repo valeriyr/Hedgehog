@@ -10,7 +10,7 @@ namespace AnimationManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_ANIMATION_MANAGER = "animation_manager";
+	const QString PID_ANIMATION_MANAGER = "animation_manager";
 
 /*---------------------------------------------------------------------------*/
 

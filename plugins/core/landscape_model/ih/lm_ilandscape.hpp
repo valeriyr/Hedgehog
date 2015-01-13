@@ -7,8 +7,8 @@
 #include "intrusive_base/ib_ibase.hpp"
 
 #include "landscape_model/h/lm_terrain_map_data.hpp"
+#include "landscape_model/h/lm_objects.hpp"
 #include "landscape_model/h/lm_object.hpp"
-#include "landscape_model/h/lm_start_point.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
@@ -48,7 +48,7 @@ struct ILandscape
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		boost::shared_ptr< Tools::Core::IIterator< const StartPoint > >
+		boost::shared_ptr< Tools::Core::IIterator< const Tools::Core::Object > >
 		StartPointsIterator;
 
 /*---------------------------------------------------------------------------*/
@@ -61,9 +61,9 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void addStartPoint( const StartPoint& _startPoint ) = 0;
+	virtual void addStartPoint( const Tools::Core::Object& _startPoint ) = 0;
 
-	virtual const StartPoint& getStartPoint( const Tools::Core::Generators::IGenerator::IdType& _startPointId ) = 0;
+	virtual const Tools::Core::Object& getStartPoint( const Tools::Core::Generators::IGenerator::IdType& _startPointId ) = 0;
 
 	virtual StartPointsIterator getStartPointsIterator() const = 0;
 

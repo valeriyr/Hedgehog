@@ -17,7 +17,7 @@ namespace Commands {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const CommandsListCommandName = "cm.commands.list";
+	const QString CommandsListCommandName = "cm.commands.list";
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,9 +29,9 @@ namespace Exceptions {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const UnknownCommandMessageFormat = "Unknown command '%1'.";
+	const QString UnknownCommandMessageFormat = "Unknown command '%1'.";
 
-	const char* const DisabledCommandMessageFormat = "'%1' command is disabled in this time.";
+	const QString DisabledCommandMessageFormat = "'%1' command is disabled in this time.";
 
 /*---------------------------------------------------------------------------*/
 

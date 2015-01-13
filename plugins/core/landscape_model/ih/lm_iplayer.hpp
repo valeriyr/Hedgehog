@@ -7,7 +7,6 @@
 #include "intrusive_base/ib_ibase.hpp"
 
 #include "landscape_model/h/lm_resources_data.hpp"
-#include "landscape_model/h/lm_start_point.hpp"
 #include "landscape_model/h/lm_player_type.hpp"
 #include "landscape_model/h/lm_priority.hpp"
 

@@ -10,6 +10,7 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_iplayer.hpp"
 
+#include "landscape_model/h/lm_objects.hpp"
 #include "landscape_model/h/lm_object.hpp"
 #include "landscape_model/h/lm_commands.hpp"
 #include "landscape_model/h/lm_victory_condition.hpp"

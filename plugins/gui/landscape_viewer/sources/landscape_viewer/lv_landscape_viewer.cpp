@@ -154,7 +154,9 @@ LandscapeViewer::initDefaultStartpointsColors()
 	{
 		assert( colorsIterator->isValid() );
 
-		m_environment.getGraphicsInfo()->setStartPointColor( startPointsIterator->current().m_id, colorsIterator->current() );
+		m_environment.getGraphicsInfo()->setStartPointColor(
+				startPointsIterator->current().getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::StartPoint::ms_id )
+			,	colorsIterator->current() );
 
 		startPointsIterator->next();
 		colorsIterator->next();

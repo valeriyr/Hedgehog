@@ -11,7 +11,7 @@ namespace NetworkManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_NETWORK_MANAGER = "network_manager";
+	const QString PID_NETWORK_MANAGER = "network_manager";
 
 /*---------------------------------------------------------------------------*/
 

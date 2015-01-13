@@ -14,10 +14,10 @@ namespace Events {
 
 namespace SettingChanged
 {
-	const char* const ms_type = "SettingChanged";
+	const QString ms_type = "SettingChanged";
 
-	const char* const ms_key = "SettingKey";
-	const char* const ms_value = "SettingValue";
+	const QString ms_key = "SettingKey";
+	const QString ms_value = "SettingValue";
 }
 
 /*---------------------------------------------------------------------------*/

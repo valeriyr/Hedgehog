@@ -13,11 +13,11 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ImagesDirecctory = "images";
+	const QString ImagesDirecctory = "images";
 
-	const char* const ImageDefaultExtension = ".png";
+	const QString ImageDefaultExtension = ".png";
 
-	const char* const ImageWithRectPathFormat = "%1(rect:%2,%3,%4,%5)(hor:%6, vert:%7)";
+	const QString ImageWithRectPathFormat = "%1(rect:%2,%3,%4,%5)(hor:%6, vert:%7)";
 
 /*---------------------------------------------------------------------------*/
 

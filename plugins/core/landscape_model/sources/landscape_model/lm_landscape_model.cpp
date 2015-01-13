@@ -926,7 +926,7 @@ LandscapeModel::gameMainLoop()
 
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::CurrentTickNumberChanged::ms_type )
-				.pushAttribute( Events::CurrentTickNumberChanged::ms_tickNumberAttribute, m_ticksCounter ) );
+				.pushMember( Events::CurrentTickNumberChanged::ms_tickNumberAttribute, m_ticksCounter ) );
 
 		if ( m_ticksCounter == 1 || ( m_ticksCounter % gs_aiThinkCallPeriod == 0 ) )
 			processAIThinkCall();
@@ -993,9 +993,9 @@ LandscapeModel::gameMainLoop()
 
 	if ( time > Resources::TimeLimit )
 	{
-		m_environment.printMessage(
+		/*m_environment.printMessage(
 				Tools::Core::IMessenger::MessegeLevel::Warning
-			,	QString( Resources::TimeLimitWarning ).arg( time ).arg( Resources::TimeLimit )  );
+			,	QString( Resources::TimeLimitWarning ).arg( time ).arg( Resources::TimeLimit )  );*/
 	}
 
 } // LandscapeModel::gameMainLoop
@@ -1018,7 +1018,7 @@ LandscapeModel::locateStartPointObjects()
 
 		m_landscape->createObject(
 				m_environment.getStaticData()->getStartPointObjectName( begin->second->getRace() )
-			,	m_landscape->getStartPoint( begin->second->getStartPointId() ).m_point
+			,	m_landscape->getStartPoint( begin->second->getStartPointId() ).getMember< QPoint >( StartPoint::ms_point )
 			,	begin->second->getUniqueId() );
 	}
 
@@ -1082,7 +1082,9 @@ LandscapeModel::initPlayers()
 	while( iterator->isValid() )
 	{
 		boost::intrusive_ptr< Player > player(
-			new Player( m_environment, m_playersIdsGenerator.generate(), races.begin()->first, iterator->current().m_id ) );
+			new Player(	m_environment
+					,	m_playersIdsGenerator.generate(), races.begin()->first
+					,	iterator->current().getMember< Tools::Core::Generators::IGenerator::IdType >( StartPoint::ms_id ) ) );
 		m_players.insert( std::make_pair( player->getUniqueId(), player ) );
 
 		iterator->next();
@@ -1250,7 +1252,7 @@ LandscapeModel::onChangeVictoryConditionProcessor( const Command& _command )
 	initVictoryChecker( condition );
 
 	Framework::Core::EventManager::Event conditionChanged( Events::VictoryConditionChanged::ms_type );
-	conditionChanged.pushAttribute( Events::VictoryConditionChanged::ms_conditionAttribute, condition );
+	conditionChanged.pushMember( Events::VictoryConditionChanged::ms_conditionAttribute, condition );
 
 	m_environment.riseEvent( conditionChanged );
 
@@ -1273,8 +1275,8 @@ LandscapeModel::onChangePlayerRaceProcessor( const Command& _command )
 		iterator->second->setRace( race );
 
 		Framework::Core::EventManager::Event playerRaceChangedEvent( Events::PlayerRaceChanged::ms_type );
-		playerRaceChangedEvent.pushAttribute( Events::PlayerRaceChanged::ms_playerIdAttribute, id );
-		playerRaceChangedEvent.pushAttribute( Events::PlayerRaceChanged::ms_playerRaceAttribute, race );
+		playerRaceChangedEvent.pushMember( Events::PlayerRaceChanged::ms_playerIdAttribute, id );
+		playerRaceChangedEvent.pushMember( Events::PlayerRaceChanged::ms_playerRaceAttribute, race );
 
 		m_environment.riseEvent( playerRaceChangedEvent );
 	}
@@ -1298,8 +1300,8 @@ LandscapeModel::onChangePlayerTypeProcessor( const Command& _command )
 		iterator->second->setType( type );
 
 		Framework::Core::EventManager::Event playerTypeChangedEvent( Events::PlayerTypeChanged::ms_type );
-		playerTypeChangedEvent.pushAttribute( Events::PlayerTypeChanged::ms_playerIdAttribute, id );
-		playerTypeChangedEvent.pushAttribute( Events::PlayerTypeChanged::ms_playerTypeAttribute, type );
+		playerTypeChangedEvent.pushMember( Events::PlayerTypeChanged::ms_playerIdAttribute, id );
+		playerTypeChangedEvent.pushMember( Events::PlayerTypeChanged::ms_playerTypeAttribute, type );
 
 		m_environment.riseEvent( playerTypeChangedEvent );
 	}
@@ -1323,9 +1325,9 @@ LandscapeModel::onChangePlayerNameProcessor( const Command& _command )
 		iterator->second->setName( name );
 
 		Framework::Core::EventManager::Event playerNameChangedEvent( Events::PlayerNameChanged::ms_type );
-		playerNameChangedEvent.pushAttribute( Events::PlayerNameChanged::ms_playerIdAttribute, id );
-		playerNameChangedEvent.pushAttribute( Events::PlayerNameChanged::ms_playerNameAttribute, name );
-		playerNameChangedEvent.pushAttribute( Events::PlayerNameChanged::ms_startPointIdAttribute, iterator->second->getStartPointId() );
+		playerNameChangedEvent.pushMember( Events::PlayerNameChanged::ms_playerIdAttribute, id );
+		playerNameChangedEvent.pushMember( Events::PlayerNameChanged::ms_playerNameAttribute, name );
+		playerNameChangedEvent.pushMember( Events::PlayerNameChanged::ms_startPointIdAttribute, iterator->second->getStartPointId() );
 
 		m_environment.riseEvent( playerNameChangedEvent );
 	}
@@ -1545,17 +1547,17 @@ LandscapeModel::onCreateObjectProcessor( const Command& _command )
 	{
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::ObjectAdded::ms_type )
-				.pushAttribute( Events::ObjectAdded::ms_objectNameAttribute, name )
-				.pushAttribute( Events::ObjectAdded::ms_objectLocationAttribute, location )
-				.pushAttribute( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId )
-				.pushAttribute( Events::ObjectAdded::ms_objectEmplacementAttribute, m_environment.getStaticData()->getObjectStaticData( name ).m_locateData->m_emplacement ) );
+				.pushMember( Events::ObjectAdded::ms_objectNameAttribute, name )
+				.pushMember( Events::ObjectAdded::ms_objectLocationAttribute, location )
+				.pushMember( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId )
+				.pushMember( Events::ObjectAdded::ms_objectEmplacementAttribute, m_environment.getStaticData()->getObjectStaticData( name ).m_locateData->m_emplacement ) );
 	}
 	else
 	{
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::CreateObjectFailed::ms_type )
-				.pushAttribute( Events::CreateObjectFailed::ms_objectNameAttribute, name )
-				.pushAttribute( Events::CreateObjectFailed::ms_objectLocationAttribute, location ) );
+				.pushMember( Events::CreateObjectFailed::ms_objectNameAttribute, name )
+				.pushMember( Events::CreateObjectFailed::ms_objectLocationAttribute, location ) );
 	}
 
 } // LandscapeModel::onCreateObjectProcessor
@@ -1576,8 +1578,8 @@ LandscapeModel::onSetSurfaceItemProcessor( const Command& _command )
 
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::SurfaceItemChanged::ms_type )
-				.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemIdAttribute, id )
-				.pushAttribute( Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute, location ) );
+				.pushMember( Events::SurfaceItemChanged::ms_surfaceItemIdAttribute, id )
+				.pushMember( Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute, location ) );
 	}
 
 } // LandscapeModel::onSetSurfaceItemProcessor
@@ -1623,7 +1625,7 @@ LandscapeModel::onTrainObjectProcessor( const Command& _command )
 
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )
-							.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, object->getUniqueId() ) );
+							.pushMember( Events::TrainQueueChanged::ms_trainerIdAttribute, object->getUniqueId() ) );
 				}
 			}
 		}

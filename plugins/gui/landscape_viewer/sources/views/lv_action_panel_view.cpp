@@ -243,7 +243,7 @@ void
 ActionPanelView::onObjectStateChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 		updateView( objectId );

@@ -13,11 +13,11 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const SystemScriptFileName = "script_engine";
+	const QString SystemScriptFileName = "script_engine";
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ScripterMessageFormat = "%1";
+	const QString ScripterMessageFormat = "%1";
 
 /*---------------------------------------------------------------------------*/
 

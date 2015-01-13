@@ -268,16 +268,16 @@ CollectResourceAction::processAction()
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::HolderHasStartedCollect::ms_type )
-						.pushAttribute( Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute, m_object.getUniqueId() ) );
+						.pushMember( Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute, m_object.getUniqueId() ) );
 
 				m_resourceSource->setState( ObjectState::UnderCollecting );
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-						.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_resourceSource->getName() )
-						.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_resourceSource->getUniqueId() )
-						.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_resourceSource->getState() )
-						.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, targetLocation->getDirection() ) );
+						.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_resourceSource->getName() )
+						.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_resourceSource->getUniqueId() )
+						.pushMember( Events::ObjectStateChanged::ms_objectState, m_resourceSource->getState() )
+						.pushMember( Events::ObjectStateChanged::ms_objectDirection, targetLocation->getDirection() ) );
 			}
 
 			if ( !resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) )
@@ -308,9 +308,9 @@ CollectResourceAction::processAction()
 
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::ResourceSourceValueChanged::ms_type )
-							.pushAttribute( Events::ResourceSourceValueChanged::ms_objectUniqueIdAttribute, m_resourceSource->getUniqueId() )
-							.pushAttribute( Events::ResourceSourceValueChanged::ms_sourceResourceNameAttribute, targetResourceSource->getStaticData().m_resource )
-							.pushAttribute( Events::ResourceSourceValueChanged::ms_sourceResourceValueAttribute, targetResourceSource->getResourceValue() ) );
+							.pushMember( Events::ResourceSourceValueChanged::ms_objectUniqueIdAttribute, m_resourceSource->getUniqueId() )
+							.pushMember( Events::ResourceSourceValueChanged::ms_sourceResourceNameAttribute, targetResourceSource->getStaticData().m_resource )
+							.pushMember( Events::ResourceSourceValueChanged::ms_sourceResourceValueAttribute, targetResourceSource->getResourceValue() ) );
 
 					holderResourcesCountCahnged = true;
 				}
@@ -333,19 +333,19 @@ CollectResourceAction::processAction()
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::HolderHasStopCollect::ms_type )
-						.pushAttribute( Events::HolderHasStopCollect::ms_objectNameAttribute, m_object.getName() )
-						.pushAttribute( Events::HolderHasStopCollect::ms_objectLocationAttribute, locateComponent->getLocation() )
-						.pushAttribute( Events::HolderHasStopCollect::ms_objectUniqueIdAttribute, m_object.getUniqueId() )
-						.pushAttribute( Events::HolderHasStopCollect::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
+						.pushMember( Events::HolderHasStopCollect::ms_objectNameAttribute, m_object.getName() )
+						.pushMember( Events::HolderHasStopCollect::ms_objectLocationAttribute, locateComponent->getLocation() )
+						.pushMember( Events::HolderHasStopCollect::ms_objectUniqueIdAttribute, m_object.getUniqueId() )
+						.pushMember( Events::HolderHasStopCollect::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
 
 				m_resourceSource->setState( ObjectState::Standing );
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-						.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_resourceSource->getName() )
-						.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_resourceSource->getUniqueId() )
-						.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_resourceSource->getState() )
-						.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, targetLocation->getDirection() ) );
+						.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_resourceSource->getName() )
+						.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_resourceSource->getUniqueId() )
+						.pushMember( Events::ObjectStateChanged::ms_objectState, m_resourceSource->getState() )
+						.pushMember( Events::ObjectStateChanged::ms_objectDirection, targetLocation->getDirection() ) );
 
 				m_isInProcessing = ensureStorage();
 				m_targetObject = m_resourceStarage;
@@ -389,7 +389,7 @@ CollectResourceAction::processAction()
 	{
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::HolderResourceCountChanged::ms_type )
-				.pushAttribute( Events::HolderResourceCountChanged::ms_objectUniqueIdAttribute, m_object.getUniqueId() ) );
+				.pushMember( Events::HolderResourceCountChanged::ms_objectUniqueIdAttribute, m_object.getUniqueId() ) );
 	}
 
 } // CollectResourceAction::processAction

@@ -186,8 +186,8 @@ Settings::setProperty( const QString& _key, const _TPropertyType& _value )
 
 	m_environment.riseEvent(
 		Framework::Core::EventManager::Event( Events::SettingChanged::ms_type )
-			.pushAttribute( Events::SettingChanged::ms_key, _key )
-			.pushAttribute( Events::SettingChanged::ms_value, _value ) );
+			.pushMember( Events::SettingChanged::ms_key, _key )
+			.pushMember( Events::SettingChanged::ms_value, _value ) );
 
 } // Settings::setProperty
 

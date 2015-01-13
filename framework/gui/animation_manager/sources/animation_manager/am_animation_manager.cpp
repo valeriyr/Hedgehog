@@ -162,9 +162,9 @@ AnimationManager::animationsProcessingTask()
 
 	if ( time > Resources::TimeLimit )
 	{
-		m_environment.printMessage(
+		/*m_environment.printMessage(
 				Tools::Core::IMessenger::MessegeLevel::Warning
-			,	QString( Resources::TimeLimitWarning ).arg( time ).arg( Resources::TimeLimit )  );
+			,	QString( Resources::TimeLimitWarning ).arg( time ).arg( Resources::TimeLimit )  );*/
 	}
 
 } // AnimationManager::animationsProcessingTask

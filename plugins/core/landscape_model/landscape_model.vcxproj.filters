@@ -503,9 +503,6 @@
     <ClInclude Include="sources\path_finders\lm_astar_search.hpp">
       <Filter>Path Finders</Filter>
     </ClInclude>
-    <ClInclude Include="h\lm_start_point.hpp">
-      <Filter>External Headers</Filter>
-    </ClInclude>
     <ClInclude Include="ih\lm_imodel_information.hpp">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -583,6 +580,9 @@
     </ClInclude>
     <ClInclude Include="sources\ai\ai_goals\lm_train_goal.hpp">
       <Filter>AI\Ai Goals</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_objects.hpp">
+      <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

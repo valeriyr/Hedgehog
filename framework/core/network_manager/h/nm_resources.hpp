@@ -11,7 +11,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const LocalHost = "localhost";
+	const QString LocalHost = "localhost";
 
 /*---------------------------------------------------------------------------*/
 

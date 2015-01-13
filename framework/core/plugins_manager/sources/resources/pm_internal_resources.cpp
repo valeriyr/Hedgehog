@@ -15,7 +15,7 @@ namespace Resources {
 
 	const char* const ComponentFactoryName = "getComponentInstance";
 
-	const char* const PluginFileExtension = ".hplugin";
+	const QString PluginFileExtension = ".hplugin";
 
 /*---------------------------------------------------------------------------*/
 

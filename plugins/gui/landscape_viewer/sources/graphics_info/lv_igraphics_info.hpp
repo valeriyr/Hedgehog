@@ -7,7 +7,6 @@
 #include "intrusive_base/ib_ibase.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/h/lm_start_point.hpp"
 
 #include "iterators/it_iiterator.hpp"
 

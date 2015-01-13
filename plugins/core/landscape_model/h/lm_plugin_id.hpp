@@ -10,7 +10,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_LANDSCAPE_MODEL = "landscape_model";
+	const QString PID_LANDSCAPE_MODEL = "landscape_model";
 
 /*---------------------------------------------------------------------------*/
 

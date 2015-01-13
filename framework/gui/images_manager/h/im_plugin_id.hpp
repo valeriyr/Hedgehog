@@ -10,7 +10,7 @@ namespace ImagesManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_IMAGES_MANAGER = "images_manager";
+	const QString PID_IMAGES_MANAGER = "images_manager";
 
 /*---------------------------------------------------------------------------*/
 

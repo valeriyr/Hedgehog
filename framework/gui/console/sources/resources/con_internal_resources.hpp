@@ -11,29 +11,29 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const ConsoleViewTitle;
+	extern const QString ConsoleViewTitle;
 
-	extern const char* const ConsolePlaceHolderText;
+	extern const QString ConsolePlaceHolderText;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const ErrorMessageFormat;
+	extern const QString ErrorMessageFormat;
 
-	extern const char* const WarningMessageFormat;
+	extern const QString WarningMessageFormat;
 
-	extern const char* const InfoMessageFormat;
+	extern const QString InfoMessageFormat;
 
-	extern const char* const SuccessMessageFormat;
+	extern const QString SuccessMessageFormat;
 
-	extern const char* const ErrorMessageWithModuleNameFormat;
+	extern const QString ErrorMessageWithModuleNameFormat;
 
-	extern const char* const WarningMessageWithModuleNameFormat;
+	extern const QString WarningMessageWithModuleNameFormat;
 
-	extern const char* const InfoMessageWithModuleNameFormat;
+	extern const QString InfoMessageWithModuleNameFormat;
 
-	extern const char* const SuccessMessageWithModuleNameFormat;
+	extern const QString SuccessMessageWithModuleNameFormat;
 
-	extern const char* const MessageWithoutPrefixFormat;
+	extern const QString MessageWithoutPrefixFormat;
 
 /*---------------------------------------------------------------------------*/
 

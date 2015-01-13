@@ -207,9 +207,9 @@ RepairAction::processAction()
 
 						m_environment.riseEvent(
 							Framework::Core::EventManager::Event( Events::ObjectHealthChanged::ms_type )
-								.pushAttribute( Events::ObjectHealthChanged::ms_objectNameAttribute, repairComponent->getTargetObject()->getName() )
-								.pushAttribute( Events::ObjectHealthChanged::ms_objectIdAttribute, repairComponent->getTargetObject()->getUniqueId() )
-								.pushAttribute( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() ) );
+								.pushMember( Events::ObjectHealthChanged::ms_objectNameAttribute, repairComponent->getTargetObject()->getName() )
+								.pushMember( Events::ObjectHealthChanged::ms_objectIdAttribute, repairComponent->getTargetObject()->getUniqueId() )
+								.pushMember( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() ) );
 
 						if ( targetHealthComponent->getHealth() == targetHealthComponent->getStaticData().m_maximumHealth )
 						{
@@ -229,10 +229,10 @@ RepairAction::processAction()
 				{
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-							.pushAttribute( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() )
-							.pushAttribute( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() )
-							.pushAttribute( Events::ObjectStateChanged::ms_objectState, m_object.getState() )
-							.pushAttribute( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() ) );
+							.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() )
+							.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() )
+							.pushMember( Events::ObjectStateChanged::ms_objectState, m_object.getState() )
+							.pushMember( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() ) );
 				}
 			}
 		}

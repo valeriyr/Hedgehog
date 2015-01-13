@@ -15,11 +15,11 @@ namespace Messanges {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const SimpleMessageFormat;
+	extern const QString SimpleMessageFormat;
 
-	extern const char* const MessageWithLevelFormat;
+	extern const QString MessageWithLevelFormat;
 
-	extern const char* const MessageWithLevelAndModuleNameFormat;
+	extern const QString MessageWithLevelAndModuleNameFormat;
 
 /*---------------------------------------------------------------------------*/
 

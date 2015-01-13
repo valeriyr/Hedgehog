@@ -13,13 +13,13 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ModuleName = "EVENT_MANAGER";
+	const QString ModuleName = "EVENT_MANAGER";
 
 /*---------------------------------------------------------------------------*/
 
 	const Tools::Core::Time::Milliseconds TimeLimit = 16;
 
-	const char* const TimeLimitWarning = "Time limit has been exceeded! Time: '%1' ( limit: '%2' )";
+	const QString TimeLimitWarning = "Time limit has been exceeded! Time: '%1' ( limit: '%2' )";
 
 /*---------------------------------------------------------------------------*/
 

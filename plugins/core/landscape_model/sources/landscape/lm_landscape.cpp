@@ -98,12 +98,14 @@ Landscape::setSize( const int _width, const int _height )
 
 
 void
-Landscape::addStartPoint( const StartPoint& _startPoint )
+Landscape::addStartPoint( const Tools::Core::Object& _startPoint )
 {
-	StartsPointsCollectionIterator iterator = m_startPoints.find( _startPoint.m_id );
+	Tools::Core::Generators::IGenerator::IdType id = _startPoint.getMember< Tools::Core::Generators::IGenerator::IdType >( StartPoint::ms_id );
+
+	StartsPointsCollectionIterator iterator = m_startPoints.find( id );
 	assert( iterator == m_startPoints.end() );
 
-	m_startPoints.insert( std::make_pair( _startPoint.m_id, _startPoint ) );
+	m_startPoints.insert( std::make_pair( id, _startPoint ) );
 
 } // Landscape::addStartPoint
 
@@ -111,7 +113,7 @@ Landscape::addStartPoint( const StartPoint& _startPoint )
 /*---------------------------------------------------------------------------*/
 
 
-const StartPoint&
+const Tools::Core::Object&
 Landscape::getStartPoint( const Tools::Core::Generators::IGenerator::IdType& _startPointId )
 {
 	StartsPointsCollectionConstIterator iterator = m_startPoints.find( _startPointId );

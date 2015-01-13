@@ -252,11 +252,11 @@ void
 MultiplayerDialog::onPlayerNameChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getAttribute( Core::LandscapeModel::Events::PlayerNameChanged::ms_playerIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::PlayerNameChanged::ms_playerIdAttribute );
 	const Tools::Core::Generators::IGenerator::IdType startPointid
-		= _event.getAttribute( Core::LandscapeModel::Events::PlayerNameChanged::ms_startPointIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::PlayerNameChanged::ms_startPointIdAttribute );
 	const QString name
-		= _event.getAttribute( Core::LandscapeModel::Events::PlayerNameChanged::ms_playerNameAttribute).toString();
+		= _event.getMember< QString >( Core::LandscapeModel::Events::PlayerNameChanged::ms_playerNameAttribute);
 
 	PlayersDataCollectionIterator iterator = m_playersData.find( id );
 	assert( iterator != m_playersData.end() );
@@ -278,8 +278,7 @@ void
 MultiplayerDialog::onVictoryConditionChangedEvent( const Framework::Core::EventManager::Event& _event )
 {
 	const Core::LandscapeModel::VictoryCondition::Enum condition
-		= static_cast< Core::LandscapeModel::VictoryCondition::Enum >(
-			_event.getAttribute( Core::LandscapeModel::Events::VictoryConditionChanged::ms_conditionAttribute ).toInt() );
+		= _event.getMember< Core::LandscapeModel::VictoryCondition::Enum >( Core::LandscapeModel::Events::VictoryConditionChanged::ms_conditionAttribute );
 
 	assert( condition != Core::LandscapeModel::VictoryCondition::Undefined );
 
@@ -310,9 +309,9 @@ void
 MultiplayerDialog::onPlayerRaceChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getAttribute( Core::LandscapeModel::Events::PlayerRaceChanged::ms_playerIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::PlayerRaceChanged::ms_playerIdAttribute );
 	const QString race
-		= _event.getAttribute( Core::LandscapeModel::Events::PlayerRaceChanged::ms_playerRaceAttribute).toString();
+		= _event.getMember< QString >( Core::LandscapeModel::Events::PlayerRaceChanged::ms_playerRaceAttribute);
 
 	PlayersDataCollectionIterator iterator = m_playersData.find( id );
 	assert( iterator != m_playersData.end() );
@@ -333,9 +332,9 @@ void
 MultiplayerDialog::onPlayerTypeChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getAttribute( Core::LandscapeModel::Events::PlayerTypeChanged::ms_playerIdAttribute ).toInt();
-	const Core::LandscapeModel::PlayerType::Enum type = static_cast< Core::LandscapeModel::PlayerType::Enum >(
-		_event.getAttribute( Core::LandscapeModel::Events::PlayerTypeChanged::ms_playerTypeAttribute ).toInt() );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::PlayerTypeChanged::ms_playerIdAttribute );
+	const Core::LandscapeModel::PlayerType::Enum type =
+		_event.getMember< Core::LandscapeModel::PlayerType::Enum >( Core::LandscapeModel::Events::PlayerTypeChanged::ms_playerTypeAttribute );
 
 	PlayersDataCollectionIterator iterator = m_playersData.find( id );
 	assert( iterator != m_playersData.end() );

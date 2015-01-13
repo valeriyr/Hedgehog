@@ -13,7 +13,7 @@ namespace Properties {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PlaySound = "PlaySound";
+	const QString PlaySound = "PlaySound";
 
 /*---------------------------------------------------------------------------*/
 

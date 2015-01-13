@@ -168,7 +168,7 @@ ObjectStatusView::onObjectsSelectionChanged( const Framework::Core::EventManager
 void
 ObjectStatusView::onTrainQueueChanged( const Framework::Core::EventManager::Event& _event )
 {
-	if ( m_builderId == _event.getAttribute( Core::LandscapeModel::Events::TrainQueueChanged::ms_trainerIdAttribute ).toInt() )
+	if ( m_builderId == _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::TrainQueueChanged::ms_trainerIdAttribute ) )
 		updateBuildQueue();
 
 } // ObjectStatusView::onTrainQueueChanged
@@ -180,10 +180,10 @@ ObjectStatusView::onTrainQueueChanged( const Framework::Core::EventManager::Even
 void
 ObjectStatusView::onTrainProgressChanged( const Framework::Core::EventManager::Event& _event )
 {
-	if ( m_builderId == _event.getAttribute( Core::LandscapeModel::Events::TrainProgressChanged::ms_trainerIdAttribute ).toInt() )
+	if ( m_builderId == _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::TrainProgressChanged::ms_trainerIdAttribute ) )
 	{
-		Core::LandscapeModel::TickType progress = _event.getAttribute( Core::LandscapeModel::Events::TrainProgressChanged::ms_trainerProgressAttribute ).toLongLong();
-		Core::LandscapeModel::TickType total = _event.getAttribute( Core::LandscapeModel::Events::TrainProgressChanged::ms_creationTimeAttribute ).toLongLong();
+		Core::LandscapeModel::TickType progress = _event.getMember< Core::LandscapeModel::TickType >( Core::LandscapeModel::Events::TrainProgressChanged::ms_trainerProgressAttribute );
+		Core::LandscapeModel::TickType total = _event.getMember< Core::LandscapeModel::TickType >( Core::LandscapeModel::Events::TrainProgressChanged::ms_creationTimeAttribute );
 
 		updateProgressLabel( static_cast< float >( progress ) / total * 100 );
 	}

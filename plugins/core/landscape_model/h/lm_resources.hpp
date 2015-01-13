@@ -11,13 +11,13 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ModelThreadName = "ModelThread";
+	const QString ModelThreadName = "ModelThread";
 
-	const char* const LandscapeFileExtension = "hmap";
+	const QString LandscapeFileExtension = "hmap";
 
-	const char* const LandscapeFileFilter = "*.hmap";
+	const QString LandscapeFileFilter = "*.hmap";
 
-	const char* const ReplayFileFilter = "*.hreplay";
+	const QString ReplayFileFilter = "*.hreplay";
 
 /*---------------------------------------------------------------------------*/
 
@@ -25,13 +25,13 @@ namespace Properties {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PlayerName = "PlayerName";
+	const QString PlayerName = "PlayerName";
 
-	const char* const Port = "Port";
+	const QString Port = "Port";
 
-	const char* const Ip = "Ip";
+	const QString Ip = "Ip";
 
-	const char* const ConnectionTimeOut = "ConnectionTimeOut";
+	const QString ConnectionTimeOut = "ConnectionTimeOut";
 
 /*---------------------------------------------------------------------------*/
 

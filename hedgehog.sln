@@ -115,6 +115,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Streaming", "Streaming", "{
 		tools\core\streaming\st_qvariant_extensions.hpp = tools\core\streaming\st_qvariant_extensions.hpp
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Object", "Object", "{9D49BED6-D5B0-46C2-BF4F-CE6A299C58B1}"
+	ProjectSection(SolutionItems) = preProject
+		tools\core\object\tl_object.hpp = tools\core\object\tl_object.hpp
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -306,6 +311,7 @@ Global
 		{D5E278C0-706A-4448-B5B8-FCBC08DC3C0F} = {08C11D7D-743D-4963-B7C1-E02B7EF1E730}
 		{490CC4F0-6D9D-4326-86CE-29FC1A8B4787} = {08C11D7D-743D-4963-B7C1-E02B7EF1E730}
 		{71AC2B48-DEFC-4205-912A-4570AFED0FDD} = {08C11D7D-743D-4963-B7C1-E02B7EF1E730}
+		{9D49BED6-D5B0-46C2-BF4F-CE6A299C58B1} = {08C11D7D-743D-4963-B7C1-E02B7EF1E730}
 		{6300074B-CAD4-4554-A8E9-129D99CDD6A0} = {067F413D-45A2-4498-BA71-16232CB3F0D5}
 		{8B3C84F4-56F7-4A7B-AD60-37D1CE2F0031} = {067F413D-45A2-4498-BA71-16232CB3F0D5}
 		{6F884B2F-BEBC-4224-9FE2-7925E2DD8595} = {067F413D-45A2-4498-BA71-16232CB3F0D5}

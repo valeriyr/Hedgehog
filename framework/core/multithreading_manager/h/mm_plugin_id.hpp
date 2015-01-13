@@ -11,7 +11,7 @@ namespace MultithreadingManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_MULTITHREADING_MANAGER = "multithreading_manager";
+	const QString PID_MULTITHREADING_MANAGER = "multithreading_manager";
 
 /*---------------------------------------------------------------------------*/
 

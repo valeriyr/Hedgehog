@@ -95,7 +95,7 @@ MainView::printMessage(
 	if ( !m_consoleView )
 		return;
 
-	const char* messageFormat = Resources::InfoMessageFormat;
+	QString messageFormat = Resources::InfoMessageFormat;
 
 	switch ( _messageLevel )
 	{
@@ -134,7 +134,7 @@ MainView::printMessage(
 	if ( !m_consoleView )
 		return;
 
-	const char* messageFormat = Resources::InfoMessageWithModuleNameFormat;
+	QString messageFormat = Resources::InfoMessageWithModuleNameFormat;
 
 	switch ( _messageLevel )
 	{

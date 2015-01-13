@@ -12,7 +12,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const MainThreadName = "MainThread";
+	const QString MainThreadName = "MainThread";
 
 /*---------------------------------------------------------------------------*/
 

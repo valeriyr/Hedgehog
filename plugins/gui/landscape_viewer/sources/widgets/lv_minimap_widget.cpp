@@ -195,7 +195,7 @@ MinimapWidget::mouseMoveEvent ( QMouseEvent* _event )
 void
 MinimapWidget::onSettingChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const QString key = _event.getAttribute( Framework::Core::Settings::Events::SettingChanged::ms_key ).toString();
+	const QString key = _event.getMember< QString >( Framework::Core::Settings::Events::SettingChanged::ms_key );
 
 	if ( key == Resources::Properties::SkinId || key == Resources::Properties::UpdateMinimap )
 	{

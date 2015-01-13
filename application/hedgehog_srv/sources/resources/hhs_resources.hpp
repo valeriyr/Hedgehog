@@ -10,19 +10,19 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const PluginsDirectoryName;
+	extern const QString PluginsDirectoryName;
 
-	extern const char* const ServerPluginsDirectoryName;
+	extern const QString ServerPluginsDirectoryName;
 
-	extern const char* const ResourcesDirectoryName;
+	extern const QString ResourcesDirectoryName;
 
-	extern const char* const ConfigsDirectoryName;
+	extern const QString ConfigsDirectoryName;
 
-	extern const char* const ApplicationName;
+	extern const QString ApplicationName;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const SystemMessengerPluginName;
+	extern const QString SystemMessengerPluginName;
 
 /*---------------------------------------------------------------------------*/
 

@@ -91,7 +91,7 @@ TrainAction::cancelProcessing()
 
 	m_environment.riseEvent(
 		Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )
-			.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() ) );
+			.pushMember( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() ) );
 
 	m_isInProcessing = false;
 
@@ -126,9 +126,9 @@ TrainAction::processAction()
 
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::TrainProgressChanged::ms_type )
-				.pushAttribute( Events::TrainProgressChanged::ms_trainerIdAttribute, m_object.getUniqueId() )
-				.pushAttribute( Events::TrainProgressChanged::ms_trainerProgressAttribute, trainData.m_trainProgress )
-				.pushAttribute( Events::TrainProgressChanged::ms_creationTimeAttribute, creationTime ) );
+				.pushMember( Events::TrainProgressChanged::ms_trainerIdAttribute, m_object.getUniqueId() )
+				.pushMember( Events::TrainProgressChanged::ms_trainerProgressAttribute, trainData.m_trainProgress )
+				.pushMember( Events::TrainProgressChanged::ms_creationTimeAttribute, creationTime ) );
 
 		if ( trainData.m_trainProgress == creationTime )
 		{
@@ -143,7 +143,7 @@ TrainAction::processAction()
 
 			m_environment.riseEvent(
 				Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )
-					.pushAttribute( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() ) );
+					.pushMember( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() ) );
 
 			m_isInProcessing = false;
 		}

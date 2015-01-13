@@ -176,7 +176,7 @@ void
 ObjectInfoView::onObjectStateChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -193,7 +193,7 @@ void
 ObjectInfoView::onObjectMoved( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -210,7 +210,7 @@ void
 ObjectInfoView::onObjectHealthChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ObjectHealthChanged::ms_objectIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectHealthChanged::ms_objectIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -227,7 +227,7 @@ void
 ObjectInfoView::onHolderResourceCountChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderResourceCountChanged::ms_objectUniqueIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderResourceCountChanged::ms_objectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -244,7 +244,7 @@ void
 ObjectInfoView::onBuilderHasStartedBuild( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ms_objectUniqueIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ms_objectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -261,7 +261,7 @@ void
 ObjectInfoView::onBuilderHasFinishedBuild( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -278,7 +278,7 @@ void
 ObjectInfoView::onHolderHasStartedCollect( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -295,7 +295,7 @@ void
 ObjectInfoView::onHolderHasStopCollect( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectUniqueIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -312,7 +312,7 @@ void
 ObjectInfoView::onResourceSourceValueChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::ResourceSourceValueChanged::ms_objectUniqueIdAttribute ).toInt();
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ResourceSourceValueChanged::ms_objectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{

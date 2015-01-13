@@ -1,10 +1,9 @@
 
-#ifndef __LM_START_POINT_HPP__
-#define __LM_START_POINT_HPP__
+#ifndef __LM_OBJECTS_HPP__
+#define __LM_OBJECTS_HPP__
 
-/*---------------------------------------------------------------------------*/
+#include "object/tl_object.hpp"
 
-#include "generators/gn_igenerator.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -14,17 +13,12 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-struct StartPoint
+namespace StartPoint
 {
-	StartPoint( const Tools::Core::Generators::IGenerator::IdType _id, const QPoint _point )
-		:	m_id( _id )
-		,	m_point( _point )
-	{}
+	const QString ms_id = "Id";
 
-	const Tools::Core::Generators::IGenerator::IdType m_id;
-
-	const QPoint m_point;
-};
+	const QString ms_point = "Point";
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,4 +28,4 @@ struct StartPoint
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_START_POINT_HPP__
+#endif // __LM_OBJECTS_HPP__

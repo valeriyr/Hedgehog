@@ -11,7 +11,7 @@ namespace Settings {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_SETTINGS = "settings";
+	const QString PID_SETTINGS = "settings";
 
 /*---------------------------------------------------------------------------*/
 

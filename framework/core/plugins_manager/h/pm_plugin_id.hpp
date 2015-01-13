@@ -11,7 +11,7 @@ namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_PLUGINS_MANAGER = "plugins_manager";
+	const QString PID_PLUGINS_MANAGER = "plugins_manager";
 
 /*---------------------------------------------------------------------------*/
 

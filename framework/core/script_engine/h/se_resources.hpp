@@ -11,7 +11,7 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ScriptFileExtension = ".lua";
+	const QString ScriptFileExtension = ".lua";
 
 /*---------------------------------------------------------------------------*/
 

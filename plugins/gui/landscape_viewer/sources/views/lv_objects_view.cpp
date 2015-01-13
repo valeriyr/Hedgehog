@@ -224,7 +224,7 @@ ObjectsView::onCurrentItemChanged( QTreeWidgetItem* _current, QTreeWidgetItem* _
 void
 ObjectsView::onSettingChanged( const Framework::Core::EventManager::Event& _event )
 {
-	if (	_event.getAttribute( Framework::Core::Settings::Events::SettingChanged::ms_key ).toString()
+	if (	_event.getMember< QString >( Framework::Core::Settings::Events::SettingChanged::ms_key )
 		==	Resources::Properties::SkinId)
 	{
 		m_objectsView->clear();

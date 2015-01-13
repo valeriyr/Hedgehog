@@ -10,7 +10,7 @@ namespace WindowManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_WINDOW_MANAGER = "window_manager";
+	const QString PID_WINDOW_MANAGER = "window_manager";
 
 /*---------------------------------------------------------------------------*/
 

@@ -11,7 +11,7 @@ namespace EventManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_EVENT_MANAGER = "event_manager";
+	const QString PID_EVENT_MANAGER = "event_manager";
 
 /*---------------------------------------------------------------------------*/
 

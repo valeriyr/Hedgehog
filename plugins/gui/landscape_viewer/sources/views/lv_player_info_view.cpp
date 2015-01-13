@@ -134,7 +134,7 @@ void
 PlayerInfoView::onCurrentTickNumberChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Plugins::Core::LandscapeModel::TickType tickNumber
-		= _event.getAttribute( Plugins::Core::LandscapeModel::Events::CurrentTickNumberChanged::ms_tickNumberAttribute ).toUInt();
+		= _event.getMember< Plugins::Core::LandscapeModel::TickType >( Plugins::Core::LandscapeModel::Events::CurrentTickNumberChanged::ms_tickNumberAttribute );
 
 	updateTickInfo( tickNumber );
 	setInfoText();

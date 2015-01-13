@@ -89,13 +89,13 @@
     <ClInclude Include="h\lm_directions.hpp" />
     <ClInclude Include="h\lm_events.hpp" />
     <ClInclude Include="h\lm_object.hpp" />
+    <ClInclude Include="h\lm_objects.hpp" />
     <ClInclude Include="h\lm_object_states.hpp" />
     <ClInclude Include="h\lm_player_type.hpp" />
     <ClInclude Include="h\lm_plugin_id.hpp" />
     <ClInclude Include="h\lm_priority.hpp" />
     <ClInclude Include="h\lm_resources.hpp" />
     <ClInclude Include="h\lm_resources_data.hpp" />
-    <ClInclude Include="h\lm_start_point.hpp" />
     <ClInclude Include="h\lm_terrain_map_data.hpp" />
     <ClInclude Include="h\lm_victory_condition.hpp" />
     <ClInclude Include="ih\components\lm_iactions_component.hpp" />

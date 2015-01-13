@@ -13,13 +13,13 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const ModuleName;
+	extern const QString ModuleName;
 
 /*---------------------------------------------------------------------------*/
 
 	extern const Tools::Core::Time::Milliseconds TimeLimit;
 
-	extern const char* const TimeLimitWarning;
+	extern const QString TimeLimitWarning;
 
 /*---------------------------------------------------------------------------*/
 

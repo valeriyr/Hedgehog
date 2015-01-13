@@ -11,11 +11,11 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const SystemScriptFileName;
+	extern const QString SystemScriptFileName;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const ScripterMessageFormat;
+	extern const QString ScripterMessageFormat;
 
 /*---------------------------------------------------------------------------*/
 

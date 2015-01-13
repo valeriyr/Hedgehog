@@ -11,11 +11,11 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const ImagesDirecctory;
+	extern const QString ImagesDirecctory;
 
-	extern const char* const ImageDefaultExtension;
+	extern const QString ImageDefaultExtension;
 
-	extern const char* const ImageWithRectPathFormat;
+	extern const QString ImageWithRectPathFormat;
 
 /*---------------------------------------------------------------------------*/
 

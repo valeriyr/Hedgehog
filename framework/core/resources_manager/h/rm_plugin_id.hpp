@@ -10,7 +10,7 @@ namespace ResourcesManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_RESOURCES_MANAGER = "resources_manager";
+	const QString PID_RESOURCES_MANAGER = "resources_manager";
 
 /*---------------------------------------------------------------------------*/
 

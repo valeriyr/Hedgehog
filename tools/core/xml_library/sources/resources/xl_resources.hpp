@@ -16,13 +16,13 @@ namespace Strings {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const XmlSchemaDocumentFormat;
+	extern const QString XmlSchemaDocumentFormat;
 
-	extern const char* const ElementFormat;
+	extern const QString ElementFormat;
 
-	extern const char* const ZeroOrMoreRepeatElement;
+	extern const QString ZeroOrMoreRepeatElement;
 
-	extern const char* const AttributeFormat;
+	extern const QString AttributeFormat;
 
 /*---------------------------------------------------------------------------*/
 

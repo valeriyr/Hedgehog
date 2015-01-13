@@ -185,7 +185,7 @@ EventManager::task( const QString& _threadName )
 	for ( ; eventsBegin != eventsEnd; ++eventsBegin )
 	{
 		SubscribersData::EventSubscribersCollectionIterator eventSubscribersIterator
-			= subscribersData.m_eventSubscribersCollection.find( eventsBegin->getType() );
+			= subscribersData.m_eventSubscribersCollection.find( eventsBegin->getMember< QString >( EventType ) );
 
 		if ( eventSubscribersIterator != subscribersData.m_eventSubscribersCollection.end() )
 			processEvent( eventSubscribersIterator->second.m_processingFunctionsCollection, *eventsBegin );
@@ -200,9 +200,9 @@ EventManager::task( const QString& _threadName )
 
 	if ( time > Resources::TimeLimit )
 	{
-		m_environment.printMessage(
+		/*m_environment.printMessage(
 				Tools::Core::IMessenger::MessegeLevel::Warning
-			,	QString( Resources::TimeLimitWarning ).arg( time ).arg( Resources::TimeLimit )  );
+			,	QString( Resources::TimeLimitWarning ).arg( time ).arg( Resources::TimeLimit )  );*/
 	}
 
 } // EventManager::task

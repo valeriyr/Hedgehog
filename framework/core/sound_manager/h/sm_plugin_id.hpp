@@ -11,7 +11,7 @@ namespace SoundManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_SOUND_MANAGER = "sound_manager";
+	const QString PID_SOUND_MANAGER = "sound_manager";
 
 /*---------------------------------------------------------------------------*/
 

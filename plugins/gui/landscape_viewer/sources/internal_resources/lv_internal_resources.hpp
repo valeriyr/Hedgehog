@@ -11,11 +11,11 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const ModuleName;
+	extern const QString ModuleName;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const ConfigurationScriptsDirectory;
+	extern const QString ConfigurationScriptsDirectory;
 
 /*---------------------------------------------------------------------------*/
 
@@ -23,97 +23,97 @@ namespace Views {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const LandscapeViewTitle;
+	extern const QString LandscapeViewTitle;
 
-	extern const char* const MinimapViewTitle;
+	extern const QString MinimapViewTitle;
 
-	extern const char* const ObjectsViewTitle;
+	extern const QString ObjectsViewTitle;
 
-	extern const char* const ObjectsViewColumnName;
+	extern const QString ObjectsViewColumnName;
 
-	extern const char* const DescriptionViewTitle;
+	extern const QString DescriptionViewTitle;
 
-	extern const char* const SettingsViewTitle;
+	extern const QString SettingsViewTitle;
 
-	extern const char* const SelectionViewTitle;
+	extern const QString SelectionViewTitle;
 
-	extern const char* const ActionPanelViewTitle;
+	extern const QString ActionPanelViewTitle;
 
-	extern const char* const CreateObjectLabelFormat;
+	extern const QString CreateObjectLabelFormat;
 
-	extern const char* const ObjectStatusViewTitle;
+	extern const QString ObjectStatusViewTitle;
 
-	extern const char* const ObjectInfoViewTitle;
+	extern const QString ObjectInfoViewTitle;
 
-	extern const char* const PlayerInfoViewTitle;
+	extern const QString PlayerInfoViewTitle;
 
-	extern const char* const EditorViewDefaultTitle;
+	extern const QString EditorViewDefaultTitle;
 
-	extern const char* const TarrainMapVisibilityCheckboxName;
+	extern const QString TarrainMapVisibilityCheckboxName;
 
-	extern const char* const SkinIdLabel;
+	extern const QString SkinIdLabel;
 
-	extern const char* const UpdateMinimapCheckboxName;
+	extern const QString UpdateMinimapCheckboxName;
 
-	extern const char* const PlaySoundCheckboxName;
+	extern const QString PlaySoundCheckboxName;
 
-	extern const char* const IpLabel;
+	extern const QString IpLabel;
 
-	extern const char* const PortLabel;
+	extern const QString PortLabel;
 
-	extern const char* const RaceLabel;
+	extern const QString RaceLabel;
 
-	extern const char* const ColorLabel;
+	extern const QString ColorLabel;
 
-	extern const char* const VictoryCondition;
+	extern const QString VictoryCondition;
 
-	extern const char* const ConnectionTimeOutLabel;
+	extern const QString ConnectionTimeOutLabel;
 
-	extern const char* const PlayerNameLabel;
+	extern const QString PlayerNameLabel;
 
-	extern const char* const PlayerByStartPointLabelFormat;
-
-/*---------------------------------------------------------------------------*/
-
-	extern const char* const LandscapeDescriptionDefaultText;
-
-	extern const char* const LandscapeDescriptionFormat;
+	extern const QString PlayerByStartPointLabelFormat;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const ObjectInfoDefaultText;
+	extern const QString LandscapeDescriptionDefaultText;
 
-	extern const char* const ObjectInfoFormat;
-
-	extern const char* const DamageInfoFormat;
-
-	extern const char* const ResourcesSourceFormat;
-
-	extern const char* const ResourcesHoldFormat;
-
-	extern const char* const NoneString;
+	extern const QString LandscapeDescriptionFormat;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const PlayerInfoDefaultText;
+	extern const QString ObjectInfoDefaultText;
 
-	extern const char* const PlayersInfoTextFormat;
+	extern const QString ObjectInfoFormat;
 
-	extern const char* const PlayerInfoTextFormat;
+	extern const QString DamageInfoFormat;
 
-	extern const char* const PlayerResourceInfoFormat;
+	extern const QString ResourcesSourceFormat;
 
-	extern const char* const TickInfoTextFormat;
+	extern const QString ResourcesHoldFormat;
+
+	extern const QString NoneString;
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const CreateButtonName;
+	extern const QString PlayerInfoDefaultText;
 
-	extern const char* const ConnectButtonName;
+	extern const QString PlayersInfoTextFormat;
 
-	extern const char* const StartButtonName;
+	extern const QString PlayerInfoTextFormat;
 
-	extern const char* const CancelButtonName;
+	extern const QString PlayerResourceInfoFormat;
+
+	extern const QString TickInfoTextFormat;
+
+/*---------------------------------------------------------------------------*/
+
+	extern const QString CreateButtonName;
+
+	extern const QString ConnectButtonName;
+
+	extern const QString StartButtonName;
+
+	extern const QString CancelButtonName;
 
 /*---------------------------------------------------------------------------*/
 
@@ -125,7 +125,7 @@ namespace Messages {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const SimulationIsRunningNow;
+	extern const QString SimulationIsRunningNow;
 
 /*---------------------------------------------------------------------------*/
 
@@ -137,7 +137,7 @@ namespace Animations {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const AnimationNameFormat;
+	extern const QString AnimationNameFormat;
 
 /*---------------------------------------------------------------------------*/
 
@@ -161,21 +161,21 @@ namespace Commands {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const NewLandscapeCommandName;
+	extern const QString NewLandscapeCommandName;
 
-	extern const char* const OpenLandscapeCommandName;
+	extern const QString OpenLandscapeCommandName;
 
-	extern const char* const CloseLandscapeCommandName;
+	extern const QString CloseLandscapeCommandName;
 
-	extern const char* const SaveLandscapeCommandName;
+	extern const QString SaveLandscapeCommandName;
 
-	extern const char* const SaveAsLandscapeCommandName;
+	extern const QString SaveAsLandscapeCommandName;
 
-	extern const char* const StartGameCommandName;
+	extern const QString StartGameCommandName;
 
-	extern const char* const StartReplayCommandName;
+	extern const QString StartReplayCommandName;
 
-	extern const char* const SaveReplayCommandName;
+	extern const QString SaveReplayCommandName;
 
 /*---------------------------------------------------------------------------*/
 
@@ -187,11 +187,11 @@ namespace Properties {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const TerrainMapVisibility;
+	extern const QString TerrainMapVisibility;
 
-	extern const char* const SkinId;
+	extern const QString SkinId;
 
-	extern const char* const UpdateMinimap;
+	extern const QString UpdateMinimap;
 
 /*---------------------------------------------------------------------------*/
 
@@ -203,9 +203,9 @@ namespace Sounds {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const PlacementError;
+	extern const QString PlacementError;
 
-	extern const char* const PlacementSuccess;
+	extern const QString PlacementSuccess;
 
 /*---------------------------------------------------------------------------*/
 

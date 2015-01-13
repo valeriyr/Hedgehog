@@ -11,7 +11,7 @@ namespace ScriptEngine {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const PID_SCRIPT_ENGINE = "script_engine";
+	const QString PID_SCRIPT_ENGINE = "script_engine";
 
 /*---------------------------------------------------------------------------*/
 

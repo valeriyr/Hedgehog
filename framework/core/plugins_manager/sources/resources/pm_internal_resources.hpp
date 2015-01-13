@@ -13,7 +13,7 @@ namespace Resources {
 
 	extern const char* const ComponentFactoryName;
 
-	extern const char* const PluginFileExtension;
+	extern const QString PluginFileExtension;
 
 /*---------------------------------------------------------------------------*/
 

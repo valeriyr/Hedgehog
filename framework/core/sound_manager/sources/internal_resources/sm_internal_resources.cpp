@@ -13,9 +13,9 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const SoundsDirecctory = "sounds";
+	const QString SoundsDirecctory = "sounds";
 
-	const char* const SoundDefaultExtension = ".wav";
+	const QString SoundDefaultExtension = ".wav";
 
 /*---------------------------------------------------------------------------*/
 

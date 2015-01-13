@@ -11,9 +11,9 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	extern const char* const SoundsDirecctory;
+	extern const QString SoundsDirecctory;
 
-	extern const char* const SoundDefaultExtension;
+	extern const QString SoundDefaultExtension;
 
 /*---------------------------------------------------------------------------*/
 

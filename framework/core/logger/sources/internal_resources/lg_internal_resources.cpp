@@ -17,11 +17,11 @@ namespace Messanges {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const SimpleMessageFormat = ">> %1\n";
+	const QString SimpleMessageFormat = ">> %1\n";
 
-	const char* const MessageWithLevelFormat = ">> %1: %2\n";
+	const QString MessageWithLevelFormat = ">> %1: %2\n";
 
-	const char* const MessageWithLevelAndModuleNameFormat = ">> %1: %2. %3\n";
+	const QString MessageWithLevelAndModuleNameFormat = ">> %1: %2. %3\n";
 
 /*---------------------------------------------------------------------------*/
 

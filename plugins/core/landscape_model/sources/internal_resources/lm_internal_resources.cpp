@@ -13,51 +13,51 @@ namespace Resources {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ModuleName = "LANDSCAPE_MODEL";
+	const QString ModuleName = "LANDSCAPE_MODEL";
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const LandscapeVersion = "1.0.0";
+	const QString LandscapeVersion = "1.0.0";
 
-	const char* const ReplayVersion = "1.0.0";
+	const QString ReplayVersion = "1.0.0";
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const LandscapesDirectoryName = "maps";
+	const QString LandscapesDirectoryName = "maps";
 
-	const char* const ReplaysDirectoryName = "replays";
+	const QString ReplaysDirectoryName = "replays";
 
 /*---------------------------------------------------------------------------*/
 
 	const Tools::Core::Time::Milliseconds TimeLimit = 100;
 
-	const char* const TimeLimitWarning = "Time limit has been exceeded! Time: '%1' ( limit: '%2' )";
+	const QString TimeLimitWarning = "Time limit has been exceeded! Time: '%1' ( limit: '%2' )";
 
-	const char* const SimulationHasBeenStartedMessage = "Simulation has been started at: '%1' msec";
+	const QString SimulationHasBeenStartedMessage = "Simulation has been started at: '%1' msec";
 
-	const char* const SimulationHasBeenStoppedMessage = "Simulation has been stopped at: '%1' msec";
+	const QString SimulationHasBeenStoppedMessage = "Simulation has been stopped at: '%1' msec";
 
-	const char* const SocketHasBeenOpenedMessage = "Socket has been opened at: '%1:%2'";
+	const QString SocketHasBeenOpenedMessage = "Socket has been opened at: '%1:%2'";
 
-	const char* const SocketHasBeenClosedMessage = "Socket has been closed at: '%1:%2'";
+	const QString SocketHasBeenClosedMessage = "Socket has been closed at: '%1:%2'";
 
-	const char* const CommandReceivedMessage = "Command has been received from '%1:%2', type '%3', timestamp '%4', tick '%5'";
+	const QString CommandReceivedMessage = "Command has been received from '%1:%2', type '%3', timestamp '%4', tick '%5'";
 
-	const char* const CommandsIsNotPresentedMessage = "Commands are not presented for player '%1'(%2) for tick '%3'";
+	const QString CommandsIsNotPresentedMessage = "Commands are not presented for player '%1'(%2) for tick '%3'";
 
-	const char* const CommandWilNotBeProcessedMessage = "Command '%1' will not be processed because model is not initialized or simulation has been blocked";
+	const QString CommandWilNotBeProcessedMessage = "Command '%1' will not be processed because model is not initialized or simulation has been blocked";
 
-	const char* const CommandCannotBeProcessedInReplayModeMessage = "Command '%1' can not be processed in replay mode";
+	const QString CommandCannotBeProcessedInReplayModeMessage = "Command '%1' can not be processed in replay mode";
 
-	const char* const SimulationStoppedMessage = "Simulation has been stopped at: '%1' msec, tick '%2'";
+	const QString SimulationStoppedMessage = "Simulation has been stopped at: '%1' msec, tick '%2'";
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const ConfigurationScriptsRootDirectory = "landscape_model";
+	const QString ConfigurationScriptsRootDirectory = "landscape_model";
 
-	const char* const ObjectsConfigurationScriptsDirectory = "objects";
+	const QString ObjectsConfigurationScriptsDirectory = "objects";
 
-	const char* const AIConfigurationScriptsDirectory = "ai";
+	const QString AIConfigurationScriptsDirectory = "ai";
 
 /*---------------------------------------------------------------------------*/
 
@@ -65,55 +65,55 @@ namespace Xml {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const LandscapeDocTypeString = "<!DOCTYPE hmap>";
-	const char* const ReplayDocTypeString = "<!DOCTYPE hreplay>";
+	const QString LandscapeDocTypeString = "<!DOCTYPE hmap>";
+	const QString ReplayDocTypeString = "<!DOCTYPE hreplay>";
 
-	const char* const HMap = "hmap";
-	const char* const HReplay = "hreplay";
+	const QString HMap = "hmap";
+	const QString HReplay = "hreplay";
 
-	const char* const Version = "version";
+	const QString Version = "version";
 
-	const char* const Landscape = "landscape";
-	const char* const Width = "width";
-	const char* const Height = "height";
+	const QString Landscape = "landscape";
+	const QString Width = "width";
+	const QString Height = "height";
 
-	const char* const VictoryCondition = "victory";
+	const QString VictoryCondition = "victory";
 
-	const char* const StartPoints = "start_points";
-	const char* const StartPoint = "start_point";
+	const QString StartPoints = "start_points";
+	const QString StartPoint = "start_point";
 
-	const char* const Surface = "surface";
+	const QString Surface = "surface";
 
-	const char* const Objects = "objects";
-	const char* const Object = "object";
+	const QString Objects = "objects";
+	const QString Object = "object";
 
-	const char* const Count = "count";
+	const QString Count = "count";
 
-	const char* const Name = "name";
+	const QString Name = "name";
 
-	const char* const Location = "location";
+	const QString Location = "location";
 
-	const char* const X = "x";
-	const char* const Y = "y";
+	const QString X = "x";
+	const QString Y = "y";
 
-	const char* const Id = "id";
+	const QString Id = "id";
 
-	const char* const Players = "players";
-	const char* const Player = "player";
+	const QString Players = "players";
+	const QString Player = "player";
 
-	const char* const Race = "race";
-	const char* const Type = "type";
+	const QString Race = "race";
+	const QString Type = "type";
 
-	const char* const Commands = "commands";
-	const char* const Command = "command";
+	const QString Commands = "commands";
+	const QString Command = "command";
 
-	const char* const Tick = "tick";
-	const char* const TimeStamp = "timestamp";
+	const QString Tick = "tick";
+	const QString TimeStamp = "timestamp";
 
-	const char* const Arguments = "arguments";
-	const char* const Argument = "argument";
+	const QString Arguments = "arguments";
+	const QString Argument = "argument";
 
-	const char* const Value = "value";
+	const QString Value = "value";
 
 /*---------------------------------------------------------------------------*/
 
@@ -121,7 +121,7 @@ namespace Xml {
 
 /*---------------------------------------------------------------------------*/
 
-	const char* const DefaultPlayerName = "none";
+	const QString DefaultPlayerName = "none";
 
 /*---------------------------------------------------------------------------*/
 
