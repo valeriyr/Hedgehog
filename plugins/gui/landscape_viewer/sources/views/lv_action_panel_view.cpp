@@ -229,7 +229,7 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 		}
 		else
 		{
-			updateView( selectedObjectsCollection.front()->getUniqueId() );
+			updateView( selectedObjectsCollection.front()->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey ) );
 		}
 	}
 
@@ -277,15 +277,20 @@ ActionPanelView::updateView( const Tools::Core::Generators::IGenerator::IdType& 
 		boost::shared_ptr< Core::LandscapeModel::Object > object
 			= handle->getLandscapeModel()->getLandscape()->getObject( _objectId );
 
-		if (	object->getState() == Core::LandscapeModel::ObjectState::Dying
-			||	object->getState() == Core::LandscapeModel::ObjectState::UnderConstruction
+		const Tools::Core::Generators::IGenerator::IdType objectId
+			= object->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey );
+		const Core::LandscapeModel::ObjectState::Enum objectState
+			= object->getMember< Core::LandscapeModel::ObjectState::Enum >( Core::LandscapeModel::ObjectStateKey );
+
+		if (	objectState == Core::LandscapeModel::ObjectState::Dying
+			||	objectState == Core::LandscapeModel::ObjectState::UnderConstruction
 			||	!handle->getLandscapeModel()->isMyObject( object ) )
 			return;
 
 		trainComponent = object->getComponent< Core::LandscapeModel::ITrainComponent >( Plugins::Core::LandscapeModel::ComponentId::Train );
 		buildComponent = object->getComponent< Core::LandscapeModel::IBuildComponent >( Plugins::Core::LandscapeModel::ComponentId::Build );
 
-		parentObjectId = object->getUniqueId();
+		parentObjectId = objectId;
 	}
 
 	if ( trainComponent )

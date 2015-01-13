@@ -126,7 +126,7 @@ MoveAction::prepareToProcessingInternal()
 
 	if ( m_movingToObject )
 	{
-		if ( m_movingToObject->getState() == ObjectState::Dying )
+		if ( m_movingToObject->getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 		{
 			moveToLocation( m_lastTargetObjectLocation );
 			m_preprocessedPath.clear();
@@ -143,7 +143,7 @@ MoveAction::prepareToProcessingInternal()
 
 	if ( !m_preprocessedPath.empty() )
 	{
-		if ( m_landscapeModel.getLandscape()->canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getName() ) )
+		if ( m_landscapeModel.getLandscape()->canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getMember< QString >( ObjectNameKey ) ) )
 		{
 			moveComponent->getMovingData().m_path = m_preprocessedPath;
 
@@ -168,7 +168,7 @@ MoveAction::cancelProcessingInternal()
 	boost::intrusive_ptr< IMoveComponent > moveComponent
 		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
 
-	if ( m_object.getState() == ObjectState::Dying )
+	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 	{
 		moveComponent->getMovingData().reset();
 		return true;
@@ -214,7 +214,7 @@ MoveAction::processAction()
 
 	// Check if object is dying
 
-	if ( m_object.getState() == ObjectState::Dying )
+	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 	{
 		m_isInProcessing = false;
 	}
@@ -222,7 +222,7 @@ MoveAction::processAction()
 	{
 		// Check target object
 
-		if ( m_movingToObject && m_movingToObject->getState() == ObjectState::Dying )
+		if ( m_movingToObject && m_movingToObject->getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 		{
 			moveToLocation( m_lastTargetObjectLocation );
 		}
@@ -315,7 +315,7 @@ MoveAction::processAction()
 
 				if ( !movingData.m_path.empty() )
 				{
-					if ( m_landscapeModel.getLandscape()->canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getName() ) )
+					if ( m_landscapeModel.getLandscape()->canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getMember< QString >( ObjectNameKey ) ) )
 					{
 						m_landscapeModel.getLandscape()->setEngaged( location, locateComponent->getStaticData().m_emplacement, false );
 						m_landscapeModel.getLandscape()->setEngaged( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData().m_emplacement, true );
@@ -337,13 +337,13 @@ MoveAction::processAction()
 
 				Direction::Enum nextDirection = Direction::getDirection( currentLocation, nextLocation );
 
-				ObjectState::Enum currentState = m_object.getState();
+				ObjectState::Enum currentState = m_object.getMember< ObjectState::Enum >( ObjectStateKey );
 				ObjectState::Enum nextState = ObjectState::Moving;
 
 				if ( currentDirection != nextDirection || currentState != nextState )
 				{
 					locateComponent->setDirection( nextDirection );
-					m_object.setState( nextState );
+					m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = nextState;
 
 					unitChangeState = true;
 				}
@@ -359,10 +359,10 @@ MoveAction::processAction()
 
 	// Finish moving
 
-	if ( !m_isInProcessing && m_object.getState() == ObjectState::Moving )
+	if ( !m_isInProcessing && m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Moving )
 	{
 		movingData.reset();
-		m_object.setState( ObjectState::Standing );
+		m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 			
 		unitChangeState = true;
 	}
@@ -373,9 +373,9 @@ MoveAction::processAction()
 	{
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-				.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() )
-				.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() )
-				.pushMember( Events::ObjectStateChanged::ms_objectState, m_object.getState() )
+				.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
+				.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+				.pushMember( Events::ObjectStateChanged::ms_objectState, m_object.getMember< ObjectState::Enum >( ObjectStateKey ) )
 				.pushMember( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() ) );
 	}
 
@@ -383,8 +383,8 @@ MoveAction::processAction()
 	{
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::ObjectMoved::ms_type )
-				.pushMember( Events::ObjectMoved::ms_objectNameAttribute, m_object.getName() )
-				.pushMember( Events::ObjectMoved::ms_objectIdAttribute, m_object.getUniqueId() )
+				.pushMember( Events::ObjectMoved::ms_objectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
+				.pushMember( Events::ObjectMoved::ms_objectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 				.pushMember( Events::ObjectMoved::ms_movingFromAttribute, locateComponent->getLocation() )
 				.pushMember( Events::ObjectMoved::ms_movingToAttribute, movingData.m_path.empty() ? locateComponent->getLocation() : movingData.m_path.front() )
 				.pushMember( Events::ObjectMoved::ms_movingProgressAttribute, movingData.m_path.empty() ? moveComponent->getStaticData().m_movingSpeed : movingData.m_movingProgress )

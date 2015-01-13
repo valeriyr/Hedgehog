@@ -43,7 +43,7 @@ GenerateResourcesAction::~GenerateResourcesAction()
 void
 GenerateResourcesAction::processAction()
 {
-	if ( m_object.getState() == ObjectState::Dying )
+	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 		return;
 
 	boost::intrusive_ptr< IGenerateResourcesComponent > generateResourcesComponent

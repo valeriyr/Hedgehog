@@ -180,7 +180,7 @@ CollectResourceAction::processAction()
 
 	// Check if object is dying
 
-	if ( m_object.getState() == ObjectState::Dying )
+	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 	{
 		m_isInProcessing = false;
 		return;
@@ -234,8 +234,8 @@ CollectResourceAction::processAction()
 		boost::intrusive_ptr< ILocateComponent > targetLocation
 			= m_targetObject->getComponent< ILocateComponent >( ComponentId::Locate );
 
-		if (	m_resourceSource->getState() == ObjectState::UnderCollecting
-			&&	targetResourceSource->getObjectInside() != m_object.getUniqueId() )
+		if (	m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::UnderCollecting
+			&&	targetResourceSource->getObjectInside() != m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 		{
 			return;
 		}
@@ -259,24 +259,24 @@ CollectResourceAction::processAction()
 			{
 				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
 
-				m_hiddenObject = m_landscapeModel.getLandscape()->hideObject( m_object.getUniqueId() );
-				m_hiddenObject->setState( ObjectState::Collecting );
+				m_hiddenObject = m_landscapeModel.getLandscape()->hideObject( m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) );
+				m_hiddenObject->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Collecting;
 
 				m_workersHolder.addWorker( m_hiddenObject );
 
-				targetResourceSource->setObjectInside( m_hiddenObject->getUniqueId() );
+				targetResourceSource->setObjectInside( m_hiddenObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) );
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::HolderHasStartedCollect::ms_type )
-						.pushMember( Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute, m_object.getUniqueId() ) );
+						.pushMember( Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 
-				m_resourceSource->setState( ObjectState::UnderCollecting );
+				m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::UnderCollecting;
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-						.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_resourceSource->getName() )
-						.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_resourceSource->getUniqueId() )
-						.pushMember( Events::ObjectStateChanged::ms_objectState, m_resourceSource->getState() )
+						.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_resourceSource->getMember< QString >( ObjectNameKey ) )
+						.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_resourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+						.pushMember( Events::ObjectStateChanged::ms_objectState, m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) )
 						.pushMember( Events::ObjectStateChanged::ms_objectDirection, targetLocation->getDirection() ) );
 			}
 
@@ -308,7 +308,7 @@ CollectResourceAction::processAction()
 
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::ResourceSourceValueChanged::ms_type )
-							.pushMember( Events::ResourceSourceValueChanged::ms_objectUniqueIdAttribute, m_resourceSource->getUniqueId() )
+							.pushMember( Events::ResourceSourceValueChanged::ms_objectUniqueIdAttribute, m_resourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 							.pushMember( Events::ResourceSourceValueChanged::ms_sourceResourceNameAttribute, targetResourceSource->getStaticData().m_resource )
 							.pushMember( Events::ResourceSourceValueChanged::ms_sourceResourceValueAttribute, targetResourceSource->getResourceValue() ) );
 
@@ -318,12 +318,12 @@ CollectResourceAction::processAction()
 
 			if ( resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) || !m_isInProcessing )
 			{
-				locateComponent->setLocation( m_landscapeModel.getLandscape()->getNearestLocation( *m_targetObject, m_object.getName() ) );
-				m_object.setState( ObjectState::Standing );
+				locateComponent->setLocation( m_landscapeModel.getLandscape()->getNearestLocation( *m_targetObject, m_object.getMember< QString >( ObjectNameKey ) ) );
+				m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 
 				m_landscapeModel.getLandscape()->showObject( m_hiddenObject );
 
-				m_workersHolder.removeWorker( m_hiddenObject->getUniqueId() );
+				m_workersHolder.removeWorker( m_hiddenObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) );
 
 				targetResourceSource->setObjectInside( Tools::Core::Generators::IGenerator::ms_wrongId );
 
@@ -333,18 +333,18 @@ CollectResourceAction::processAction()
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::HolderHasStopCollect::ms_type )
-						.pushMember( Events::HolderHasStopCollect::ms_objectNameAttribute, m_object.getName() )
+						.pushMember( Events::HolderHasStopCollect::ms_objectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
 						.pushMember( Events::HolderHasStopCollect::ms_objectLocationAttribute, locateComponent->getLocation() )
-						.pushMember( Events::HolderHasStopCollect::ms_objectUniqueIdAttribute, m_object.getUniqueId() )
+						.pushMember( Events::HolderHasStopCollect::ms_objectUniqueIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 						.pushMember( Events::HolderHasStopCollect::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
 
-				m_resourceSource->setState( ObjectState::Standing );
+				m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-						.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_resourceSource->getName() )
-						.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_resourceSource->getUniqueId() )
-						.pushMember( Events::ObjectStateChanged::ms_objectState, m_resourceSource->getState() )
+						.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_resourceSource->getMember< QString >( ObjectNameKey ) )
+						.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_resourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+						.pushMember( Events::ObjectStateChanged::ms_objectState, m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) )
 						.pushMember( Events::ObjectStateChanged::ms_objectDirection, targetLocation->getDirection() ) );
 
 				m_isInProcessing = ensureStorage();
@@ -389,7 +389,7 @@ CollectResourceAction::processAction()
 	{
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::HolderResourceCountChanged::ms_type )
-				.pushMember( Events::HolderResourceCountChanged::ms_objectUniqueIdAttribute, m_object.getUniqueId() ) );
+				.pushMember( Events::HolderResourceCountChanged::ms_objectUniqueIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 	}
 
 } // CollectResourceAction::processAction

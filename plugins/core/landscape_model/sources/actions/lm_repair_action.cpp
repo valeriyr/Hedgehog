@@ -110,7 +110,7 @@ RepairAction::processAction()
 
 	// Check if object is dying
 
-	if ( m_object.getState() == ObjectState::Dying || targetHealthComponent->isHealthy() )
+	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying || targetHealthComponent->isHealthy() )
 	{
 		m_isInProcessing = false;
 	}
@@ -156,11 +156,11 @@ RepairAction::processAction()
 
 			bool stateChanged = false;
 
-			if ( repairComponent->getTargetObject()->getState() == ObjectState::Dying )
+			if ( repairComponent->getTargetObject()->getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 			{
-				if ( m_object.getState() != ObjectState::Standing )
+				if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) != ObjectState::Standing )
 				{
-					m_object.setState( ObjectState::Standing );
+					m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 					stateChanged = true;
 				}
 
@@ -180,9 +180,9 @@ RepairAction::processAction()
 					stateChanged = true;
 				}
 
-				if ( m_object.getState() != ObjectState::Repairing )
+				if ( m_object.getMember< Core::LandscapeModel::ObjectState::Enum >( ObjectStateKey ) != ObjectState::Repairing )
 				{
-					m_object.setState( ObjectState::Repairing );
+					m_object.getMember< Core::LandscapeModel::ObjectState::Enum >( ObjectStateKey ) = ObjectState::Repairing;
 					stateChanged = true;
 				}
 
@@ -195,7 +195,7 @@ RepairAction::processAction()
 
 					// TODO: CRASH while repairing wrong building
 					ResourcesData repairCostData 
-						= buildComponent->getStaticData().m_buildDatas.find( repairComponent->getTargetObject()->getName() )
+						= buildComponent->getStaticData().m_buildDatas.find( repairComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
 							->second->m_resourcesData.getResourceDataPart( repairComponent->getStaticData().m_costPercent ).getResourceDataPart( repairHealthPercent );
 
 					if ( player && player->getResourcesData().isEnaught( repairCostData ) )
@@ -207,13 +207,13 @@ RepairAction::processAction()
 
 						m_environment.riseEvent(
 							Framework::Core::EventManager::Event( Events::ObjectHealthChanged::ms_type )
-								.pushMember( Events::ObjectHealthChanged::ms_objectNameAttribute, repairComponent->getTargetObject()->getName() )
-								.pushMember( Events::ObjectHealthChanged::ms_objectIdAttribute, repairComponent->getTargetObject()->getUniqueId() )
+								.pushMember( Events::ObjectHealthChanged::ms_objectNameAttribute, repairComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
+								.pushMember( Events::ObjectHealthChanged::ms_objectIdAttribute, repairComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 								.pushMember( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() ) );
 
 						if ( targetHealthComponent->getHealth() == targetHealthComponent->getStaticData().m_maximumHealth )
 						{
-							m_object.setState( ObjectState::Standing );
+							m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 							stateChanged = true;
 
 							m_isInProcessing = false;
@@ -229,9 +229,9 @@ RepairAction::processAction()
 				{
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-							.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() )
-							.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() )
-							.pushMember( Events::ObjectStateChanged::ms_objectState, m_object.getState() )
+							.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
+							.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+							.pushMember( Events::ObjectStateChanged::ms_objectState, m_object.getMember< Core::LandscapeModel::ObjectState::Enum >( ObjectStateKey ) )
 							.pushMember( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() ) );
 				}
 			}

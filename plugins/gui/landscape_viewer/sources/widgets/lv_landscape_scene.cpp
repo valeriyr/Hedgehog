@@ -772,25 +772,29 @@ LandscapeScene::generateLandscape()
 
 		for ( ; begin != end; ++begin )
 		{
+			const QString objectName = ( *begin )->getMember< QString >( Core::LandscapeModel::ObjectNameKey );
+			const Tools::Core::Generators::IGenerator::IdType objectId = ( *begin )->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey );
+			const Core::LandscapeModel::ObjectState::Enum objectState = ( *begin )->getMember< Core::LandscapeModel::ObjectState::Enum >( Core::LandscapeModel::ObjectStateKey );
+
 			boost::intrusive_ptr<Core::LandscapeModel::ILocateComponent >
 				locateComponent = ( *begin )->getComponent< Core::LandscapeModel::ILocateComponent >( Core::LandscapeModel::ComponentId::Locate );
 
 			ObjectGraphicsItem* newItem
 				= new ObjectGraphicsItem(
-						m_environment.getPixmap( ( *begin )->getName() )
+						m_environment.getPixmap( objectName )
 					,	m_environment
 					,	*this
-					,	( *begin )->getName()
-					,	( *begin )->getUniqueId() );
+					,	objectName
+					,	objectId );
 			addItem( newItem );
 
-			objectWasAdded( ( *begin )->getUniqueId(), newItem );
+			objectWasAdded( objectId, newItem );
 
 			playAnimationOnce(
 					*newItem
 				,	m_environment.getString( Resources::Properties::SkinId )
-				,	( *begin )->getName()
-				,	( *begin )->getState()
+				,	objectName
+				,	objectState
 				,	locateComponent->getDirection() );
 		}
 	}
@@ -990,7 +994,8 @@ LandscapeScene::markSelectedObjects()
 
 		for ( ; selectedObjectsBegin != selectedObjectsEnd; ++selectedObjectsBegin )
 		{
-			ObjectGraphicsItem* graphicsItem = getObjectGraphicsItem( ( *selectedObjectsBegin )->getUniqueId() );
+			ObjectGraphicsItem* graphicsItem
+				= getObjectGraphicsItem( ( *selectedObjectsBegin )->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey ) );
 			assert( graphicsItem );
 
 			graphicsItem->setGraphicsEffect( new QGraphicsColorizeEffect() );

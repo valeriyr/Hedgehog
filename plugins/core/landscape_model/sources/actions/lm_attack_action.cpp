@@ -100,7 +100,7 @@ AttackAction::processAction()
 
 	// Check if object is dying
 
-	if ( m_object.getState() == ObjectState::Dying )
+	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 	{
 		m_isInProcessing = false;
 	}
@@ -147,11 +147,11 @@ AttackAction::processAction()
 			bool stateChanged = false;
 			bool readyToAttack = false;
 
-			if ( attackComponent->getTargetObject()->getState() == ObjectState::Dying )
+			if ( attackComponent->getTargetObject()->getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 			{
-				if ( m_object.getState() != ObjectState::Standing )
+				if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) != ObjectState::Standing )
 				{
-					m_object.setState( ObjectState::Standing );
+					m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 					stateChanged = true;
 				}
 
@@ -173,14 +173,14 @@ AttackAction::processAction()
 
 				if ( targetObjectLocate->isHidden() )
 				{
-					m_object.setState( ObjectState::Standing );
+					m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 					stateChanged = true;
 
 					m_isInProcessing = false;
 				}
-				else if ( m_object.getState() != ObjectState::Attacking )
+				else if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) != ObjectState::Attacking )
 				{
-					m_object.setState( ObjectState::Attacking );
+					m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Attacking;
 					stateChanged = true;
 					readyToAttack = true;
 				}
@@ -210,29 +210,29 @@ AttackAction::processAction()
 
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::ObjectHealthChanged::ms_type )
-							.pushMember( Events::ObjectHealthChanged::ms_objectNameAttribute, attackComponent->getTargetObject()->getName() )
-							.pushMember( Events::ObjectHealthChanged::ms_objectIdAttribute, attackComponent->getTargetObject()->getUniqueId() )
+							.pushMember( Events::ObjectHealthChanged::ms_objectNameAttribute, attackComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
+							.pushMember( Events::ObjectHealthChanged::ms_objectIdAttribute, attackComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 							.pushMember( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() ) );
 
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::ObjectWasHit::ms_type )
-							.pushMember( Events::ObjectWasHit::ms_objectNameAttribute, attackComponent->getTargetObject()->getName() )
-							.pushMember( Events::ObjectWasHit::ms_objectIdAttribute, attackComponent->getTargetObject()->getUniqueId() )
+							.pushMember( Events::ObjectWasHit::ms_objectNameAttribute, attackComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
+							.pushMember( Events::ObjectWasHit::ms_objectIdAttribute, attackComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 							.pushMember( Events::ObjectWasHit::ms_objectHealth, targetHealthComponent->getHealth() ) );
 
 					if ( targetHealthComponent->getHealth() == 0 )
 					{
-						attackComponent->getTargetObject()->setState( ObjectState::Dying );
+						attackComponent->getTargetObject()->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Dying;
 						attackComponent->getTargetObject()->getComponent< IActionsComponent >( ComponentId::Actions )->flushActions( IActionsComponent::FlushPolicy::Force );
 
 						m_environment.riseEvent(
 							Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-								.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, attackComponent->getTargetObject()->getName() )
-								.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, attackComponent->getTargetObject()->getUniqueId() )
-								.pushMember( Events::ObjectStateChanged::ms_objectState, attackComponent->getTargetObject()->getState() )
+								.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, attackComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
+								.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, attackComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+								.pushMember( Events::ObjectStateChanged::ms_objectState, attackComponent->getTargetObject()->getMember< ObjectState::Enum >( ObjectStateKey ) )
 								.pushMember( Events::ObjectStateChanged::ms_objectDirection, targetObjectLocate->getDirection() ) );
 
-						m_object.setState( ObjectState::Standing );
+						m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 						stateChanged = true;
 
 						m_isInProcessing = false;
@@ -243,9 +243,9 @@ AttackAction::processAction()
 				{
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-							.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getName() )
-							.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getUniqueId() )
-							.pushMember( Events::ObjectStateChanged::ms_objectState, m_object.getState() )
+							.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
+							.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+							.pushMember( Events::ObjectStateChanged::ms_objectState, m_object.getMember< ObjectState::Enum >( ObjectStateKey ) )
 							.pushMember( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() ) );
 				}
 
@@ -253,8 +253,8 @@ AttackAction::processAction()
 				{
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::ObjectReadyToAttack::ms_type )
-							.pushMember( Events::ObjectReadyToAttack::ms_objectNameAttribute, m_object.getName() )
-							.pushMember( Events::ObjectReadyToAttack::ms_objectIdAttribute, m_object.getUniqueId() )
+							.pushMember( Events::ObjectReadyToAttack::ms_objectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
+							.pushMember( Events::ObjectReadyToAttack::ms_objectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 							.pushMember( Events::ObjectReadyToAttack::ms_objectDirection, locateComponent->getDirection() ) );
 				}
 			}

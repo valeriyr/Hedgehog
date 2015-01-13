@@ -50,7 +50,9 @@ TrainAction::~TrainAction()
 bool
 TrainAction::prepareToProcessingInternal()
 {
-	if ( m_object.getState() == ObjectState::Dying || m_object.getState() == ObjectState::UnderConstruction )
+	const ObjectState::Enum objectState = m_object.getMember< ObjectState::Enum >( ObjectStateKey );
+
+	if ( objectState == ObjectState::Dying || objectState == ObjectState::UnderConstruction )
 		return false;
 
 	boost::intrusive_ptr< ITrainComponent > trainComponent
@@ -91,7 +93,7 @@ TrainAction::cancelProcessing()
 
 	m_environment.riseEvent(
 		Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )
-			.pushMember( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() ) );
+			.pushMember( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 
 	m_isInProcessing = false;
 
@@ -113,12 +115,15 @@ TrainAction::processAction()
 
 	ITrainComponent::Data& trainData = trainComponent->getTrainData();
 
-	if ( m_object.getState() == ObjectState::Dying )
+	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 	{
 		m_isInProcessing = false;
 	}
 	else
 	{
+		const Tools::Core::Generators::IGenerator::IdType objectId
+			= m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey );
+
 		++trainData.m_trainProgress;
 
 		TickType creationTime
@@ -126,7 +131,7 @@ TrainAction::processAction()
 
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::TrainProgressChanged::ms_type )
-				.pushMember( Events::TrainProgressChanged::ms_trainerIdAttribute, m_object.getUniqueId() )
+				.pushMember( Events::TrainProgressChanged::ms_trainerIdAttribute, objectId )
 				.pushMember( Events::TrainProgressChanged::ms_trainerProgressAttribute, trainData.m_trainProgress )
 				.pushMember( Events::TrainProgressChanged::ms_creationTimeAttribute, creationTime ) );
 
@@ -143,7 +148,7 @@ TrainAction::processAction()
 
 			m_environment.riseEvent(
 				Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )
-					.pushMember( Events::TrainQueueChanged::ms_trainerIdAttribute, m_object.getUniqueId() ) );
+					.pushMember( Events::TrainQueueChanged::ms_trainerIdAttribute, objectId ) );
 
 			m_isInProcessing = false;
 		}

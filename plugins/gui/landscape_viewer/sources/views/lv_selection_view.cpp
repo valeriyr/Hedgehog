@@ -173,10 +173,14 @@ SelectionView::onObjectsSelectionChanged( const Framework::Core::EventManager::E
 
 		for ( ; selectedObjectsBegin != selectedObjectsEnd; ++selectedObjectsBegin )
 		{
-			SelectionViewItem* listItem = new SelectionViewItem( ( *selectedObjectsBegin )->getUniqueId() );
+			const QString objectName = ( *selectedObjectsBegin )->getMember< QString >( Core::LandscapeModel::ObjectNameKey );
+			const Tools::Core::Generators::IGenerator::IdType objectId
+				= ( *selectedObjectsBegin )->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey );
 
-			listItem->setText( ( *selectedObjectsBegin )->getName() );
-			listItem->setIcon( QIcon( m_environment.getPixmap( ( *selectedObjectsBegin )->getName() ) ) );
+			SelectionViewItem* listItem = new SelectionViewItem( objectId );
+
+			listItem->setText( objectName );
+			listItem->setIcon( QIcon( m_environment.getPixmap( objectName ) ) );
 
 			m_mainWidget->addItem( listItem );
 		}

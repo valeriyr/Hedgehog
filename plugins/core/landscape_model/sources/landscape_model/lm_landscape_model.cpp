@@ -121,7 +121,7 @@ struct ObjectsByIdFilter
 
 	/*virtual*/ bool check( const Object& _object ) const
 	{
-		return _object.getUniqueId() == m_id;
+		return _object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) == m_id;
 	}
 
 	const Tools::Core::Generators::IGenerator::IdType m_id;
@@ -893,8 +893,8 @@ LandscapeModel::removeWorker( const Tools::Core::Generators::IGenerator::IdType&
 void
 LandscapeModel::addWorker( boost::shared_ptr< Object > _worker )
 {
-	assert( m_workers.find( _worker->getUniqueId() ) == m_workers.end() );
-	m_workers.insert( std::make_pair( _worker->getUniqueId(), _worker ) );
+	assert( m_workers.find( _worker->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) == m_workers.end() );
+	m_workers.insert( std::make_pair( _worker->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ), _worker ) );
 
 } // LandscapeModel::addWorker
 
@@ -1625,7 +1625,7 @@ LandscapeModel::onTrainObjectProcessor( const Command& _command )
 
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )
-							.pushMember( Events::TrainQueueChanged::ms_trainerIdAttribute, object->getUniqueId() ) );
+							.pushMember( Events::TrainQueueChanged::ms_trainerIdAttribute, object->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 				}
 			}
 		}

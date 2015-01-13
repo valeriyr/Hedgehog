@@ -150,7 +150,7 @@ LandscapeSceneGameState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEven
 				= ( *begin )->getComponent< Core::LandscapeModel::IPlayerComponent >( Core::LandscapeModel::ComponentId::Player );
 
 			if ( playerComponent && myPlayer->getUniqueId() == playerComponent->getPlayerId() )
-				objects.push_back( QVariant( ( *begin )->getUniqueId() ) );
+				objects.push_back( QVariant( ( *begin )->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey ) ) );
 		}
 
 		if ( !objects.isEmpty() )

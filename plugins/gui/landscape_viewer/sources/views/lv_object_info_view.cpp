@@ -163,7 +163,7 @@ ObjectInfoView::onObjectsSelectionChanged( const Framework::Core::EventManager::
 		setDescriptionForObject(
 				selectedObjectsCollection.empty()
 			?	Tools::Core::Generators::IGenerator::ms_wrongId
-			:	selectedObjectsCollection.front()->getUniqueId() );
+			:	selectedObjectsCollection.front()->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey ) );
 	}
 
 } // ObjectInfoView::onObjectsSelectionChanged
@@ -339,7 +339,7 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 
 		if ( object )
 		{
-			m_showingObjectId = object->getUniqueId();
+			m_showingObjectId = object->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey );
 
 			boost::intrusive_ptr< Core::LandscapeModel::ILocateComponent > locateComponent
 				= object->getComponent< Core::LandscapeModel::ILocateComponent >( Plugins::Core::LandscapeModel::ComponentId::Locate );
@@ -410,11 +410,17 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 				resourceStorageData = Resources::Views::NoneString;
 			}
 
+			const QString objectName = object->getMember< QString >( Core::LandscapeModel::ObjectNameKey );
+			const Tools::Core::Generators::IGenerator::IdType objectId
+				= object->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey );
+			const Core::LandscapeModel::ObjectState::Enum objectState
+				= object->getMember< Core::LandscapeModel::ObjectState::Enum >( Core::LandscapeModel::ObjectStateKey );
+
 			m_mainWidget->setHtml(
 				QString( Resources::Views::ObjectInfoFormat )
-					.arg( object->getName() )
-					.arg( object->getUniqueId() )
-					.arg( Core::LandscapeModel::ObjectState::toString( object->getState() ) )
+					.arg( objectName )
+					.arg( objectId )
+					.arg( Core::LandscapeModel::ObjectState::toString( objectState ) )
 					.arg( playerComponent ? QString::number( playerComponent->getPlayerId() ) : Resources::Views::NoneString )
 					.arg( healthComponent ? QString::number( healthComponent->getHealth() ) : Resources::Views::NoneString )
 					.arg( healthComponent ? QString::number( healthComponent->getStaticData().m_maximumHealth ) : Resources::Views::NoneString )

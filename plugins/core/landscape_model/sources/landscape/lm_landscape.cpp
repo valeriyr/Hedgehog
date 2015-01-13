@@ -232,7 +232,7 @@ Landscape::getObject( const Tools::Core::Generators::IGenerator::IdType& _id ) c
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( ( *begin )->getUniqueId() == _id )
+		if ( ( *begin )->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) == _id )
 			return *begin;
 	}
 
@@ -319,7 +319,7 @@ Landscape::createObject( const QString& _objectName, const QPoint& _location, co
 			}
 		}
 
-		return object->getUniqueId();
+		return object->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey );
 	}
 
 	return Tools::Core::Generators::IGenerator::ms_wrongId;
@@ -337,10 +337,10 @@ Landscape::createObjectForBuilding( const QString& _objectName, const QPoint& _l
 
 	if ( object )
 	{
-		object->setState( ObjectState::UnderConstruction );
+		object->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::UnderConstruction;
 		object->getComponent< IHealthComponent >( ComponentId::Health )->setHealth( 1 );
 
-		return object->getUniqueId();
+		return object->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey );
 	}
 
 	return Tools::Core::Generators::IGenerator::ms_wrongId;
@@ -360,7 +360,7 @@ Landscape::hideObject( const Tools::Core::Generators::IGenerator::IdType& _id )
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( ( *begin )->getUniqueId() == _id )
+		if ( ( *begin )->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) == _id )
 		{
 			boost::shared_ptr< Object > object = *begin;
 
@@ -395,7 +395,7 @@ Landscape::hideObject( const Tools::Core::Generators::IGenerator::IdType& _id )
 void
 Landscape::showObject( boost::shared_ptr< Object > _object )
 {
-	assert( !getObject( _object->getUniqueId() ) );
+	assert( !getObject( _object->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 	m_objects.push_back( _object );
 
 	boost::intrusive_ptr< ILocateComponent >
@@ -433,7 +433,7 @@ Landscape::selectObjects( const IObjectsFilter& _filter )
 			selectionComponent = ( *begin )->getComponent< ISelectionComponent >( ComponentId::Selection );
 
 		if (	selectionComponent
-			&&	( *begin )->getState() != ObjectState::Dying
+			&&	( *begin )->getMember< ObjectState::Enum >( ObjectStateKey ) != ObjectState::Dying
 			&&	_filter.check( **begin ) )
 		{
 			selectionComponent->setSelection( true );

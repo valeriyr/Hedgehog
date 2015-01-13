@@ -15,6 +15,8 @@
 
 #include "generators/gn_igenerator.hpp"
 
+#include "object/tl_object.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -23,7 +25,14 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
+const QString ObjectNameKey = "Name";
+const QString ObjectUniqueIdKey = "Id";
+const QString ObjectStateKey = "State";
+
+/*---------------------------------------------------------------------------*/
+
 class Object
+	:	public Tools::Core::Object
 {
 
 /*---------------------------------------------------------------------------*/
@@ -33,23 +42,11 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	Object( const QString& _name, const Tools::Core::Generators::IGenerator::IdType _id )
-		:	m_name( _name )
-		,	m_id( _id )
-		,	m_state( ObjectState::Standing )
 	{
+		pushMember( ObjectNameKey, _name );
+		pushMember( ObjectUniqueIdKey, _id );
+		pushMember( ObjectStateKey, ObjectState::Standing );
 	}
-
-/*---------------------------------------------------------------------------*/
-
-	const QString& getName() const { return m_name; }
-
-	const Tools::Core::Generators::IGenerator::IdType& getUniqueId() const { return m_id; }
-
-	const ObjectState::Enum getState() const { return m_state; }
-
-/*---------------------------------------------------------------------------*/
-
-	void setState( const ObjectState::Enum _state ) { m_state = _state; }
 
 /*---------------------------------------------------------------------------*/
 
@@ -88,12 +85,6 @@ private:
 		ComponentsCollectionIterator;
 
 /*---------------------------------------------------------------------------*/
-
-	const QString m_name;
-
-	const Tools::Core::Generators::IGenerator::IdType m_id;
-
-	ObjectState::Enum m_state;
 
 	ComponentsCollection m_components;
 

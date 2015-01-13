@@ -229,7 +229,7 @@ AStarSearch::processOpenedList(
 		QPoint neighbor( pointData.m_point.x() + dx[ i ], pointData.m_point.y() + dy[ i ] );
 
 		if (	!_landscape.isLocationInLandscape( neighbor )
-			||	!_landscape.canObjectBePlaced( neighbor, _forObject.getName() )
+			||	!_landscape.canObjectBePlaced( neighbor, _forObject.getMember< QString >( ObjectNameKey ) )
 			||	findInList( neighbor, m_closedList ) != -1 )
 		{
 			continue;

@@ -72,7 +72,7 @@ BuildAction::prepareToProcessingInternal()
 
 	m_environment.riseEvent(
 		Framework::Core::EventManager::Event( Events::BuildQueueChanged::ms_type )
-			.pushMember( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() ) );
+			.pushMember( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 
 	return true;
 
@@ -110,7 +110,7 @@ BuildAction::cancelProcessingInternal()
 
 	m_environment.riseEvent(
 		Framework::Core::EventManager::Event( Events::BuildQueueChanged::ms_type )
-			.pushMember( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() ) );
+			.pushMember( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 
 	return true;
 
@@ -138,7 +138,7 @@ BuildAction::processAction()
 
 	// Check if object is dying
 
-	if ( m_object.getState() == ObjectState::Dying )
+	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 	{
 		m_isInProcessing = false;
 	}
@@ -202,7 +202,7 @@ BuildAction::processAction()
 				{
 					player->substructResources( iterator->second->m_resourcesData );
 
-					startBuild( m_object.getUniqueId(), buildData.m_objectName, buildData.m_atRect.topLeft() );
+					startBuild( m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ), buildData.m_objectName, buildData.m_atRect.topLeft() );
 				}
 			}
 
@@ -221,20 +221,20 @@ BuildAction::processAction()
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::ObjectHealthChanged::ms_type )
-						.pushMember( Events::ObjectHealthChanged::ms_objectNameAttribute, targetObject->getName() )
-						.pushMember( Events::ObjectHealthChanged::ms_objectIdAttribute, targetObject->getUniqueId() )
+						.pushMember( Events::ObjectHealthChanged::ms_objectNameAttribute, targetObject->getMember< QString >( ObjectNameKey ) )
+						.pushMember( Events::ObjectHealthChanged::ms_objectIdAttribute, targetObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 						.pushMember( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() ) );
 
 				if ( buildData.m_buildProgress == totalTicks )
 				{
-					stopBuild( m_object.getUniqueId() );
+					stopBuild( m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) );
 					m_isInProcessing = false;
 				}
 			}
 
 			m_environment.riseEvent(
 				Framework::Core::EventManager::Event( Events::BuildQueueChanged::ms_type )
-					.pushMember( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getUniqueId() ) );
+					.pushMember( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 		}
 	}
 
@@ -272,7 +272,7 @@ BuildAction::startBuild(
 
 		if ( object )
 		{
-			object->setState( ObjectState::Building );
+			object->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Building;
 
 			m_workersHolder.addWorker( object );
 
@@ -324,26 +324,26 @@ BuildAction::stopBuild( const Tools::Core::Generators::IGenerator::IdType& _id )
 
 		boost::shared_ptr< Object > targetObject
 			= m_landscapeModel.getLandscape()->getObject( buildComponent->getBuildData().m_objectId );
-		targetObject->setState( ObjectState::Standing );
+		targetObject->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-				.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, targetObject->getName() )
-				.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, targetObject->getUniqueId() )
-				.pushMember( Events::ObjectStateChanged::ms_objectState, targetObject->getState() )
+				.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, targetObject->getMember< QString >( ObjectNameKey ) )
+				.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, targetObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+				.pushMember( Events::ObjectStateChanged::ms_objectState, targetObject->getMember< ObjectState::Enum >( ObjectStateKey ) )
 				.pushMember( Events::ObjectStateChanged::ms_objectDirection, targetObject->getComponent< ILocateComponent >( ComponentId::Locate )->getDirection() ) );
 
 		locateComponent->setLocation(
 			m_landscapeModel.getLandscape()->getNearestLocation(
 					*targetObject
-				,	builder->getName() ) );
-		builder->setState( ObjectState::Standing );
+				,	builder->getMember< QString >( ObjectNameKey ) ) );
+		builder->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 
 		m_landscapeModel.getLandscape()->showObject( builder );
 
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::BuilderHasFinishedBuild::ms_type )
-				.pushMember( Events::BuilderHasFinishedBuild::ms_objectNameAttribute, builder->getName() )
+				.pushMember( Events::BuilderHasFinishedBuild::ms_objectNameAttribute, builder->getMember< QString >( ObjectNameKey ) )
 				.pushMember( Events::BuilderHasFinishedBuild::ms_objectLocationAttribute, locateComponent->getLocation() )
 				.pushMember( Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute, _id )
 				.pushMember( Events::BuilderHasFinishedBuild::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );

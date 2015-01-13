@@ -61,7 +61,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		{
 			int cellValue = ms_engagedCell;
 
-			if ( _landscape.canObjectBePlaced( QPoint( i, j ), _object.getName() ) )
+			if ( _landscape.canObjectBePlaced( QPoint( i, j ), _object.getMember< QString >( ObjectNameKey ) ) )
 			{
 				cellValue = ms_freeCell;
 			}

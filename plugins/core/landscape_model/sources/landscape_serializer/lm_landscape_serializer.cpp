@@ -234,7 +234,7 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 
 		xmlStream.writeStartElement( Resources::Xml::Object );
 
-		xmlStream.writeAttribute( Resources::Xml::Name, ( *begin )->getName() );
+		xmlStream.writeAttribute( Resources::Xml::Name, ( *begin )->getMember< QString >( ObjectNameKey ) );
 
 		xmlStream.writeStartElement( Resources::Xml::Location );
 

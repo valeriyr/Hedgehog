@@ -91,7 +91,7 @@ StayAloneChecker::onlyMyOrNeutralObjects(
 		if (	playerComponent
 			&&	playerComponent->getPlayerId() != Tools::Core::Generators::IGenerator::ms_wrongId
 			&&	playerComponent->getPlayerId() != _playerId
-			&&	( *beginWorkers )->getState() != ObjectState::Dying )
+			&&	( *beginWorkers )->getMember< ObjectState::Enum >( ObjectStateKey ) != ObjectState::Dying )
 		{
 			return false;
 		}
