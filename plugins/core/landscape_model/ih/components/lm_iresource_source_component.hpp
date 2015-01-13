@@ -6,7 +6,7 @@
 
 #include "landscape_model/ih/components/lm_icomponent.hpp"
 
-#include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_game_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 

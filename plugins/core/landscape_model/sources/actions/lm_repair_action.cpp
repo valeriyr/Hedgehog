@@ -36,8 +36,8 @@ namespace LandscapeModel {
 RepairAction::RepairAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	Object& _object
-	,	boost::shared_ptr< Object > _target
+	,	GameObject& _object
+	,	boost::shared_ptr< GameObject > _target
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_target( _target )
@@ -79,7 +79,7 @@ RepairAction::cancelProcessingInternal()
 	boost::intrusive_ptr< IRepairComponent > repairComponent
 		= m_object.getComponent< IRepairComponent >( ComponentId::Repair );
 
-	repairComponent->setTargetObject( boost::shared_ptr< Object >() );
+	repairComponent->setTargetObject( boost::shared_ptr< GameObject >() );
 
 	return true;
 
@@ -206,10 +206,10 @@ RepairAction::processAction()
 						m_healthRepaired = 0;
 
 						m_environment.riseEvent(
-							Framework::Core::EventManager::Event( Events::ObjectHealthChanged::ms_type )
-								.pushMember( Events::ObjectHealthChanged::ms_objectNameAttribute, repairComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
-								.pushMember( Events::ObjectHealthChanged::ms_objectIdAttribute, repairComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-								.pushMember( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() ) );
+							Framework::Core::EventManager::Event( Events::ObjectHealthChanged::Type )
+								.pushMember( Events::ObjectHealthChanged::ObjectNameAttribute, repairComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
+								.pushMember( Events::ObjectHealthChanged::ObjectIdAttribute, repairComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+								.pushMember( Events::ObjectHealthChanged::ObjectHealth, targetHealthComponent->getHealth() ) );
 
 						if ( targetHealthComponent->getHealth() == targetHealthComponent->getStaticData().m_maximumHealth )
 						{
@@ -228,11 +228,11 @@ RepairAction::processAction()
 				if ( stateChanged )
 				{
 					m_environment.riseEvent(
-						Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-							.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
-							.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-							.pushMember( Events::ObjectStateChanged::ms_objectState, m_object.getMember< Core::LandscapeModel::ObjectState::Enum >( ObjectStateKey ) )
-							.pushMember( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() ) );
+						Framework::Core::EventManager::Event( Events::ObjectStateChanged::Type )
+							.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
+							.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+							.pushMember( Events::ObjectStateChanged::ObjectState, m_object.getMember< Core::LandscapeModel::ObjectState::Enum >( ObjectStateKey ) )
+							.pushMember( Events::ObjectStateChanged::ObjectDirection, locateComponent->getDirection() ) );
 				}
 			}
 		}
@@ -240,7 +240,7 @@ RepairAction::processAction()
 
 	if ( !m_isInProcessing )
 	{
-		repairComponent->setTargetObject( boost::shared_ptr< Object >() );
+		repairComponent->setTargetObject( boost::shared_ptr< GameObject >() );
 	}
 
 } // RepairAction::processAction

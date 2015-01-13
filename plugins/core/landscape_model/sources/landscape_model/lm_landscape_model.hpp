@@ -94,7 +94,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ void getTrainObjectsList(
-			boost::shared_ptr< Object > _forObject
+			boost::shared_ptr< GameObject > _forObject
 		,	ILandscapeModel::TrainObjectsList& _list ) const;
 
 /*---------------------------------------------------------------------------*/
@@ -109,7 +109,7 @@ public:
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const Tools::Core::Generators::IGenerator::IdType& _id ) const;
 
-	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const Object& _object ) const;
+	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const GameObject& _object ) const;
 
 	/*virtual*/ boost::intrusive_ptr< IPlayer > getPlayer( const QString& _name ) const;
 
@@ -127,7 +127,7 @@ public:
 
 	/*virtual*/ bool isMyObject( const Tools::Core::Generators::IGenerator::IdType& _objectId ) const;
 
-	/*virtual*/ bool isMyObject( boost::shared_ptr< Object > _object ) const;
+	/*virtual*/ bool isMyObject( boost::shared_ptr< GameObject > _object ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -143,18 +143,18 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::shared_ptr< Object > create(
+	/*virtual*/ boost::shared_ptr< GameObject > create(
 			const QString& _objectName
 		,	const QPoint& _location
 		,	const Tools::Core::Generators::IGenerator::IdType& _playerId );
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::shared_ptr< Object > getWorker( const Tools::Core::Generators::IGenerator::IdType& _id ) const;
+	/*virtual*/ boost::shared_ptr< GameObject > getWorker( const Tools::Core::Generators::IGenerator::IdType& _id ) const;
 
 	/*virtual*/ void removeWorker( const Tools::Core::Generators::IGenerator::IdType& _id );
 
-	/*virtual*/ void addWorker( boost::shared_ptr< Object > _worker );
+	/*virtual*/ void addWorker( boost::shared_ptr< GameObject > _worker );
 
 /*---------------------------------------------------------------------------*/
 
@@ -168,7 +168,7 @@ private:
 
 	void locateStartPointObjects();
 
-	bool shouldStoreResources( const Object& _holder, boost::shared_ptr< Object > _storage );
+	bool shouldStoreResources( const GameObject& _holder, boost::shared_ptr< GameObject > _storage );
 
 	void initPlayers();
 
@@ -217,7 +217,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< Tools::Core::Generators::IGenerator::IdType, boost::shared_ptr< Object > >
+		std::map< Tools::Core::Generators::IGenerator::IdType, boost::shared_ptr< GameObject > >
 		WorkersCollection;
 	typedef
 		WorkersCollection::const_iterator

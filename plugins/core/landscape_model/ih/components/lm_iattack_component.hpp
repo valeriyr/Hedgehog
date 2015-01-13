@@ -16,7 +16,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-class Object;
+class GameObject;
 
 /*---------------------------------------------------------------------------*/
 
@@ -59,9 +59,9 @@ struct IAttackComponent
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::shared_ptr< Object > getTargetObject() const = 0;
+	virtual boost::shared_ptr< GameObject > getTargetObject() const = 0;
 
-	virtual void setTargetObject( boost::shared_ptr< Object > _object ) = 0;
+	virtual void setTargetObject( boost::shared_ptr< GameObject > _object ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

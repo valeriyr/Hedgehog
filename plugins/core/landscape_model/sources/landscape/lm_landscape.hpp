@@ -45,9 +45,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void addStartPoint( const Tools::Core::Object& _startPoint );
+	/*virtual*/ void addStartPoint( const StartPoint::Type& _startPoint );
 
-	/*virtual*/ const Tools::Core::Object& getStartPoint( const Tools::Core::Generators::IGenerator::IdType& _startPointId );
+	/*virtual*/ const StartPoint::Type& getStartPoint( const Tools::Core::Generators::IGenerator::IdType& _startPointId );
 
 	/*virtual*/ ILandscape::StartPointsIterator getStartPointsIterator() const;
 
@@ -67,9 +67,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::shared_ptr< Object > getObject( const QPoint& _point ) const;
+	/*virtual*/ boost::shared_ptr< GameObject > getObject( const QPoint& _point ) const;
 
-	/*virtual*/ boost::shared_ptr< Object > getObject( const Tools::Core::Generators::IGenerator::IdType& _id ) const;
+	/*virtual*/ boost::shared_ptr< GameObject > getObject( const Tools::Core::Generators::IGenerator::IdType& _id ) const;
 
 	/*virtual*/ int getObjectsCount() const;
 
@@ -83,9 +83,9 @@ public:
 
 	/*virtual*/ Tools::Core::Generators::IGenerator::IdType createObjectForBuilding( const QString& _objectName, const QPoint& _location, const Tools::Core::Generators::IGenerator::IdType& _playerId );
 
-	/*virtual*/ boost::shared_ptr< Object > hideObject( const Tools::Core::Generators::IGenerator::IdType& _id );
+	/*virtual*/ boost::shared_ptr< GameObject > hideObject( const Tools::Core::Generators::IGenerator::IdType& _id );
 
-	/*virtual*/ void showObject( boost::shared_ptr< Object > _object );
+	/*virtual*/ void showObject( boost::shared_ptr< GameObject > _object );
 
 	/*virtual*/ void selectObjects( const IObjectsFilter& _filter );
 
@@ -97,7 +97,7 @@ public:
 			const QPoint& _location
 		,	const QString& _objectName ) const;
 
-	/*virtual*/ QPoint getNearestLocation( const Object& _nearestFrom, const QString& _forObject ) const;
+	/*virtual*/ QPoint getNearestLocation( const GameObject& _nearestFrom, const QString& _forObject ) const;
 
 	/*virtual*/ bool isLocationInLandscape( const QPoint& _location ) const;
 
@@ -121,7 +121,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::map< Tools::Core::Generators::IGenerator::IdType, const Tools::Core::Object >
+		std::map< Tools::Core::Generators::IGenerator::IdType, const StartPoint::Type >
 		StartsPointsCollection;
 	typedef
 		StartsPointsCollection::iterator

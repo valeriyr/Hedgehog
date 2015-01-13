@@ -13,7 +13,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-SelectionComponent::SelectionComponent( Object& _object, const ISelectionComponent::StaticData& _staticData )
+SelectionComponent::SelectionComponent( GameObject& _object, const ISelectionComponent::StaticData& _staticData )
 	:	BaseComponent< ISelectionComponent >( _object )
 	,	m_staticData( _staticData )
 	,	m_isSelected( false )

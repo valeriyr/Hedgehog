@@ -16,271 +16,271 @@ namespace Events {
 
 namespace SimulationStarted
 {
-	const QString ms_type = "SimulationStarted";
+	const QString Type = "SimulationStarted";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace CurrentTickNumberChanged
 {
-	const QString ms_type = "CurrentTickNumberChanged";
+	const QString Type = "CurrentTickNumberChanged";
 
-	const QString ms_tickNumberAttribute = "TickNumber";
+	const QString TickNumberAttribute = "TickNumber";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace VictoryConditionChanged
 {
-	const QString ms_type = "VictoryConditionChanged";
+	const QString Type = "VictoryConditionChanged";
 
-	const QString ms_conditionAttribute = "Condition";
+	const QString ConditionAttribute = "Condition";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace PlayerRaceChanged
 {
-	const QString ms_type = "PlayerRaceChanged";
+	const QString Type = "PlayerRaceChanged";
 
-	const QString ms_playerIdAttribute = "PlayerId";
-	const QString ms_playerRaceAttribute = "PlayerRace";
+	const QString PlayerIdAttribute = "PlayerId";
+	const QString PlayerRaceAttribute = "PlayerRace";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace PlayerNameChanged
 {
-	const QString ms_type = "PlayerNameChanged";
+	const QString Type = "PlayerNameChanged";
 
-	const QString ms_playerIdAttribute = "PlayerId";
-	const QString ms_startPointIdAttribute = "StartPointId";
-	const QString ms_playerNameAttribute = "PlayerName";
+	const QString PlayerIdAttribute = "PlayerId";
+	const QString StartPointIdAttribute = "StartPointId";
+	const QString PlayerNameAttribute = "PlayerName";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace PlayerTypeChanged
 {
-	const QString ms_type = "PlayerTypeChanged";
+	const QString Type = "PlayerTypeChanged";
 
-	const QString ms_playerIdAttribute = "PlayerId";
-	const QString ms_playerTypeAttribute = "PlayerType";
+	const QString PlayerIdAttribute = "PlayerId";
+	const QString PlayerTypeAttribute = "PlayerType";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace ObjectAdded
 {
-	const QString ms_type = "ObjectAdded";
+	const QString Type = "ObjectAdded";
 
-	const QString ms_objectNameAttribute = "ObjectName";
-	const QString ms_objectLocationAttribute = "ObjectLocation";
-	const QString ms_objectUniqueIdAttribute = "ObjectUniqueId";
-	const QString ms_objectEmplacementAttribute = "ObjectEmplacement";
+	const QString ObjectNameAttribute = "ObjectName";
+	const QString ObjectLocationAttribute = "ObjectLocation";
+	const QString ObjectUniqueIdAttribute = "ObjectUniqueId";
+	const QString ObjectEmplacementAttribute = "ObjectEmplacement";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace ObjectRemoved
 {
-	const QString ms_type = "ObjectRemoved";
+	const QString Type = "ObjectRemoved";
 
-	const QString ms_objectUniqueIdAttribute = "ObjectUniqueId";
+	const QString ObjectUniqueIdAttribute = "ObjectUniqueId";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace CreateObjectFailed
 {
-	const QString ms_type = "CreateObjectFailed";
+	const QString Type = "CreateObjectFailed";
 
-	const QString ms_objectNameAttribute = "ObjectName";
-	const QString ms_objectLocationAttribute = "ObjectLocation";
+	const QString ObjectNameAttribute = "ObjectName";
+	const QString ObjectLocationAttribute = "ObjectLocation";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace ObjectMoved
 {
-	const QString ms_type = "ObjectMoved";
+	const QString Type = "ObjectMoved";
 
-	const QString ms_objectNameAttribute = "ObjectName";
-	const QString ms_objectIdAttribute = "ObjectId";
-	const QString ms_movingFromAttribute = "MovingFrom";
-	const QString ms_movingToAttribute = "MovingTo";
-	const QString ms_movingProgressAttribute = "MovingProgress";
-	const QString ms_movingSpeedAttribute = "MovingSpeed";
+	const QString ObjectNameAttribute = "ObjectName";
+	const QString ObjectIdAttribute = "ObjectId";
+	const QString MovingFromAttribute = "MovingFrom";
+	const QString MovingToAttribute = "MovingTo";
+	const QString MovingProgressAttribute = "MovingProgress";
+	const QString MovingSpeedAttribute = "MovingSpeed";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace ObjectStateChanged
 {
-	const QString ms_type = "ObjectStateChanged";
+	const QString Type = "ObjectStateChanged";
 
-	const QString ms_objectNameAttribute = "ObjectName";
-	const QString ms_objectIdAttribute = "ObjectId";
-	const QString ms_objectState = "ObjectState";
-	const QString ms_objectDirection = "ObjectDirection";
+	const QString ObjectNameAttribute = "ObjectName";
+	const QString ObjectIdAttribute = "ObjectId";
+	const QString ObjectState = "ObjectState";
+	const QString ObjectDirection = "ObjectDirection";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace ObjectHealthChanged
 {
-	const QString ms_type = "ObjectHealthChanged";
+	const QString Type = "ObjectHealthChanged";
 
-	const QString ms_objectNameAttribute = "ObjectName";
-	const QString ms_objectIdAttribute = "ObjectId";
-	const QString ms_objectHealth = "ObjectHealth";
+	const QString ObjectNameAttribute = "ObjectName";
+	const QString ObjectIdAttribute = "ObjectId";
+	const QString ObjectHealth = "ObjectHealth";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace ObjectWasHit
 {
-	const QString ms_type = "ObjectWasHit";
+	const QString Type = "ObjectWasHit";
 
-	const QString ms_objectNameAttribute = "ObjectName";
-	const QString ms_objectIdAttribute = "ObjectId";
-	const QString ms_objectHealth = "ObjectHealth";
+	const QString ObjectNameAttribute = "ObjectName";
+	const QString ObjectIdAttribute = "ObjectId";
+	const QString ObjectHealth = "ObjectHealth";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace ObjectReadyToAttack
 {
-	const QString ms_type = "ObjectReadyToAttack";
+	const QString Type = "ObjectReadyToAttack";
 
-	const QString ms_objectNameAttribute = "ObjectName";
-	const QString ms_objectIdAttribute = "ObjectId";
-	const QString ms_objectDirection = "ObjectDirection";
+	const QString ObjectNameAttribute = "ObjectName";
+	const QString ObjectIdAttribute = "ObjectId";
+	const QString ObjectDirection = "ObjectDirection";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace ObjectsSelectionChanged
 {
-	const QString ms_type = "ObjectsSelectionChanged";
+	const QString Type = "ObjectsSelectionChanged";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace SurfaceItemChanged
 {
-	const QString ms_type = "SurfaceItemChanged";
+	const QString Type = "SurfaceItemChanged";
 
-	const QString ms_surfaceItemIdAttribute = "SurfaceItemId";
-	const QString ms_surfaceItemLocationAttribute = "SurfaceItemLocation";
+	const QString SurfaceItemIdAttribute = "SurfaceItemId";
+	const QString SurfaceItemLocationAttribute = "SurfaceItemLocation";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace ResourceValueChanged
 {
-	const QString ms_type = "ResourceValueChanged";
+	const QString Type = "ResourceValueChanged";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace TrainQueueChanged
 {
-	const QString ms_type = "TrainQueueChanged";
+	const QString Type = "TrainQueueChanged";
 
-	const QString ms_trainerIdAttribute = "TrainerId";
+	const QString TrainerIdAttribute = "TrainerId";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace TrainProgressChanged
 {
-	const QString ms_type = "TrainProgressChanged";
+	const QString Type = "TrainProgressChanged";
 
-	const QString ms_trainerIdAttribute = "TrainerId";
-	const QString ms_trainerProgressAttribute = "TrainerProgress";
-	const QString ms_creationTimeAttribute = "CreationTime";
+	const QString TrainerIdAttribute = "TrainerId";
+	const QString TrainerProgressAttribute = "TrainerProgress";
+	const QString CreationTimeAttribute = "CreationTime";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace BuildQueueChanged
 {
-	const QString ms_type = "BuildQueueChanged";
+	const QString Type = "BuildQueueChanged";
 
-	const QString ms_builderIdAttribute = "BuilderId";
+	const QString BuilderIdAttribute = "BuilderId";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace ObjectStartBuilding
 {
-	const QString ms_type = "ObjectStartBuilding";
+	const QString Type = "ObjectStartBuilding";
 
-	const QString ms_objectNameAttribute = "ObjectName";
-	const QString ms_objectLocationAttribute = "ObjectLocation";
-	const QString ms_objectUniqueIdAttribute = "ObjectUniqueId";
-	const QString ms_objectEmplacementAttribute = "ObjectEmplacement";
+	const QString ObjectNameAttribute = "ObjectName";
+	const QString ObjectLocationAttribute = "ObjectLocation";
+	const QString ObjectUniqueIdAttribute = "ObjectUniqueId";
+	const QString ObjectEmplacementAttribute = "ObjectEmplacement";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace BuilderHasStartedBuild
 {
-	const QString ms_type = "BuilderHasStartedBuild";
-	const QString ms_objectUniqueIdAttribute = "ObjectUniqueId";
+	const QString Type = "BuilderHasStartedBuild";
+	const QString ObjectUniqueIdAttribute = "ObjectUniqueId";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace BuilderHasFinishedBuild
 {
-	const QString ms_type = "BuilderHasFinishedBuild";
+	const QString Type = "BuilderHasFinishedBuild";
 
-	const QString ms_objectNameAttribute = "ObjectName";
-	const QString ms_objectLocationAttribute = "ObjectLocation";
-	const QString ms_objectUniqueIdAttribute = "ObjectUniqueId";
-	const QString ms_objectEmplacementAttribute = "ObjectEmplacement";
+	const QString ObjectNameAttribute = "ObjectName";
+	const QString ObjectLocationAttribute = "ObjectLocation";
+	const QString ObjectUniqueIdAttribute = "ObjectUniqueId";
+	const QString ObjectEmplacementAttribute = "ObjectEmplacement";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace ResourceSourceValueChanged
 {
-	const QString ms_type = "ResourceSourceValueChanged";
+	const QString Type = "ResourceSourceValueChanged";
 
-	const QString ms_objectUniqueIdAttribute = "ObjectUniqueId";
-	const QString ms_sourceResourceNameAttribute = "SourceResourceNameAttribute";
-	const QString ms_sourceResourceValueAttribute = "SourceResourceValueAttribute";
+	const QString ObjectUniqueIdAttribute = "ObjectUniqueId";
+	const QString SourceResourceNameAttribute = "SourceResourceNameAttribute";
+	const QString SourceResourceValueAttribute = "SourceResourceValueAttribute";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace HolderHasStartedCollect
 {
-	const QString ms_type = "HolderHasStartedCollect";
-	const QString ms_objectUniqueIdAttribute = "ObjectUniqueId";
+	const QString Type = "HolderHasStartedCollect";
+	const QString ObjectUniqueIdAttribute = "ObjectUniqueId";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace HolderHasStopCollect
 {
-	const QString ms_type = "HolderHasStopCollect";
+	const QString Type = "HolderHasStopCollect";
 
-	const QString ms_objectNameAttribute = "ObjectName";
-	const QString ms_objectLocationAttribute = "ObjectLocation";
-	const QString ms_objectUniqueIdAttribute = "ObjectUniqueId";
-	const QString ms_objectEmplacementAttribute = "ObjectEmplacement";
+	const QString ObjectNameAttribute = "ObjectName";
+	const QString ObjectLocationAttribute = "ObjectLocation";
+	const QString ObjectUniqueIdAttribute = "ObjectUniqueId";
+	const QString ObjectEmplacementAttribute = "ObjectEmplacement";
 }
 
 /*---------------------------------------------------------------------------*/
 
 namespace HolderResourceCountChanged
 {
-	const QString ms_type = "HolderResourceCountChanged";
+	const QString Type = "HolderResourceCountChanged";
 
-	const QString ms_objectUniqueIdAttribute = "ObjectUniqueId";
+	const QString ObjectUniqueIdAttribute = "ObjectUniqueId";
 }
 
 /*---------------------------------------------------------------------------*/

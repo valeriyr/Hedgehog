@@ -38,7 +38,7 @@ BuildAction::BuildAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
 	,	IWorkersHolder& _workersHolder
-	,	Object& _object
+	,	GameObject& _object
 	,	const QString& _objectName
 	,	const QPoint& _atLocation
 	)
@@ -71,8 +71,8 @@ BuildAction::prepareToProcessingInternal()
 	buildComponent->getBuildData().m_atRect = m_atRect;
 
 	m_environment.riseEvent(
-		Framework::Core::EventManager::Event( Events::BuildQueueChanged::ms_type )
-			.pushMember( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
+		Framework::Core::EventManager::Event( Events::BuildQueueChanged::Type )
+			.pushMember( Events::BuildQueueChanged::BuilderIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 
 	return true;
 
@@ -109,8 +109,8 @@ BuildAction::cancelProcessingInternal()
 	buildComponent->getBuildData().reset();
 
 	m_environment.riseEvent(
-		Framework::Core::EventManager::Event( Events::BuildQueueChanged::ms_type )
-			.pushMember( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
+		Framework::Core::EventManager::Event( Events::BuildQueueChanged::Type )
+			.pushMember( Events::BuildQueueChanged::BuilderIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 
 	return true;
 
@@ -211,7 +211,7 @@ BuildAction::processAction()
 				++buildData.m_buildProgress;
 				TickType totalTicks = buildComponent->getStaticData().m_buildDatas.find( buildData.m_objectName )->second->m_ticksCount;
 
-				boost::shared_ptr< Object > targetObject
+				boost::shared_ptr< GameObject > targetObject
 					= m_landscapeModel.getLandscape()->getObject( buildData.m_objectId );
 
 				boost::intrusive_ptr< IHealthComponent > targetHealthComponent
@@ -220,10 +220,10 @@ BuildAction::processAction()
 				targetHealthComponent->setHealth( buildData.m_buildProgress * targetHealthComponent->getStaticData().m_maximumHealth / totalTicks );
 
 				m_environment.riseEvent(
-					Framework::Core::EventManager::Event( Events::ObjectHealthChanged::ms_type )
-						.pushMember( Events::ObjectHealthChanged::ms_objectNameAttribute, targetObject->getMember< QString >( ObjectNameKey ) )
-						.pushMember( Events::ObjectHealthChanged::ms_objectIdAttribute, targetObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-						.pushMember( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() ) );
+					Framework::Core::EventManager::Event( Events::ObjectHealthChanged::Type )
+						.pushMember( Events::ObjectHealthChanged::ObjectNameAttribute, targetObject->getMember< QString >( ObjectNameKey ) )
+						.pushMember( Events::ObjectHealthChanged::ObjectIdAttribute, targetObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+						.pushMember( Events::ObjectHealthChanged::ObjectHealth, targetHealthComponent->getHealth() ) );
 
 				if ( buildData.m_buildProgress == totalTicks )
 				{
@@ -233,8 +233,8 @@ BuildAction::processAction()
 			}
 
 			m_environment.riseEvent(
-				Framework::Core::EventManager::Event( Events::BuildQueueChanged::ms_type )
-					.pushMember( Events::BuildQueueChanged::ms_builderIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
+				Framework::Core::EventManager::Event( Events::BuildQueueChanged::Type )
+					.pushMember( Events::BuildQueueChanged::BuilderIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 		}
 	}
 
@@ -268,7 +268,7 @@ BuildAction::startBuild(
 {
 	if ( m_landscapeModel.getLandscape() )
 	{
-		boost::shared_ptr< Object > object = m_landscapeModel.getLandscape()->hideObject( _id );
+		boost::shared_ptr< GameObject > object = m_landscapeModel.getLandscape()->hideObject( _id );
 
 		if ( object )
 		{
@@ -291,15 +291,15 @@ BuildAction::startBuild(
 			buildComponent->getBuildData().m_objectId = objectId;
 
 			m_environment.riseEvent(
-				Framework::Core::EventManager::Event( Events::BuilderHasStartedBuild::ms_type )
-					.pushMember( Events::BuilderHasStartedBuild::ms_objectUniqueIdAttribute, _id ) );
+				Framework::Core::EventManager::Event( Events::BuilderHasStartedBuild::Type )
+					.pushMember( Events::BuilderHasStartedBuild::ObjectUniqueIdAttribute, _id ) );
 
 			m_environment.riseEvent(
-				Framework::Core::EventManager::Event( Events::ObjectStartBuilding::ms_type )
-					.pushMember( Events::ObjectStartBuilding::ms_objectNameAttribute, _objectName )
-					.pushMember( Events::ObjectStartBuilding::ms_objectLocationAttribute, _location )
-					.pushMember( Events::ObjectStartBuilding::ms_objectUniqueIdAttribute, objectId )
-					.pushMember( Events::ObjectStartBuilding::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
+				Framework::Core::EventManager::Event( Events::ObjectStartBuilding::Type )
+					.pushMember( Events::ObjectStartBuilding::ObjectNameAttribute, _objectName )
+					.pushMember( Events::ObjectStartBuilding::ObjectLocationAttribute, _location )
+					.pushMember( Events::ObjectStartBuilding::ObjectUniqueIdAttribute, objectId )
+					.pushMember( Events::ObjectStartBuilding::ObjectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
 		}
 	}
 
@@ -314,7 +314,7 @@ BuildAction::stopBuild( const Tools::Core::Generators::IGenerator::IdType& _id )
 {
 	if ( m_landscapeModel.getLandscape() )
 	{
-		boost::shared_ptr< Object > builder = m_workersHolder.getWorker( _id );
+		boost::shared_ptr< GameObject > builder = m_workersHolder.getWorker( _id );
 		assert( builder );
 
 		boost::intrusive_ptr< ILocateComponent >
@@ -322,16 +322,16 @@ BuildAction::stopBuild( const Tools::Core::Generators::IGenerator::IdType& _id )
 		boost::intrusive_ptr< IBuildComponent >
 			buildComponent = builder->getComponent< IBuildComponent >( ComponentId::Build );
 
-		boost::shared_ptr< Object > targetObject
+		boost::shared_ptr< GameObject > targetObject
 			= m_landscapeModel.getLandscape()->getObject( buildComponent->getBuildData().m_objectId );
 		targetObject->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 
 		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-				.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, targetObject->getMember< QString >( ObjectNameKey ) )
-				.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, targetObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-				.pushMember( Events::ObjectStateChanged::ms_objectState, targetObject->getMember< ObjectState::Enum >( ObjectStateKey ) )
-				.pushMember( Events::ObjectStateChanged::ms_objectDirection, targetObject->getComponent< ILocateComponent >( ComponentId::Locate )->getDirection() ) );
+			Framework::Core::EventManager::Event( Events::ObjectStateChanged::Type )
+				.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, targetObject->getMember< QString >( ObjectNameKey ) )
+				.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, targetObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+				.pushMember( Events::ObjectStateChanged::ObjectState, targetObject->getMember< ObjectState::Enum >( ObjectStateKey ) )
+				.pushMember( Events::ObjectStateChanged::ObjectDirection, targetObject->getComponent< ILocateComponent >( ComponentId::Locate )->getDirection() ) );
 
 		locateComponent->setLocation(
 			m_landscapeModel.getLandscape()->getNearestLocation(
@@ -342,11 +342,11 @@ BuildAction::stopBuild( const Tools::Core::Generators::IGenerator::IdType& _id )
 		m_landscapeModel.getLandscape()->showObject( builder );
 
 		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::BuilderHasFinishedBuild::ms_type )
-				.pushMember( Events::BuilderHasFinishedBuild::ms_objectNameAttribute, builder->getMember< QString >( ObjectNameKey ) )
-				.pushMember( Events::BuilderHasFinishedBuild::ms_objectLocationAttribute, locateComponent->getLocation() )
-				.pushMember( Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute, _id )
-				.pushMember( Events::BuilderHasFinishedBuild::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
+			Framework::Core::EventManager::Event( Events::BuilderHasFinishedBuild::Type )
+				.pushMember( Events::BuilderHasFinishedBuild::ObjectNameAttribute, builder->getMember< QString >( ObjectNameKey ) )
+				.pushMember( Events::BuilderHasFinishedBuild::ObjectLocationAttribute, locateComponent->getLocation() )
+				.pushMember( Events::BuilderHasFinishedBuild::ObjectUniqueIdAttribute, _id )
+				.pushMember( Events::BuilderHasFinishedBuild::ObjectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
 
 		m_workersHolder.removeWorker( _id );
 	}

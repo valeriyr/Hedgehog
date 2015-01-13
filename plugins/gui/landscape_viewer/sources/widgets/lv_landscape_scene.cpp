@@ -204,63 +204,63 @@ LandscapeScene::landscapeWasOpened()
 	fillScene();
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Framework::Core::Settings::Events::SettingChanged::ms_type
+							,	Framework::Core::Settings::Events::SettingChanged::Type
 							,	boost::bind( &LandscapeScene::onSettingChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectAdded::Type
 							,	boost::bind( &LandscapeScene::onObjectAdded, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectRemoved::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectRemoved::Type
 							,	boost::bind( &LandscapeScene::onObjectRemoved, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::CreateObjectFailed::ms_type
+							,	Plugins::Core::LandscapeModel::Events::CreateObjectFailed::Type
 							,	boost::bind( &LandscapeScene::onCreateObjectFailed, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::Type
 							,	boost::bind( &LandscapeScene::onSurfaceItemChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
 							,	boost::bind( &LandscapeScene::onObjectsSelectionChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectMoved::Type
 							,	boost::bind( &LandscapeScene::onObjectMoved, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectStateChanged::Type
 							,	boost::bind( &LandscapeScene::onObjectStateChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectWasHit::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectWasHit::Type
 							,	boost::bind( &LandscapeScene::onObjectWasHit, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectReadyToAttack::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectReadyToAttack::Type
 							,	boost::bind( &LandscapeScene::onObjectReadyToAttack, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectStartBuilding::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectStartBuilding::Type
 							,	boost::bind( &LandscapeScene::onObjectStartBuilding, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ms_type
+							,	Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::Type
 							,	boost::bind( &LandscapeScene::onBuilderHasStartedBuild, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_type
+							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::Type
 							,	boost::bind( &LandscapeScene::onBuilderHasFinishedBuild, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ms_type
+							,	Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::Type
 							,	boost::bind( &LandscapeScene::onHolderHasStartedCollect, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_type
+							,	Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::Type
 							,	boost::bind( &LandscapeScene::onHolderHasStopCollect, this, _1 ) );
 
 } // LandscapeScene::landscapeWasOpened
@@ -383,7 +383,7 @@ LandscapeScene::onMousePossitionWasChanged( const QPointF& _point )
 void
 LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _event )
 {
-	if (	_event.getMember< QString >( Framework::Core::Settings::Events::SettingChanged::ms_key )
+	if (	_event.getMember< QString >( Framework::Core::Settings::Events::SettingChanged::Key )
 		==	Resources::Properties::TerrainMapVisibility )
 	{
 		const bool terrainMapVisibility = m_environment.getBool( Resources::Properties::TerrainMapVisibility );
@@ -395,7 +395,7 @@ LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _e
 			generateTerrainMapLayer();
 		}
 	}
-	else if (	_event.getMember< QString >( Framework::Core::Settings::Events::SettingChanged::ms_key )
+	else if (	_event.getMember< QString >( Framework::Core::Settings::Events::SettingChanged::Key )
 			==	Resources::Properties::SkinId )
 	{
 		clearScene();
@@ -411,12 +411,12 @@ LandscapeScene::onSettingChanged( const Framework::Core::EventManager::Event& _e
 void
 LandscapeScene::onObjectAdded( const Framework::Core::EventManager::Event& _event )
 {
-	const QString objectName = _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectNameAttribute );
-	const QPoint objectLocation = _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectLocationAttribute );
+	const QString objectName = _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ObjectNameAttribute );
+	const QPoint objectLocation = _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ObjectLocationAttribute );
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ObjectUniqueIdAttribute );
 	const Core::LandscapeModel::Emplacement::Enum emplacement
-		= _event.getMember< Core::LandscapeModel::Emplacement::Enum >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectEmplacementAttribute );
+		= _event.getMember< Core::LandscapeModel::Emplacement::Enum >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ObjectEmplacementAttribute );
 
 	playAnimationOnce(
 			*addObject( objectName, objectLocation, id, emplacement )
@@ -437,7 +437,7 @@ void
 LandscapeScene::onObjectRemoved( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectRemoved::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectRemoved::ObjectUniqueIdAttribute );
 
 	removeObject( id );
 
@@ -464,9 +464,9 @@ LandscapeScene::onSurfaceItemChanged( const Framework::Core::EventManager::Event
 	boost::intrusive_ptr< Core::LandscapeModel::IModelLocker > handle = m_environment.lockModel();
 
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_surfaceItemIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::SurfaceItemIdAttribute );
 	const QPoint location
-		= _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute );
+		= _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::SurfaceItemLocationAttribute );
 
 	if ( handle->getLandscapeModel()->getLandscape() )
 	{
@@ -518,17 +518,17 @@ void
 LandscapeScene::onObjectMoved( const Framework::Core::EventManager::Event& _event )
 {
 	const QString name
-		= _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectNameAttribute );
+		= _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::ObjectMoved::ObjectNameAttribute );
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectMoved::ObjectIdAttribute );
 	const QPoint movedFrom
-		= _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingFromAttribute );
+		= _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::ObjectMoved::MovingFromAttribute );
 	const QPoint movedTo
-		= _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingToAttribute );
+		= _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::ObjectMoved::MovingToAttribute );
 	const Core::LandscapeModel::TickType progress
-		= _event.getMember< Core::LandscapeModel::TickType >( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingProgressAttribute );
+		= _event.getMember< Core::LandscapeModel::TickType >( Plugins::Core::LandscapeModel::Events::ObjectMoved::MovingProgressAttribute );
 	const Core::LandscapeModel::TickType movingSpeed
-		= _event.getMember< Core::LandscapeModel::TickType >( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_movingSpeedAttribute );
+		= _event.getMember< Core::LandscapeModel::TickType >( Plugins::Core::LandscapeModel::Events::ObjectMoved::MovingSpeedAttribute );
 
 	ObjectGraphicsItem* graphicsItem = getObjectGraphicsItem( id );
 	assert( graphicsItem );
@@ -560,13 +560,13 @@ void
 LandscapeScene::onObjectStateChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const QString name
-		= _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectNameAttribute );
+		= _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ObjectNameAttribute );
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ObjectIdAttribute );
 	const Plugins::Core::LandscapeModel::ObjectState::Enum state
-		= _event.getMember< Plugins::Core::LandscapeModel::ObjectState::Enum >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectState );
+		= _event.getMember< Plugins::Core::LandscapeModel::ObjectState::Enum >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ObjectState );
 	const Plugins::Core::LandscapeModel::Direction::Enum direction
-		= _event.getMember< Plugins::Core::LandscapeModel::Direction::Enum >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectDirection );
+		= _event.getMember< Plugins::Core::LandscapeModel::Direction::Enum >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ObjectDirection );
 
 	ObjectGraphicsItem* graphicsItem = getObjectGraphicsItem( id );
 
@@ -614,11 +614,11 @@ void
 LandscapeScene::onObjectReadyToAttack( const Framework::Core::EventManager::Event& _event )
 {
 	const QString name
-		= _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectNameAttribute );
+		= _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ObjectNameAttribute );
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ObjectIdAttribute );
 	const Plugins::Core::LandscapeModel::Direction::Enum direction
-		= _event.getMember< Plugins::Core::LandscapeModel::Direction::Enum >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectDirection );
+		= _event.getMember< Plugins::Core::LandscapeModel::Direction::Enum >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ObjectDirection );
 
 	ObjectGraphicsItem* graphicsItem = getObjectGraphicsItem( id );
 	assert( graphicsItem );
@@ -639,12 +639,12 @@ LandscapeScene::onObjectReadyToAttack( const Framework::Core::EventManager::Even
 void
 LandscapeScene::onObjectStartBuilding( const Framework::Core::EventManager::Event& _event )
 {
-	const QString objectName = _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectNameAttribute );
-	const QPoint objectLocation = _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectLocationAttribute );
+	const QString objectName = _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ObjectNameAttribute );
+	const QPoint objectLocation = _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ObjectLocationAttribute );
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ObjectUniqueIdAttribute );
 	const Core::LandscapeModel::Emplacement::Enum emplacement
-		= _event.getMember< Core::LandscapeModel::Emplacement::Enum >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ms_objectEmplacementAttribute );
+		= _event.getMember< Core::LandscapeModel::Emplacement::Enum >( Plugins::Core::LandscapeModel::Events::ObjectAdded::ObjectEmplacementAttribute );
 
 	playAnimationOnce(
 			*addObject( objectName, objectLocation, id, emplacement )
@@ -663,7 +663,7 @@ void
 LandscapeScene::onBuilderHasStartedBuild( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ObjectUniqueIdAttribute );
 
 	removeObject( id );
 
@@ -676,12 +676,12 @@ LandscapeScene::onBuilderHasStartedBuild( const Framework::Core::EventManager::E
 void
 LandscapeScene::onBuilderHasFinishedBuild( const Framework::Core::EventManager::Event& _event )
 {
-	const QString objectName = _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectNameAttribute );
-	const QPoint objectLocation = _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectLocationAttribute );
+	const QString objectName = _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ObjectNameAttribute );
+	const QPoint objectLocation = _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ObjectLocationAttribute );
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ObjectUniqueIdAttribute );
 	const Core::LandscapeModel::Emplacement::Enum emplacement
-		= _event.getMember< Core::LandscapeModel::Emplacement::Enum >( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectEmplacementAttribute );
+		= _event.getMember< Core::LandscapeModel::Emplacement::Enum >( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ObjectEmplacementAttribute );
 
 	playAnimationOnce(
 			*addObject( objectName, objectLocation, id, emplacement )
@@ -700,7 +700,7 @@ void
 LandscapeScene::onHolderHasStartedCollect( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ObjectUniqueIdAttribute );
 
 	removeObject( id );
 
@@ -713,12 +713,12 @@ LandscapeScene::onHolderHasStartedCollect( const Framework::Core::EventManager::
 void
 LandscapeScene::onHolderHasStopCollect( const Framework::Core::EventManager::Event& _event )
 {
-	const QString objectName = _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectNameAttribute );
-	const QPoint objectLocation = _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectLocationAttribute );
+	const QString objectName = _event.getMember< QString >( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ObjectNameAttribute );
+	const QPoint objectLocation = _event.getMember< QPoint >( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ObjectLocationAttribute );
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ObjectUniqueIdAttribute );
 	const Core::LandscapeModel::Emplacement::Enum emplacement
-		= _event.getMember< Core::LandscapeModel::Emplacement::Enum >( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectEmplacementAttribute );
+		= _event.getMember< Core::LandscapeModel::Emplacement::Enum >( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ObjectEmplacementAttribute );
 
 	playAnimationOnce(
 			*addObject( objectName, objectLocation, id, emplacement )

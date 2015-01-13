@@ -8,7 +8,7 @@
 
 #include "landscape_model/h/lm_constants.hpp"
 #include "landscape_model/h/lm_resources_data.hpp"
-#include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_game_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 

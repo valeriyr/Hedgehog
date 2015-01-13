@@ -1,6 +1,6 @@
 
-#ifndef __LM_OBJECT_HPP__
-#define __LM_OBJECT_HPP__
+#ifndef __LM_GAME_OBJECT_HPP__
+#define __LM_GAME_OBJECT_HPP__
 
 /*---------------------------------------------------------------------------*/
 
@@ -31,7 +31,7 @@ const QString ObjectStateKey = "State";
 
 /*---------------------------------------------------------------------------*/
 
-class Object
+class GameObject
 	:	public Tools::Core::Object
 {
 
@@ -41,7 +41,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	Object( const QString& _name, const Tools::Core::Generators::IGenerator::IdType _id )
+	GameObject( const QString& _name, const Tools::Core::Generators::IGenerator::IdType _id )
 	{
 		pushMember( ObjectNameKey, _name );
 		pushMember( ObjectUniqueIdKey, _id );
@@ -100,4 +100,4 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-#endif // __LM_OBJECT_HPP__
+#endif // __LM_GAME_OBJECT_HPP__

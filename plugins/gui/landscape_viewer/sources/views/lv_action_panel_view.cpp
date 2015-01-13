@@ -14,7 +14,7 @@
 #include "landscape_model/ih/components/lm_itrain_component.hpp"
 #include "landscape_model/ih/components/lm_ibuild_component.hpp"
 
-#include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_game_object.hpp"
 #include "landscape_model/h/lm_events.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
@@ -159,11 +159,11 @@ void
 ActionPanelView::landscapeWasOpened()
 {
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
 							,	boost::bind( &ActionPanelView::onObjectsSelectionChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectStateChanged::Type
 							,	boost::bind( &ActionPanelView::onObjectStateChanged, this, _1 ) );
 
 } // ActionPanelView::landscapeWasOpened
@@ -243,7 +243,7 @@ void
 ActionPanelView::onObjectStateChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ObjectIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 		updateView( objectId );
@@ -274,7 +274,7 @@ ActionPanelView::updateView( const Tools::Core::Generators::IGenerator::IdType& 
 
 	if ( handle->getLandscapeModel()->getLandscape() )
 	{
-		boost::shared_ptr< Core::LandscapeModel::Object > object
+		boost::shared_ptr< Core::LandscapeModel::GameObject > object
 			= handle->getLandscapeModel()->getLandscape()->getObject( _objectId );
 
 		const Tools::Core::Generators::IGenerator::IdType objectId

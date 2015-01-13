@@ -185,9 +185,9 @@ Settings::setProperty( const QString& _key, const _TPropertyType& _value )
 	m_settings.find( _key )->second.setValue( _value );
 
 	m_environment.riseEvent(
-		Framework::Core::EventManager::Event( Events::SettingChanged::ms_type )
-			.pushMember( Events::SettingChanged::ms_key, _key )
-			.pushMember( Events::SettingChanged::ms_value, _value ) );
+		Framework::Core::EventManager::Event( Events::SettingChanged::Type )
+			.pushMember( Events::SettingChanged::Key, _key )
+			.pushMember( Events::SettingChanged::Value, _value ) );
 
 } // Settings::setProperty
 

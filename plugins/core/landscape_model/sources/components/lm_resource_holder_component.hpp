@@ -27,7 +27,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	ResourceHolderComponent(
-			Object& _object
+			GameObject& _object
 		,	const IResourceHolderComponent::StaticData& _staticData );
 
 	virtual ~ResourceHolderComponent();

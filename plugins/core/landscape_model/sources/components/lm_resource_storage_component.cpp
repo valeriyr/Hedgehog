@@ -14,7 +14,7 @@ namespace LandscapeModel {
 
 
 ResourceStorageComponent::ResourceStorageComponent(
-		Object& _object
+		GameObject& _object
 	,	const IResourceStorageComponent::StaticData& _staticData
 	)
 	:	BaseComponent< IResourceStorageComponent >( _object )

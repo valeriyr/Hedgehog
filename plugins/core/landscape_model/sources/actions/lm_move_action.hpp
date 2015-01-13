@@ -31,28 +31,28 @@ public:
 	MoveAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
-		,	Object& _object
+		,	GameObject& _object
 		,	const QPoint& _movingTo );
 
 	MoveAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
-		,	Object& _object
+		,	GameObject& _object
 		,	const QPoint& _movingTo
 		,	IPathFinder::PointsCollection& _path );
 
 	MoveAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
-		,	Object& _object
-		,	boost::shared_ptr< Object > _movingTo
+		,	GameObject& _object
+		,	boost::shared_ptr< GameObject > _movingTo
 		,	const int _distance );
 
 	MoveAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
-		,	Object& _object
-		,	boost::shared_ptr< Object > _movingTo
+		,	GameObject& _object
+		,	boost::shared_ptr< GameObject > _movingTo
 		,	IPathFinder::PointsCollection& _path
 		,	const int _distance );
 
@@ -88,7 +88,7 @@ private:
 
 	QPoint m_movingToPoint;
 
-	boost::shared_ptr< Object > m_movingToObject;
+	boost::shared_ptr< GameObject > m_movingToObject;
 	QPoint m_lastTargetObjectLocation;
 	IPathFinder::PointsCollection m_preprocessedPath;
 

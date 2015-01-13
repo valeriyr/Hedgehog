@@ -136,13 +136,13 @@ MapPreviewGenerator::generateStartPoints(
 
 	while ( iterator->isValid() )
 	{
-		QPoint point( iterator->current().getMember< QPoint >( Core::LandscapeModel::StartPoint::ms_point ) );
+		QPoint point( iterator->current().getMember< QPoint >( Core::LandscapeModel::StartPoint::Point ) );
 
 		qreal posByX = ( point.x() * Resources::Landscape::CellSize ) * scaleByX;
 		qreal posByY = ( point.y() * Resources::Landscape::CellSize ) * scaleByY;
 
 		QPixmap pixmap( QSize( Resources::Landscape::CellSize * scaleByX, Resources::Landscape::CellSize * scaleByY ) );
-		pixmap.fill( m_environment.getGraphicsInfo()->getStartPointColor( iterator->current().getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::StartPoint::ms_id ) ) );
+		pixmap.fill( m_environment.getGraphicsInfo()->getStartPointColor( iterator->current().getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::StartPoint::Id ) ) );
 
 		painter.drawPixmap(
 				QRect( posByX, posByY, pixmap.width(), pixmap.height() )

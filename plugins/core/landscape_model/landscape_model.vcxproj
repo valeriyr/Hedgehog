@@ -88,7 +88,7 @@
     <ClInclude Include="h\lm_diplomacy.hpp" />
     <ClInclude Include="h\lm_directions.hpp" />
     <ClInclude Include="h\lm_events.hpp" />
-    <ClInclude Include="h\lm_object.hpp" />
+    <ClInclude Include="h\lm_game_object.hpp" />
     <ClInclude Include="h\lm_objects.hpp" />
     <ClInclude Include="h\lm_object_states.hpp" />
     <ClInclude Include="h\lm_player_type.hpp" />

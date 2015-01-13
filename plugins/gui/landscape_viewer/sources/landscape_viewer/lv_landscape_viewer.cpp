@@ -60,7 +60,7 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 	m_environment.addFrameworkView( m_selectionView, Framework::GUI::WindowManager::ViewPosition::Right );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::SimulationStarted::ms_type
+							,	Plugins::Core::LandscapeModel::Events::SimulationStarted::Type
 							,	boost::bind( &LandscapeViewer::onSimulationStarted, this, _1 ) );
 
 } // LandscapeViewer::LandscapeViewer
@@ -155,7 +155,7 @@ LandscapeViewer::initDefaultStartpointsColors()
 		assert( colorsIterator->isValid() );
 
 		m_environment.getGraphicsInfo()->setStartPointColor(
-				startPointsIterator->current().getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::StartPoint::ms_id )
+				startPointsIterator->current().getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::StartPoint::Id )
 			,	colorsIterator->current() );
 
 		startPointsIterator->next();

@@ -323,9 +323,6 @@
     <ClInclude Include="h\lm_object_states.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
-    <ClInclude Include="h\lm_object.hpp">
-      <Filter>External Headers</Filter>
-    </ClInclude>
     <ClInclude Include="ih\components\lm_icomponent.hpp">
       <Filter>Interfaces\Components</Filter>
     </ClInclude>
@@ -582,6 +579,9 @@
       <Filter>AI\Ai Goals</Filter>
     </ClInclude>
     <ClInclude Include="h\lm_objects.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_game_object.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>

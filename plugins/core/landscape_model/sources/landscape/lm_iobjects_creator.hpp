@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_game_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,7 +19,7 @@ struct IObjectCreator
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::shared_ptr< Object > create(
+	virtual boost::shared_ptr< GameObject > create(
 				const QString& _objectName
 			,	const QPoint& _location
 			,	const Tools::Core::Generators::IGenerator::IdType& _playerId ) = 0;

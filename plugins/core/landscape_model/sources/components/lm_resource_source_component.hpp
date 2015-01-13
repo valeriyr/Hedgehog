@@ -27,7 +27,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	ResourceSourceComponent(
-			Object& _object
+			GameObject& _object
 		,	const IResourceSourceComponent::StaticData& _staticData );
 
 	virtual ~ResourceSourceComponent();

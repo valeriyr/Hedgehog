@@ -6,7 +6,7 @@
 #include "landscape_model/ih/lm_isurface_item.hpp"
 #include "landscape_model/ih/lm_isurface_items_cache.hpp"
 
-#include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_game_object.hpp"
 #include "landscape_model/ih/lm_istatic_data.hpp"
 
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
@@ -98,9 +98,9 @@ Landscape::setSize( const int _width, const int _height )
 
 
 void
-Landscape::addStartPoint( const Tools::Core::Object& _startPoint )
+Landscape::addStartPoint( const StartPoint::Type& _startPoint )
 {
-	Tools::Core::Generators::IGenerator::IdType id = _startPoint.getMember< Tools::Core::Generators::IGenerator::IdType >( StartPoint::ms_id );
+	Tools::Core::Generators::IGenerator::IdType id = _startPoint.getMember< Tools::Core::Generators::IGenerator::IdType >( StartPoint::Id );
 
 	StartsPointsCollectionIterator iterator = m_startPoints.find( id );
 	assert( iterator == m_startPoints.end() );
@@ -113,7 +113,7 @@ Landscape::addStartPoint( const Tools::Core::Object& _startPoint )
 /*---------------------------------------------------------------------------*/
 
 
-const Tools::Core::Object&
+const StartPoint::Type&
 Landscape::getStartPoint( const Tools::Core::Generators::IGenerator::IdType& _startPointId )
 {
 	StartsPointsCollectionConstIterator iterator = m_startPoints.find( _startPointId );
@@ -199,7 +199,7 @@ Landscape::setEngaged( const QPoint& _point, const Emplacement::Enum _emplacemen
 /*---------------------------------------------------------------------------*/
 
 
-boost::shared_ptr< Object >
+boost::shared_ptr< GameObject >
 Landscape::getObject( const QPoint& _point ) const
 {
 	ILandscape::ObjectsCollectionIterator
@@ -212,7 +212,7 @@ Landscape::getObject( const QPoint& _point ) const
 			return *begin;
 	}
 
-	return boost::shared_ptr< Object >();
+	return boost::shared_ptr< GameObject >();
 
 } // Landscape::getObject
 
@@ -220,11 +220,11 @@ Landscape::getObject( const QPoint& _point ) const
 /*---------------------------------------------------------------------------*/
 
 
-boost::shared_ptr< Object >
+boost::shared_ptr< GameObject >
 Landscape::getObject( const Tools::Core::Generators::IGenerator::IdType& _id ) const
 {
 	if ( _id == Tools::Core::Generators::IGenerator::ms_wrongId )
-		return boost::shared_ptr< Object >();
+		return boost::shared_ptr< GameObject >();
 
 	ILandscape::ObjectsCollectionIterator
 			begin = m_objects.begin()
@@ -236,7 +236,7 @@ Landscape::getObject( const Tools::Core::Generators::IGenerator::IdType& _id ) c
 			return *begin;
 	}
 
-	return boost::shared_ptr< Object >();
+	return boost::shared_ptr< GameObject >();
 
 } // Landscape::getObject
 
@@ -305,7 +305,7 @@ Landscape::createObject( const QString& _objectName, const QPoint& _location, co
 
 	if ( canObjectBePlaced( _location, _objectName ) )
 	{
-		boost::shared_ptr< Object > object = m_objectCreator.create( _objectName, _location, _playerId );
+		boost::shared_ptr< GameObject > object = m_objectCreator.create( _objectName, _location, _playerId );
 
 		m_objects.push_back( object );
 
@@ -333,7 +333,7 @@ Landscape::createObject( const QString& _objectName, const QPoint& _location, co
 Tools::Core::Generators::IGenerator::IdType
 Landscape::createObjectForBuilding( const QString& _objectName, const QPoint& _location, const Tools::Core::Generators::IGenerator::IdType& _playerId )
 {
-	boost::shared_ptr< Object > object = getObject( createObject( _objectName, _location, _playerId ) );
+	boost::shared_ptr< GameObject > object = getObject( createObject( _objectName, _location, _playerId ) );
 
 	if ( object )
 	{
@@ -351,7 +351,7 @@ Landscape::createObjectForBuilding( const QString& _objectName, const QPoint& _l
 /*---------------------------------------------------------------------------*/
 
 
-boost::shared_ptr< Object >
+boost::shared_ptr< GameObject >
 Landscape::hideObject( const Tools::Core::Generators::IGenerator::IdType& _id )
 {
 	ILandscape::ObjectsCollectionIterator
@@ -362,7 +362,7 @@ Landscape::hideObject( const Tools::Core::Generators::IGenerator::IdType& _id )
 	{
 		if ( ( *begin )->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) == _id )
 		{
-			boost::shared_ptr< Object > object = *begin;
+			boost::shared_ptr< GameObject > object = *begin;
 
 			boost::intrusive_ptr< ILocateComponent >
 				locateComponent = object->getComponent< ILocateComponent >( ComponentId::Locate );
@@ -384,7 +384,7 @@ Landscape::hideObject( const Tools::Core::Generators::IGenerator::IdType& _id )
 		}
 	}
 
-	return boost::shared_ptr< Object >();
+	return boost::shared_ptr< GameObject >();
 
 } // Landscape::hideObject
 
@@ -393,7 +393,7 @@ Landscape::hideObject( const Tools::Core::Generators::IGenerator::IdType& _id )
 
 
 void
-Landscape::showObject( boost::shared_ptr< Object > _object )
+Landscape::showObject( boost::shared_ptr< GameObject > _object )
 {
 	assert( !getObject( _object->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 	m_objects.push_back( _object );
@@ -507,7 +507,7 @@ Landscape::canObjectBePlaced( const QPoint& _location, const QString& _objectNam
 
 
 QPoint
-Landscape::getNearestLocation( const Object& _nearestFrom, const QString& _forObject ) const
+Landscape::getNearestLocation( const GameObject& _nearestFrom, const QString& _forObject ) const
 {
 	boost::intrusive_ptr< ILocateComponent > locateComponent
 		= _nearestFrom.getComponent< ILocateComponent >( ComponentId::Locate );

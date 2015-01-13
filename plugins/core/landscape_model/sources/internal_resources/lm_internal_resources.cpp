@@ -85,7 +85,7 @@ namespace Xml {
 	const QString Surface = "surface";
 
 	const QString Objects = "objects";
-	const QString Object = "object";
+	const QString GameObject = "object";
 
 	const QString Count = "count";
 

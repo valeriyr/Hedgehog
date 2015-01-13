@@ -26,7 +26,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	ActionsComponent( Object& _object );
+	ActionsComponent( GameObject& _object );
 
 	virtual ~ActionsComponent();
 

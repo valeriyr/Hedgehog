@@ -5,7 +5,7 @@
 #include "landscape_viewer/sources/widgets/landscape_scene_states/lv_ilandscape_scene_state.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
-#include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_game_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 

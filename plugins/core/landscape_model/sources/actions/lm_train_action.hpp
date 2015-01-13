@@ -27,7 +27,7 @@ public:
 	TrainAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
-		,	Object& _object
+		,	GameObject& _object
 		,	const QString& _trainObjectName );
 
 	virtual ~TrainAction();

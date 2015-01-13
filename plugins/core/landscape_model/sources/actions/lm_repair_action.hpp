@@ -27,8 +27,8 @@ public:
 	RepairAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
-		,	Object& _object
-		,	boost::shared_ptr< Object > _target );
+		,	GameObject& _object
+		,	boost::shared_ptr< GameObject > _target );
 
 	virtual ~RepairAction();
 
@@ -52,7 +52,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< Object > m_target;
+	boost::shared_ptr< GameObject > m_target;
 
 	int m_healthRepaired;
 

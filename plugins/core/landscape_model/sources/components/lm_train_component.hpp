@@ -26,7 +26,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	TrainComponent( Object& _object, const ITrainComponent::StaticData& _staticData );
+	TrainComponent( GameObject& _object, const ITrainComponent::StaticData& _staticData );
 
 	virtual ~TrainComponent();
 

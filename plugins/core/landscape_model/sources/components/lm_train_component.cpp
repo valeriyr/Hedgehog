@@ -14,7 +14,7 @@ namespace LandscapeModel {
 
 
 TrainComponent::TrainComponent(
-		Object& _object
+		GameObject& _object
 	,	const ITrainComponent::StaticData& _staticData
 	)
 	:	BaseComponent< ITrainComponent >( _object )

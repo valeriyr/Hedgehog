@@ -22,7 +22,7 @@ namespace LandscapeModel {
 GenerateResourcesAction::GenerateResourcesAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	Object& _object
+	,	GameObject& _object
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 {

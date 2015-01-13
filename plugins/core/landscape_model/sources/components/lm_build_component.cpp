@@ -14,7 +14,7 @@ namespace LandscapeModel {
 
 
 BuildComponent::BuildComponent(
-		Object& _object
+		GameObject& _object
 	,	const IBuildComponent::StaticData& _staticData
 	)
 	:	BaseComponent< IBuildComponent >( _object )

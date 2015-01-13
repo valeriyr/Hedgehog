@@ -15,9 +15,10 @@ namespace LandscapeModel {
 
 namespace StartPoint
 {
-	const QString ms_id = "Id";
+	typedef Tools::Core::Object Type;
 
-	const QString ms_point = "Point";
+	const QString Id = "Id";
+	const QString Point = "Point";
 }
 
 /*---------------------------------------------------------------------------*/

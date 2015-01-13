@@ -26,7 +26,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	SelectionComponent( Object& _object, const ISelectionComponent::StaticData& _staticData );
+	SelectionComponent( GameObject& _object, const ISelectionComponent::StaticData& _staticData );
 
 	virtual ~SelectionComponent();
 

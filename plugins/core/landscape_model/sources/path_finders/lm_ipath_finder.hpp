@@ -6,7 +6,7 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
-#include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_game_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,7 +34,7 @@ struct IPathFinder
 
 	virtual void findPath(	PointsCollection& _pointsCollection
 						 ,	const ILandscape& _landscape
-						 ,	const Object& _object
+						 ,	const GameObject& _object
 						 ,	const PointsCollection& _targets ) = 0;
 
 /*---------------------------------------------------------------------------*/

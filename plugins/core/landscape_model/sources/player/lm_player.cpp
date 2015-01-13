@@ -250,7 +250,7 @@ Player::setType( const PlayerType::Enum _type )
 void
 Player::riseResourcesChanedEvent()
 {
-	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ResourceValueChanged::ms_type ) );
+	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ResourceValueChanged::Type ) );
 
 } // Player::riseResourcesChanedEvent
 

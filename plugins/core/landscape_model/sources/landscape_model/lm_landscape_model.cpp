@@ -98,7 +98,7 @@ struct ObjectsByRectFilter
 		:	m_rect( _rect )
 	{}
 
-	/*virtual*/ bool check( const Object& _object ) const
+	/*virtual*/ bool check( const GameObject& _object ) const
 	{
 		boost::intrusive_ptr< ILocateComponent > locationComponent
 			= _object.getComponent< ILocateComponent >( ComponentId::Locate );
@@ -119,7 +119,7 @@ struct ObjectsByIdFilter
 		:	m_id( _id )
 	{}
 
-	/*virtual*/ bool check( const Object& _object ) const
+	/*virtual*/ bool check( const GameObject& _object ) const
 	{
 		return _object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) == m_id;
 	}
@@ -503,7 +503,7 @@ LandscapeModel::hasMoreCommands() const
 
 void
 LandscapeModel::getTrainObjectsList(
-		boost::shared_ptr< Object > _forObject
+		boost::shared_ptr< GameObject > _forObject
 	,	ILandscapeModel::TrainObjectsList& _list ) const
 {
 	_list.clear();
@@ -578,7 +578,7 @@ LandscapeModel::getPlayer( const Tools::Core::Generators::IGenerator::IdType& _i
 
 
 boost::intrusive_ptr< IPlayer >
-LandscapeModel::getPlayer( const Object& _object ) const
+LandscapeModel::getPlayer( const GameObject& _object ) const
 {
 	boost::intrusive_ptr< IPlayerComponent > playerComponent
 		= _object.getComponent< IPlayerComponent >( ComponentId::Player );
@@ -724,7 +724,7 @@ LandscapeModel::isMyObject( const Tools::Core::Generators::IGenerator::IdType& _
 
 
 bool
-LandscapeModel::isMyObject( boost::shared_ptr< Object > _object ) const
+LandscapeModel::isMyObject( boost::shared_ptr< GameObject > _object ) const
 {
 	if ( !_object )
 		return false;
@@ -774,12 +774,12 @@ LandscapeModel::getMutex()
 /*---------------------------------------------------------------------------*/
 
 
-boost::shared_ptr< Object >
+boost::shared_ptr< GameObject >
 LandscapeModel::create( const QString& _objectName, const QPoint& _location, const Tools::Core::Generators::IGenerator::IdType& _playerId )
 {
 	IStaticData::ObjectStaticData staticData = m_environment.getStaticData()->getObjectStaticData( _objectName );
 
-	boost::shared_ptr< Object > object( new Object( _objectName, m_objectsIdsGenerator.generate() ) );
+	boost::shared_ptr< GameObject > object( new GameObject( _objectName, m_objectsIdsGenerator.generate() ) );
 
 	object->addComponent(
 			ComponentId::Actions
@@ -864,14 +864,14 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 /*---------------------------------------------------------------------------*/
 
 
-boost::shared_ptr< Object >
+boost::shared_ptr< GameObject >
 LandscapeModel::getWorker( const Tools::Core::Generators::IGenerator::IdType& _id ) const
 {
 	WorkersCollectionIterator iterator = m_workers.find( _id );
 
 	return		iterator != m_workers.end()
 			?	iterator->second
-			:	boost::shared_ptr< Object >();
+			:	boost::shared_ptr< GameObject >();
 
 } // LandscapeModel::getWorker
 
@@ -891,7 +891,7 @@ LandscapeModel::removeWorker( const Tools::Core::Generators::IGenerator::IdType&
 
 
 void
-LandscapeModel::addWorker( boost::shared_ptr< Object > _worker )
+LandscapeModel::addWorker( boost::shared_ptr< GameObject > _worker )
 {
 	assert( m_workers.find( _worker->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) == m_workers.end() );
 	m_workers.insert( std::make_pair( _worker->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ), _worker ) );
@@ -925,8 +925,8 @@ LandscapeModel::gameMainLoop()
 		++m_ticksCounter;
 
 		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::CurrentTickNumberChanged::ms_type )
-				.pushMember( Events::CurrentTickNumberChanged::ms_tickNumberAttribute, m_ticksCounter ) );
+			Framework::Core::EventManager::Event( Events::CurrentTickNumberChanged::Type )
+				.pushMember( Events::CurrentTickNumberChanged::TickNumberAttribute, m_ticksCounter ) );
 
 		if ( m_ticksCounter == 1 || ( m_ticksCounter % gs_aiThinkCallPeriod == 0 ) )
 			processAIThinkCall();
@@ -1018,7 +1018,7 @@ LandscapeModel::locateStartPointObjects()
 
 		m_landscape->createObject(
 				m_environment.getStaticData()->getStartPointObjectName( begin->second->getRace() )
-			,	m_landscape->getStartPoint( begin->second->getStartPointId() ).getMember< QPoint >( StartPoint::ms_point )
+			,	m_landscape->getStartPoint( begin->second->getStartPointId() ).getMember< QPoint >( StartPoint::Point )
 			,	begin->second->getUniqueId() );
 	}
 
@@ -1029,7 +1029,7 @@ LandscapeModel::locateStartPointObjects()
 
 
 bool
-LandscapeModel::shouldStoreResources( const Object& _holder, boost::shared_ptr< Object > _storage )
+LandscapeModel::shouldStoreResources( const GameObject& _holder, boost::shared_ptr< GameObject > _storage )
 {
 	boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
 		= _holder.getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
@@ -1084,7 +1084,7 @@ LandscapeModel::initPlayers()
 		boost::intrusive_ptr< Player > player(
 			new Player(	m_environment
 					,	m_playersIdsGenerator.generate(), races.begin()->first
-					,	iterator->current().getMember< Tools::Core::Generators::IGenerator::IdType >( StartPoint::ms_id ) ) );
+					,	iterator->current().getMember< Tools::Core::Generators::IGenerator::IdType >( StartPoint::Id ) ) );
 		m_players.insert( std::make_pair( player->getUniqueId(), player ) );
 
 		iterator->next();
@@ -1211,7 +1211,7 @@ LandscapeModel::onStartSimulationProcessor( const Command& _command )
 		,	boost::bind( &LandscapeModel::gameMainLoop, this )
 		,	Resources::TimeLimit );
 
-	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::SimulationStarted::ms_type ) );
+	m_environment.riseEvent( Framework::Core::EventManager::Event( Events::SimulationStarted::Type ) );
 
 	m_subscriber.subscribe(		Resources::ModelThreadName
 							,	Framework::Core::EventManager::Resources::AnyEventName
@@ -1251,8 +1251,8 @@ LandscapeModel::onChangeVictoryConditionProcessor( const Command& _command )
 
 	initVictoryChecker( condition );
 
-	Framework::Core::EventManager::Event conditionChanged( Events::VictoryConditionChanged::ms_type );
-	conditionChanged.pushMember( Events::VictoryConditionChanged::ms_conditionAttribute, condition );
+	Framework::Core::EventManager::Event conditionChanged( Events::VictoryConditionChanged::Type );
+	conditionChanged.pushMember( Events::VictoryConditionChanged::ConditionAttribute, condition );
 
 	m_environment.riseEvent( conditionChanged );
 
@@ -1274,9 +1274,9 @@ LandscapeModel::onChangePlayerRaceProcessor( const Command& _command )
 	{
 		iterator->second->setRace( race );
 
-		Framework::Core::EventManager::Event playerRaceChangedEvent( Events::PlayerRaceChanged::ms_type );
-		playerRaceChangedEvent.pushMember( Events::PlayerRaceChanged::ms_playerIdAttribute, id );
-		playerRaceChangedEvent.pushMember( Events::PlayerRaceChanged::ms_playerRaceAttribute, race );
+		Framework::Core::EventManager::Event playerRaceChangedEvent( Events::PlayerRaceChanged::Type );
+		playerRaceChangedEvent.pushMember( Events::PlayerRaceChanged::PlayerIdAttribute, id );
+		playerRaceChangedEvent.pushMember( Events::PlayerRaceChanged::PlayerRaceAttribute, race );
 
 		m_environment.riseEvent( playerRaceChangedEvent );
 	}
@@ -1299,9 +1299,9 @@ LandscapeModel::onChangePlayerTypeProcessor( const Command& _command )
 	{
 		iterator->second->setType( type );
 
-		Framework::Core::EventManager::Event playerTypeChangedEvent( Events::PlayerTypeChanged::ms_type );
-		playerTypeChangedEvent.pushMember( Events::PlayerTypeChanged::ms_playerIdAttribute, id );
-		playerTypeChangedEvent.pushMember( Events::PlayerTypeChanged::ms_playerTypeAttribute, type );
+		Framework::Core::EventManager::Event playerTypeChangedEvent( Events::PlayerTypeChanged::Type );
+		playerTypeChangedEvent.pushMember( Events::PlayerTypeChanged::PlayerIdAttribute, id );
+		playerTypeChangedEvent.pushMember( Events::PlayerTypeChanged::PlayerTypeAttribute, type );
 
 		m_environment.riseEvent( playerTypeChangedEvent );
 	}
@@ -1324,10 +1324,10 @@ LandscapeModel::onChangePlayerNameProcessor( const Command& _command )
 	{
 		iterator->second->setName( name );
 
-		Framework::Core::EventManager::Event playerNameChangedEvent( Events::PlayerNameChanged::ms_type );
-		playerNameChangedEvent.pushMember( Events::PlayerNameChanged::ms_playerIdAttribute, id );
-		playerNameChangedEvent.pushMember( Events::PlayerNameChanged::ms_playerNameAttribute, name );
-		playerNameChangedEvent.pushMember( Events::PlayerNameChanged::ms_startPointIdAttribute, iterator->second->getStartPointId() );
+		Framework::Core::EventManager::Event playerNameChangedEvent( Events::PlayerNameChanged::Type );
+		playerNameChangedEvent.pushMember( Events::PlayerNameChanged::PlayerIdAttribute, id );
+		playerNameChangedEvent.pushMember( Events::PlayerNameChanged::PlayerNameAttribute, name );
+		playerNameChangedEvent.pushMember( Events::PlayerNameChanged::StartPointIdAttribute, iterator->second->getStartPointId() );
 
 		m_environment.riseEvent( playerNameChangedEvent );
 	}
@@ -1368,7 +1368,7 @@ LandscapeModel::onSelectByRectProcessor( const Command& _command )
 	if ( m_landscape )
 	{
 		m_landscape->selectObjects( ObjectsByRectFilter( _command.m_arguments[ 0 ].toRect() ) );
-		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
+		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::Type ) );
 	}
 
 } // LandscapeModel::onSelectByRectProcessor
@@ -1383,7 +1383,7 @@ LandscapeModel::onSelectByIdProcessor( const Command& _command )
 	if ( m_landscape )
 	{
 		m_landscape->selectObjects( ObjectsByIdFilter( _command.m_arguments[ 0 ].toInt() ) );
-		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::ms_type ) );
+		m_environment.riseEvent( Framework::Core::EventManager::Event( Events::ObjectsSelectionChanged::Type ) );
 	}
 
 } // LandscapeModel::onSelectByIdProcessor
@@ -1407,7 +1407,7 @@ LandscapeModel::onSendToPointProcessor( const Command& _command )
 
 		for ( ; begin != end; ++begin )
 		{
-			boost::shared_ptr< Object > object = m_landscape->getObject( begin->toInt() );
+			boost::shared_ptr< GameObject > object = m_landscape->getObject( begin->toInt() );
 
 			if ( object )
 			{
@@ -1441,7 +1441,7 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 		const Tools::Core::Generators::IGenerator::IdType id = _command.m_arguments[ 1 ].toInt();
 		const bool flush = _command.m_arguments[ 2 ].toBool();
 
-		boost::shared_ptr< Object > targetObject = m_landscape->getObject( id );
+		boost::shared_ptr< GameObject > targetObject = m_landscape->getObject( id );
 
 		if ( !targetObject )
 			return;
@@ -1452,7 +1452,7 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 
 		for ( ; begin != end; ++begin )
 		{
-			boost::shared_ptr< Object > object = m_landscape->getObject( begin->toInt() );
+			boost::shared_ptr< GameObject > object = m_landscape->getObject( begin->toInt() );
 
 			if ( object )
 			{
@@ -1546,18 +1546,18 @@ LandscapeModel::onCreateObjectProcessor( const Command& _command )
 	if ( objectId != Tools::Core::Generators::IGenerator::ms_wrongId )
 	{
 		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::ObjectAdded::ms_type )
-				.pushMember( Events::ObjectAdded::ms_objectNameAttribute, name )
-				.pushMember( Events::ObjectAdded::ms_objectLocationAttribute, location )
-				.pushMember( Events::ObjectAdded::ms_objectUniqueIdAttribute, objectId )
-				.pushMember( Events::ObjectAdded::ms_objectEmplacementAttribute, m_environment.getStaticData()->getObjectStaticData( name ).m_locateData->m_emplacement ) );
+			Framework::Core::EventManager::Event( Events::ObjectAdded::Type )
+				.pushMember( Events::ObjectAdded::ObjectNameAttribute, name )
+				.pushMember( Events::ObjectAdded::ObjectLocationAttribute, location )
+				.pushMember( Events::ObjectAdded::ObjectUniqueIdAttribute, objectId )
+				.pushMember( Events::ObjectAdded::ObjectEmplacementAttribute, m_environment.getStaticData()->getObjectStaticData( name ).m_locateData->m_emplacement ) );
 	}
 	else
 	{
 		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::CreateObjectFailed::ms_type )
-				.pushMember( Events::CreateObjectFailed::ms_objectNameAttribute, name )
-				.pushMember( Events::CreateObjectFailed::ms_objectLocationAttribute, location ) );
+			Framework::Core::EventManager::Event( Events::CreateObjectFailed::Type )
+				.pushMember( Events::CreateObjectFailed::ObjectNameAttribute, name )
+				.pushMember( Events::CreateObjectFailed::ObjectLocationAttribute, location ) );
 	}
 
 } // LandscapeModel::onCreateObjectProcessor
@@ -1577,9 +1577,9 @@ LandscapeModel::onSetSurfaceItemProcessor( const Command& _command )
 		m_landscape->setSurfaceItem( location, id );
 
 		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::SurfaceItemChanged::ms_type )
-				.pushMember( Events::SurfaceItemChanged::ms_surfaceItemIdAttribute, id )
-				.pushMember( Events::SurfaceItemChanged::ms_surfaceItemLocationAttribute, location ) );
+			Framework::Core::EventManager::Event( Events::SurfaceItemChanged::Type )
+				.pushMember( Events::SurfaceItemChanged::SurfaceItemIdAttribute, id )
+				.pushMember( Events::SurfaceItemChanged::SurfaceItemLocationAttribute, location ) );
 	}
 
 } // LandscapeModel::onSetSurfaceItemProcessor
@@ -1597,7 +1597,7 @@ LandscapeModel::onTrainObjectProcessor( const Command& _command )
 	const Tools::Core::Generators::IGenerator::IdType parentId = _command.m_arguments[ 0 ].toInt();
 	const QString name = _command.m_arguments[ 1 ].toString();
 
-	boost::shared_ptr< Object > object = m_landscape->getObject( parentId );
+	boost::shared_ptr< GameObject > object = m_landscape->getObject( parentId );
 
 	if ( object )
 	{
@@ -1624,8 +1624,8 @@ LandscapeModel::onTrainObjectProcessor( const Command& _command )
 						boost::intrusive_ptr< IAction >( new TrainAction( m_environment, *this, *object, name ) ), false );
 
 					m_environment.riseEvent(
-						Framework::Core::EventManager::Event( Events::TrainQueueChanged::ms_type )
-							.pushMember( Events::TrainQueueChanged::ms_trainerIdAttribute, object->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
+						Framework::Core::EventManager::Event( Events::TrainQueueChanged::Type )
+							.pushMember( Events::TrainQueueChanged::TrainerIdAttribute, object->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 				}
 			}
 		}
@@ -1647,7 +1647,7 @@ LandscapeModel::onBuildObjectProcessor( const Command& _command )
 		const QPoint location = _command.m_arguments[ 2 ].toPoint();
 		const bool flush = _command.m_arguments[ 3 ].toBool();
 
-		boost::shared_ptr< Object > object = m_landscape->getObject( builderId );
+		boost::shared_ptr< GameObject > object = m_landscape->getObject( builderId );
 
 		if ( object )
 		{

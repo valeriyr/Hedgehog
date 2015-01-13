@@ -17,7 +17,7 @@ namespace LandscapeModel {
 struct IEnvironment;
 struct ILandscapeModel;
 
-class Object;
+class GameObject;
 
 /*---------------------------------------------------------------------------*/
 
@@ -34,7 +34,7 @@ public:
 	BaseAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
-		,	Object& _object );
+		,	GameObject& _object );
 
 	virtual ~BaseAction();
 
@@ -64,7 +64,7 @@ protected:
 
 	ILandscapeModel& m_landscapeModel;
 
-	Object& m_object;
+	GameObject& m_object;
 
 	bool m_isInProcessing;
 

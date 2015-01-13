@@ -27,7 +27,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	MoveComponent(
-			Object& _object
+			GameObject& _object
 		,	const IMoveComponent::StaticData& _staticData );
 
 	virtual ~MoveComponent();

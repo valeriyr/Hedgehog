@@ -26,7 +26,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	RepairComponent( Object& _object, const IRepairComponent::StaticData& _staticData );
+	RepairComponent( GameObject& _object, const IRepairComponent::StaticData& _staticData );
 
 	virtual ~RepairComponent();
 
@@ -36,9 +36,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::shared_ptr< Object > getTargetObject() const;
+	/*virtual*/ boost::shared_ptr< GameObject > getTargetObject() const;
 
-	/*virtual*/ void setTargetObject( boost::shared_ptr< Object > _object );
+	/*virtual*/ void setTargetObject( boost::shared_ptr< GameObject > _object );
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,7 +48,7 @@ private:
 
 	const IRepairComponent::StaticData& m_staticData;
 
-	boost::shared_ptr< Object > m_targetObject;
+	boost::shared_ptr< GameObject > m_targetObject;
 
 /*---------------------------------------------------------------------------*/
 

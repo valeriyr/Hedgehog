@@ -4,7 +4,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_game_object.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,11 +19,11 @@ struct IWorkersHolder
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::shared_ptr< Object > getWorker( const Tools::Core::Generators::IGenerator::IdType& _id ) const = 0;
+	virtual boost::shared_ptr< GameObject > getWorker( const Tools::Core::Generators::IGenerator::IdType& _id ) const = 0;
 
 	virtual void removeWorker( const Tools::Core::Generators::IGenerator::IdType& _id ) = 0;
 
-	virtual void addWorker( boost::shared_ptr< Object > _worker ) = 0;
+	virtual void addWorker( boost::shared_ptr< GameObject > _worker ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

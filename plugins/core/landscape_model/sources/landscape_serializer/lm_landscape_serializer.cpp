@@ -116,7 +116,7 @@ LandscapeSerializer::loadObjects( const ILandscapeModel& _landscapeModel, ILands
 		[
 				*Tools::Core::XmlLibrary::Tag( Resources::Xml::Objects )
 				[
-						+Tools::Core::XmlLibrary::Tag( Resources::Xml::Object )
+						+Tools::Core::XmlLibrary::Tag( Resources::Xml::GameObject )
 						[
 							Tools::Core::XmlLibrary::Attribute( Resources::Xml::Name, Tools::Core::XmlLibrary::AttributeType::String )
 						]
@@ -203,9 +203,9 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 	{
 		xmlStream.writeStartElement( Resources::Xml::StartPoint );
 
-		xmlStream.writeAttribute( Resources::Xml::Id, QString::number( startPoints->current().getMember< Tools::Core::Generators::IGenerator::IdType >( StartPoint::ms_id ) ) );
-		xmlStream.writeAttribute( Resources::Xml::X, QString::number( startPoints->current().getMember< QPoint >( StartPoint::ms_point ).x() ) );
-		xmlStream.writeAttribute( Resources::Xml::Y, QString::number( startPoints->current().getMember< QPoint >( StartPoint::ms_point ).y() ) );
+		xmlStream.writeAttribute( Resources::Xml::Id, QString::number( startPoints->current().getMember< Tools::Core::Generators::IGenerator::IdType >( StartPoint::Id ) ) );
+		xmlStream.writeAttribute( Resources::Xml::X, QString::number( startPoints->current().getMember< QPoint >( StartPoint::Point ).x() ) );
+		xmlStream.writeAttribute( Resources::Xml::Y, QString::number( startPoints->current().getMember< QPoint >( StartPoint::Point ).y() ) );
 
 		xmlStream.writeEndElement();
 
@@ -232,7 +232,7 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 		boost::intrusive_ptr< IPlayerComponent > playerComponent
 			= ( *begin )->getComponent< IPlayerComponent >( ComponentId::Player );
 
-		xmlStream.writeStartElement( Resources::Xml::Object );
+		xmlStream.writeStartElement( Resources::Xml::GameObject );
 
 		xmlStream.writeAttribute( Resources::Xml::Name, ( *begin )->getMember< QString >( ObjectNameKey ) );
 
@@ -332,11 +332,11 @@ LandscapeSerializer::onObjectElement(
 void
 LandscapeSerializer::onStartPoint( ILandscape& _landscape, const Tools::Core::Generators::IGenerator::IdType& _id, const int _x, const int _y )
 {
-	Tools::Core::Object startPoint;
+	StartPoint::Type startPoint;
 
 	startPoint
-		.pushMember( StartPoint::ms_id, _id )
-		.pushMember( StartPoint::ms_point, QPoint( _x, _y ) );
+		.pushMember( StartPoint::Id, _id )
+		.pushMember( StartPoint::Point, QPoint( _x, _y ) );
 
 	_landscape.addStartPoint( startPoint );
 

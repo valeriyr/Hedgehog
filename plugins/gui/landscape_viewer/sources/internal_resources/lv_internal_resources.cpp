@@ -45,7 +45,7 @@ namespace Views {
 
 	const QString ObjectStatusViewTitle = "Status";
 
-	const QString ObjectInfoViewTitle = "Object Information";
+	const QString ObjectInfoViewTitle = "GameObject Information";
 
 	const QString PlayerInfoViewTitle = "Players Information";
 
@@ -215,7 +215,7 @@ namespace Animations {
 
 /*---------------------------------------------------------------------------*/
 
-	const QString AnimationNameFormat = "Skin(%1)Object(Name(%2)State(%3)Direction(%4))";
+	const QString AnimationNameFormat = "Skin(%1)GameObject(Name(%2)State(%3)Direction(%4))";
 
 /*---------------------------------------------------------------------------*/
 

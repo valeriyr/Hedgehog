@@ -45,7 +45,7 @@ public:
 		,	m_playerId( _playerId )
 	{}
 
-	/*virtual*/ bool check( const Object& _object ) const
+	/*virtual*/ bool check( const GameObject& _object ) const
 	{
 		boost::intrusive_ptr< IResourceStorageComponent > resourceStorage
 			= _object.getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
@@ -76,7 +76,7 @@ public:
 		:	m_sourceOf( _sourceOf )
 	{}
 
-	/*virtual*/ bool check( const Object& _object ) const
+	/*virtual*/ bool check( const GameObject& _object ) const
 	{
 		boost::intrusive_ptr< IResourceSourceComponent > resourceSource
 			= _object.getComponent< IResourceSourceComponent >( ComponentId::ResourceSource );
@@ -96,8 +96,8 @@ CollectResourceAction::CollectResourceAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
 	,	IWorkersHolder& _workersHolder
-	,	Object& _object
-	,	boost::shared_ptr< Object > _resourceSource
+	,	GameObject& _object
+	,	boost::shared_ptr< GameObject > _resourceSource
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_workersHolder( _workersHolder )
@@ -117,8 +117,8 @@ CollectResourceAction::CollectResourceAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
 	,	IWorkersHolder& _workersHolder
-	,	boost::shared_ptr< Object > _resourceStorage
-	,	Object& _object
+	,	boost::shared_ptr< GameObject > _resourceStorage
+	,	GameObject& _object
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_workersHolder( _workersHolder )
@@ -267,17 +267,17 @@ CollectResourceAction::processAction()
 				targetResourceSource->setObjectInside( m_hiddenObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) );
 
 				m_environment.riseEvent(
-					Framework::Core::EventManager::Event( Events::HolderHasStartedCollect::ms_type )
-						.pushMember( Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
+					Framework::Core::EventManager::Event( Events::HolderHasStartedCollect::Type )
+						.pushMember( Events::HolderHasStartedCollect::ObjectUniqueIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 
 				m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::UnderCollecting;
 
 				m_environment.riseEvent(
-					Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-						.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_resourceSource->getMember< QString >( ObjectNameKey ) )
-						.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_resourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-						.pushMember( Events::ObjectStateChanged::ms_objectState, m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) )
-						.pushMember( Events::ObjectStateChanged::ms_objectDirection, targetLocation->getDirection() ) );
+					Framework::Core::EventManager::Event( Events::ObjectStateChanged::Type )
+						.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, m_resourceSource->getMember< QString >( ObjectNameKey ) )
+						.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, m_resourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+						.pushMember( Events::ObjectStateChanged::ObjectState, m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) )
+						.pushMember( Events::ObjectStateChanged::ObjectDirection, targetLocation->getDirection() ) );
 			}
 
 			if ( !resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) )
@@ -307,10 +307,10 @@ CollectResourceAction::processAction()
 					targetResourceSource->setResourceValue( resourceSourceValue );
 
 					m_environment.riseEvent(
-						Framework::Core::EventManager::Event( Events::ResourceSourceValueChanged::ms_type )
-							.pushMember( Events::ResourceSourceValueChanged::ms_objectUniqueIdAttribute, m_resourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-							.pushMember( Events::ResourceSourceValueChanged::ms_sourceResourceNameAttribute, targetResourceSource->getStaticData().m_resource )
-							.pushMember( Events::ResourceSourceValueChanged::ms_sourceResourceValueAttribute, targetResourceSource->getResourceValue() ) );
+						Framework::Core::EventManager::Event( Events::ResourceSourceValueChanged::Type )
+							.pushMember( Events::ResourceSourceValueChanged::ObjectUniqueIdAttribute, m_resourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+							.pushMember( Events::ResourceSourceValueChanged::SourceResourceNameAttribute, targetResourceSource->getStaticData().m_resource )
+							.pushMember( Events::ResourceSourceValueChanged::SourceResourceValueAttribute, targetResourceSource->getResourceValue() ) );
 
 					holderResourcesCountCahnged = true;
 				}
@@ -332,20 +332,20 @@ CollectResourceAction::processAction()
 				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );
 
 				m_environment.riseEvent(
-					Framework::Core::EventManager::Event( Events::HolderHasStopCollect::ms_type )
-						.pushMember( Events::HolderHasStopCollect::ms_objectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
-						.pushMember( Events::HolderHasStopCollect::ms_objectLocationAttribute, locateComponent->getLocation() )
-						.pushMember( Events::HolderHasStopCollect::ms_objectUniqueIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-						.pushMember( Events::HolderHasStopCollect::ms_objectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
+					Framework::Core::EventManager::Event( Events::HolderHasStopCollect::Type )
+						.pushMember( Events::HolderHasStopCollect::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
+						.pushMember( Events::HolderHasStopCollect::ObjectLocationAttribute, locateComponent->getLocation() )
+						.pushMember( Events::HolderHasStopCollect::ObjectUniqueIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+						.pushMember( Events::HolderHasStopCollect::ObjectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
 
 				m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 
 				m_environment.riseEvent(
-					Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-						.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_resourceSource->getMember< QString >( ObjectNameKey ) )
-						.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_resourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-						.pushMember( Events::ObjectStateChanged::ms_objectState, m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) )
-						.pushMember( Events::ObjectStateChanged::ms_objectDirection, targetLocation->getDirection() ) );
+					Framework::Core::EventManager::Event( Events::ObjectStateChanged::Type )
+						.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, m_resourceSource->getMember< QString >( ObjectNameKey ) )
+						.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, m_resourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+						.pushMember( Events::ObjectStateChanged::ObjectState, m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) )
+						.pushMember( Events::ObjectStateChanged::ObjectDirection, targetLocation->getDirection() ) );
 
 				m_isInProcessing = ensureStorage();
 				m_targetObject = m_resourceStarage;
@@ -388,8 +388,8 @@ CollectResourceAction::processAction()
 	if ( holderResourcesCountCahnged )
 	{
 		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::HolderResourceCountChanged::ms_type )
-				.pushMember( Events::HolderResourceCountChanged::ms_objectUniqueIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
+			Framework::Core::EventManager::Event( Events::HolderResourceCountChanged::Type )
+				.pushMember( Events::HolderResourceCountChanged::ObjectUniqueIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 	}
 
 } // CollectResourceAction::processAction

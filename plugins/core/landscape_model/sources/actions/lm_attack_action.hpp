@@ -29,8 +29,8 @@ public:
 	AttackAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
-		,	Object& _object
-		,	boost::shared_ptr< Object > _target );
+		,	GameObject& _object
+		,	boost::shared_ptr< GameObject > _target );
 
 	virtual ~AttackAction();
 
@@ -54,7 +54,7 @@ private:
 
 /*---------------------------------------------------------------------------*/
 
-	boost::shared_ptr< Object > m_target;
+	boost::shared_ptr< GameObject > m_target;
 
 	TickType m_attackPhaseCounter;
 

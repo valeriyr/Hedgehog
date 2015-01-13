@@ -11,7 +11,7 @@
 #include "landscape_model/ih/lm_iplayer.hpp"
 
 #include "landscape_model/h/lm_objects.hpp"
-#include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_game_object.hpp"
 #include "landscape_model/h/lm_commands.hpp"
 #include "landscape_model/h/lm_victory_condition.hpp"
 
@@ -89,7 +89,7 @@ struct ILandscapeModel
 		TrainObjectsList::const_iterator
 		TrainObjectsListIterator;
 
-	virtual void getTrainObjectsList( boost::shared_ptr< Object > _forObject, TrainObjectsList& _list ) const = 0;
+	virtual void getTrainObjectsList( boost::shared_ptr< GameObject > _forObject, TrainObjectsList& _list ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -110,7 +110,7 @@ struct ILandscapeModel
 
 	virtual boost::intrusive_ptr< IPlayer > getPlayer( const Tools::Core::Generators::IGenerator::IdType& _id ) const = 0;
 
-	virtual boost::intrusive_ptr< IPlayer > getPlayer( const Object& _object ) const = 0;
+	virtual boost::intrusive_ptr< IPlayer > getPlayer( const GameObject& _object ) const = 0;
 
 	virtual boost::intrusive_ptr< IPlayer > getPlayer( const QString& _name ) const = 0;
 
@@ -128,7 +128,7 @@ struct ILandscapeModel
 
 	virtual bool isMyObject( const Tools::Core::Generators::IGenerator::IdType& _objectId ) const = 0;
 
-	virtual bool isMyObject( boost::shared_ptr< Object > _object ) const = 0;
+	virtual bool isMyObject( boost::shared_ptr< GameObject > _object ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

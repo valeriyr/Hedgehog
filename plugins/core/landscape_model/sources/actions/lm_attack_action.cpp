@@ -33,8 +33,8 @@ namespace LandscapeModel {
 AttackAction::AttackAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	Object& _object
-	,	boost::shared_ptr< Object > _target
+	,	GameObject& _object
+	,	boost::shared_ptr< GameObject > _target
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_target( _target )
@@ -76,7 +76,7 @@ AttackAction::cancelProcessingInternal()
 	boost::intrusive_ptr< IAttackComponent > attackComponent
 		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
 
-	attackComponent->setTargetObject( boost::shared_ptr< Object >() );
+	attackComponent->setTargetObject( boost::shared_ptr< GameObject >() );
 
 	return true;
 
@@ -209,16 +209,16 @@ AttackAction::processAction()
 					targetHealthComponent->setHealth( targetHealthComponent->getHealth() - damage );
 
 					m_environment.riseEvent(
-						Framework::Core::EventManager::Event( Events::ObjectHealthChanged::ms_type )
-							.pushMember( Events::ObjectHealthChanged::ms_objectNameAttribute, attackComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
-							.pushMember( Events::ObjectHealthChanged::ms_objectIdAttribute, attackComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-							.pushMember( Events::ObjectHealthChanged::ms_objectHealth, targetHealthComponent->getHealth() ) );
+						Framework::Core::EventManager::Event( Events::ObjectHealthChanged::Type )
+							.pushMember( Events::ObjectHealthChanged::ObjectNameAttribute, attackComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
+							.pushMember( Events::ObjectHealthChanged::ObjectIdAttribute, attackComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+							.pushMember( Events::ObjectHealthChanged::ObjectHealth, targetHealthComponent->getHealth() ) );
 
 					m_environment.riseEvent(
-						Framework::Core::EventManager::Event( Events::ObjectWasHit::ms_type )
-							.pushMember( Events::ObjectWasHit::ms_objectNameAttribute, attackComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
-							.pushMember( Events::ObjectWasHit::ms_objectIdAttribute, attackComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-							.pushMember( Events::ObjectWasHit::ms_objectHealth, targetHealthComponent->getHealth() ) );
+						Framework::Core::EventManager::Event( Events::ObjectWasHit::Type )
+							.pushMember( Events::ObjectWasHit::ObjectNameAttribute, attackComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
+							.pushMember( Events::ObjectWasHit::ObjectIdAttribute, attackComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+							.pushMember( Events::ObjectWasHit::ObjectHealth, targetHealthComponent->getHealth() ) );
 
 					if ( targetHealthComponent->getHealth() == 0 )
 					{
@@ -226,11 +226,11 @@ AttackAction::processAction()
 						attackComponent->getTargetObject()->getComponent< IActionsComponent >( ComponentId::Actions )->flushActions( IActionsComponent::FlushPolicy::Force );
 
 						m_environment.riseEvent(
-							Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-								.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, attackComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
-								.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, attackComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-								.pushMember( Events::ObjectStateChanged::ms_objectState, attackComponent->getTargetObject()->getMember< ObjectState::Enum >( ObjectStateKey ) )
-								.pushMember( Events::ObjectStateChanged::ms_objectDirection, targetObjectLocate->getDirection() ) );
+							Framework::Core::EventManager::Event( Events::ObjectStateChanged::Type )
+								.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, attackComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
+								.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, attackComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+								.pushMember( Events::ObjectStateChanged::ObjectState, attackComponent->getTargetObject()->getMember< ObjectState::Enum >( ObjectStateKey ) )
+								.pushMember( Events::ObjectStateChanged::ObjectDirection, targetObjectLocate->getDirection() ) );
 
 						m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 						stateChanged = true;
@@ -242,20 +242,20 @@ AttackAction::processAction()
 				if ( stateChanged )
 				{
 					m_environment.riseEvent(
-						Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-							.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
-							.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-							.pushMember( Events::ObjectStateChanged::ms_objectState, m_object.getMember< ObjectState::Enum >( ObjectStateKey ) )
-							.pushMember( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() ) );
+						Framework::Core::EventManager::Event( Events::ObjectStateChanged::Type )
+							.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
+							.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+							.pushMember( Events::ObjectStateChanged::ObjectState, m_object.getMember< ObjectState::Enum >( ObjectStateKey ) )
+							.pushMember( Events::ObjectStateChanged::ObjectDirection, locateComponent->getDirection() ) );
 				}
 
 				if ( readyToAttack )
 				{
 					m_environment.riseEvent(
-						Framework::Core::EventManager::Event( Events::ObjectReadyToAttack::ms_type )
-							.pushMember( Events::ObjectReadyToAttack::ms_objectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
-							.pushMember( Events::ObjectReadyToAttack::ms_objectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-							.pushMember( Events::ObjectReadyToAttack::ms_objectDirection, locateComponent->getDirection() ) );
+						Framework::Core::EventManager::Event( Events::ObjectReadyToAttack::Type )
+							.pushMember( Events::ObjectReadyToAttack::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
+							.pushMember( Events::ObjectReadyToAttack::ObjectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+							.pushMember( Events::ObjectReadyToAttack::ObjectDirection, locateComponent->getDirection() ) );
 				}
 			}
 		}
@@ -263,7 +263,7 @@ AttackAction::processAction()
 
 	if ( !m_isInProcessing )
 	{
-		attackComponent->setTargetObject( boost::shared_ptr< Object >() );
+		attackComponent->setTargetObject( boost::shared_ptr< GameObject >() );
 	}
 
 } // AttackAction::processAction

@@ -26,7 +26,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	AttackComponent( Object& _object, const IAttackComponent::StaticData& _staticData );
+	AttackComponent( GameObject& _object, const IAttackComponent::StaticData& _staticData );
 
 	virtual ~AttackComponent();
 
@@ -36,9 +36,9 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ boost::shared_ptr< Object > getTargetObject() const;
+	/*virtual*/ boost::shared_ptr< GameObject > getTargetObject() const;
 
-	/*virtual*/ void setTargetObject( boost::shared_ptr< Object > _object );
+	/*virtual*/ void setTargetObject( boost::shared_ptr< GameObject > _object );
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,7 +48,7 @@ private:
 
 	const IAttackComponent::StaticData& m_staticData;
 
-	boost::shared_ptr< Object > m_targetObject;
+	boost::shared_ptr< GameObject > m_targetObject;
 
 /*---------------------------------------------------------------------------*/
 

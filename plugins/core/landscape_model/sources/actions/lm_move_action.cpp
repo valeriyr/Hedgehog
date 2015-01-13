@@ -29,7 +29,7 @@ namespace LandscapeModel {
 MoveAction::MoveAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	Object& _object
+	,	GameObject& _object
 	,	const QPoint& _movingTo
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
@@ -48,7 +48,7 @@ MoveAction::MoveAction(
 MoveAction::MoveAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	Object& _object
+	,	GameObject& _object
 	,	const QPoint& _movingTo
 	,	IPathFinder::PointsCollection& _path
 	)
@@ -68,8 +68,8 @@ MoveAction::MoveAction(
 MoveAction::MoveAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	Object& _object
-	,	boost::shared_ptr< Object > _movingTo
+	,	GameObject& _object
+	,	boost::shared_ptr< GameObject > _movingTo
 	,	const int _distance
 	)
 	:	BaseAction( _environment, _landscapeModel, _object )
@@ -88,8 +88,8 @@ MoveAction::MoveAction(
 MoveAction::MoveAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	Object& _object
-	,	boost::shared_ptr< Object > _movingTo
+	,	GameObject& _object
+	,	boost::shared_ptr< GameObject > _movingTo
 	,	IPathFinder::PointsCollection& _path
 	,	const int _distance
 	)
@@ -372,23 +372,23 @@ MoveAction::processAction()
 	if ( unitChangeState )
 	{
 		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::ObjectStateChanged::ms_type )
-				.pushMember( Events::ObjectStateChanged::ms_objectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
-				.pushMember( Events::ObjectStateChanged::ms_objectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-				.pushMember( Events::ObjectStateChanged::ms_objectState, m_object.getMember< ObjectState::Enum >( ObjectStateKey ) )
-				.pushMember( Events::ObjectStateChanged::ms_objectDirection, locateComponent->getDirection() ) );
+			Framework::Core::EventManager::Event( Events::ObjectStateChanged::Type )
+				.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
+				.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+				.pushMember( Events::ObjectStateChanged::ObjectState, m_object.getMember< ObjectState::Enum >( ObjectStateKey ) )
+				.pushMember( Events::ObjectStateChanged::ObjectDirection, locateComponent->getDirection() ) );
 	}
 
 	if ( unitMoved )
 	{
 		m_environment.riseEvent(
-			Framework::Core::EventManager::Event( Events::ObjectMoved::ms_type )
-				.pushMember( Events::ObjectMoved::ms_objectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
-				.pushMember( Events::ObjectMoved::ms_objectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-				.pushMember( Events::ObjectMoved::ms_movingFromAttribute, locateComponent->getLocation() )
-				.pushMember( Events::ObjectMoved::ms_movingToAttribute, movingData.m_path.empty() ? locateComponent->getLocation() : movingData.m_path.front() )
-				.pushMember( Events::ObjectMoved::ms_movingProgressAttribute, movingData.m_path.empty() ? moveComponent->getStaticData().m_movingSpeed : movingData.m_movingProgress )
-				.pushMember( Events::ObjectMoved::ms_movingSpeedAttribute, moveComponent->getStaticData().m_movingSpeed ) );
+			Framework::Core::EventManager::Event( Events::ObjectMoved::Type )
+				.pushMember( Events::ObjectMoved::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
+				.pushMember( Events::ObjectMoved::ObjectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+				.pushMember( Events::ObjectMoved::MovingFromAttribute, locateComponent->getLocation() )
+				.pushMember( Events::ObjectMoved::MovingToAttribute, movingData.m_path.empty() ? locateComponent->getLocation() : movingData.m_path.front() )
+				.pushMember( Events::ObjectMoved::MovingProgressAttribute, movingData.m_path.empty() ? moveComponent->getStaticData().m_movingSpeed : movingData.m_movingProgress )
+				.pushMember( Events::ObjectMoved::MovingSpeedAttribute, moveComponent->getStaticData().m_movingSpeed ) );
 	}
 
 } // MoveAction::processAction

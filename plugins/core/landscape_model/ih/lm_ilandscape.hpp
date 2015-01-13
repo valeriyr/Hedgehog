@@ -8,7 +8,7 @@
 
 #include "landscape_model/h/lm_terrain_map_data.hpp"
 #include "landscape_model/h/lm_objects.hpp"
-#include "landscape_model/h/lm_object.hpp"
+#include "landscape_model/h/lm_game_object.hpp"
 
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
@@ -30,13 +30,13 @@ struct ILandscape
 
 	struct IObjectsFilter
 	{
-		virtual bool check( const Object& _object ) const = 0;
+		virtual bool check( const GameObject& _object ) const = 0;
 	};
 
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		std::vector< boost::shared_ptr< Object > >
+		std::vector< boost::shared_ptr< GameObject > >
 		ObjectsCollection;
 	typedef
 		ObjectsCollection::const_iterator
@@ -48,7 +48,7 @@ struct ILandscape
 /*---------------------------------------------------------------------------*/
 
 	typedef
-		boost::shared_ptr< Tools::Core::IIterator< const Tools::Core::Object > >
+		boost::shared_ptr< Tools::Core::IIterator< const StartPoint::Type > >
 		StartPointsIterator;
 
 /*---------------------------------------------------------------------------*/
@@ -61,9 +61,9 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual void addStartPoint( const Tools::Core::Object& _startPoint ) = 0;
+	virtual void addStartPoint( const StartPoint::Type& _startPoint ) = 0;
 
-	virtual const Tools::Core::Object& getStartPoint( const Tools::Core::Generators::IGenerator::IdType& _startPointId ) = 0;
+	virtual const StartPoint::Type& getStartPoint( const Tools::Core::Generators::IGenerator::IdType& _startPointId ) = 0;
 
 	virtual StartPointsIterator getStartPointsIterator() const = 0;
 
@@ -83,9 +83,9 @@ struct ILandscape
 
 /*---------------------------------------------------------------------------*/
 
-	virtual boost::shared_ptr< Object > getObject( const QPoint& _point ) const = 0;
+	virtual boost::shared_ptr< GameObject > getObject( const QPoint& _point ) const = 0;
 
-	virtual boost::shared_ptr< Object > getObject( const Tools::Core::Generators::IGenerator::IdType& _id ) const = 0;
+	virtual boost::shared_ptr< GameObject > getObject( const Tools::Core::Generators::IGenerator::IdType& _id ) const = 0;
 
 	virtual int getObjectsCount() const = 0;
 
@@ -105,9 +105,9 @@ struct ILandscape
 		,	const QPoint& _location
 		,	const Tools::Core::Generators::IGenerator::IdType& _playerId ) = 0;
 
-	virtual boost::shared_ptr< Object > hideObject( const Tools::Core::Generators::IGenerator::IdType& _id ) = 0;
+	virtual boost::shared_ptr< GameObject > hideObject( const Tools::Core::Generators::IGenerator::IdType& _id ) = 0;
 
-	virtual void showObject( boost::shared_ptr< Object > _object ) = 0;
+	virtual void showObject( boost::shared_ptr< GameObject > _object ) = 0;
 
 	virtual void selectObjects( const IObjectsFilter& _filter ) = 0;
 
@@ -119,7 +119,7 @@ struct ILandscape
 			const QPoint& _location
 		,	const QString& _objectName ) const = 0;
 
-	virtual QPoint getNearestLocation( const Object& _nearestFrom, const QString& _forObject ) const = 0;
+	virtual QPoint getNearestLocation( const GameObject& _nearestFrom, const QString& _forObject ) const = 0;
 
 	virtual bool isLocationInLandscape( const QPoint& _location ) const = 0;
 

@@ -252,11 +252,11 @@ void
 MultiplayerDialog::onPlayerNameChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::PlayerNameChanged::ms_playerIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::PlayerNameChanged::PlayerIdAttribute );
 	const Tools::Core::Generators::IGenerator::IdType startPointid
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::PlayerNameChanged::ms_startPointIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::PlayerNameChanged::StartPointIdAttribute );
 	const QString name
-		= _event.getMember< QString >( Core::LandscapeModel::Events::PlayerNameChanged::ms_playerNameAttribute);
+		= _event.getMember< QString >( Core::LandscapeModel::Events::PlayerNameChanged::PlayerNameAttribute);
 
 	PlayersDataCollectionIterator iterator = m_playersData.find( id );
 	assert( iterator != m_playersData.end() );
@@ -278,7 +278,7 @@ void
 MultiplayerDialog::onVictoryConditionChangedEvent( const Framework::Core::EventManager::Event& _event )
 {
 	const Core::LandscapeModel::VictoryCondition::Enum condition
-		= _event.getMember< Core::LandscapeModel::VictoryCondition::Enum >( Core::LandscapeModel::Events::VictoryConditionChanged::ms_conditionAttribute );
+		= _event.getMember< Core::LandscapeModel::VictoryCondition::Enum >( Core::LandscapeModel::Events::VictoryConditionChanged::ConditionAttribute );
 
 	assert( condition != Core::LandscapeModel::VictoryCondition::Undefined );
 
@@ -309,9 +309,9 @@ void
 MultiplayerDialog::onPlayerRaceChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::PlayerRaceChanged::ms_playerIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::PlayerRaceChanged::PlayerIdAttribute );
 	const QString race
-		= _event.getMember< QString >( Core::LandscapeModel::Events::PlayerRaceChanged::ms_playerRaceAttribute);
+		= _event.getMember< QString >( Core::LandscapeModel::Events::PlayerRaceChanged::PlayerRaceAttribute);
 
 	PlayersDataCollectionIterator iterator = m_playersData.find( id );
 	assert( iterator != m_playersData.end() );
@@ -332,9 +332,9 @@ void
 MultiplayerDialog::onPlayerTypeChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType id
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::PlayerTypeChanged::ms_playerIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::PlayerTypeChanged::PlayerIdAttribute );
 	const Core::LandscapeModel::PlayerType::Enum type =
-		_event.getMember< Core::LandscapeModel::PlayerType::Enum >( Core::LandscapeModel::Events::PlayerTypeChanged::ms_playerTypeAttribute );
+		_event.getMember< Core::LandscapeModel::PlayerType::Enum >( Core::LandscapeModel::Events::PlayerTypeChanged::PlayerTypeAttribute );
 
 	PlayersDataCollectionIterator iterator = m_playersData.find( id );
 	assert( iterator != m_playersData.end() );
@@ -482,23 +482,23 @@ MultiplayerDialog::connectWidgets()
 	
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::PlayerRaceChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::PlayerRaceChanged::Type
 							,	boost::bind( &MultiplayerDialog::onPlayerRaceChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::PlayerTypeChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::PlayerTypeChanged::Type
 							,	boost::bind( &MultiplayerDialog::onPlayerTypeChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::PlayerNameChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::PlayerNameChanged::Type
 							,	boost::bind( &MultiplayerDialog::onPlayerNameChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::SimulationStarted::ms_type
+							,	Plugins::Core::LandscapeModel::Events::SimulationStarted::Type
 							,	boost::bind( &MultiplayerDialog::onSimulationStarted, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::VictoryConditionChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::VictoryConditionChanged::Type
 							,	boost::bind( &MultiplayerDialog::onVictoryConditionChangedEvent, this, _1 ) );
 
 } // MultiplayerDialog::connectWidgets

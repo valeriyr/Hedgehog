@@ -26,7 +26,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	BuildComponent( Object& _object, const IBuildComponent::StaticData& _staticData );
+	BuildComponent( GameObject& _object, const IBuildComponent::StaticData& _staticData );
 
 	virtual ~BuildComponent();
 

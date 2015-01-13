@@ -14,7 +14,7 @@ namespace LandscapeModel {
 
 
 MoveComponent::MoveComponent(
-		Object& _object
+		GameObject& _object
 	,	const IMoveComponent::StaticData& _staticData
 	)
 	:	BaseComponent< IMoveComponent >( _object )

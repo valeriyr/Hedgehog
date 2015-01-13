@@ -26,7 +26,7 @@ public:
 
 /*---------------------------------------------------------------------------*/
 
-	HealthComponent( Object& _object, const IHealthComponent::StaticData& _staticData );
+	HealthComponent( GameObject& _object, const IHealthComponent::StaticData& _staticData );
 
 	virtual ~HealthComponent();
 

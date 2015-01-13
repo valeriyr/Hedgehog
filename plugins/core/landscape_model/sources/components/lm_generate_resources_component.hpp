@@ -27,7 +27,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	GenerateResourcesComponent(
-			Object& _object
+			GameObject& _object
 		,	const IGenerateResourcesComponent::StaticData& _staticData );
 
 	virtual ~GenerateResourcesComponent();

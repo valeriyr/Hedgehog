@@ -27,7 +27,7 @@ public:
 	GenerateResourcesAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
-		,	Object& _object );
+		,	GameObject& _object );
 
 	virtual ~GenerateResourcesAction();
 

@@ -16,7 +16,7 @@ namespace LandscapeModel {
 BaseAction::BaseAction(
 		const IEnvironment& _environment
 	,	ILandscapeModel& _landscapeModel
-	,	Object& _object
+	,	GameObject& _object
 	)
 	:	m_environment( _environment )
 	,	m_landscapeModel( _landscapeModel )

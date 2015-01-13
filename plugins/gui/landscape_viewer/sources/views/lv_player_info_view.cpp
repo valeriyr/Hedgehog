@@ -90,11 +90,11 @@ PlayerInfoView::landscapeWasOpened()
 	setInfoText();
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ResourceValueChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ResourceValueChanged::Type
 							,	boost::bind( &PlayerInfoView::onResourceValueChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::CurrentTickNumberChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::CurrentTickNumberChanged::Type
 							,	boost::bind( &PlayerInfoView::onCurrentTickNumberChanged, this, _1 ) );
 
 } // PlayerInfoView::landscapeWasOpened
@@ -134,7 +134,7 @@ void
 PlayerInfoView::onCurrentTickNumberChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Plugins::Core::LandscapeModel::TickType tickNumber
-		= _event.getMember< Plugins::Core::LandscapeModel::TickType >( Plugins::Core::LandscapeModel::Events::CurrentTickNumberChanged::ms_tickNumberAttribute );
+		= _event.getMember< Plugins::Core::LandscapeModel::TickType >( Plugins::Core::LandscapeModel::Events::CurrentTickNumberChanged::TickNumberAttribute );
 
 	updateTickInfo( tickNumber );
 	setInfoText();

@@ -36,26 +36,26 @@ public:
 
 	/*virtual*/ void findPath(	PointsCollection& _pointsCollection
 							 ,	const ILandscape& _landscape
-							 ,	const Object& _object
+							 ,	const GameObject& _object
 							 ,	const IPathFinder::PointsCollection& _targets );
 
 /*---------------------------------------------------------------------------*/
 
 	static void pathToObject(	PointsCollection& _path
 							 ,	const ILandscape& _landscape
-							 ,	const Object& _forObject
-							 ,	const Object& _targetObject
+							 ,	const GameObject& _forObject
+							 ,	const GameObject& _targetObject
 							 ,	const int _distance );
 
-	static boost::shared_ptr< Object >
+	static boost::shared_ptr< GameObject >
 		nearestObject(	const ILandscape& _landscape
-					,	const Object& _forObject
+					,	const GameObject& _forObject
 					,	const ILandscape::ObjectsCollection& _targetObjects
 					,	const int _distance );
 
 	static void pathToPoint(	PointsCollection& _path
 							 ,	const ILandscape& _landscape
-							 ,	const Object& _forObject
+							 ,	const GameObject& _forObject
 							 ,	const QPoint& _targetPoint );
 
 /*---------------------------------------------------------------------------*/
@@ -65,7 +65,7 @@ private:
 /*---------------------------------------------------------------------------*/
 
 	static void fillTargetPoints(
-			const Object& _targetObject
+			const GameObject& _targetObject
 		,	const ILandscape& _landscape
 		,	const int _distance
 		,	IPathFinder::PointsCollection& _targets );

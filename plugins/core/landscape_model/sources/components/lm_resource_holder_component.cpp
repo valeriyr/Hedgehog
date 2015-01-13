@@ -14,7 +14,7 @@ namespace LandscapeModel {
 
 
 ResourceHolderComponent::ResourceHolderComponent(
-		Object& _object
+		GameObject& _object
 	,	const IResourceHolderComponent::StaticData& _staticData
 	)
 	:	BaseComponent< IResourceHolderComponent >( _object )

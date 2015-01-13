@@ -14,7 +14,7 @@ namespace LandscapeModel {
 
 
 GenerateResourcesComponent::GenerateResourcesComponent(
-		Object& _object
+		GameObject& _object
 	,	const IGenerateResourcesComponent::StaticData& _staticData
 	)
 	:	BaseComponent< IGenerateResourcesComponent >( _object )

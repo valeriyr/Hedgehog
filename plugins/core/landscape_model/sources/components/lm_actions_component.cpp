@@ -47,7 +47,7 @@ struct ActionChecker
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
-ActionsComponent::ActionsComponent( Object& _object )
+ActionsComponent::ActionsComponent( GameObject& _object )
 	:	BaseComponent< IActionsComponent >( _object )
 	,	m_actionsCollection()
 	,	m_periodicalActionsCollection()

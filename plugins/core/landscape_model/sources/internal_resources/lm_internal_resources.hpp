@@ -85,7 +85,7 @@ namespace Xml {
 	extern const QString Surface;
 
 	extern const QString Objects;
-	extern const QString Object;
+	extern const QString GameObject;
 
 	extern const QString Count;
 

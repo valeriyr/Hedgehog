@@ -13,7 +13,7 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 
-RepairComponent::RepairComponent( Object& _object, const IRepairComponent::StaticData& _staticData )
+RepairComponent::RepairComponent( GameObject& _object, const IRepairComponent::StaticData& _staticData )
 	:	BaseComponent< IRepairComponent >( _object )
 	,	m_staticData( _staticData )
 	,	m_targetObject()
@@ -43,7 +43,7 @@ RepairComponent::getStaticData() const
 /*---------------------------------------------------------------------------*/
 
 
-boost::shared_ptr< Object >
+boost::shared_ptr< GameObject >
 RepairComponent::getTargetObject() const
 {
 	return m_targetObject;
@@ -55,7 +55,7 @@ RepairComponent::getTargetObject() const
 
 
 void
-RepairComponent::setTargetObject( boost::shared_ptr< Object > _object )
+RepairComponent::setTargetObject( boost::shared_ptr< GameObject > _object )
 {
 	m_targetObject = _object;
 

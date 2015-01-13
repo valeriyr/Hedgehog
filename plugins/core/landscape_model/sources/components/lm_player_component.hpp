@@ -27,7 +27,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	PlayerComponent(
-			Object& _object
+			GameObject& _object
 		,	const IPlayerComponent::StaticData& _staticData
 		,	const Tools::Core::Generators::IGenerator::IdType& _playerId );
 

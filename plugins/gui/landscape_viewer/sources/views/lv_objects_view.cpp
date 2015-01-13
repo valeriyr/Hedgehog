@@ -29,7 +29,7 @@ struct TreeWidgetType
 	enum Enum
 	{
 			Surface = 0
-		,	Object
+		,	GameObject
 		,	Control
 	};
 };
@@ -98,7 +98,7 @@ ObjectsView::ObjectsView(
 		,	SIGNAL( controlItemSelected() ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Framework::Core::Settings::Events::SettingChanged::ms_type
+							,	Framework::Core::Settings::Events::SettingChanged::Type
 							,	boost::bind( &ObjectsView::onSettingChanged, this, _1 ) );
 
 } // ObjectsView::ObjectsView
@@ -203,7 +203,7 @@ ObjectsView::onCurrentItemChanged( QTreeWidgetItem* _current, QTreeWidgetItem* _
 		case TreeWidgetType::Surface:
 			emit currentSurfaceItemWasChanged( _current->text( 0 ).toUInt() );
 			break;
-		case TreeWidgetType::Object:
+		case TreeWidgetType::GameObject:
 			emit currentObjectWasChanged( _current->text( 0 ) );
 			break;
 		case TreeWidgetType::Control:
@@ -224,7 +224,7 @@ ObjectsView::onCurrentItemChanged( QTreeWidgetItem* _current, QTreeWidgetItem* _
 void
 ObjectsView::onSettingChanged( const Framework::Core::EventManager::Event& _event )
 {
-	if (	_event.getMember< QString >( Framework::Core::Settings::Events::SettingChanged::ms_key )
+	if (	_event.getMember< QString >( Framework::Core::Settings::Events::SettingChanged::Key )
 		==	Resources::Properties::SkinId)
 	{
 		m_objectsView->clear();
@@ -278,7 +278,7 @@ ObjectsView::fillWithObjectItems( const QString& _skinId, QTreeWidgetItem* _pare
 
 	for ( ; begin != end; ++begin )
 	{
-		TreeWidgetItem* item = new TreeWidgetItem( TreeWidgetType::Object );
+		TreeWidgetItem* item = new TreeWidgetItem( TreeWidgetType::GameObject );
 		item->setText( 0, begin->first );
 		item->setIcon(
 				0

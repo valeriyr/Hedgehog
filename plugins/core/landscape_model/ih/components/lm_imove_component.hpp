@@ -65,7 +65,7 @@ struct IMoveComponent
 		IPathFinder::PointsCollection m_path;
 		TickType m_movingProgress;
 		QPoint m_movingTo;
-		boost::shared_ptr< Object > m_movingToObject;
+		boost::shared_ptr< GameObject > m_movingToObject;
 	};
 
 /*---------------------------------------------------------------------------*/

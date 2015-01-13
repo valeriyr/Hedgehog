@@ -14,7 +14,7 @@ namespace LandscapeModel {
 
 
 LocateComponent::LocateComponent(
-		Object& _object
+		GameObject& _object
 	,	const ILocateComponent::StaticData& _staticData
 	,	const QPoint& _location
 	)

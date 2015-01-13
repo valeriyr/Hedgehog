@@ -34,15 +34,15 @@ public:
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
 		,	IWorkersHolder& _workersHolder
-		,	Object& _object
-		,	boost::shared_ptr< Object > _resourceSource );
+		,	GameObject& _object
+		,	boost::shared_ptr< GameObject > _resourceSource );
 
 	CollectResourceAction(
 			const IEnvironment& _environment
 		,	ILandscapeModel& _landscapeModel
 		,	IWorkersHolder& _workersHolder
-		,	boost::shared_ptr< Object > _resourceStorage
-		,	Object& _object );
+		,	boost::shared_ptr< GameObject > _resourceStorage
+		,	GameObject& _object );
 
 	virtual ~CollectResourceAction();
 
@@ -76,13 +76,13 @@ private:
 
 	IWorkersHolder& m_workersHolder;
 
-	boost::shared_ptr< Object > m_hiddenObject;
+	boost::shared_ptr< GameObject > m_hiddenObject;
 
-	boost::shared_ptr< Object > m_targetObject;
+	boost::shared_ptr< GameObject > m_targetObject;
 
-	boost::shared_ptr< Object > m_resourceSource;
+	boost::shared_ptr< GameObject > m_resourceSource;
 
-	boost::shared_ptr< Object > m_resourceStarage;
+	boost::shared_ptr< GameObject > m_resourceStarage;
 
 	TickType m_collectingTicksCounter;
 

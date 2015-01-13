@@ -41,7 +41,7 @@ void
 AStarSearch::findPath(
 		PointsCollection& _pointsCollection
 	,	const ILandscape& _landscape
-	,	const Object& _object
+	,	const GameObject& _object
 	,	const IPathFinder::PointsCollection& _targets )
 {
 	_pointsCollection.clear();
@@ -94,8 +94,8 @@ void
 AStarSearch::pathToObject(
 		PointsCollection& _path
 	,	const ILandscape& _landscape
-	,	const Object& _forObject
-	,	const Object& _targetObject
+	,	const GameObject& _forObject
+	,	const GameObject& _targetObject
 	,	const int _distance )
 {
 	IPathFinder::PointsCollection targetPoints;
@@ -110,10 +110,10 @@ AStarSearch::pathToObject(
 /*---------------------------------------------------------------------------*/
 
 
-boost::shared_ptr< Object >
+boost::shared_ptr< GameObject >
 AStarSearch::nearestObject(
 		const ILandscape& _landscape
-	,	const Object& _forObject
+	,	const GameObject& _forObject
 	,	const ILandscape::ObjectsCollection& _targetObjects
 	,	const int _distance )
 {
@@ -130,7 +130,7 @@ AStarSearch::nearestObject(
 	AStarSearch().findPath( path, _landscape, _forObject, targetPoints );
 
 	if ( path.empty() )
-		return boost::shared_ptr< Object >();
+		return boost::shared_ptr< GameObject >();
 
 	begin = _targetObjects.begin();
 
@@ -145,7 +145,7 @@ AStarSearch::nearestObject(
 		}
 	}
 
-	return boost::shared_ptr< Object >();
+	return boost::shared_ptr< GameObject >();
 
 } // AStarSearch::nearestObject
 
@@ -157,7 +157,7 @@ void
 AStarSearch::pathToPoint(
 		PointsCollection& _path
 	,	const ILandscape& _landscape
-	,	const Object& _forObject
+	,	const GameObject& _forObject
 	,	const QPoint& _targetPoint )
 {
 	IPathFinder::PointsCollection targetPoints;
@@ -173,7 +173,7 @@ AStarSearch::pathToPoint(
 
 void
 AStarSearch::fillTargetPoints(
-		const Object& _targetObject
+		const GameObject& _targetObject
 	,	const ILandscape& _landscape
 	,	const int _distance
 	,	IPathFinder::PointsCollection& _targets )
@@ -204,7 +204,7 @@ AStarSearch::fillTargetPoints(
 void
 AStarSearch::processOpenedList(
 		const ILandscape& _landscape
-	,	const Object& _forObject
+	,	const GameObject& _forObject
 	,	boost::intrusive_ptr< ILocateComponent > locateComponent
 	,	const IPathFinder::PointsCollection& _targets )
 {

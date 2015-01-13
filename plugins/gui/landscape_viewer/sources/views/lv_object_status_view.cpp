@@ -104,15 +104,15 @@ void
 ObjectStatusView::landscapeWasOpened()
 {
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
 							,	boost::bind( &ObjectStatusView::onObjectsSelectionChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::TrainQueueChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::TrainQueueChanged::Type
 							,	boost::bind( &ObjectStatusView::onTrainQueueChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::TrainProgressChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::TrainProgressChanged::Type
 							,	boost::bind( &ObjectStatusView::onTrainProgressChanged, this, _1 ) );
 
 } // ObjectStatusView::landscapeWasOpened
@@ -168,7 +168,7 @@ ObjectStatusView::onObjectsSelectionChanged( const Framework::Core::EventManager
 void
 ObjectStatusView::onTrainQueueChanged( const Framework::Core::EventManager::Event& _event )
 {
-	if ( m_builderId == _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::TrainQueueChanged::ms_trainerIdAttribute ) )
+	if ( m_builderId == _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::TrainQueueChanged::TrainerIdAttribute ) )
 		updateBuildQueue();
 
 } // ObjectStatusView::onTrainQueueChanged
@@ -180,10 +180,10 @@ ObjectStatusView::onTrainQueueChanged( const Framework::Core::EventManager::Even
 void
 ObjectStatusView::onTrainProgressChanged( const Framework::Core::EventManager::Event& _event )
 {
-	if ( m_builderId == _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::TrainProgressChanged::ms_trainerIdAttribute ) )
+	if ( m_builderId == _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::TrainProgressChanged::TrainerIdAttribute ) )
 	{
-		Core::LandscapeModel::TickType progress = _event.getMember< Core::LandscapeModel::TickType >( Core::LandscapeModel::Events::TrainProgressChanged::ms_trainerProgressAttribute );
-		Core::LandscapeModel::TickType total = _event.getMember< Core::LandscapeModel::TickType >( Core::LandscapeModel::Events::TrainProgressChanged::ms_creationTimeAttribute );
+		Core::LandscapeModel::TickType progress = _event.getMember< Core::LandscapeModel::TickType >( Core::LandscapeModel::Events::TrainProgressChanged::TrainerProgressAttribute );
+		Core::LandscapeModel::TickType total = _event.getMember< Core::LandscapeModel::TickType >( Core::LandscapeModel::Events::TrainProgressChanged::CreationTimeAttribute );
 
 		updateProgressLabel( static_cast< float >( progress ) / total * 100 );
 	}
@@ -206,7 +206,7 @@ ObjectStatusView::updateBuildQueue()
 
 		if ( handle->getLandscapeModel()->getLandscape() )
 		{
-			boost::shared_ptr< Core::LandscapeModel::Object > object
+			boost::shared_ptr< Core::LandscapeModel::GameObject > object
 				= handle->getLandscapeModel()->getLandscape()->getObject( m_builderId );
 
 			Core::LandscapeModel::ILandscapeModel::TrainObjectsList trainObjectsList;
@@ -267,7 +267,7 @@ ObjectStatusView::updateProgressLabel()
 
 		if ( handle->getLandscapeModel()->getLandscape() )
 		{
-			boost::shared_ptr< Core::LandscapeModel::Object > object
+			boost::shared_ptr< Core::LandscapeModel::GameObject > object
 				= handle->getLandscapeModel()->getLandscape()->getObject( m_builderId );
 
 			boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent

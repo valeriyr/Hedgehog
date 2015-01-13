@@ -92,43 +92,43 @@ void
 ObjectInfoView::landscapeWasOpened()
 {
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
 							,	boost::bind( &ObjectInfoView::onObjectsSelectionChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectStateChanged::Type
 							,	boost::bind( &ObjectInfoView::onObjectStateChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectMoved::Type
 							,	boost::bind( &ObjectInfoView::onObjectMoved, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectHealthChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectHealthChanged::Type
 							,	boost::bind( &ObjectInfoView::onObjectHealthChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::HolderResourceCountChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::HolderResourceCountChanged::Type
 							,	boost::bind( &ObjectInfoView::onHolderResourceCountChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ms_type
+							,	Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::Type
 							,	boost::bind( &ObjectInfoView::onBuilderHasStartedBuild, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_type
+							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::Type
 							,	boost::bind( &ObjectInfoView::onBuilderHasFinishedBuild, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ms_type
+							,	Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::Type
 							,	boost::bind( &ObjectInfoView::onHolderHasStartedCollect, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_type
+							,	Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::Type
 							,	boost::bind( &ObjectInfoView::onHolderHasStopCollect, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ResourceSourceValueChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ResourceSourceValueChanged::Type
 							,	boost::bind( &ObjectInfoView::onResourceSourceValueChanged, this, _1 ) );
 
 } // ObjectInfoView::landscapeWasOpened
@@ -176,7 +176,7 @@ void
 ObjectInfoView::onObjectStateChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ms_objectIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ObjectIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -193,7 +193,7 @@ void
 ObjectInfoView::onObjectMoved( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectMoved::ms_objectIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectMoved::ObjectIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -210,7 +210,7 @@ void
 ObjectInfoView::onObjectHealthChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectHealthChanged::ms_objectIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectHealthChanged::ObjectIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -227,7 +227,7 @@ void
 ObjectInfoView::onHolderResourceCountChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderResourceCountChanged::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderResourceCountChanged::ObjectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -244,7 +244,7 @@ void
 ObjectInfoView::onBuilderHasStartedBuild( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ObjectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -261,7 +261,7 @@ void
 ObjectInfoView::onBuilderHasFinishedBuild( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ObjectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -278,7 +278,7 @@ void
 ObjectInfoView::onHolderHasStartedCollect( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ObjectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -295,7 +295,7 @@ void
 ObjectInfoView::onHolderHasStopCollect( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ObjectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -312,7 +312,7 @@ void
 ObjectInfoView::onResourceSourceValueChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ResourceSourceValueChanged::ms_objectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ResourceSourceValueChanged::ObjectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -335,7 +335,7 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 
 	if ( handle->getLandscapeModel()->getLandscape() )
 	{
-		boost::shared_ptr< Core::LandscapeModel::Object > object = handle->getLandscapeModel()->getLandscape()->getObject( _objectId );
+		boost::shared_ptr< Core::LandscapeModel::GameObject > object = handle->getLandscapeModel()->getLandscape()->getObject( _objectId );
 
 		if ( object )
 		{

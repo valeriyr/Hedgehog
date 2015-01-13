@@ -117,7 +117,7 @@ void
 SelectionView::landscapeWasOpened()
 {
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::ms_type
+							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
 							,	boost::bind( &SelectionView::onObjectsSelectionChanged, this, _1 ) );
 
 } // SelectionView::landscapeWasOpened

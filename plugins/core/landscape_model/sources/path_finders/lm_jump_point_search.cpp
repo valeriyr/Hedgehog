@@ -38,7 +38,7 @@ JumpPointSearch::~JumpPointSearch()
 void
 JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 						,	const ILandscape& _landscape
-						,	const Object& _object
+						,	const GameObject& _object
 						,	const IPathFinder::PointsCollection& _targets )
 {
 	_pointsCollection.clear();
@@ -153,8 +153,8 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 void
 JumpPointSearch::pathToObject(	PointsCollection& _path
 							 ,	const ILandscape& _landscape
-							 ,	const Object& _forObject
-							 ,	const Object& _targetObject
+							 ,	const GameObject& _forObject
+							 ,	const GameObject& _targetObject
 							 ,	const int _distance )
 {
 	IPathFinder::PointsCollection targetPoints;
@@ -169,9 +169,9 @@ JumpPointSearch::pathToObject(	PointsCollection& _path
 /*---------------------------------------------------------------------------*/
 
 
-boost::shared_ptr< Object >
+boost::shared_ptr< GameObject >
 JumpPointSearch::nearestObject(		const ILandscape& _landscape
-								,	const Object& _forObject
+								,	const GameObject& _forObject
 								,	const ILandscape::ObjectsCollection& _targetObjects
 								,	const int _distance )
 {
@@ -188,7 +188,7 @@ JumpPointSearch::nearestObject(		const ILandscape& _landscape
 	JumpPointSearch().findPath( path, _landscape, _forObject, targetPoints );
 
 	if ( path.empty() )
-		return boost::shared_ptr< Object >();
+		return boost::shared_ptr< GameObject >();
 
 	begin = _targetObjects.begin();
 
@@ -203,7 +203,7 @@ JumpPointSearch::nearestObject(		const ILandscape& _landscape
 		}
 	}
 
-	return boost::shared_ptr< Object >();
+	return boost::shared_ptr< GameObject >();
 
 } // JumpPointSearch::nearestObject
 
@@ -214,7 +214,7 @@ JumpPointSearch::nearestObject(		const ILandscape& _landscape
 void
 JumpPointSearch::pathToPoint(	PointsCollection& _path
 							 ,	const ILandscape& _landscape
-							 ,	const Object& _forObject
+							 ,	const GameObject& _forObject
 							 ,	const QPoint& _targetPoint )
 {
 	IPathFinder::PointsCollection targetPoints;
@@ -229,7 +229,7 @@ JumpPointSearch::pathToPoint(	PointsCollection& _path
 
 
 void
-JumpPointSearch::fillTargetPoints(	const Object& _targetObject
+JumpPointSearch::fillTargetPoints(	const GameObject& _targetObject
 								,	const ILandscape& _landscape
 								,	const int _distance
 								,	IPathFinder::PointsCollection& _targets )
