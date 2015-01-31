@@ -4,7 +4,6 @@
 #include "landscape_model/sources/landscape_model/victory_checker/lm_stay_alone_checker.hpp"
 
 #include "landscape_model/ih/lm_imodel_locker.hpp"
-#include "landscape_model/ih/components/lm_iplayer_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -85,12 +84,12 @@ StayAloneChecker::onlyMyOrNeutralObjects(
 
 	for ( ; beginWorkers != endWorkers; ++beginWorkers )
 	{
-		boost::intrusive_ptr< IPlayerComponent > playerComponent
-			= ( *beginWorkers )->getComponent< IPlayerComponent >( ComponentId::Player );
+		Tools::Core::Object::Ptr playerComponent
+			= ( *beginWorkers )->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 		if (	playerComponent
-			&&	playerComponent->getPlayerId() != Tools::Core::Generators::IGenerator::ms_wrongId
-			&&	playerComponent->getPlayerId() != _playerId
+			&&	playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) != Tools::Core::Generators::IGenerator::ms_wrongId
+			&&	playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) != _playerId
 			&&	( *beginWorkers )->getMember< ObjectState::Enum >( ObjectStateKey ) != ObjectState::Dying )
 		{
 			return false;

@@ -12,7 +12,6 @@
 
 #include "landscape_model/ih/components/lm_itrain_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
-#include "landscape_model/ih/components/lm_iplayer_component.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -73,12 +72,12 @@ TrainAction::cancelProcessing()
 {
 	boost::intrusive_ptr< ITrainComponent > trainComponent
 		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
-	boost::intrusive_ptr< IPlayerComponent > playerComponent
-		= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
+	Tools::Core::Object::Ptr playerComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 	trainComponent->getTrainData().reset();
 
-	boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getPlayerId() );
+	boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
 	if ( player )
 	{
@@ -137,12 +136,12 @@ TrainAction::processAction()
 
 		if ( trainData.m_trainProgress == creationTime )
 		{
-			boost::intrusive_ptr< IPlayerComponent > playerComponent
-				= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
+			Tools::Core::Object::Ptr playerComponent
+				= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 			m_landscapeModel.processCommand(
 					Command( CommandId::CreateObject )
-						.pushArgument( playerComponent ? playerComponent->getPlayerId() : Tools::Core::Generators::IGenerator::ms_wrongId )
+						.pushArgument( playerComponent ? playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) : Tools::Core::Generators::IGenerator::ms_wrongId )
 						.pushArgument( trainData.m_trainingObjectName )
 						.pushArgument( m_landscapeModel.getLandscape()->getNearestLocation( m_object, trainData.m_trainingObjectName ) ) );
 

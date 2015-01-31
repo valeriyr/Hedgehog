@@ -39,7 +39,6 @@
     <ClCompile Include="sources\components\lm_generate_resources_component.cpp" />
     <ClCompile Include="sources\components\lm_locate_component.cpp" />
     <ClCompile Include="sources\components\lm_move_component.cpp" />
-    <ClCompile Include="sources\components\lm_player_component.cpp" />
     <ClCompile Include="sources\components\lm_repair_component.cpp" />
     <ClCompile Include="sources\components\lm_resource_holder_component.cpp" />
     <ClCompile Include="sources\components\lm_resource_source_component.cpp" />
@@ -102,7 +101,6 @@
     <ClInclude Include="ih\components\lm_igenerate_resources_component.hpp" />
     <ClInclude Include="ih\components\lm_ilocate_component.hpp" />
     <ClInclude Include="ih\components\lm_imove_component.hpp" />
-    <ClInclude Include="ih\components\lm_iplayer_component.hpp" />
     <ClInclude Include="ih\components\lm_irepair_component.hpp" />
     <ClInclude Include="ih\components\lm_iresource_holder_component.hpp" />
     <ClInclude Include="ih\components\lm_iresource_source_component.hpp" />
@@ -141,7 +139,6 @@
     <ClInclude Include="sources\components\lm_generate_resources_component.hpp" />
     <ClInclude Include="sources\components\lm_locate_component.hpp" />
     <ClInclude Include="sources\components\lm_move_component.hpp" />
-    <ClInclude Include="sources\components\lm_player_component.hpp" />
     <ClInclude Include="sources\components\lm_repair_component.hpp" />
     <ClInclude Include="sources\components\lm_resource_holder_component.hpp" />
     <ClInclude Include="sources\components\lm_resource_source_component.hpp" />

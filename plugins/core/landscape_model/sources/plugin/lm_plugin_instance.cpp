@@ -392,8 +392,8 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClassWithShared< Tools::Core::Object >( "Object" )
 		->withConstructor()
 		.withMethod(	"getObjectPtrMember"
-					,	( boost::shared_ptr< Tools::Core::Object >& (Tools::Core::Object::*)( const QString& ) )
-							&Tools::Core::Object::getMember< boost::shared_ptr< Tools::Core::Object > > )
+					,	( Tools::Core::Object::Ptr& (Tools::Core::Object::*)( const QString& ) )
+							&Tools::Core::Object::getMember< Tools::Core::Object::Ptr > )
 		.withMethod(	"getObjectMember"
 					,	( Tools::Core::Object& (Tools::Core::Object::*)( const QString& ) )
 							&Tools::Core::Object::getMember< Tools::Core::Object > )
@@ -482,8 +482,8 @@ PluginInstance::exportScriptAPI()
 
 	// PlayerComponent
 
-	exporter.exportClassWithShared< IPlayerComponent::StaticData >( "PlayerComponentStaticData" )
-		->withConstructor();
+	exporter.exportVariable( "PlayerComponentName", PlayerComponent::Name );
+	exporter.exportVariable( "PlayerComponentPlayerId", PlayerComponent::PlayerId );
 
 	// GenerateResourcesComponent
 

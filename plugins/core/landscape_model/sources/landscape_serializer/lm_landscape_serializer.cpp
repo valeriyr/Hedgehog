@@ -10,7 +10,6 @@
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
-#include "landscape_model/ih/components/lm_iplayer_component.hpp"
 
 #include "xml_library/sources/rules/xl_tag_rule.hpp"
 #include "xml_library/sources/rules/xl_attribute_rule.hpp"
@@ -229,8 +228,8 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 	{
 		boost::intrusive_ptr< ILocateComponent > locateComponent
 			= ( *begin )->getComponent< ILocateComponent >( ComponentId::Locate );
-		boost::intrusive_ptr< IPlayerComponent > playerComponent
-			= ( *begin )->getComponent< IPlayerComponent >( ComponentId::Player );
+		Tools::Core::Object::Ptr playerComponent
+			= ( *begin )->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 		xmlStream.writeStartElement( Resources::Xml::GameObject );
 
@@ -247,7 +246,7 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 		{
 			xmlStream.writeStartElement( Resources::Xml::StartPoints );
 
-			xmlStream.writeAttribute( Resources::Xml::Id, QString::number( _landscapeModel.getPlayer( playerComponent->getPlayerId() )->getStartPointId() ) );
+			xmlStream.writeAttribute( Resources::Xml::Id, QString::number( _landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) )->getStartPointId() ) );
 
 			xmlStream.writeEndElement();
 		}

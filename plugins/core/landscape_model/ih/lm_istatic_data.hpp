@@ -16,7 +16,6 @@
 #include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_source_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
-#include "landscape_model/ih/components/lm_iplayer_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -39,18 +38,18 @@ struct IStaticData
 	struct ObjectStaticData
 	{
 		boost::shared_ptr< ITrainComponent::StaticData > m_trainData;
-		boost::shared_ptr< Tools::Core::Object > m_healthData;
+		Tools::Core::Object::Ptr m_healthData;
 		boost::shared_ptr< ILocateComponent::StaticData > m_locateData;
-		boost::shared_ptr< Tools::Core::Object > m_selectionData;
+		Tools::Core::Object::Ptr m_selectionData;
 		boost::shared_ptr< IMoveComponent::StaticData > m_moveData;
 		boost::shared_ptr< IGenerateResourcesComponent::StaticData > m_generateResourcesData;
-		boost::shared_ptr< Tools::Core::Object > m_attackData;
+		Tools::Core::Object::Ptr m_attackData;
 		boost::shared_ptr< IBuildComponent::StaticData > m_buildData;
 		boost::shared_ptr< IRepairComponent::StaticData > m_repairData;
 		boost::shared_ptr< IResourceHolderComponent::StaticData > m_resourceHolderData;
 		boost::shared_ptr< IResourceSourceComponent::StaticData > m_resourceSourceData;
 		boost::shared_ptr< IResourceStorageComponent::StaticData > m_resourceStorageData;
-		boost::shared_ptr< IPlayerComponent::StaticData > m_playerData;
+		Tools::Core::Object::Ptr m_playerData;
 	};
 
 /*---------------------------------------------------------------------------*/

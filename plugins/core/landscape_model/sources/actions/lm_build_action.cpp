@@ -12,7 +12,6 @@
 
 #include "landscape_model/ih/components/lm_ibuild_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
-#include "landscape_model/ih/components/lm_iplayer_component.hpp"
 
 #include "landscape_model/sources/actions/lm_iworkers_holder.hpp"
 #include "landscape_model/sources/actions/lm_move_action.hpp"
@@ -86,12 +85,12 @@ BuildAction::cancelProcessingInternal()
 {
 	boost::intrusive_ptr< IBuildComponent > buildComponent
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
-	boost::intrusive_ptr< IPlayerComponent > playerComponent
-		= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
+	Tools::Core::Object::Ptr playerComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 	if ( buildComponent->getBuildData().m_buildProgress != 0 )
 	{
-		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getPlayerId() );
+		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
 		if ( player )
 		{
@@ -130,8 +129,8 @@ BuildAction::processAction()
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
-	boost::intrusive_ptr< IPlayerComponent > playerComponent
-		= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
+	Tools::Core::Object::Ptr playerComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 	IBuildComponent::Data& buildData = buildComponent->getBuildData();
 
@@ -180,7 +179,7 @@ BuildAction::processAction()
 			{
 				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
 
-				boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getPlayerId() );
+				boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
 				bool newObjectCanBePlaced
 					= m_landscapeModel.getLandscape()->canObjectBePlaced( buildData.m_atRect.topLeft(), buildData.m_objectName );
@@ -213,8 +212,8 @@ BuildAction::processAction()
 				boost::shared_ptr< GameObject > targetObject
 					= m_landscapeModel.getLandscape()->getObject( buildData.m_objectId );
 
-				boost::shared_ptr< Tools::Core::Object > targetHealthComponent
-					= targetObject->getMember< boost::shared_ptr< Tools::Core::Object > >( HealthComponent::Name );
+				Tools::Core::Object::Ptr targetHealthComponent
+					= targetObject->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name );
 
 				//targetHealthComponent->callVoidMethod< const qint32 >( HealthComponent::SetHealth, buildData.m_buildProgress * targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) / totalTicks );
 				HealthComponent::setHealth( *targetHealthComponent, buildData.m_buildProgress * targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) / totalTicks );
@@ -280,7 +279,7 @@ BuildAction::startBuild(
 				= m_landscapeModel.getLandscape()->createObjectForBuilding(
 						_objectName
 					,	_location
-					,	object->getComponent< IPlayerComponent >( ComponentId::Player )->getPlayerId() );
+					,	object->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name )->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 			assert( objectId != Tools::Core::Generators::IGenerator::ms_wrongId );
 
 			boost::intrusive_ptr< IBuildComponent > buildComponent

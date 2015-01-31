@@ -8,7 +8,6 @@
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
 #include "landscape_model/ih/components/lm_igenerate_resources_component.hpp"
-#include "landscape_model/ih/components/lm_iplayer_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,10 +47,11 @@ GenerateResourcesAction::processAction()
 
 	boost::intrusive_ptr< IGenerateResourcesComponent > generateResourcesComponent
 		= m_object.getComponent< IGenerateResourcesComponent >( ComponentId::ResourcesGenerating );
-	boost::intrusive_ptr< IPlayerComponent > playerComponent
-		= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
+	Tools::Core::Object::Ptr playerComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
-	m_landscapeModel.getPlayer( playerComponent->getPlayerId() )->addResources( generateResourcesComponent->getStaticData().m_resourcesByTick );
+	m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) )
+		->addResources( generateResourcesComponent->getStaticData().m_resourcesByTick );
 
 } // GenerateResourcesAction::processAction
 

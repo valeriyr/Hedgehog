@@ -337,9 +337,9 @@ Landscape::createObjectForBuilding( const QString& _objectName, const QPoint& _l
 	{
 		object->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::UnderConstruction;
 
-		//object->getMember< boost::shared_ptr< Tools::Core::Object > >( HealthComponent::Name )
+		//object->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name )
 		//	->callVoidMethod< const qint32 >( HealthComponent::SetHealth, 1 );
-		HealthComponent::setHealth( *object->getMember< boost::shared_ptr< Tools::Core::Object > >( HealthComponent::Name ), 1 );
+		HealthComponent::setHealth( *object->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name ), 1 );
 
 		return object->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey );
 	}
@@ -430,8 +430,8 @@ Landscape::selectObjects( const IObjectsFilter& _filter )
 
 	for ( ; begin != end; ++begin )
 	{
-		boost::shared_ptr< Tools::Core::Object > selectionComponent =
-			( *begin )->getMember< boost::shared_ptr< Tools::Core::Object > >( SelectionComponent::Name );
+		Tools::Core::Object::Ptr selectionComponent =
+			( *begin )->getMember< Tools::Core::Object::Ptr >( SelectionComponent::Name );
 
 		if (	selectionComponent
 			&&	( *begin )->getMember< ObjectState::Enum >( ObjectStateKey ) != ObjectState::Dying
@@ -457,8 +457,8 @@ Landscape::unselectObjects()
 
 	for ( ; begin != end; ++begin )
 	{
-		boost::shared_ptr< Tools::Core::Object > selectionComponent =
-			( *begin )->getMember< boost::shared_ptr< Tools::Core::Object > >( SelectionComponent::Name );
+		Tools::Core::Object::Ptr selectionComponent =
+			( *begin )->getMember< Tools::Core::Object::Ptr >( SelectionComponent::Name );
 		assert( selectionComponent );
 
 		selectionComponent->getMember< bool >( SelectionComponent::IsSelected ) = false;

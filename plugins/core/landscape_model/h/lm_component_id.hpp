@@ -14,20 +14,16 @@ struct ComponentId
 {
 	enum Enum
 	{
-			Health		= 1
-		,	Locate
+			Locate		= 1
 		,	Train
-		,	Selection
 		,	Actions
 		,	Move
-		,	Attack
 		,	Build
 		,	Repair
 		,	ResourcesGenerating
 		,	ResourceHolder
 		,	ResourceSource
 		,	ResourceStorage
-		,	Player
 	};
 };
 

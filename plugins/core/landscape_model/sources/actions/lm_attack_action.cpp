@@ -55,8 +55,8 @@ AttackAction::~AttackAction()
 bool
 AttackAction::prepareToProcessingInternal()
 {
-	boost::shared_ptr< Tools::Core::Object > attackComponent
-		= m_object.getMember< boost::shared_ptr< Tools::Core::Object > >( AttackComponent::Name );
+	Tools::Core::Object::Ptr attackComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( AttackComponent::Name );
 
 	attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject ) = m_target;
 
@@ -71,8 +71,8 @@ AttackAction::prepareToProcessingInternal()
 bool
 AttackAction::cancelProcessingInternal()
 {
-	boost::shared_ptr< Tools::Core::Object > attackComponent
-		= m_object.getMember< boost::shared_ptr< Tools::Core::Object > >( AttackComponent::Name );
+	Tools::Core::Object::Ptr attackComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( AttackComponent::Name );
 
 	attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject ).reset();
 
@@ -89,8 +89,8 @@ AttackAction::processAction()
 {
 	// Common variables
 
-	boost::shared_ptr< Tools::Core::Object > attackComponent
-		= m_object.getMember< boost::shared_ptr< Tools::Core::Object > >( AttackComponent::Name );
+	Tools::Core::Object::Ptr attackComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( AttackComponent::Name );
 	boost::intrusive_ptr< ILocateComponent > locateComponent
 		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
@@ -209,8 +209,8 @@ AttackAction::processAction()
 						&&	prevAttackPhaseCounter < aiming
 						&& m_attackPhaseCounter >= aiming )
 				{
-					boost::shared_ptr< Tools::Core::Object > targetHealthComponent
-						= attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< boost::shared_ptr< Tools::Core::Object > >( HealthComponent::Name );
+					Tools::Core::Object::Ptr targetHealthComponent
+						= attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name );
 
 					qint32 damageBonus = maxDamage - minDamage;
 

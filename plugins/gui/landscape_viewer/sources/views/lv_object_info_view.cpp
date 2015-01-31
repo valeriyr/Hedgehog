@@ -341,20 +341,20 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 
 			boost::intrusive_ptr< Core::LandscapeModel::ILocateComponent > locateComponent
 				= object->getComponent< Core::LandscapeModel::ILocateComponent >( Plugins::Core::LandscapeModel::ComponentId::Locate );
-			boost::shared_ptr< Tools::Core::Object > healthComponent
-				= object->getMember< boost::shared_ptr< Tools::Core::Object > >( Plugins::Core::LandscapeModel::HealthComponent::Name );
+			Tools::Core::Object::Ptr healthComponent
+				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::HealthComponent::Name );
 			boost::intrusive_ptr< Core::LandscapeModel::IMoveComponent > moveComponent
 				= object->getComponent< Core::LandscapeModel::IMoveComponent >( Plugins::Core::LandscapeModel::ComponentId::Move );
-			boost::shared_ptr< Tools::Core::Object > attackComponent
-				= object->getMember< boost::shared_ptr< Tools::Core::Object > >( Plugins::Core::LandscapeModel::AttackComponent::Name );
+			Tools::Core::Object::Ptr attackComponent
+				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::AttackComponent::Name );
 			boost::intrusive_ptr< Core::LandscapeModel::IResourceHolderComponent > resourceHolderComponent
 				= object->getComponent< Core::LandscapeModel::IResourceHolderComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceHolder );
 			boost::intrusive_ptr< Core::LandscapeModel::IResourceSourceComponent > resourceSourceComponent
 				= object->getComponent< Core::LandscapeModel::IResourceSourceComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceSource );
 			boost::intrusive_ptr< Core::LandscapeModel::IResourceStorageComponent > resourceStorageComponent
 				= object->getComponent< Core::LandscapeModel::IResourceStorageComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceStorage );
-			boost::intrusive_ptr< Core::LandscapeModel::IPlayerComponent > playerComponent
-				= object->getComponent< Core::LandscapeModel::IPlayerComponent >( Plugins::Core::LandscapeModel::ComponentId::Player );
+			Tools::Core::Object::Ptr playerComponent
+				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::PlayerComponent::Name );
 
 			QString resourceHolderData;
 
@@ -419,7 +419,7 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 					.arg( objectName )
 					.arg( objectId )
 					.arg( Core::LandscapeModel::ObjectState::toString( objectState ) )
-					.arg( playerComponent ? QString::number( playerComponent->getPlayerId() ) : Resources::Views::NoneString )
+					.arg( playerComponent ? QString::number( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::PlayerComponent::PlayerId ) ) : Resources::Views::NoneString )
 					.arg( healthComponent ? QString::number( healthComponent->getMember< qint32 >( Core::LandscapeModel::HealthComponent::Health ) ) : Resources::Views::NoneString )
 					.arg( healthComponent ? QString::number( healthComponent->getMember< qint32 >( Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::HealthComponent::StaticData::MaxHealth ) ) ) : Resources::Views::NoneString )
 					.arg( moveComponent ? QString::number( moveComponent->getStaticData().m_movingSpeed ) : Resources::Views::NoneString )

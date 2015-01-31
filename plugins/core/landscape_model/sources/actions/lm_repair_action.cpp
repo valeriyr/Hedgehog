@@ -18,7 +18,6 @@
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 #include "landscape_model/ih/components/lm_ibuild_component.hpp"
-#include "landscape_model/ih/components/lm_iplayer_component.hpp"
 
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
@@ -101,11 +100,11 @@ RepairAction::processAction()
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
 	boost::intrusive_ptr< IBuildComponent > buildComponent
 		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
-	boost::intrusive_ptr< IPlayerComponent > playerComponent
-		= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
+	Tools::Core::Object::Ptr playerComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
-	boost::shared_ptr< Tools::Core::Object > targetHealthComponent
-		= repairComponent->getTargetObject()->getMember< boost::shared_ptr< Tools::Core::Object > >( HealthComponent::Name );
+	Tools::Core::Object::Ptr targetHealthComponent
+		= repairComponent->getTargetObject()->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name );
 
 	// Check if object is dying
 
@@ -190,7 +189,7 @@ RepairAction::processAction()
 
 				if ( repairHealthPercent != 0 )
 				{
-					boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getPlayerId() );
+					boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
 					// TODO: CRASH while repairing wrong building
 					ResourcesData repairCostData 

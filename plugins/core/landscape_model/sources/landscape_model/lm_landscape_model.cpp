@@ -36,7 +36,6 @@
 #include "landscape_model/sources/components/lm_resource_holder_component.hpp"
 #include "landscape_model/sources/components/lm_resource_source_component.hpp"
 #include "landscape_model/sources/components/lm_resource_storage_component.hpp"
-#include "landscape_model/sources/components/lm_player_component.hpp"
 
 #include "landscape_model/sources/landscape_model/game_modes/lm_multi_player_mode.hpp"
 #include "landscape_model/sources/landscape_model/game_modes/lm_single_player_mode.hpp"
@@ -577,13 +576,13 @@ LandscapeModel::getPlayer( const Tools::Core::Generators::IGenerator::IdType& _i
 boost::intrusive_ptr< IPlayer >
 LandscapeModel::getPlayer( const GameObject& _object ) const
 {
-	boost::intrusive_ptr< IPlayerComponent > playerComponent
-		= _object.getComponent< IPlayerComponent >( ComponentId::Player );
+	Tools::Core::Object::Ptr playerComponent
+		= _object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 	if ( !playerComponent )
 		return boost::intrusive_ptr< IPlayer >();
 
-	return getPlayer( playerComponent->getPlayerId() );
+	return getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
 } // LandscapeModel::getPlayer
 
@@ -731,10 +730,10 @@ LandscapeModel::isMyObject( boost::shared_ptr< GameObject > _object ) const
 	if ( !myPlayer )
 		return false;
 
-	boost::intrusive_ptr< IPlayerComponent > playerComponent
-		= _object->getComponent< IPlayerComponent >( ComponentId::Player );
+	Tools::Core::Object::Ptr playerComponent
+		= _object->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
-	return playerComponent && playerComponent->getPlayerId() == myPlayer->getUniqueId();
+	return playerComponent && playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) == myPlayer->getUniqueId();
 
 } // LandscapeModel::isMyObject
 
@@ -832,9 +831,10 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 			,	boost::intrusive_ptr< IComponent >( new ResourceStorageComponent( *object, *staticData.m_resourceStorageData ) ) );
 
 	if ( staticData.m_playerData )
-		object->addComponent(
-				ComponentId::Player
-			,	boost::intrusive_ptr< IComponent >( new PlayerComponent( *object, *staticData.m_playerData, _playerId ) ) );
+	{
+		object->pushMember( GameObject::generateName( PlayerComponent::Name, StaticDataTools::Name ), staticData.m_playerData );
+		object->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name )->pushMember( PlayerComponent::PlayerId, _playerId );
+	}
 
 	if ( staticData.m_generateResourcesData )
 	{
@@ -1032,15 +1032,16 @@ LandscapeModel::shouldStoreResources( const GameObject& _holder, boost::shared_p
 	if ( !resourceHolderComponent || !resourceStorageComponent )
 		return false;
 
-	boost::intrusive_ptr< IPlayerComponent > storagePlayerComponent
-		= _storage->getComponent< IPlayerComponent >( ComponentId::Player );
-	boost::intrusive_ptr< IPlayerComponent > holderPlayerComponent
-		= _holder.getComponent< IPlayerComponent >( ComponentId::Player );
+	Tools::Core::Object::Ptr storagePlayerComponent
+		= _storage->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
+	Tools::Core::Object::Ptr holderPlayerComponent
+		= _holder.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 	assert( storagePlayerComponent );
 	assert( holderPlayerComponent );
 
-	if ( storagePlayerComponent->getPlayerId() != holderPlayerComponent->getPlayerId() )
+	if ( storagePlayerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId )
+			!= holderPlayerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) )
 		return false;
 
 	IResourceStorageComponent::StaticData::StoredResourcesCollectionIterator
@@ -1453,23 +1454,23 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 					= object->getComponent< IActionsComponent >( ComponentId::Actions );
 				boost::intrusive_ptr< IMoveComponent > moveComponent
 					= object->getComponent< IMoveComponent >( ComponentId::Move );
-				boost::shared_ptr< Tools::Core::Object > attackComponent
-					= object->getMember< boost::shared_ptr< Tools::Core::Object > >( AttackComponent::Name );
+				Tools::Core::Object::Ptr attackComponent
+					= object->getMember< Tools::Core::Object::Ptr >( AttackComponent::Name );
 				boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
 					= object->getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
 				boost::intrusive_ptr< IRepairComponent > repairComponent
 					= object->getComponent< IRepairComponent >( ComponentId::Repair );
 
-				boost::intrusive_ptr< IPlayerComponent > playerComponent
-					= object->getComponent< IPlayerComponent >( ComponentId::Player);
+				Tools::Core::Object::Ptr playerComponent
+					= object->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 				assert( playerComponent );
 
 				if ( targetObject != object )
 				{
-					boost::shared_ptr< Tools::Core::Object > targetHealthComponent
-						= targetObject->getMember< boost::shared_ptr< Tools::Core::Object > >( HealthComponent::Name );
-					boost::intrusive_ptr< IPlayerComponent > targetPlayerComponent
-						= targetObject->getComponent< IPlayerComponent >( ComponentId::Player );
+					Tools::Core::Object::Ptr targetHealthComponent
+						= targetObject->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name );
+					Tools::Core::Object::Ptr targetPlayerComponent
+						= targetObject->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 					if (	resourceHolderComponent
 						&&	targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource ) )
@@ -1489,7 +1490,8 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 							&&	!HealthComponent::isHealthy( *targetHealthComponent ) //!targetHealthComponent->callMethod< bool >( HealthComponent::IsHealthy )
 							&&	playerComponent
 							&&	targetPlayerComponent
-							&&	playerComponent->getPlayerId() == targetPlayerComponent->getPlayerId() )
+							&&	playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId )
+									== targetPlayerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) )
 					{
 						actionsComponent->pushAction(
 								boost::intrusive_ptr< IAction >( new RepairAction( m_environment, *this, *object, targetObject ) )
@@ -1499,7 +1501,8 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 							&&	targetHealthComponent
 							&&	playerComponent
 							&&	targetPlayerComponent
-							&&	playerComponent->getPlayerId() != targetPlayerComponent->getPlayerId() )
+							&&	playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId )
+									!= targetPlayerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) )
 					{
 						actionsComponent->pushAction(
 								boost::intrusive_ptr< IAction >( new AttackAction( m_environment, *this, *object, targetObject ) )

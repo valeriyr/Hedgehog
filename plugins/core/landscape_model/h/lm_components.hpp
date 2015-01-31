@@ -90,6 +90,14 @@ namespace HealthComponent
 
 /*---------------------------------------------------------------------------*/
 
+namespace PlayerComponent
+{
+	const QString Name = "PlayerComponent";
+	const QString PlayerId = "PlayerId";
+}
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

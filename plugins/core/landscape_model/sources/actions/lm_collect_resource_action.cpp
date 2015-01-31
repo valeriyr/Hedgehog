@@ -18,7 +18,6 @@
 
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
-#include "landscape_model/ih/components/lm_iplayer_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_source_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
@@ -49,11 +48,11 @@ public:
 	{
 		boost::intrusive_ptr< IResourceStorageComponent > resourceStorage
 			= _object.getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
-		boost::intrusive_ptr< IPlayerComponent > playerComponent
-			= _object.getComponent< IPlayerComponent >( ComponentId::Player );
+		Tools::Core::Object::Ptr playerComponent
+			= _object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 		return	playerComponent
-			&&	playerComponent->getPlayerId() == m_playerId
+			&&	playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) == m_playerId
 			&&	resourceStorage
 			&&	resourceStorage->getStaticData().canBeStored( m_canStore );
 	}
@@ -173,8 +172,8 @@ CollectResourceAction::processAction()
 		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
-	boost::intrusive_ptr< IPlayerComponent > playerComponent
-		= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
+	Tools::Core::Object::Ptr playerComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 	boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
 		= m_object.getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
 
@@ -354,7 +353,7 @@ CollectResourceAction::processAction()
 	}
 	else
 	{
-		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getPlayerId() );
+		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
 		boost::intrusive_ptr< IResourceStorageComponent > targetResourceStorage
 			= m_targetObject->getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
@@ -414,13 +413,13 @@ CollectResourceAction::ensureStorage()
 {
 	if ( !m_resourceStarage )
 	{
-		boost::intrusive_ptr< IPlayerComponent > playerComponent
-			= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
+		Tools::Core::Object::Ptr playerComponent
+			= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 		boost::intrusive_ptr< IResourceSourceComponent > targetResourceSource
 			= m_targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource );
 
-		StorageObjectsFilter filter( targetResourceSource->getStaticData().m_resource, playerComponent->getPlayerId() );
+		StorageObjectsFilter filter( targetResourceSource->getStaticData().m_resource, playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 		ILandscape::ObjectsCollection storageObjects;
 
 		m_landscapeModel.getLandscape()->fetchObjects( storageObjects, filter );

@@ -146,10 +146,10 @@ LandscapeSceneGameState::mouseReleaseEvent( QGraphicsSceneMouseEvent* _mouseEven
 
 		for ( ; begin != end; ++begin )
 		{
-			boost::intrusive_ptr< Core::LandscapeModel::IPlayerComponent > playerComponent
-				= ( *begin )->getComponent< Core::LandscapeModel::IPlayerComponent >( Core::LandscapeModel::ComponentId::Player );
+			Tools::Core::Object::Ptr playerComponent
+				= ( *begin )->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::PlayerComponent::Name );
 
-			if ( playerComponent && myPlayer->getUniqueId() == playerComponent->getPlayerId() )
+			if ( playerComponent && myPlayer->getUniqueId() == playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::PlayerComponent::PlayerId ) )
 				objects.push_back( QVariant( ( *begin )->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey ) ) );
 		}
 
