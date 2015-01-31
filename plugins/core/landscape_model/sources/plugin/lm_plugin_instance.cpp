@@ -381,6 +381,31 @@ PluginInstance::exportScriptAPI()
 			.withItem( "West", Direction::West )
 			.withItem( "NorthWest", Direction::NorthWest );
 
+	// GameObject
+
+	exporter.exportClassWithShared< GameObject >( "GameObject" );
+	exporter.exportClass< boost::shared_ptr< GameObject > >( "GameObjectPtr" )
+		->withConstructor();
+
+	// Object
+
+	exporter.exportClassWithShared< Tools::Core::Object >( "Object" )
+		->withConstructor()
+		.withMethod(	"getObjectPtrMember"
+					,	( boost::shared_ptr< Tools::Core::Object >& (Tools::Core::Object::*)( const QString& ) )
+							&Tools::Core::Object::getMember< boost::shared_ptr< Tools::Core::Object > > )
+		.withMethod(	"getObjectMember"
+					,	( Tools::Core::Object& (Tools::Core::Object::*)( const QString& ) )
+							&Tools::Core::Object::getMember< Tools::Core::Object > )
+		.withMethod( "pushIntMember", &Tools::Core::Object::pushMember< qint32 > )
+		.withMethod( "pushBoolMember", &Tools::Core::Object::pushMember< bool > )
+		.withMethod( "pushTickTypeMember", &Tools::Core::Object::pushMember< TickType > )
+		.withMethod( "pushStringMember", &Tools::Core::Object::pushMember< QString > )
+		.withMethod( "pushGameObjectPtrMember", &Tools::Core::Object::pushMember< boost::shared_ptr< GameObject > > )
+		.withMethod( "pushVoidMethod", &Tools::Core::Object::pushMethod< void > )
+		.withMethod( "pushBoolMethod", &Tools::Core::Object::pushMethod< bool > )
+		.withMethod( "pushVoidIntMethod", &Tools::Core::Object::pushMethod< void, qint32 > );
+
 	// Surface items cache export
 
 	exporter.exportClass< ISurfaceItemsCache >( "ISurfaceItemsCache" )
@@ -420,8 +445,15 @@ PluginInstance::exportScriptAPI()
 
 	// HealthComponent
 
-	exporter.exportClassWithShared< IHealthComponent::StaticData >( "HealthComponentStaticData" )
-		->withConstructor< const int, const bool >();
+	exporter.exportVariable( "HealthComponentName", HealthComponent::Name );
+	exporter.exportVariable( "HealthComponentMaxHealth", HealthComponent::StaticData::MaxHealth );
+	exporter.exportVariable( "HealthComponentCanBeRepair", HealthComponent::StaticData::CanBeRepair );
+	exporter.exportVariable( "HealthComponentHealth", HealthComponent::Health );
+	//exporter.exportVariable( "HealthComponentSetHealth", HealthComponent::SetHealth );
+	//exporter.exportVariable( "HealthComponentIsHealthy", HealthComponent::IsHealthy );
+
+	exporter.exportFunction( "HealthComponentSetHealthDefault", &HealthComponent::setHealth );
+	exporter.exportFunction( "HealthComponentIsHealthyDefault", &HealthComponent::isHealthy );
 
 	// LocateComponent
 
@@ -430,8 +462,8 @@ PluginInstance::exportScriptAPI()
 
 	// SelectionComponent
 
-	exporter.exportClassWithShared< ISelectionComponent::StaticData >( "SelectionComponentStaticData" )
-		->withConstructor();
+	exporter.exportVariable( "SelectionComponentName", SelectionComponent::Name );
+	exporter.exportVariable( "SelectionComponentIsSelected", SelectionComponent::IsSelected );
 
 	// MoveComponent
 
@@ -440,8 +472,13 @@ PluginInstance::exportScriptAPI()
 
 	// AttackComponent
 
-	exporter.exportClassWithShared< IAttackComponent::StaticData >( "AttackComponentStaticData" )
-		->withConstructor< const int, const int, const int, const TickType, const TickType >();
+	exporter.exportVariable( "AttackComponentName", AttackComponent::Name );
+	exporter.exportVariable( "AttackComponentTargetObject", AttackComponent::TargetObject );
+	exporter.exportVariable( "AttackComponentAiming", AttackComponent::StaticData::Aiming );
+	exporter.exportVariable( "AttackComponentDistance", AttackComponent::StaticData::Distance );
+	exporter.exportVariable( "AttackComponentMaxDamage", AttackComponent::StaticData::MaxDamage );
+	exporter.exportVariable( "AttackComponentMinDamage", AttackComponent::StaticData::MinDamage );
+	exporter.exportVariable( "AttackComponentReloading", AttackComponent::StaticData::Reloading );
 
 	// PlayerComponent
 
@@ -473,6 +510,8 @@ PluginInstance::exportScriptAPI()
 
 	// StaticData
 
+	exporter.exportVariable( "StaticDataName", StaticDataTools::Name );
+
 	exporter.exportClass< IStaticData::ObjectStaticData >( "ObjectStaticData" )
 		->withConstructor()
 		.withRWProperty( "m_trainData", &IStaticData::ObjectStaticData::m_trainData )
@@ -492,7 +531,8 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClass< IStaticData >( "IStaticData" )
 		->withMethod( "regObjectStaticData", &IStaticData::regObjectStaticData )
 		.withMethod( "regResource", &IStaticData::regResource )
-		.withMethod( "regRace", &IStaticData::regRace );
+		.withMethod( "regRace", &IStaticData::regRace )
+		.withMethod( "regObjectCreator", &IStaticData::regObjectCreator );
 
 	exporter.exportVariable( "StaticData", m_staticData.get() );
 

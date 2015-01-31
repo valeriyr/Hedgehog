@@ -5,6 +5,7 @@
 #include <QtCore/QThreadPool>
 #include <QtCore/QTimer>
 #include <QtCore/QString>
+#include <QtCore/QStringList>
 #include <QtCore/QUuid>
 #include <QtCore/QReadWriteLock>
 #include <QtCore/QSemaphore>

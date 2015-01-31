@@ -10,8 +10,6 @@
 #include "landscape_model/ih/lm_istatic_data.hpp"
 
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
-#include "landscape_model/ih/components/lm_ihealth_component.hpp"
-#include "landscape_model/ih/components/lm_iselection_component.hpp"
 
 #include "landscape_model/sources/landscape/lm_iobjects_creator.hpp"
 
@@ -338,7 +336,10 @@ Landscape::createObjectForBuilding( const QString& _objectName, const QPoint& _l
 	if ( object )
 	{
 		object->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::UnderConstruction;
-		object->getComponent< IHealthComponent >( ComponentId::Health )->setHealth( 1 );
+
+		//object->getMember< boost::shared_ptr< Tools::Core::Object > >( HealthComponent::Name )
+		//	->callVoidMethod< const qint32 >( HealthComponent::SetHealth, 1 );
+		HealthComponent::setHealth( *object->getMember< boost::shared_ptr< Tools::Core::Object > >( HealthComponent::Name ), 1 );
 
 		return object->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey );
 	}
@@ -429,14 +430,14 @@ Landscape::selectObjects( const IObjectsFilter& _filter )
 
 	for ( ; begin != end; ++begin )
 	{
-		boost::intrusive_ptr< ISelectionComponent >
-			selectionComponent = ( *begin )->getComponent< ISelectionComponent >( ComponentId::Selection );
+		boost::shared_ptr< Tools::Core::Object > selectionComponent =
+			( *begin )->getMember< boost::shared_ptr< Tools::Core::Object > >( SelectionComponent::Name );
 
 		if (	selectionComponent
 			&&	( *begin )->getMember< ObjectState::Enum >( ObjectStateKey ) != ObjectState::Dying
 			&&	_filter.check( **begin ) )
 		{
-			selectionComponent->setSelection( true );
+			selectionComponent->getMember< bool >( SelectionComponent::IsSelected ) = true;
 			m_selectedObjects.push_back( *begin );
 		}
 	}
@@ -456,11 +457,11 @@ Landscape::unselectObjects()
 
 	for ( ; begin != end; ++begin )
 	{
-		boost::intrusive_ptr< ISelectionComponent >
-			selectionComponent = ( *begin )->getComponent< ISelectionComponent >( ComponentId::Selection );
+		boost::shared_ptr< Tools::Core::Object > selectionComponent =
+			( *begin )->getMember< boost::shared_ptr< Tools::Core::Object > >( SelectionComponent::Name );
 		assert( selectionComponent );
 
-		selectionComponent->setSelection( false );
+		selectionComponent->getMember< bool >( SelectionComponent::IsSelected ) = false;
 	}
 
 	m_selectedObjects.clear();

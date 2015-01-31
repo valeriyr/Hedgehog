@@ -1,3 +1,4 @@
+#include <QtCore/QStringList>
 
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QDockWidget>

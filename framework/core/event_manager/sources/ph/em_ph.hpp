@@ -4,6 +4,7 @@
 
 #include <QtCore/QVariant>
 #include <QtCore/QString>
+#include <QtCore/QStringList>
 #include <QtCore/QMutex>
 #include <QtCore/QUuid>
 #include <QtCore/QDateTime>

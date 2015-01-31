@@ -27,13 +27,10 @@
 #include "landscape_model/sources/ai/ai_manager/lm_iai_manager.hpp"
 
 #include "landscape_model/sources/components/lm_train_component.hpp"
-#include "landscape_model/sources/components/lm_health_component.hpp"
 #include "landscape_model/sources/components/lm_locate_component.hpp"
-#include "landscape_model/sources/components/lm_selection_component.hpp"
 #include "landscape_model/sources/components/lm_actions_component.hpp"
 #include "landscape_model/sources/components/lm_move_component.hpp"
 #include "landscape_model/sources/components/lm_generate_resources_component.hpp"
-#include "landscape_model/sources/components/lm_attack_component.hpp"
 #include "landscape_model/sources/components/lm_build_component.hpp"
 #include "landscape_model/sources/components/lm_repair_component.hpp"
 #include "landscape_model/sources/components/lm_resource_holder_component.hpp"
@@ -786,9 +783,7 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 		,	boost::intrusive_ptr< IComponent >( new ActionsComponent( *object ) ) );
 
 	if ( staticData.m_healthData )
-		object->addComponent(
-				ComponentId::Health
-			,	boost::intrusive_ptr< IComponent >( new HealthComponent( *object, *staticData.m_healthData ) ) );
+		object->pushMember( GameObject::generateName( HealthComponent::Name, StaticDataTools::Name ), staticData.m_healthData );
 
 	if ( staticData.m_locateData )
 		object->addComponent(
@@ -796,9 +791,7 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 			,	boost::intrusive_ptr< IComponent >( new LocateComponent( *object, *staticData.m_locateData, _location ) ) );
 
 	if ( staticData.m_selectionData )
-		object->addComponent(
-				ComponentId::Selection
-			,	boost::intrusive_ptr< IComponent >( new SelectionComponent( *object, *staticData.m_selectionData ) ) );
+		object->pushMember( GameObject::generateName( SelectionComponent::Name, StaticDataTools::Name ), staticData.m_selectionData );
 
 	if ( staticData.m_trainData )
 		object->addComponent(
@@ -811,9 +804,7 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 			,	boost::intrusive_ptr< IComponent >( new MoveComponent( *object, *staticData.m_moveData ) ) );
 
 	if ( staticData.m_attackData )
-		object->addComponent(
-				ComponentId::Attack
-			,	boost::intrusive_ptr< IComponent >( new AttackComponent( *object, *staticData.m_attackData ) ) );
+		object->pushMember( GameObject::generateName( AttackComponent::Name, StaticDataTools::Name ), staticData.m_attackData );
 
 	if ( staticData.m_buildData )
 		object->addComponent(
@@ -855,6 +846,8 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 			= object->getComponent< IActionsComponent >( ComponentId::Actions );
 		actionsComponent->pushPeriodicalAction( boost::intrusive_ptr< IAction >( new GenerateResourcesAction( m_environment, *this, *object ) ) );
 	}
+
+	m_environment.getFunctionCaller().callFunction( m_environment.getStaticData()->getObjectCreator( _objectName ), boost::shared_static_cast< Tools::Core::Object >( object ) );
 
 	return object;
 
@@ -1460,8 +1453,8 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 					= object->getComponent< IActionsComponent >( ComponentId::Actions );
 				boost::intrusive_ptr< IMoveComponent > moveComponent
 					= object->getComponent< IMoveComponent >( ComponentId::Move );
-				boost::intrusive_ptr< IAttackComponent > attackComponent
-					= object->getComponent< IAttackComponent >( ComponentId::Attack );
+				boost::shared_ptr< Tools::Core::Object > attackComponent
+					= object->getMember< boost::shared_ptr< Tools::Core::Object > >( AttackComponent::Name );
 				boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
 					= object->getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
 				boost::intrusive_ptr< IRepairComponent > repairComponent
@@ -1473,8 +1466,8 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 
 				if ( targetObject != object )
 				{
-					boost::intrusive_ptr< IHealthComponent > targetHealthComponent
-						= targetObject->getComponent< IHealthComponent >( ComponentId::Health );
+					boost::shared_ptr< Tools::Core::Object > targetHealthComponent
+						= targetObject->getMember< boost::shared_ptr< Tools::Core::Object > >( HealthComponent::Name );
 					boost::intrusive_ptr< IPlayerComponent > targetPlayerComponent
 						= targetObject->getComponent< IPlayerComponent >( ComponentId::Player );
 
@@ -1493,7 +1486,7 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 					}
 					else if (	repairComponent
 							&&	targetHealthComponent
-							&&	!targetHealthComponent->isHealthy()
+							&&	!HealthComponent::isHealthy( *targetHealthComponent ) //!targetHealthComponent->callMethod< bool >( HealthComponent::IsHealthy )
 							&&	playerComponent
 							&&	targetPlayerComponent
 							&&	playerComponent->getPlayerId() == targetPlayerComponent->getPlayerId() )

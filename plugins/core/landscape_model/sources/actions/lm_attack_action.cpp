@@ -14,9 +14,7 @@
 
 #include "landscape_model/sources/utils/lm_geometry.hpp"
 
-#include "landscape_model/ih/components/lm_iattack_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
-#include "landscape_model/ih/components/lm_ihealth_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
@@ -57,10 +55,10 @@ AttackAction::~AttackAction()
 bool
 AttackAction::prepareToProcessingInternal()
 {
-	boost::intrusive_ptr< IAttackComponent > attackComponent
-		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
+	boost::shared_ptr< Tools::Core::Object > attackComponent
+		= m_object.getMember< boost::shared_ptr< Tools::Core::Object > >( AttackComponent::Name );
 
-	attackComponent->setTargetObject( m_target );
+	attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject ) = m_target;
 
 	return true;
 
@@ -73,10 +71,10 @@ AttackAction::prepareToProcessingInternal()
 bool
 AttackAction::cancelProcessingInternal()
 {
-	boost::intrusive_ptr< IAttackComponent > attackComponent
-		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
+	boost::shared_ptr< Tools::Core::Object > attackComponent
+		= m_object.getMember< boost::shared_ptr< Tools::Core::Object > >( AttackComponent::Name );
 
-	attackComponent->setTargetObject( boost::shared_ptr< GameObject >() );
+	attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject ).reset();
 
 	return true;
 
@@ -91,12 +89,19 @@ AttackAction::processAction()
 {
 	// Common variables
 
-	boost::intrusive_ptr< IAttackComponent > attackComponent
-		= m_object.getComponent< IAttackComponent >( ComponentId::Attack );
+	boost::shared_ptr< Tools::Core::Object > attackComponent
+		= m_object.getMember< boost::shared_ptr< Tools::Core::Object > >( AttackComponent::Name );
 	boost::intrusive_ptr< ILocateComponent > locateComponent
 		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
+
+	const qint32 distance = attackComponent->getMember< qint32 >( StaticDataTools::generateName( AttackComponent::StaticData::Distance ) );
+	const qint32 minDamage = attackComponent->getMember< qint32 >( StaticDataTools::generateName( AttackComponent::StaticData::MinDamage ) );
+	const qint32 maxDamage = attackComponent->getMember< qint32 >( StaticDataTools::generateName( AttackComponent::StaticData::MaxDamage ) );
+
+	const TickType aiming = attackComponent->getMember< TickType >( StaticDataTools::generateName( AttackComponent::StaticData::Aiming ) );
+	const TickType reloading = attackComponent->getMember< TickType >( StaticDataTools::generateName( AttackComponent::StaticData::Reloading ) );
 
 	// Check if object is dying
 
@@ -112,11 +117,16 @@ AttackAction::processAction()
 						locateComponent->getLocation()
 					,	Geometry::getNearestPoint(
 								locateComponent->getLocation()
-							,	attackComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate )->getRect() ) )
-			>	attackComponent->getStaticData().m_distance )
+							,	attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getComponent< ILocateComponent >( ComponentId::Locate )->getRect() ) )
+			>	distance )
 		{
 			IPathFinder::PointsCollection path;
-			JumpPointSearch::pathToObject( path, *m_landscapeModel.getLandscape(), m_object, *attackComponent->getTargetObject(), attackComponent->getStaticData().m_distance );
+			JumpPointSearch::pathToObject(
+					path
+				,	*m_landscapeModel.getLandscape()
+				,	m_object
+				,	*attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )
+				,	distance );
 
 			if ( !path.empty() )
 			{
@@ -126,9 +136,9 @@ AttackAction::processAction()
 								m_environment
 							,	m_landscapeModel
 							,	m_object
-							,	attackComponent->getTargetObject()
+							,	attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )
 							,	path
-							,	attackComponent->getStaticData().m_distance ) ) );
+							,	distance ) ) );
 				return;
 			}
 			else
@@ -142,12 +152,12 @@ AttackAction::processAction()
 		if ( m_isInProcessing )
 		{
 			boost::intrusive_ptr< ILocateComponent > targetObjectLocate
-				= attackComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate );
+				= attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getComponent< ILocateComponent >( ComponentId::Locate );
 
 			bool stateChanged = false;
 			bool readyToAttack = false;
 
-			if ( attackComponent->getTargetObject()->getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
+			if (attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 			{
 				if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) != ObjectState::Standing )
 				{
@@ -190,46 +200,47 @@ AttackAction::processAction()
 
 				
 				if (	m_isInProcessing
-					&&	m_attackPhaseCounter >= ( attackComponent->getStaticData().m_aiming + attackComponent->getStaticData().m_reloading ) )
+					&&	m_attackPhaseCounter >= ( aiming + reloading ) )
 				{
 					m_attackPhaseCounter = 0;
 					readyToAttack = true;
 				}
 				else if (	m_isInProcessing
-						&&	prevAttackPhaseCounter < attackComponent->getStaticData().m_aiming
-						&& m_attackPhaseCounter >= attackComponent->getStaticData().m_aiming )
+						&&	prevAttackPhaseCounter < aiming
+						&& m_attackPhaseCounter >= aiming )
 				{
-					boost::intrusive_ptr< IHealthComponent > targetHealthComponent
-						= attackComponent->getTargetObject()->getComponent< IHealthComponent >( ComponentId::Health );
+					boost::shared_ptr< Tools::Core::Object > targetHealthComponent
+						= attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< boost::shared_ptr< Tools::Core::Object > >( HealthComponent::Name );
 
-					int damageBonus = attackComponent->getStaticData().m_maxDamage - attackComponent->getStaticData().m_minDamage;
+					qint32 damageBonus = maxDamage - minDamage;
 
-					int damage = attackComponent->getStaticData().m_minDamage + ( rand() % ( damageBonus + 1 ) );
+					qint32 damage = minDamage + ( rand() % ( damageBonus + 1 ) );
 
-					targetHealthComponent->setHealth( targetHealthComponent->getHealth() - damage );
+					//targetHealthComponent->callVoidMethod< const qint32 >( HealthComponent::SetHealth, targetHealthComponent->getMember< qint32 >( HealthComponent::Health ) - damage );
+					HealthComponent::setHealth( *targetHealthComponent, targetHealthComponent->getMember< qint32 >( HealthComponent::Health ) - damage );
 
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::ObjectHealthChanged::Type )
-							.pushMember( Events::ObjectHealthChanged::ObjectNameAttribute, attackComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
-							.pushMember( Events::ObjectHealthChanged::ObjectIdAttribute, attackComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-							.pushMember( Events::ObjectHealthChanged::ObjectHealth, targetHealthComponent->getHealth() ) );
+							.pushMember( Events::ObjectHealthChanged::ObjectNameAttribute, attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< QString >( ObjectNameKey ) )
+							.pushMember( Events::ObjectHealthChanged::ObjectIdAttribute, attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+							.pushMember( Events::ObjectHealthChanged::ObjectHealth, targetHealthComponent->getMember< qint32 >( HealthComponent::Health ) ) );
 
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::ObjectWasHit::Type )
-							.pushMember( Events::ObjectWasHit::ObjectNameAttribute, attackComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
-							.pushMember( Events::ObjectWasHit::ObjectIdAttribute, attackComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-							.pushMember( Events::ObjectWasHit::ObjectHealth, targetHealthComponent->getHealth() ) );
+							.pushMember( Events::ObjectWasHit::ObjectNameAttribute,attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< QString >( ObjectNameKey ) )
+							.pushMember( Events::ObjectWasHit::ObjectIdAttribute, attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+							.pushMember( Events::ObjectWasHit::ObjectHealth, targetHealthComponent->getMember< qint32 >( HealthComponent::Health ) ) );
 
-					if ( targetHealthComponent->getHealth() == 0 )
+					if ( targetHealthComponent->getMember< qint32 >( HealthComponent::Health ) == 0 )
 					{
-						attackComponent->getTargetObject()->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Dying;
-						attackComponent->getTargetObject()->getComponent< IActionsComponent >( ComponentId::Actions )->flushActions( IActionsComponent::FlushPolicy::Force );
+						attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Dying;
+						attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getComponent< IActionsComponent >( ComponentId::Actions )->flushActions( IActionsComponent::FlushPolicy::Force );
 
 						m_environment.riseEvent(
 							Framework::Core::EventManager::Event( Events::ObjectStateChanged::Type )
-								.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, attackComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
-								.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, attackComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-								.pushMember( Events::ObjectStateChanged::ObjectState, attackComponent->getTargetObject()->getMember< ObjectState::Enum >( ObjectStateKey ) )
+								.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< QString >( ObjectNameKey ) )
+								.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+								.pushMember( Events::ObjectStateChanged::ObjectState, attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< ObjectState::Enum >( ObjectStateKey ) )
 								.pushMember( Events::ObjectStateChanged::ObjectDirection, targetObjectLocate->getDirection() ) );
 
 						m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
@@ -263,7 +274,7 @@ AttackAction::processAction()
 
 	if ( !m_isInProcessing )
 	{
-		attackComponent->setTargetObject( boost::shared_ptr< GameObject >() );
+		attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject ).reset();
 	}
 
 } // AttackAction::processAction

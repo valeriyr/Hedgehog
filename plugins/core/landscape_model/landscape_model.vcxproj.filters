@@ -105,13 +105,7 @@
     <ClCompile Include="sources\environment\lm_environment.cpp">
       <Filter>Environment</Filter>
     </ClCompile>
-    <ClCompile Include="sources\components\lm_health_component.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="sources\components\lm_locate_component.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\components\lm_selection_component.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="sources\static_data\lm_static_data.cpp">
@@ -143,9 +137,6 @@
     </ClCompile>
     <ClCompile Include="sources\actions\lm_attack_action.cpp">
       <Filter>Actions</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\components\lm_attack_component.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="sources\path_finders\lm_jump_point_search.cpp">
       <Filter>Path Finders</Filter>
@@ -326,25 +317,13 @@
     <ClInclude Include="ih\components\lm_icomponent.hpp">
       <Filter>Interfaces\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ih\components\lm_ihealth_component.hpp">
-      <Filter>Interfaces\Components</Filter>
-    </ClInclude>
     <ClInclude Include="ih\components\lm_ilocate_component.hpp">
       <Filter>Interfaces\Components</Filter>
     </ClInclude>
     <ClInclude Include="sources\components\lm_base_component.hpp">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="sources\components\lm_health_component.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="sources\components\lm_locate_component.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\components\lm_iselection_component.hpp">
-      <Filter>Interfaces\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\components\lm_selection_component.hpp">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="ih\lm_istatic_data.hpp">
@@ -409,12 +388,6 @@
     </ClInclude>
     <ClInclude Include="sources\actions\lm_attack_action.hpp">
       <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\components\lm_iattack_component.hpp">
-      <Filter>Interfaces\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\components\lm_attack_component.hpp">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="sources\actions\lm_train_action.hpp">
       <Filter>Actions</Filter>
@@ -582,6 +555,9 @@
       <Filter>External Headers</Filter>
     </ClInclude>
     <ClInclude Include="h\lm_game_object.hpp">
+      <Filter>External Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="h\lm_components.hpp">
       <Filter>External Headers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,7 +12,6 @@
 
 #include "landscape_model/ih/components/lm_ibuild_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
-#include "landscape_model/ih/components/lm_ihealth_component.hpp"
 #include "landscape_model/ih/components/lm_iplayer_component.hpp"
 
 #include "landscape_model/sources/actions/lm_iworkers_holder.hpp"
@@ -214,16 +213,17 @@ BuildAction::processAction()
 				boost::shared_ptr< GameObject > targetObject
 					= m_landscapeModel.getLandscape()->getObject( buildData.m_objectId );
 
-				boost::intrusive_ptr< IHealthComponent > targetHealthComponent
-					= targetObject->getComponent< IHealthComponent >( ComponentId::Health );
+				boost::shared_ptr< Tools::Core::Object > targetHealthComponent
+					= targetObject->getMember< boost::shared_ptr< Tools::Core::Object > >( HealthComponent::Name );
 
-				targetHealthComponent->setHealth( buildData.m_buildProgress * targetHealthComponent->getStaticData().m_maximumHealth / totalTicks );
+				//targetHealthComponent->callVoidMethod< const qint32 >( HealthComponent::SetHealth, buildData.m_buildProgress * targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) / totalTicks );
+				HealthComponent::setHealth( *targetHealthComponent, buildData.m_buildProgress * targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) / totalTicks );
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::ObjectHealthChanged::Type )
 						.pushMember( Events::ObjectHealthChanged::ObjectNameAttribute, targetObject->getMember< QString >( ObjectNameKey ) )
 						.pushMember( Events::ObjectHealthChanged::ObjectIdAttribute, targetObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-						.pushMember( Events::ObjectHealthChanged::ObjectHealth, targetHealthComponent->getHealth() ) );
+						.pushMember( Events::ObjectHealthChanged::ObjectHealth, targetHealthComponent->getMember< qint32 >( HealthComponent::Health ) ) );
 
 				if ( buildData.m_buildProgress == totalTicks )
 				{

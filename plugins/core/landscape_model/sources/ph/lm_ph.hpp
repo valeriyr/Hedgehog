@@ -4,6 +4,7 @@
 #include <set>
 
 #include <QtCore/QString>
+#include <QtCore/QStringList>
 #include <QtCore/QVariant>
 #include <QtCore/QDir>
 #include <QtCore/QFile>

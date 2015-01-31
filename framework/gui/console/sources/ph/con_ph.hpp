@@ -1,6 +1,7 @@
 
 #include <QtCore/QMutex>
 #include <QtCore/QCoreApplication>
+#include <QtCore/QStringList>
 
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QLineEdit>

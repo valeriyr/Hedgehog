@@ -11,6 +11,7 @@
 #include "landscape_model/h/lm_object_states.hpp"
 
 #include "landscape_model/h/lm_component_id.hpp"
+#include "landscape_model/h/lm_components.hpp"
 #include "landscape_model/ih/components/lm_icomponent.hpp"
 
 #include "generators/gn_igenerator.hpp"

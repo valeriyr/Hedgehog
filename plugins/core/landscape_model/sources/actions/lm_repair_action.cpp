@@ -16,7 +16,6 @@
 
 #include "landscape_model/ih/components/lm_irepair_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
-#include "landscape_model/ih/components/lm_ihealth_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 #include "landscape_model/ih/components/lm_ibuild_component.hpp"
 #include "landscape_model/ih/components/lm_iplayer_component.hpp"
@@ -105,12 +104,12 @@ RepairAction::processAction()
 	boost::intrusive_ptr< IPlayerComponent > playerComponent
 		= m_object.getComponent< IPlayerComponent >( ComponentId::Player );
 
-	boost::intrusive_ptr< IHealthComponent > targetHealthComponent
-		= repairComponent->getTargetObject()->getComponent< IHealthComponent >( ComponentId::Health );
+	boost::shared_ptr< Tools::Core::Object > targetHealthComponent
+		= repairComponent->getTargetObject()->getMember< boost::shared_ptr< Tools::Core::Object > >( HealthComponent::Name );
 
 	// Check if object is dying
 
-	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying || targetHealthComponent->isHealthy() )
+	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying || HealthComponent::isHealthy( *targetHealthComponent ) /*targetHealthComponent->callMethod< bool >( HealthComponent::IsHealthy )*/ )
 	{
 		m_isInProcessing = false;
 	}
@@ -187,7 +186,7 @@ RepairAction::processAction()
 				}
 
 				m_healthRepaired += repairComponent->getStaticData().m_healthByTick;
-				int repairHealthPercent = Math::calculatePercent( m_healthRepaired, targetHealthComponent->getStaticData().m_maximumHealth );
+				int repairHealthPercent = Math::calculatePercent( m_healthRepaired, targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) );
 
 				if ( repairHealthPercent != 0 )
 				{
@@ -202,16 +201,18 @@ RepairAction::processAction()
 					{
 						player->substructResources( repairCostData );
 
-						targetHealthComponent->setHealth( targetHealthComponent->getHealth() + m_healthRepaired );
+						//targetHealthComponent->callVoidMethod< const qint32 >( HealthComponent::SetHealth, targetHealthComponent->getMember< qint32 >( HealthComponent::Health ) + m_healthRepaired );
+						HealthComponent::setHealth( *targetHealthComponent, targetHealthComponent->getMember< qint32 >( HealthComponent::Health ) + m_healthRepaired );
 						m_healthRepaired = 0;
 
 						m_environment.riseEvent(
 							Framework::Core::EventManager::Event( Events::ObjectHealthChanged::Type )
 								.pushMember( Events::ObjectHealthChanged::ObjectNameAttribute, repairComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
 								.pushMember( Events::ObjectHealthChanged::ObjectIdAttribute, repairComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-								.pushMember( Events::ObjectHealthChanged::ObjectHealth, targetHealthComponent->getHealth() ) );
+								.pushMember( Events::ObjectHealthChanged::ObjectHealth, targetHealthComponent->getMember< qint32 >( HealthComponent::Health ) ) );
 
-						if ( targetHealthComponent->getHealth() == targetHealthComponent->getStaticData().m_maximumHealth )
+						//if ( targetHealthComponent->callMethod< bool >( HealthComponent::IsHealthy ) )
+						if ( HealthComponent::isHealthy( *targetHealthComponent ) )
 						{
 							m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 							stateChanged = true;

@@ -35,10 +35,8 @@
     <ClCompile Include="sources\ai\ai_goals\lm_train_goal.cpp" />
     <ClCompile Include="sources\ai\ai_manager\lm_ai_manager.cpp" />
     <ClCompile Include="sources\components\lm_actions_component.cpp" />
-    <ClCompile Include="sources\components\lm_attack_component.cpp" />
     <ClCompile Include="sources\components\lm_build_component.cpp" />
     <ClCompile Include="sources\components\lm_generate_resources_component.cpp" />
-    <ClCompile Include="sources\components\lm_health_component.cpp" />
     <ClCompile Include="sources\components\lm_locate_component.cpp" />
     <ClCompile Include="sources\components\lm_move_component.cpp" />
     <ClCompile Include="sources\components\lm_player_component.cpp" />
@@ -46,7 +44,6 @@
     <ClCompile Include="sources\components\lm_resource_holder_component.cpp" />
     <ClCompile Include="sources\components\lm_resource_source_component.cpp" />
     <ClCompile Include="sources\components\lm_resource_storage_component.cpp" />
-    <ClCompile Include="sources\components\lm_selection_component.cpp" />
     <ClCompile Include="sources\components\lm_train_component.cpp" />
     <ClCompile Include="sources\environment\lm_environment.cpp" />
     <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp" />
@@ -83,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="h\lm_actions.hpp" />
     <ClInclude Include="h\lm_commands.hpp" />
+    <ClInclude Include="h\lm_components.hpp" />
     <ClInclude Include="h\lm_component_id.hpp" />
     <ClInclude Include="h\lm_constants.hpp" />
     <ClInclude Include="h\lm_diplomacy.hpp" />
@@ -99,11 +97,9 @@
     <ClInclude Include="h\lm_terrain_map_data.hpp" />
     <ClInclude Include="h\lm_victory_condition.hpp" />
     <ClInclude Include="ih\components\lm_iactions_component.hpp" />
-    <ClInclude Include="ih\components\lm_iattack_component.hpp" />
     <ClInclude Include="ih\components\lm_ibuild_component.hpp" />
     <ClInclude Include="ih\components\lm_icomponent.hpp" />
     <ClInclude Include="ih\components\lm_igenerate_resources_component.hpp" />
-    <ClInclude Include="ih\components\lm_ihealth_component.hpp" />
     <ClInclude Include="ih\components\lm_ilocate_component.hpp" />
     <ClInclude Include="ih\components\lm_imove_component.hpp" />
     <ClInclude Include="ih\components\lm_iplayer_component.hpp" />
@@ -111,7 +107,6 @@
     <ClInclude Include="ih\components\lm_iresource_holder_component.hpp" />
     <ClInclude Include="ih\components\lm_iresource_source_component.hpp" />
     <ClInclude Include="ih\components\lm_iresource_storage_component.hpp" />
-    <ClInclude Include="ih\components\lm_iselection_component.hpp" />
     <ClInclude Include="ih\components\lm_itrain_component.hpp" />
     <ClInclude Include="ih\lm_iaction.hpp" />
     <ClInclude Include="ih\lm_ilandscape.hpp" />
@@ -141,11 +136,9 @@
     <ClInclude Include="sources\ai\ai_manager\lm_ai_manager.hpp" />
     <ClInclude Include="sources\ai\ai_manager\lm_iai_manager.hpp" />
     <ClInclude Include="sources\components\lm_actions_component.hpp" />
-    <ClInclude Include="sources\components\lm_attack_component.hpp" />
     <ClInclude Include="sources\components\lm_base_component.hpp" />
     <ClInclude Include="sources\components\lm_build_component.hpp" />
     <ClInclude Include="sources\components\lm_generate_resources_component.hpp" />
-    <ClInclude Include="sources\components\lm_health_component.hpp" />
     <ClInclude Include="sources\components\lm_locate_component.hpp" />
     <ClInclude Include="sources\components\lm_move_component.hpp" />
     <ClInclude Include="sources\components\lm_player_component.hpp" />
@@ -153,7 +146,6 @@
     <ClInclude Include="sources\components\lm_resource_holder_component.hpp" />
     <ClInclude Include="sources\components\lm_resource_source_component.hpp" />
     <ClInclude Include="sources\components\lm_resource_storage_component.hpp" />
-    <ClInclude Include="sources\components\lm_selection_component.hpp" />
     <ClInclude Include="sources\components\lm_train_component.hpp" />
     <ClInclude Include="sources\environment\lm_environment.hpp" />
     <ClInclude Include="sources\environment\lm_ienvironment.hpp" />

@@ -34,9 +34,13 @@ public:
 
 	/*virtual*/ void fetchObjectsStaticData( IStaticData::StaticDataCollection& _collection ) const;
 
+	/*virtual*/ void regObjectStaticData( const QString& _name, const ObjectStaticData& _data );
+
 /*---------------------------------------------------------------------------*/
 
-	/*virtual*/ void regObjectStaticData( const QString& _name, const ObjectStaticData& _data );
+	/*virtual*/ void regObjectCreator( const QString& _name, const QString& _creatorName );
+
+	/*virtual*/ const QString& getObjectCreator( const QString& _name ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -57,6 +61,13 @@ public:
 private:
 
 /*---------------------------------------------------------------------------*/
+
+	typedef std::map< QString, QString > ObjectCreatorsCollection;
+	typedef ObjectCreatorsCollection::const_iterator ObjectCreatorsCollectionIterator;
+
+/*---------------------------------------------------------------------------*/
+
+	ObjectCreatorsCollection m_objectsCreators;
 
 	IStaticData::StaticDataCollection m_staticData;
 

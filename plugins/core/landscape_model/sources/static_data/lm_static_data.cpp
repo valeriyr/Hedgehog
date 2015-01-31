@@ -14,7 +14,8 @@ namespace LandscapeModel {
 
 
 StaticData::StaticData()
-	:	m_staticData()
+	:	m_objectsCreators()
+	,	m_staticData()
 	,	m_resources()
 	,	m_races()
 {
@@ -68,6 +69,30 @@ StaticData::regObjectStaticData( const QString& _name, const ObjectStaticData& _
 	m_staticData.insert( std::make_pair( _name, _data ) );
 
 } // StaticData::regObjectStaticData
+
+
+/*---------------------------------------------------------------------------*/
+
+
+void
+StaticData::regObjectCreator( const QString& _name, const QString& _creatorName )
+{
+	assert( m_objectsCreators.find( _name ) == m_objectsCreators.end() );
+	m_objectsCreators.insert( std::make_pair( _name, _creatorName ) );
+
+} // StaticData::regObjectCreator
+
+
+/*---------------------------------------------------------------------------*/
+
+
+const QString&
+StaticData::getObjectCreator( const QString& _name ) const
+{
+	assert( m_objectsCreators.find( _name ) != m_objectsCreators.end() );
+	return m_objectsCreators.find( _name )->second;
+
+} // StaticData::getObjectCreator
 
 
 /*---------------------------------------------------------------------------*/
