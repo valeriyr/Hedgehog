@@ -14,8 +14,7 @@ struct ComponentId
 {
 	enum Enum
 	{
-			Locate		= 1
-		,	Train
+			Train = 1
 		,	Actions
 		,	Move
 		,	Repair

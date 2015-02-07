@@ -10,7 +10,6 @@
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 
 #include "landscape_model/ih/components/lm_imove_component.hpp"
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_source_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
@@ -339,8 +338,8 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 		{
 			m_showingObjectId = object->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey );
 
-			boost::intrusive_ptr< Core::LandscapeModel::ILocateComponent > locateComponent
-				= object->getComponent< Core::LandscapeModel::ILocateComponent >( Plugins::Core::LandscapeModel::ComponentId::Locate );
+			Tools::Core::Object::Ptr locateComponent
+				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::LocateComponent::Name );
 			Tools::Core::Object::Ptr healthComponent
 				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::HealthComponent::Name );
 			boost::intrusive_ptr< Core::LandscapeModel::IMoveComponent > moveComponent
@@ -423,11 +422,11 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 					.arg( healthComponent ? QString::number( healthComponent->getMember< qint32 >( Core::LandscapeModel::HealthComponent::Health ) ) : Resources::Views::NoneString )
 					.arg( healthComponent ? QString::number( healthComponent->getMember< qint32 >( Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::HealthComponent::StaticData::MaxHealth ) ) ) : Resources::Views::NoneString )
 					.arg( moveComponent ? QString::number( moveComponent->getStaticData().m_movingSpeed ) : Resources::Views::NoneString )
-					.arg( locateComponent->getLocation().x() )
-					.arg( locateComponent->getLocation().y() )
-					.arg( locateComponent->getStaticData().m_size.width() )
-					.arg( locateComponent->getStaticData().m_size.height() )
-					.arg( Core::LandscapeModel::Emplacement::toString( locateComponent->getStaticData().m_emplacement ) )
+					.arg( locateComponent->getMember< QPoint >( Core::LandscapeModel::LocateComponent::Location ).x() )
+					.arg( locateComponent->getMember< QPoint >( Core::LandscapeModel::LocateComponent::Location ).y() )
+					.arg( locateComponent->getMember< QSize >( Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::LocateComponent::StaticData::Size ) ).width() )
+					.arg( locateComponent->getMember< QSize >( Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::LocateComponent::StaticData::Size ) ).height() )
+					.arg( Core::LandscapeModel::Emplacement::toString( locateComponent->getMember< Core::LandscapeModel::Emplacement::Enum >( Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::LocateComponent::StaticData::Emplacement ) ) ) )
 					.arg(	attackComponent
 						?	QString( Resources::Views::DamageInfoFormat )
 								.arg( attackComponent->getMember< qint32 >( Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::AttackComponent::StaticData::MinDamage ) ) )

@@ -413,11 +413,11 @@ LandscapeObjectEditingState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEv
 
 		const QPixmap& objectPixmap = m_environment.getPixmap( m_name );
 
-		if ( objectPixmap.width() > ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) )
-			xpos += ( objectPixmap.width() - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) ) / 2;
+		if ( objectPixmap.width() > ( objectStaticData.m_locateData->getMember< QSize >( Core::LandscapeModel::LocateComponent::StaticData::Size ).width() * Resources::Landscape::CellSize ) )
+			xpos += ( objectPixmap.width() - ( objectStaticData.m_locateData->getMember< QSize >( Core::LandscapeModel::LocateComponent::StaticData::Size ).width() * Resources::Landscape::CellSize ) ) / 2;
 
-		if ( objectPixmap.height() > ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
-			ypos += ( objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2;
+		if ( objectPixmap.height() > ( objectStaticData.m_locateData->getMember< QSize >( Core::LandscapeModel::LocateComponent::StaticData::Size ).height() * Resources::Landscape::CellSize ) )
+			ypos += ( objectPixmap.height() - ( objectStaticData.m_locateData->getMember< QSize >( Core::LandscapeModel::LocateComponent::StaticData::Size ).height() * Resources::Landscape::CellSize ) ) / 2;
 
 		setNewItemInPosition( QPointF( xpos, ypos ) );
 	}
@@ -577,11 +577,11 @@ LandscapeObjectBuildState::mousePressEvent( QGraphicsSceneMouseEvent* _mouseEven
 
 		const QPixmap& objectPixmap = m_environment.getPixmap( m_name );
 
-		if ( objectPixmap.width() > ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) )
-			xpos += ( objectPixmap.width() - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) ) / 2;
+		if ( objectPixmap.width() > ( objectStaticData.m_locateData->getMember< QSize >( Core::LandscapeModel::LocateComponent::StaticData::Size ).width() * Resources::Landscape::CellSize ) )
+			xpos += ( objectPixmap.width() - ( objectStaticData.m_locateData->getMember< QSize >( Core::LandscapeModel::LocateComponent::StaticData::Size ).width() * Resources::Landscape::CellSize ) ) / 2;
 
-		if ( objectPixmap.height() > ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
-			ypos += ( objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2;
+		if ( objectPixmap.height() > ( objectStaticData.m_locateData->getMember< QSize >( Core::LandscapeModel::LocateComponent::StaticData::Size ).height() * Resources::Landscape::CellSize ) )
+			ypos += ( objectPixmap.height() - ( objectStaticData.m_locateData->getMember< QSize >( Core::LandscapeModel::LocateComponent::StaticData::Size ).height() * Resources::Landscape::CellSize ) ) / 2;
 
 		m_environment.lockModel()->getLandscapeModel()->pushCommand(
 			Core::LandscapeModel::Command( Core::LandscapeModel::CommandId::BuildObject )

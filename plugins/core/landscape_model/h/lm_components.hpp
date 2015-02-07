@@ -7,6 +7,8 @@
 
 #include "landscape_model/h/lm_constants.hpp"
 #include "landscape_model/h/lm_resources_data.hpp"
+#include "landscape_model/h/lm_directions.hpp"
+#include "landscape_model/h/lm_terrain_map_data.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -170,6 +172,29 @@ namespace BuildComponent
 		_buildComponent.getMember< QRect >( AtRect ) = QRect();
 		_buildComponent.getMember< TickType >( BuildProgress ) = 0;
 		_buildComponent.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectId ) = Tools::Core::Generators::IGenerator::ms_wrongId;
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
+namespace LocateComponent
+{
+	const QString Name = "LocateComponent";
+
+	namespace StaticData
+	{
+		const QString Size = "Size";
+		const QString Passability = "Passability";
+		const QString Emplacement = "Emplacement";
+	}
+
+	const QString Direction = "Direction";
+	const QString Location = "Location";
+	const QString IsHidden = "IsHidden";
+
+	static const QRect getRect( Tools::Core::Object& _locateComponent )
+	{
+		return QRect( _locateComponent.getMember< QPoint >( Location ), _locateComponent.getMember< QSize >( StaticDataTools::generateName( StaticData::Size ) ) );
 	}
 }
 

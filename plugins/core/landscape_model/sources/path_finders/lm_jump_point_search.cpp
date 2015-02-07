@@ -5,8 +5,6 @@
 
 #include "landscape_model/ih/lm_ilandscape.hpp"
 
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
-
 #include "landscape_model/sources/utils/lm_geometry.hpp"
 
 
@@ -46,8 +44,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 	if ( _targets.empty() )
 		return;
 
-	boost::intrusive_ptr< ILocateComponent > locateComponent
-		= _object.getComponent< ILocateComponent >( ComponentId::Locate );
+	Tools::Core::Object::Ptr locateComponent = _object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
 	if ( !locateComponent )
 		return;
@@ -70,7 +67,7 @@ JumpPointSearch::findPath(	PointsCollection& _pointsCollection
 		}
 	}
 
-	QPoint startPoint( locateComponent->getLocation() );
+	QPoint startPoint( locateComponent->getMember< QPoint >( LocateComponent::Location ) );
 
 	int dx[ 8 ] = {  0, 0, -1, 1,  1, 1, -1, -1 };
 	int dy[ 8 ] = { -1, 1,  0, 0, -1, 1,  1, -1 };
@@ -196,7 +193,7 @@ JumpPointSearch::nearestObject(		const ILandscape& _landscape
 	{
 		if ( Geometry::checkDistance(
 					path.back()
-				,	( *begin )->getComponent< ILocateComponent >( ComponentId::Locate )->getRect()
+				,	LocateComponent::getRect( *( *begin )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name ) )
 				,	_distance ) )
 		{
 			return *begin;
@@ -234,10 +231,10 @@ JumpPointSearch::fillTargetPoints(	const GameObject& _targetObject
 								,	const int _distance
 								,	IPathFinder::PointsCollection& _targets )
 {
-	boost::intrusive_ptr< ILocateComponent > targetLocateComponent
-		= _targetObject.getComponent< ILocateComponent >( ComponentId::Locate );
+	Tools::Core::Object::Ptr targetLocateComponent
+		= _targetObject.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
-	QRect targetRect = targetLocateComponent->getRect();
+	QRect targetRect = LocateComponent::getRect( *targetLocateComponent );
 
 	int distance = _distance / Geometry::NeighborDistance;
 

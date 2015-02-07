@@ -83,7 +83,7 @@ private:
 	void processOpenedList(
 			const ILandscape& _landscape
 		,	const GameObject& _forObject
-		,	boost::intrusive_ptr< ILocateComponent > locateComponent
+		,	Tools::Core::Object::Ptr _locateComponent
 		,	const IPathFinder::PointsCollection& _targets );
 
 /*---------------------------------------------------------------------------*/

@@ -15,7 +15,6 @@
 #include "landscape_model/sources/utils/lm_math.hpp"
 
 #include "landscape_model/ih/components/lm_irepair_component.hpp"
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
@@ -93,8 +92,8 @@ RepairAction::processAction()
 
 	boost::intrusive_ptr< IRepairComponent > repairComponent
 		= m_object.getComponent< IRepairComponent >( ComponentId::Repair );
-	boost::intrusive_ptr< ILocateComponent > locateComponent
-		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+	Tools::Core::Object::Ptr locateComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
 	Tools::Core::Object::Ptr buildComponent
@@ -116,10 +115,10 @@ RepairAction::processAction()
 		// Check distance
 
 		if (	Geometry::getDistance(
-						locateComponent->getLocation()
+						locateComponent->getMember< QPoint >( LocateComponent::Location )
 					,	Geometry::getNearestPoint(
-								locateComponent->getLocation()
-							,	repairComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate )->getRect() ) )
+									locateComponent->getMember< QPoint >( LocateComponent::Location )
+								,	LocateComponent::getRect( *repairComponent->getTargetObject()->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name ) ) ) )
 			>	Geometry::DiagonalDistance )
 		{
 			IPathFinder::PointsCollection path;
@@ -148,8 +147,8 @@ RepairAction::processAction()
 
 		if ( m_isInProcessing )
 		{
-			boost::intrusive_ptr< ILocateComponent > targetLocateComponent
-				= repairComponent->getTargetObject()->getComponent< ILocateComponent >( ComponentId::Locate );
+			Tools::Core::Object::Ptr targetLocateComponent
+				= repairComponent->getTargetObject()->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
 			bool stateChanged = false;
 
@@ -165,15 +164,15 @@ RepairAction::processAction()
 			}
 			else
 			{
-				Direction::Enum currentDirection = locateComponent->getDirection();
+				Direction::Enum currentDirection = locateComponent->getMember< Direction::Enum >( LocateComponent::Direction );
 				Direction::Enum nextDirection
 					= Direction::getDirection(
-							locateComponent->getLocation()
-						,	Geometry::getNearestPoint( locateComponent->getLocation(), targetLocateComponent->getRect() ) );
+							locateComponent->getMember< QPoint >( LocateComponent::Location )
+						,	Geometry::getNearestPoint( locateComponent->getMember< QPoint >( LocateComponent::Location ), LocateComponent::getRect( *targetLocateComponent ) ) );
 
 				if ( currentDirection != nextDirection )
 				{
-					locateComponent->setDirection( nextDirection );
+					locateComponent->getMember< Direction::Enum >( LocateComponent::Direction ) = nextDirection;
 					stateChanged = true;
 				}
 
@@ -232,7 +231,7 @@ RepairAction::processAction()
 							.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
 							.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 							.pushMember( Events::ObjectStateChanged::ObjectState, m_object.getMember< Core::LandscapeModel::ObjectState::Enum >( ObjectStateKey ) )
-							.pushMember( Events::ObjectStateChanged::ObjectDirection, locateComponent->getDirection() ) );
+							.pushMember( Events::ObjectStateChanged::ObjectDirection, locateComponent->getMember< Direction::Enum >( LocateComponent::Direction ) ) );
 				}
 			}
 		}

@@ -13,8 +13,6 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
-
 #include "landscape_model/h/lm_events.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
@@ -77,8 +75,7 @@ ObjectGraphicsItem::itemChange( GraphicsItemChange _change, const QVariant& valu
 {
 	if ( _change == ItemPositionHasChanged )
 	{
-		boost::shared_ptr<Core::LandscapeModel::ILocateComponent::StaticData >
-			locateComponentStaticData = m_environment.getObjectStaticData( m_objectName ).m_locateData;
+		Tools::Core::Object::Ptr locateComponentStaticData = m_environment.getObjectStaticData( m_objectName ).m_locateData;
 
 		QPoint position( value.toPoint() );
 
@@ -90,7 +87,8 @@ ObjectGraphicsItem::itemChange( GraphicsItemChange _change, const QVariant& valu
 		int z = LandscapeScene::ZValue::ObjectsBegin;
 		z += ( ( centerY / Resources::Landscape::CellSize ) * landscapeSize.height() ) + ( ( centerX / Resources::Landscape::CellSize ) + 1 );
 
-		if ( locateComponentStaticData->m_emplacement == Core::LandscapeModel::Emplacement::Air )
+		if ( locateComponentStaticData->getMember< Core::LandscapeModel::Emplacement::Enum >( Core::LandscapeModel::LocateComponent::StaticData::Emplacement )
+				== Core::LandscapeModel::Emplacement::Air )
 			z += landscapeSize.width() * landscapeSize.height();
 
 		setZValue( z );
@@ -125,7 +123,8 @@ ObjectGraphicsItem::correctedPosition()
 			,	m_landscapeScene.height()
 			,	LandscapeScene::convertToScenePosition(
 					m_environment.lockModel()->getLandscapeModel()->getLandscape()->getObject( m_objectId )
-						->getComponent< Core::LandscapeModel::ILocateComponent >( Core::LandscapeModel::ComponentId::Locate )->getLocation() )
+						->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::LocateComponent::Name )
+							->getMember< QPoint >( Core::LandscapeModel::LocateComponent::Location ) )
 			,	m_objectName
 			,	pixmap() ) );
 
@@ -776,8 +775,7 @@ LandscapeScene::generateLandscape()
 			const Tools::Core::Generators::IGenerator::IdType objectId = ( *begin )->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey );
 			const Core::LandscapeModel::ObjectState::Enum objectState = ( *begin )->getMember< Core::LandscapeModel::ObjectState::Enum >( Core::LandscapeModel::ObjectStateKey );
 
-			boost::intrusive_ptr<Core::LandscapeModel::ILocateComponent >
-				locateComponent = ( *begin )->getComponent< Core::LandscapeModel::ILocateComponent >( Core::LandscapeModel::ComponentId::Locate );
+			Tools::Core::Object::Ptr locateComponent = ( *begin )->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::LocateComponent::Name );
 
 			ObjectGraphicsItem* newItem
 				= new ObjectGraphicsItem(
@@ -795,7 +793,7 @@ LandscapeScene::generateLandscape()
 				,	m_environment.getString( Resources::Properties::SkinId )
 				,	objectName
 				,	objectState
-				,	locateComponent->getDirection() );
+				,	locateComponent->getMember< Core::LandscapeModel::Direction::Enum >( Core::LandscapeModel::LocateComponent::Direction ) );
 		}
 	}
 
@@ -1077,14 +1075,16 @@ LandscapeScene::correctSceneObjectPosition(
 	Core::LandscapeModel::IStaticData::ObjectStaticData objectStaticData
 		= _environment.getObjectStaticData( _objectName );
 
-	if ( correctedPosition.x() > _sceneWidth - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) )
-		correctedPosition.setX( _sceneWidth - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) );
+	const QSize size = objectStaticData.m_locateData->getMember< QSize >( Core::LandscapeModel::LocateComponent::StaticData::Size );
 
-	if ( correctedPosition.y() > _sceneHeight - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) )
-		correctedPosition.setY( _sceneHeight - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) );
+	if ( correctedPosition.x() > _sceneWidth - ( size.width() * Resources::Landscape::CellSize ) )
+		correctedPosition.setX( _sceneWidth - ( size.width() * Resources::Landscape::CellSize ) );
 
-	correctedPosition.setX( correctedPosition.x() - ( _objectPixmap.width() - ( objectStaticData.m_locateData->m_size.width() * Resources::Landscape::CellSize ) ) / 2 );
-	correctedPosition.setY( correctedPosition.y() - ( _objectPixmap.height() - ( objectStaticData.m_locateData->m_size.height() * Resources::Landscape::CellSize ) ) / 2 );
+	if ( correctedPosition.y() > _sceneHeight - ( size.height() * Resources::Landscape::CellSize ) )
+		correctedPosition.setY( _sceneHeight - ( size.height() * Resources::Landscape::CellSize ) );
+
+	correctedPosition.setX( correctedPosition.x() - ( _objectPixmap.width() - ( size.width() * Resources::Landscape::CellSize ) ) / 2 );
+	correctedPosition.setY( correctedPosition.y() - ( _objectPixmap.height() - ( size.height() * Resources::Landscape::CellSize ) ) / 2 );
 
 	return correctedPosition;
 

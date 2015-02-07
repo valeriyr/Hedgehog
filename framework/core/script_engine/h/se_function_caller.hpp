@@ -31,7 +31,7 @@ public:
 		}
 		catch( luabind::error& )
 		{
-			// std::string error = lua_tostring( m_luaEngine, -1 );
+			std::string error = lua_tostring( m_luaEngine, -1 );
 			// TODO: print error message here
 		}
 	}

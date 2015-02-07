@@ -12,8 +12,6 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
-
 #include "landscape_model/sources/utils/lm_geometry.hpp"
 
 
@@ -75,7 +73,7 @@ MoveAction::MoveAction(
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_movingToPoint()
 	,	m_movingToObject( _movingTo )
-	,	m_lastTargetObjectLocation( _movingTo->getComponent< ILocateComponent >( ComponentId::Locate )->getLocation() )
+	,	m_lastTargetObjectLocation( _movingTo->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name )->getMember< QPoint >( LocateComponent::Location ) )
 	,	m_preprocessedPath()
 	,	m_distance( _distance )
 {
@@ -96,7 +94,7 @@ MoveAction::MoveAction(
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_movingToPoint()
 	,	m_movingToObject( _movingTo )
-	,	m_lastTargetObjectLocation( _movingTo->getComponent< ILocateComponent >( ComponentId::Locate )->getLocation() )
+	,	m_lastTargetObjectLocation( _movingTo->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name )->getMember< QPoint >( LocateComponent::Location ) )
 	,	m_preprocessedPath( _path )
 	,	m_distance( _distance )
 {
@@ -119,8 +117,8 @@ MoveAction::prepareToProcessingInternal()
 {
 	boost::intrusive_ptr< IMoveComponent > moveComponent
 		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
-	boost::intrusive_ptr< ILocateComponent > locateComponent
-		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+	Tools::Core::Object::Ptr locateComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
 	moveComponent->getMovingData().reset();
 
@@ -134,7 +132,9 @@ MoveAction::prepareToProcessingInternal()
 		}
 		else
 		{
-			m_lastTargetObjectLocation = m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate )->getLocation();
+			m_lastTargetObjectLocation
+				= m_movingToObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name )
+					->getMember< QPoint >( LocateComponent::Location );
 		}
 	}
 
@@ -147,8 +147,14 @@ MoveAction::prepareToProcessingInternal()
 		{
 			moveComponent->getMovingData().m_path = m_preprocessedPath;
 
-			m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
-			m_landscapeModel.getLandscape()->setEngaged( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData().m_emplacement, true );
+			m_landscapeModel.getLandscape()->setEngaged(
+					locateComponent->getMember< QPoint >( LocateComponent::Location )
+				,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
+				,	false );
+			m_landscapeModel.getLandscape()->setEngaged(
+					moveComponent->getMovingData().m_path.front()
+				,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
+				,	true );
 		}
 
 		m_preprocessedPath.clear();
@@ -202,8 +208,8 @@ MoveAction::processAction()
 {
 	// Common variables
 
-	boost::intrusive_ptr< ILocateComponent > locateComponent
-		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+	Tools::Core::Object::Ptr locateComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 	boost::intrusive_ptr< IMoveComponent > moveComponent
 		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
 
@@ -233,15 +239,15 @@ MoveAction::processAction()
 
 		if ( moveComponent->getMovingData().m_movingToObject )
 		{
-			boost::intrusive_ptr< ILocateComponent > targetLocateComponent
-				= moveComponent->getMovingData().m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate );
+			Tools::Core::Object::Ptr targetLocateComponent
+				= moveComponent->getMovingData().m_movingToObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
-			if ( Geometry::checkDistance( locateComponent->getLocation(), targetLocateComponent->getRect(), m_distance ) )
+			if ( Geometry::checkDistance( locateComponent->getMember< QPoint >( LocateComponent::Location ), LocateComponent::getRect( *targetLocateComponent ), m_distance ) )
 			{
 				goalReached = true;
 			}
 		}
-		else if ( Geometry::checkDistance( locateComponent->getLocation(), movingData.m_movingTo, m_distance ) )
+		else if ( Geometry::checkDistance( locateComponent->getMember< QPoint >( LocateComponent::Location ), movingData.m_movingTo, m_distance ) )
 		{
 			goalReached = true;
 		}
@@ -255,12 +261,12 @@ MoveAction::processAction()
 
 		if ( moveComponent->getMovingData().m_movingToObject )
 		{
-			boost::intrusive_ptr< ILocateComponent > targetLocateComponent
-				= moveComponent->getMovingData().m_movingToObject->getComponent< ILocateComponent >( ComponentId::Locate );
+			Tools::Core::Object::Ptr targetLocateComponent
+				= moveComponent->getMovingData().m_movingToObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
-			if ( targetLocateComponent->getLocation() != m_lastTargetObjectLocation )
+			if ( targetLocateComponent->getMember< QPoint >( LocateComponent::Location ) != m_lastTargetObjectLocation )
 			{
-				m_lastTargetObjectLocation = targetLocateComponent->getLocation();
+				m_lastTargetObjectLocation = targetLocateComponent->getMember< QPoint >( LocateComponent::Location );
 				moveComponent->getMovingData().leaveOnlyFirstPoint();
 			}
 		}
@@ -290,8 +296,14 @@ MoveAction::processAction()
 			{
 				movingData = newMovingData;
 
-				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
-				m_landscapeModel.getLandscape()->setEngaged( movingData.m_path.front(), locateComponent->getStaticData().m_emplacement, true );
+				m_landscapeModel.getLandscape()->setEngaged(
+						locateComponent->getMember< QPoint >( LocateComponent::Location )
+					,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
+					,	false );
+				m_landscapeModel.getLandscape()->setEngaged(
+						movingData.m_path.front()
+					,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
+					,	true );
 			}
 		}
 
@@ -309,7 +321,7 @@ MoveAction::processAction()
 
 				QPoint location( QPoint( movingData.m_path.front() ) );
 
-				locateComponent->setLocation( location );
+				locateComponent->getMember< QPoint >( LocateComponent::Location ) = location;
 
 				movingData.m_path.pop_front();
 
@@ -317,8 +329,14 @@ MoveAction::processAction()
 				{
 					if ( m_landscapeModel.getLandscape()->canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getMember< QString >( ObjectNameKey ) ) )
 					{
-						m_landscapeModel.getLandscape()->setEngaged( location, locateComponent->getStaticData().m_emplacement, false );
-						m_landscapeModel.getLandscape()->setEngaged( moveComponent->getMovingData().m_path.front(), locateComponent->getStaticData().m_emplacement, true );
+						m_landscapeModel.getLandscape()->setEngaged(
+								location
+							,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
+							,	false );
+						m_landscapeModel.getLandscape()->setEngaged(
+								moveComponent->getMovingData().m_path.front()
+							,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
+							,	true );
 					}
 					else
 					{
@@ -330,9 +348,9 @@ MoveAction::processAction()
 
 			if ( !movingData.m_path.empty() )
 			{
-				Direction::Enum currentDirection = locateComponent->getDirection();
+				Direction::Enum currentDirection = locateComponent->getMember< Direction::Enum >( LocateComponent::Direction );
 
-				QPoint currentLocation( locateComponent->getLocation() );
+				QPoint currentLocation( locateComponent->getMember< QPoint >( LocateComponent::Location ) );
 				QPoint nextLocation = movingData.m_path.front();
 
 				Direction::Enum nextDirection = Direction::getDirection( currentLocation, nextLocation );
@@ -342,7 +360,7 @@ MoveAction::processAction()
 
 				if ( currentDirection != nextDirection || currentState != nextState )
 				{
-					locateComponent->setDirection( nextDirection );
+					locateComponent->getMember< Direction::Enum >( LocateComponent::Direction ) = nextDirection;
 					m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = nextState;
 
 					unitChangeState = true;
@@ -376,7 +394,7 @@ MoveAction::processAction()
 				.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
 				.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 				.pushMember( Events::ObjectStateChanged::ObjectState, m_object.getMember< ObjectState::Enum >( ObjectStateKey ) )
-				.pushMember( Events::ObjectStateChanged::ObjectDirection, locateComponent->getDirection() ) );
+				.pushMember( Events::ObjectStateChanged::ObjectDirection, locateComponent->getMember< Direction::Enum >( LocateComponent::Direction ) ) );
 	}
 
 	if ( unitMoved )
@@ -385,8 +403,8 @@ MoveAction::processAction()
 			Framework::Core::EventManager::Event( Events::ObjectMoved::Type )
 				.pushMember( Events::ObjectMoved::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
 				.pushMember( Events::ObjectMoved::ObjectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-				.pushMember( Events::ObjectMoved::MovingFromAttribute, locateComponent->getLocation() )
-				.pushMember( Events::ObjectMoved::MovingToAttribute, movingData.m_path.empty() ? locateComponent->getLocation() : movingData.m_path.front() )
+				.pushMember( Events::ObjectMoved::MovingFromAttribute, locateComponent->getMember< QPoint >( LocateComponent::Location ) )
+				.pushMember( Events::ObjectMoved::MovingToAttribute, movingData.m_path.empty() ? locateComponent->getMember< QPoint >( LocateComponent::Location ) : movingData.m_path.front() )
 				.pushMember( Events::ObjectMoved::MovingProgressAttribute, movingData.m_path.empty() ? moveComponent->getStaticData().m_movingSpeed : movingData.m_movingProgress )
 				.pushMember( Events::ObjectMoved::MovingSpeedAttribute, moveComponent->getStaticData().m_movingSpeed ) );
 	}

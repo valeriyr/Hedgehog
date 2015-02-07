@@ -9,10 +9,7 @@
 #include "landscape_model/h/lm_game_object.hpp"
 #include "landscape_model/ih/lm_istatic_data.hpp"
 
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
-
 #include "landscape_model/sources/landscape/lm_iobjects_creator.hpp"
-
 #include "landscape_model/sources/environment/lm_ienvironment.hpp"
 
 #include "iterators/it_simple_iterator.hpp"
@@ -206,7 +203,7 @@ Landscape::getObject( const QPoint& _point ) const
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( ( *begin )->getComponent< ILocateComponent >( ComponentId::Locate )->getRect().contains( _point ) )
+		if ( LocateComponent::getRect( *( *begin )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name ) ).contains( _point ) )
 			return *begin;
 	}
 
@@ -307,13 +304,13 @@ Landscape::createObject( const QString& _objectName, const QPoint& _location, co
 
 		m_objects.push_back( object );
 
-		QRect objectRect( object->getComponent< ILocateComponent >( ComponentId::Locate )->getRect() );
+		QRect objectRect( LocateComponent::getRect( *object->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name ) ) );
 
 		for ( int x = objectRect.x(); x < objectRect.x() + objectRect.width(); ++x )
 		{
 			for ( int y = objectRect.y(); y < objectRect.y() + objectRect.height(); ++y )
 			{
-				m_terrainMap.getElement( x, y ).markAsEngaged( staticData.m_locateData->m_emplacement, true );
+				m_terrainMap.getElement( x, y ).markAsEngaged( staticData.m_locateData->getMember< Emplacement::Enum >( LocateComponent::StaticData::Emplacement ), true );
 			}
 		}
 
@@ -365,17 +362,17 @@ Landscape::hideObject( const Tools::Core::Generators::IGenerator::IdType& _id )
 		{
 			boost::shared_ptr< GameObject > object = *begin;
 
-			boost::intrusive_ptr< ILocateComponent >
-				locateComponent = object->getComponent< ILocateComponent >( ComponentId::Locate );
-			locateComponent->setHidden( true );
+			Tools::Core::Object::Ptr
+				locateComponent = object->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+			locateComponent->getMember< bool >( LocateComponent::IsHidden ) = true;
 
-			QRect objectRect( locateComponent->getRect() );
+			QRect objectRect( LocateComponent::getRect( *locateComponent ) );
 
 			for ( int x = objectRect.x(); x < objectRect.x() + objectRect.width(); ++x )
 			{
 				for ( int y = objectRect.y(); y < objectRect.y() + objectRect.height(); ++y )
 				{
-					m_terrainMap.getElement( x, y ).markAsEngaged( locateComponent->getStaticData().m_emplacement, false );
+					m_terrainMap.getElement( x, y ).markAsEngaged( locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) ), false );
 				}
 			}
 
@@ -399,17 +396,16 @@ Landscape::showObject( boost::shared_ptr< GameObject > _object )
 	assert( !getObject( _object->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 	m_objects.push_back( _object );
 
-	boost::intrusive_ptr< ILocateComponent >
-		locateComponent = _object->getComponent< ILocateComponent >( ComponentId::Locate );
-	locateComponent->setHidden( false );
+	Tools::Core::Object::Ptr locateComponent = _object->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+	locateComponent->getMember< bool >( LocateComponent::IsHidden ) = false;
 
-	QRect objectRect( locateComponent->getRect() );
+	QRect objectRect( LocateComponent::getRect( *locateComponent ) );
 
 	for ( int x = objectRect.x(); x < objectRect.x() + objectRect.width(); ++x )
 	{
 		for ( int y = objectRect.y(); y < objectRect.y() + objectRect.height(); ++y )
 		{
-			m_terrainMap.getElement( x, y ).markAsEngaged( locateComponent->getStaticData().m_emplacement, true );
+			m_terrainMap.getElement( x, y ).markAsEngaged( locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) ), true );
 		}
 	}
 
@@ -475,15 +471,14 @@ Landscape::unselectObjects()
 bool
 Landscape::canObjectBePlaced( const QPoint& _location, const QString& _objectName ) const
 {
-	boost::shared_ptr< ILocateComponent::StaticData > locateData
-		= m_environment.getStaticData()->getObjectStaticData( _objectName ).m_locateData;
+	Tools::Core::Object::Ptr locateData = m_environment.getStaticData()->getObjectStaticData( _objectName ).m_locateData;
 
 	if ( !locateData )
 		return false;
 
-	for ( int x = _location.x(); x < _location.x() + locateData->m_size.width(); ++x )
+	for ( int x = _location.x(); x < _location.x() + locateData->getMember< QSize >( LocateComponent::StaticData::Size ).width(); ++x )
 	{
-		for ( int y = _location.y(); y < _location.y() + locateData->m_size.height(); ++y )
+		for ( int y = _location.y(); y < _location.y() + locateData->getMember< QSize >( LocateComponent::StaticData::Size ).height(); ++y )
 		{
 			if (	x < 0 || x >= getWidth()
 				||	y < 0 || y >= getHeight() )
@@ -491,8 +486,8 @@ Landscape::canObjectBePlaced( const QPoint& _location, const QString& _objectNam
 				return false;
 			}
 
-			if (	!( locateData->m_passability & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
-				||	m_terrainMap.getConstElement( x, y ).canBePlaced( locateData->m_emplacement ) )
+			if (	!( locateData->getMember< qint32 >( LocateComponent::StaticData::Passability ) & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
+				||	m_terrainMap.getConstElement( x, y ).canBePlaced( locateData->getMember< Emplacement::Enum >( LocateComponent::StaticData::Emplacement ) ) )
 			{
 				return false;
 			}
@@ -510,34 +505,33 @@ Landscape::canObjectBePlaced( const QPoint& _location, const QString& _objectNam
 QPoint
 Landscape::getNearestLocation( const GameObject& _nearestFrom, const QString& _forObject ) const
 {
-	boost::intrusive_ptr< ILocateComponent > locateComponent
-		= _nearestFrom.getComponent< ILocateComponent >( ComponentId::Locate );
+	Tools::Core::Object::Ptr locateComponent = _nearestFrom.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
-	const ILocateComponent::StaticData& staticData = locateComponent->getStaticData();
-	const QPoint& position = locateComponent->getLocation();
+	const QSize& size = locateComponent->getMember< QSize >( StaticDataTools::generateName( LocateComponent::StaticData::Size ) );
+	const QPoint& position = locateComponent->getMember< QPoint >( LocateComponent::Location );
 
 	int count = 0;
 	int offset = 0;
 
 	while ( count < 5 )
 	{
-		for ( int y = position.y() - offset; y <= position.y() + staticData.m_size.height() + offset; ++y )
+		for ( int y = position.y() - offset; y <= position.y() + size.height() + offset; ++y )
 		{
-			QPoint result( position.x() + staticData.m_size.width() + offset, y );
+			QPoint result( position.x() + size.width() + offset, y );
 
 			if ( canObjectBePlaced( result, _forObject ) )
 				return result;
 		}
 
-		for ( int x = position.x() + staticData.m_size.width() - 1 + offset; x >= position.x() - 1 - offset; --x )
+		for ( int x = position.x() + size.width() - 1 + offset; x >= position.x() - 1 - offset; --x )
 		{
-			QPoint result( x, position.y() + staticData.m_size.height() + offset );
+			QPoint result( x, position.y() + size.height() + offset );
 
 			if ( canObjectBePlaced( result, _forObject ) )
 				return result;
 		}
 
-		for ( int y = position.y() + staticData.m_size.height() - 1 + offset; y >= position.y() - 1 - offset; --y )
+		for ( int y = position.y() + size.height() - 1 + offset; y >= position.y() - 1 - offset; --y )
 		{
 			QPoint result( position.x() - 1 - offset, y );
 
@@ -545,7 +539,7 @@ Landscape::getNearestLocation( const GameObject& _nearestFrom, const QString& _f
 				return result;
 		}
 
-		for ( int x = position.x() - 1 - offset; x <= position.x() + staticData.m_size.width() + offset; ++x )
+		for ( int x = position.x() - 1 - offset; x <= position.x() + size.width() + offset; ++x )
 		{
 			QPoint result( x, position.y() - 1 - offset );
 

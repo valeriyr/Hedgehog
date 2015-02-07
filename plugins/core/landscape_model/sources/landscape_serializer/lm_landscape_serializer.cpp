@@ -9,8 +9,6 @@
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 #include "landscape_model/ih/lm_isurface_item.hpp"
 
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
-
 #include "xml_library/sources/rules/xl_tag_rule.hpp"
 #include "xml_library/sources/rules/xl_attribute_rule.hpp"
 #include "xml_library/sources/rules/xl_cdata_rule.hpp"
@@ -226,10 +224,8 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 
 	for ( ; begin != end; ++begin )
 	{
-		boost::intrusive_ptr< ILocateComponent > locateComponent
-			= ( *begin )->getComponent< ILocateComponent >( ComponentId::Locate );
-		Tools::Core::Object::Ptr playerComponent
-			= ( *begin )->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
+		Tools::Core::Object::Ptr locateComponent = ( *begin )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+		Tools::Core::Object::Ptr playerComponent = ( *begin )->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 		xmlStream.writeStartElement( Resources::Xml::GameObject );
 
@@ -237,8 +233,8 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 
 		xmlStream.writeStartElement( Resources::Xml::Location );
 
-		xmlStream.writeAttribute( Resources::Xml::X, QString::number( locateComponent->getLocation().x() ) );
-		xmlStream.writeAttribute( Resources::Xml::Y, QString::number( locateComponent->getLocation().y() ) );
+		xmlStream.writeAttribute( Resources::Xml::X, QString::number( locateComponent->getMember< QPoint >( LocateComponent::Location ).x() ) );
+		xmlStream.writeAttribute( Resources::Xml::Y, QString::number( locateComponent->getMember< QPoint >( LocateComponent::Location ).y() ) );
 
 		xmlStream.writeEndElement();
 

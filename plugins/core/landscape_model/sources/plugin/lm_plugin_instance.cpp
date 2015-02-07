@@ -391,10 +391,15 @@ PluginInstance::exportScriptAPI()
 
 	exporter.exportClassWithShared< Tools::Core::Object >( "Object" )
 		->withConstructor()
+		.withMethod( "pushEmplacementMember", &Tools::Core::Object::pushMember< Emplacement::Enum > )
+		.withMethod( "pushDirectionMember", &Tools::Core::Object::pushMember< Direction::Enum > )
 		.withMethod( "pushIntMember", &Tools::Core::Object::pushMember< qint32 > )
 		.withMethod( "pushBoolMember", &Tools::Core::Object::pushMember< bool > )
 		.withMethod( "pushTickTypeMember", &Tools::Core::Object::pushMember< TickType > )
 		.withMethod( "pushStringMember", &Tools::Core::Object::pushMember< QString > )
+		.withMethod( "pushPointMember", &Tools::Core::Object::pushMember< QPoint > )
+		.withMethod( "pushSizeMember", &Tools::Core::Object::pushMember< QSize > )
+		.withMethod( "pushRectMember", &Tools::Core::Object::pushMember< QRect > )
 		.withMethod( "pushResourcesDataMember", &Tools::Core::Object::pushMember< ResourcesData > )
 		.withMethod(	"getObjectPtrMember"
 					,	( Tools::Core::Object::Ptr& (Tools::Core::Object::*)( const QString& ) )
@@ -468,8 +473,13 @@ PluginInstance::exportScriptAPI()
 
 	// LocateComponent
 
-	exporter.exportClassWithShared< ILocateComponent::StaticData >( "LocateComponentStaticData" )
-		->withConstructor< const QSize&, const TerrainMapItem::MaskType, const Emplacement::Enum >();
+	exporter.exportVariable( "LocateComponentName", LocateComponent::Name );
+	exporter.exportVariable( "LocateComponentSize", LocateComponent::StaticData::Size );
+	exporter.exportVariable( "LocateComponentPassability", LocateComponent::StaticData::Passability );
+	exporter.exportVariable( "LocateComponentEmplacement", LocateComponent::StaticData::Emplacement );
+	exporter.exportVariable( "LocateComponentDirection", LocateComponent::Direction);
+	exporter.exportVariable( "LocateComponentLocation", LocateComponent::Location);
+	exporter.exportVariable( "LocateComponentIsHidden", LocateComponent::IsHidden);
 
 	// SelectionComponent
 

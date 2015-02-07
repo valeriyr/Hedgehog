@@ -16,7 +16,6 @@
 
 #include "landscape_model/sources/actions/lm_iworkers_holder.hpp"
 
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_source_component.hpp"
@@ -168,8 +167,8 @@ CollectResourceAction::processAction()
 {
 	// Common variables
 
-	boost::intrusive_ptr< ILocateComponent > locateComponent
-		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+	Tools::Core::Object::Ptr locateComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
 	Tools::Core::Object::Ptr playerComponent
@@ -187,16 +186,16 @@ CollectResourceAction::processAction()
 
 	// Check objects
 
-	boost::intrusive_ptr< ILocateComponent > targetLocateComponent
-		= m_targetObject->getComponent< ILocateComponent >( ComponentId::Locate );
+	Tools::Core::Object::Ptr targetLocateComponent
+		= m_targetObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
 	// Check distance
 
 	if (	Geometry::getDistance(
-					locateComponent->getLocation()
+					locateComponent->getMember< QPoint >( LocateComponent::Location )
 				,	Geometry::getNearestPoint(
-							locateComponent->getLocation()
-						,	targetLocateComponent->getRect() ) )
+							locateComponent->getMember< QPoint >( LocateComponent::Location )
+						,	LocateComponent::getRect( *targetLocateComponent ) ) )
 		>	Geometry::DiagonalDistance )
 	{
 		IPathFinder::PointsCollection path;
@@ -230,8 +229,8 @@ CollectResourceAction::processAction()
 	{
 		boost::intrusive_ptr< IResourceSourceComponent > targetResourceSource
 			= m_targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource );
-		boost::intrusive_ptr< ILocateComponent > targetLocation
-			= m_targetObject->getComponent< ILocateComponent >( ComponentId::Locate );
+		Tools::Core::Object::Ptr targetLocation
+			= m_targetObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
 		if (	m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::UnderCollecting
 			&&	targetResourceSource->getObjectInside() != m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
@@ -254,9 +253,12 @@ CollectResourceAction::processAction()
 				return;
 			}
 
-			if ( !locateComponent->isHidden() /* add checking should be hidden or not */ )
+			if ( !locateComponent->getMember< bool >( LocateComponent::IsHidden ) /* add checking should be hidden or not */ )
 			{
-				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
+				m_landscapeModel.getLandscape()->setEngaged(
+						locateComponent->getMember< QPoint >( LocateComponent::Location )
+					,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
+					,	false );
 
 				m_hiddenObject = m_landscapeModel.getLandscape()->hideObject( m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) );
 				m_hiddenObject->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Collecting;
@@ -276,7 +278,7 @@ CollectResourceAction::processAction()
 						.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, m_resourceSource->getMember< QString >( ObjectNameKey ) )
 						.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, m_resourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 						.pushMember( Events::ObjectStateChanged::ObjectState, m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) )
-						.pushMember( Events::ObjectStateChanged::ObjectDirection, targetLocation->getDirection() ) );
+						.pushMember( Events::ObjectStateChanged::ObjectDirection, targetLocation->getMember< Direction::Enum >( LocateComponent::Direction ) ) );
 			}
 
 			if ( !resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) )
@@ -317,7 +319,8 @@ CollectResourceAction::processAction()
 
 			if ( resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) || !m_isInProcessing )
 			{
-				locateComponent->setLocation( m_landscapeModel.getLandscape()->getNearestLocation( *m_targetObject, m_object.getMember< QString >( ObjectNameKey ) ) );
+				locateComponent->getMember< QPoint >( LocateComponent::Location )
+					= m_landscapeModel.getLandscape()->getNearestLocation( *m_targetObject, m_object.getMember< QString >( ObjectNameKey ) );
 				m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 
 				m_landscapeModel.getLandscape()->showObject( m_hiddenObject );
@@ -328,14 +331,17 @@ CollectResourceAction::processAction()
 
 				m_hiddenObject.reset();
 
-				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );
+				m_landscapeModel.getLandscape()->setEngaged(
+						locateComponent->getMember< QPoint >( LocateComponent::Location )
+					,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
+					,	true );
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::HolderHasStopCollect::Type )
 						.pushMember( Events::HolderHasStopCollect::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
-						.pushMember( Events::HolderHasStopCollect::ObjectLocationAttribute, locateComponent->getLocation() )
+						.pushMember( Events::HolderHasStopCollect::ObjectLocationAttribute, locateComponent->getMember< QPoint >( LocateComponent::Location ) )
 						.pushMember( Events::HolderHasStopCollect::ObjectUniqueIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-						.pushMember( Events::HolderHasStopCollect::ObjectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
+						.pushMember( Events::HolderHasStopCollect::ObjectEmplacementAttribute, locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) ) ) );
 
 				m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 
@@ -344,7 +350,7 @@ CollectResourceAction::processAction()
 						.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, m_resourceSource->getMember< QString >( ObjectNameKey ) )
 						.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, m_resourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 						.pushMember( Events::ObjectStateChanged::ObjectState, m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) )
-						.pushMember( Events::ObjectStateChanged::ObjectDirection, targetLocation->getDirection() ) );
+						.pushMember( Events::ObjectStateChanged::ObjectDirection, targetLocation->getMember< Direction::Enum >( LocateComponent::Direction ) ) );
 
 				m_isInProcessing = ensureStorage();
 				m_targetObject = m_resourceStarage;

@@ -10,8 +10,6 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
-
 #include "landscape_model/sources/actions/lm_iworkers_holder.hpp"
 #include "landscape_model/sources/actions/lm_move_action.hpp"
 
@@ -42,7 +40,7 @@ BuildAction::BuildAction(
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_workersHolder( _workersHolder )
 	,	m_objectName( _objectName )
-	,	m_atRect( _atLocation, _environment.getStaticData()->getObjectStaticData( _objectName ).m_locateData->m_size )
+	,	m_atRect( _atLocation, _environment.getStaticData()->getObjectStaticData( _objectName ).m_locateData->getMember< QSize >( LocateComponent::StaticData::Size ) )
 {
 } // BuildAction::BuildAction
 
@@ -125,8 +123,8 @@ BuildAction::processAction()
 {
 	// Common variables
 
-	boost::intrusive_ptr< ILocateComponent > locateComponent
-		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+	Tools::Core::Object::Ptr locateComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 	Tools::Core::Object::Ptr buildComponent
 		= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
@@ -144,9 +142,9 @@ BuildAction::processAction()
 	{
 		// Check distance
 
-		QPoint nearestPoint = Geometry::getNearestPoint( locateComponent->getLocation(), buildComponent->getMember< QRect  >( BuildComponent::AtRect ) );
+		QPoint nearestPoint = Geometry::getNearestPoint( locateComponent->getMember< QPoint >( LocateComponent::Location ), buildComponent->getMember< QRect  >( BuildComponent::AtRect ) );
 
-		if ( Geometry::getDistance( locateComponent->getLocation(), nearestPoint ) > Geometry::ZeroDistance )
+		if ( Geometry::getDistance( locateComponent->getMember< QPoint >( LocateComponent::Location ), nearestPoint ) > Geometry::ZeroDistance )
 		{
 			IPathFinder::PointsCollection path;
 			JumpPointSearch::pathToPoint( path, *m_landscapeModel.getLandscape(), m_object, nearestPoint );
@@ -177,7 +175,10 @@ BuildAction::processAction()
 
 			if ( buildComponent->getMember< qint32 >( BuildComponent::BuildProgress ) == 0 )
 			{
-				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
+				m_landscapeModel.getLandscape()->setEngaged(
+						locateComponent->getMember< QPoint >( LocateComponent::Location )
+					,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
+					,	false );
 
 				boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
@@ -195,7 +196,10 @@ BuildAction::processAction()
 								->m_buildDatas.end()
 					||	!player->getResourcesData().isEnaught( iterator->second->m_resourcesData ) )
 				{
-					m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );
+					m_landscapeModel.getLandscape()->setEngaged(
+							locateComponent->getMember< QPoint >( LocateComponent::Location )
+						,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
+						,	true );
 					m_isInProcessing = false;
 					shouldBuildObject = false;
 				}
@@ -289,8 +293,8 @@ BuildAction::startBuild(
 
 			Tools::Core::Object::Ptr buildComponent
 				= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
-			boost::intrusive_ptr< ILocateComponent > locateComponent
-				= object->getComponent< ILocateComponent >( ComponentId::Locate );
+			Tools::Core::Object::Ptr locateComponent
+				= object->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
 			buildComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( BuildComponent::ObjectId ) = objectId;
 
@@ -303,7 +307,7 @@ BuildAction::startBuild(
 					.pushMember( Events::ObjectStartBuilding::ObjectNameAttribute, _objectName )
 					.pushMember( Events::ObjectStartBuilding::ObjectLocationAttribute, _location )
 					.pushMember( Events::ObjectStartBuilding::ObjectUniqueIdAttribute, objectId )
-					.pushMember( Events::ObjectStartBuilding::ObjectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
+					.pushMember( Events::ObjectStartBuilding::ObjectEmplacementAttribute, locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) ) ) );
 		}
 	}
 
@@ -321,8 +325,8 @@ BuildAction::stopBuild( const Tools::Core::Generators::IGenerator::IdType& _id )
 		boost::shared_ptr< GameObject > builder = m_workersHolder.getWorker( _id );
 		assert( builder );
 
-		boost::intrusive_ptr< ILocateComponent >
-			locateComponent = builder->getComponent< ILocateComponent >( ComponentId::Locate );
+		Tools::Core::Object::Ptr
+			locateComponent = builder->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 		Tools::Core::Object::Ptr buildComponent
 			= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
 
@@ -335,12 +339,12 @@ BuildAction::stopBuild( const Tools::Core::Generators::IGenerator::IdType& _id )
 				.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, targetObject->getMember< QString >( ObjectNameKey ) )
 				.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, targetObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 				.pushMember( Events::ObjectStateChanged::ObjectState, targetObject->getMember< ObjectState::Enum >( ObjectStateKey ) )
-				.pushMember( Events::ObjectStateChanged::ObjectDirection, targetObject->getComponent< ILocateComponent >( ComponentId::Locate )->getDirection() ) );
+				.pushMember( Events::ObjectStateChanged::ObjectDirection, targetObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name )->getMember< Direction::Enum >( LocateComponent::Direction ) ) );
 
-		locateComponent->setLocation(
-			m_landscapeModel.getLandscape()->getNearestLocation(
+		locateComponent->getMember< QPoint >( LocateComponent::Location )
+			= m_landscapeModel.getLandscape()->getNearestLocation(
 					*targetObject
-				,	builder->getMember< QString >( ObjectNameKey ) ) );
+				,	builder->getMember< QString >( ObjectNameKey ) );
 		builder->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 
 		m_landscapeModel.getLandscape()->showObject( builder );
@@ -348,9 +352,9 @@ BuildAction::stopBuild( const Tools::Core::Generators::IGenerator::IdType& _id )
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::BuilderHasFinishedBuild::Type )
 				.pushMember( Events::BuilderHasFinishedBuild::ObjectNameAttribute, builder->getMember< QString >( ObjectNameKey ) )
-				.pushMember( Events::BuilderHasFinishedBuild::ObjectLocationAttribute, locateComponent->getLocation() )
+				.pushMember( Events::BuilderHasFinishedBuild::ObjectLocationAttribute, locateComponent->getMember< QPoint >( LocateComponent::Location ) )
 				.pushMember( Events::BuilderHasFinishedBuild::ObjectUniqueIdAttribute, _id )
-				.pushMember( Events::BuilderHasFinishedBuild::ObjectEmplacementAttribute, locateComponent->getStaticData().m_emplacement ) );
+				.pushMember( Events::BuilderHasFinishedBuild::ObjectEmplacementAttribute, locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) ) ) );
 
 		m_workersHolder.removeWorker( _id );
 	}

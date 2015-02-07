@@ -11,7 +11,6 @@
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
 #include "landscape_model/ih/components/lm_itrain_component.hpp"
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
 
 
 /*---------------------------------------------------------------------------*/
@@ -107,10 +106,7 @@ TrainAction::cancelProcessing()
 void
 TrainAction::processAction()
 {
-	boost::intrusive_ptr< ILocateComponent > locateComponent
-		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
-	boost::intrusive_ptr< ITrainComponent > trainComponent
-		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
+	boost::intrusive_ptr< ITrainComponent > trainComponent = m_object.getComponent< ITrainComponent >( ComponentId::Train );
 
 	ITrainComponent::Data& trainData = trainComponent->getTrainData();
 

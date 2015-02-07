@@ -128,13 +128,20 @@ PluginInstance::exportScriptAPI()
 	DataExporter exporter = m_exporter->getDataExporter();
 
 	exporter.exportClass< QString >( "QString" )
-		->withConstructor< const char* >();
+		->withConstructor()
+		.withConstructor< const char* >();
+
+	exporter.exportClass< QPoint  >( "QPoint" )
+		->withConstructor()
+		.withConstructor< int, int >();
 
 	exporter.exportClass< QSize >( "QSize" )
-		->withConstructor< int, int >();
+		->withConstructor()
+		.withConstructor< int, int >();
 
 	exporter.exportClass< QRect >( "QRect" )
-		->withConstructor< int, int, int, int >();
+		->withConstructor()
+		.withConstructor< int, int, int, int >();
 
 	exporter.exportClass< Tools::Core::IMessenger >( "IMessenger" )
 		->withMethod( "printMessage", ( void ( Tools::Core::IMessenger::* )( const QString& ) )( &Tools::Core::IMessenger::printMessage ) )

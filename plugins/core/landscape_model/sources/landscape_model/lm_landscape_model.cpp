@@ -27,7 +27,6 @@
 #include "landscape_model/sources/ai/ai_manager/lm_iai_manager.hpp"
 
 #include "landscape_model/sources/components/lm_train_component.hpp"
-#include "landscape_model/sources/components/lm_locate_component.hpp"
 #include "landscape_model/sources/components/lm_actions_component.hpp"
 #include "landscape_model/sources/components/lm_move_component.hpp"
 #include "landscape_model/sources/components/lm_repair_component.hpp"
@@ -94,11 +93,10 @@ struct ObjectsByRectFilter
 
 	/*virtual*/ bool check( const GameObject& _object ) const
 	{
-		boost::intrusive_ptr< ILocateComponent > locationComponent
-			= _object.getComponent< ILocateComponent >( ComponentId::Locate );
+		Tools::Core::Object::Ptr locationComponent = _object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
 		return	locationComponent
-			&&	locationComponent->getRect().intersects( m_rect );
+			&&	LocateComponent::getRect( *locationComponent ).intersects( m_rect );
 	}
 
 	const QRect m_rect;
@@ -783,9 +781,10 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 		object->pushMember( GameObject::generateName( HealthComponent::Name, StaticDataTools::Name ), staticData.m_healthData );
 
 	if ( staticData.m_locateData )
-		object->addComponent(
-				ComponentId::Locate
-			,	boost::intrusive_ptr< IComponent >( new LocateComponent( *object, *staticData.m_locateData, _location ) ) );
+	{
+		object->pushMember( GameObject::generateName( LocateComponent::Name, StaticDataTools::Name ), staticData.m_locateData );
+		object->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name )->pushMember( LocateComponent::Location, _location );
+	}
 
 	if ( staticData.m_selectionData )
 		object->pushMember( GameObject::generateName( SelectionComponent::Name, StaticDataTools::Name ), staticData.m_selectionData );
@@ -1540,7 +1539,9 @@ LandscapeModel::onCreateObjectProcessor( const Command& _command )
 				.pushMember( Events::ObjectAdded::ObjectNameAttribute, name )
 				.pushMember( Events::ObjectAdded::ObjectLocationAttribute, location )
 				.pushMember( Events::ObjectAdded::ObjectUniqueIdAttribute, objectId )
-				.pushMember( Events::ObjectAdded::ObjectEmplacementAttribute, m_environment.getStaticData()->getObjectStaticData( name ).m_locateData->m_emplacement ) );
+				.pushMember(
+						Events::ObjectAdded::ObjectEmplacementAttribute
+					,	m_environment.getStaticData()->getObjectStaticData( name ).m_locateData->getMember< Emplacement::Enum >( LocateComponent::StaticData::Emplacement ) ) );
 	}
 	else
 	{

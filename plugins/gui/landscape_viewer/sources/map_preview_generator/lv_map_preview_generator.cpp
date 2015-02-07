@@ -181,13 +181,16 @@ MapPreviewGenerator::generateObjects(
 
 	for ( ; begin != end; ++begin )
 	{
-		boost::intrusive_ptr< Core::LandscapeModel::ILocateComponent > locateComponent
-			= ( *begin )->getComponent< Core::LandscapeModel::ILocateComponent >( Plugins::Core::LandscapeModel::ComponentId::Locate );
+		Tools::Core::Object::Ptr locateComponent
+			= ( *begin )->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::LocateComponent::Name );
 		boost::intrusive_ptr< Core::LandscapeModel::IPlayer > player = _landscapeModel.getPlayer( **begin );
 
-		for ( int x = locateComponent->getLocation().x(); x < locateComponent->getLocation().x() + locateComponent->getStaticData().m_size.width(); ++x )
+		const QPoint location = locateComponent->getMember< QPoint >( Core::LandscapeModel::LocateComponent::Location );
+		const QSize size = locateComponent->getMember< QSize >( Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::LocateComponent::StaticData::Size ) );
+
+		for ( int x = location.x(); x < location.x() + size.width(); ++x )
 		{
-			for ( int y = locateComponent->getLocation().y(); y < locateComponent->getLocation().y() + locateComponent->getStaticData().m_size.height(); ++y )
+			for ( int y = location.y(); y < location.y() + size.height(); ++y )
 			{
 				qreal posByX = ( x * Resources::Landscape::CellSize ) * scaleByX;
 				qreal posByY = ( y * Resources::Landscape::CellSize ) * scaleByY;

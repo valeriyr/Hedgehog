@@ -7,7 +7,6 @@
 #include "intrusive_base/ib_ibase.hpp"
 
 #include "landscape_model/ih/components/lm_itrain_component.hpp"
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 #include "landscape_model/ih/components/lm_imove_component.hpp"
 #include "landscape_model/ih/components/lm_irepair_component.hpp"
@@ -37,7 +36,7 @@ struct IStaticData
 	{
 		boost::shared_ptr< ITrainComponent::StaticData > m_trainData;
 		Tools::Core::Object::Ptr m_healthData;
-		boost::shared_ptr< ILocateComponent::StaticData > m_locateData;
+		Tools::Core::Object::Ptr m_locateData;
 		Tools::Core::Object::Ptr m_selectionData;
 		boost::shared_ptr< IMoveComponent::StaticData > m_moveData;
 		Tools::Core::Object::Ptr m_generateResourcesData;

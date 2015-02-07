@@ -14,7 +14,6 @@
 
 #include "landscape_model/sources/utils/lm_geometry.hpp"
 
-#include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
@@ -91,8 +90,8 @@ AttackAction::processAction()
 
 	Tools::Core::Object::Ptr attackComponent
 		= m_object.getMember< Tools::Core::Object::Ptr >( AttackComponent::Name );
-	boost::intrusive_ptr< ILocateComponent > locateComponent
-		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
+	Tools::Core::Object::Ptr locateComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
 
@@ -114,10 +113,10 @@ AttackAction::processAction()
 		// Check distance
 
 		if (	Geometry::getDistance(
-						locateComponent->getLocation()
+						locateComponent->getMember< QPoint >( LocateComponent::Location )
 					,	Geometry::getNearestPoint(
-								locateComponent->getLocation()
-							,	attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getComponent< ILocateComponent >( ComponentId::Locate )->getRect() ) )
+								locateComponent->getMember< QPoint >( LocateComponent::Location )
+								,	LocateComponent::getRect( *attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name ) ) ) )
 			>	distance )
 		{
 			IPathFinder::PointsCollection path;
@@ -151,8 +150,9 @@ AttackAction::processAction()
 
 		if ( m_isInProcessing )
 		{
-			boost::intrusive_ptr< ILocateComponent > targetObjectLocate
-				= attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getComponent< ILocateComponent >( ComponentId::Locate );
+			Tools::Core::Object::Ptr targetObjectLocate
+				= attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )
+					->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
 			bool stateChanged = false;
 			bool readyToAttack = false;
@@ -169,19 +169,19 @@ AttackAction::processAction()
 			}
 			else
 			{
-				Direction::Enum currentDirection = locateComponent->getDirection();
+				Direction::Enum currentDirection = locateComponent->getMember< Direction::Enum >( LocateComponent::Direction );
 				Direction::Enum nextDirection
 					= Direction::getDirection(
-							locateComponent->getLocation()
-						,	Geometry::getNearestPoint( locateComponent->getLocation(), targetObjectLocate->getRect() ) );
+							locateComponent->getMember< QPoint >( LocateComponent::Location )
+							,	Geometry::getNearestPoint( locateComponent->getMember< QPoint >( LocateComponent::Location ), LocateComponent::getRect( *targetObjectLocate ) ) );
 
 				if ( currentDirection != nextDirection )
 				{
-					locateComponent->setDirection( nextDirection );
+					locateComponent->getMember< Direction::Enum >( LocateComponent::Direction ) = nextDirection;
 					stateChanged = true;
 				}
 
-				if ( targetObjectLocate->isHidden() )
+				if ( targetObjectLocate->getMember< bool >( LocateComponent::IsHidden ) )
 				{
 					m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 					stateChanged = true;
@@ -241,7 +241,7 @@ AttackAction::processAction()
 								.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< QString >( ObjectNameKey ) )
 								.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 								.pushMember( Events::ObjectStateChanged::ObjectState, attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< ObjectState::Enum >( ObjectStateKey ) )
-								.pushMember( Events::ObjectStateChanged::ObjectDirection, targetObjectLocate->getDirection() ) );
+								.pushMember( Events::ObjectStateChanged::ObjectDirection, targetObjectLocate->getMember< Direction::Enum >( LocateComponent::Direction ) ) );
 
 						m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 						stateChanged = true;
@@ -257,7 +257,7 @@ AttackAction::processAction()
 							.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
 							.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 							.pushMember( Events::ObjectStateChanged::ObjectState, m_object.getMember< ObjectState::Enum >( ObjectStateKey ) )
-							.pushMember( Events::ObjectStateChanged::ObjectDirection, locateComponent->getDirection() ) );
+							.pushMember( Events::ObjectStateChanged::ObjectDirection, locateComponent->getMember< Direction::Enum >( LocateComponent::Direction ) ) );
 				}
 
 				if ( readyToAttack )
@@ -266,7 +266,7 @@ AttackAction::processAction()
 						Framework::Core::EventManager::Event( Events::ObjectReadyToAttack::Type )
 							.pushMember( Events::ObjectReadyToAttack::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
 							.pushMember( Events::ObjectReadyToAttack::ObjectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-							.pushMember( Events::ObjectReadyToAttack::ObjectDirection, locateComponent->getDirection() ) );
+							.pushMember( Events::ObjectReadyToAttack::ObjectDirection, locateComponent->getMember< Direction::Enum >( LocateComponent::Direction ) ) );
 				}
 			}
 		}
