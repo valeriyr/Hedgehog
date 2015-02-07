@@ -391,17 +391,19 @@ PluginInstance::exportScriptAPI()
 
 	exporter.exportClassWithShared< Tools::Core::Object >( "Object" )
 		->withConstructor()
+		.withMethod( "pushIntMember", &Tools::Core::Object::pushMember< qint32 > )
+		.withMethod( "pushBoolMember", &Tools::Core::Object::pushMember< bool > )
+		.withMethod( "pushTickTypeMember", &Tools::Core::Object::pushMember< TickType > )
+		.withMethod( "pushStringMember", &Tools::Core::Object::pushMember< QString > )
+		.withMethod( "pushResourcesDataMember", &Tools::Core::Object::pushMember< ResourcesData > )
 		.withMethod(	"getObjectPtrMember"
 					,	( Tools::Core::Object::Ptr& (Tools::Core::Object::*)( const QString& ) )
 							&Tools::Core::Object::getMember< Tools::Core::Object::Ptr > )
 		.withMethod(	"getObjectMember"
 					,	( Tools::Core::Object& (Tools::Core::Object::*)( const QString& ) )
 							&Tools::Core::Object::getMember< Tools::Core::Object > )
-		.withMethod( "pushIntMember", &Tools::Core::Object::pushMember< qint32 > )
-		.withMethod( "pushBoolMember", &Tools::Core::Object::pushMember< bool > )
-		.withMethod( "pushTickTypeMember", &Tools::Core::Object::pushMember< TickType > )
-		.withMethod( "pushStringMember", &Tools::Core::Object::pushMember< QString > )
 		.withMethod( "pushGameObjectPtrMember", &Tools::Core::Object::pushMember< boost::shared_ptr< GameObject > > )
+		.withMethod( "pushBuildStaticDataMember", &Tools::Core::Object::pushMember< BuildComponent::StaticData::Data::Ptr > )
 		.withMethod( "pushVoidMethod", &Tools::Core::Object::pushMethod< void > )
 		.withMethod( "pushBoolMethod", &Tools::Core::Object::pushMethod< bool > )
 		.withMethod( "pushVoidIntMethod", &Tools::Core::Object::pushMethod< void, qint32 > );
@@ -431,12 +433,21 @@ PluginInstance::exportScriptAPI()
 
 	// BuildComponent
 
-	exporter.exportClassWithShared< IBuildComponent::StaticData::BuildData >( "BuildData" )
+	exporter.exportVariable( "BuildComponentName", BuildComponent::Name );
+
+	exporter.exportVariable( "BuildComponentObjectName", BuildComponent::ObjectName );
+	exporter.exportVariable( "BuildComponentAtRect", BuildComponent::AtRect );
+	exporter.exportVariable( "BuildComponentBuildProgress", BuildComponent::BuildProgress );
+	exporter.exportVariable( "BuildComponentObjectId", BuildComponent::ObjectId );
+
+	exporter.exportVariable( "BuildComponentStaticDataKey", BuildComponent::StaticData::DataKey );
+
+	exporter.exportClassWithShared< BuildComponent::StaticData::Data::BuildData >( "BuildData" )
 		->withConstructor< const TickType, const ResourcesData& >();
 
-	exporter.exportClassWithShared< IBuildComponent::StaticData >( "BuildComponentStaticData" )
+	exporter.exportClassWithShared< BuildComponent::StaticData::Data >( "BuildComponentStaticData" )
 		->withConstructor()
-		.withMethod( "pushBuildData", &IBuildComponent::StaticData::pushBuildData );
+		.withMethod( "pushBuildData", &BuildComponent::StaticData::Data::pushBuildData );
 
 	// RepairComponent
 
@@ -487,9 +498,8 @@ PluginInstance::exportScriptAPI()
 
 	// GenerateResourcesComponent
 
-	exporter.exportClassWithShared< IGenerateResourcesComponent::StaticData >( "GenerateResourcesComponentStaticData" )
-		->withConstructor()
-		.withMethod( "canGenerate", &IGenerateResourcesComponent::StaticData::canGenerate );
+	exporter.exportVariable( "GenerateResourcesComponentName", GenerateResourcesComponent::Name );
+	exporter.exportVariable( "GenerateResourcesComponentResourcesByTick", GenerateResourcesComponent::StaticData::ResourcesByTick );
 
 	// ResourceHolderComponent
 

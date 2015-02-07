@@ -10,8 +10,6 @@
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 #include "landscape_model/ih/components/lm_imove_component.hpp"
-#include "landscape_model/ih/components/lm_igenerate_resources_component.hpp"
-#include "landscape_model/ih/components/lm_ibuild_component.hpp"
 #include "landscape_model/ih/components/lm_irepair_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_source_component.hpp"
@@ -42,9 +40,9 @@ struct IStaticData
 		boost::shared_ptr< ILocateComponent::StaticData > m_locateData;
 		Tools::Core::Object::Ptr m_selectionData;
 		boost::shared_ptr< IMoveComponent::StaticData > m_moveData;
-		boost::shared_ptr< IGenerateResourcesComponent::StaticData > m_generateResourcesData;
+		Tools::Core::Object::Ptr m_generateResourcesData;
 		Tools::Core::Object::Ptr m_attackData;
-		boost::shared_ptr< IBuildComponent::StaticData > m_buildData;
+		Tools::Core::Object::Ptr m_buildData;
 		boost::shared_ptr< IRepairComponent::StaticData > m_repairData;
 		boost::shared_ptr< IResourceHolderComponent::StaticData > m_resourceHolderData;
 		boost::shared_ptr< IResourceSourceComponent::StaticData > m_resourceSourceData;

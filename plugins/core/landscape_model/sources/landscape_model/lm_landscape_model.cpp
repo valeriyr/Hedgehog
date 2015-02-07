@@ -30,8 +30,6 @@
 #include "landscape_model/sources/components/lm_locate_component.hpp"
 #include "landscape_model/sources/components/lm_actions_component.hpp"
 #include "landscape_model/sources/components/lm_move_component.hpp"
-#include "landscape_model/sources/components/lm_generate_resources_component.hpp"
-#include "landscape_model/sources/components/lm_build_component.hpp"
 #include "landscape_model/sources/components/lm_repair_component.hpp"
 #include "landscape_model/sources/components/lm_resource_holder_component.hpp"
 #include "landscape_model/sources/components/lm_resource_source_component.hpp"
@@ -806,9 +804,7 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 		object->pushMember( GameObject::generateName( AttackComponent::Name, StaticDataTools::Name ), staticData.m_attackData );
 
 	if ( staticData.m_buildData )
-		object->addComponent(
-				ComponentId::Build
-			,	boost::intrusive_ptr< IComponent >( new BuildComponent( *object, *staticData.m_buildData ) ) );
+		object->pushMember( GameObject::generateName( BuildComponent::Name, StaticDataTools::Name ), staticData.m_buildData );
 
 	if ( staticData.m_repairData )
 		object->addComponent(
@@ -838,9 +834,7 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 
 	if ( staticData.m_generateResourcesData )
 	{
-		object->addComponent(
-				ComponentId::ResourcesGenerating
-			,	boost::intrusive_ptr< IComponent >( new GenerateResourcesComponent( *object, *staticData.m_generateResourcesData ) ) );
+		object->pushMember( GameObject::generateName( GenerateResourcesComponent::Name, StaticDataTools::Name ), staticData.m_generateResourcesData );
 
 		boost::intrusive_ptr< IActionsComponent > actionsComponent
 			= object->getComponent< IActionsComponent >( ComponentId::Actions );

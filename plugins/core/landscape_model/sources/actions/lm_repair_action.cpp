@@ -17,7 +17,6 @@
 #include "landscape_model/ih/components/lm_irepair_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
-#include "landscape_model/ih/components/lm_ibuild_component.hpp"
 
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
@@ -98,8 +97,8 @@ RepairAction::processAction()
 		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
-	boost::intrusive_ptr< IBuildComponent > buildComponent
-		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
+	Tools::Core::Object::Ptr buildComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
 	Tools::Core::Object::Ptr playerComponent
 		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
@@ -193,8 +192,9 @@ RepairAction::processAction()
 
 					// TODO: CRASH while repairing wrong building
 					ResourcesData repairCostData 
-						= buildComponent->getStaticData().m_buildDatas.find( repairComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
-							->second->m_resourcesData.getResourceDataPart( repairComponent->getStaticData().m_costPercent ).getResourceDataPart( repairHealthPercent );
+						= buildComponent->getMember< BuildComponent::StaticData::Data::Ptr >( StaticDataTools::generateName( BuildComponent::StaticData::DataKey ) )
+							->m_buildDatas.find( repairComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
+								->second->m_resourcesData.getResourceDataPart( repairComponent->getStaticData().m_costPercent ).getResourceDataPart( repairHealthPercent );
 
 					if ( player && player->getResourcesData().isEnaught( repairCostData ) )
 					{

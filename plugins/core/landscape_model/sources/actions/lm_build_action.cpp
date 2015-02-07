@@ -10,7 +10,6 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
-#include "landscape_model/ih/components/lm_ibuild_component.hpp"
 #include "landscape_model/ih/components/lm_ilocate_component.hpp"
 
 #include "landscape_model/sources/actions/lm_iworkers_holder.hpp"
@@ -62,11 +61,11 @@ BuildAction::~BuildAction()
 bool
 BuildAction::prepareToProcessingInternal()
 {
-	boost::intrusive_ptr< IBuildComponent > buildComponent
-		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
+	Tools::Core::Object::Ptr buildComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
 
-	buildComponent->getBuildData().m_objectName = m_objectName;
-	buildComponent->getBuildData().m_atRect = m_atRect;
+	buildComponent->getMember< QString >( BuildComponent::ObjectName ) = m_objectName;
+	buildComponent->getMember< QRect >( BuildComponent::AtRect ) = m_atRect;
 
 	m_environment.riseEvent(
 		Framework::Core::EventManager::Event( Events::BuildQueueChanged::Type )
@@ -83,28 +82,31 @@ BuildAction::prepareToProcessingInternal()
 bool
 BuildAction::cancelProcessingInternal()
 {
-	boost::intrusive_ptr< IBuildComponent > buildComponent
-		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
+	Tools::Core::Object::Ptr buildComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
 	Tools::Core::Object::Ptr playerComponent
 		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
-	if ( buildComponent->getBuildData().m_buildProgress != 0 )
+	if ( buildComponent->getMember< qint32 >( BuildComponent::BuildProgress ) != 0 )
 	{
 		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
 		if ( player )
 		{
-			IBuildComponent::StaticData::BuildDataCollectionIterator
-				iterator = buildComponent->getStaticData().m_buildDatas.find( m_objectName );
+			BuildComponent::StaticData::Data::BuildDataCollectionIterator
+				iterator = buildComponent->getMember< BuildComponent::StaticData::Data::Ptr >( StaticDataTools::generateName( BuildComponent::StaticData::DataKey ) )
+					->m_buildDatas.find( m_objectName );
 
-			if ( iterator != buildComponent->getStaticData().m_buildDatas.end() )
+			if ( iterator != buildComponent->getMember< BuildComponent::StaticData::Data::Ptr >( StaticDataTools::generateName( BuildComponent::StaticData::DataKey ) )
+					->m_buildDatas.end() )
 			{
 				player->addResources( iterator->second->m_resourcesData );
 			}
 		}
 	}
 
-	buildComponent->getBuildData().reset();
+	//buildComponent->callVoidMethod( BuildComponent::ClearData );
+	BuildComponent::clearData( *buildComponent );
 
 	m_environment.riseEvent(
 		Framework::Core::EventManager::Event( Events::BuildQueueChanged::Type )
@@ -125,14 +127,12 @@ BuildAction::processAction()
 
 	boost::intrusive_ptr< ILocateComponent > locateComponent
 		= m_object.getComponent< ILocateComponent >( ComponentId::Locate );
-	boost::intrusive_ptr< IBuildComponent > buildComponent
-		= m_object.getComponent< IBuildComponent >( ComponentId::Build );
+	Tools::Core::Object::Ptr buildComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
 	Tools::Core::Object::Ptr playerComponent
 		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
-
-	IBuildComponent::Data& buildData = buildComponent->getBuildData();
 
 	// Check if object is dying
 
@@ -144,7 +144,7 @@ BuildAction::processAction()
 	{
 		// Check distance
 
-		QPoint nearestPoint = Geometry::getNearestPoint( locateComponent->getLocation(), buildData.m_atRect );
+		QPoint nearestPoint = Geometry::getNearestPoint( locateComponent->getLocation(), buildComponent->getMember< QRect  >( BuildComponent::AtRect ) );
 
 		if ( Geometry::getDistance( locateComponent->getLocation(), nearestPoint ) > Geometry::ZeroDistance )
 		{
@@ -175,21 +175,24 @@ BuildAction::processAction()
 		{
 			bool shouldBuildObject = true;
 
-			if ( buildData.m_buildProgress == 0 )
+			if ( buildComponent->getMember< qint32 >( BuildComponent::BuildProgress ) == 0 )
 			{
 				m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, false );
 
 				boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
 				bool newObjectCanBePlaced
-					= m_landscapeModel.getLandscape()->canObjectBePlaced( buildData.m_atRect.topLeft(), buildData.m_objectName );
+					= m_landscapeModel.getLandscape()->canObjectBePlaced( buildComponent->getMember< QRect >( BuildComponent::AtRect ).topLeft(), buildComponent->getMember< QString >( BuildComponent::ObjectName ) );
 
-				IBuildComponent::StaticData::BuildDataCollectionIterator
-					iterator = buildComponent->getStaticData().m_buildDatas.find( m_objectName );
+				BuildComponent::StaticData::Data::BuildDataCollectionIterator
+					iterator = buildComponent->getMember< BuildComponent::StaticData::Data::Ptr >( StaticDataTools::generateName( BuildComponent::StaticData::DataKey ) )
+						->m_buildDatas.find( m_objectName );
 
 				if (	!newObjectCanBePlaced
 					||	!player
-					||	iterator == buildComponent->getStaticData().m_buildDatas.end()
+					||		iterator
+						==	buildComponent->getMember< BuildComponent::StaticData::Data::Ptr >( StaticDataTools::generateName( BuildComponent::StaticData::DataKey ) )
+								->m_buildDatas.end()
 					||	!player->getResourcesData().isEnaught( iterator->second->m_resourcesData ) )
 				{
 					m_landscapeModel.getLandscape()->setEngaged( locateComponent->getLocation(), locateComponent->getStaticData().m_emplacement, true );
@@ -200,23 +203,24 @@ BuildAction::processAction()
 				{
 					player->substructResources( iterator->second->m_resourcesData );
 
-					startBuild( m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ), buildData.m_objectName, buildData.m_atRect.topLeft() );
+					startBuild( m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ), buildComponent->getMember< QString >( BuildComponent::ObjectName ), buildComponent->getMember< QRect >( BuildComponent::AtRect ).topLeft() );
 				}
 			}
 
 			if ( shouldBuildObject )
 			{
-				++buildData.m_buildProgress;
-				TickType totalTicks = buildComponent->getStaticData().m_buildDatas.find( buildData.m_objectName )->second->m_ticksCount;
+				++buildComponent->getMember< qint32 >( BuildComponent::BuildProgress );
+				TickType totalTicks = buildComponent->getMember< BuildComponent::StaticData::Data::Ptr >( StaticDataTools::generateName( BuildComponent::StaticData::DataKey ) )
+					->m_buildDatas.find( buildComponent->getMember< QString >( BuildComponent::ObjectName ) )->second->m_ticksCount;
 
 				boost::shared_ptr< GameObject > targetObject
-					= m_landscapeModel.getLandscape()->getObject( buildData.m_objectId );
+					= m_landscapeModel.getLandscape()->getObject( buildComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( BuildComponent::ObjectId ) );
 
 				Tools::Core::Object::Ptr targetHealthComponent
 					= targetObject->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name );
 
 				//targetHealthComponent->callVoidMethod< const qint32 >( HealthComponent::SetHealth, buildData.m_buildProgress * targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) / totalTicks );
-				HealthComponent::setHealth( *targetHealthComponent, buildData.m_buildProgress * targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) / totalTicks );
+				HealthComponent::setHealth( *targetHealthComponent, buildComponent->getMember< qint32 >( BuildComponent::BuildProgress ) * targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) / totalTicks );
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::ObjectHealthChanged::Type )
@@ -224,7 +228,7 @@ BuildAction::processAction()
 						.pushMember( Events::ObjectHealthChanged::ObjectIdAttribute, targetObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 						.pushMember( Events::ObjectHealthChanged::ObjectHealth, targetHealthComponent->getMember< qint32 >( HealthComponent::Health ) ) );
 
-				if ( buildData.m_buildProgress == totalTicks )
+				if ( buildComponent->getMember< qint32 >( BuildComponent::BuildProgress ) == totalTicks )
 				{
 					stopBuild( m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) );
 					m_isInProcessing = false;
@@ -239,7 +243,8 @@ BuildAction::processAction()
 
 	if ( !m_isInProcessing )
 	{
-		buildData.reset();
+		//buildComponent->callVoidMethod( BuildComponent::ClearData );
+		BuildComponent::clearData( *buildComponent );
 	}
 
 } // BuildAction::processAction
@@ -282,12 +287,12 @@ BuildAction::startBuild(
 					,	object->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name )->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 			assert( objectId != Tools::Core::Generators::IGenerator::ms_wrongId );
 
-			boost::intrusive_ptr< IBuildComponent > buildComponent
-				= object->getComponent< IBuildComponent >( ComponentId::Build );
+			Tools::Core::Object::Ptr buildComponent
+				= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
 			boost::intrusive_ptr< ILocateComponent > locateComponent
 				= object->getComponent< ILocateComponent >( ComponentId::Locate );
 
-			buildComponent->getBuildData().m_objectId = objectId;
+			buildComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( BuildComponent::ObjectId ) = objectId;
 
 			m_environment.riseEvent(
 				Framework::Core::EventManager::Event( Events::BuilderHasStartedBuild::Type )
@@ -318,11 +323,11 @@ BuildAction::stopBuild( const Tools::Core::Generators::IGenerator::IdType& _id )
 
 		boost::intrusive_ptr< ILocateComponent >
 			locateComponent = builder->getComponent< ILocateComponent >( ComponentId::Locate );
-		boost::intrusive_ptr< IBuildComponent >
-			buildComponent = builder->getComponent< IBuildComponent >( ComponentId::Build );
+		Tools::Core::Object::Ptr buildComponent
+			= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
 
 		boost::shared_ptr< GameObject > targetObject
-			= m_landscapeModel.getLandscape()->getObject( buildComponent->getBuildData().m_objectId );
+			= m_landscapeModel.getLandscape()->getObject( buildComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( BuildComponent::ObjectId ) );
 		targetObject->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 
 		m_environment.riseEvent(

@@ -35,8 +35,6 @@
     <ClCompile Include="sources\ai\ai_goals\lm_train_goal.cpp" />
     <ClCompile Include="sources\ai\ai_manager\lm_ai_manager.cpp" />
     <ClCompile Include="sources\components\lm_actions_component.cpp" />
-    <ClCompile Include="sources\components\lm_build_component.cpp" />
-    <ClCompile Include="sources\components\lm_generate_resources_component.cpp" />
     <ClCompile Include="sources\components\lm_locate_component.cpp" />
     <ClCompile Include="sources\components\lm_move_component.cpp" />
     <ClCompile Include="sources\components\lm_repair_component.cpp" />
@@ -96,9 +94,7 @@
     <ClInclude Include="h\lm_terrain_map_data.hpp" />
     <ClInclude Include="h\lm_victory_condition.hpp" />
     <ClInclude Include="ih\components\lm_iactions_component.hpp" />
-    <ClInclude Include="ih\components\lm_ibuild_component.hpp" />
     <ClInclude Include="ih\components\lm_icomponent.hpp" />
-    <ClInclude Include="ih\components\lm_igenerate_resources_component.hpp" />
     <ClInclude Include="ih\components\lm_ilocate_component.hpp" />
     <ClInclude Include="ih\components\lm_imove_component.hpp" />
     <ClInclude Include="ih\components\lm_irepair_component.hpp" />
@@ -135,8 +131,6 @@
     <ClInclude Include="sources\ai\ai_manager\lm_iai_manager.hpp" />
     <ClInclude Include="sources\components\lm_actions_component.hpp" />
     <ClInclude Include="sources\components\lm_base_component.hpp" />
-    <ClInclude Include="sources\components\lm_build_component.hpp" />
-    <ClInclude Include="sources\components\lm_generate_resources_component.hpp" />
     <ClInclude Include="sources\components\lm_locate_component.hpp" />
     <ClInclude Include="sources\components\lm_move_component.hpp" />
     <ClInclude Include="sources\components\lm_repair_component.hpp" />

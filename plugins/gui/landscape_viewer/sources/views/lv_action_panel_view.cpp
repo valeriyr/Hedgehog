@@ -12,7 +12,6 @@
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 
 #include "landscape_model/ih/components/lm_itrain_component.hpp"
-#include "landscape_model/ih/components/lm_ibuild_component.hpp"
 
 #include "landscape_model/h/lm_game_object.hpp"
 #include "landscape_model/h/lm_events.hpp"
@@ -265,7 +264,7 @@ ActionPanelView::updateView( const Tools::Core::Generators::IGenerator::IdType& 
 		return;
 
 	boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent;
-	boost::intrusive_ptr< Core::LandscapeModel::IBuildComponent > buildComponent;
+	Tools::Core::Object::Ptr buildComponent;
 
 	Tools::Core::Generators::IGenerator::IdType parentObjectId = Tools::Core::Generators::IGenerator::ms_wrongId;
 
@@ -288,7 +287,7 @@ ActionPanelView::updateView( const Tools::Core::Generators::IGenerator::IdType& 
 			return;
 
 		trainComponent = object->getComponent< Core::LandscapeModel::ITrainComponent >( Plugins::Core::LandscapeModel::ComponentId::Train );
-		buildComponent = object->getComponent< Core::LandscapeModel::IBuildComponent >( Plugins::Core::LandscapeModel::ComponentId::Build );
+		buildComponent = object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::BuildComponent::Name );
 
 		parentObjectId = objectId;
 	}
@@ -311,9 +310,11 @@ ActionPanelView::updateView( const Tools::Core::Generators::IGenerator::IdType& 
 	}
 	else if ( buildComponent )
 	{
-		Core::LandscapeModel::IBuildComponent::StaticData::BuildDataCollectionIterator
-				begin = buildComponent->getStaticData().m_buildDatas.begin()
-			,	end = buildComponent->getStaticData().m_buildDatas.end();
+		Core::LandscapeModel::BuildComponent::StaticData::Data::BuildDataCollectionIterator
+				begin = buildComponent->getMember< Core::LandscapeModel::BuildComponent::StaticData::Data::Ptr >(
+					Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::BuildComponent::StaticData::DataKey ) )->m_buildDatas.begin()
+			,	end = buildComponent->getMember< Core::LandscapeModel::BuildComponent::StaticData::Data::Ptr >(
+					Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::BuildComponent::StaticData::DataKey ) )->m_buildDatas.end();
 
 		for ( ; begin != end; ++begin )
 		{

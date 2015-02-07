@@ -18,9 +18,7 @@ struct ComponentId
 		,	Train
 		,	Actions
 		,	Move
-		,	Build
 		,	Repair
-		,	ResourcesGenerating
 		,	ResourceHolder
 		,	ResourceSource
 		,	ResourceStorage

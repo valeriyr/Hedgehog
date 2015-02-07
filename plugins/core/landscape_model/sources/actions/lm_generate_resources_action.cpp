@@ -7,8 +7,6 @@
 
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
-#include "landscape_model/ih/components/lm_igenerate_resources_component.hpp"
-
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -45,13 +43,13 @@ GenerateResourcesAction::processAction()
 	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 		return;
 
-	boost::intrusive_ptr< IGenerateResourcesComponent > generateResourcesComponent
-		= m_object.getComponent< IGenerateResourcesComponent >( ComponentId::ResourcesGenerating );
+	Tools::Core::Object::Ptr generateResourcesComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( GenerateResourcesComponent::Name );
 	Tools::Core::Object::Ptr playerComponent
 		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 	m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) )
-		->addResources( generateResourcesComponent->getStaticData().m_resourcesByTick );
+		->addResources( generateResourcesComponent->getMember< ResourcesData >( GenerateResourcesComponent::StaticData::ResourcesByTick ) );
 
 } // GenerateResourcesAction::processAction
 
