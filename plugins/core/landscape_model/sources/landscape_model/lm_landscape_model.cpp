@@ -28,7 +28,6 @@
 
 #include "landscape_model/sources/components/lm_train_component.hpp"
 #include "landscape_model/sources/components/lm_actions_component.hpp"
-#include "landscape_model/sources/components/lm_repair_component.hpp"
 #include "landscape_model/sources/components/lm_resource_holder_component.hpp"
 #include "landscape_model/sources/components/lm_resource_source_component.hpp"
 #include "landscape_model/sources/components/lm_resource_storage_component.hpp"
@@ -803,9 +802,7 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 		object->pushMember( GameObject::generateName( BuildComponent::Name, StaticDataTools::Name ), staticData.m_buildData );
 
 	if ( staticData.m_repairData )
-		object->addComponent(
-				ComponentId::Repair
-			,	boost::intrusive_ptr< IComponent >( new RepairComponent( *object, *staticData.m_repairData ) ) );
+		object->pushMember( GameObject::generateName( RepairComponent::Name, StaticDataTools::Name ), staticData.m_repairData );
 
 	if ( staticData.m_resourceHolderData )
 		object->addComponent(
@@ -1446,8 +1443,8 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 					= object->getMember< Tools::Core::Object::Ptr >( AttackComponent::Name );
 				boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
 					= object->getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
-				boost::intrusive_ptr< IRepairComponent > repairComponent
-					= object->getComponent< IRepairComponent >( ComponentId::Repair );
+				Tools::Core::Object::Ptr repairComponent
+					= object->getMember< Tools::Core::Object::Ptr >( RepairComponent::Name );
 
 				Tools::Core::Object::Ptr playerComponent
 					= object->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );

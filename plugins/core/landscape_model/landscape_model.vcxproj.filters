@@ -159,9 +159,6 @@
     <ClCompile Include="sources\actions\lm_repair_action.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="sources\components\lm_repair_component.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="sources\utils\lm_geometry.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -403,12 +400,6 @@
     </ClInclude>
     <ClInclude Include="sources\actions\lm_repair_action.hpp">
       <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\components\lm_irepair_component.hpp">
-      <Filter>Interfaces\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\components\lm_repair_component.hpp">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="h\lm_constants.hpp">
       <Filter>External Headers</Filter>

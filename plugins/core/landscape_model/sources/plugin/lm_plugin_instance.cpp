@@ -463,8 +463,10 @@ PluginInstance::exportScriptAPI()
 
 	// RepairComponent
 
-	exporter.exportClassWithShared< IRepairComponent::StaticData >( "RepairComponentStaticData" )
-		->withConstructor< const TickType, const int >();
+	exporter.exportVariable( "RepairComponentName", RepairComponent::Name );
+	exporter.exportVariable( "RepairComponentHealthByTick", RepairComponent::StaticData::HealthByTick );
+	exporter.exportVariable( "RepairComponentCostPercent", RepairComponent::StaticData::CostPercent );
+	exporter.exportVariable( "RepairComponentTargetObject", RepairComponent::TargetObject );
 
 	// HealthComponent
 

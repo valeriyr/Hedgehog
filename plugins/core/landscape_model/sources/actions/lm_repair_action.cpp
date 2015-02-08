@@ -14,7 +14,6 @@
 #include "landscape_model/sources/utils/lm_geometry.hpp"
 #include "landscape_model/sources/utils/lm_math.hpp"
 
-#include "landscape_model/ih/components/lm_irepair_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
@@ -56,10 +55,10 @@ RepairAction::~RepairAction()
 bool
 RepairAction::prepareToProcessingInternal()
 {
-	boost::intrusive_ptr< IRepairComponent > repairComponent
-		= m_object.getComponent< IRepairComponent >( ComponentId::Repair );
+	Tools::Core::Object::Ptr repairComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( RepairComponent::Name );
 
-	repairComponent->setTargetObject( m_target );
+	repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject ) = m_target;
 
 	return true;
 
@@ -72,10 +71,10 @@ RepairAction::prepareToProcessingInternal()
 bool
 RepairAction::cancelProcessingInternal()
 {
-	boost::intrusive_ptr< IRepairComponent > repairComponent
-		= m_object.getComponent< IRepairComponent >( ComponentId::Repair );
+	Tools::Core::Object::Ptr repairComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( RepairComponent::Name );
 
-	repairComponent->setTargetObject( boost::shared_ptr< GameObject >() );
+	repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject ).reset();
 
 	return true;
 
@@ -90,8 +89,8 @@ RepairAction::processAction()
 {
 	// Common variables
 
-	boost::intrusive_ptr< IRepairComponent > repairComponent
-		= m_object.getComponent< IRepairComponent >( ComponentId::Repair );
+	Tools::Core::Object::Ptr repairComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( RepairComponent::Name );
 	Tools::Core::Object::Ptr locateComponent
 		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
@@ -102,7 +101,7 @@ RepairAction::processAction()
 		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 	Tools::Core::Object::Ptr targetHealthComponent
-		= repairComponent->getTargetObject()->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name );
+		= repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name );
 
 	// Check if object is dying
 
@@ -118,11 +117,11 @@ RepairAction::processAction()
 						locateComponent->getMember< QPoint >( LocateComponent::Location )
 					,	Geometry::getNearestPoint(
 									locateComponent->getMember< QPoint >( LocateComponent::Location )
-								,	LocateComponent::getRect( *repairComponent->getTargetObject()->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name ) ) ) )
+								,	LocateComponent::getRect( *repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name ) ) ) )
 			>	Geometry::DiagonalDistance )
 		{
 			IPathFinder::PointsCollection path;
-			JumpPointSearch::pathToObject( path, *m_landscapeModel.getLandscape(), m_object, *repairComponent->getTargetObject(), Geometry::DiagonalDistance );
+			JumpPointSearch::pathToObject( path, *m_landscapeModel.getLandscape(), m_object, *repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject ), Geometry::DiagonalDistance );
 
 			if ( !path.empty() )
 			{
@@ -132,7 +131,7 @@ RepairAction::processAction()
 								m_environment
 							,	m_landscapeModel
 							,	m_object
-							,	repairComponent->getTargetObject()
+							,	repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )
 							,	path
 							,	Geometry::DiagonalDistance ) ) );
 				return;
@@ -148,11 +147,11 @@ RepairAction::processAction()
 		if ( m_isInProcessing )
 		{
 			Tools::Core::Object::Ptr targetLocateComponent
-				= repairComponent->getTargetObject()->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+				= repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
 			bool stateChanged = false;
 
-			if ( repairComponent->getTargetObject()->getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
+			if ( repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )->getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 			{
 				if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) != ObjectState::Standing )
 				{
@@ -182,7 +181,7 @@ RepairAction::processAction()
 					stateChanged = true;
 				}
 
-				m_healthRepaired += repairComponent->getStaticData().m_healthByTick;
+				m_healthRepaired += repairComponent->getMember< TickType >( StaticDataTools::generateName( RepairComponent::StaticData::HealthByTick ) );
 				int repairHealthPercent = Math::calculatePercent( m_healthRepaired, targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) );
 
 				if ( repairHealthPercent != 0 )
@@ -192,8 +191,8 @@ RepairAction::processAction()
 					// TODO: CRASH while repairing wrong building
 					ResourcesData repairCostData 
 						= buildComponent->getMember< BuildComponent::StaticData::Data::Ptr >( StaticDataTools::generateName( BuildComponent::StaticData::DataKey ) )
-							->m_buildDatas.find( repairComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
-								->second->m_resourcesData.getResourceDataPart( repairComponent->getStaticData().m_costPercent ).getResourceDataPart( repairHealthPercent );
+							->m_buildDatas.find( repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )->getMember< QString >( ObjectNameKey ) )
+								->second->m_resourcesData.getResourceDataPart( repairComponent->getMember< qint32 >( StaticDataTools::generateName( RepairComponent::StaticData::CostPercent ) ) ).getResourceDataPart( repairHealthPercent );
 
 					if ( player && player->getResourcesData().isEnaught( repairCostData ) )
 					{
@@ -205,8 +204,8 @@ RepairAction::processAction()
 
 						m_environment.riseEvent(
 							Framework::Core::EventManager::Event( Events::ObjectHealthChanged::Type )
-								.pushMember( Events::ObjectHealthChanged::ObjectNameAttribute, repairComponent->getTargetObject()->getMember< QString >( ObjectNameKey ) )
-								.pushMember( Events::ObjectHealthChanged::ObjectIdAttribute, repairComponent->getTargetObject()->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+								.pushMember( Events::ObjectHealthChanged::ObjectNameAttribute, repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )->getMember< QString >( ObjectNameKey ) )
+								.pushMember( Events::ObjectHealthChanged::ObjectIdAttribute, repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 								.pushMember( Events::ObjectHealthChanged::ObjectHealth, targetHealthComponent->getMember< qint32 >( HealthComponent::Health ) ) );
 
 						//if ( targetHealthComponent->callMethod< bool >( HealthComponent::IsHealthy ) )
@@ -239,7 +238,7 @@ RepairAction::processAction()
 
 	if ( !m_isInProcessing )
 	{
-		repairComponent->setTargetObject( boost::shared_ptr< GameObject >() );
+		repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject ).reset();
 	}
 
 } // RepairAction::processAction

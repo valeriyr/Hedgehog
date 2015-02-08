@@ -243,6 +243,21 @@ namespace MoveComponent
 
 /*---------------------------------------------------------------------------*/
 
+namespace RepairComponent
+{
+	const QString Name = "RepairComponent";
+
+	namespace StaticData
+	{
+		const QString HealthByTick = "HealthByTick";
+		const QString CostPercent = "CostPercent";		/* 0 - 100 */
+	}
+
+	const QString TargetObject = "TargetObject";
+}
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

@@ -8,7 +8,6 @@
 
 #include "landscape_model/ih/components/lm_itrain_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
-#include "landscape_model/ih/components/lm_irepair_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_source_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
@@ -41,7 +40,7 @@ struct IStaticData
 		Tools::Core::Object::Ptr m_generateResourcesData;
 		Tools::Core::Object::Ptr m_attackData;
 		Tools::Core::Object::Ptr m_buildData;
-		boost::shared_ptr< IRepairComponent::StaticData > m_repairData;
+		Tools::Core::Object::Ptr m_repairData;
 		boost::shared_ptr< IResourceHolderComponent::StaticData > m_resourceHolderData;
 		boost::shared_ptr< IResourceSourceComponent::StaticData > m_resourceSourceData;
 		boost::shared_ptr< IResourceStorageComponent::StaticData > m_resourceStorageData;
