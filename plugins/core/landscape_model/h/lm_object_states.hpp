@@ -12,7 +12,7 @@ namespace LandscapeModel {
 
 struct ObjectState
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			Standing		= 0
 		,	Moving

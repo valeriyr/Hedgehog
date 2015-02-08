@@ -12,7 +12,7 @@ namespace LandscapeModel {
 
 struct Actions
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			Move				= 0
 		,	Train

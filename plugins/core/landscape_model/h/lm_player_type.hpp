@@ -12,7 +12,7 @@ namespace LandscapeModel {
 
 struct PlayerType
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			Blocked = 0
 		,	Open

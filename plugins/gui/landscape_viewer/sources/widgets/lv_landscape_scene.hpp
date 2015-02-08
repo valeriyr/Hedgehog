@@ -100,7 +100,7 @@ public:
 
 	struct ZValue
 	{
-		enum Enum
+		enum Enum : qint32
 		{
 				Surface             = 0
 			,	Terrain             = 1

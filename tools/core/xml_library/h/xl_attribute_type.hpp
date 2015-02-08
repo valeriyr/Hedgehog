@@ -12,7 +12,7 @@ namespace XmlLibrary {
 
 struct AttributeType
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			String = 0
 		,	Integer

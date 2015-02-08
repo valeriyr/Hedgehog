@@ -13,7 +13,7 @@ namespace WindowManager {
 
 struct ViewPosition
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			Left = 0
 		,	Right

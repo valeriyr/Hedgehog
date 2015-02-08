@@ -26,7 +26,7 @@ struct IResourcesManager
 
 	struct AccessType
 	{
-		enum Enum
+		enum Enum : qint32
 		{
 				Unlocked = 0
 

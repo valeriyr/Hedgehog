@@ -25,7 +25,7 @@ struct IMessenger
 
 	struct MessegeLevel
 	{
-		enum Enum
+		enum Enum : qint32
 		{
 				Info	= 0
 			,	Warning

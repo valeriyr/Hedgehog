@@ -12,7 +12,7 @@ namespace LandscapeModel {
 
 struct Priority
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			Idle	= 0
 		,	Low

@@ -21,7 +21,7 @@ namespace LandscapeModel {
 
 struct CommandId
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			Undefined	= 0
 

@@ -22,14 +22,14 @@ struct IMapPreviewGenerator
 
 	struct GenerateLayers
 	{
-		enum Enum
+		enum Enum : qint32
 		{
 				Surface		= 0x00000001
 			,	Objects		= 0x00000010
 			,	StartPoints	= 0x00000100
 		};
 
-		typedef quint32 Mask;
+		typedef qint32 Mask;
 	};
 
 /*---------------------------------------------------------------------------*/

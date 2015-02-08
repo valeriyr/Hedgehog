@@ -22,7 +22,7 @@ struct PluginData
 
 	struct State
 	{
-		enum Enum
+		enum Enum : qint32
 		{
 				NotLoaded = 0
 			,	Loaded

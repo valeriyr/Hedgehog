@@ -12,7 +12,7 @@ namespace XmlLibrary {
 
 struct RepeatMode
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			Once = 0
 		,	ZeroAndMore

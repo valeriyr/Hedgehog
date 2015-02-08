@@ -12,7 +12,7 @@ namespace LandscapeModel {
 
 struct Diplomacy
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			Allied		= 0
 		,	Enemy

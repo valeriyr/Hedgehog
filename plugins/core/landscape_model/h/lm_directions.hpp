@@ -12,7 +12,7 @@ namespace LandscapeModel {
 
 struct Direction
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			North		= 0
 		,	NorthEast

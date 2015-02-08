@@ -12,7 +12,7 @@ namespace LandscapeModel {
 
 struct VictoryCondition
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			Undefined = 0
 

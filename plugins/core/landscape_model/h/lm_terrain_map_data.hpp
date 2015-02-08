@@ -12,14 +12,14 @@ namespace LandscapeModel {
 
 struct TerrainMapItem
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			NotAvailable	= 1
 		,	Ground			= 2
 		,	Water			= 4
 	};
 
-	typedef quint32 MaskType;
+	typedef qint32 MaskType;
 
 	static const MaskType ms_any = NotAvailable | Ground | Water;
 };
@@ -28,7 +28,7 @@ struct TerrainMapItem
 
 struct Emplacement
 {
-	enum Enum
+	enum Enum : qint32
 	{
 			Ground		 = 1
 		,	Air			 = 2

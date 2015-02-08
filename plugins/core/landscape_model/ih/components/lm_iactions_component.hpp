@@ -30,7 +30,7 @@ struct IActionsComponent
 
 	struct FlushPolicy
 	{
-		enum Enum
+		enum Enum : qint32
 		{
 				Force = 0
 			,	AsNeeded
