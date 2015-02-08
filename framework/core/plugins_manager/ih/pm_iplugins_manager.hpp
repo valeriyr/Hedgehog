@@ -18,7 +18,7 @@ struct IPluginsManager
 	:	public Tools::Core::IBase
 {
 	virtual boost::intrusive_ptr< Tools::Core::IBase >
-		getPluginInterface( const QString& _pluginName, const unsigned int _interfaceId ) = 0;
+		getPluginInterface( const QString& _pluginName, const quint32 _interfaceId ) = 0;
 
 	virtual bool isPluginLoaded( const QString& _pluginName ) const = 0;
 };

@@ -43,7 +43,7 @@ PluginsManager::~PluginsManager()
 
 
 boost::intrusive_ptr< Tools::Core::IBase >
-PluginsManager::getPluginInterface( const QString& _pluginName, const unsigned int _interfaceId )
+PluginsManager::getPluginInterface( const QString& _pluginName, const quint32 _interfaceId )
 {
 	if ( _pluginName == PID_PLUGINS_MANAGER )
 	{

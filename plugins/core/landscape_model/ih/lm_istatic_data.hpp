@@ -8,7 +8,6 @@
 
 #include "landscape_model/ih/components/lm_itrain_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
-#include "landscape_model/ih/components/lm_imove_component.hpp"
 #include "landscape_model/ih/components/lm_irepair_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_source_component.hpp"
@@ -22,7 +21,7 @@ namespace LandscapeModel {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_STATIC_DATA = 2;
+	const quint32 IID_STATIC_DATA = 2;
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,7 +37,7 @@ struct IStaticData
 		Tools::Core::Object::Ptr m_healthData;
 		Tools::Core::Object::Ptr m_locateData;
 		Tools::Core::Object::Ptr m_selectionData;
-		boost::shared_ptr< IMoveComponent::StaticData > m_moveData;
+		Tools::Core::Object::Ptr m_moveData;
 		Tools::Core::Object::Ptr m_generateResourcesData;
 		Tools::Core::Object::Ptr m_attackData;
 		Tools::Core::Object::Ptr m_buildData;

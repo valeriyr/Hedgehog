@@ -15,7 +15,7 @@ namespace PluginsManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_SYSTEM_INFORMATION = 0;
+	const quint32 IID_SYSTEM_INFORMATION = 0;
 
 /*---------------------------------------------------------------------------*/
 

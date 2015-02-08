@@ -154,9 +154,9 @@ struct IEnvironment
 
 	virtual QString getString( const QString& _key ) const = 0;
 
-	virtual void setUInt( const QString& _key, const unsigned int _value ) const = 0;
+	virtual void setUInt( const QString& _key, const quint32 _value ) const = 0;
 
-	virtual unsigned int getUInt( const QString& _key ) const = 0;
+	virtual quint32 getUInt( const QString& _key ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 

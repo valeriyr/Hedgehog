@@ -111,9 +111,9 @@ public:
 
 	/*virtual*/ QString getString( const QString& _key ) const;
 
-	/*virtual*/ void setUInt( const QString& _key, const unsigned int _value ) const;
+	/*virtual*/ void setUInt( const QString& _key, const quint32 _value ) const;
 
-	/*virtual*/ unsigned int getUInt( const QString& _key ) const;
+	/*virtual*/ quint32 getUInt( const QString& _key ) const;
 
 /*---------------------------------------------------------------------------*/
 

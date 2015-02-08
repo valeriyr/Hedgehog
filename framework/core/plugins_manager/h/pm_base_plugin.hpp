@@ -51,7 +51,7 @@ protected:
 	boost::intrusive_ptr< _TInterfaceType >
 	getPluginInterface(
 			const QString& _pluginName
-		,	const unsigned int _interfaceId ) const
+		,	const quint32 _interfaceId ) const
 	{
 		return
 			boost::intrusive_ptr< _TInterfaceType >(

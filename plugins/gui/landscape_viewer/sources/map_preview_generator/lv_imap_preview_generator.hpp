@@ -29,7 +29,7 @@ struct IMapPreviewGenerator
 			,	StartPoints	= 0x00000100
 		};
 
-		typedef unsigned int Mask;
+		typedef quint32 Mask;
 	};
 
 /*---------------------------------------------------------------------------*/

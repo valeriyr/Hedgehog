@@ -58,7 +58,7 @@ Settings::regString( const QString& _key, const QString& _defaultValue )
 
 
 void
-Settings::regUInt( const QString& _key, const unsigned int _defaultValue )
+Settings::regUInt( const QString& _key, const quint32 _defaultValue )
 {
 	regProperty( _key, _defaultValue );
 
@@ -94,7 +94,7 @@ Settings::getString( const QString& _key ) const
 /*---------------------------------------------------------------------------*/
 
 
-unsigned int
+quint32
 Settings::getUInt( const QString& _key ) const
 {
 	assert( hasProperty( _key ) );
@@ -130,7 +130,7 @@ Settings::setString( const QString& _key, const QString& _value )
 
 
 void
-Settings::setUInt( const QString& _key, const unsigned int _value )
+Settings::setUInt( const QString& _key, const quint32 _value )
 {
 	setProperty( _key, _value );
 

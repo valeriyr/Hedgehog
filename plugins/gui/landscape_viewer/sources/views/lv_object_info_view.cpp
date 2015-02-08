@@ -9,7 +9,6 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 
-#include "landscape_model/ih/components/lm_imove_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_source_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
@@ -342,8 +341,8 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::LocateComponent::Name );
 			Tools::Core::Object::Ptr healthComponent
 				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::HealthComponent::Name );
-			boost::intrusive_ptr< Core::LandscapeModel::IMoveComponent > moveComponent
-				= object->getComponent< Core::LandscapeModel::IMoveComponent >( Plugins::Core::LandscapeModel::ComponentId::Move );
+			Tools::Core::Object::Ptr moveComponent
+				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::MoveComponent::Name );
 			Tools::Core::Object::Ptr attackComponent
 				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::AttackComponent::Name );
 			boost::intrusive_ptr< Core::LandscapeModel::IResourceHolderComponent > resourceHolderComponent
@@ -421,7 +420,7 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 					.arg( playerComponent ? QString::number( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::PlayerComponent::PlayerId ) ) : Resources::Views::NoneString )
 					.arg( healthComponent ? QString::number( healthComponent->getMember< qint32 >( Core::LandscapeModel::HealthComponent::Health ) ) : Resources::Views::NoneString )
 					.arg( healthComponent ? QString::number( healthComponent->getMember< qint32 >( Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::HealthComponent::StaticData::MaxHealth ) ) ) : Resources::Views::NoneString )
-					.arg( moveComponent ? QString::number( moveComponent->getStaticData().m_movingSpeed ) : Resources::Views::NoneString )
+					.arg( moveComponent ? QString::number( moveComponent->getMember< Core::LandscapeModel::TickType >( Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::MoveComponent::StaticData::MovingSpeed ) ) ) : Resources::Views::NoneString )
 					.arg( locateComponent->getMember< QPoint >( Core::LandscapeModel::LocateComponent::Location ).x() )
 					.arg( locateComponent->getMember< QPoint >( Core::LandscapeModel::LocateComponent::Location ).y() )
 					.arg( locateComponent->getMember< QSize >( Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::LocateComponent::StaticData::Size ) ).width() )

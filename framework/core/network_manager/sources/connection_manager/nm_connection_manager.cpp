@@ -35,7 +35,7 @@ ConnectionManager::~ConnectionManager()
 
 
 boost::intrusive_ptr< IUdpConnection >
-ConnectionManager::getUdpConnection( const ConnectionInfo& _connectionInfo, const unsigned int _connectionTimeOut )
+ConnectionManager::getUdpConnection( const ConnectionInfo& _connectionInfo, const quint32 _connectionTimeOut )
 {
 	ConnectionsCollectionIterator iterator = m_connectionsCollection.find( _connectionInfo );
 

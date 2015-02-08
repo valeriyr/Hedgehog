@@ -14,7 +14,7 @@ namespace AnimationManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_ANIMATIONS_CACHE = 1;
+	const quint32 IID_ANIMATIONS_CACHE = 1;
 
 /*---------------------------------------------------------------------------*/
 

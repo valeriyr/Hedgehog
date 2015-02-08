@@ -6,8 +6,6 @@
 
 #include "landscape_model/sources/actions/lm_base_action.hpp"
 
-#include "landscape_model/ih/components/lm_imove_component.hpp"
-
 #include "landscape_model/sources/path_finders/lm_ipath_finder.hpp"
 
 /*---------------------------------------------------------------------------*/

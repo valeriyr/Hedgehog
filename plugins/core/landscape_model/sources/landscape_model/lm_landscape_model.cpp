@@ -28,7 +28,6 @@
 
 #include "landscape_model/sources/components/lm_train_component.hpp"
 #include "landscape_model/sources/components/lm_actions_component.hpp"
-#include "landscape_model/sources/components/lm_move_component.hpp"
 #include "landscape_model/sources/components/lm_repair_component.hpp"
 #include "landscape_model/sources/components/lm_resource_holder_component.hpp"
 #include "landscape_model/sources/components/lm_resource_source_component.hpp"
@@ -795,9 +794,7 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 			,	boost::intrusive_ptr< IComponent >( new TrainComponent( *object, *staticData.m_trainData ) ) );
 
 	if ( staticData.m_moveData )
-		object->addComponent(
-				ComponentId::Move
-			,	boost::intrusive_ptr< IComponent >( new MoveComponent( *object, *staticData.m_moveData ) ) );
+		object->pushMember( GameObject::generateName( MoveComponent::Name, StaticDataTools::Name ), staticData.m_moveData );
 
 	if ( staticData.m_attackData )
 		object->pushMember( GameObject::generateName( AttackComponent::Name, StaticDataTools::Name ), staticData.m_attackData );
@@ -1400,10 +1397,8 @@ LandscapeModel::onSendToPointProcessor( const Command& _command )
 			{
 				boost::intrusive_ptr< IActionsComponent > actionsComponent
 					= object->getComponent< IActionsComponent >( ComponentId::Actions );
-				boost::intrusive_ptr< IMoveComponent > moveComponent
-					= object->getComponent< IMoveComponent >( ComponentId::Move );
 
-				if ( moveComponent )
+				if ( object->getMember< Tools::Core::Object::Ptr >( MoveComponent::Name ) )
 				{
 					actionsComponent->pushAction(
 							boost::intrusive_ptr< IAction >( new MoveAction( m_environment, *this, *object, location ) )
@@ -1445,8 +1440,8 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 			{
 				boost::intrusive_ptr< IActionsComponent > actionsComponent
 					= object->getComponent< IActionsComponent >( ComponentId::Actions );
-				boost::intrusive_ptr< IMoveComponent > moveComponent
-					= object->getComponent< IMoveComponent >( ComponentId::Move );
+				Tools::Core::Object::Ptr moveComponent
+					= object->getMember< Tools::Core::Object::Ptr >( MoveComponent::Name );
 				Tools::Core::Object::Ptr attackComponent
 					= object->getMember< Tools::Core::Object::Ptr >( AttackComponent::Name );
 				boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent

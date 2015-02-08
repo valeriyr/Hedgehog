@@ -24,7 +24,7 @@ static const qint32 ms_protocolIdentifier = 11223344;
 
 UdpConnection::UdpConnection(
 		const ConnectionInfo& _connectionInfo
-	,	const unsigned int _connectionTimeOut
+	,	const quint32 _connectionTimeOut
 	,	QObject* _parent
 	)
 	:	QObject( _parent )

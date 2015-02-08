@@ -19,7 +19,7 @@ struct TerrainMapItem
 		,	Water			= 4
 	};
 
-	typedef unsigned int MaskType;
+	typedef quint32 MaskType;
 
 	static const MaskType ms_any = NotAvailable | Ground | Water;
 };

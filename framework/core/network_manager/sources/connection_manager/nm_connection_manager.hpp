@@ -31,7 +31,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< IUdpConnection >
-		getUdpConnection( const ConnectionInfo& _connectionInfo, const unsigned int _connectionTimeOut );
+		getUdpConnection( const ConnectionInfo& _connectionInfo, const quint32 _connectionTimeOut );
 
 	/*virtual*/ void closeUdpConnection( const ConnectionInfo& _connectionInfo  );
 

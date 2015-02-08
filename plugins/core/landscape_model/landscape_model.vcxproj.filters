@@ -108,9 +108,6 @@
     <ClCompile Include="sources\static_data\lm_static_data.cpp">
       <Filter>Static Data</Filter>
     </ClCompile>
-    <ClCompile Include="sources\components\lm_move_component.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="sources\components\lm_actions_component.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -316,12 +313,6 @@
     </ClInclude>
     <ClInclude Include="h\lm_actions.hpp">
       <Filter>External Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\components\lm_move_component.hpp">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\components\lm_imove_component.hpp">
-      <Filter>Interfaces\Components</Filter>
     </ClInclude>
     <ClInclude Include="sources\components\lm_actions_component.hpp">
       <Filter>Components</Filter>

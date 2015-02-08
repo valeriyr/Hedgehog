@@ -351,7 +351,7 @@ Environment::getString( const QString& _key ) const
 
 
 void
-Environment::setUInt( const QString& _key, const unsigned int _value ) const
+Environment::setUInt( const QString& _key, const quint32 _value ) const
 {
 	m_pluginInstance.getSettings()->setUInt( _key, _value );
 
@@ -361,7 +361,7 @@ Environment::setUInt( const QString& _key, const unsigned int _value ) const
 /*---------------------------------------------------------------------------*/
 
 
-unsigned int
+quint32
 Environment::getUInt( const QString& _key ) const
 {
 	return m_pluginInstance.getSettings()->getUInt( _key );

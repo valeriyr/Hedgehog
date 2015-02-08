@@ -291,7 +291,7 @@ MultiPlayerMode::getType() const
 void
 MultiPlayerMode::onDataReceive(
 		const QString& _fromAddress
-	,	const unsigned int _fromPort
+	,	const quint32 _fromPort
 	,	const Framework::Core::NetworkManager::Data& _data )
 {
 	Command command( Command::deserialize( static_cast< CommandId::Enum >( _data.m_id ), _data.m_data ) );
@@ -359,7 +359,7 @@ MultiPlayerMode::spreadCommand( const Command& _command )
 void
 MultiPlayerMode::processCommand(
 		const QString& _fromAddress
-	,	const unsigned int _fromPort
+	,	const quint32 _fromPort
 	,	const Command& _command )
 {
 	if ( _command.m_id == CommandId::ConnectRequest )
@@ -400,7 +400,7 @@ MultiPlayerMode::processCommand(
 void
 MultiPlayerMode::processConnectRequest(
 		const QString& _fromAddress
-	,	const unsigned int _fromPort
+	,	const quint32 _fromPort
 	,	const Command& _command )
 {
 	Command connectResponce( CommandId::ConnectResponse );
@@ -481,7 +481,7 @@ MultiPlayerMode::processConnectRequest(
 void
 MultiPlayerMode::processConnectResponse(
 		const QString& _fromAddress
-	,	const unsigned int _fromPort
+	,	const quint32 _fromPort
 	,	const Command& _command )
 {
 	Tools::Core::Generators::IGenerator::IdType playerId = _command.m_arguments[ 0 ].toInt();
@@ -538,7 +538,7 @@ MultiPlayerMode::processConnectResponse(
 void
 MultiPlayerMode::processPlayerConnected(
 		const QString& _fromAddress
-	,	const unsigned int _fromPort
+	,	const quint32 _fromPort
 	,	const Command& _command )
 {
 	Tools::Core::Generators::IGenerator::IdType playerId = _command.m_arguments[ 0 ].toInt();
@@ -563,7 +563,7 @@ MultiPlayerMode::processPlayerConnected(
 void
 MultiPlayerMode::processDisconnect(
 		const QString& _fromAddress
-	,	const unsigned int _fromPort
+	,	const quint32 _fromPort
 	,	const Command& _command )
 {
 	Tools::Core::Generators::IGenerator::IdType playerId = _command.m_arguments[ 0 ].toInt();
@@ -585,7 +585,7 @@ MultiPlayerMode::processDisconnect(
 void
 MultiPlayerMode::processPassCommands(
 		const QString& _fromAddress
-	,	const unsigned int _fromPort
+	,	const quint32 _fromPort
 	,	const Command& _command )
 {
 	Tools::Core::Generators::IGenerator::IdType playerId = _command.m_arguments[ 0 ].toInt();
@@ -632,7 +632,7 @@ MultiPlayerMode::processPassCommands(
 void
 MultiPlayerMode::processCommandsRequest(
 		const QString& _fromAddress
-	,	const unsigned int _fromPort
+	,	const quint32 _fromPort
 	,	const Command& _command )
 {
 	TickType targetTick = _command.m_arguments[ 0 ].toInt();
@@ -656,7 +656,7 @@ MultiPlayerMode::spreadPlayerConnectedCommand(
 		const Tools::Core::Generators::IGenerator::IdType& _playerId
 	,	const QString& _playerName
 	,	const QString& _playerAddress
-	,	const unsigned int _playerPort )
+	,	const quint32 _playerPort )
 {
 	Command command( CommandId::PlayerConnected );
 

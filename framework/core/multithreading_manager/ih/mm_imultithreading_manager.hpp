@@ -19,7 +19,7 @@ namespace MultithreadingManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_MULTITHREADING_MANAGER = 0;
+	const quint32 IID_MULTITHREADING_MANAGER = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -14,7 +14,7 @@ namespace MultithreadingManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_RESOURCES_MANAGER = 1;
+	const quint32 IID_RESOURCES_MANAGER = 1;
 
 /*---------------------------------------------------------------------------*/
 

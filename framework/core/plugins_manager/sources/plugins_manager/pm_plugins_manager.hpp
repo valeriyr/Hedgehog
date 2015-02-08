@@ -35,7 +35,7 @@ public:
 /*---------------------------------------------------------------------------*/
 
 	/*virtual*/ boost::intrusive_ptr< IBase >
-		getPluginInterface( const QString& _pluginName, const unsigned int _interfaceId );
+		getPluginInterface( const QString& _pluginName, const quint32 _interfaceId );
 
 	/*virtual*/ bool isPluginLoaded( const QString& _pluginName ) const;
 

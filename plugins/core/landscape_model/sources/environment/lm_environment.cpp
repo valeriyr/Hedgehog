@@ -250,7 +250,7 @@ Environment::getConfigDirectory() const
 boost::intrusive_ptr< Framework::Core::NetworkManager::IUdpConnection >
 Environment::getConnection(
 		const Framework::Core::NetworkManager::ConnectionInfo& _connectionInfo
-	,	const unsigned int _connectionTimeOut ) const
+	,	const quint32 _connectionTimeOut ) const
 {
 	return m_pluginInstance.getConnectionManager()->getUdpConnection( _connectionInfo, _connectionTimeOut );
 
@@ -282,7 +282,7 @@ Environment::getString( const QString& _key ) const
 /*---------------------------------------------------------------------------*/
 
 
-unsigned int
+quint32
 Environment::getUInt( const QString& _key ) const
 {
 	return m_pluginInstance.getSettings()->getUInt( _key );

@@ -73,7 +73,7 @@ public:
 
 	/*virtual*/ void onDataReceive(
 			const QString& _fromAddress
-		,	const unsigned int _fromPort
+		,	const quint32 _fromPort
 		,	const Framework::Core::NetworkManager::Data& _data );
 
 /*---------------------------------------------------------------------------*/
@@ -90,44 +90,44 @@ private:
 
 	void processCommand(
 			const QString& _fromAddress
-		,	const unsigned int _fromPort
+		,	const quint32 _fromPort
 		,	const Command& _command );
 
 	void processConnectRequest(
 			const QString& _fromAddress
-		,	const unsigned int _fromPort
+		,	const quint32 _fromPort
 		,	const Command& _command );
 
 	void processConnectResponse(
 			const QString& _fromAddress
-		,	const unsigned int _fromPort
+		,	const quint32 _fromPort
 		,	const Command& _command );
 
 	void processPlayerConnected(
 			const QString& _fromAddress
-		,	const unsigned int _fromPort
+		,	const quint32 _fromPort
 		,	const Command& _command );
 
 	void processDisconnect(
 			const QString& _fromAddress
-		,	const unsigned int _fromPort
+		,	const quint32 _fromPort
 		,	const Command& _command );
 
 	void processPassCommands(
 			const QString& _fromAddress
-		,	const unsigned int _fromPort
+		,	const quint32 _fromPort
 		,	const Command& _command );
 
 	void processCommandsRequest(
 			const QString& _fromAddress
-		,	const unsigned int _fromPort
+		,	const quint32 _fromPort
 		,	const Command& _command );
 
 	void spreadPlayerConnectedCommand(
 			const Tools::Core::Generators::IGenerator::IdType& _playerId
 		,	const QString& _playerName
 		,	const QString& _playerAddress
-		,	const unsigned int _playerPort );
+		,	const quint32 _playerPort );
 
 	void fillPassCommandsCommand(
 			const IPlayer& _player

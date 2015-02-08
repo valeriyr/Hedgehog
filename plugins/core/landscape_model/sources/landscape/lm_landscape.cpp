@@ -486,7 +486,7 @@ Landscape::canObjectBePlaced( const QPoint& _location, const QString& _objectNam
 				return false;
 			}
 
-			if (	!( locateData->getMember< qint32 >( LocateComponent::StaticData::Passability ) & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
+			if (	!( locateData->getMember< TerrainMapItem::MaskType >( LocateComponent::StaticData::Passability ) & m_terrainMap.getConstElement( x, y ).m_terrainMapItem )
 				||	m_terrainMap.getConstElement( x, y ).canBePlaced( locateData->getMember< Emplacement::Enum >( LocateComponent::StaticData::Emplacement ) ) )
 			{
 				return false;

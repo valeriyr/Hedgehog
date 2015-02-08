@@ -14,7 +14,7 @@ namespace Settings {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_SETTINGS = 0;
+	const quint32 IID_SETTINGS = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +28,7 @@ struct ISettings
 
 	virtual void regString( const QString& _key, const QString& _defaultValue ) = 0;
 
-	virtual void regUInt( const QString& _key, const unsigned int _defaultValue ) = 0;
+	virtual void regUInt( const QString& _key, const quint32 _defaultValue ) = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,7 +36,7 @@ struct ISettings
 
 	virtual QString getString( const QString& _key ) const = 0;
 
-	virtual unsigned int getUInt( const QString& _key ) const = 0;
+	virtual quint32 getUInt( const QString& _key ) const = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,7 +44,7 @@ struct ISettings
 
 	virtual void setString( const QString& _key, const QString& _value ) = 0;
 
-	virtual void setUInt( const QString& _key, const unsigned int _Value ) = 0;
+	virtual void setUInt( const QString& _key, const quint32 _Value ) = 0;
 
 /*---------------------------------------------------------------------------*/
 

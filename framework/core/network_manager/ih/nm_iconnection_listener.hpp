@@ -22,7 +22,7 @@ struct IConnectionListener
 
 	virtual void onDataReceive(
 			const QString& _fromAddress
-		,	const unsigned int _fromPort
+		,	const quint32 _fromPort
 		,	const Data& _data ) = 0;
 
 /*---------------------------------------------------------------------------*/

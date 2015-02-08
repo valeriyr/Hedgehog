@@ -22,7 +22,7 @@ struct ConnectionInfo
 
 	ConnectionInfo(
 			const QString& _address
-		,	const unsigned int _port
+		,	const quint32 _port
 		)
 		:	m_address( _address )
 		,	m_port( _port )
@@ -56,7 +56,7 @@ struct ConnectionInfo
 
 	QString m_address;
 
-	unsigned int m_port;
+	quint32 m_port;
 
 /*---------------------------------------------------------------------------*/
 

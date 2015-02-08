@@ -115,12 +115,12 @@ MoveAction::~MoveAction()
 bool
 MoveAction::prepareToProcessingInternal()
 {
-	boost::intrusive_ptr< IMoveComponent > moveComponent
-		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
+	Tools::Core::Object::Ptr moveComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( MoveComponent::Name );
 	Tools::Core::Object::Ptr locateComponent
 		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
-	moveComponent->getMovingData().reset();
+	MoveComponent::clearData( *moveComponent );
 
 	if ( m_movingToObject )
 	{
@@ -138,21 +138,21 @@ MoveAction::prepareToProcessingInternal()
 		}
 	}
 
-	moveComponent->getMovingData().m_movingTo = m_movingToPoint;
-	moveComponent->getMovingData().m_movingToObject = m_movingToObject;
+	moveComponent->getMember< QPoint >( MoveComponent::MovingTo ) = m_movingToPoint;
+	moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject ) = m_movingToObject;
 
 	if ( !m_preprocessedPath.empty() )
 	{
-		if ( m_landscapeModel.getLandscape()->canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getMember< QString >( ObjectNameKey ) ) )
+		if ( m_landscapeModel.getLandscape()->canObjectBePlaced( moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).front(), m_object.getMember< QString >( ObjectNameKey ) ) )
 		{
-			moveComponent->getMovingData().m_path = m_preprocessedPath;
+			moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ) = m_preprocessedPath;
 
 			m_landscapeModel.getLandscape()->setEngaged(
 					locateComponent->getMember< QPoint >( LocateComponent::Location )
 				,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
 				,	false );
 			m_landscapeModel.getLandscape()->setEngaged(
-					moveComponent->getMovingData().m_path.front()
+					moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).front()
 				,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
 				,	true );
 		}
@@ -171,28 +171,28 @@ MoveAction::prepareToProcessingInternal()
 bool
 MoveAction::cancelProcessingInternal()
 {
-	boost::intrusive_ptr< IMoveComponent > moveComponent
-		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
+	Tools::Core::Object::Ptr moveComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( MoveComponent::Name );
 
 	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 	{
-		moveComponent->getMovingData().reset();
+		MoveComponent::clearData( *moveComponent );
 		return true;
 	}
 
-	if ( !moveComponent->getMovingData().m_path.empty() )
+	if ( !moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).empty() )
 	{
-		QPoint inProgressPoint( moveComponent->getMovingData().m_path.front() );
+		QPoint inProgressPoint( moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).front() );
 
-		moveComponent->getMovingData().m_path.clear();
+		moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).clear();
 		moveToLocation( inProgressPoint );
-		moveComponent->getMovingData().m_path.push_back( inProgressPoint );
+		moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).push_back( inProgressPoint );
 
 		return false;
 	}
 	else
 	{
-		moveComponent->getMovingData().reset();
+		MoveComponent::clearData( *moveComponent );
 	}
 
 	return true;
@@ -210,10 +210,8 @@ MoveAction::processAction()
 
 	Tools::Core::Object::Ptr locateComponent
 		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
-	boost::intrusive_ptr< IMoveComponent > moveComponent
-		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
-
-	IMoveComponent::MovingData& movingData = moveComponent->getMovingData();
+	Tools::Core::Object::Ptr moveComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( MoveComponent::Name );
 
 	bool unitChangeState = false;
 	bool unitMoved = false;
@@ -237,71 +235,74 @@ MoveAction::processAction()
 
 		bool goalReached = false;
 
-		if ( moveComponent->getMovingData().m_movingToObject )
+		if ( moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject ) )
 		{
 			Tools::Core::Object::Ptr targetLocateComponent
-				= moveComponent->getMovingData().m_movingToObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+				= moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
 			if ( Geometry::checkDistance( locateComponent->getMember< QPoint >( LocateComponent::Location ), LocateComponent::getRect( *targetLocateComponent ), m_distance ) )
 			{
 				goalReached = true;
 			}
 		}
-		else if ( Geometry::checkDistance( locateComponent->getMember< QPoint >( LocateComponent::Location ), movingData.m_movingTo, m_distance ) )
+		else if ( Geometry::checkDistance( locateComponent->getMember< QPoint >( LocateComponent::Location ), moveComponent->getMember< QPoint >( MoveComponent::MovingTo ), m_distance ) )
 		{
 			goalReached = true;
 		}
 
 		if ( goalReached )
 		{
-			moveComponent->getMovingData().leaveOnlyFirstPoint();
+			MoveComponent::leaveOnlyFirstPoint( *moveComponent );
 		}
 
 		// Check that our path is correct
 
-		if ( moveComponent->getMovingData().m_movingToObject )
+		if ( moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject ) )
 		{
 			Tools::Core::Object::Ptr targetLocateComponent
-				= moveComponent->getMovingData().m_movingToObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+				= moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
 			if ( targetLocateComponent->getMember< QPoint >( LocateComponent::Location ) != m_lastTargetObjectLocation )
 			{
 				m_lastTargetObjectLocation = targetLocateComponent->getMember< QPoint >( LocateComponent::Location );
-				moveComponent->getMovingData().leaveOnlyFirstPoint();
+				MoveComponent::leaveOnlyFirstPoint( *moveComponent );
 			}
 		}
 
 		// Calculate new path
 
-		if ( movingData.m_path.empty() )
+		if ( moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).empty() )
 		{
-			IMoveComponent::MovingData newMovingData;
-			newMovingData.m_movingTo = moveComponent->getMovingData().m_movingTo;
-			newMovingData.m_movingToObject = moveComponent->getMovingData().m_movingToObject;
+			QPoint newMovingTo = moveComponent->getMember< QPoint >( MoveComponent::MovingTo );
+			boost::shared_ptr< GameObject > newMovingToObject = moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject );
+			IPathFinder::PointsCollection newPath;
 
-			if ( newMovingData.m_movingToObject )
+			if ( newMovingToObject )
 			{
-				JumpPointSearch::pathToObject( newMovingData.m_path, *m_landscapeModel.getLandscape(), m_object, *newMovingData.m_movingToObject, m_distance );
+				JumpPointSearch::pathToObject( newPath, *m_landscapeModel.getLandscape(), m_object, *newMovingToObject, m_distance );
 			}
 			else
 			{
-				AStarSearch::pathToPoint( newMovingData.m_path, *m_landscapeModel.getLandscape(), m_object, newMovingData.m_movingTo );
+				AStarSearch::pathToPoint( newPath, *m_landscapeModel.getLandscape(), m_object, newMovingTo );
 			}
 
-			if ( newMovingData.m_path.empty() )
+			if ( newPath.empty() )
 			{
 				m_isInProcessing = false;
 			}
 			else
 			{
-				movingData = newMovingData;
+				moveComponent->getMember< QPoint >( MoveComponent::MovingTo ) = newMovingTo;
+				moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject ) = newMovingToObject;
+				moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ) = newPath;
+				moveComponent->getMember< TickType >( MoveComponent::MovingProgress ) = 0;
 
 				m_landscapeModel.getLandscape()->setEngaged(
 						locateComponent->getMember< QPoint >( LocateComponent::Location )
 					,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
 					,	false );
 				m_landscapeModel.getLandscape()->setEngaged(
-						movingData.m_path.front()
+						newPath.front()
 					,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
 					,	true );
 			}
@@ -311,47 +312,48 @@ MoveAction::processAction()
 
 		if ( m_isInProcessing )
 		{
-			++movingData.m_movingProgress;
+			++moveComponent->getMember< TickType >( MoveComponent::MovingProgress );
 
 			bool pathWasBlocked = false;
 
-			if ( movingData.m_movingProgress == moveComponent->getStaticData().m_movingSpeed )
+			if (	moveComponent->getMember< TickType >( MoveComponent::MovingProgress )
+				==	moveComponent->getMember< TickType >( StaticDataTools::generateName( MoveComponent::StaticData::MovingSpeed ) ) )
 			{
-				movingData.m_movingProgress = 0;
+				moveComponent->getMember< TickType >( MoveComponent::MovingProgress ) = 0;
 
-				QPoint location( QPoint( movingData.m_path.front() ) );
+				QPoint location( QPoint( moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).front() ) );
 
 				locateComponent->getMember< QPoint >( LocateComponent::Location ) = location;
 
-				movingData.m_path.pop_front();
+				moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).pop_front();
 
-				if ( !movingData.m_path.empty() )
+				if ( !moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).empty() )
 				{
-					if ( m_landscapeModel.getLandscape()->canObjectBePlaced( moveComponent->getMovingData().m_path.front(), m_object.getMember< QString >( ObjectNameKey ) ) )
+					if ( m_landscapeModel.getLandscape()->canObjectBePlaced( moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).front(), m_object.getMember< QString >( ObjectNameKey ) ) )
 					{
 						m_landscapeModel.getLandscape()->setEngaged(
 								location
 							,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
 							,	false );
 						m_landscapeModel.getLandscape()->setEngaged(
-								moveComponent->getMovingData().m_path.front()
+								moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).front()
 							,	locateComponent->getMember< Emplacement::Enum >( StaticDataTools::generateName( LocateComponent::StaticData::Emplacement ) )
 							,	true );
 					}
 					else
 					{
-						movingData.m_path.clear();
+						moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).clear();
 						pathWasBlocked = true;
 					}
 				}
 			}
 
-			if ( !movingData.m_path.empty() )
+			if ( !moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).empty() )
 			{
 				Direction::Enum currentDirection = locateComponent->getMember< Direction::Enum >( LocateComponent::Direction );
 
 				QPoint currentLocation( locateComponent->getMember< QPoint >( LocateComponent::Location ) );
-				QPoint nextLocation = movingData.m_path.front();
+				QPoint nextLocation = moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).front();
 
 				Direction::Enum nextDirection = Direction::getDirection( currentLocation, nextLocation );
 
@@ -379,7 +381,7 @@ MoveAction::processAction()
 
 	if ( !m_isInProcessing && m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Moving )
 	{
-		movingData.reset();
+		MoveComponent::clearData( *moveComponent );
 		m_object.getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::Standing;
 			
 		unitChangeState = true;
@@ -404,9 +406,15 @@ MoveAction::processAction()
 				.pushMember( Events::ObjectMoved::ObjectNameAttribute, m_object.getMember< QString >( ObjectNameKey ) )
 				.pushMember( Events::ObjectMoved::ObjectIdAttribute, m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 				.pushMember( Events::ObjectMoved::MovingFromAttribute, locateComponent->getMember< QPoint >( LocateComponent::Location ) )
-				.pushMember( Events::ObjectMoved::MovingToAttribute, movingData.m_path.empty() ? locateComponent->getMember< QPoint >( LocateComponent::Location ) : movingData.m_path.front() )
-				.pushMember( Events::ObjectMoved::MovingProgressAttribute, movingData.m_path.empty() ? moveComponent->getStaticData().m_movingSpeed : movingData.m_movingProgress )
-				.pushMember( Events::ObjectMoved::MovingSpeedAttribute, moveComponent->getStaticData().m_movingSpeed ) );
+				.pushMember(	Events::ObjectMoved::MovingToAttribute
+							,		moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).empty()
+								?	locateComponent->getMember< QPoint >( LocateComponent::Location )
+								:	moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).front() )
+				.pushMember(	Events::ObjectMoved::MovingProgressAttribute
+							,		moveComponent->getMember< IPathFinder::PointsCollection >( MoveComponent::Path ).empty()
+								?	moveComponent->getMember< TickType >( StaticDataTools::generateName( MoveComponent::StaticData::MovingSpeed ) )
+								:	moveComponent->getMember< TickType >( MoveComponent::MovingProgress ) )
+				.pushMember( Events::ObjectMoved::MovingSpeedAttribute, moveComponent->getMember< TickType >( StaticDataTools::generateName( MoveComponent::StaticData::MovingSpeed ) ) ) );
 	}
 
 } // MoveAction::processAction
@@ -436,11 +444,11 @@ MoveAction::moveToLocation( const QPoint& _location )
 
 	m_distance = 0;
 
-	boost::intrusive_ptr< IMoveComponent > moveComponent
-		= m_object.getComponent< IMoveComponent >( ComponentId::Move );
+	Tools::Core::Object::Ptr moveComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( MoveComponent::Name );
 
-	moveComponent->getMovingData().m_movingTo = m_movingToPoint;
-	moveComponent->getMovingData().m_movingToObject.reset();
+	moveComponent->getMember< QPoint >( MoveComponent::MovingTo ) = m_movingToPoint;
+	moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject ).reset();
 
 } // MoveAction::moveToLocation
 

@@ -413,7 +413,7 @@ public:
 		:	m_attributeName( _attributeName )
 	{}
 
-	unsigned int operator () ( const QDomElement& _element )
+	quint32 operator () ( const QDomElement& _element )
 	{
 		return _element.attribute( m_attributeName ).toUInt();
 	}

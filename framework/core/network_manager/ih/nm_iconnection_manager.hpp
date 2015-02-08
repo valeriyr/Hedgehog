@@ -16,7 +16,7 @@ namespace NetworkManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_CONNECTION_MANAGER = 0;
+	const quint32 IID_CONNECTION_MANAGER = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -31,7 +31,7 @@ struct IConnectionManager
 /*---------------------------------------------------------------------------*/
 
 	virtual boost::intrusive_ptr< IUdpConnection >
-		getUdpConnection( const ConnectionInfo& _connectionInfo, const unsigned int _connectionTimeOut ) = 0;
+		getUdpConnection( const ConnectionInfo& _connectionInfo, const quint32 _connectionTimeOut ) = 0;
 
 	virtual void closeUdpConnection( const ConnectionInfo& _connectionInfo ) = 0;
 

@@ -6,8 +6,6 @@
 
 #include "intrusive_base/ib_ibase.hpp"
 
-#include "landscape_model/h/lm_game_object.hpp"
-
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
@@ -17,6 +15,8 @@ namespace LandscapeModel {
 /*---------------------------------------------------------------------------*/
 
 struct ILandscape;
+
+class GameObject;
 
 /*---------------------------------------------------------------------------*/
 

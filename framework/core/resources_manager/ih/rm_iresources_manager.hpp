@@ -14,7 +14,7 @@ namespace ResourcesManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_RESOURCES_MANAGER = 0;
+	const quint32 IID_RESOURCES_MANAGER = 0;
 
 /*---------------------------------------------------------------------------*/
 

@@ -87,7 +87,7 @@ private:
 
 		const AnimationInfo& m_animationInfo;
 
-		unsigned int m_frameIndex;
+		quint32 m_frameIndex;
 
 		qint64 m_lastFrameSwitchTime;
 

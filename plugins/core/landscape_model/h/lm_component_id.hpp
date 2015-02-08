@@ -16,7 +16,6 @@ struct ComponentId
 	{
 			Train = 1
 		,	Actions
-		,	Move
 		,	Repair
 		,	ResourceHolder
 		,	ResourceSource

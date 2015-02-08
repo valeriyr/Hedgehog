@@ -14,7 +14,7 @@ namespace CommandsManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_COMMAND_EXECUTOR = 1;
+	const quint32 IID_COMMAND_EXECUTOR = 1;
 
 /*---------------------------------------------------------------------------*/
 

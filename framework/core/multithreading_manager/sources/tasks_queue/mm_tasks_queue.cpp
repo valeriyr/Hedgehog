@@ -154,12 +154,12 @@ TasksQueue::getTaskForProcessing()
 /*---------------------------------------------------------------------------*/
 
 
-unsigned int
+quint32
 TasksQueue::refreshTasks()
 {
 	QMutexLocker locker( &m_mutex );
 
-	unsigned int tasksCount = 0;
+	quint32 tasksCount = 0;
 
 	TasksCollectionIterator
 			beginPeriodical = m_periodicalTasksCollection.begin()

@@ -37,7 +37,7 @@ public:
 
 	UdpConnection(
 			const ConnectionInfo& _connectionInfo
-		,	const unsigned int _connectionTimeOut
+		,	const quint32 _connectionTimeOut
 		,	QObject* _parent = NULL );
 
 	virtual ~UdpConnection();

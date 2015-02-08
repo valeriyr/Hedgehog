@@ -14,7 +14,7 @@ namespace WindowManager {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_DIALOGS_MANAGER = 1;
+	const quint32 IID_DIALOGS_MANAGER = 1;
 
 /*---------------------------------------------------------------------------*/
 

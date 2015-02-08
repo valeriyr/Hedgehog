@@ -16,7 +16,7 @@ namespace ScriptEngine {
 
 /*---------------------------------------------------------------------------*/
 
-	const unsigned int IID_SCRIPTS_EXECUTOR = 0;
+	const quint32 IID_SCRIPTS_EXECUTOR = 0;
 
 /*---------------------------------------------------------------------------*/
 

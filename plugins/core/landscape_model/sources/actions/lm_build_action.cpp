@@ -85,7 +85,7 @@ BuildAction::cancelProcessingInternal()
 	Tools::Core::Object::Ptr playerComponent
 		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
-	if ( buildComponent->getMember< qint32 >( BuildComponent::BuildProgress ) != 0 )
+	if ( buildComponent->getMember< TickType >( BuildComponent::BuildProgress ) != 0 )
 	{
 		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
@@ -173,7 +173,7 @@ BuildAction::processAction()
 		{
 			bool shouldBuildObject = true;
 
-			if ( buildComponent->getMember< qint32 >( BuildComponent::BuildProgress ) == 0 )
+			if ( buildComponent->getMember< TickType >( BuildComponent::BuildProgress ) == 0 )
 			{
 				m_landscapeModel.getLandscape()->setEngaged(
 						locateComponent->getMember< QPoint >( LocateComponent::Location )
@@ -213,7 +213,7 @@ BuildAction::processAction()
 
 			if ( shouldBuildObject )
 			{
-				++buildComponent->getMember< qint32 >( BuildComponent::BuildProgress );
+				++buildComponent->getMember< TickType >( BuildComponent::BuildProgress );
 				TickType totalTicks = buildComponent->getMember< BuildComponent::StaticData::Data::Ptr >( StaticDataTools::generateName( BuildComponent::StaticData::DataKey ) )
 					->m_buildDatas.find( buildComponent->getMember< QString >( BuildComponent::ObjectName ) )->second->m_ticksCount;
 
@@ -224,7 +224,7 @@ BuildAction::processAction()
 					= targetObject->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name );
 
 				//targetHealthComponent->callVoidMethod< const qint32 >( HealthComponent::SetHealth, buildData.m_buildProgress * targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) / totalTicks );
-				HealthComponent::setHealth( *targetHealthComponent, buildComponent->getMember< qint32 >( BuildComponent::BuildProgress ) * targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) / totalTicks );
+				HealthComponent::setHealth( *targetHealthComponent, buildComponent->getMember< TickType >( BuildComponent::BuildProgress ) * targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) / totalTicks );
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::ObjectHealthChanged::Type )
@@ -232,7 +232,7 @@ BuildAction::processAction()
 						.pushMember( Events::ObjectHealthChanged::ObjectIdAttribute, targetObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 						.pushMember( Events::ObjectHealthChanged::ObjectHealth, targetHealthComponent->getMember< qint32 >( HealthComponent::Health ) ) );
 
-				if ( buildComponent->getMember< qint32 >( BuildComponent::BuildProgress ) == totalTicks )
+				if ( buildComponent->getMember< TickType >( BuildComponent::BuildProgress ) == totalTicks )
 				{
 					stopBuild( m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) );
 					m_isInProcessing = false;

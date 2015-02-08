@@ -342,6 +342,11 @@ PluginInstance::exportScriptAPI()
 {
 	Framework::Core::ScriptEngine::DataExporter exporter = getScriptExporter()->getDataExporter();
 
+	// Types
+
+	exporter.exportClass< std::list< QPoint > >( "ListOfPoints" )
+		->withConstructor();
+
 	// Enums export
 
 	exporter.exportVariable( "AnyTerrain", TerrainMapItem::ms_any );
@@ -394,12 +399,14 @@ PluginInstance::exportScriptAPI()
 		.withMethod( "pushEmplacementMember", &Tools::Core::Object::pushMember< Emplacement::Enum > )
 		.withMethod( "pushDirectionMember", &Tools::Core::Object::pushMember< Direction::Enum > )
 		.withMethod( "pushIntMember", &Tools::Core::Object::pushMember< qint32 > )
+		.withMethod( "pushUIntMember", &Tools::Core::Object::pushMember< quint32 > )
 		.withMethod( "pushBoolMember", &Tools::Core::Object::pushMember< bool > )
 		.withMethod( "pushTickTypeMember", &Tools::Core::Object::pushMember< TickType > )
 		.withMethod( "pushStringMember", &Tools::Core::Object::pushMember< QString > )
 		.withMethod( "pushPointMember", &Tools::Core::Object::pushMember< QPoint > )
 		.withMethod( "pushSizeMember", &Tools::Core::Object::pushMember< QSize > )
 		.withMethod( "pushRectMember", &Tools::Core::Object::pushMember< QRect > )
+		.withMethod( "pushListOfPointsMember", &Tools::Core::Object::pushMember< std::list< QPoint > > )
 		.withMethod( "pushResourcesDataMember", &Tools::Core::Object::pushMember< ResourcesData > )
 		.withMethod(	"getObjectPtrMember"
 					,	( Tools::Core::Object::Ptr& (Tools::Core::Object::*)( const QString& ) )
@@ -488,8 +495,12 @@ PluginInstance::exportScriptAPI()
 
 	// MoveComponent
 
-	exporter.exportClassWithShared< IMoveComponent::StaticData >( "MoveComponentStaticData" )
-		->withConstructor< const TickType >();
+	exporter.exportVariable( "MoveComponentName", MoveComponent::Name );
+	exporter.exportVariable( "MoveComponentMovingSpeed", MoveComponent::StaticData::MovingSpeed );
+	exporter.exportVariable( "MoveComponentPath", MoveComponent::Path );
+	exporter.exportVariable( "MoveComponentMovingProgress", MoveComponent::MovingProgress );
+	exporter.exportVariable( "MoveComponentMovingTo", MoveComponent::MovingTo );
+	exporter.exportVariable( "MoveComponentMovingToObject", MoveComponent::MovingToObject );
 
 	// AttackComponent
 

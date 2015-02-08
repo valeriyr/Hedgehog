@@ -38,7 +38,7 @@ public:
 
 	/*virtual*/ void regString( const QString& _key, const QString& _defaultValue );
 
-	/*virtual*/ void regUInt( const QString& _key, const unsigned int _defaultValue );
+	/*virtual*/ void regUInt( const QString& _key, const quint32 _defaultValue );
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,7 +46,7 @@ public:
 
 	/*virtual*/ QString getString( const QString& _key ) const;
 
-	/*virtual*/ unsigned int getUInt( const QString& _key ) const;
+	/*virtual*/ quint32 getUInt( const QString& _key ) const;
 
 /*---------------------------------------------------------------------------*/
 
@@ -54,7 +54,7 @@ public:
 
 	/*virtual*/ void setString( const QString& _key, const QString& _value );
 
-	/*virtual*/ void setUInt( const QString& _key, const unsigned int _Value );
+	/*virtual*/ void setUInt( const QString& _key, const quint32 _Value );
 
 /*---------------------------------------------------------------------------*/
 

@@ -10,11 +10,17 @@
 #include "landscape_model/h/lm_directions.hpp"
 #include "landscape_model/h/lm_terrain_map_data.hpp"
 
+#include "landscape_model/sources/path_finders/lm_ipath_finder.hpp"
+
 /*---------------------------------------------------------------------------*/
 
 namespace Plugins {
 namespace Core {
 namespace LandscapeModel {
+
+/*---------------------------------------------------------------------------*/
+
+class GameObject;
 
 /*---------------------------------------------------------------------------*/
 
@@ -195,6 +201,43 @@ namespace LocateComponent
 	static const QRect getRect( Tools::Core::Object& _locateComponent )
 	{
 		return QRect( _locateComponent.getMember< QPoint >( Location ), _locateComponent.getMember< QSize >( StaticDataTools::generateName( StaticData::Size ) ) );
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
+namespace MoveComponent
+{
+	const QString Name = "MoveComponent";
+
+	namespace StaticData
+	{
+		const QString MovingSpeed = "MovingSpeed";
+	}
+
+	const QString Path = "Path";
+	const QString MovingProgress = "MovingProgress";
+	const QString MovingTo = "MovingTo";
+	const QString MovingToObject = "MovingToObject";
+
+	static void clearData( Tools::Core::Object& _moveComponent )
+	{
+		_moveComponent.getMember< IPathFinder::PointsCollection >( Path ).clear();
+		_moveComponent.getMember< TickType >( MovingProgress ) = 0;
+		_moveComponent.getMember< QPoint >( MovingTo ) = QPoint( 0, 0 );
+		_moveComponent.getMember< boost::shared_ptr< GameObject > >( MovingToObject ).reset();
+	}
+
+	static void leaveOnlyFirstPoint( Tools::Core::Object& _moveComponent )
+	{
+		IPathFinder::PointsCollection& path = _moveComponent.getMember< IPathFinder::PointsCollection >( Path );
+
+		if ( !path.empty() )
+		{
+			QPoint inProgressPoint( path.front() );
+			path.clear();
+			path.push_back( inProgressPoint );
+		}
 	}
 }
 
