@@ -482,23 +482,23 @@ MultiplayerDialog::connectWidgets()
 	
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::PlayerRaceChanged::Type
+							,	Core::LandscapeModel::Events::PlayerRaceChanged::Type
 							,	boost::bind( &MultiplayerDialog::onPlayerRaceChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::PlayerTypeChanged::Type
+							,	Core::LandscapeModel::Events::PlayerTypeChanged::Type
 							,	boost::bind( &MultiplayerDialog::onPlayerTypeChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::PlayerNameChanged::Type
+							,	Core::LandscapeModel::Events::PlayerNameChanged::Type
 							,	boost::bind( &MultiplayerDialog::onPlayerNameChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::SimulationStarted::Type
+							,	Core::LandscapeModel::Events::SimulationStarted::Type
 							,	boost::bind( &MultiplayerDialog::onSimulationStarted, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::VictoryConditionChanged::Type
+							,	Core::LandscapeModel::Events::VictoryConditionChanged::Type
 							,	boost::bind( &MultiplayerDialog::onVictoryConditionChangedEvent, this, _1 ) );
 
 } // MultiplayerDialog::connectWidgets

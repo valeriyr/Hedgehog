@@ -60,7 +60,7 @@ LandscapeViewer::LandscapeViewer( const IEnvironment& _environment )
 	m_environment.addFrameworkView( m_selectionView, Framework::GUI::WindowManager::ViewPosition::Right );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::SimulationStarted::Type
+							,	Core::LandscapeModel::Events::SimulationStarted::Type
 							,	boost::bind( &LandscapeViewer::onSimulationStarted, this, _1 ) );
 
 } // LandscapeViewer::LandscapeViewer

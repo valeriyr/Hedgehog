@@ -104,15 +104,15 @@ void
 ObjectStatusView::landscapeWasOpened()
 {
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
+							,	Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
 							,	boost::bind( &ObjectStatusView::onObjectsSelectionChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::TrainQueueChanged::Type
+							,	Core::LandscapeModel::Events::TrainQueueChanged::Type
 							,	boost::bind( &ObjectStatusView::onTrainQueueChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::TrainProgressChanged::Type
+							,	Core::LandscapeModel::Events::TrainProgressChanged::Type
 							,	boost::bind( &ObjectStatusView::onTrainProgressChanged, this, _1 ) );
 
 } // ObjectStatusView::landscapeWasOpened
@@ -142,7 +142,7 @@ ObjectStatusView::onObjectsSelectionChanged( const Framework::Core::EventManager
 
 	if ( handle->getLandscapeModel()->getLandscape() )
 	{
-		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
+		Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
 		handle->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
 		m_builderId = Tools::Core::Generators::IGenerator::ms_wrongId;

@@ -28,7 +28,6 @@
 
 #include "landscape_model/sources/components/lm_train_component.hpp"
 #include "landscape_model/sources/components/lm_actions_component.hpp"
-#include "landscape_model/sources/components/lm_resource_source_component.hpp"
 #include "landscape_model/sources/components/lm_resource_storage_component.hpp"
 
 #include "landscape_model/sources/landscape_model/game_modes/lm_multi_player_mode.hpp"
@@ -807,9 +806,7 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 		object->pushMember( GameObject::generateName( ResourceHolderComponent::Name, StaticDataTools::Name ), staticData.m_resourceHolderData );
 
 	if ( staticData.m_resourceSourceData )
-		object->addComponent(
-				ComponentId::ResourceSource
-			,	boost::intrusive_ptr< IComponent >( new ResourceSourceComponent( *object, *staticData.m_resourceSourceData ) ) );
+		object->pushMember( GameObject::generateName( ResourceSourceComponent::Name, StaticDataTools::Name ), staticData.m_resourceSourceData );
 
 	if ( staticData.m_resourceStorageData )
 		object->addComponent(
@@ -1455,7 +1452,7 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 						= targetObject->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 					if (	resourceHolderComponent
-						&&	targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource ) )
+						&&	targetObject->getMember< Tools::Core::Object::Ptr >( ResourceSourceComponent::Name ) )
 					{
 						actionsComponent->pushAction(
 								boost::intrusive_ptr< IAction >( new CollectResourceAction( m_environment, *this, *this, *object, targetObject ) )

@@ -84,7 +84,7 @@ DescriptionView::landscapeWasOpened()
 	regenerateDescription();
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::VictoryConditionChanged::Type
+							,	Core::LandscapeModel::Events::VictoryConditionChanged::Type
 							,	boost::bind( &DescriptionView::onVictoryConditionChanged, this, _1 ) );
 
 } // DescriptionView::landscapeWasOpened

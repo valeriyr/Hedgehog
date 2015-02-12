@@ -117,7 +117,7 @@ void
 SelectionView::landscapeWasOpened()
 {
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
+							,	Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
 							,	boost::bind( &SelectionView::onObjectsSelectionChanged, this, _1 ) );
 
 } // SelectionView::landscapeWasOpened
@@ -164,10 +164,10 @@ SelectionView::onObjectsSelectionChanged( const Framework::Core::EventManager::E
 
 	if ( handle->getLandscapeModel()->getLandscape() )
 	{
-		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
+		Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
 		handle->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
-		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
+		Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
 				selectedObjectsBegin = selectedObjectsCollection.begin()
 			,	selectedObjectsEnd = selectedObjectsCollection.end();
 

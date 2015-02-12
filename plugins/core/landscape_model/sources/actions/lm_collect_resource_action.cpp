@@ -17,7 +17,6 @@
 #include "landscape_model/sources/actions/lm_iworkers_holder.hpp"
 
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
-#include "landscape_model/ih/components/lm_iresource_source_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
 
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
@@ -75,10 +74,11 @@ public:
 
 	/*virtual*/ bool check( const GameObject& _object ) const
 	{
-		boost::intrusive_ptr< IResourceSourceComponent > resourceSource
-			= _object.getComponent< IResourceSourceComponent >( ComponentId::ResourceSource );
+		Tools::Core::Object::Ptr resourceSource
+			= _object.getMember< Tools::Core::Object::Ptr >( ResourceSourceComponent::Name );
 
-		return resourceSource && resourceSource->getStaticData().m_resource == m_sourceOf;
+		return	resourceSource
+			&&	resourceSource->getMember< QString >( StaticDataTools::generateName( ResourceSourceComponent::StaticData::ResourceType ) ) == m_sourceOf;
 	}
 
 private:
@@ -226,18 +226,19 @@ CollectResourceAction::processAction()
 
 	if ( m_targetObject == m_resourceSource )
 	{
-		boost::intrusive_ptr< IResourceSourceComponent > targetResourceSource
-			= m_targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource );
+		Tools::Core::Object::Ptr targetResourceSource
+			= m_targetObject->getMember< Tools::Core::Object::Ptr >( ResourceSourceComponent::Name );
 		Tools::Core::Object::Ptr targetLocation
 			= m_targetObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
 
 		if (	m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::UnderCollecting
-			&&	targetResourceSource->getObjectInside() != m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
+			&&		targetResourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ResourceSourceComponent::ObjectInside )
+				!=	m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 		{
 			return;
 		}
 
-		if ( ResourceHolderComponent::isFull( *resourceHolderComponent, targetResourceSource->getStaticData().m_resource ) )
+		if ( ResourceHolderComponent::isFull( *resourceHolderComponent, targetResourceSource->getMember< QString >( StaticDataTools::generateName( ResourceSourceComponent::StaticData::ResourceType ) ) ) )
 		{
 			m_isInProcessing = ensureStorage();
 			m_targetObject = m_resourceStarage;
@@ -245,7 +246,7 @@ CollectResourceAction::processAction()
 
 		if ( m_targetObject == m_resourceSource )
 		{
-			if ( targetResourceSource->getResourceValue() == 0 )
+			if ( targetResourceSource->getMember< qint32 >( ResourceSourceComponent::ResourceValue ) == 0 )
 			{
 				// TODO: find nearest source
 				m_isInProcessing = false;
@@ -264,7 +265,8 @@ CollectResourceAction::processAction()
 
 				m_workersHolder.addWorker( m_hiddenObject );
 
-				targetResourceSource->setObjectInside( m_hiddenObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) );
+				targetResourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ResourceSourceComponent::ObjectInside )
+					= m_hiddenObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey );
 
 				m_environment.riseEvent(
 					Framework::Core::EventManager::Event( Events::HolderHasStartedCollect::Type )
@@ -280,44 +282,46 @@ CollectResourceAction::processAction()
 						.pushMember( Events::ObjectStateChanged::ObjectDirection, targetLocation->getMember< Direction::Enum >( LocateComponent::Direction ) ) );
 			}
 
-			if ( !ResourceHolderComponent::isFull( *resourceHolderComponent, targetResourceSource->getStaticData().m_resource ) )
+			if ( !ResourceHolderComponent::isFull( *resourceHolderComponent, targetResourceSource->getMember< QString >( StaticDataTools::generateName( ResourceSourceComponent::StaticData::ResourceType ) ) ) )
 			{
 				++m_collectingTicksCounter;
 
 				const ResourceHolderComponent::StaticData::HoldResourceData& resourceData
 					= resourceHolderComponent->getMember< ResourceHolderComponent::StaticData::HoldStaticData >( StaticDataTools::generateName( ResourceHolderComponent::StaticData::HoldStaticDataKey ) )
-						.getData( targetResourceSource->getStaticData().m_resource );
+						.getData( targetResourceSource->getMember< QString >( StaticDataTools::generateName( ResourceSourceComponent::StaticData::ResourceType ) ) );
 
 				if ( m_collectingTicksCounter == resourceData.m_collectTime )
 				{
 					m_collectingTicksCounter = 0;
 
-					int resourceSourceValue = targetResourceSource->getResourceValue();
+					int resourceSourceValue = targetResourceSource->getMember< qint32 >( ResourceSourceComponent::ResourceValue );
 
 					if ( resourceSourceValue < resourceData.m_maxValue )
 					{
-						resourceHolderComponent->getMember< ResourcesData >( ResourceHolderComponent::HeldResources ).add( targetResourceSource->getStaticData().m_resource, resourceSourceValue );
+						resourceHolderComponent->getMember< ResourcesData >( ResourceHolderComponent::HeldResources )
+							.add( targetResourceSource->getMember< QString >( StaticDataTools::generateName( ResourceSourceComponent::StaticData::ResourceType ) ), resourceSourceValue );
 						resourceSourceValue = 0;
 					}
 					else
 					{
-						resourceHolderComponent->getMember< ResourcesData >( ResourceHolderComponent::HeldResources ).add( targetResourceSource->getStaticData().m_resource, resourceData.m_maxValue );
+						resourceHolderComponent->getMember< ResourcesData >( ResourceHolderComponent::HeldResources )
+							.add( targetResourceSource->getMember< QString >( StaticDataTools::generateName( ResourceSourceComponent::StaticData::ResourceType ) ), resourceData.m_maxValue );
 						resourceSourceValue -= resourceData.m_maxValue;
 					}
 
-					targetResourceSource->setResourceValue( resourceSourceValue );
+					targetResourceSource->getMember< qint32 >( ResourceSourceComponent::ResourceValue ) = resourceSourceValue;
 
 					m_environment.riseEvent(
 						Framework::Core::EventManager::Event( Events::ResourceSourceValueChanged::Type )
 							.pushMember( Events::ResourceSourceValueChanged::ObjectUniqueIdAttribute, m_resourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
-							.pushMember( Events::ResourceSourceValueChanged::SourceResourceNameAttribute, targetResourceSource->getStaticData().m_resource )
-							.pushMember( Events::ResourceSourceValueChanged::SourceResourceValueAttribute, targetResourceSource->getResourceValue() ) );
+							.pushMember( Events::ResourceSourceValueChanged::SourceResourceNameAttribute, targetResourceSource->getMember< QString >( StaticDataTools::generateName( ResourceSourceComponent::StaticData::ResourceType ) ) )
+							.pushMember( Events::ResourceSourceValueChanged::SourceResourceValueAttribute, targetResourceSource->getMember< qint32 >( ResourceSourceComponent::ResourceValue ) ) );
 
 					holderResourcesCountCahnged = true;
 				}
 			}
 
-			if ( ResourceHolderComponent::isFull( *resourceHolderComponent, targetResourceSource->getStaticData().m_resource ) || !m_isInProcessing )
+			if ( ResourceHolderComponent::isFull( *resourceHolderComponent, targetResourceSource->getMember< QString >( StaticDataTools::generateName( ResourceSourceComponent::StaticData::ResourceType ) ) ) || !m_isInProcessing )
 			{
 				locateComponent->getMember< QPoint >( LocateComponent::Location )
 					= m_landscapeModel.getLandscape()->getNearestLocation( *m_targetObject, m_object.getMember< QString >( ObjectNameKey ) );
@@ -327,7 +331,7 @@ CollectResourceAction::processAction()
 
 				m_workersHolder.removeWorker( m_hiddenObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) );
 
-				targetResourceSource->setObjectInside( Tools::Core::Generators::IGenerator::ms_wrongId );
+				targetResourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ResourceSourceComponent::ObjectInside ) = Tools::Core::Generators::IGenerator::ms_wrongId;
 
 				m_hiddenObject.reset();
 
@@ -422,10 +426,12 @@ CollectResourceAction::ensureStorage()
 		Tools::Core::Object::Ptr playerComponent
 			= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
-		boost::intrusive_ptr< IResourceSourceComponent > targetResourceSource
-			= m_targetObject->getComponent< IResourceSourceComponent >( ComponentId::ResourceSource );
+		Tools::Core::Object::Ptr targetResourceSource
+			= m_targetObject->getMember< Tools::Core::Object::Ptr >( ResourceSourceComponent::Name );
 
-		StorageObjectsFilter filter( targetResourceSource->getStaticData().m_resource, playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
+		StorageObjectsFilter filter(
+				targetResourceSource->getMember< QString >( StaticDataTools::generateName( ResourceSourceComponent::StaticData::ResourceType ) )
+			,	playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 		ILandscape::ObjectsCollection storageObjects;
 
 		m_landscapeModel.getLandscape()->fetchObjects( storageObjects, filter );

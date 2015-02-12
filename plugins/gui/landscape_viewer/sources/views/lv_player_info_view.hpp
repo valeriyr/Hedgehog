@@ -71,7 +71,7 @@ private:
 
 	void updatePlayersInfo();
 
-	void updateTickInfo( const Plugins::Core::LandscapeModel::TickType& _tick );
+	void updateTickInfo( const Core::LandscapeModel::TickType& _tick );
 
 /*---------------------------------------------------------------------------*/
 

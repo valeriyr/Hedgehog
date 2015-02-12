@@ -9,7 +9,6 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 
-#include "landscape_model/ih/components/lm_iresource_source_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
 
 #include "landscape_model/h/lm_events.hpp"
@@ -87,43 +86,43 @@ void
 ObjectInfoView::landscapeWasOpened()
 {
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
+							,	Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
 							,	boost::bind( &ObjectInfoView::onObjectsSelectionChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectStateChanged::Type
+							,	Core::LandscapeModel::Events::ObjectStateChanged::Type
 							,	boost::bind( &ObjectInfoView::onObjectStateChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectMoved::Type
+							,	Core::LandscapeModel::Events::ObjectMoved::Type
 							,	boost::bind( &ObjectInfoView::onObjectMoved, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectHealthChanged::Type
+							,	Core::LandscapeModel::Events::ObjectHealthChanged::Type
 							,	boost::bind( &ObjectInfoView::onObjectHealthChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::HolderResourceCountChanged::Type
+							,	Core::LandscapeModel::Events::HolderResourceCountChanged::Type
 							,	boost::bind( &ObjectInfoView::onHolderResourceCountChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::Type
+							,	Core::LandscapeModel::Events::BuilderHasStartedBuild::Type
 							,	boost::bind( &ObjectInfoView::onBuilderHasStartedBuild, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::Type
+							,	Core::LandscapeModel::Events::BuilderHasFinishedBuild::Type
 							,	boost::bind( &ObjectInfoView::onBuilderHasFinishedBuild, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::Type
+							,	Core::LandscapeModel::Events::HolderHasStartedCollect::Type
 							,	boost::bind( &ObjectInfoView::onHolderHasStartedCollect, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::Type
+							,	Core::LandscapeModel::Events::HolderHasStopCollect::Type
 							,	boost::bind( &ObjectInfoView::onHolderHasStopCollect, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ResourceSourceValueChanged::Type
+							,	Core::LandscapeModel::Events::ResourceSourceValueChanged::Type
 							,	boost::bind( &ObjectInfoView::onResourceSourceValueChanged, this, _1 ) );
 
 } // ObjectInfoView::landscapeWasOpened
@@ -152,7 +151,7 @@ ObjectInfoView::onObjectsSelectionChanged( const Framework::Core::EventManager::
 
 	if ( handle->getLandscapeModel()->getLandscape() )
 	{
-		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
+		Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
 		handle->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
 		setDescriptionForObject(
@@ -171,7 +170,7 @@ void
 ObjectInfoView::onObjectStateChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ObjectIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::ObjectStateChanged::ObjectIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -188,7 +187,7 @@ void
 ObjectInfoView::onObjectMoved( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectMoved::ObjectIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::ObjectMoved::ObjectIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -205,7 +204,7 @@ void
 ObjectInfoView::onObjectHealthChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectHealthChanged::ObjectIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::ObjectHealthChanged::ObjectIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -222,7 +221,7 @@ void
 ObjectInfoView::onHolderResourceCountChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderResourceCountChanged::ObjectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::HolderResourceCountChanged::ObjectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -239,7 +238,7 @@ void
 ObjectInfoView::onBuilderHasStartedBuild( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::ObjectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::BuilderHasStartedBuild::ObjectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -256,7 +255,7 @@ void
 ObjectInfoView::onBuilderHasFinishedBuild( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::ObjectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::BuilderHasFinishedBuild::ObjectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -273,7 +272,7 @@ void
 ObjectInfoView::onHolderHasStartedCollect( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::ObjectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::HolderHasStartedCollect::ObjectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -290,7 +289,7 @@ void
 ObjectInfoView::onHolderHasStopCollect( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::ObjectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::HolderHasStopCollect::ObjectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -307,7 +306,7 @@ void
 ObjectInfoView::onResourceSourceValueChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ResourceSourceValueChanged::ObjectUniqueIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::ResourceSourceValueChanged::ObjectUniqueIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 	{
@@ -337,19 +336,19 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 			m_showingObjectId = object->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey );
 
 			Tools::Core::Object::Ptr locateComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::LocateComponent::Name );
+				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::LocateComponent::Name );
 			Tools::Core::Object::Ptr healthComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::HealthComponent::Name );
+				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::HealthComponent::Name );
 			Tools::Core::Object::Ptr moveComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::MoveComponent::Name );
+				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::MoveComponent::Name );
 			Tools::Core::Object::Ptr attackComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::AttackComponent::Name );
+				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::AttackComponent::Name );
 			Tools::Core::Object::Ptr resourceHolderComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::ResourceHolderComponent::Name );
-			boost::intrusive_ptr< Core::LandscapeModel::IResourceSourceComponent > resourceSourceComponent
-				= object->getComponent< Core::LandscapeModel::IResourceSourceComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceSource );
+				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::ResourceHolderComponent::Name );
+			Tools::Core::Object::Ptr resourceSourceComponent
+				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::ResourceSourceComponent::Name );
 			boost::intrusive_ptr< Core::LandscapeModel::IResourceStorageComponent > resourceStorageComponent
-				= object->getComponent< Core::LandscapeModel::IResourceStorageComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceStorage );
+				= object->getComponent< Core::LandscapeModel::IResourceStorageComponent >( Core::LandscapeModel::ComponentId::ResourceStorage );
 			Tools::Core::Object::Ptr playerComponent
 				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::PlayerComponent::Name );
 
@@ -437,8 +436,8 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 						.arg( attackComponent ? QString::number( attackComponent->getMember< qint32 >( Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::AttackComponent::StaticData::Distance ) ) ) : Resources::Views::NoneString )
 					.arg(	resourceSourceComponent
 						?	QString( Resources::Views::ResourcesSourceFormat )
-								.arg( resourceSourceComponent->getStaticData().m_resource )
-								.arg( resourceSourceComponent->getResourceValue() )
+								.arg( resourceSourceComponent->getMember< QString >( Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::ResourceSourceComponent::StaticData::ResourceType ) ) )
+								.arg( resourceSourceComponent->getMember< qint32 >( Core::LandscapeModel::ResourceSourceComponent::ResourceValue ) )
 						:	Resources::Views::NoneString )
 					.arg( resourceHolderData )
 					.arg( resourceStorageData ) );

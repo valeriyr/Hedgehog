@@ -543,8 +543,10 @@ PluginInstance::exportScriptAPI()
 
 	// ResourceSourceComponent
 
-	exporter.exportClassWithShared< IResourceSourceComponent::StaticData >( "ResourceSourceComponentStaticData" )
-		->withConstructor< const QString& >();
+	exporter.exportVariable( "ResourceSourceComponentName", ResourceSourceComponent::Name );
+	exporter.exportVariable( "ResourceSourceComponentResourceType", ResourceSourceComponent::StaticData::ResourceType );
+	exporter.exportVariable( "ResourceSourceComponentResourceValue", ResourceSourceComponent::ResourceValue );
+	exporter.exportVariable( "ResourceSourceComponentObjectInside", ResourceSourceComponent::ObjectInside );
 
 	// ResourceStorageComponent
 

@@ -90,11 +90,11 @@ PlayerInfoView::landscapeWasOpened()
 	setInfoText();
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ResourceValueChanged::Type
+							,	Core::LandscapeModel::Events::ResourceValueChanged::Type
 							,	boost::bind( &PlayerInfoView::onResourceValueChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::CurrentTickNumberChanged::Type
+							,	Core::LandscapeModel::Events::CurrentTickNumberChanged::Type
 							,	boost::bind( &PlayerInfoView::onCurrentTickNumberChanged, this, _1 ) );
 
 } // PlayerInfoView::landscapeWasOpened
@@ -133,8 +133,8 @@ PlayerInfoView::onResourceValueChanged( const Framework::Core::EventManager::Eve
 void
 PlayerInfoView::onCurrentTickNumberChanged( const Framework::Core::EventManager::Event& _event )
 {
-	const Plugins::Core::LandscapeModel::TickType tickNumber
-		= _event.getMember< Plugins::Core::LandscapeModel::TickType >( Plugins::Core::LandscapeModel::Events::CurrentTickNumberChanged::TickNumberAttribute );
+	const Core::LandscapeModel::TickType tickNumber
+		= _event.getMember< Core::LandscapeModel::TickType >( Core::LandscapeModel::Events::CurrentTickNumberChanged::TickNumberAttribute );
 
 	updateTickInfo( tickNumber );
 	setInfoText();
@@ -217,7 +217,7 @@ PlayerInfoView::updatePlayersInfo()
 
 
 void
-PlayerInfoView::updateTickInfo( const Plugins::Core::LandscapeModel::TickType& _tick )
+PlayerInfoView::updateTickInfo( const Core::LandscapeModel::TickType& _tick )
 {
 	m_tickInfo = QString( Resources::Views::TickInfoTextFormat ).arg( _tick );
 

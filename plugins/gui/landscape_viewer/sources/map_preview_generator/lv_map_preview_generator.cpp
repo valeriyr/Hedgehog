@@ -76,7 +76,7 @@ MapPreviewGenerator::generate(
 void
 MapPreviewGenerator::generateSurface(
 		QPixmap& _generateTo
-	,	const Plugins::Core::LandscapeModel::ILandscape& _landscape ) const
+	,	const Core::LandscapeModel::ILandscape& _landscape ) const
 {
 	QPixmap surface
 		= QPixmap( QSize(
@@ -91,7 +91,7 @@ MapPreviewGenerator::generateSurface(
 	{
 		for ( int j = 0; j < _landscape.getHeight(); ++j )
 		{
-			boost::intrusive_ptr< Plugins::Core::LandscapeModel::ISurfaceItem >
+			boost::intrusive_ptr< Core::LandscapeModel::ISurfaceItem >
 				surfaceItem = _landscape.getSurfaceItem( QPoint( i, j ) );
 
 			boost::intrusive_ptr< ISurfaceItemGraphicsInfo >
@@ -122,7 +122,7 @@ MapPreviewGenerator::generateSurface(
 void
 MapPreviewGenerator::generateStartPoints(
 		QPixmap& _generateTo
-	,	const Plugins::Core::LandscapeModel::ILandscape& _landscape ) const
+	,	const Core::LandscapeModel::ILandscape& _landscape ) const
 {
 	float scaleByX = static_cast< float >( ms_fixedWidgetSize.width() ) / ( _landscape.getWidth() * Resources::Landscape::CellSize );
 	float scaleByY = static_cast< float >( ms_fixedWidgetSize.height() ) / ( _landscape.getHeight() * Resources::Landscape::CellSize );
@@ -131,7 +131,7 @@ MapPreviewGenerator::generateStartPoints(
 	painter.begin( &_generateTo );
 	painter.setRenderHint( QPainter::Antialiasing );
 
-	Plugins::Core::LandscapeModel::ILandscape::StartPointsIterator
+	Core::LandscapeModel::ILandscape::StartPointsIterator
 		iterator = _landscape.getStartPointsIterator();
 
 	while ( iterator->isValid() )
@@ -160,7 +160,7 @@ MapPreviewGenerator::generateStartPoints(
 void
 MapPreviewGenerator::generateObjects(
 		QPixmap& _generateTo
-	,	const Plugins::Core::LandscapeModel::ILandscapeModel& _landscapeModel ) const
+	,	const Core::LandscapeModel::ILandscapeModel& _landscapeModel ) const
 {
 	boost::intrusive_ptr< Core::LandscapeModel::ILandscape > landscape
 		= _landscapeModel.getLandscape();
@@ -172,17 +172,17 @@ MapPreviewGenerator::generateObjects(
 	painter.begin( &_generateTo );
 	painter.setRenderHint( QPainter::Antialiasing );
 
-	Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection objectsCollection;
+	Core::LandscapeModel::ILandscape::ObjectsCollection objectsCollection;
 	landscape->fetchObjects( objectsCollection );
 
-	Plugins::Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
+	Core::LandscapeModel::ILandscape::ObjectsCollectionIterator
 			begin = objectsCollection.begin()
 		,	end = objectsCollection.end();
 
 	for ( ; begin != end; ++begin )
 	{
 		Tools::Core::Object::Ptr locateComponent
-			= ( *begin )->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::LocateComponent::Name );
+			= ( *begin )->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::LocateComponent::Name );
 		boost::intrusive_ptr< Core::LandscapeModel::IPlayer > player = _landscapeModel.getPlayer( **begin );
 
 		const QPoint location = locateComponent->getMember< QPoint >( Core::LandscapeModel::LocateComponent::Location );

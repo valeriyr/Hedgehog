@@ -333,6 +333,26 @@ namespace ResourceHolderComponent
 
 /*---------------------------------------------------------------------------*/
 
+namespace ResourceSourceComponent
+{
+	const QString Name = "ResourceSourceComponent";
+
+	namespace StaticData
+	{
+		const QString ResourceType = "ResourceType";
+	}
+
+	const QString ResourceValue = "ResourceValue";
+	const QString ObjectInside = "ObjectInside";
+
+	static void setResourceValue( Tools::Core::Object& _resourceSourceComponent, const qint32 _value )
+	{
+		_resourceSourceComponent.getMember< qint32 >( ResourceValue ) = std::max( 0 , _value );
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

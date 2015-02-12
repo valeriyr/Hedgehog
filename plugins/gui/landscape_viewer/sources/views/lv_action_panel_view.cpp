@@ -158,11 +158,11 @@ void
 ActionPanelView::landscapeWasOpened()
 {
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
+							,	Core::LandscapeModel::Events::ObjectsSelectionChanged::Type
 							,	boost::bind( &ActionPanelView::onObjectsSelectionChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectStateChanged::Type
+							,	Core::LandscapeModel::Events::ObjectStateChanged::Type
 							,	boost::bind( &ActionPanelView::onObjectStateChanged, this, _1 ) );
 
 } // ActionPanelView::landscapeWasOpened
@@ -219,7 +219,7 @@ ActionPanelView::onObjectsSelectionChanged( const Framework::Core::EventManager:
 
 	if ( handle->getLandscapeModel()->getLandscape() )
 	{
-		Plugins::Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
+		Core::LandscapeModel::ILandscape::ObjectsCollection selectedObjectsCollection;
 		handle->getLandscapeModel()->getLandscape()->fetchSelectedObjects( selectedObjectsCollection );
 
 		if ( selectedObjectsCollection.empty() )
@@ -242,7 +242,7 @@ void
 ActionPanelView::onObjectStateChanged( const Framework::Core::EventManager::Event& _event )
 {
 	const Tools::Core::Generators::IGenerator::IdType objectId
-		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Plugins::Core::LandscapeModel::Events::ObjectStateChanged::ObjectIdAttribute );
+		= _event.getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::Events::ObjectStateChanged::ObjectIdAttribute );
 
 	if ( m_showingObjectId == objectId )
 		updateView( objectId );
@@ -286,7 +286,7 @@ ActionPanelView::updateView( const Tools::Core::Generators::IGenerator::IdType& 
 			||	!handle->getLandscapeModel()->isMyObject( object ) )
 			return;
 
-		trainComponent = object->getComponent< Core::LandscapeModel::ITrainComponent >( Plugins::Core::LandscapeModel::ComponentId::Train );
+		trainComponent = object->getComponent< Core::LandscapeModel::ITrainComponent >( Core::LandscapeModel::ComponentId::Train );
 		buildComponent = object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::BuildComponent::Name );
 
 		parentObjectId = objectId;

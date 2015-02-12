@@ -60,15 +60,15 @@ private:
 
 	void generateSurface(
 			QPixmap& _generateTo
-		,	const Plugins::Core::LandscapeModel::ILandscape& _landscape ) const;
+		,	const Core::LandscapeModel::ILandscape& _landscape ) const;
 
 	void generateStartPoints(
 			QPixmap& _generateTo
-		,	const Plugins::Core::LandscapeModel::ILandscape& _landscape ) const;
+		,	const Core::LandscapeModel::ILandscape& _landscape ) const;
 
 	void generateObjects(
 			QPixmap& _generateTo
-		,	const Plugins::Core::LandscapeModel::ILandscapeModel& _landscapeModel ) const;
+		,	const Core::LandscapeModel::ILandscapeModel& _landscapeModel ) const;
 
 /*---------------------------------------------------------------------------*/
 

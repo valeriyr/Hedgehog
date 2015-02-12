@@ -61,35 +61,35 @@ MinimapWidget::landscapeWasOpened()
 							,	boost::bind( &MinimapWidget::onSettingChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectAdded::Type
+							,	Core::LandscapeModel::Events::ObjectAdded::Type
 							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectRemoved::Type
+							,	Core::LandscapeModel::Events::ObjectRemoved::Type
 							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::SurfaceItemChanged::Type
+							,	Core::LandscapeModel::Events::SurfaceItemChanged::Type
 							,	boost::bind( &MinimapWidget::onSurfaceItemChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::ObjectMoved::Type
+							,	Core::LandscapeModel::Events::ObjectMoved::Type
 							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::BuilderHasStartedBuild::Type
+							,	Core::LandscapeModel::Events::BuilderHasStartedBuild::Type
 							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::BuilderHasFinishedBuild::Type
+							,	Core::LandscapeModel::Events::BuilderHasFinishedBuild::Type
 							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::HolderHasStartedCollect::Type
+							,	Core::LandscapeModel::Events::HolderHasStartedCollect::Type
 							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 
 	m_subscriber.subscribe(		Framework::Core::MultithreadingManager::Resources::MainThreadName
-							,	Plugins::Core::LandscapeModel::Events::HolderHasStopCollect::Type
+							,	Core::LandscapeModel::Events::HolderHasStopCollect::Type
 							,	boost::bind( &MinimapWidget::onObjectWereChanged, this, _1 ) );
 
 } // MinimapWidget::landscapeWasOpened
