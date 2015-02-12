@@ -258,6 +258,81 @@ namespace RepairComponent
 
 /*---------------------------------------------------------------------------*/
 
+namespace ResourceHolderComponent
+{
+	const QString Name = "ResourceHolderComponent";
+
+	namespace StaticData
+	{
+		const QString HoldStaticDataKey = "HoldStaticDataKey";
+
+		struct HoldResourceData
+		{
+			HoldResourceData( const int _maxValue, const int _collectTime )
+				:	m_maxValue( _maxValue )
+				,	m_collectTime( _collectTime )
+			{}
+
+			const int m_maxValue;
+			const int m_collectTime;
+		};
+
+		struct HoldStaticData
+		{
+			HoldStaticData()
+				:	m_holdResourceData()
+			{}
+
+			void pushData( const QString& _resourceName, const HoldResourceData& _data )
+			{
+				if ( m_holdResourceData.find( _resourceName ) == m_holdResourceData.end() )
+					m_holdResourceData.insert( std::make_pair( _resourceName, _data ) );
+			}
+
+			const HoldResourceData& getData( const QString& _resourceName ) const
+			{
+				HoldResourceDataCollectionIterator iterator = m_holdResourceData.find( _resourceName );
+
+				assert( iterator != m_holdResourceData.end() );
+
+				return iterator->second;
+			}
+
+			typedef std::map< QString, HoldResourceData > HoldResourceDataCollection;
+			typedef HoldResourceDataCollection::const_iterator HoldResourceDataCollectionIterator;
+
+			HoldResourceDataCollection m_holdResourceData;
+		};
+	}
+
+	const QString HeldResources = "HeldResources";
+
+	static void initComponent( Tools::Core::Object& _resourceHolderComponent )
+	{
+		const StaticData::HoldStaticData& holderData
+			= _resourceHolderComponent.getMember< StaticData::HoldStaticData >( StaticDataTools::generateName( StaticData::HoldStaticDataKey ) );
+
+		StaticData::HoldStaticData::HoldResourceDataCollectionIterator
+				begin = holderData.m_holdResourceData.begin()
+			,	end = holderData.m_holdResourceData.end();
+
+		for ( ; begin != end; ++begin )
+			_resourceHolderComponent.getMember< ResourcesData >( HeldResources ).pushResource( begin->first, 0 );
+	}
+
+	static bool isFull( Tools::Core::Object& _resourceHolderComponent, const QString& _resourceName )
+	{
+		StaticData::HoldStaticData::HoldResourceDataCollectionIterator
+			iterator = _resourceHolderComponent.getMember< StaticData::HoldStaticData >( StaticDataTools::generateName( StaticData::HoldStaticDataKey ) ).m_holdResourceData.find( _resourceName );
+
+		assert( _resourceHolderComponent.getMember< ResourcesData >( HeldResources ).getResourceValue( _resourceName ) <= iterator->second.m_maxValue );
+
+		return _resourceHolderComponent.getMember< ResourcesData >( HeldResources ).getResourceValue( _resourceName ) == iterator->second.m_maxValue;
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

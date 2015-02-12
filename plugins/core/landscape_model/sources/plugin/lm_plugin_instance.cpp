@@ -408,6 +408,7 @@ PluginInstance::exportScriptAPI()
 		.withMethod( "pushRectMember", &Tools::Core::Object::pushMember< QRect > )
 		.withMethod( "pushListOfPointsMember", &Tools::Core::Object::pushMember< std::list< QPoint > > )
 		.withMethod( "pushResourcesDataMember", &Tools::Core::Object::pushMember< ResourcesData > )
+		.withMethod( "pushHoldStaticDataMember", &Tools::Core::Object::pushMember< ResourceHolderComponent::StaticData::HoldStaticData > )
 		.withMethod(	"getObjectPtrMember"
 					,	( Tools::Core::Object::Ptr& (Tools::Core::Object::*)( const QString& ) )
 							&Tools::Core::Object::getMember< Tools::Core::Object::Ptr > )
@@ -526,9 +527,19 @@ PluginInstance::exportScriptAPI()
 
 	// ResourceHolderComponent
 
-	exporter.exportClassWithShared< IResourceHolderComponent::StaticData >( "ResourceHolderComponentStaticData" )
+	exporter.exportVariable( "ResourceHolderComponentName", ResourceHolderComponent::Name );
+	exporter.exportVariable( "ResourceHolderComponentHoldStaticData", ResourceHolderComponent::StaticData::HoldStaticDataKey );
+	exporter.exportVariable( "ResourceHolderComponentHeldResources", ResourceHolderComponent::HeldResources );
+
+	exporter.exportClass< ResourceHolderComponent::StaticData::HoldResourceData >( "HoldResourceData" )
+		->withConstructor< const int, const int >();
+
+	exporter.exportClass< ResourceHolderComponent::StaticData::HoldStaticData >( "HoldStaticData" )
 		->withConstructor()
-		.withMethod( "hold", &IResourceHolderComponent::StaticData::hold );
+		.withMethod( "pushData", &ResourceHolderComponent::StaticData::HoldStaticData::pushData )
+		.withMethod( "getData", &ResourceHolderComponent::StaticData::HoldStaticData::getData );
+
+	exporter.exportFunction( "initResourceHolderComponent", ResourceHolderComponent::initComponent );
 
 	// ResourceSourceComponent
 

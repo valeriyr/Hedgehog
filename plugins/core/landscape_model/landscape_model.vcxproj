@@ -35,7 +35,6 @@
     <ClCompile Include="sources\ai\ai_goals\lm_train_goal.cpp" />
     <ClCompile Include="sources\ai\ai_manager\lm_ai_manager.cpp" />
     <ClCompile Include="sources\components\lm_actions_component.cpp" />
-    <ClCompile Include="sources\components\lm_resource_holder_component.cpp" />
     <ClCompile Include="sources\components\lm_resource_source_component.cpp" />
     <ClCompile Include="sources\components\lm_resource_storage_component.cpp" />
     <ClCompile Include="sources\components\lm_train_component.cpp" />
@@ -92,7 +91,6 @@
     <ClInclude Include="h\lm_victory_condition.hpp" />
     <ClInclude Include="ih\components\lm_iactions_component.hpp" />
     <ClInclude Include="ih\components\lm_icomponent.hpp" />
-    <ClInclude Include="ih\components\lm_iresource_holder_component.hpp" />
     <ClInclude Include="ih\components\lm_iresource_source_component.hpp" />
     <ClInclude Include="ih\components\lm_iresource_storage_component.hpp" />
     <ClInclude Include="ih\components\lm_itrain_component.hpp" />
@@ -125,7 +123,6 @@
     <ClInclude Include="sources\ai\ai_manager\lm_iai_manager.hpp" />
     <ClInclude Include="sources\components\lm_actions_component.hpp" />
     <ClInclude Include="sources\components\lm_base_component.hpp" />
-    <ClInclude Include="sources\components\lm_resource_holder_component.hpp" />
     <ClInclude Include="sources\components\lm_resource_source_component.hpp" />
     <ClInclude Include="sources\components\lm_resource_storage_component.hpp" />
     <ClInclude Include="sources\components\lm_train_component.hpp" />

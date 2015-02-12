@@ -28,7 +28,6 @@
 
 #include "landscape_model/sources/components/lm_train_component.hpp"
 #include "landscape_model/sources/components/lm_actions_component.hpp"
-#include "landscape_model/sources/components/lm_resource_holder_component.hpp"
 #include "landscape_model/sources/components/lm_resource_source_component.hpp"
 #include "landscape_model/sources/components/lm_resource_storage_component.hpp"
 
@@ -805,9 +804,7 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 		object->pushMember( GameObject::generateName( RepairComponent::Name, StaticDataTools::Name ), staticData.m_repairData );
 
 	if ( staticData.m_resourceHolderData )
-		object->addComponent(
-				ComponentId::ResourceHolder
-			,	boost::intrusive_ptr< IComponent >( new ResourceHolderComponent( *object, *staticData.m_resourceHolderData ) ) );
+		object->pushMember( GameObject::generateName( ResourceHolderComponent::Name, StaticDataTools::Name ), staticData.m_resourceHolderData );
 
 	if ( staticData.m_resourceSourceData )
 		object->addComponent(
@@ -1011,8 +1008,8 @@ LandscapeModel::locateStartPointObjects()
 bool
 LandscapeModel::shouldStoreResources( const GameObject& _holder, boost::shared_ptr< GameObject > _storage )
 {
-	boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
-		= _holder.getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
+	Tools::Core::Object::Ptr resourceHolderComponent
+		= _holder.getMember< Tools::Core::Object::Ptr >( ResourceHolderComponent::Name );
 	boost::intrusive_ptr< IResourceStorageComponent > resourceStorageComponent
 		= _storage->getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
 
@@ -1037,7 +1034,7 @@ LandscapeModel::shouldStoreResources( const GameObject& _holder, boost::shared_p
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( resourceHolderComponent->holdResources().getResourceValue( *begin ) > 0 )
+		if ( resourceHolderComponent->getMember< ResourcesData >( ResourceHolderComponent::HeldResources ).getResourceValue( *begin ) > 0 )
 			return true;
 	}
 
@@ -1441,8 +1438,8 @@ LandscapeModel::onSendToObjectProcessor( const Command& _command )
 					= object->getMember< Tools::Core::Object::Ptr >( MoveComponent::Name );
 				Tools::Core::Object::Ptr attackComponent
 					= object->getMember< Tools::Core::Object::Ptr >( AttackComponent::Name );
-				boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
-					= object->getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
+				Tools::Core::Object::Ptr resourceHolderComponent
+					= object->getMember< Tools::Core::Object::Ptr >( ResourceHolderComponent::Name );
 				Tools::Core::Object::Ptr repairComponent
 					= object->getMember< Tools::Core::Object::Ptr >( RepairComponent::Name );
 

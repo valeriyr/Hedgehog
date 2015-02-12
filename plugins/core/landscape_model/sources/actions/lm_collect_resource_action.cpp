@@ -17,7 +17,6 @@
 #include "landscape_model/sources/actions/lm_iworkers_holder.hpp"
 
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
-#include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_source_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
 
@@ -173,8 +172,8 @@ CollectResourceAction::processAction()
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
 	Tools::Core::Object::Ptr playerComponent
 		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
-	boost::intrusive_ptr< IResourceHolderComponent > resourceHolderComponent
-		= m_object.getComponent< IResourceHolderComponent >( ComponentId::ResourceHolder );
+	Tools::Core::Object::Ptr resourceHolderComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( ResourceHolderComponent::Name );
 
 	// Check if object is dying
 
@@ -238,7 +237,7 @@ CollectResourceAction::processAction()
 			return;
 		}
 
-		if ( resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) )
+		if ( ResourceHolderComponent::isFull( *resourceHolderComponent, targetResourceSource->getStaticData().m_resource ) )
 		{
 			m_isInProcessing = ensureStorage();
 			m_targetObject = m_resourceStarage;
@@ -281,12 +280,13 @@ CollectResourceAction::processAction()
 						.pushMember( Events::ObjectStateChanged::ObjectDirection, targetLocation->getMember< Direction::Enum >( LocateComponent::Direction ) ) );
 			}
 
-			if ( !resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) )
+			if ( !ResourceHolderComponent::isFull( *resourceHolderComponent, targetResourceSource->getStaticData().m_resource ) )
 			{
 				++m_collectingTicksCounter;
 
-				const IResourceHolderComponent::StaticData::ResourceData& resourceData
-					= resourceHolderComponent->getStaticData().getHoldData( targetResourceSource->getStaticData().m_resource );
+				const ResourceHolderComponent::StaticData::HoldResourceData& resourceData
+					= resourceHolderComponent->getMember< ResourceHolderComponent::StaticData::HoldStaticData >( StaticDataTools::generateName( ResourceHolderComponent::StaticData::HoldStaticDataKey ) )
+						.getData( targetResourceSource->getStaticData().m_resource );
 
 				if ( m_collectingTicksCounter == resourceData.m_collectTime )
 				{
@@ -296,12 +296,12 @@ CollectResourceAction::processAction()
 
 					if ( resourceSourceValue < resourceData.m_maxValue )
 					{
-						resourceHolderComponent->holdResources().add( targetResourceSource->getStaticData().m_resource, resourceSourceValue );
+						resourceHolderComponent->getMember< ResourcesData >( ResourceHolderComponent::HeldResources ).add( targetResourceSource->getStaticData().m_resource, resourceSourceValue );
 						resourceSourceValue = 0;
 					}
 					else
 					{
-						resourceHolderComponent->holdResources().add( targetResourceSource->getStaticData().m_resource, resourceData.m_maxValue );
+						resourceHolderComponent->getMember< ResourcesData >( ResourceHolderComponent::HeldResources ).add( targetResourceSource->getStaticData().m_resource, resourceData.m_maxValue );
 						resourceSourceValue -= resourceData.m_maxValue;
 					}
 
@@ -317,7 +317,7 @@ CollectResourceAction::processAction()
 				}
 			}
 
-			if ( resourceHolderComponent->isFull( targetResourceSource->getStaticData().m_resource ) || !m_isInProcessing )
+			if ( ResourceHolderComponent::isFull( *resourceHolderComponent, targetResourceSource->getStaticData().m_resource ) || !m_isInProcessing )
 			{
 				locateComponent->getMember< QPoint >( LocateComponent::Location )
 					= m_landscapeModel.getLandscape()->getNearestLocation( *m_targetObject, m_object.getMember< QString >( ObjectNameKey ) );
@@ -365,8 +365,8 @@ CollectResourceAction::processAction()
 			= m_targetObject->getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
 
 		ResourcesData::ResourcesDataCollectionIterator
-				begin = resourceHolderComponent->holdResources().m_data.begin()
-			,	end = resourceHolderComponent->holdResources().m_data.end();
+				begin = resourceHolderComponent->getMember< ResourcesData >( ResourceHolderComponent::HeldResources ).m_data.begin()
+			,	end = resourceHolderComponent->getMember< ResourcesData >( ResourceHolderComponent::HeldResources ).m_data.end();
 
 		for ( ; begin != end; ++begin )
 		{

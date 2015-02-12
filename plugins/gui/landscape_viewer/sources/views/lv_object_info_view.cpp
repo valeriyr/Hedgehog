@@ -9,7 +9,6 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 
-#include "landscape_model/ih/components/lm_iresource_holder_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_source_component.hpp"
 #include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
 
@@ -345,8 +344,8 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::MoveComponent::Name );
 			Tools::Core::Object::Ptr attackComponent
 				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::AttackComponent::Name );
-			boost::intrusive_ptr< Core::LandscapeModel::IResourceHolderComponent > resourceHolderComponent
-				= object->getComponent< Core::LandscapeModel::IResourceHolderComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceHolder );
+			Tools::Core::Object::Ptr resourceHolderComponent
+				= object->getMember< Tools::Core::Object::Ptr >( Plugins::Core::LandscapeModel::ResourceHolderComponent::Name );
 			boost::intrusive_ptr< Core::LandscapeModel::IResourceSourceComponent > resourceSourceComponent
 				= object->getComponent< Core::LandscapeModel::IResourceSourceComponent >( Plugins::Core::LandscapeModel::ComponentId::ResourceSource );
 			boost::intrusive_ptr< Core::LandscapeModel::IResourceStorageComponent > resourceStorageComponent
@@ -358,10 +357,14 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 
 			if ( resourceHolderComponent )
 			{
-				Core::LandscapeModel::IResourceHolderComponent::StaticData::ResourcesDataCollectionIterator
-						begin = resourceHolderComponent->getStaticData().m_resourcesData.begin()
-					,	end = resourceHolderComponent->getStaticData().m_resourcesData.end()
-					,	it = resourceHolderComponent->getStaticData().m_resourcesData.begin();
+				const Core::LandscapeModel::ResourceHolderComponent::StaticData::HoldStaticData& holderData
+					= resourceHolderComponent->getMember< Core::LandscapeModel::ResourceHolderComponent::StaticData::HoldStaticData >(
+						Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::ResourceHolderComponent::StaticData::HoldStaticDataKey ) );
+
+				Core::LandscapeModel::ResourceHolderComponent::StaticData::HoldStaticData::HoldResourceDataCollectionIterator
+						begin = holderData.m_holdResourceData.begin()
+					,	end = holderData.m_holdResourceData.end()
+					,	it = holderData.m_holdResourceData.begin();
 
 				for ( ; it != end; ++it )
 				{
@@ -373,7 +376,7 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 					resourceHolderData
 						+= QString( Resources::Views::ResourcesHoldFormat )
 								.arg( it->first )
-								.arg( resourceHolderComponent->holdResources().getResourceValue( it->first ) )
+								.arg( resourceHolderComponent->getMember< Core::LandscapeModel::ResourcesData >( Core::LandscapeModel::ResourceHolderComponent::HeldResources ).getResourceValue( it->first ) )
 								.arg( it->second.m_maxValue );
 				}
 			}
