@@ -28,7 +28,6 @@
 
 #include "landscape_model/sources/components/lm_train_component.hpp"
 #include "landscape_model/sources/components/lm_actions_component.hpp"
-#include "landscape_model/sources/components/lm_resource_storage_component.hpp"
 
 #include "landscape_model/sources/landscape_model/game_modes/lm_multi_player_mode.hpp"
 #include "landscape_model/sources/landscape_model/game_modes/lm_single_player_mode.hpp"
@@ -809,9 +808,7 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 		object->pushMember( GameObject::generateName( ResourceSourceComponent::Name, StaticDataTools::Name ), staticData.m_resourceSourceData );
 
 	if ( staticData.m_resourceStorageData )
-		object->addComponent(
-				ComponentId::ResourceStorage
-			,	boost::intrusive_ptr< IComponent >( new ResourceStorageComponent( *object, *staticData.m_resourceStorageData ) ) );
+		object->pushMember( GameObject::generateName( ResourceStorageComponent::Name, StaticDataTools::Name ), staticData.m_resourceStorageData );
 
 	if ( staticData.m_playerData )
 	{
@@ -1007,8 +1004,8 @@ LandscapeModel::shouldStoreResources( const GameObject& _holder, boost::shared_p
 {
 	Tools::Core::Object::Ptr resourceHolderComponent
 		= _holder.getMember< Tools::Core::Object::Ptr >( ResourceHolderComponent::Name );
-	boost::intrusive_ptr< IResourceStorageComponent > resourceStorageComponent
-		= _storage->getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
+	Tools::Core::Object::Ptr resourceStorageComponent
+		= _storage->getMember< Tools::Core::Object::Ptr >( ResourceStorageComponent::Name );
 
 	if ( !resourceHolderComponent || !resourceStorageComponent )
 		return false;
@@ -1021,13 +1018,17 @@ LandscapeModel::shouldStoreResources( const GameObject& _holder, boost::shared_p
 	assert( storagePlayerComponent );
 	assert( holderPlayerComponent );
 
-	if ( storagePlayerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId )
-			!= holderPlayerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) )
+	if (	storagePlayerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId )
+		!=	holderPlayerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) )
 		return false;
 
-	IResourceStorageComponent::StaticData::StoredResourcesCollectionIterator
-			begin = resourceStorageComponent->getStaticData().m_storedResources.begin()
-		,	end = resourceStorageComponent->getStaticData().m_storedResources.end();
+	const ResourceStorageComponent::StaticData::PossibleToStoreData& possibleToStoreData
+		= resourceStorageComponent->getMember< ResourceStorageComponent::StaticData::PossibleToStoreData >(
+			Core::LandscapeModel::StaticDataTools::generateName( ResourceStorageComponent::StaticData::PossibleToStore ) );
+
+	ResourceStorageComponent::StaticData::PossibleToStoreData::PossibleToStoreDataCollectionIterator
+			begin = possibleToStoreData.m_possibleToStoreData.begin()
+		,	end = possibleToStoreData.m_possibleToStoreData.end();
 
 	for ( ; begin != end; ++begin )
 	{

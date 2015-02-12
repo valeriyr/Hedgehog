@@ -9,8 +9,6 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 
-#include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
-
 #include "landscape_model/h/lm_events.hpp"
 
 #include "multithreading_manager/h/mm_external_resources.hpp"
@@ -347,8 +345,8 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::ResourceHolderComponent::Name );
 			Tools::Core::Object::Ptr resourceSourceComponent
 				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::ResourceSourceComponent::Name );
-			boost::intrusive_ptr< Core::LandscapeModel::IResourceStorageComponent > resourceStorageComponent
-				= object->getComponent< Core::LandscapeModel::IResourceStorageComponent >( Core::LandscapeModel::ComponentId::ResourceStorage );
+			Tools::Core::Object::Ptr resourceStorageComponent
+				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::ResourceStorageComponent::Name );
 			Tools::Core::Object::Ptr playerComponent
 				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::PlayerComponent::Name );
 
@@ -388,10 +386,14 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 
 			if ( resourceStorageComponent )
 			{
-				Core::LandscapeModel::IResourceStorageComponent::StaticData::StoredResourcesCollectionIterator
-						begin = resourceStorageComponent->getStaticData().m_storedResources.begin()
-					,	end = resourceStorageComponent->getStaticData().m_storedResources.end()
-					,	it = resourceStorageComponent->getStaticData().m_storedResources.begin();
+				const Core::LandscapeModel::ResourceStorageComponent::StaticData::PossibleToStoreData& possibleToStoreData
+					= resourceStorageComponent->getMember< Core::LandscapeModel::ResourceStorageComponent::StaticData::PossibleToStoreData >(
+						Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::ResourceStorageComponent::StaticData::PossibleToStore ) );
+
+				Core::LandscapeModel::ResourceStorageComponent::StaticData::PossibleToStoreData::PossibleToStoreDataCollectionIterator
+						begin = possibleToStoreData.m_possibleToStoreData.begin()
+					,	end = possibleToStoreData.m_possibleToStoreData.end()
+					,	it = possibleToStoreData.m_possibleToStoreData.begin();
 
 				for ( ; it != end; ++it )
 				{

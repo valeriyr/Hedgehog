@@ -10,7 +10,6 @@
 
 #include "landscape_model/ih/components/lm_itrain_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
-#include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
 
 /*---------------------------------------------------------------------------*/
 
@@ -43,7 +42,7 @@ struct IStaticData
 		Tools::Core::Object::Ptr m_repairData;
 		Tools::Core::Object::Ptr m_resourceHolderData;
 		Tools::Core::Object::Ptr m_resourceSourceData;
-		boost::shared_ptr< IResourceStorageComponent::StaticData > m_resourceStorageData;
+		Tools::Core::Object::Ptr m_resourceStorageData;
 		Tools::Core::Object::Ptr m_playerData;
 	};
 

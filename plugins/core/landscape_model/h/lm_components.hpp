@@ -353,6 +353,40 @@ namespace ResourceSourceComponent
 
 /*---------------------------------------------------------------------------*/
 
+namespace ResourceStorageComponent
+{
+	const QString Name = "ResourceStorageComponent";
+
+	namespace StaticData
+	{
+		const QString PossibleToStore = "PossibleToStore";
+
+		struct PossibleToStoreData
+		{
+			typedef std::set< QString > PossibleToStoreDataCollection;
+			typedef PossibleToStoreDataCollection::const_iterator PossibleToStoreDataCollectionIterator;
+
+			PossibleToStoreData()
+				:	m_possibleToStoreData()
+			{}
+
+			void canStore( const QString& _resourceName )
+			{
+				m_possibleToStoreData.insert( _resourceName );
+			}
+
+			bool canBeStored( const QString& _resourceName ) const
+			{
+				return m_possibleToStoreData.find( _resourceName ) != m_possibleToStoreData.end();
+			}
+
+			PossibleToStoreDataCollection m_possibleToStoreData;
+		};
+	}
+}
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

@@ -550,9 +550,13 @@ PluginInstance::exportScriptAPI()
 
 	// ResourceStorageComponent
 
-	exporter.exportClassWithShared< IResourceStorageComponent::StaticData >( "ResourceStorageComponentStaticData" )
+	exporter.exportVariable( "ResourceStorageComponentName", ResourceStorageComponent::Name );
+	exporter.exportVariable( "ResourceSourceComponentPossibleToStore", ResourceStorageComponent::StaticData::PossibleToStore );
+
+	exporter.exportClass< ResourceStorageComponent::StaticData::PossibleToStoreData >( "PossibleToStoreData" )
 		->withConstructor()
-		.withMethod( "canStore", &IResourceStorageComponent::StaticData::canStore );
+		.withMethod( "canStore", &ResourceStorageComponent::StaticData::PossibleToStoreData::canStore )
+		.withMethod( "canBeStored", &ResourceStorageComponent::StaticData::PossibleToStoreData::canBeStored );
 
 	// StaticData
 

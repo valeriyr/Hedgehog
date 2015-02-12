@@ -35,7 +35,6 @@
     <ClCompile Include="sources\ai\ai_goals\lm_train_goal.cpp" />
     <ClCompile Include="sources\ai\ai_manager\lm_ai_manager.cpp" />
     <ClCompile Include="sources\components\lm_actions_component.cpp" />
-    <ClCompile Include="sources\components\lm_resource_storage_component.cpp" />
     <ClCompile Include="sources\components\lm_train_component.cpp" />
     <ClCompile Include="sources\environment\lm_environment.cpp" />
     <ClCompile Include="sources\internal_resources\lm_internal_resources.cpp" />
@@ -90,7 +89,6 @@
     <ClInclude Include="h\lm_victory_condition.hpp" />
     <ClInclude Include="ih\components\lm_iactions_component.hpp" />
     <ClInclude Include="ih\components\lm_icomponent.hpp" />
-    <ClInclude Include="ih\components\lm_iresource_storage_component.hpp" />
     <ClInclude Include="ih\components\lm_itrain_component.hpp" />
     <ClInclude Include="ih\lm_iaction.hpp" />
     <ClInclude Include="ih\lm_ilandscape.hpp" />
@@ -121,7 +119,6 @@
     <ClInclude Include="sources\ai\ai_manager\lm_iai_manager.hpp" />
     <ClInclude Include="sources\components\lm_actions_component.hpp" />
     <ClInclude Include="sources\components\lm_base_component.hpp" />
-    <ClInclude Include="sources\components\lm_resource_storage_component.hpp" />
     <ClInclude Include="sources\components\lm_train_component.hpp" />
     <ClInclude Include="sources\environment\lm_environment.hpp" />
     <ClInclude Include="sources\environment\lm_ienvironment.hpp" />

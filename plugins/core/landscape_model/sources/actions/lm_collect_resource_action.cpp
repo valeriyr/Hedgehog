@@ -17,7 +17,6 @@
 #include "landscape_model/sources/actions/lm_iworkers_holder.hpp"
 
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
-#include "landscape_model/ih/components/lm_iresource_storage_component.hpp"
 
 #include "landscape_model/sources/path_finders/lm_jump_point_search.hpp"
 
@@ -43,15 +42,16 @@ public:
 
 	/*virtual*/ bool check( const GameObject& _object ) const
 	{
-		boost::intrusive_ptr< IResourceStorageComponent > resourceStorage
-			= _object.getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
+		Tools::Core::Object::Ptr resourceStorage
+			= _object.getMember< Tools::Core::Object::Ptr >( ResourceStorageComponent::Name );
 		Tools::Core::Object::Ptr playerComponent
 			= _object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
 		return	playerComponent
 			&&	playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) == m_playerId
 			&&	resourceStorage
-			&&	resourceStorage->getStaticData().canBeStored( m_canStore );
+			&&	resourceStorage->getMember< ResourceStorageComponent::StaticData::PossibleToStoreData >( StaticDataTools::generateName( ResourceStorageComponent::StaticData::PossibleToStore ) )
+					.canBeStored( m_canStore );
 	}
 
 private:
@@ -365,8 +365,8 @@ CollectResourceAction::processAction()
 	{
 		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
-		boost::intrusive_ptr< IResourceStorageComponent > targetResourceStorage
-			= m_targetObject->getComponent< IResourceStorageComponent >( ComponentId::ResourceStorage );
+		Tools::Core::Object::Ptr targetResourceStorage
+			= m_targetObject->getMember< Tools::Core::Object::Ptr >( ResourceStorageComponent::Name );
 
 		ResourcesData::ResourcesDataCollectionIterator
 				begin = resourceHolderComponent->getMember< ResourcesData >( ResourceHolderComponent::HeldResources ).m_data.begin()
@@ -374,7 +374,7 @@ CollectResourceAction::processAction()
 
 		for ( ; begin != end; ++begin )
 		{
-			if ( targetResourceStorage->getStaticData().canBeStored( begin->first ) )
+			if ( targetResourceStorage->getMember< ResourceStorageComponent::StaticData::PossibleToStoreData >( StaticDataTools::generateName( ResourceStorageComponent::StaticData::PossibleToStore ) ).canBeStored( begin->first ) )
 			{
 				player->addResources( begin->first, begin->second );
 				begin->second = 0;
