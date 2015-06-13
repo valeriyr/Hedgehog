@@ -135,9 +135,6 @@
     <ClCompile Include="sources\actions\lm_train_action.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="sources\components\lm_train_component.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="sources\actions\lm_build_action.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
@@ -346,12 +343,6 @@
     </ClInclude>
     <ClInclude Include="sources\actions\lm_train_action.hpp">
       <Filter>Actions</Filter>
-    </ClInclude>
-    <ClInclude Include="ih\components\lm_itrain_component.hpp">
-      <Filter>Interfaces\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\components\lm_train_component.hpp">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="sources\actions\lm_build_action.hpp">
       <Filter>Actions</Filter>

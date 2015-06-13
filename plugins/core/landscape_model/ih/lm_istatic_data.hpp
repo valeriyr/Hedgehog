@@ -8,7 +8,6 @@
 
 #include "object/tl_object.hpp"
 
-#include "landscape_model/ih/components/lm_itrain_component.hpp"
 #include "landscape_model/ih/components/lm_iactions_component.hpp"
 
 /*---------------------------------------------------------------------------*/
@@ -31,7 +30,7 @@ struct IStaticData
 
 	struct ObjectStaticData
 	{
-		boost::shared_ptr< ITrainComponent::StaticData > m_trainData;
+		Tools::Core::Object::Ptr m_trainData;
 		Tools::Core::Object::Ptr m_healthData;
 		Tools::Core::Object::Ptr m_locateData;
 		Tools::Core::Object::Ptr m_selectionData;

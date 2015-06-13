@@ -11,8 +11,6 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_imodel_locker.hpp"
 
-#include "landscape_model/ih/components/lm_itrain_component.hpp"
-
 #include "landscape_model/h/lm_game_object.hpp"
 #include "landscape_model/h/lm_events.hpp"
 
@@ -263,7 +261,7 @@ ActionPanelView::updateView( const Tools::Core::Generators::IGenerator::IdType& 
 	if ( _objectId == Tools::Core::Generators::IGenerator::ms_wrongId )
 		return;
 
-	boost::intrusive_ptr< Core::LandscapeModel::ITrainComponent > trainComponent;
+	Tools::Core::Object::Ptr trainComponent;
 	Tools::Core::Object::Ptr buildComponent;
 
 	Tools::Core::Generators::IGenerator::IdType parentObjectId = Tools::Core::Generators::IGenerator::ms_wrongId;
@@ -286,7 +284,7 @@ ActionPanelView::updateView( const Tools::Core::Generators::IGenerator::IdType& 
 			||	!handle->getLandscapeModel()->isMyObject( object ) )
 			return;
 
-		trainComponent = object->getComponent< Core::LandscapeModel::ITrainComponent >( Core::LandscapeModel::ComponentId::Train );
+		trainComponent = object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::TrainComponent::Name );
 		buildComponent = object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::BuildComponent::Name );
 
 		parentObjectId = objectId;
@@ -294,9 +292,11 @@ ActionPanelView::updateView( const Tools::Core::Generators::IGenerator::IdType& 
 
 	if ( trainComponent )
 	{
-		Core::LandscapeModel::ITrainComponent::StaticData::TrainDataCollectionIterator
-				begin = trainComponent->getStaticData().m_trainObjects.begin()
-			,	end = trainComponent->getStaticData().m_trainObjects.end();
+		Core::LandscapeModel::TrainComponent::StaticData::Data::TrainDataCollectionIterator
+				begin = trainComponent->getMember< Core::LandscapeModel::TrainComponent::StaticData::Data::Ptr >(
+					Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::TrainComponent::StaticData::DataKey ) )->m_trainObjects.begin()
+			,	end = trainComponent->getMember< Core::LandscapeModel::TrainComponent::StaticData::Data::Ptr >(
+					Core::LandscapeModel::StaticDataTools::generateName( Core::LandscapeModel::TrainComponent::StaticData::DataKey ) )->m_trainObjects.end();
 
 		for ( ; begin != end; ++begin )
 		{

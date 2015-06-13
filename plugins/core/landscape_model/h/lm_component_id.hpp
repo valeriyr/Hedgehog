@@ -14,8 +14,7 @@ struct ComponentId
 {
 	enum Enum : qint32
 	{
-			Train = 1
-		,	Actions
+		Actions = 1
 	};
 };
 

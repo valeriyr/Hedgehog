@@ -347,6 +347,8 @@ PluginInstance::exportScriptAPI()
 	exporter.exportClass< std::list< QPoint > >( "ListOfPoints" )
 		->withConstructor();
 
+	exporter.exportVariable( "WrongIdValue", Tools::Core::Generators::IGenerator::ms_wrongId );
+
 	// Enums export
 
 	exporter.exportVariable( "AnyTerrain", TerrainMapItem::ms_any );
@@ -401,6 +403,7 @@ PluginInstance::exportScriptAPI()
 		.withMethod( "pushIntMember", &Tools::Core::Object::pushMember< qint32 > )
 		.withMethod( "pushUIntMember", &Tools::Core::Object::pushMember< quint32 > )
 		.withMethod( "pushBoolMember", &Tools::Core::Object::pushMember< bool > )
+		.withMethod( "pushIdMember", &Tools::Core::Object::pushMember< Tools::Core::Generators::IGenerator::IdType > )
 		.withMethod( "pushTickTypeMember", &Tools::Core::Object::pushMember< TickType > )
 		.withMethod( "pushStringMember", &Tools::Core::Object::pushMember< QString > )
 		.withMethod( "pushPointMember", &Tools::Core::Object::pushMember< QPoint > )
@@ -409,6 +412,8 @@ PluginInstance::exportScriptAPI()
 		.withMethod( "pushListOfPointsMember", &Tools::Core::Object::pushMember< std::list< QPoint > > )
 		.withMethod( "pushResourcesDataMember", &Tools::Core::Object::pushMember< ResourcesData > )
 		.withMethod( "pushHoldStaticDataMember", &Tools::Core::Object::pushMember< ResourceHolderComponent::StaticData::HoldStaticData > )
+		.withMethod( "pushStorageStaticDataMember", &Tools::Core::Object::pushMember< ResourceStorageComponent::StaticData::PossibleToStoreData > )
+		
 		.withMethod(	"getObjectPtrMember"
 					,	( Tools::Core::Object::Ptr& (Tools::Core::Object::*)( const QString& ) )
 							&Tools::Core::Object::getMember< Tools::Core::Object::Ptr > )
@@ -417,6 +422,7 @@ PluginInstance::exportScriptAPI()
 							&Tools::Core::Object::getMember< Tools::Core::Object > )
 		.withMethod( "pushGameObjectPtrMember", &Tools::Core::Object::pushMember< boost::shared_ptr< GameObject > > )
 		.withMethod( "pushBuildStaticDataMember", &Tools::Core::Object::pushMember< BuildComponent::StaticData::Data::Ptr > )
+		.withMethod( "pushTrainStaticDataMember", &Tools::Core::Object::pushMember< TrainComponent::StaticData::Data::Ptr > )
 		.withMethod( "pushVoidMethod", &Tools::Core::Object::pushMethod< void > )
 		.withMethod( "pushBoolMethod", &Tools::Core::Object::pushMethod< bool > )
 		.withMethod( "pushVoidIntMethod", &Tools::Core::Object::pushMethod< void, qint32 > );
@@ -437,12 +443,21 @@ PluginInstance::exportScriptAPI()
 
 	// TrainComponent
 
-	exporter.exportClassWithShared< ITrainComponent::StaticData::TrainData >( "TrainData" )
-		->withConstructor< const TickType, const ResourcesData& >();
+	exporter.exportVariable( "TrainComponentName", TrainComponent::Name );
 
-	exporter.exportClassWithShared< ITrainComponent::StaticData >( "TrainComponentStaticData" )
+	exporter.exportClassWithShared< TrainComponent::StaticData::Data >( "TrainComponentStaticData" )
 		->withConstructor()
-		.withMethod( "pushTrainData", &ITrainComponent::StaticData::pushTrainData );
+		.withMethod( "pushTrainData", &TrainComponent::StaticData::Data::pushTrainData );
+
+	exporter.exportClassWithShared< TrainComponent::StaticData::Data::TrainData >( "TrainComponentTrainData" )
+		->withConstructor<const TickType, const ResourcesData&>();
+
+	exporter.exportClassWithShared< TrainComponent::ProgressData >( "TrainComponentProgressData" )
+		->withConstructor()
+		.withMethod( "reset", &TrainComponent::ProgressData::reset );
+
+	exporter.exportVariable( "TrainComponentStaticDataKey", TrainComponent::StaticData::DataKey );
+	exporter.exportVariable( "TrainComponentProgress", TrainComponent::Progress );
 
 	// BuildComponent
 
@@ -552,7 +567,7 @@ PluginInstance::exportScriptAPI()
 
 	exporter.exportVariable( "ResourceStorageComponentName", ResourceStorageComponent::Name );
 	exporter.exportVariable( "ResourceSourceComponentPossibleToStore", ResourceStorageComponent::StaticData::PossibleToStore );
-
+	
 	exporter.exportClass< ResourceStorageComponent::StaticData::PossibleToStoreData >( "PossibleToStoreData" )
 		->withConstructor()
 		.withMethod( "canStore", &ResourceStorageComponent::StaticData::PossibleToStoreData::canStore )

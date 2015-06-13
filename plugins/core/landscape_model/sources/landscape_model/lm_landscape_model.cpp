@@ -26,7 +26,6 @@
 
 #include "landscape_model/sources/ai/ai_manager/lm_iai_manager.hpp"
 
-#include "landscape_model/sources/components/lm_train_component.hpp"
 #include "landscape_model/sources/components/lm_actions_component.hpp"
 
 #include "landscape_model/sources/landscape_model/game_modes/lm_multi_player_mode.hpp"
@@ -785,9 +784,7 @@ LandscapeModel::create( const QString& _objectName, const QPoint& _location, con
 		object->pushMember( GameObject::generateName( SelectionComponent::Name, StaticDataTools::Name ), staticData.m_selectionData );
 
 	if ( staticData.m_trainData )
-		object->addComponent(
-				ComponentId::Train
-			,	boost::intrusive_ptr< IComponent >( new TrainComponent( *object, *staticData.m_trainData ) ) );
+		object->pushMember( GameObject::generateName( TrainComponent::Name, StaticDataTools::Name ), staticData.m_trainData );
 
 	if ( staticData.m_moveData )
 		object->pushMember( GameObject::generateName( MoveComponent::Name, StaticDataTools::Name ), staticData.m_moveData );
@@ -1585,15 +1582,19 @@ LandscapeModel::onTrainObjectProcessor( const Command& _command )
 		{
 			boost::intrusive_ptr< IActionsComponent > actionsComponent
 				= object->getComponent< IActionsComponent >( ComponentId::Actions );
-			boost::intrusive_ptr< ITrainComponent > trainComponent
-				= object->getComponent< ITrainComponent >( ComponentId::Train );
+			Tools::Core::Object::Ptr trainComponent
+				= object->getMember< Tools::Core::Object::Ptr >( TrainComponent::Name );
 
 			if ( trainComponent )
 			{
-				ITrainComponent::StaticData::TrainDataCollectionIterator
-					iterator = trainComponent->getStaticData().m_trainObjects.find( name );
+				TrainComponent::StaticData::Data::Ptr trainObjectStaticData
+					= trainComponent->getMember< TrainComponent::StaticData::Data::Ptr >(
+						StaticDataTools::generateName( TrainComponent::StaticData::DataKey ) );
 
-				if (	iterator != trainComponent->getStaticData().m_trainObjects.end()
+				TrainComponent::StaticData::Data::TrainDataCollectionIterator
+					iterator = trainObjectStaticData->m_trainObjects.find( name );
+
+				if (	iterator != trainObjectStaticData->m_trainObjects.end()
 					&&	player->getResourcesData().isEnaught( iterator->second->m_resourcesData ) )
 				{
 					player->substructResources( iterator->second->m_resourcesData );

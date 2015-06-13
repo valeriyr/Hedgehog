@@ -387,6 +387,75 @@ namespace ResourceStorageComponent
 
 /*---------------------------------------------------------------------------*/
 
+namespace TrainComponent
+{
+	const QString Name = "TrainComponent";
+
+	namespace StaticData
+	{
+		const QString DataKey = "DataKey";
+
+		struct Data
+		{
+			typedef boost::shared_ptr< Data > Ptr;
+
+			struct TrainData
+			{
+				TrainData(
+						const TickType _creationTime
+					,	const ResourcesData& _resourcesData
+					)
+					:	m_creationTime( _creationTime )
+					,	m_resourcesData( _resourcesData )
+				{}
+
+				const TickType m_creationTime;
+				const ResourcesData m_resourcesData;
+			};
+
+			typedef
+				std::map< QString, boost::shared_ptr< const TrainData > >
+				TrainDataCollection;
+			typedef
+				TrainDataCollection::const_iterator
+				TrainDataCollectionIterator;
+
+			Data()
+				:	m_trainObjects()
+			{}
+
+			void pushTrainData( const QString _objectName, boost::shared_ptr< TrainData > _data )
+			{
+				m_trainObjects.insert( std::make_pair( _objectName, _data ) );
+			}
+
+			TrainDataCollection m_trainObjects;
+		};
+	}
+
+	const QString Progress = "Progress";
+
+	struct ProgressData
+	{
+		ProgressData()
+			:	m_trainProgress( 0 )
+			,	m_trainingObjectName()
+		{}
+
+		void reset()
+		{
+			 m_trainProgress = 0;
+			 m_trainingObjectName.clear();
+		}
+
+		TickType m_trainProgress;
+
+		QString m_trainingObjectName;
+	};
+}
+
+/*---------------------------------------------------------------------------*/
+
 } // namespace LandscapeModel
 } // namespace Core
 } // namespace Plugins

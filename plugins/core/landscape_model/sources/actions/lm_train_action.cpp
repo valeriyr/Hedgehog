@@ -10,8 +10,6 @@
 #include "landscape_model/ih/lm_ilandscape.hpp"
 #include "landscape_model/ih/lm_ilandscape_model.hpp"
 
-#include "landscape_model/ih/components/lm_itrain_component.hpp"
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,10 +51,10 @@ TrainAction::prepareToProcessingInternal()
 	if ( objectState == ObjectState::Dying || objectState == ObjectState::UnderConstruction )
 		return false;
 
-	boost::intrusive_ptr< ITrainComponent > trainComponent
-		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
+	Tools::Core::Object::Ptr trainComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( TrainComponent::Name );
 
-	trainComponent->getTrainData().m_trainingObjectName = m_trainObjectName;
+	trainComponent->getMember< TrainComponent::ProgressData >( TrainComponent::Progress ).m_trainingObjectName = m_trainObjectName;
 
 	return true;
 
@@ -69,21 +67,26 @@ TrainAction::prepareToProcessingInternal()
 bool
 TrainAction::cancelProcessing()
 {
-	boost::intrusive_ptr< ITrainComponent > trainComponent
-		= m_object.getComponent< ITrainComponent >( ComponentId::Train );
+	Tools::Core::Object::Ptr trainComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( TrainComponent::Name );
 	Tools::Core::Object::Ptr playerComponent
 		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
 
-	trainComponent->getTrainData().reset();
+	trainComponent->getMember< TrainComponent::ProgressData >( TrainComponent::Progress ).reset();
 
-	boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
+	boost::intrusive_ptr< IPlayer > player
+		= m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
 	if ( player )
 	{
-		ITrainComponent::StaticData::TrainDataCollectionIterator
-			iterator = trainComponent->getStaticData().m_trainObjects.find( m_trainObjectName );
+		TrainComponent::StaticData::Data::Ptr trainObjectStaticData
+			= trainComponent->getMember< TrainComponent::StaticData::Data::Ptr >(
+				StaticDataTools::generateName( TrainComponent::StaticData::DataKey ) );
 
-		if ( iterator != trainComponent->getStaticData().m_trainObjects.end() )
+		TrainComponent::StaticData::Data::TrainDataCollectionIterator
+			iterator = trainObjectStaticData->m_trainObjects.find( m_trainObjectName );
+
+		if ( iterator != trainObjectStaticData->m_trainObjects.end() )
 		{
 			player->addResources( iterator->second->m_resourcesData );
 		}
@@ -106,9 +109,10 @@ TrainAction::cancelProcessing()
 void
 TrainAction::processAction()
 {
-	boost::intrusive_ptr< ITrainComponent > trainComponent = m_object.getComponent< ITrainComponent >( ComponentId::Train );
+	Tools::Core::Object::Ptr trainComponent
+		= m_object.getMember< Tools::Core::Object::Ptr >( TrainComponent::Name );
 
-	ITrainComponent::Data& trainData = trainComponent->getTrainData();
+	TrainComponent::ProgressData& progressData = trainComponent->getMember< TrainComponent::ProgressData >( TrainComponent::Progress );
 
 	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 	{
@@ -119,18 +123,19 @@ TrainAction::processAction()
 		const Tools::Core::Generators::IGenerator::IdType objectId
 			= m_object.getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey );
 
-		++trainData.m_trainProgress;
+		++progressData.m_trainProgress;
 
 		TickType creationTime
-			= trainComponent->getStaticData().m_trainObjects.find( trainData.m_trainingObjectName )->second->m_creationTime;
+			= trainComponent->getMember< TrainComponent::StaticData::Data::Ptr >( StaticDataTools::generateName( TrainComponent::StaticData::DataKey ) )
+				->m_trainObjects.find( progressData.m_trainingObjectName )->second->m_creationTime;
 
 		m_environment.riseEvent(
 			Framework::Core::EventManager::Event( Events::TrainProgressChanged::Type )
 				.pushMember( Events::TrainProgressChanged::TrainerIdAttribute, objectId )
-				.pushMember( Events::TrainProgressChanged::TrainerProgressAttribute, trainData.m_trainProgress )
+				.pushMember( Events::TrainProgressChanged::TrainerProgressAttribute, progressData.m_trainProgress )
 				.pushMember( Events::TrainProgressChanged::CreationTimeAttribute, creationTime ) );
 
-		if ( trainData.m_trainProgress == creationTime )
+		if ( progressData.m_trainProgress == creationTime )
 		{
 			Tools::Core::Object::Ptr playerComponent
 				= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
@@ -138,8 +143,8 @@ TrainAction::processAction()
 			m_landscapeModel.processCommand(
 					Command( CommandId::CreateObject )
 						.pushArgument( playerComponent ? playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) : Tools::Core::Generators::IGenerator::ms_wrongId )
-						.pushArgument( trainData.m_trainingObjectName )
-						.pushArgument( m_landscapeModel.getLandscape()->getNearestLocation( m_object, trainData.m_trainingObjectName ) ) );
+						.pushArgument( progressData.m_trainingObjectName )
+						.pushArgument( m_landscapeModel.getLandscape()->getNearestLocation( m_object, progressData.m_trainingObjectName ) ) );
 
 			m_environment.riseEvent(
 				Framework::Core::EventManager::Event( Events::TrainQueueChanged::Type )
@@ -151,7 +156,7 @@ TrainAction::processAction()
 
 	if ( !m_isInProcessing )
 	{
-		trainData.reset();
+		progressData.reset();
 	}
 
 } // TrainAction::processAction

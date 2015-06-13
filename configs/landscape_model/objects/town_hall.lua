@@ -3,22 +3,55 @@
 
 object = ObjectStaticData()
 
-object.m_healthData = HealthComponentStaticData( 2100, true )
-object.m_locateData = LocateComponentStaticData( QSize( 4, 4 ), TerrainMapItem.Ground, Emplacement.Ground )
-object.m_selectionData = SelectionComponentStaticData()
-object.m_playerData = PlayerComponentStaticData()
+object.m_healthData = Object()
+object.m_healthData:pushIntMember( HealthComponentMaxHealth, 2100 )
+object.m_healthData:pushBoolMember( HealthComponentCanBeRepair, true )
+--object.m_healthData:pushBoolMethod( HealthComponentIsHealthy, HealthComponentIsHealthyDefault )
+--object.m_healthData:pushVoidIntMethod( HealthComponentSetHealth, HealthComponentSetHealthDefault )
+
+object.m_locateData = Object()
+object.m_locateData:pushSizeMember( LocateComponentSize, QSize( 4, 4 ) )
+object.m_locateData:pushIntMember( LocateComponentPassability, TerrainMapItem.Ground )
+object.m_locateData:pushEmplacementMember( LocateComponentEmplacement, Emplacement.Ground )
+
+object.m_selectionData = Object()
+object.m_playerData = Object()
+
+object.m_trainData = Object()
 
 peasantResourceData = ResourcesData()
 peasantResourceData:pushResource( QString( "Gold" ), 50 )
 
-object.m_trainData = TrainComponentStaticData()
-object.m_trainData:pushTrainData( QString( "Peasant" ), TrainData( 10, peasantResourceData ) )
+trainComponentStaticData = TrainComponentStaticData()
+trainComponentStaticData:pushTrainData( QString( "Peasant" ), TrainComponentTrainData( 40, peasantResourceData ) )
 
-object.m_resourceStorageData = ResourceStorageComponentStaticData()
-object.m_resourceStorageData:canStore( QString( "Gold" ) )
-object.m_resourceStorageData:canStore( QString( "Wood" ) )
+object.m_trainData:pushTrainStaticDataMember( TrainComponentStaticDataKey, trainComponentStaticData )
+
+object.m_resourceStorageData = Object()
+
+resourceStorageStaticData = PossibleToStoreData()
+resourceStorageStaticData:canStore( QString( "Gold" ) )
+resourceStorageStaticData:canStore( QString( "Wood" ) )
+
+object.m_resourceStorageData:pushStorageStaticDataMember( ResourceSourceComponentPossibleToStore, resourceStorageStaticData )
 
 StaticData:regObjectStaticData( QString( "Town Hall" ), object )
+
+-- Object creator
+
+function TownHallCreator( gameObject )
+
+	gameObject:getObjectPtrMember( HealthComponentName ):pushIntMember( HealthComponentHealth, 2100 )
+	gameObject:getObjectPtrMember( SelectionComponentName ):pushBoolMember( SelectionComponentIsSelected, false )
+
+	gameObject:getObjectPtrMember( LocateComponentName ):pushDirectionMember( LocateComponentDirection, Direction.South )
+	gameObject:getObjectPtrMember( LocateComponentName ):pushBoolMember( LocateComponentIsHidden, false )
+
+	gameObject:getObjectPtrMember( TrainComponentName ):pushBoolMember( TrainComponentProgress, TrainComponentProgressData() )
+
+end
+
+StaticData:regObjectCreator( QString( "Town Hall" ), QString( "TownHallCreator" ) )
 
 -- End script message
 
