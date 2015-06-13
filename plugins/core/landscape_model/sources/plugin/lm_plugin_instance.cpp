@@ -423,6 +423,7 @@ PluginInstance::exportScriptAPI()
 		.withMethod( "pushGameObjectPtrMember", &Tools::Core::Object::pushMember< boost::shared_ptr< GameObject > > )
 		.withMethod( "pushBuildStaticDataMember", &Tools::Core::Object::pushMember< BuildComponent::StaticData::Data::Ptr > )
 		.withMethod( "pushTrainStaticDataMember", &Tools::Core::Object::pushMember< TrainComponent::StaticData::Data::Ptr > )
+		.withMethod( "pushTrainProgressMember", &Tools::Core::Object::pushMember< TrainComponent::ProgressData > )
 		.withMethod( "pushVoidMethod", &Tools::Core::Object::pushMethod< void > )
 		.withMethod( "pushBoolMethod", &Tools::Core::Object::pushMethod< bool > )
 		.withMethod( "pushVoidIntMethod", &Tools::Core::Object::pushMethod< void, qint32 > );

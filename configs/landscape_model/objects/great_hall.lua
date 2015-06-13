@@ -48,7 +48,7 @@ function GreatHallCreator( gameObject )
 	gameObject:getObjectPtrMember( LocateComponentName ):pushDirectionMember( LocateComponentDirection, Direction.South )
 	gameObject:getObjectPtrMember( LocateComponentName ):pushBoolMember( LocateComponentIsHidden, false )
 
-	gameObject:getObjectPtrMember( TrainComponentName ):pushBoolMember( TrainComponentProgress, TrainComponentProgressData() )
+	gameObject:getObjectPtrMember( TrainComponentName ):pushTrainProgressMember( TrainComponentProgress, TrainComponentProgressData() )
 
 end
 

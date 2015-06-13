@@ -24,8 +24,8 @@ function GoldMineCreator( gameObject )
 	gameObject:getObjectPtrMember( LocateComponentName ):pushDirectionMember( LocateComponentDirection, Direction.South )
 	gameObject:getObjectPtrMember( LocateComponentName ):pushBoolMember( LocateComponentIsHidden, false )
 
-	gameObject:getObjectPtrMember( ResourceSourceComponent ):pushIntMember( ResourceSourceComponentResourceValue, 10000 )
-	gameObject:getObjectPtrMember( ResourceSourceComponent ):pushIdMember( ResourceSourceComponentObjectInside, WrongIdValue )
+	gameObject:getObjectPtrMember( ResourceSourceComponentName ):pushIntMember( ResourceSourceComponentResourceValue, 10000 )
+	gameObject:getObjectPtrMember( ResourceSourceComponentName ):pushIdMember( ResourceSourceComponentObjectInside, WrongIdValue )
 
 end
 
