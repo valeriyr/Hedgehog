@@ -268,8 +268,7 @@ ObjectStatusView::updateProgressLabel()
 			boost::shared_ptr< Core::LandscapeModel::GameObject > object
 				= handle->getLandscapeModel()->getLandscape()->getObject( m_trainerId );
 
-			Tools::Core::Object::Ptr trainComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::TrainComponent::Name );
+			Tools::Core::Object::Ptr trainComponent = object->getMemberObject( Core::LandscapeModel::TrainComponent::Name );
 
 			m_label->setText( QString( "Built: %1 %" )
 				.arg( static_cast< int >( trainComponent->getMember< Core::LandscapeModel::TrainComponent::ProgressData >( Core::LandscapeModel::TrainComponent::Progress ).m_trainProgress * 100 ) ) );

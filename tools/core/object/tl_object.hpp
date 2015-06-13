@@ -187,39 +187,23 @@ public:
 	template< typename _TMember >
 	const _TMember& getMember( const QString& _name ) const
 	{
-		QStringList list( _name.split( "." ) );
-
-		assert( list.size() >= 1 );
-		assert( hasMember< _TMember >( _name ) );
-
-		QString child( list.first() );
-		list.pop_front();
-
-		if ( list.size() == 0 )
-			return *findMember< _TMember >( child );
-		else if ( hasMember< Object >( child ) )
-			return findMember< Object >( child )->getMember< _TMember >( generateName( list ) );
-		else
-			return ( *findMember< Ptr >( child ) )->getMember< _TMember >( generateName( list ) );
+		return findMemberRecursive< _TMember >( _name );
 	}
 
 	template< typename _TMember >
 	_TMember& getMember( const QString& _name )
 	{
-		QStringList list( _name.split( "." ) );
+		return findMemberRecursive< _TMember >( _name );
+	}
 
-		assert( list.size() >= 1 );
-		assert( hasMember< _TMember >( _name ) );
+	Ptr getMemberObject( const QString& _name )
+	{
+		return findMemberObject( _name );
+	}
 
-		QString child( list.first() );
-		list.pop_front();
-
-		if ( list.size() == 0 )
-			return *findMember< _TMember >( child );
-		else if ( hasMember< Object >( child ) )
-			return findMember< Object >( child )->getMember< _TMember >( generateName( list ) );
-		else
-			return ( *findMember< Ptr >( child ) )->getMember< _TMember >( generateName( list ) );
+	Ptr getMemberObject( const QString& _name ) const
+	{
+		return findMemberObject( _name );
 	}
 
 /*---------------------------------------------------------------------------*/
@@ -265,11 +249,11 @@ public:
 		}
 		else if ( hasMember< Object >( child ) )
 		{
-			return findMember< Object >( child )->findMember< _TMember >( generateName( list ) );
+			return findMember< Object >( child )->hasMember< _TMember >( generateName( list ) );
 		}
 		else if ( hasMember< Ptr >( child ) )
 		{
-			return ( *findMember< Ptr >( child ) )->findMember< _TMember >( generateName( list ) );
+			return ( *findMember< Ptr >( child ) )->hasMember< _TMember >( generateName( list ) );
 		}
 
 		return false;
@@ -398,6 +382,33 @@ private:
 		Member< _TMember >* member = dynamic_cast< Member< _TMember >* >( iterator->second.getMember() );
 
 		return member != NULL ? &member->m_value : NULL;
+	}
+
+	template< typename _TMember >
+	_TMember& findMemberRecursive( const QString& _name ) const
+	{
+		QStringList list( _name.split( "." ) );
+
+		assert( list.size() >= 1 );
+		assert( hasMember< _TMember >( _name ) );
+
+		QString child( list.first() );
+		list.pop_front();
+
+		if ( list.size() == 0 )
+			return *findMember< _TMember >( child );
+		else if ( hasMember< Object >( child ) )
+			return findMember< Object >( child )->getMember< _TMember >( generateName( list ) );
+		else
+			return ( *findMember< Ptr >( child ) )->getMember< _TMember >( generateName( list ) );
+	}
+
+	Ptr findMemberObject( const QString& _name ) const
+	{
+		if ( !hasMember< Ptr >( _name ) )
+			return Ptr();
+
+		return findMemberRecursive< Ptr >( _name );
 	}
 
 /*---------------------------------------------------------------------------*/

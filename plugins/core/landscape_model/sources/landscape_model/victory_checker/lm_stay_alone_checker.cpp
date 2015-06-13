@@ -84,8 +84,7 @@ StayAloneChecker::onlyMyOrNeutralObjects(
 
 	for ( ; beginWorkers != endWorkers; ++beginWorkers )
 	{
-		Tools::Core::Object::Ptr playerComponent
-			= ( *beginWorkers )->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
+		Tools::Core::Object::Ptr playerComponent = ( *beginWorkers )->getMemberObject( PlayerComponent::Name );
 
 		if (	playerComponent
 			&&	playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) != Tools::Core::Generators::IGenerator::ms_wrongId

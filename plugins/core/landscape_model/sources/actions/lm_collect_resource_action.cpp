@@ -42,10 +42,8 @@ public:
 
 	/*virtual*/ bool check( const GameObject& _object ) const
 	{
-		Tools::Core::Object::Ptr resourceStorage
-			= _object.getMember< Tools::Core::Object::Ptr >( ResourceStorageComponent::Name );
-		Tools::Core::Object::Ptr playerComponent
-			= _object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
+		Tools::Core::Object::Ptr resourceStorage = _object.getMemberObject( ResourceStorageComponent::Name );
+		Tools::Core::Object::Ptr playerComponent = _object.getMemberObject( PlayerComponent::Name );
 
 		return	playerComponent
 			&&	playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) == m_playerId
@@ -74,8 +72,7 @@ public:
 
 	/*virtual*/ bool check( const GameObject& _object ) const
 	{
-		Tools::Core::Object::Ptr resourceSource
-			= _object.getMember< Tools::Core::Object::Ptr >( ResourceSourceComponent::Name );
+		Tools::Core::Object::Ptr resourceSource = _object.getMemberObject( ResourceSourceComponent::Name );
 
 		return	resourceSource
 			&&	resourceSource->getMember< QString >( StaticDataTools::generateName( ResourceSourceComponent::StaticData::ResourceType ) ) == m_sourceOf;
@@ -166,14 +163,10 @@ CollectResourceAction::processAction()
 {
 	// Common variables
 
-	Tools::Core::Object::Ptr locateComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
-	boost::intrusive_ptr< IActionsComponent > actionsComponent
-		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
-	Tools::Core::Object::Ptr playerComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
-	Tools::Core::Object::Ptr resourceHolderComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( ResourceHolderComponent::Name );
+	Tools::Core::Object::Ptr locateComponent = m_object.getMemberObject( LocateComponent::Name );
+	boost::intrusive_ptr< IActionsComponent > actionsComponent = m_object.getComponent< IActionsComponent >( ComponentId::Actions );
+	Tools::Core::Object::Ptr playerComponent = m_object.getMemberObject( PlayerComponent::Name );
+	Tools::Core::Object::Ptr resourceHolderComponent = m_object.getMemberObject( ResourceHolderComponent::Name );
 
 	// Check if object is dying
 
@@ -185,8 +178,7 @@ CollectResourceAction::processAction()
 
 	// Check objects
 
-	Tools::Core::Object::Ptr targetLocateComponent
-		= m_targetObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+	Tools::Core::Object::Ptr targetLocateComponent = m_targetObject->getMemberObject( LocateComponent::Name );
 
 	// Check distance
 
@@ -226,10 +218,8 @@ CollectResourceAction::processAction()
 
 	if ( m_targetObject == m_resourceSource )
 	{
-		Tools::Core::Object::Ptr targetResourceSource
-			= m_targetObject->getMember< Tools::Core::Object::Ptr >( ResourceSourceComponent::Name );
-		Tools::Core::Object::Ptr targetLocation
-			= m_targetObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+		Tools::Core::Object::Ptr targetResourceSource = m_targetObject->getMemberObject( ResourceSourceComponent::Name );
+		Tools::Core::Object::Ptr targetLocation = m_targetObject->getMemberObject( LocateComponent::Name );
 
 		if (	m_resourceSource->getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::UnderCollecting
 			&&		targetResourceSource->getMember< Tools::Core::Generators::IGenerator::IdType >( ResourceSourceComponent::ObjectInside )
@@ -365,8 +355,7 @@ CollectResourceAction::processAction()
 	{
 		boost::intrusive_ptr< IPlayer > player = m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 
-		Tools::Core::Object::Ptr targetResourceStorage
-			= m_targetObject->getMember< Tools::Core::Object::Ptr >( ResourceStorageComponent::Name );
+		Tools::Core::Object::Ptr targetResourceStorage = m_targetObject->getMemberObject( ResourceStorageComponent::Name );
 
 		ResourcesData::ResourcesDataCollectionIterator
 				begin = resourceHolderComponent->getMember< ResourcesData >( ResourceHolderComponent::HeldResources ).m_data.begin()
@@ -423,11 +412,8 @@ CollectResourceAction::ensureStorage()
 {
 	if ( !m_resourceStarage )
 	{
-		Tools::Core::Object::Ptr playerComponent
-			= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
-
-		Tools::Core::Object::Ptr targetResourceSource
-			= m_targetObject->getMember< Tools::Core::Object::Ptr >( ResourceSourceComponent::Name );
+		Tools::Core::Object::Ptr playerComponent = m_object.getMemberObject( PlayerComponent::Name );
+		Tools::Core::Object::Ptr targetResourceSource = m_targetObject->getMemberObject( ResourceSourceComponent::Name );
 
 		StorageObjectsFilter filter(
 				targetResourceSource->getMember< QString >( StaticDataTools::generateName( ResourceSourceComponent::StaticData::ResourceType ) )

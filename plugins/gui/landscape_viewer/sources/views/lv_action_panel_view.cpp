@@ -284,8 +284,8 @@ ActionPanelView::updateView( const Tools::Core::Generators::IGenerator::IdType& 
 			||	!handle->getLandscapeModel()->isMyObject( object ) )
 			return;
 
-		trainComponent = object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::TrainComponent::Name );
-		buildComponent = object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::BuildComponent::Name );
+		trainComponent = object->getMemberObject( Core::LandscapeModel::TrainComponent::Name );
+		buildComponent = object->getMemberObject( Core::LandscapeModel::BuildComponent::Name );
 
 		parentObjectId = objectId;
 	}

@@ -55,8 +55,7 @@ RepairAction::~RepairAction()
 bool
 RepairAction::prepareToProcessingInternal()
 {
-	Tools::Core::Object::Ptr repairComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( RepairComponent::Name );
+	Tools::Core::Object::Ptr repairComponent = m_object.getMemberObject( RepairComponent::Name );
 
 	repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject ) = m_target;
 
@@ -71,8 +70,7 @@ RepairAction::prepareToProcessingInternal()
 bool
 RepairAction::cancelProcessingInternal()
 {
-	Tools::Core::Object::Ptr repairComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( RepairComponent::Name );
+	Tools::Core::Object::Ptr repairComponent = m_object.getMemberObject( RepairComponent::Name );
 
 	repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject ).reset();
 
@@ -89,19 +87,14 @@ RepairAction::processAction()
 {
 	// Common variables
 
-	Tools::Core::Object::Ptr repairComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( RepairComponent::Name );
-	Tools::Core::Object::Ptr locateComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
-	boost::intrusive_ptr< IActionsComponent > actionsComponent
-		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
-	Tools::Core::Object::Ptr buildComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
-	Tools::Core::Object::Ptr playerComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
+	Tools::Core::Object::Ptr repairComponent = m_object.getMemberObject( RepairComponent::Name );
+	Tools::Core::Object::Ptr locateComponent = m_object.getMemberObject( LocateComponent::Name );
+	boost::intrusive_ptr< IActionsComponent > actionsComponent = m_object.getComponent< IActionsComponent >( ComponentId::Actions );
+	Tools::Core::Object::Ptr buildComponent = m_object.getMemberObject( BuildComponent::Name );
+	Tools::Core::Object::Ptr playerComponent = m_object.getMemberObject( PlayerComponent::Name );
 
 	Tools::Core::Object::Ptr targetHealthComponent
-		= repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name );
+		= repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )->getMemberObject( HealthComponent::Name );
 
 	// Check if object is dying
 
@@ -117,7 +110,8 @@ RepairAction::processAction()
 						locateComponent->getMember< QPoint >( LocateComponent::Location )
 					,	Geometry::getNearestPoint(
 									locateComponent->getMember< QPoint >( LocateComponent::Location )
-								,	LocateComponent::getRect( *repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name ) ) ) )
+								,	LocateComponent::getRect( *repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )
+										->getMemberObject( LocateComponent::Name ) ) ) )
 			>	Geometry::DiagonalDistance )
 		{
 			IPathFinder::PointsCollection path;
@@ -147,7 +141,8 @@ RepairAction::processAction()
 		if ( m_isInProcessing )
 		{
 			Tools::Core::Object::Ptr targetLocateComponent
-				= repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+				= repairComponent->getMember< boost::shared_ptr< GameObject > >( RepairComponent::TargetObject )
+					->getMemberObject( LocateComponent::Name );
 
 			bool stateChanged = false;
 

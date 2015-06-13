@@ -43,10 +43,8 @@ GenerateResourcesAction::processAction()
 	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 		return;
 
-	Tools::Core::Object::Ptr generateResourcesComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( GenerateResourcesComponent::Name );
-	Tools::Core::Object::Ptr playerComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
+	Tools::Core::Object::Ptr generateResourcesComponent = m_object.getMemberObject( GenerateResourcesComponent::Name );
+	Tools::Core::Object::Ptr playerComponent = m_object.getMemberObject( PlayerComponent::Name );
 
 	m_landscapeModel.getPlayer( playerComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) )
 		->addResources( generateResourcesComponent->getMember< ResourcesData >( GenerateResourcesComponent::StaticData::ResourcesByTick ) );

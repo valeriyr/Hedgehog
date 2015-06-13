@@ -123,7 +123,7 @@ ObjectGraphicsItem::correctedPosition()
 			,	m_landscapeScene.height()
 			,	LandscapeScene::convertToScenePosition(
 					m_environment.lockModel()->getLandscapeModel()->getLandscape()->getObject( m_objectId )
-						->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::LocateComponent::Name )
+						->getMemberObject( Core::LandscapeModel::LocateComponent::Name )
 							->getMember< QPoint >( Core::LandscapeModel::LocateComponent::Location ) )
 			,	m_objectName
 			,	pixmap() ) );
@@ -775,7 +775,7 @@ LandscapeScene::generateLandscape()
 			const Tools::Core::Generators::IGenerator::IdType objectId = ( *begin )->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey );
 			const Core::LandscapeModel::ObjectState::Enum objectState = ( *begin )->getMember< Core::LandscapeModel::ObjectState::Enum >( Core::LandscapeModel::ObjectStateKey );
 
-			Tools::Core::Object::Ptr locateComponent = ( *begin )->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::LocateComponent::Name );
+			Tools::Core::Object::Ptr locateComponent = ( *begin )->getMemberObject( Core::LandscapeModel::LocateComponent::Name );
 
 			ObjectGraphicsItem* newItem
 				= new ObjectGraphicsItem(

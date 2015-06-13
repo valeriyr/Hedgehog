@@ -224,8 +224,8 @@ LandscapeSerializer::save( const ILandscapeModel& _landscapeModel, const ILandsc
 
 	for ( ; begin != end; ++begin )
 	{
-		Tools::Core::Object::Ptr locateComponent = ( *begin )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
-		Tools::Core::Object::Ptr playerComponent = ( *begin )->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
+		Tools::Core::Object::Ptr locateComponent = ( *begin )->getMemberObject( LocateComponent::Name );
+		Tools::Core::Object::Ptr playerComponent = ( *begin )->getMemberObject( PlayerComponent::Name );
 
 		xmlStream.writeStartElement( Resources::Xml::GameObject );
 

@@ -333,22 +333,14 @@ ObjectInfoView::setDescriptionForObject( const Tools::Core::Generators::IGenerat
 		{
 			m_showingObjectId = object->getMember< Tools::Core::Generators::IGenerator::IdType >( Core::LandscapeModel::ObjectUniqueIdKey );
 
-			Tools::Core::Object::Ptr locateComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::LocateComponent::Name );
-			Tools::Core::Object::Ptr healthComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::HealthComponent::Name );
-			Tools::Core::Object::Ptr moveComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::MoveComponent::Name );
-			Tools::Core::Object::Ptr attackComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::AttackComponent::Name );
-			Tools::Core::Object::Ptr resourceHolderComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::ResourceHolderComponent::Name );
-			Tools::Core::Object::Ptr resourceSourceComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::ResourceSourceComponent::Name );
-			Tools::Core::Object::Ptr resourceStorageComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::ResourceStorageComponent::Name );
-			Tools::Core::Object::Ptr playerComponent
-				= object->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::PlayerComponent::Name );
+			Tools::Core::Object::Ptr locateComponent = object->getMemberObject( Core::LandscapeModel::LocateComponent::Name );
+			Tools::Core::Object::Ptr healthComponent = object->getMemberObject( Core::LandscapeModel::HealthComponent::Name );
+			Tools::Core::Object::Ptr moveComponent = object->getMemberObject( Core::LandscapeModel::MoveComponent::Name );
+			Tools::Core::Object::Ptr attackComponent = object->getMemberObject( Core::LandscapeModel::AttackComponent::Name );
+			Tools::Core::Object::Ptr resourceHolderComponent = object->getMemberObject( Core::LandscapeModel::ResourceHolderComponent::Name );
+			Tools::Core::Object::Ptr resourceSourceComponent = object->getMemberObject( Core::LandscapeModel::ResourceSourceComponent::Name );
+			Tools::Core::Object::Ptr resourceStorageComponent = object->getMemberObject( Core::LandscapeModel::ResourceStorageComponent::Name );
+			Tools::Core::Object::Ptr playerComponent = object->getMemberObject( Core::LandscapeModel::PlayerComponent::Name );
 
 			QString resourceHolderData;
 

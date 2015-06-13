@@ -415,8 +415,8 @@ PluginInstance::exportScriptAPI()
 		.withMethod( "pushStorageStaticDataMember", &Tools::Core::Object::pushMember< ResourceStorageComponent::StaticData::PossibleToStoreData > )
 		
 		.withMethod(	"getObjectPtrMember"
-					,	( Tools::Core::Object::Ptr& (Tools::Core::Object::*)( const QString& ) )
-							&Tools::Core::Object::getMember< Tools::Core::Object::Ptr > )
+					,	( Tools::Core::Object::Ptr (Tools::Core::Object::*)( const QString& ) )
+							&Tools::Core::Object::getMemberObject )
 		.withMethod(	"getObjectMember"
 					,	( Tools::Core::Object& (Tools::Core::Object::*)( const QString& ) )
 							&Tools::Core::Object::getMember< Tools::Core::Object > )

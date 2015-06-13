@@ -73,7 +73,7 @@ MoveAction::MoveAction(
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_movingToPoint()
 	,	m_movingToObject( _movingTo )
-	,	m_lastTargetObjectLocation( _movingTo->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name )->getMember< QPoint >( LocateComponent::Location ) )
+	,	m_lastTargetObjectLocation( _movingTo->getMemberObject( LocateComponent::Name )->getMember< QPoint >( LocateComponent::Location ) )
 	,	m_preprocessedPath()
 	,	m_distance( _distance )
 {
@@ -94,7 +94,7 @@ MoveAction::MoveAction(
 	:	BaseAction( _environment, _landscapeModel, _object )
 	,	m_movingToPoint()
 	,	m_movingToObject( _movingTo )
-	,	m_lastTargetObjectLocation( _movingTo->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name )->getMember< QPoint >( LocateComponent::Location ) )
+	,	m_lastTargetObjectLocation( _movingTo->getMemberObject( LocateComponent::Name )->getMember< QPoint >( LocateComponent::Location ) )
 	,	m_preprocessedPath( _path )
 	,	m_distance( _distance )
 {
@@ -115,10 +115,8 @@ MoveAction::~MoveAction()
 bool
 MoveAction::prepareToProcessingInternal()
 {
-	Tools::Core::Object::Ptr moveComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( MoveComponent::Name );
-	Tools::Core::Object::Ptr locateComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+	Tools::Core::Object::Ptr moveComponent = m_object.getMemberObject( MoveComponent::Name );
+	Tools::Core::Object::Ptr locateComponent = m_object.getMemberObject( LocateComponent::Name );
 
 	MoveComponent::clearData( *moveComponent );
 
@@ -133,7 +131,7 @@ MoveAction::prepareToProcessingInternal()
 		else
 		{
 			m_lastTargetObjectLocation
-				= m_movingToObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name )
+				= m_movingToObject->getMemberObject( LocateComponent::Name )
 					->getMember< QPoint >( LocateComponent::Location );
 		}
 	}
@@ -171,8 +169,7 @@ MoveAction::prepareToProcessingInternal()
 bool
 MoveAction::cancelProcessingInternal()
 {
-	Tools::Core::Object::Ptr moveComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( MoveComponent::Name );
+	Tools::Core::Object::Ptr moveComponent = m_object.getMemberObject( MoveComponent::Name );
 
 	if ( m_object.getMember< ObjectState::Enum >( ObjectStateKey ) == ObjectState::Dying )
 	{
@@ -208,10 +205,8 @@ MoveAction::processAction()
 {
 	// Common variables
 
-	Tools::Core::Object::Ptr locateComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
-	Tools::Core::Object::Ptr moveComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( MoveComponent::Name );
+	Tools::Core::Object::Ptr locateComponent = m_object.getMemberObject( LocateComponent::Name );
+	Tools::Core::Object::Ptr moveComponent = m_object.getMemberObject( MoveComponent::Name );
 
 	bool unitChangeState = false;
 	bool unitMoved = false;
@@ -238,7 +233,8 @@ MoveAction::processAction()
 		if ( moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject ) )
 		{
 			Tools::Core::Object::Ptr targetLocateComponent
-				= moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+				= moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject )
+					->getMemberObject( LocateComponent::Name );
 
 			if ( Geometry::checkDistance( locateComponent->getMember< QPoint >( LocateComponent::Location ), LocateComponent::getRect( *targetLocateComponent ), m_distance ) )
 			{
@@ -260,7 +256,8 @@ MoveAction::processAction()
 		if ( moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject ) )
 		{
 			Tools::Core::Object::Ptr targetLocateComponent
-				= moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+				= moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject )
+					->getMemberObject( LocateComponent::Name );
 
 			if ( targetLocateComponent->getMember< QPoint >( LocateComponent::Location ) != m_lastTargetObjectLocation )
 			{
@@ -444,8 +441,7 @@ MoveAction::moveToLocation( const QPoint& _location )
 
 	m_distance = 0;
 
-	Tools::Core::Object::Ptr moveComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( MoveComponent::Name );
+	Tools::Core::Object::Ptr moveComponent = m_object.getMemberObject( MoveComponent::Name );
 
 	moveComponent->getMember< QPoint >( MoveComponent::MovingTo ) = m_movingToPoint;
 	moveComponent->getMember< boost::shared_ptr< GameObject > >( MoveComponent::MovingToObject ).reset();

@@ -51,8 +51,7 @@ TrainAction::prepareToProcessingInternal()
 	if ( objectState == ObjectState::Dying || objectState == ObjectState::UnderConstruction )
 		return false;
 
-	Tools::Core::Object::Ptr trainComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( TrainComponent::Name );
+	Tools::Core::Object::Ptr trainComponent = m_object.getMemberObject( TrainComponent::Name );
 
 	trainComponent->getMember< TrainComponent::ProgressData >( TrainComponent::Progress ).m_trainingObjectName = m_trainObjectName;
 
@@ -67,10 +66,8 @@ TrainAction::prepareToProcessingInternal()
 bool
 TrainAction::cancelProcessing()
 {
-	Tools::Core::Object::Ptr trainComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( TrainComponent::Name );
-	Tools::Core::Object::Ptr playerComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
+	Tools::Core::Object::Ptr trainComponent = m_object.getMemberObject( TrainComponent::Name );
+	Tools::Core::Object::Ptr playerComponent = m_object.getMemberObject( PlayerComponent::Name );
 
 	trainComponent->getMember< TrainComponent::ProgressData >( TrainComponent::Progress ).reset();
 
@@ -109,8 +106,7 @@ TrainAction::cancelProcessing()
 void
 TrainAction::processAction()
 {
-	Tools::Core::Object::Ptr trainComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( TrainComponent::Name );
+	Tools::Core::Object::Ptr trainComponent = m_object.getMemberObject( TrainComponent::Name );
 
 	TrainComponent::ProgressData& progressData = trainComponent->getMember< TrainComponent::ProgressData >( TrainComponent::Progress );
 
@@ -137,8 +133,7 @@ TrainAction::processAction()
 
 		if ( progressData.m_trainProgress == creationTime )
 		{
-			Tools::Core::Object::Ptr playerComponent
-				= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
+			Tools::Core::Object::Ptr playerComponent = m_object.getMemberObject( PlayerComponent::Name );
 
 			m_landscapeModel.processCommand(
 					Command( CommandId::CreateObject )

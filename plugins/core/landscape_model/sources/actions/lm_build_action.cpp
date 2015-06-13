@@ -59,8 +59,7 @@ BuildAction::~BuildAction()
 bool
 BuildAction::prepareToProcessingInternal()
 {
-	Tools::Core::Object::Ptr buildComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
+	Tools::Core::Object::Ptr buildComponent = m_object.getMemberObject( BuildComponent::Name );
 
 	buildComponent->getMember< QString >( BuildComponent::ObjectName ) = m_objectName;
 	buildComponent->getMember< QRect >( BuildComponent::AtRect ) = m_atRect;
@@ -80,10 +79,8 @@ BuildAction::prepareToProcessingInternal()
 bool
 BuildAction::cancelProcessingInternal()
 {
-	Tools::Core::Object::Ptr buildComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
-	Tools::Core::Object::Ptr playerComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
+	Tools::Core::Object::Ptr buildComponent = m_object.getMemberObject( BuildComponent::Name );
+	Tools::Core::Object::Ptr playerComponent = m_object.getMemberObject( PlayerComponent::Name );
 
 	if ( buildComponent->getMember< TickType >( BuildComponent::BuildProgress ) != 0 )
 	{
@@ -123,14 +120,10 @@ BuildAction::processAction()
 {
 	// Common variables
 
-	Tools::Core::Object::Ptr locateComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
-	Tools::Core::Object::Ptr buildComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
-	boost::intrusive_ptr< IActionsComponent > actionsComponent
-		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
-	Tools::Core::Object::Ptr playerComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name );
+	Tools::Core::Object::Ptr locateComponent = m_object.getMemberObject( LocateComponent::Name );
+	Tools::Core::Object::Ptr buildComponent = m_object.getMemberObject( BuildComponent::Name );
+	boost::intrusive_ptr< IActionsComponent > actionsComponent = m_object.getComponent< IActionsComponent >( ComponentId::Actions );
+	Tools::Core::Object::Ptr playerComponent = m_object.getMemberObject( PlayerComponent::Name );
 
 	// Check if object is dying
 
@@ -221,7 +214,7 @@ BuildAction::processAction()
 					= m_landscapeModel.getLandscape()->getObject( buildComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( BuildComponent::ObjectId ) );
 
 				Tools::Core::Object::Ptr targetHealthComponent
-					= targetObject->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name );
+					= targetObject->getMemberObject( HealthComponent::Name );
 
 				//targetHealthComponent->callVoidMethod< const qint32 >( HealthComponent::SetHealth, buildData.m_buildProgress * targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) / totalTicks );
 				HealthComponent::setHealth( *targetHealthComponent, buildComponent->getMember< TickType >( BuildComponent::BuildProgress ) * targetHealthComponent->getMember< qint32 >( StaticDataTools::generateName( HealthComponent::StaticData::MaxHealth ) ) / totalTicks );
@@ -288,13 +281,11 @@ BuildAction::startBuild(
 				= m_landscapeModel.getLandscape()->createObjectForBuilding(
 						_objectName
 					,	_location
-					,	object->getMember< Tools::Core::Object::Ptr >( PlayerComponent::Name )->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
+					,	object->getMemberObject( PlayerComponent::Name )->getMember< Tools::Core::Generators::IGenerator::IdType >( PlayerComponent::PlayerId ) );
 			assert( objectId != Tools::Core::Generators::IGenerator::ms_wrongId );
 
-			Tools::Core::Object::Ptr buildComponent
-				= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
-			Tools::Core::Object::Ptr locateComponent
-				= object->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+			Tools::Core::Object::Ptr buildComponent = m_object.getMemberObject( BuildComponent::Name );
+			Tools::Core::Object::Ptr locateComponent = object->getMemberObject( LocateComponent::Name );
 
 			buildComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( BuildComponent::ObjectId ) = objectId;
 
@@ -325,10 +316,8 @@ BuildAction::stopBuild( const Tools::Core::Generators::IGenerator::IdType& _id )
 		boost::shared_ptr< GameObject > builder = m_workersHolder.getWorker( _id );
 		assert( builder );
 
-		Tools::Core::Object::Ptr
-			locateComponent = builder->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
-		Tools::Core::Object::Ptr buildComponent
-			= m_object.getMember< Tools::Core::Object::Ptr >( BuildComponent::Name );
+		Tools::Core::Object::Ptr locateComponent = builder->getMemberObject( LocateComponent::Name );
+		Tools::Core::Object::Ptr buildComponent = m_object.getMemberObject( BuildComponent::Name );
 
 		boost::shared_ptr< GameObject > targetObject
 			= m_landscapeModel.getLandscape()->getObject( buildComponent->getMember< Tools::Core::Generators::IGenerator::IdType >( BuildComponent::ObjectId ) );
@@ -339,7 +328,7 @@ BuildAction::stopBuild( const Tools::Core::Generators::IGenerator::IdType& _id )
 				.pushMember( Events::ObjectStateChanged::ObjectNameAttribute, targetObject->getMember< QString >( ObjectNameKey ) )
 				.pushMember( Events::ObjectStateChanged::ObjectIdAttribute, targetObject->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) )
 				.pushMember( Events::ObjectStateChanged::ObjectState, targetObject->getMember< ObjectState::Enum >( ObjectStateKey ) )
-				.pushMember( Events::ObjectStateChanged::ObjectDirection, targetObject->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name )->getMember< Direction::Enum >( LocateComponent::Direction ) ) );
+				.pushMember( Events::ObjectStateChanged::ObjectDirection, targetObject->getMemberObject( LocateComponent::Name )->getMember< Direction::Enum >( LocateComponent::Direction ) ) );
 
 		locateComponent->getMember< QPoint >( LocateComponent::Location )
 			= m_landscapeModel.getLandscape()->getNearestLocation(

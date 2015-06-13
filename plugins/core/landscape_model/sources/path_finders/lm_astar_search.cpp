@@ -47,7 +47,7 @@ AStarSearch::findPath(
 	if ( _targets.empty() )
 		return;
 
-	Tools::Core::Object::Ptr locateComponent = _object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+	Tools::Core::Object::Ptr locateComponent = _object.getMemberObject( LocateComponent::Name );
 
 	if ( !locateComponent )
 		return;
@@ -135,7 +135,7 @@ AStarSearch::nearestObject(
 	{
 		if ( Geometry::checkDistance(
 					path.back()
-				,	LocateComponent::getRect( *( *begin )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name ) )
+				,	LocateComponent::getRect( *( *begin )->getMemberObject( LocateComponent::Name ) )
 				,	_distance ) )
 		{
 			return *begin;
@@ -175,8 +175,7 @@ AStarSearch::fillTargetPoints(
 	,	const int _distance
 	,	IPathFinder::PointsCollection& _targets )
 {
-	Tools::Core::Object::Ptr targetLocateComponent
-		= _targetObject.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+	Tools::Core::Object::Ptr targetLocateComponent = _targetObject.getMemberObject( LocateComponent::Name );
 
 	QRect targetRect = LocateComponent::getRect( *targetLocateComponent );
 

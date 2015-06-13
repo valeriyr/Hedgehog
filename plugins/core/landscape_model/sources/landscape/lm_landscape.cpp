@@ -203,7 +203,7 @@ Landscape::getObject( const QPoint& _point ) const
 
 	for ( ; begin != end; ++begin )
 	{
-		if ( LocateComponent::getRect( *( *begin )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name ) ).contains( _point ) )
+		if ( LocateComponent::getRect( *( *begin )->getMemberObject( LocateComponent::Name ) ).contains( _point ) )
 			return *begin;
 	}
 
@@ -304,7 +304,7 @@ Landscape::createObject( const QString& _objectName, const QPoint& _location, co
 
 		m_objects.push_back( object );
 
-		QRect objectRect( LocateComponent::getRect( *object->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name ) ) );
+		QRect objectRect( LocateComponent::getRect( *object->getMemberObject( LocateComponent::Name ) ) );
 
 		for ( int x = objectRect.x(); x < objectRect.x() + objectRect.width(); ++x )
 		{
@@ -334,9 +334,9 @@ Landscape::createObjectForBuilding( const QString& _objectName, const QPoint& _l
 	{
 		object->getMember< ObjectState::Enum >( ObjectStateKey ) = ObjectState::UnderConstruction;
 
-		//object->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name )
+		//object->getMemberObject( HealthComponent::Name )
 		//	->callVoidMethod< const qint32 >( HealthComponent::SetHealth, 1 );
-		HealthComponent::setHealth( *object->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name ), 1 );
+		HealthComponent::setHealth( *object->getMemberObject( HealthComponent::Name ), 1 );
 
 		return object->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey );
 	}
@@ -362,8 +362,7 @@ Landscape::hideObject( const Tools::Core::Generators::IGenerator::IdType& _id )
 		{
 			boost::shared_ptr< GameObject > object = *begin;
 
-			Tools::Core::Object::Ptr
-				locateComponent = object->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+			Tools::Core::Object::Ptr locateComponent = object->getMemberObject( LocateComponent::Name );
 			locateComponent->getMember< bool >( LocateComponent::IsHidden ) = true;
 
 			QRect objectRect( LocateComponent::getRect( *locateComponent ) );
@@ -396,7 +395,7 @@ Landscape::showObject( boost::shared_ptr< GameObject > _object )
 	assert( !getObject( _object->getMember< Tools::Core::Generators::IGenerator::IdType >( ObjectUniqueIdKey ) ) );
 	m_objects.push_back( _object );
 
-	Tools::Core::Object::Ptr locateComponent = _object->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+	Tools::Core::Object::Ptr locateComponent = _object->getMemberObject( LocateComponent::Name );
 	locateComponent->getMember< bool >( LocateComponent::IsHidden ) = false;
 
 	QRect objectRect( LocateComponent::getRect( *locateComponent ) );
@@ -426,8 +425,7 @@ Landscape::selectObjects( const IObjectsFilter& _filter )
 
 	for ( ; begin != end; ++begin )
 	{
-		Tools::Core::Object::Ptr selectionComponent =
-			( *begin )->getMember< Tools::Core::Object::Ptr >( SelectionComponent::Name );
+		Tools::Core::Object::Ptr selectionComponent = ( *begin )->getMemberObject( SelectionComponent::Name );
 
 		if (	selectionComponent
 			&&	( *begin )->getMember< ObjectState::Enum >( ObjectStateKey ) != ObjectState::Dying
@@ -453,8 +451,7 @@ Landscape::unselectObjects()
 
 	for ( ; begin != end; ++begin )
 	{
-		Tools::Core::Object::Ptr selectionComponent =
-			( *begin )->getMember< Tools::Core::Object::Ptr >( SelectionComponent::Name );
+		Tools::Core::Object::Ptr selectionComponent = ( *begin )->getMemberObject( SelectionComponent::Name );
 		assert( selectionComponent );
 
 		selectionComponent->getMember< bool >( SelectionComponent::IsSelected ) = false;
@@ -505,7 +502,7 @@ Landscape::canObjectBePlaced( const QPoint& _location, const QString& _objectNam
 QPoint
 Landscape::getNearestLocation( const GameObject& _nearestFrom, const QString& _forObject ) const
 {
-	Tools::Core::Object::Ptr locateComponent = _nearestFrom.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+	Tools::Core::Object::Ptr locateComponent = _nearestFrom.getMemberObject( LocateComponent::Name );
 
 	const QSize& size = locateComponent->getMember< QSize >( StaticDataTools::generateName( LocateComponent::StaticData::Size ) );
 	const QPoint& position = locateComponent->getMember< QPoint >( LocateComponent::Location );

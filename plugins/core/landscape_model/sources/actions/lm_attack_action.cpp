@@ -54,8 +54,7 @@ AttackAction::~AttackAction()
 bool
 AttackAction::prepareToProcessingInternal()
 {
-	Tools::Core::Object::Ptr attackComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( AttackComponent::Name );
+	Tools::Core::Object::Ptr attackComponent = m_object.getMemberObject( AttackComponent::Name );
 
 	attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject ) = m_target;
 
@@ -70,8 +69,7 @@ AttackAction::prepareToProcessingInternal()
 bool
 AttackAction::cancelProcessingInternal()
 {
-	Tools::Core::Object::Ptr attackComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( AttackComponent::Name );
+	Tools::Core::Object::Ptr attackComponent = m_object.getMemberObject( AttackComponent::Name );
 
 	attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject ).reset();
 
@@ -88,10 +86,8 @@ AttackAction::processAction()
 {
 	// Common variables
 
-	Tools::Core::Object::Ptr attackComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( AttackComponent::Name );
-	Tools::Core::Object::Ptr locateComponent
-		= m_object.getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+	Tools::Core::Object::Ptr attackComponent = m_object.getMemberObject( AttackComponent::Name );
+	Tools::Core::Object::Ptr locateComponent = m_object.getMemberObject( LocateComponent::Name );
 	boost::intrusive_ptr< IActionsComponent > actionsComponent
 		= m_object.getComponent< IActionsComponent >( ComponentId::Actions );
 
@@ -116,7 +112,7 @@ AttackAction::processAction()
 						locateComponent->getMember< QPoint >( LocateComponent::Location )
 					,	Geometry::getNearestPoint(
 								locateComponent->getMember< QPoint >( LocateComponent::Location )
-								,	LocateComponent::getRect( *attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name ) ) ) )
+								,	LocateComponent::getRect( *attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMemberObject( LocateComponent::Name ) ) ) )
 			>	distance )
 		{
 			IPathFinder::PointsCollection path;
@@ -152,7 +148,7 @@ AttackAction::processAction()
 		{
 			Tools::Core::Object::Ptr targetObjectLocate
 				= attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )
-					->getMember< Tools::Core::Object::Ptr >( LocateComponent::Name );
+					->getMemberObject( LocateComponent::Name );
 
 			bool stateChanged = false;
 			bool readyToAttack = false;
@@ -210,7 +206,8 @@ AttackAction::processAction()
 						&& m_attackPhaseCounter >= aiming )
 				{
 					Tools::Core::Object::Ptr targetHealthComponent
-						= attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )->getMember< Tools::Core::Object::Ptr >( HealthComponent::Name );
+						= attackComponent->getMember< boost::shared_ptr< GameObject > >( AttackComponent::TargetObject )
+							->getMemberObject( HealthComponent::Name );
 
 					qint32 damageBonus = maxDamage - minDamage;
 

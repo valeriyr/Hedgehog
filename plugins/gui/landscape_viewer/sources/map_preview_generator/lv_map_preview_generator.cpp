@@ -181,8 +181,7 @@ MapPreviewGenerator::generateObjects(
 
 	for ( ; begin != end; ++begin )
 	{
-		Tools::Core::Object::Ptr locateComponent
-			= ( *begin )->getMember< Tools::Core::Object::Ptr >( Core::LandscapeModel::LocateComponent::Name );
+		Tools::Core::Object::Ptr locateComponent = ( *begin )->getMemberObject( Core::LandscapeModel::LocateComponent::Name );
 		boost::intrusive_ptr< Core::LandscapeModel::IPlayer > player = _landscapeModel.getPlayer( **begin );
 
 		const QPoint location = locateComponent->getMember< QPoint >( Core::LandscapeModel::LocateComponent::Location );
