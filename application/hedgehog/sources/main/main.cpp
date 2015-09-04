@@ -37,6 +37,17 @@ WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpcmdline, int ncmd
  - „увак, у мен€ уже есть чЄртов кот.
 
  (с) https://vk.com/tproger?z=photo-72495085_378607835%2Fwall-30666517_1215348
+
+ - So, I give you 2 cats, than 2 cats more, and 2 cats more. How many cats will you have?
+ - Seven.
+ - No. Listen carefully. I give you 2 cats, than 2 cats more, and 2 cats more. How many cats will you have?
+ - Seven.
+ - Ok. Let me rephrase it. I give you 2 apples, than 2 apples more, and 2 apples more. How many apples will you have?
+ - Six.
+ - Excellent! So, I give you 2 cats, than 2 cats more, and 2 more. How many cats will you have?
+ - Seven.
+ - OMG! Why fucking seven!?
+ - Man, cause I've got a fucking cat already.
 */
 
 int main( int argc, char* argv[] )
